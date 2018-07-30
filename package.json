@@ -1,10 +1,10 @@
 {
   "name": "advanced-custom-blocks",
   "title": "Advanced Custom Blocks",
-  "homepage": "https://github.com/wp-tools/wp-plugin-start",
+  "homepage": "https://github.com/rheinardkorf/advanced-custom-blocks",
   "repository": {
     "type": "git",
-    "url": "https://github.com/wp-tools/wp-plugin-start"
+    "url": "https://github.com/rheinardkorf/advanced-custom-blocks"
   },
   "scripts": {
     "dev": "cross-env BABEL_ENV=default webpack --watch",

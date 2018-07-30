@@ -3,20 +3,19 @@
  * Advanced Custom Blocks
  *
  * @package   AdvancedCustomBlocks
- * @copyright Copyright(c) 2018, The Author
+ * @copyright Copyright(c) 2018, Rheinard Korf
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  *
  * Plugin Name: Advanced Custom Blocks
- * Plugin URI: https://authorsite.com
- * Description: Give a description for Advanced Custom Blocks.
+ * Plugin URI: https://github.com/rheinardkorf/advanced-custom-blocks
+ * Description: Create Advanced Custom Blocks effortlessly with no Gutenberg development know-how required.
  * Version: 0.1-alpha
- * Author: The Author
- * Author URI: https://authorsite.com
+ * Author: Rheinard Korf, Luke Carbis, Rob Stinson
+ * Author URI: https://github.com/rheinardkorf/advanced-custom-blocks
  * License: GPL2
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: advanced-custom-blocks
  * Domain Path: languages
- * Network: ${pluginNetworkEnabled}
  */
 
 // Exit if accessed directly.
@@ -90,6 +89,7 @@ advanced_custom_blocks()
  * Register plugin components.
  */
 advanced_custom_blocks()
+	->register_component( new \AdvancedCustomBlocks\Blocks\Loader() )
 	->register_component( new \AdvancedCustomBlocks\View\AdminMenu() );
 
 /**

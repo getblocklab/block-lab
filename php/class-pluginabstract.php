@@ -217,9 +217,16 @@ abstract class PluginAbstract implements PluginInterface {
 			return $this;
 		}
 
+		// Make sure the plugin is available.
 		if ( method_exists( $component, 'set_plugin' ) ) {
 			$component->set_plugin( $this );
 		}
+
+		// Run component init method.
+		if ( method_exists( $component, 'init' ) ) {
+			$component->init( $this );
+		}
+
 		$component->register_hooks();
 
 		$this->components[ $component_class ] = $component;

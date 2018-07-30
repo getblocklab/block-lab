@@ -2,3 +2,4 @@
 import './i18n'
 
 // Import Gutenberg blocks.
+import './example'
