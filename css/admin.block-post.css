@@ -1,11 +1,58 @@
+#acb_block_fields .handlediv,
+#acb_block_fields .hndle {
+	display: none;
+}
 #acb_block_fields .inside {
 	padding: 0;
+	margin: 0;
 }
-#acb_block_fields .fields-actions {
+#acb_block_fields .acb-fields-rows .widefat {
+	border: none;
+}
+#acb_block_fields .acb-fields-rows thead th {
+	font-weight: 600;
+}
+#acb_block_fields .acb-fields-rows .acb-fields-row.alternate {
+	background: #f9f9f9;
+}
+#acb_block_fields .acb-fields-rows .row-title {
+	display: block;
+	padding-bottom: 6px;
+}
+#acb_block_fields .acb-fields-actions {
 	padding: 10px;
-	margin-top: 1em;
 	clear: both;
 	border-top: 1px solid #ddd;
 	background: #f5f5f5;
 	text-align: right;
+}
+#acb_block_fields .acb-field-options {
+	font-size: 12px;
+	line-height: 12px;
+	visibility: hidden;
+}
+#acb_block_fields tr:hover .acb-field-options {
+	visibility: visible;
+}
+#acb_block_fields .acb-field-new {
+	display: none;
+}
+#acb_block_fields .acb-field-new th,
+#acb_block_fields .acb-field-new td {
+	border-top: 1px solid #f0f0f0;
+}
+#acb_block_fields .acb-field-new-close th,
+#acb_block_fields .acb-field-new-close td {
+	border-bottom: 1px solid #e1e1e1;
+}
+#acb_block_fields .acb-field-new th {
+	background: #f9f9f9;
+	border-right: 1px solid #e1e1e1;
+}
+#acb_block_fields .acb-field-new th label {
+	font-size: 12px;
+	font-weight: 600;
+}
+#acb_block_fields .acb-field-new th description {
+	font-size: 12px;
 }
