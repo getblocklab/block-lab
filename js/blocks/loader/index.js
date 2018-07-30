@@ -29,7 +29,8 @@ const acbBlocks = {
 				icon: 'admin-generic',
 				location: [
 					'inspector',
-				]
+				],
+				order: 1
 			},
 			fieldTwo: {
 				label: 'Field Two',
@@ -40,7 +41,8 @@ const acbBlocks = {
 				icon: 'admin-generic',
 				location: [
 					'inspector',
-				]
+				],
+				order: 2
 			},
 			fieldThree: {
 				label: 'Field Three',
@@ -57,7 +59,8 @@ const acbBlocks = {
 				location: [
 					'inspector',
 					'editor'
-				]
+				],
+				order: 3
 			},
 			fieldFour: {
 				label: 'Field Four',
@@ -74,12 +77,12 @@ const acbBlocks = {
 				location: [
 					'inspector',
 					'editor'
-				]
+				],
+				order: 4
 			},
 			fieldFive: {
 				label: 'Field Five',
 				type: 'string',
-				source: 'meta',
 				meta: 'field-five-meta-key',
 				control: 'toggle',
 				default: 'off',
@@ -88,7 +91,8 @@ const acbBlocks = {
 				iconOff: 'admin-generic',
 				location: [
 					'toolbar',
-				]
+				],
+				order: 5
 			},
 		}
 	}
