@@ -1,7 +1,7 @@
 export default {
 	logo: (
 		<svg viewBox='0 0 98 85' xmlns='http://www.w3.org/2000/svg' fillRule='evenodd'
-		     clipRule='evenodd' strokeLinecap='round' strokeLinejoin='round' strokeMiterlimit='1.5'>
+		     clipRule='evenodd' strokeLinecap='round' strokeLinejoin='round' strokeMiterlimit='1.5' width="20" height="20">
 			<g id='ACB_Icon_Primary' strokeWidth='3'>
 				<path d='M17.777,29.006l15.566,-26.962l31.133,0l-15.567,26.962l-31.132,0Z'
 				      fill='none' stroke='#180000' />
