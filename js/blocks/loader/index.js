@@ -118,8 +118,12 @@ const registerAdvancedCustomBlocks = () => {
 			icon: block.icon,
 			keywords: block.keywords,
 			attributes: blockAttributes( block ),
-			edit: editComponent,
-			save: saveComponent,
+			edit: props => {
+				return editComponent(props, block)
+			},
+			save: props => {
+				return saveComponent(props, block)
+			},
 		} )
 	}
 }
