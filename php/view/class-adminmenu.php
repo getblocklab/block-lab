@@ -1,9 +1,9 @@
 <?php
 /**
- * AdminMenu.
+ * Admin Menu.
  *
  * @package   AdvancedCustomBlocks
- * @copyright Copyright(c) 2018, The Author
+ * @copyright Copyright(c) 2018, Advanced Custom Blocks
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
@@ -25,10 +25,10 @@ class AdminMenu extends ComponentAbstract {
 		add_action(
 			'admin_menu', function () {
 				add_menu_page(
-					'Advanced Custom Blocks',
-					'Advanced Custom Blocks',
+					__( 'Advanced Custom Blocks', 'advanced-custom-blocks' ),
+					__( 'Custom Blocks', 'advanced-custom-blocks' ),
 					'manage_options',
-					'advanced-custom-blocks-menu',
+					'acb',
 					array( $this, 'render' ),
 					$this->plugin->get_assets_url( 'images/admin-menu-icon.svg' )
 				);
