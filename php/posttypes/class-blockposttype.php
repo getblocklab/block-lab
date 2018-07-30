@@ -39,20 +39,20 @@ class BlockPostType extends ComponentAbstract {
 	 */
 	public function register_post_type() {
 		$labels = array(
-			'name'               => _x( 'Custom Blocks', 'post type general name', 'acb' ),
-			'singular_name'      => _x( 'Custom Block', 'post type singular name', 'acb' ),
-			'menu_name'          => _x( 'Custom Blocks', 'admin menu', 'acb' ),
-			'name_admin_bar'     => _x( 'Custom Block', 'add new on admin bar', 'acb' ),
-			'add_new'            => _x( 'Add New', 'book', 'acb' ),
-			'add_new_item'       => __( 'Add New Custom Block', 'acb' ),
-			'new_item'           => __( 'New Custom Block', 'acb' ),
-			'edit_item'          => __( 'Edit Custom Block', 'acb' ),
-			'view_item'          => __( 'View Custom Block', 'acb' ),
-			'all_items'          => __( 'Custom Blocks', 'acb' ),
-			'search_items'       => __( 'Search Custom Blocks', 'acb' ),
-			'parent_item_colon'  => __( 'Parent Custom Blocks:', 'acb' ),
-			'not_found'          => __( 'No custom blocks found.', 'acb' ),
-			'not_found_in_trash' => __( 'No custom blocks found in Trash.', 'acb' )
+			'name'               => _x( 'Custom Blocks', 'post type general name', 'advanced-custom-blocks' ),
+			'singular_name'      => _x( 'Custom Block', 'post type singular name', 'advanced-custom-blocks' ),
+			'menu_name'          => _x( 'Custom Blocks', 'admin menu', 'advanced-custom-blocks' ),
+			'name_admin_bar'     => _x( 'Custom Block', 'add new on admin bar', 'advanced-custom-blocks' ),
+			'add_new'            => _x( 'Add New', 'book', 'advanced-custom-blocks' ),
+			'add_new_item'       => __( 'Add New Custom Block', 'advanced-custom-blocks' ),
+			'new_item'           => __( 'New Custom Block', 'advanced-custom-blocks' ),
+			'edit_item'          => __( 'Edit Custom Block', 'advanced-custom-blocks' ),
+			'view_item'          => __( 'View Custom Block', 'advanced-custom-blocks' ),
+			'all_items'          => __( 'Custom Blocks', 'advanced-custom-blocks' ),
+			'search_items'       => __( 'Search Custom Blocks', 'advanced-custom-blocks' ),
+			'parent_item_colon'  => __( 'Parent Custom Blocks:', 'advanced-custom-blocks' ),
+			'not_found'          => __( 'No custom blocks found.', 'advanced-custom-blocks' ),
+			'not_found_in_trash' => __( 'No custom blocks found in Trash.', 'advanced-custom-blocks' )
 		);
 
 		$args = array(

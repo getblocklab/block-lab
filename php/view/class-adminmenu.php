@@ -25,8 +25,8 @@ class AdminMenu extends ComponentAbstract {
 		add_action(
 			'admin_menu', function () {
 				add_menu_page(
-					__( 'Advanced Custom Blocks', 'acb' ),
-					__( 'Custom Blocks', 'acb' ),
+					__( 'Advanced Custom Blocks', 'advanced-custom-blocks' ),
+					__( 'Custom Blocks', 'advanced-custom-blocks' ),
 					'manage_options',
 					'acb',
 					array( $this, 'render' ),
