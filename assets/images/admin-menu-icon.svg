@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-	 width="16px" height="16px" viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
-<g>
-    <circle shape-rendering="geometricPrecision" cx="8" cy="8" r="7" stroke="white" stroke-width="1.3" fill="transparent" />
-</g>
-<g>
-	<circle shape-rendering="geometricPrecision" cx="8" cy="8" r="3" stroke="white" stroke-width="0.7" fill="white" />
-</g>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 256 256" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <g>
+        <path d="M77.149,105.981L102.574,61.942L153.426,61.942L128,105.981L77.149,105.981Z" style="fill:none;stroke:#FFF;stroke-width:3px;"/>
+        <path d="M77.149,194.058L102.574,150.019L153.426,150.019L128,194.058L77.149,194.058Z" style="fill:none;stroke:#FFF;stroke-width:3px;"/>
+        <path d="M153.426,150.019L102.574,61.942L153.426,61.942L204.277,150.019L153.426,150.019Z" style="fill:none;stroke:#FFF;stroke-width:3px;"/>
+        <path d="M204.277,150.019L178.424,193.317L128,194.058L102.574,150.019L77.149,194.058L51.723,150.019L77.149,105.981L102.574,61.942L128,105.981L153.426,150.019L204.277,150.019Z" style="fill:#FFF;stroke:#FFF;stroke-width:3px;"/>
+    </g>
 </svg>
