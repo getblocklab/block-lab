@@ -1,0 +1,109 @@
+# IDEA Ignores #
+################
+*.iml
+*.ipr
+*.iws
+.idea/
+out/
+local.properties
+
+# Sublime Text #
+##############
+*.sublime-project
+*.sublime-workspace
+
+# Packages #
+############
+*.7z
+*.jar
+*.rar
+*.zip
+*.gz
+*.bzip
+*.xz
+*.lzma
+
+# Packing-only formats #
+####################
+*.iso
+*.tar
+
+# Package management formats #
+############################
+*.dmg
+*.xpi
+*.gem
+*.egg
+*.deb
+*.rpm
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+*.sqlite3
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+ehthumbs.db
+Icon?
+Thumbs.db
+Desktop.ini
+._*
+
+# Files that might appear on external disk #
+###################################
+.Spotlight-V100
+.Trashes
+
+# VCS #
+#######
+.git/
+.hg/
+.svn
+.svn/
+CVS/
+
+# Temp folders
+tmp/
+
+# NPM #
+#######
+.npmignore
+node_modules
+
+# Always-ignore extensions #
+########################
+*~
+*.diff
+*.err
+*.log
+*.orig
+*.rej
+*.vi
+*.swp
+*.tmp
+*.bak
+
+# Sass #
+#######
+*.sass-cache
+
+# Vagrant #
+##########
+.vagrant
+
+# Ansible
+*.retry
+
+# Composer
+composer.lock
+vendor
+
+# Tests
+tests/data/
+tests/includes/
+coverage/html/

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+cd core
+wp core download --version=$WP_VERSION --skip-content 2>/dev/null
+cd /app/wordpress/core/wp-content/plugins/plugin
+phpunit $PHPUNIT_ARGS
