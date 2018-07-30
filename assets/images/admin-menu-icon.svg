@@ -1,10 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="100%" height="100%" viewBox="0 0 256 256" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
-    <g>
-        <path d="M77.149,105.981L102.574,61.942L153.426,61.942L128,105.981L77.149,105.981Z" style="fill:none;stroke:#FFF;stroke-width:3px;"/>
-        <path d="M77.149,194.058L102.574,150.019L153.426,150.019L128,194.058L77.149,194.058Z" style="fill:none;stroke:#FFF;stroke-width:3px;"/>
-        <path d="M153.426,150.019L102.574,61.942L153.426,61.942L204.277,150.019L153.426,150.019Z" style="fill:none;stroke:#FFF;stroke-width:3px;"/>
-        <path d="M204.277,150.019L178.424,193.317L128,194.058L102.574,150.019L77.149,194.058L51.723,150.019L77.149,105.981L102.574,61.942L128,105.981L153.426,150.019L204.277,150.019Z" style="fill:#FFF;stroke:#FFF;stroke-width:3px;"/>
-    </g>
-</svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg width="100%" height="100%" viewBox="0 0 256 256" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"><g><path d="M84.667,109.236l21.666,-37.528l43.334,0l-21.667,37.528l-43.333,0Z" style="fill:none;stroke:#fff;stroke-width:2.56px;"/><path d="M84.667,184.292l21.666,-37.528l43.334,0l-21.667,37.528l-43.333,0Z" style="fill:none;stroke:#fff;stroke-width:2.56px;"/><path d="M149.667,146.764l-43.334,-75.056l43.334,0l43.333,75.056l-43.333,0Z" style="fill:none;stroke:#fff;stroke-width:2.56px;"/><path d="M193,146.764l-22.031,36.896l-42.969,0.632l-21.667,-37.528l-21.666,37.528l-21.667,-37.528l21.667,-37.528l21.666,-37.528l21.667,37.528l21.667,37.528l43.333,0Z" style="fill:#fff;stroke:#fff;stroke-width:2.56px;"/></g></svg>

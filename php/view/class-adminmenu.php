@@ -34,6 +34,8 @@ class AdminMenu extends ComponentAbstract {
 				);
 			}
 		);
+
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_menu_style' ) );
 		// Register other hooks here.
 	}
 
@@ -49,5 +51,15 @@ class AdminMenu extends ComponentAbstract {
 			<p class="description"><?php esc_html_e( 'This is a description for this page.', 'advanced-custom-blocks' ); ?></p>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Fix for extra padding applied to custom menu icons.
+	 *
+	 * @return void
+	 */
+	public function admin_menu_style() {
+		$custom_css = '#adminmenu .toplevel_page_acb-menu .wp-menu-image img { padding-top: 0; }';
+		wp_add_inline_style( 'admin-menu', $custom_css );
 	}
 }
