@@ -1,6 +1,6 @@
 <?php
 /**
- * Component interface.
+ * Registers custom post type.
  *
  * @package   AdvancedCustomBlocks
  * @copyright Copyright(c) 2018, Advanced Custom Blocks
@@ -10,23 +10,25 @@
 namespace AdvancedCustomBlocks;
 
 /**
- * Interface ComponentInterface
+ * Class Plugin
  */
-interface ComponentInterface {
+class CustomBlockPostType extends ComponentAbstract {
+
+	public function __construct() {
+		$this->set_plugin( advanced_custom_blocks() );
+	}
 
 	/**
-	 * Set the plugin so that it can be referenced later.
-	 *
-	 * @param PluginInterface $plugin The plugin.
-	 *
-	 * @return ComponentInterface $this
+	 * Execute this once plugins are loaded. (not the best place for all hooks)
 	 */
-	public function set_plugin( PluginInterface $plugin );
+	public function plugin_loaded() {
+	}
 
 	/**
 	 * Register any hooks that this component needs.
 	 *
 	 * @return void
 	 */
-	public function register_hooks();
+	public function register_hooks() {
+	}
 }
