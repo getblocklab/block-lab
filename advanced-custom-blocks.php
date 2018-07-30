@@ -91,7 +91,7 @@ advanced_custom_blocks()
 advanced_custom_blocks()
 	->register_component( new \AdvancedCustomBlocks\Blocks\Loader() )
 	->register_component( new \AdvancedCustomBlocks\View\AdminMenu() )
-	->register_component( new \AdvancedCustomBlocks\View\BlockPostType() );
+	->register_component( new \AdvancedCustomBlocks\PostTypes\BlockPostType() );
 
 /**
  * Sometimes we need to do some things after the plugin is loaded, so call the PluginInterface::plugin_loaded().
