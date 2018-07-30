@@ -74,6 +74,7 @@ tmp/
 #######
 .npmignore
 node_modules
+package-lock.json
 
 # Always-ignore extensions #
 ########################
