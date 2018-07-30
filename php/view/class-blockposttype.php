@@ -24,15 +24,6 @@ class BlockPostType extends ComponentAbstract {
 	public $slug = 'acb_block';
 
 	/**
-	 * BlockPostType constructor.
-	 *
-	 * @return void
-	 */
-	public function __construct() {
-		$this->set_plugin( advanced_custom_blocks() );
-	}
-
-	/**
 	 * Register any hooks that this component needs.
 	 *
 	 * @return void
