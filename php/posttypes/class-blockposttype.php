@@ -7,7 +7,7 @@
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace AdvancedCustomBlocks\View;
+namespace AdvancedCustomBlocks\PostTypes;
 
 use AdvancedCustomBlocks\ComponentAbstract;
 
@@ -48,7 +48,7 @@ class BlockPostType extends ComponentAbstract {
 			'new_item'           => __( 'New Custom Block', 'acb' ),
 			'edit_item'          => __( 'Edit Custom Block', 'acb' ),
 			'view_item'          => __( 'View Custom Block', 'acb' ),
-			'all_items'          => __( 'All Custom Blocks', 'acb' ),
+			'all_items'          => __( 'Custom Blocks', 'acb' ),
 			'search_items'       => __( 'Search Custom Blocks', 'acb' ),
 			'parent_item_colon'  => __( 'Parent Custom Blocks:', 'acb' ),
 			'not_found'          => __( 'No custom blocks found.', 'acb' ),
@@ -59,7 +59,7 @@ class BlockPostType extends ComponentAbstract {
 			'labels'          => $labels,
 			'public'          => false,
 			'show_ui'         => true,
-			'show_in_menu'    => '?page=acb',
+			'show_in_menu'    => 'acb',
 			'query_var'       => true,
 			'rewrite'         => array( 'slug' => 'acb_block' ),
 			'capability_type' => 'post',
