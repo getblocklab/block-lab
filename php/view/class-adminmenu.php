@@ -23,14 +23,18 @@ class AdminMenu extends ComponentAbstract {
 	 */
 	public function register_hooks() {
 		add_action(
-			'admin_menu', function () {
+			'admin_menu', function() {
 				add_menu_page(
 					__( 'Advanced Custom Blocks', 'advanced-custom-blocks' ),
 					__( 'Custom Blocks', 'advanced-custom-blocks' ),
 					'manage_options',
 					'acb',
 					null,
-					$this->plugin->get_assets_url( 'images/admin-menu-icon.svg' )
+					'data:image/svg+xml;base64,' . base64_encode(
+						file_get_contents(
+							$this->plugin->get_assets_path( 'images/admin-menu-icon.svg' )
+						)
+					)
 				);
 			}
 		);
