@@ -169,9 +169,6 @@ class BlockPostType extends ComponentAbstract {
 					<label for="block-keywords">
 						<?php esc_html_e( 'Keywords', 'advanced-custom-blocks' ); ?>
 					</label>
-				</th>
-				<td>
-					<input name="block-keywords" type="text" id="block-keywords" value="" class="regular-text">
 					<p class="description" id="block-keywords-description">
 						<?php
 						esc_html_e(
@@ -180,6 +177,9 @@ class BlockPostType extends ComponentAbstract {
 						);
 						?>
 					</p>
+				</th>
+				<td>
+					<input name="block-keywords" type="text" id="block-keywords" value="" class="regular-text">
 				</td>
 			</tr>
 		</table>
