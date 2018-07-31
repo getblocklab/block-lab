@@ -264,7 +264,7 @@ class BlockPostType extends ComponentAbstract {
 	 * Render a single Field as a row.
 	 *
 	 * @param array $field
-	 * @param string $uid
+	 * @param mixed $uid
 	 *
 	 * @return void
 	 */
@@ -401,7 +401,7 @@ class BlockPostType extends ComponentAbstract {
 	/**
 	 * Hide the search box and top pagination.
 	 *
-	 * @return null
+	 * @return void
 	 */
 	public function list_tables_style() {
 		$custom_css  = '.post-type-acb_block .tablenav.top { display: none; }';
