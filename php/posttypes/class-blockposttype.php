@@ -119,7 +119,7 @@ class BlockPostType extends ComponentAbstract {
 			array( $this, 'render_properties_meta_box' ),
 			$this->slug,
 			'normal',
-			'default'
+			'high'
 		);
 
 		add_meta_box(
@@ -128,7 +128,7 @@ class BlockPostType extends ComponentAbstract {
 			array( $this, 'render_fields_meta_box' ),
 			$this->slug,
 			'normal',
-			'default'
+			'high'
 		);
 	}
 
