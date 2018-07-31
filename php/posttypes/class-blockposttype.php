@@ -101,7 +101,7 @@ class BlockPostType extends ComponentAbstract {
 			wp_enqueue_script(
 					'block-post',
 					$this->plugin->get_url( 'js/admin.block-post.js' ),
-					array( 'jquery', 'jquery-ui-sortable', 'wp-util' ),
+					array( 'jquery', 'jquery-ui-sortable', 'wp-util', 'wp-blocks' ),
 					filemtime( $this->plugin->get_path( 'js/admin.block-post.js' ) )
 			);
 		}
@@ -142,34 +142,47 @@ class BlockPostType extends ComponentAbstract {
 		<table class="form-table">
 			<tr>
 				<th scope="row">
-					<label for="block-category">
+					<label for="acb-properties-category">
 						<?php esc_html_e( 'Category', 'advanced-custom-blocks' ); ?>
 					</label>
 				</th>
 				<td>
-					<select name="block-category" id="block-category">
+					<select name="acb-properties-category" id="acb-properties-category">
 						<option value="__custom">
 							<?php esc_html_e( '+ New Category', 'advanced-custom-blocks' ); ?>
 						</option>
 					</select>
+					<input
+						name="acb-properties-category-custom"
+						title="<?php esc_html_e( 'Custom Category', 'advanced-custom-blocks' ); ?>"
+						type="text"
+						id="acb-properties-category-custom"
+						value=""
+						placeholder="<?php esc_html_e( 'Category Name', 'advanced-custom-blocks' ); ?>"
+						class="regular-text hidden">
 				</td>
 			</tr>
 			<tr>
 				<th scope="row">
-					<label for="block-description">
+					<label for="acb-properties-description">
 						<?php esc_html_e( 'Description', 'advanced-custom-blocks' ); ?>
 					</label>
 				</th>
 				<td>
-					<textarea name="block-description" id="block-description" class="large-text" rows="3"></textarea>
+					<textarea
+						name="acb-properties-description"
+						id="acb-properties-description"
+						class="large-text"
+						rows="3">
+					</textarea>
 				</td>
 			</tr>
 			<tr>
 				<th scope="row">
-					<label for="block-keywords">
+					<label for="acb-properties-keywords">
 						<?php esc_html_e( 'Keywords', 'advanced-custom-blocks' ); ?>
 					</label>
-					<p class="description" id="block-keywords-description">
+					<p class="description" id="acb-properties-keywords-description">
 						<?php
 						esc_html_e(
 							'A comma separated list of keywords, used when searching.',
@@ -179,7 +192,12 @@ class BlockPostType extends ComponentAbstract {
 					</p>
 				</th>
 				<td>
-					<input name="block-keywords" type="text" id="block-keywords" value="" class="regular-text">
+					<input
+						name="acb-properties-keywords"
+						type="text"
+						id="acb-properties-keywords"
+						value=""
+						class="regular-text">
 				</td>
 			</tr>
 		</table>
