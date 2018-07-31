@@ -26,33 +26,30 @@
 	background: #f5f5f5;
 	text-align: right;
 }
-#acb_block_fields .acb-field-options {
+#acb_block_fields .acb-fields-options {
 	font-size: 12px;
 	line-height: 12px;
 	visibility: hidden;
 }
-#acb_block_fields tr:hover .acb-field-options {
+#acb_block_fields tr:hover .acb-fields-options {
 	visibility: visible;
 }
-#acb_block_fields .acb-field-new {
+#acb_block_fields .acb-fields-new {
 	display: none;
 }
-#acb_block_fields .acb-field-new th,
-#acb_block_fields .acb-field-new td {
+#acb_block_fields .acb-fields-new th,
+#acb_block_fields .acb-fields-new td {
 	border-top: 1px solid #f0f0f0;
 }
-#acb_block_fields .acb-field-new-close th,
-#acb_block_fields .acb-field-new-close td {
+#acb_block_fields .acb-fields-new-close th,
+#acb_block_fields .acb-fields-new-close td {
 	border-bottom: 1px solid #e1e1e1;
 }
-#acb_block_fields .acb-field-new th {
+#acb_block_fields .acb-fields-new th {
 	background: #f9f9f9;
 	border-right: 1px solid #e1e1e1;
-}
-#acb_block_fields .acb-field-new th label {
 	font-size: 12px;
+}
+#acb_block_fields .acb-fields-new th label {
 	font-weight: 600;
-}
-#acb_block_fields .acb-field-new th description {
-	font-size: 12px;
 }
