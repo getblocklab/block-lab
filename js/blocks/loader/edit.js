@@ -6,7 +6,7 @@ const editComponent = (props, block) => {
 	const { className, isSelected } = props;
 
 	return [
-		inspectorControls(block),
+		inspectorControls(props, block),
 		(
 			<div className={className}>
 				{__( 'Example block content [EDIT]', 'advanced-custom-blocks' )}
