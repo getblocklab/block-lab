@@ -30,7 +30,11 @@ class AdminMenu extends ComponentAbstract {
 					'manage_options',
 					'acb',
 					null,
-					$this->plugin->get_assets_url( 'images/admin-menu-icon.svg' )
+					'data:image/svg+xml;base64,' . base64_encode(
+						file_get_contents(
+							$this->plugin->get_assets_path( 'images/admin-menu-icon.svg' )
+						)
+					)
 				);
 			}
 		);
