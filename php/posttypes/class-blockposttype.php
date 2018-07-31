@@ -33,6 +33,12 @@ class BlockPostType extends ComponentAbstract {
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 		add_filter( 'enter_title_here', array( $this, 'post_title_placeholder' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+
+		// Clean up the list table
+		add_filter( 'bulk_actions-edit-' . $this->slug, '__return_empty_array' );
+		add_filter( 'disable_months_dropdown', '__return_true', 10, $this->slug );
+		add_filter( 'post_row_actions', array( $this, 'post_row_actions' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'list_tables_style' ) );
 	}
 
 	/**
@@ -390,5 +396,40 @@ class BlockPostType extends ComponentAbstract {
 		}
 
 		return $title;
+	}
+
+	/**
+	 * Hide the search box and top pagination.
+	 *
+	 * @return null
+	 */
+	public function list_tables_style() {
+		$custom_css  = '.post-type-acb_block .tablenav.top { display: none; }';
+		$custom_css .= '.post-type-acb_block .search-box { display: none; }';
+		wp_add_inline_style( 'list-tables', $custom_css );
+	}
+
+	/**
+	 * Hide the Quick Edit row action.
+	 *
+	 * @param array $actions
+	 *
+	 * @return array
+	 */
+	public function post_row_actions( $actions = array() ) {
+		global $post;
+
+		// Abort if the post type is incorrect
+		if ( $post->post_type !== $this->slug ) {
+			return $actions;
+		}
+
+		// Remove the Quick Edit link
+		if ( isset( $actions['inline hide-if-no-js'] ) ) {
+			unset( $actions['inline hide-if-no-js'] );
+		}
+
+		// Return the set of links without Quick Edit
+		return $actions;
 	}
 }
