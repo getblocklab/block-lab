@@ -95,7 +95,7 @@ class BlockPostType extends ComponentAbstract {
 			wp_enqueue_script(
 					'block-post',
 					$this->plugin->get_url( 'js/admin.block-post.js' ),
-					array( 'jquery', 'wp-util' ),
+					array( 'jquery', 'jquery-ui-sortable', 'wp-util' ),
 					filemtime( $this->plugin->get_path( 'js/admin.block-post.js' ) )
 			);
 		}
@@ -167,7 +167,12 @@ class BlockPostType extends ComponentAbstract {
 				<td>
 					<input name="block-keywords" type="text" id="block-keywords" value="" class="regular-text">
 					<p class="description" id="block-keywords-description">
-						<?php esc_html_e( 'A comma separated list of keywords, used when searching.', 'advanced-custom-blocks' ); ?>
+						<?php
+						esc_html_e(
+							'A comma separated list of keywords, used when searching.',
+							'advanced-custom-blocks'
+						);
+						?>
 					</p>
 				</td>
 			</tr>
@@ -203,22 +208,38 @@ class BlockPostType extends ComponentAbstract {
 			<table class="widefat">
 				<thead>
 					<tr>
-						<th class="acb-fields-label"><?php esc_html_e( 'Field Label', 'advanced-custom-blocks' ); ?></th>
-						<th class="acb-fields-name"><?php esc_html_e( 'Field Name', 'advanced-custom-blocks' ); ?></th>
-						<th class="acb-fields-type"><?php esc_html_e( 'Field Type', 'advanced-custom-blocks' ); ?></th>
+						<th class="acb-fields-sort"></th>
+						<th class="acb-fields-label">
+							<?php esc_html_e( 'Field Label', 'advanced-custom-blocks' ); ?>
+						</th>
+						<th class="acb-fields-name">
+							<?php esc_html_e( 'Field Name', 'advanced-custom-blocks' ); ?>
+						</th>
+						<th class="acb-fields-type">
+							<?php esc_html_e( 'Field Type', 'advanced-custom-blocks' ); ?>
+						</th>
 					</tr>
 				</thead>
 				<tbody>
-					<?php
-					foreach( $fields as $index => $field ) {
-						$this->render_fields_meta_box_row( $field );
-					}
-					?>
+					<tr>
+						<td colspan="4" class="acb-fields-sortable">
+							<?php
+							foreach( $fields as $index => $field ) {
+								$this->render_fields_meta_box_row( $field );
+							}
+							?>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
 		<div class="acb-fields-actions">
-			<input name="add-field" type="button" class="button button-primary button-large" id="acb-add-field" value="<?php esc_attr_e( '+ Add Field', 'advanced-custom-blocks' ); ?>">
+			<input
+				name="add-field"
+				type="button"
+				class="button button-primary button-large"
+				id="acb-add-field"
+				value="<?php esc_attr_e( '+ Add Field', 'advanced-custom-blocks' ); ?>" />
 
 			<script type="text/html" id="tmpl-field-repeater">
 				<?php
@@ -237,77 +258,115 @@ class BlockPostType extends ComponentAbstract {
 	 * Render a single Field as a row.
 	 *
 	 * @param array $field
-	 * @param int $index
 	 *
 	 * @return void
 	 */
 	public function render_fields_meta_box_row( $field ) {
+		$uid = uniqid();
 		?>
-		<tr class="acb-fields-row">
-			<td class="acb-fields-label">
-				<a class="row-title" href="javascript:;"><?php echo esc_html( $field['label'] ); ?></a>
+		<div class="acb-fields-row">
+			<div class="acb-fields-sort">
+				<span class="acb-fields-sort-handle"></span>
+			</div>
+			<div class="acb-fields-label">
+				<a class="row-title" href="javascript:" id="acb-fields-label_<?php echo esc_attr( $uid ); ?>">
+					<?php echo esc_html( $field['label'] ); ?>
+				</a>
 				<div class="acb-fields-options">
-					<a class="acb-fields-edit" href="javascript:;"><?php esc_html_e( 'Edit', 'advanced-custom-blocks'); ?></a>&nbsp;|&nbsp;
-					<a class="acb-fields-delete" href="javascript:;"><?php esc_html_e( 'Delete', 'advanced-custom-blocks'); ?></a>
+					<a class="acb-fields-options-edit" href="javascript:">
+						<?php esc_html_e( 'Edit', 'advanced-custom-blocks'); ?>
+					</a>
+					&nbsp;|&nbsp;
+					<a class="acb-fields-options-delete" href="javascript:">
+						<?php esc_html_e( 'Delete', 'advanced-custom-blocks'); ?>
+					</a>
 				</div>
-			</td>
-			<td class="acb-fields-name">
+			</div>
+			<div class="acb-fields-name" id="acb-fields-name_<?php echo esc_attr( $uid ); ?>">
 				<?php echo esc_html( $field['name'] ); ?>
-			</td>
-			<td class="acb-fields-type">
+			</div>
+			<div class="acb-fields-type" id="acb-fields-type_<?php echo esc_attr( $uid ); ?>">
 				<?php echo esc_html( $field['type'] ); ?>
-			</td>
-		</tr>
-		<tr class="acb-fields-new acb-fields-new-label">
-			<th scope="row">
-				<label for="block-field-label">
-					<?php esc_html_e( 'Field Label', 'advanced-custom-blocks' ); ?>
-				</label>
-				<p class="description" id="block-field-label-description">
-					<?php esc_html_e( 'A label describing your block\'s custom field.', 'advanced-custom-blocks' ); ?>
-				</p>
-			</th>
-			<td colspan="2">
-				<input name="block-field-label[]" type="text" id="block-field-label" value="<?php echo esc_attr( $field['label'] ); ?>" class="regular-text">
-			</td>
-		</tr>
-		<tr class="acb-fields-new acb-fields-new-name">
-			<th scope="row">
-				<label for="block-field-name">
-					<?php esc_html_e( 'Field Name', 'advanced-custom-blocks' ); ?>
-				</label>
-				<p class="description" id="block-field-name-description">
-					<?php esc_html_e( 'Single word, no spaces.', 'advanced-custom-blocks' ); ?>
-				</p>
-			</th>
-			<td colspan="2">
-				<input name="block-field-name[]" type="text" id="block-field-name" value="<?php echo esc_attr( $field['name'] ); ?>" class="regular-text">
-			</td>
-		</tr>
-		<tr class="acb-fields-new acb-fields-new-type">
-			<th scope="row">
-				<label for="block-field-type">
-					<?php esc_html_e( 'Field Type', 'advanced-custom-blocks' ); ?>
-				</label>
-			</th>
-			<td colspan="2">
-				<select name="block-field-type[]" id="block-field-type">
-					<option value="text" <?php selected( 'text', $field['type'] ); ?>>
-						<?php esc_html_e( 'Text', 'advanced-custom-blocks' ); ?>
-					</option>
-					<option value="textarea" <?php selected( 'text', $field['type'] ); ?>>
-						<?php esc_html_e( 'Text Area', 'advanced-custom-blocks' ); ?>
-					</option>
-				</select>
-			</td>
-		</tr>
-		<tr class="acb-fields-new acb-fields-new-close">
-			<th scope="row">
-			</th>
-			<td colspan="2">
-				<a class="button" title="Close Field" href="javascript:;">Close Field</a>
-			</td>
-		</tr>
+			</div>
+			<div class="acb-fields-edit">
+				<table class="widefat">
+					<tr class="acb-fields-edit-label">
+						<th scope="row">
+							<label for="acb-fields-edit-label-input_<?php echo esc_attr( $uid ); ?>">
+								<?php esc_html_e( 'Field Label', 'advanced-custom-blocks' ); ?>
+							</label>
+							<p class="description" id="acb-fields-edit-label-description">
+								<?php
+								esc_html_e(
+									'A label describing your block\'s custom field.',
+									'advanced-custom-blocks'
+								);
+								?>
+							</p>
+						</th>
+						<td>
+							<input
+								name="acb-fields-label[]"
+								type="text"
+								id="acb-fields-edit-label-input_<?php echo esc_attr( $uid ); ?>"
+								class="regular-text"
+								value="<?php echo esc_attr( $field['label'] ); ?>"
+								data-sync="acb-fields-label_<?php echo esc_attr( $uid ); ?>" />
+						</td>
+					</tr>
+					<tr class="acb-fields-edit-name">
+						<th scope="row">
+							<label for="acb-fields-edit-name-input_<?php echo esc_attr( $uid ); ?>">
+								<?php esc_html_e( 'Field Name', 'advanced-custom-blocks' ); ?>
+							</label>
+							<p class="description" id="acb-fields-edit-name-description">
+								<?php esc_html_e( 'Single word, no spaces.', 'advanced-custom-blocks' ); ?>
+							</p>
+						</th>
+						<td>
+							<input
+								name="acb-fields-name[]"
+								type="text"
+								id="acb-fields-edit-name-input_<?php echo esc_attr( $uid ); ?>"
+								class="regular-text"
+								value="<?php echo esc_attr( $field['name'] ); ?>"
+								data-sync="acb-fields-name_<?php echo esc_attr( $uid ); ?>" />
+						</td>
+					</tr>
+					<tr class="acb-fields-edit-type">
+						<th scope="row">
+							<label for="acb-fields-edit-type-input_<?php echo esc_attr( $uid ); ?>">
+								<?php esc_html_e( 'Field Type', 'advanced-custom-blocks' ); ?>
+							</label>
+						</th>
+						<td>
+							<select
+								name="acb-fields-type[]"
+								id="acb-fields-edit-type-input_<?php echo esc_attr( $uid ); ?>"
+								data-sync="acb-fields-type_<?php echo esc_attr( $uid ); ?>" >
+
+								<option value="text" <?php selected( 'text', $field['type'] ); ?>>
+									<?php esc_html_e( 'Text', 'advanced-custom-blocks' ); ?>
+								</option>
+
+								<option value="textarea" <?php selected( 'textarea', $field['type'] ); ?>>
+									<?php esc_html_e( 'Text Area', 'advanced-custom-blocks' ); ?>
+								</option>
+							</select>
+						</td>
+					</tr>
+					<tr class="acb-fields-edit-actions">
+						<th scope="row">
+						</th>
+						<td>
+							<a class="button acb-fields-edit-actions-close" title="Close Field" href="javascript:">
+								Close Field
+							</a>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
 		<?php
 	}
 

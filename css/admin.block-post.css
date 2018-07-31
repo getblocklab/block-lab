@@ -9,11 +9,39 @@
 #acb_block_fields .acb-fields-rows .widefat {
 	border: none;
 }
+#acb_block_fields .acb-fields-rows td {
+	padding: 0;
+}
+#acb_block_fields .acb-fields-rows .acb-fields-row {
+	background: #fff;
+	display: grid;
+	grid-template-columns: [handle] 4% 32% 32% 32%;
+}
+#acb_block_fields .acb-fields-rows .acb-fields-row > div {
+	padding: 8px 10px;
+}
+#acb_block_fields .acb-fields-rows .acb-fields-row:nth-child(odd) {
+	background: #f9f9f9;
+}
 #acb_block_fields .acb-fields-rows thead th {
 	font-weight: 600;
+	width: 32%
 }
-#acb_block_fields .acb-fields-rows .acb-fields-row.alternate {
-	background: #f9f9f9;
+#acb_block_fields .acb-fields-rows thead th.acb-fields-sort {
+	width: 4%
+}
+#acb_block_fields .acb-fields-sort-handle:before {
+	content: "\f333";
+}
+#acb_block_fields .acb-fields-sort-handle {
+	display: block;
+	width: 15px;
+	height: 15px;
+	font-family: 'Dashicons';
+	font-size: 15px;
+	line-height: 15px;
+	cursor: grab;
+	padding-top: 2px;
 }
 #acb_block_fields .acb-fields-rows .row-title {
 	display: block;
@@ -31,25 +59,30 @@
 	line-height: 12px;
 	visibility: hidden;
 }
-#acb_block_fields tr:hover .acb-fields-options {
+#acb_block_fields .acb-fields-row:hover .acb-fields-options {
 	visibility: visible;
 }
-#acb_block_fields .acb-fields-new {
+#acb_block_fields .acb-fields-rows .acb-fields-row .acb-fields-edit {
 	display: none;
+	grid-column: 1 / span 4;
+	padding: 0;
+	border-bottom: 1px solid #f0f0f0;
 }
-#acb_block_fields .acb-fields-new th,
-#acb_block_fields .acb-fields-new td {
+#acb_block_fields .acb-fields-rows .acb-fields-edit table th,
+#acb_block_fields .acb-fields-rows .acb-fields-edit table td {
 	border-top: 1px solid #f0f0f0;
+	padding: 8px 10px;
 }
-#acb_block_fields .acb-fields-new-close th,
-#acb_block_fields .acb-fields-new-close td {
+#acb_block_fields .acb-fields-rows .acb-fields-edit-close th,
+#acb_block_fields .acb-fields-rows .acb-fields-edit-close td {
 	border-bottom: 1px solid #e1e1e1;
 }
-#acb_block_fields .acb-fields-new th {
+#acb_block_fields .acb-fields-rows .acb-fields-edit th {
 	background: #f9f9f9;
 	border-right: 1px solid #e1e1e1;
 	font-size: 12px;
+	width: 33%;
 }
-#acb_block_fields .acb-fields-new th label {
+#acb_block_fields .acb-fields-rows .acb-fields-edit th label {
 	font-weight: 600;
 }
