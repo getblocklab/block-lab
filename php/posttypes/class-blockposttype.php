@@ -147,19 +147,23 @@ class BlockPostType extends ComponentAbstract {
 					</label>
 				</th>
 				<td>
-					<select name="acb-properties-category" id="acb-properties-category">
-						<option value="__custom">
-							<?php esc_html_e( '+ New Category', 'advanced-custom-blocks' ); ?>
-						</option>
-					</select>
-					<input
-						name="acb-properties-category-custom"
-						title="<?php esc_html_e( 'Custom Category', 'advanced-custom-blocks' ); ?>"
-						type="text"
-						id="acb-properties-category-custom"
-						value=""
-						placeholder="<?php esc_html_e( 'Category Name', 'advanced-custom-blocks' ); ?>"
-						class="regular-text hidden">
+					<p>
+						<select name="acb-properties-category" id="acb-properties-category">
+							<option value="__custom">
+								<?php esc_html_e( '+ New Category', 'advanced-custom-blocks' ); ?>
+							</option>
+						</select>
+					</p>
+					<p>
+						<input
+							name="acb-properties-category-custom"
+							title="<?php esc_html_e( 'Custom Category', 'advanced-custom-blocks' ); ?>"
+							type="text"
+							id="acb-properties-category-custom"
+							value=""
+							placeholder="<?php esc_html_e( 'Category Name', 'advanced-custom-blocks' ); ?>"
+							class="regular-text hidden">
+					</p>
 				</td>
 			</tr>
 			<tr>
@@ -169,12 +173,13 @@ class BlockPostType extends ComponentAbstract {
 					</label>
 				</th>
 				<td>
-					<textarea
-						name="acb-properties-description"
-						id="acb-properties-description"
-						class="large-text"
-						rows="3">
-					</textarea>
+					<p>
+						<textarea
+							name="acb-properties-description"
+							id="acb-properties-description"
+							class="large-text"
+							rows="3"></textarea>
+					</p>
 				</td>
 			</tr>
 			<tr>
@@ -192,12 +197,14 @@ class BlockPostType extends ComponentAbstract {
 					</p>
 				</th>
 				<td>
-					<input
-						name="acb-properties-keywords"
-						type="text"
-						id="acb-properties-keywords"
-						value=""
-						class="regular-text">
+					<p>
+						<input
+							name="acb-properties-keywords"
+							type="text"
+							id="acb-properties-keywords"
+							value=""
+							class="regular-text">
+					</p>
 				</td>
 			</tr>
 		</table>
