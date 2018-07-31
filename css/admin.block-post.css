@@ -1,3 +1,8 @@
+#minor-publishing-actions,
+#misc-publishing-actions #visibility,
+#misc-publishing-actions .curtime {
+	display: none;
+}
 #acb_block_fields .handlediv,
 #acb_block_fields .hndle {
 	display: none;
