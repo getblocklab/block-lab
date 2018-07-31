@@ -425,9 +425,11 @@ class BlockPostType extends ComponentAbstract {
 
 		if ( ! isset( $post->post_name ) || empty( $post->post_name ) ) {
 			?>
-			<p class="template-notice template-warning">
-				<?php esc_html_e( 'The template path will be available after publishing this block.', 'advanced-custom-blocks' ); ?>
-			</p>
+			<div class="template-notice template-warning">
+				<p>
+					<?php esc_html_e( 'The template path will be available after publishing this block.', 'advanced-custom-blocks' ); ?>
+				</p>
+			</div>
 			<?php
 			return;
 		}
