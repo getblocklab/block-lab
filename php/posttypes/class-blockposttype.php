@@ -204,7 +204,7 @@ class BlockPostType extends ComponentAbstract {
 			),
 		);
 		?>
-		<div class="acb-fields-rows">
+		<div class="acb-fields-list">
 			<table class="widefat">
 				<thead>
 					<tr>
@@ -222,10 +222,10 @@ class BlockPostType extends ComponentAbstract {
 				</thead>
 				<tbody>
 					<tr>
-						<td colspan="4" class="acb-fields-sortable">
+						<td colspan="4" class="acb-fields-rows">
 							<?php
 							foreach( $fields as $index => $field ) {
-								$this->render_fields_meta_box_row( $field );
+								$this->render_fields_meta_box_row( $field, uniqid() );
 							}
 							?>
 						</td>
@@ -258,11 +258,15 @@ class BlockPostType extends ComponentAbstract {
 	 * Render a single Field as a row.
 	 *
 	 * @param array $field
+	 * @param string $uid
 	 *
 	 * @return void
 	 */
-	public function render_fields_meta_box_row( $field ) {
-		$uid = uniqid();
+	public function render_fields_meta_box_row( $field, $uid = false ) {
+		// Use a template placeholder if no UID provided.
+		if ( ! $uid ) {
+			$uid = '{{ data.uid }}';
+		}
 		?>
 		<div class="acb-fields-row">
 			<div class="acb-fields-sort">
