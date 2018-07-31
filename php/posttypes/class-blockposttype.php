@@ -130,6 +130,15 @@ class BlockPostType extends ComponentAbstract {
 			'normal',
 			'high'
 		);
+
+		add_meta_box(
+			'acb_block_template',
+			__( 'Template', 'advanced-custom-blocks' ),
+			array( $this, 'render_template_meta_box' ),
+			$this->slug,
+			'side',
+			'default'
+		);
 	}
 
 	/**
@@ -401,6 +410,73 @@ class BlockPostType extends ComponentAbstract {
 					</tr>
 				</table>
 			</div>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Render the Block Template meta box.
+	 * @TODO: Change this so that it uses a built-in template fallback method
+	 *
+	 * @return void
+	 */
+	public function render_template_meta_box() {
+		global $post;
+
+		if ( ! isset( $post->post_name ) || empty( $post->post_name ) ) {
+			?>
+			<p class="template-notice template-warning">
+				<?php esc_html_e( 'The template path will be available after publishing this block.', 'advanced-custom-blocks' ); ?>
+			</p>
+			<?php
+			return;
+		}
+
+		if ( ! file_exists( get_theme_file_path( 'blocks/block-' . $post->post_name . '.php' ) ) ) {
+			?>
+			<div class="template-notice template-warning">
+				<p>
+					<strong><?php esc_html_e( 'Template not found.', 'advanced-custom-blocks' ); ?></strong>
+				</p>
+				<p>
+					<?php esc_html_e( 'To display this block, ACB will look for one of these templates:', 'advanced-custom-blocks' ); ?>
+				</p>
+				<?php
+				$child_template = str_replace( get_theme_root(), '', get_stylesheet_directory() ) . '/blocks/block-' . $post->post_name . '.php';
+				$parent_template = str_replace( get_theme_root(), '', get_template_directory() ) . '/blocks/block-' . $post->post_name . '.php';
+				if ( $child_template !== $parent_template ) {
+					?>
+					<p><code><?php echo esc_html( $child_template ); ?></code></p>
+					<?php
+				}
+				?>
+				<p><code><?php echo esc_html( $parent_template ); ?></code></p>
+			</div>
+			<?php
+			return;
+		}
+
+		?>
+		<div class="template-notice template-success">
+			<p>
+				<strong><?php esc_html_e( 'Template found.', 'advanced-custom-blocks' ); ?></strong>
+			</p>
+			<p>
+				<?php esc_html_e( 'This block uses the following template:', 'advanced-custom-blocks' ); ?>
+			</p>
+			<?php
+			$child_template = str_replace( get_theme_root(), '', get_stylesheet_directory() ) . '/blocks/block-' . $post->post_name . '.php';
+			$parent_template = str_replace( get_theme_root(), '', get_template_directory() ) . '/blocks/block-' . $post->post_name . '.php';
+			if ( $child_template !== $parent_template ) {
+				?>
+				<p><code><?php echo esc_html( $child_template ); ?></code></p>
+				<?php
+			} else {
+				?>
+				<p><code><?php echo esc_html( $parent_template ); ?></code></p>
+				<?php
+			}
+			?>
 		</div>
 		<?php
 	}

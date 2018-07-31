@@ -108,3 +108,21 @@
 #acb_block_properties .form-table th label {
 	font-weight: 600;
 }
+#acb_block_template .inside {
+	padding: 0;
+	margin: 0;
+}
+#acb_block_template .template-notice {
+	background: #fff;
+	border-left: 4px solid #ffffff;
+	padding: 1px 12px;
+}
+#acb_block_template .template-warning {
+	border-left-color: #ffb900;
+}
+#acb_block_template .template-success {
+	border-left-color: #46b450;
+}
+#acb_block_template {
+	word-wrap: break-word;
+}
