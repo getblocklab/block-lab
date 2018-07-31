@@ -45,8 +45,9 @@ const simplifiedFields = ( fields ) => {
 	return fieldList
 }
 
-const inspectorControls = block => {
+const inspectorControls = (props, block) => {
 
+	const { setAttributes } = props
 	const fields = simplifiedFields( block.fields ).map( field => {
 
 		// If its not meant for the inspector then continue (return null).
@@ -56,17 +57,15 @@ const inspectorControls = block => {
 
 		let control;
 
+		const attr = { ...props.attributes }
 		switch ( field.control ) {
 			case 'text':
 				control = (
 					<TextControl
 						label={ field.label }
 						help=''
-						value={ field.default || '' }
+						value={ attr[field.name] || field.default }
 						onChange={ textControl => {
-							const attr = {
-								...field.name
-							}
 							attr[ field.name ] = textControl
 							setAttributes( attr )
 						} }
@@ -78,15 +77,37 @@ const inspectorControls = block => {
 					<TextareaControl
 						label={ field.label }
 						help=''
-						value={ field.default || '' }
+						value={ attr[field.name] || field.default }
 						onChange={ textControl => {
-							const attr = {
-								...field.name
-							}
 							attr[ field.name ] = textControl
 							setAttributes( attr )
 						} }
 					/>
+				)
+				break;
+			case 'checkbox':
+				control = (
+					<p>Checkbox!</p>
+				)
+				break;
+			case 'radio':
+				control = (
+					<p>Radio!</p>
+				)
+				break;
+			case 'toggle':
+				control = (
+					<p>Toggle!</p>
+				)
+				break;
+			case 'select':
+				control = (
+					<p>Select!</p>
+				)
+				break;
+			case 'range':
+				control = (
+					<p>Range!</p>
 				)
 				break;
 			default: control = (
