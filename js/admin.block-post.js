@@ -45,15 +45,33 @@
 	});
 
 	let blockCategoryInit = function() {
-		let categories = wp.blocks.getCategories();
+		let categories = wp.blocks.getCategories(),
+			category   = $( '#acb-properties-category-custom' ),
+			custom     = $( '#acb-properties-category option[value="__custom"]' );
+
 		for (let i = 0; i < categories.length; i++) {
 			$( '<option/>', {
 				value: categories[i].slug,
 				text: categories[i].title,
 			} ).appendTo( '#acb-properties-category' );
 		}
-		$( '#acb-properties-category option[value="__custom"]' ).remove().appendTo( '#acb-properties-category' );
-		$( '#acb-properties-category' ).prop( 'selectedIndex', 0 );
+		custom.remove().appendTo( '#acb-properties-category' );
+
+		if ( category.val() !== '' ) {
+			let option = $( '#acb-properties-category option[value="' + category.val() + '"]' );
+			if ( option.length > 0 ) {
+				$( '#acb-properties-category' ).prop( 'selectedIndex', option.index() );
+				category.hide();
+				category.val('');
+			} else {
+				$( '#acb-properties-category' ).prop( 'selectedIndex', custom.index() );
+				category.show();
+			}
+		} else {
+			$( '#acb-properties-category' ).prop( 'selectedIndex', 0 );
+			category.hide();
+		}
+
 	}
 
 })(jQuery);

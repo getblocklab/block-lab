@@ -172,7 +172,7 @@ class Block_Post_Type extends ComponentAbstract {
 							title="<?php esc_html_e( 'Custom Category', 'advanced-custom-blocks' ); ?>"
 							type="text"
 							id="acb-properties-category-custom"
-							value=""
+							value="<?php echo esc_html( $block->category ); ?>"
 							placeholder="<?php esc_html_e( 'Category Name', 'advanced-custom-blocks' ); ?>"
 							class="regular-text hidden">
 					</p>
