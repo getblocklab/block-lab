@@ -3,6 +3,8 @@ import icons from '../icons'
 import blockAttributes from './attributes'
 import editComponent from './edit'
 
+import './editor.scss';
+
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
 
@@ -24,7 +26,7 @@ const registerAdvancedCustomBlocks = () => {
 			description: block.description,
 			category: block.category,
 			icon: () => {
-				if ( '' === block.icon || 'default' === block.icon ) {
+				if ( 'undefined' === typeof block.icon || '' === block.icon || 'default' === block.icon ) {
 					return icons.logo
 				}
 				return block.icon
