@@ -43,9 +43,9 @@ Advanced Custom Blocks first checks if the template exists in the child theme, a
 
 A Block Template for a testimonial.
 
-`my-custom-theme/blocks/testimonial.php`
+Template: `my-custom-theme/blocks/testimonial.php`
 
-```php+HTML
+```HTML+PHP
 <img src="<?php acb_field( 'profile-picture' ); ?>" alt="<?php acb_field( 'author-name' ); ?>" />
 <h3><?php acb_field( 'author-name' ); ?></h3>
 <p><?php acb_field( 'testimonial' ); ?></p>
@@ -70,7 +70,7 @@ The Text field creates a simple text input option for the block.
 
 The API will return a string.
 
-```php+HTML
+```HTML+PHP
 <h3><?php acb_field( 'text-field' ); ?></h3>
 ```
 
@@ -90,7 +90,7 @@ The Textarea field creates a multi-line text input option for the block, suitabl
 
 The API will return a string.
 
-```php+HTML
+```HTML+PHP
 <p><?php acb_field( 'textarea-field' ); ?></p>
 ```
 
@@ -102,7 +102,7 @@ These functions are for use in your block templates.
 
 ### acb_field()
 
-```php
+```PHP
 acb_field( $name, $echo = true );
 ```
 
@@ -117,19 +117,19 @@ Outputs the value of a specific field.
 
 Output the value of a field as text.
 
-```php+HTML
+```HTML+PHP
 <p><?php acb_field( 'testimonial' ); ?></p>
 ```
 
 Return the value of a field without outputting.
 
-```php
+```PHP
 $author_name = acb_field( 'author', false );
 ```
 
 Check if the value of the field is set.
 
-```php
+```PHP
 $url = acb_field( 'url', false );
 
 if ( ! empty( $url ) ) {
@@ -141,7 +141,7 @@ if ( ! empty( $url ) ) {
 
 ### acb_value()
 
-```php
+```PHP
 acb_value( $name );
 ```
 
@@ -155,7 +155,7 @@ Helper function for returning the value of a field without any output. Essential
 
 Return the value of a field.
 
-```php
+```PHP
 $author_name = acb_value( 'author' );
 ```
 
