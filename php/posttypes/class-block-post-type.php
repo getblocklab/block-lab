@@ -36,7 +36,6 @@ class Block_Post_Type extends ComponentAbstract {
 		add_action( 'wp_insert_post_data', array( $this, 'save_block' ), 10, 2 );
 
 		// Clean up the list table
-		add_filter( 'bulk_actions-edit-' . $this->slug, '__return_empty_array' );
 		add_filter( 'disable_months_dropdown', '__return_true', 10, $this->slug );
 		add_filter( 'post_row_actions', array( $this, 'post_row_actions' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'list_tables_style' ) );
