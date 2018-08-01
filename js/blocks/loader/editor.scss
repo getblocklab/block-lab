@@ -1,0 +1,30 @@
+$black: #222;
+$dark: rgba(0, 0, 0, 0.39);
+$light: rgba(140, 140, 151, 0.1);
+
+.entry-content div[class^="wp-block-advanced-custom-blocks-"],
+div[class^="wp-block-advanced-custom-blocks-"] {
+
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+
+  background: $light;
+  padding: 1rem;
+  font-size: 0.8125rem;
+
+
+  h3 {
+    color: $black;
+    font-size: 1rem;
+    margin: 0;
+
+    svg {
+      position: relative;
+      top: 3px;
+    }
+  }
+
+  p {
+    font-size: 1rem;
+  }
+
+}
