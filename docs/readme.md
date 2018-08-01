@@ -2,7 +2,7 @@
 
 Advanced Custom Blocks is a WordPress plugin which allows you to add **extra content blocks** to the new WordPress editor. These extra blocks can allow you to build custom structures of content for use on the posts and pages of your websites.
 
-##<a name="custom-blocks"></a> Creating a custom block
+##<a name="custom-blocks"></a>Creating a custom block
 
 Getting started with Advanced Custom Blocks is easy. Look for the **Custom Blocks** menu item in your WordPress admin sidebar, then press Add New.
 
