@@ -320,6 +320,7 @@ class Block_Post_Type extends ComponentAbstract {
 			<div class="acb-fields-edit">
 				<table class="widefat">
 					<tr class="acb-fields-edit-label">
+						<td class="spacer"></td>
 						<th scope="row">
 							<label for="acb-fields-edit-label-input_<?php echo esc_attr( $uid ); ?>">
 								<?php esc_html_e( 'Field Label', 'advanced-custom-blocks' ); ?>
@@ -344,6 +345,7 @@ class Block_Post_Type extends ComponentAbstract {
 						</td>
 					</tr>
 					<tr class="acb-fields-edit-name">
+						<td class="spacer"></td>
 						<th scope="row">
 							<label for="acb-fields-edit-name-input_<?php echo esc_attr( $uid ); ?>">
 								<?php esc_html_e( 'Field Name', 'advanced-custom-blocks' ); ?>
@@ -363,6 +365,7 @@ class Block_Post_Type extends ComponentAbstract {
 						</td>
 					</tr>
 					<tr class="acb-fields-edit-control">
+						<td class="spacer"></td>
 						<th scope="row">
 							<label for="acb-fields-edit-control-input_<?php echo esc_attr( $uid ); ?>">
 								<?php esc_html_e( 'Field Type', 'advanced-custom-blocks' ); ?>
@@ -385,6 +388,7 @@ class Block_Post_Type extends ComponentAbstract {
 						</td>
 					</tr>
 					<tr class="acb-fields-edit-actions">
+						<td class="spacer"></td>
 						<th scope="row">
 						</th>
 						<td>

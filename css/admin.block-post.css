@@ -81,9 +81,12 @@
 #acb_block_fields .acb-fields-rows .acb-fields-edit th {
 	padding: 8px 10px;
 }
+#acb_block_fields .acb-fields-rows .acb-fields-edit td.spacer {
+	width: 4%;
+}
 #acb_block_fields .acb-fields-rows .acb-fields-edit th {
 	font-size: 12px;
-	width: 36%;
+	width: 32%;
 }
 #acb_block_fields .acb-fields-rows .acb-fields-edit th label {
 	font-weight: 600;
