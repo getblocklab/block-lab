@@ -33,6 +33,7 @@ class BlockPostType extends ComponentAbstract {
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 		add_filter( 'enter_title_here', array( $this, 'post_title_placeholder' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'content_save_pre', array( $this, 'save_block' ), 10, 2 );
 
 		// Clean up the list table
 		add_filter( 'bulk_actions-edit-' . $this->slug, '__return_empty_array' );
@@ -147,6 +148,8 @@ class BlockPostType extends ComponentAbstract {
 	 * @return void
 	 */
 	public function render_properties_meta_box() {
+		global $post;
+		$block = $this->get_block( $post );
 		?>
 		<table class="form-table">
 			<tr>
@@ -187,7 +190,7 @@ class BlockPostType extends ComponentAbstract {
 							name="acb-properties-description"
 							id="acb-properties-description"
 							class="large-text"
-							rows="3"></textarea>
+							rows="3"><?php echo esc_html( $block['description'] ); ?></textarea>
 					</p>
 				</td>
 			</tr>
@@ -211,13 +214,14 @@ class BlockPostType extends ComponentAbstract {
 							name="acb-properties-keywords"
 							type="text"
 							id="acb-properties-keywords"
-							value=""
+							value="<?php echo esc_attr( implode( ', ', $block['keywords'] ) ); ?>"
 							class="regular-text">
 					</p>
 				</td>
 			</tr>
 		</table>
 		<?php
+		wp_nonce_field( 'acb_save_properties', 'acb_properties_nonce' );
 	}
 
 	/**
@@ -226,23 +230,9 @@ class BlockPostType extends ComponentAbstract {
 	 * @return void
 	 */
 	public function render_fields_meta_box() {
-		$fields = array(
-			array(
-				'name' => 'foo',
-				'label' => 'Foo',
-				'type' => 'text',
-			),
-			array(
-				'name' => 'bar',
-				'label' => 'Bar',
-				'type' => 'text',
-			),
-			array(
-				'name' => 'baz',
-				'label' => 'Baz',
-				'type' => 'textarea',
-			),
-		);
+		global $post;
+		$block = $this->get_block( $post );
+		$fields = $block['fields'];
 		?>
 		<div class="acb-fields-list">
 			<table class="widefat">
@@ -255,7 +245,7 @@ class BlockPostType extends ComponentAbstract {
 						<th class="acb-fields-name">
 							<?php esc_html_e( 'Field Name', 'advanced-custom-blocks' ); ?>
 						</th>
-						<th class="acb-fields-type">
+						<th class="acb-fields-control">
 							<?php esc_html_e( 'Field Type', 'advanced-custom-blocks' ); ?>
 						</th>
 					</tr>
@@ -264,7 +254,7 @@ class BlockPostType extends ComponentAbstract {
 					<tr>
 						<td colspan="4" class="acb-fields-rows">
 							<?php
-							foreach( $fields as $index => $field ) {
+							foreach( $fields as $field ) {
 								$this->render_fields_meta_box_row( $field, uniqid() );
 							}
 							?>
@@ -286,12 +276,13 @@ class BlockPostType extends ComponentAbstract {
 				$this->render_fields_meta_box_row( array(
 					'name' => 'new_field',
 					'label' => __( 'New Field', 'advanced-custom-blocks' ),
-					'type' => 'text'
+					'control' => 'text'
 				) );
 				?>
 			</script>
 		</div>
 		<?php
+		wp_nonce_field( 'acb_save_fields', 'acb_fields_nonce' );
 	}
 
 	/**
@@ -329,8 +320,8 @@ class BlockPostType extends ComponentAbstract {
 			<div class="acb-fields-name" id="acb-fields-name_<?php echo esc_attr( $uid ); ?>">
 				<?php echo esc_html( $field['name'] ); ?>
 			</div>
-			<div class="acb-fields-type" id="acb-fields-type_<?php echo esc_attr( $uid ); ?>">
-				<?php echo esc_html( $field['type'] ); ?>
+			<div class="acb-fields-control" id="acb-fields-control_<?php echo esc_attr( $uid ); ?>">
+				<?php echo esc_html( $field['control'] ); ?>
 			</div>
 			<div class="acb-fields-edit">
 				<table class="widefat">
@@ -377,23 +368,23 @@ class BlockPostType extends ComponentAbstract {
 								data-sync="acb-fields-name_<?php echo esc_attr( $uid ); ?>" />
 						</td>
 					</tr>
-					<tr class="acb-fields-edit-type">
+					<tr class="acb-fields-edit-control">
 						<th scope="row">
-							<label for="acb-fields-edit-type-input_<?php echo esc_attr( $uid ); ?>">
+							<label for="acb-fields-edit-control-input_<?php echo esc_attr( $uid ); ?>">
 								<?php esc_html_e( 'Field Type', 'advanced-custom-blocks' ); ?>
 							</label>
 						</th>
 						<td>
 							<select
-								name="acb-fields-type[]"
-								id="acb-fields-edit-type-input_<?php echo esc_attr( $uid ); ?>"
-								data-sync="acb-fields-type_<?php echo esc_attr( $uid ); ?>" >
+								name="acb-fields-control[]"
+								id="acb-fields-edit-control-input_<?php echo esc_attr( $uid ); ?>"
+								data-sync="acb-fields-control_<?php echo esc_attr( $uid ); ?>" >
 
-								<option value="text" <?php selected( 'text', $field['type'] ); ?>>
+								<option value="text" <?php selected( 'text', $field['control'] ); ?>>
 									<?php esc_html_e( 'Text', 'advanced-custom-blocks' ); ?>
 								</option>
 
-								<option value="textarea" <?php selected( 'textarea', $field['type'] ); ?>>
+								<option value="textarea" <?php selected( 'textarea', $field['control'] ); ?>>
 									<?php esc_html_e( 'Text Area', 'advanced-custom-blocks' ); ?>
 								</option>
 							</select>
@@ -481,6 +472,104 @@ class BlockPostType extends ComponentAbstract {
 			?>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Save block meta boxes as a json blob in post content.
+	 *
+	 * @param string $content
+	 *
+	 * @return string
+	 */
+	public function save_block( $content ) {
+		if ( ! isset( $_POST['post_ID'] ) ) {
+			return $content;
+		}
+
+		$post_id = sanitize_key( $_POST['post_ID'] );
+
+		// Exits script depending on save status
+		if ( wp_is_post_autosave( $post_id ) || wp_is_post_revision( $post_id ) ) {
+			return $content;
+		}
+
+		check_admin_referer( 'acb_save_fields', 'acb_fields_nonce' );
+		check_admin_referer( 'acb_save_properties', 'acb_properties_nonce' );
+
+		$config = array();
+
+		// Block title
+		$config['name'] = sanitize_key( $_POST['post_name'] );
+
+		// Block title
+		$config['title'] = sanitize_key( $_POST['post_title'] );
+
+		// Block category
+		if ( isset( $_POST['acb-properties-category'] ) ) {
+			$config['category'] = sanitize_key( $_POST['acb-properties-category'] );
+			if ( '__custom' === $config['category'] && isset( $_POST['acb-properties-category-custom'] ) ) {
+				$config['category'] = sanitize_key( $_POST['acb-properties-category-custom'] );
+			}
+		}
+
+		// Block description
+		if ( isset( $_POST['acb-properties-description'] ) ) {
+			$config['description'] = sanitize_textarea_field( $_POST['acb-properties-description'] );
+		}
+
+		// Block keywords
+		if ( isset( $_POST['acb-properties-keywords'] ) ) {
+			$keywords = sanitize_text_field( $_POST['acb-properties-keywords'] );
+			$keywords = explode( ',', $keywords );
+			$keywords = array_map( 'trim', $keywords );
+			$config['keywords'] = $keywords;
+		}
+
+		// Block fields
+		if ( isset( $_POST['acb-fields-name'] ) && is_array( $_POST['acb-fields-name'] ) ) {
+			foreach ( $_POST['acb-fields-name'] as $key => $name ) {
+				$name = sanitize_key( $name );
+				$key = sanitize_key( $key );
+
+				// Field name
+				$config['fields'][ $name ]['name'] = $name;
+
+				// Field order
+				$config['fields'][ $name ]['order'] = $key;
+
+				// Field label
+				if ( isset( $_POST['acb-fields-label'][ $key ] ) ) {
+					$config['fields'][ $name ]['label'] = sanitize_text_field( $_POST['acb-fields-label'][ $key ] );
+				}
+
+				// Field control
+				if ( isset( $_POST['acb-fields-control'][ $key ] ) ) {
+					$config['fields'][ $name ]['control'] = sanitize_text_field( $_POST['acb-fields-control'][ $key ] );
+				}
+
+				// Field location
+				$config['fields'][ $name ]['location'] = array( 'editor' );
+			}
+		}
+
+		$json_blob = wp_json_encode( array( 'advanced-custom-blocks/' . $config['name'] => $config ) );
+		return $json_blob;
+	}
+
+	/**
+	 * Get block data from stored JSON blob
+	 *
+	 * @param \WP_Post $post
+	 *
+	 * @return array
+	 */
+	public function get_block( $post ) {
+		$json_blob = $post->post_content;
+		$block = json_decode( $json_blob, true );
+		if ( ! isset( $block[ 'advanced-custom-blocks/' . $post->post_name ] ) ) {
+			return array();
+		}
+		return $block[ 'advanced-custom-blocks/' . $post->post_name ];
 	}
 
 	/**
