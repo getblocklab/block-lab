@@ -60,6 +60,9 @@ if ( version_compare( phpversion(), '5.4', '<' ) ) {
 	return;
 }
 
+// Load some helpers.
+require_once __DIR__ . '/php/helpers.php';
+
 /**
  * Get the plugin object.
  *
@@ -89,9 +92,9 @@ advanced_custom_blocks()
  * Register plugin components.
  */
 advanced_custom_blocks()
-	->register_component( new \AdvancedCustomBlocks\Blocks\Loader() )
 	->register_component( new \AdvancedCustomBlocks\View\Admin_Menu() )
-	->register_component( new \AdvancedCustomBlocks\PostTypes\Block_Post_Type() );
+	->register_component( new \AdvancedCustomBlocks\PostTypes\Block_Post_Type() )
+	->register_component( new \AdvancedCustomBlocks\Blocks\Loader() );
 
 /**
  * Sometimes we need to do some things after the plugin is loaded, so call the PluginInterface::plugin_loaded().
