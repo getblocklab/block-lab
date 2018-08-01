@@ -1,0 +1,131 @@
+#minor-publishing-actions,
+#misc-publishing-actions #visibility,
+#misc-publishing-actions .curtime {
+	display: none;
+}
+#acb_block_fields .handlediv,
+#acb_block_fields .hndle {
+	display: none;
+}
+#acb_block_fields .inside {
+	padding: 0;
+	margin: 0;
+}
+#acb_block_fields .acb-fields-list .widefat {
+	border: none;
+}
+#acb_block_fields .acb-fields-list td {
+	padding: 0;
+}
+#acb_block_fields .acb-fields-list thead th {
+	font-weight: 600;
+	width: 32%
+}
+#acb_block_fields .acb-fields-list thead th.acb-fields-sort {
+	width: 4%
+}
+#acb_block_fields .acb-fields-rows .acb-fields-row {
+	background: #fff;
+	display: grid;
+	grid-template-columns: [handle] 4% 32% 32% 32%;
+}
+#acb_block_fields .acb-fields-rows .acb-fields-row > div {
+	padding: 8px 10px;
+}
+#acb_block_fields .acb-fields-rows .acb-fields-row:nth-child(odd) {
+	background: #f9f9f9;
+}
+#acb_block_fields .acb-fields-sort-handle:before {
+	content: "\f333";
+}
+#acb_block_fields .acb-fields-sort-handle {
+	display: block;
+	width: 15px;
+	height: 15px;
+	font-family: 'Dashicons';
+	font-size: 15px;
+	line-height: 15px;
+	cursor: grab;
+	padding-top: 2px;
+}
+#acb_block_fields .acb-fields-rows .row-title {
+	display: block;
+	padding-bottom: 6px;
+}
+#acb_block_fields .acb-fields-actions {
+	padding: 10px;
+	clear: both;
+	border-top: 1px solid #ddd;
+	background: #f5f5f5;
+	text-align: right;
+}
+#acb_block_fields .acb-fields-options {
+	font-size: 12px;
+	line-height: 12px;
+	visibility: hidden;
+}
+#acb_block_fields .acb-fields-row:hover .acb-fields-options {
+	visibility: visible;
+}
+#acb_block_fields .acb-fields-rows .acb-fields-row .acb-fields-edit {
+	display: none;
+	grid-column: 1 / span 4;
+	padding: 0;
+	border-bottom: 1px solid #e1e1e1;
+	border-top: 1px solid #e1e1e1;
+}
+#acb_block_fields .acb-fields-rows .acb-fields-row .acb-fields-edit table {
+	background: transparent;
+}
+#acb_block_fields .acb-fields-rows .acb-fields-edit td,
+#acb_block_fields .acb-fields-rows .acb-fields-edit th {
+	padding: 8px 10px;
+}
+#acb_block_fields .acb-fields-rows .acb-fields-edit td.spacer {
+	width: 4%;
+}
+#acb_block_fields .acb-fields-rows .acb-fields-edit th {
+	font-size: 12px;
+	width: 32%;
+}
+#acb_block_fields .acb-fields-rows .acb-fields-edit th label {
+	font-weight: 600;
+}
+#acb_block_fields .acb-fields-rows .acb-fields-edit th .description {
+	margin-bottom: 0;
+}
+#acb_block_properties .inside,
+#acb_block_properties .form-table{
+	padding: 0;
+	margin: 0;
+}
+#acb_block_properties .form-table td,
+#acb_block_properties .form-table th{
+	padding: 8px 10px;
+}
+#acb_block_properties .form-table th {
+	font-weight: 400;
+	border-right: 1px solid #f1f1f1;
+	font-size: 12px;
+}
+#acb_block_properties .form-table th label {
+	font-weight: 600;
+}
+#acb_block_template .inside {
+	padding: 0;
+	margin: 0;
+}
+#acb_block_template .template-notice {
+	background: #fff;
+	border-left: 4px solid #ffffff;
+	padding: 1px 12px;
+}
+#acb_block_template .template-warning {
+	border-left-color: #ffb900;
+}
+#acb_block_template .template-success {
+	border-left-color: #46b450;
+}
+#acb_block_template {
+	word-wrap: break-word;
+}
