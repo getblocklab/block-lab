@@ -35,6 +35,14 @@
 				let sync = $( this ).data( 'sync' );
 				$( '#' + sync ).text( $( this ).val() );
 			})
+			.on( 'change keyup', '.acb-fields-edit-label input', function() {
+				let slug = slugify( $( this ).val() );
+				$( this )
+					.closest( '.acb-fields-edit' )
+					.find( '.acb-fields-edit-name input' )
+					.val( slug )
+					.trigger('change');
+			})
 			.sortable({
 				axis: 'y',
 				cursor: 'grabbing',
@@ -71,7 +79,13 @@
 			$( '#acb-properties-category' ).prop( 'selectedIndex', 0 );
 			category.hide();
 		}
+	};
 
-	}
+	let slugify = function( text ) {
+		return text
+			.toLowerCase()
+			.replace(/[^\w ]+/g,'')
+			.replace(/ +/g,'-');
+	};
 
 })(jQuery);
