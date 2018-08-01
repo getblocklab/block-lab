@@ -33,7 +33,7 @@ class Custom_Field {
 	 *
 	 * @var string
 	 */
-	public $control = '';
+	public $control = 'text';
 
 	/**
 	 * Field location.
