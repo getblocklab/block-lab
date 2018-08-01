@@ -495,9 +495,15 @@ class Block_Post_Type extends ComponentAbstract {
 
 		// Block title
 		$block->name = sanitize_key( $data['post_name'] );
+		if ( '' === $block->name ) {
+			$block->name = $post_id;
+		}
 
 		// Block title
 		$block->title = sanitize_text_field( $data['post_title'] );
+		if ( '' === $block->title ) {
+			$block->title = $post_id;
+		}
 
 		// Block category
 		if ( isset( $_POST['acb-properties-category'] ) ) {
