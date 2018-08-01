@@ -81,9 +81,16 @@ class Custom_Block {
 	 *
 	 * @param string $json
 	 * @param string $name
+	 *
+	 * @return void
 	 */
 	public function from_json( $json, $name ) {
 		$json   = json_decode( $json, true );
+
+		if ( ! isset( $json[ 'advanced-custom-blocks/' . $name ] ) ) {
+			return;
+		}
+
 		$config = $json[ 'advanced-custom-blocks/' . $name ];
 
 		if ( isset( $config['name'] ) ) {
