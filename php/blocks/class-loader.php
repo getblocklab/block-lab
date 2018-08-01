@@ -19,23 +19,28 @@ class Loader extends ComponentAbstract {
 	 *
 	 * @var array
 	 */
-	public $assets = array();
+	public $assets = [];
+
+	/**
+	 * JSON representing last loaded blocks.
+	 *
+	 * @var string
+	 */
+	public $blocks = '';
 
 	public function init() {
 		$this->assets = [
 			'path' => [
 				'entry'        => $this->plugin->get_path( 'js/editor.blocks.js' ),
 				'editor_style' => $this->plugin->get_path( 'css/blocks.editor.css' ),
-				// 'block_style'       => $this->plugin->get_path( 'css/blocks.editor.css' ),
-				// 'block_front_style' => $this->plugin->get_path( 'css/blocks.editor.css' ),
 			],
 			'url'  => [
 				'entry'        => $this->plugin->get_url( 'js/editor.blocks.js' ),
 				'editor_style' => $this->plugin->get_url( 'css/blocks.editor.css' ),
-				// 'block_style'       => $this->plugin->get_url( 'css/blocks.editor.css' ),
-				// 'block_front_style' => $this->plugin->get_url( 'css/blocks.editor.css' ),
 			],
 		];
+
+		$this->retrieve_blocks();
 
 		return $this;
 	}
@@ -48,8 +53,6 @@ class Loader extends ComponentAbstract {
 		 * Gutenberg JS block loading.
 		 */
 		add_action( 'enqueue_block_editor_assets', array( $this, 'editor_assets' ) );
-		add_action( 'enqueue_block_assets', array( $this, 'block_assets' ) );
-		add_action( 'enqueue_block_assets', array( $this, 'frontend_assets' ) );
 
 		/**
 		 * PHP block loading.
@@ -58,6 +61,9 @@ class Loader extends ComponentAbstract {
 	}
 
 
+	/**
+	 * Launch the blocks inside Gutenberg.
+	 */
 	public function editor_assets() {
 
 		wp_enqueue_script(
@@ -70,7 +76,7 @@ class Loader extends ComponentAbstract {
 
 		// Add dynamic Gutenberg blocks.
 		wp_add_inline_script( 'acb-blocks-js', '
-				const acbBlocks = ' . $this->mock_blocks() . ' 
+				const acbBlocks = ' . $this->blocks . ' 
 			', 'before' );
 
 		// Enqueue optional editor only styles
@@ -82,32 +88,28 @@ class Loader extends ComponentAbstract {
 		);
 	}
 
-	public function block_assets() {
-
-	}
-
-	public function frontend_assets() {
-
-	}
-
 	/**
 	 * Loads dynamic blocks via render_callback for each block.
-	 * 
-	 * @return bool
 	 */
 	public function dynamic_block_loader() {
 
 		if ( ! function_exists( 'register_block_type' ) ) {
-			return false;
+			return;
 		}
 
 		// Get blocks.
-		$blocks = json_decode( $this->mock_blocks(), true );
-
+		$blocks = json_decode( $this->blocks, true );
 		foreach ( $blocks as $block_name => $block ) {
+
+			$attributes                   = $this->get_block_attributes( $block );
+			$attributes['acb_block_name'] = $block_name;
+
 			register_block_type( $block_name, [
-				'attributes' => $this->get_block_attributes( $block ),
-				'render_callback' => [ $this, 'render_block_template' ],
+				'attributes'      => $attributes,
+				// @see https://github.com/WordPress/gutenberg/issues/4671
+				'render_callback' => function ( $attributes ) use ( $block ) {
+					return $this->render_block_template( $block, $attributes );
+				},
 			] );
 		}
 	}
@@ -122,8 +124,10 @@ class Loader extends ComponentAbstract {
 	public function get_block_attributes( $block ) {
 		$attributes = [];
 
-		foreach( $block['fields'] as $field_name => $field ) {
-			$attributes[ $field_name ] = [];
+		foreach ( $block['fields'] as $field_name => $field ) {
+			$attributes[ $field_name ] = [
+				'type' => 'string',
+			];
 
 			if ( ! empty( $field['type'] ) ) {
 				$attributes[ $field_name ]['type'] = $field['type'];
@@ -154,101 +158,46 @@ class Loader extends ComponentAbstract {
 	}
 
 	/**
-	 * @todo load templates for blocks.
+	 * Renders the block provided a template is provided.
 	 *
-	 * @param $attributes
+	 * @param array $block      The block to render.
+	 * @param array $attributes Attributes to render.
 	 *
 	 * @return mixed
 	 */
-	public function render_block_template( $attributes ) {
-		return print_r( $attributes, true );
+	public function render_block_template( $block, $attributes ) {
+		global $acb_block_attributes;
+		$acb_block_attributes = $attributes;
+
+		ob_start();
+		acb_template_part( $block['name'] );
+		$output = ob_get_clean();
+
+		return $output;
 	}
 
 	/**
-	 * @todo Replace this with actual blocks json.
-	 * @return false|string
+	 * Load all the published blocks.
 	 */
-	public function mock_blocks() {
-		return wp_json_encode( [
-			'advanced-custom-blocks/block-one' => [
-				'title'       => __( 'ACB: Block1', 'advanced-custom-blocks' ),
-				'description' => __( 'This should come from the PHP backend.', 'advanced-custom-blocks' ),
-				'category'    => 'common',
-				'icon'        => 'default',
-				'keywords'    => [
-					__( 'ACB Block1', 'advanced-custom-blocks' ),
-				],
-				'groups'      => [],
-				'fields'      => [
-					'post_id'     => [],
-					'field_one'   => [
-						'label'    => 'Field One',
-						'type'     => 'string',
-						'control'  => 'text',
-						'icon'     => 'admin-generic',
-						'location' => [
-							'inspector',
-						],
-						'order'    => 1,
-					],
-					'fieldTwo'   => [
-						'label'    => 'Field Two',
-						'type'     => 'string',
-						'control'  => 'textarea',
-						'icon'     => 'admin-generic',
-						'location' => [
-							'inspector',
-						],
-						'order'    => 2,
-					],
-					'fieldThree' => [
-						'label'    => 'Field Three',
-						'type'     => 'string',
-						'control'  => 'radio',
-						'options'  => [
-							'one' => 'Option One',
-							'two' => 'Option Two',
-						],
-						'default'  => 'one',
-						'icon'     => 'admin-generic',
-						'location' => [
-							'inspector',
-							'editor'
-						],
-						'order'    => 3,
-					],
-					'fieldFour'  => [
-						'label'    => 'Field Four',
-						'type'     => 'string',
-						'control'  => 'checkbox',
-						'options'  => [
-							'one' => 'Option One',
-							'two' => 'Option Two',
-						],
-						'default'  => [ 'two' ],
-						'icon'     => 'admin-generic',
-						'location' => [
-							'inspector',
-							'editor'
-						],
-						'order'    => 4,
-					],
-					'fieldFive'  => [
-						'label'    => 'Field Five',
-						'type'     => 'string',
-						'control'  => 'toggle',
-						'default'  => 'off',
-						'icon'     => 'admin-generic',
-						'iconOn'   => 'admin-generic',
-						'iconOff'  => 'admin-generic',
-						'location' => [
-							'toolbar',
-							'inspector'
-						],
-						'order'    => 5,
-					],
-				],
-			],
+	public function retrieve_blocks() {
+
+		$slug = 'acb_block';
+
+		$this->blocks = '';
+		$blocks       = [];
+
+		$block_posts = new \WP_Query( [
+			'post_type'      => $slug,
+			'post_status'    => 'publish',
+			'posts_per_page' => - 1,
 		] );
+
+		if ( 0 < $block_posts->post_count ) {
+			/** @var \WP_Post $post */
+			foreach ( $block_posts->posts as $post ) {
+				$blocks = array_merge( $blocks, json_decode( $post->post_content, true ) );
+			}
+		}
+		$this->blocks = wp_json_encode( $blocks );
 	}
 }
