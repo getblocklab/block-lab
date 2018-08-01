@@ -14,7 +14,7 @@ use AdvancedCustomBlocks\ComponentAbstract;
 /**
  * Class AdminMenu
  */
-class AdminMenu extends ComponentAbstract {
+class Admin_Menu extends ComponentAbstract {
 
 	/**
 	 * Register hooks for this view.
