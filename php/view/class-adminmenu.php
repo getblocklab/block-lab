@@ -29,25 +29,27 @@ class AdminMenu extends ComponentAbstract {
 					__( 'Custom Blocks', 'advanced-custom-blocks' ),
 					'manage_options',
 					'acb',
-					array( $this, 'render' ),
-					$this->plugin->get_assets_url( 'images/admin-menu-icon.svg' )
+					null,
+					'data:image/svg+xml;base64,' . base64_encode(
+						file_get_contents(
+							$this->plugin->get_assets_path( 'images/admin-menu-icon.svg' )
+						)
+					)
 				);
 			}
 		);
+
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_menu_style' ) );
 		// Register other hooks here.
 	}
 
 	/**
-	 * Render the Menu Page.
+	 * Fix for extra padding applied to custom menu icons.
 	 *
 	 * @return void
 	 */
-	public function render() {
-		?>
-		<div class="wrap">
-			<h2><?php esc_html_e( 'Advanced Custom Blocks Settings', 'advanced-custom-blocks' ); ?></h2>
-			<p class="description"><?php esc_html_e( 'This is a description for this page.', 'advanced-custom-blocks' ); ?></p>
-		</div>
-		<?php
+	public function admin_menu_style() {
+		$custom_css = '#adminmenu .toplevel_page_acb .wp-menu-image img { padding-top: 0; }';
+		wp_add_inline_style( 'admin-menu', $custom_css );
 	}
 }
