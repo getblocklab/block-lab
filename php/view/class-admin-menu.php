@@ -14,7 +14,7 @@ use AdvancedCustomBlocks\ComponentAbstract;
 /**
  * Class AdminMenu
  */
-class AdminMenu extends ComponentAbstract {
+class Admin_Menu extends ComponentAbstract {
 
 	/**
 	 * Register hooks for this view.
@@ -38,18 +38,6 @@ class AdminMenu extends ComponentAbstract {
 				);
 			}
 		);
-
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_menu_style' ) );
 		// Register other hooks here.
-	}
-
-	/**
-	 * Fix for extra padding applied to custom menu icons.
-	 *
-	 * @return void
-	 */
-	public function admin_menu_style() {
-		$custom_css = '#adminmenu .toplevel_page_acb .wp-menu-image img { padding-top: 0; }';
-		wp_add_inline_style( 'admin-menu', $custom_css );
 	}
 }
