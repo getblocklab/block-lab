@@ -35,9 +35,7 @@ In order for blocks to properly display, you'll need to create an associated HTM
 
 The Block Template needs to be stored inside a `blocks` directory in your theme, using the slug of your block in the filename. The slug of your block can be seen in the Slug section of the Block editor. The correct format to use is: `block-{block name}.php`.
 
-For example, if your block's slug is `testimonial`, Advanced Custom Blocks would look for the the Block Template file in your theme: `blocks/block-testimonial.php`.
-
-Advanced Custom Blocks first checks if the template exists in the child theme, and if not, in the parent theme. It is also possible to filter the template path so that it refers to a custom folder, using the `acb_template_path( $template_path, $slug )` filter ([read more about using filters on WordPress.org](https://codex.wordpress.org/Plugin_API)).
+For example, if your block's slug is `testimonial`, Advanced Custom Blocks would look for the the Block Template file in your theme: `blocks/block-testimonial.php`. Advanced Custom Blocks first checks if the template exists in the child theme, and if not, in the parent theme.
 
 ### Example
 
@@ -50,6 +48,14 @@ Template: `my-custom-theme/blocks/testimonial.php`
 <h3><?php acb_field( 'author-name' ); ?></h3>
 <p><?php acb_field( 'testimonial' ); ?></p>
 ```
+
+###Overriding the template path
+
+It is possible to change the template path so that it uses a custom template, outside of the theme or blocks directory.
+
+To use a different template _inside_ your theme, use the `acb_override_theme_template( $theme_template )` filter. To use a different template _outside_ your theme (for example, in a plugin), use the `acb_template_path( $template_path )` filter.
+
+[Read more about using filters on WordPress.org](https://codex.wordpress.org/Plugin_API).
 
 
 
