@@ -69,7 +69,7 @@ class Loader extends ComponentAbstract {
 		wp_enqueue_script(
 			'acb-blocks-js',
 			$this->assets['url']['entry'],
-			[ 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components' ],
+			[ 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-api-fetch' ],
 			filemtime( $this->assets['path']['entry'] ),
 			true
 		);
