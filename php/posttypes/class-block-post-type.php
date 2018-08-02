@@ -201,7 +201,7 @@ class Block_Post_Type extends ComponentAbstract {
 					<p class="description" id="acb-properties-keywords-description">
 						<?php
 						esc_html_e(
-							'A comma separated list of keywords, used when searching.',
+							'A comma separated list of keywords, used when searching. Maximum of 3 keywords.',
 							'advanced-custom-blocks'
 						);
 						?>
@@ -526,6 +526,7 @@ class Block_Post_Type extends ComponentAbstract {
 			$keywords = sanitize_text_field( $_POST['acb-properties-keywords'] );
 			$keywords = explode( ',', $keywords );
 			$keywords = array_map( 'trim', $keywords );
+			$keywords = array_slice( $keywords, 0, 3 );
 			$block->keywords = $keywords;
 		}
 
