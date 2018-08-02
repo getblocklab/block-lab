@@ -1,17 +1,12 @@
 export default {
 	logo: (
-		<svg viewBox='0 0 98 85' xmlns='http://www.w3.org/2000/svg' fillRule='evenodd'
-		     clipRule='evenodd' strokeLinecap='round' strokeLinejoin='round' strokeMiterlimit='1.5' width="20" height="20">
-			<g id='ACB_Icon_Primary' strokeWidth='3'>
-				<path d='M17.777,29.006l15.566,-26.962l31.133,0l-15.567,26.962l-31.132,0Z'
-				      fill='none' stroke='#180000' />
-				<path d='M17.777,82.929l15.566,-26.962l31.133,0l-15.567,26.962l-31.132,0Z'
-				      fill='none' stroke='#180000' />
-				<path d='M64.476,55.967l-31.133,-53.923l31.133,0l31.132,53.923l-31.132,0Z'
-				      fill='none' stroke='#180000' />
-				<path d='M95.608,55.967l-15.828,26.508l-30.871,0.454l-15.566,-26.962l-15.566,26.962l-15.566,-26.962l15.566,-26.961l15.566,-26.962l15.566,26.962l15.567,26.961l31.132,0Z'
-				      stroke='#000' />
-			</g>
+		<svg fillRule='evenodd' clipRule='evenodd' strokeLinecap='round' strokeLinejoin='round' strokeMiterlimit='1.5'
+			width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
+			<path
+				id='ACB_Icon_Primary'
+				d='M7,2.182l6,0c2,3.464 4,6.928 6,10.392l-3.05,5.109l-5.95,0.087l-6,0l-3,-5.196l3,-5.196l3,-5.196Zm0.45,11.172l0,0l-2.1,3.637l4.2,0l0,0l-2.1,-3.637Zm5.1,-10.393l-4.2,0l5.1,8.834l4.2,0l-5.1,-8.834Z'
+				fill='#555d66' stroke='000'
+			/>
 		</svg>
 	)
 }
