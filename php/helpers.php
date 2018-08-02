@@ -46,6 +46,14 @@ function acb_value( $key ) {
  */
 function acb_template_part( $slug, $type = 'block' ) {
 
+	// Loading async it might not come from a query, this breaks load_template();
+	global $wp_query;
+	
+	// So lets fix it.
+	if ( empty( $wp_query ) ) {
+		$wp_query = new WP_Query();
+	}
+
 	$template_file = "blocks/{$type}-{$slug}.php";
 	$generic_file = "blocks/{$type}.php";
 	$templates = [
@@ -54,7 +62,7 @@ function acb_template_part( $slug, $type = 'block' ) {
 	];
 
 	// Check for `blocks/block*` in child/parent theme first.
-	if ( $theme_template = locate_template( $templates ) ) {
+	if ( $theme_template = abc_locate_tamplate( $templates ) ) {
 		$theme_template = apply_filters( 'acb_override_theme_template', $theme_template );
 
 		// This is not a load once template, so require_once is false.
@@ -75,3 +83,27 @@ function acb_template_part( $slug, $type = 'block' ) {
 	}
 }
 
+function abc_locate_tamplate( $template_names ) {
+
+	$stylesheet_path = get_template_directory();
+	$template_path = get_stylesheet_directory();
+
+	$located = '';
+
+	foreach ( (array) $template_names as $template_name ) {
+		if ( !$template_name )
+			continue;
+		if ( file_exists($stylesheet_path . '/' . $template_name)) {
+			$located = $stylesheet_path . '/' . $template_name;
+			break;
+		} elseif ( file_exists($template_path . '/' . $template_name) ) {
+			$located = $template_path . '/' . $template_name;
+			break;
+		} elseif ( file_exists( ABSPATH . WPINC . '/theme-compat/' . $template_name ) ) {
+			$located = ABSPATH . WPINC . '/theme-compat/' . $template_name;
+			break;
+		}
+	}
+
+	return $located;
+}
