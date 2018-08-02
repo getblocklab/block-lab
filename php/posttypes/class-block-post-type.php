@@ -513,6 +513,11 @@ class Block_Post_Type extends ComponentAbstract {
 			$block->category = sanitize_key( $_POST['acb-properties-category'] );
 			if ( '__custom' === $block->category && isset( $_POST['acb-properties-category-custom'] ) ) {
 				$block->category = sanitize_key( $_POST['acb-properties-category-custom'] );
+
+				// Prevent category from being set to a reserved category name
+				if ( 'reusable' === $block->category ) {
+					$block->category = '';
+				}
 			}
 		}
 

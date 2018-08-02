@@ -58,6 +58,9 @@
 			custom     = $( '#acb-properties-category option[value="__custom"]' );
 
 		for (let i = 0; i < categories.length; i++) {
+			if ( 'reusable' === categories[i].slug ) {
+				continue;
+			}
 			$( '<option/>', {
 				value: categories[i].slug,
 				text: categories[i].title,
