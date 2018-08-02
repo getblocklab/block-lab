@@ -512,7 +512,7 @@ class Block_Post_Type extends ComponentAbstract {
 		if ( isset( $_POST['acb-properties-category'] ) ) {
 			$block->category = sanitize_key( $_POST['acb-properties-category'] );
 			if ( '__custom' === $block->category && isset( $_POST['acb-properties-category-custom'] ) ) {
-				$block->category = sanitize_key( $_POST['acb-properties-category-custom'] );
+				$block->category = sanitize_text_field( $_POST['acb-properties-category-custom'] );
 			}
 		}
 
