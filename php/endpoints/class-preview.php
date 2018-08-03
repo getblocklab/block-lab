@@ -108,7 +108,7 @@ class Preview extends ComponentAbstract {
 		$slug = $r->get_param('slug');
 		if ( ! empty( $slug ) && array_key_exists( 'advanced-custom-blocks/' . $slug, $this->blocks ) ) {
 			$block = $this->blocks[ 'advanced-custom-blocks/' . $slug ];
-			$content = $this->block_loader->render_block_template( $block, $this->mock_attributes( $block ) );
+			$content = $this->block_loader->render_block_template( $block, $this->mock_attributes( $block ), [ 'preview', 'block' ] );
 		}
 
 		return rest_ensure_response( $content );

@@ -54,46 +54,63 @@ function acb_template_part( $slug, $type = 'block' ) {
 		$wp_query = new WP_Query();
 	}
 
-	$template_file = "blocks/{$type}-{$slug}.php";
-	$generic_file = "blocks/{$type}.php";
-	$templates = [
-		$generic_file,
-		$template_file,
-	];
+	$types = (array) $type;
+	$located = '';
 
-	// Check for `blocks/block*` in child/parent theme first.
-	if ( $theme_template = abc_locate_tamplate( $templates ) ) {
-		$theme_template = apply_filters( 'acb_override_theme_template', $theme_template );
+	foreach( $types as $type ) {
+
+		if ( ! empty( $located ) ) {
+			continue;
+		}
+
+		$template_file = "blocks/{$type}-{$slug}.php";
+		$generic_file = "blocks/{$type}.php";
+		$templates = [
+			$generic_file,
+			$template_file,
+		];
+
+		$located = abc_locate_template( $templates );
+	}
+
+	if ( ! empty( $located) ) {
+		$theme_template = apply_filters( 'acb_override_theme_template', $located );
 
 		// This is not a load once template, so require_once is false.
 		load_template( $theme_template, false );
 	} else {
-		$template_path = apply_filters( 'acb_template_path', '' );
-		if ( file_exists( trailingslashit( $template_path ) . $template_file ) ) {
-
-			// This is not a load once template, so require_once is false.
-			load_template( trailingslashit( $template_path ) . $template_file, false );
-		} elseif ( file_exists( trailingslashit( $template_path ) . $generic_file ) ) {
-
-			// This is not a load once template, so require_once is false.
-			load_template( trailingslashit( $template_path ) . $generic_file, false );
-		} else {
-			echo '<div class="warning">' . esc_html( $template_file ) . ' not found.</div>';
-		}
+		echo '<div class="warning">' . esc_html( $template_file ) . ' not found.</div>';
 	}
 }
 
-function abc_locate_tamplate( $template_names ) {
+/**
+ * Locates ACB templates.
+ *
+ * Works similar to `locate_template`, but allows specifying a path outside of themes
+ * and allows to be called when STYLESHEET_PATH has not been set yet. Handy for async.
+ *
+ * @param string|array $template_names Templates to locate.
+ * @param string       $path (Optional) Path to located the templates first.
+ *
+ * @return string
+ */
+function abc_locate_template( $template_names, $path = '' ) {
 
+	$path  = apply_filters( 'acb_template_path', $path );
 	$stylesheet_path = get_template_directory();
-	$template_path = get_stylesheet_directory();
+	$template_path   = get_stylesheet_directory();
 
 	$located = '';
 
 	foreach ( (array) $template_names as $template_name ) {
-		if ( !$template_name )
+
+		if ( !$template_name ) {
 			continue;
-		if ( file_exists($stylesheet_path . '/' . $template_name)) {
+		}
+
+		if ( ! empty( $path ) && file_exists( $path . '/' . $template_name ) ) {
+			$located = $path . '/' . $template_name;
+		} elseif ( file_exists($stylesheet_path . '/' . $template_name)) {
 			$located = $stylesheet_path . '/' . $template_name;
 			break;
 		} elseif ( file_exists($template_path . '/' . $template_name) ) {
