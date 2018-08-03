@@ -20,3 +20,10 @@ test:
 	@${WPENV} docker-compose -f tests/docker/docker-compose.yml up -d tests-mysql
 	@${WPENV} docker-compose -f tests/docker/docker-compose.yml up tests-php
 	@${WPENV} docker-compose -f tests/docker/docker-compose.yml down
+
+gulp:
+	@echo "Installing Gulp 4.0..."
+	@npm install -g gulp@next
+	@echo "Updating local packages."
+	@npm update
+	@echo "Run 'gulp' to build your package."
