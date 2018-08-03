@@ -14,7 +14,7 @@ const uglifyJSPlugin = new UglifyJSPlugin( {
 		mangle: {},
 		compress: true
 	},
-	sourceMap: true
+	sourceMap: false
 } );
 
 // Configuration for the ExtractTextPlugin.
@@ -47,7 +47,7 @@ module.exports = {
 		filename: '[name].js',
 	},
 	watch: false,
-	devtool: 'cheap-eval-source-map',
+	// devtool: 'cheap-eval-source-map',
 	module: {
 		rules: [
 			{
