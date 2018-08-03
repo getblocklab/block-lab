@@ -79,7 +79,12 @@ function acb_template_part( $slug, $type = 'block' ) {
 		// This is not a load once template, so require_once is false.
 		load_template( $theme_template, false );
 	} else {
-		echo '<div class="warning">' . esc_html( $template_file ) . ' not found.</div>';
+		printf(
+			'<div class="notice notice-warning">%s</div>',
+			wp_kses_post(
+				sprintf( __( 'Template file %s not found.' ), '<code>' . esc_html( $template_file ) . '</code>' )
+			)
+		);
 	}
 }
 
