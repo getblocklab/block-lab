@@ -34,7 +34,7 @@ The plugin is currently in beta and we welcome early users and testers. Your fee
 
 ###Links###
 * [Github](https://github.com/rheinardkorf/advanced-custom-blocks)
-* [Documentation](https://github.com/rheinardkorf/advanced-custom-blocks/docs)
+* [Documentation](https://github.com/rheinardkorf/advanced-custom-blocks/tree/develop/docs)
 * [Support](https://wordpress.org/support/plugin/advanced-custom-blocks)
 
 == Installation ==
