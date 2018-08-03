@@ -1,3 +1,5 @@
+import updatePreview from './preview';
+
 const {
 	CheckboxControl,
 	RadioControl,
@@ -8,7 +10,7 @@ const {
 	SelectControl
 } = wp.components;
 
-const getControl = ( props, field ) => {
+const getControl = ( props, field, block ) => {
 
 	const { setAttributes } = props
 	const attr = { ...props.attributes }
@@ -24,6 +26,9 @@ const getControl = ( props, field ) => {
 						attr[ field.name ] = textControl
 						setAttributes( attr )
 					}}
+					onKeyUp={() => {
+						updatePreview( props, block )
+					}}
 				/>
 			);
 
@@ -36,6 +41,9 @@ const getControl = ( props, field ) => {
 					onChange={textControl => {
 						attr[ field.name ] = textControl
 						setAttributes( attr )
+					}}
+					onKeyUp={() => {
+						updatePreview( props, block )
 					}}
 				/>
 			);
