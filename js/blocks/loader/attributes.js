@@ -35,7 +35,17 @@ const getBlockAttributes = block => {
 		}
 	}
 
+	attributes[ 'block_template' ] = {
+		type: 'string',
+		source: 'children'
+	};
+
+	attributes[ 'block_preview' ] = {
+		type: 'string',
+		source: 'children'
+	};
+
 	return attributes
-}
+};
 
 export default getBlockAttributes
