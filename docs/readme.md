@@ -37,6 +37,10 @@ The Block Template needs to be stored inside a `blocks` directory in your theme,
 
 For example, if your block's slug is `testimonial`, Advanced Custom Blocks would look for the the Block Template file in your theme: `blocks/block-testimonial.php`. Advanced Custom Blocks first checks if the template exists in the child theme, and if not, in the parent theme.
 
+### Block Previews
+
+Sometimes a block's template markup will be too detailed to be properly previewed in the WordPress editor. In this case, you may create a **Preview Template**. This will be used instead of the Block Template while previewing the block in the WordPress editor. Preview Templates should be saved in your theme, as `block/preview-{block name}.php`.
+
 ### Example
 
 A Block Template for a testimonial.
