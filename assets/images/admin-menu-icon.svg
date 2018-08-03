@@ -1,1 +1,8 @@
-<svg width="20px" height="20px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><g><path d="M7.061,2.2c0,0 5.915,-0.033 5.93,-0.032c0.228,0.033 0.252,0.054 0.369,0.242l5.604,10.061c0.035,0.041 0.053,0.1 0.015,0.18l-2.992,5.01c-0.064,0.089 -0.089,0.079 -0.147,0.085l-5.835,0.086l-0.002,0l-5.885,-0.01c-0.049,0.005 -0.103,-0.011 -0.15,-0.077l-2.942,-5.096c-0.024,-0.051 -0.043,-0.082 0,-0.174l2.942,-5.096l2.942,-5.096c0,0 0.057,-0.077 0.151,-0.083Zm-2.311,14.711l4.621,0l-2.31,-4.001l-2.311,4.001Zm8.188,-13.307l-2.482,4.299l2.59,4.485l4.795,0l-4.903,-8.784Zm-5.245,-0.488l2.214,3.836l2.215,-3.836l-4.429,0Z" style="fill:rgb(255,255,255);fill-rule:nonzero;"/></g></svg>
+<svg fillRule='evenodd' clipRule='evenodd' strokeLinecap='round' strokeLinejoin='round' strokeMiterlimit='1.5'
+	width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
+	<path
+		id='ACB_Icon_Primary'
+		d='M7,2.206l6,0c2,3.464 4,6.928 6,10.392l-3.05,5.109l-5.95,0.087l-6,0l-3,-5.196l6,-10.392l0,0Zm-2.55,14.809l5.1,0l0,0l-2.55,-4.417l-2.55,4.417Zm8.55,-4.417l5.092,0l0.004,-0.007l-5.546,-9.606l-5.1,0l5.55,9.613Z'
+		style='fill:#82878c;'
+	/>
+</svg>
