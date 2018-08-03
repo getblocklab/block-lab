@@ -3,6 +3,3 @@ import './i18n'
 
 // Import Advanced Custom Blocks loader.
 import './loader'
-
-// Import Gutenberg blocks.
-import './example'

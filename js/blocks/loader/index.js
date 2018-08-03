@@ -19,6 +19,7 @@ const registerAdvancedCustomBlocks = () => {
 
 		// Get the block definition.
 		let block = acbBlocks[ blockName ];
+		block.block_slug = blockName;
 
 		// Register the block.
 		registerBlockType( blockName, {
