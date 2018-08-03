@@ -112,3 +112,4 @@ coverage/html/
 # Builds
 js/editor.blocks.js
 js/scripts.js
+package/
