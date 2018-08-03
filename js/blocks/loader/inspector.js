@@ -31,7 +31,7 @@ const inspectorControls = ( props, block ) => {
 
 		return (
 			<PanelBody>
-				{getControl( props, field )}
+				{getControl( props, field, block )}
 			</PanelBody>
 		)
 	} )
