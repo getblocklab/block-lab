@@ -29,8 +29,8 @@ require_once( 'php/autoloader.php' );
 /**
  * Admin notice for incompatible versions of PHP.
  */
-function _advanced_custom_blocks_php_version_error() {
-	printf( '<div class="error"><p>%s</p></div>', esc_html( _advanced_custom_blocks_php_version_text() ) );
+function advanced_custom_blocks_php_version_error() {
+	printf( '<div class="error"><p>%s</p></div>', esc_html( advanced_custom_blocks_php_version_text() ) );
 }
 
 /**
@@ -45,16 +45,16 @@ function _advanced_custom_blocks_php_version_error() {
  *
  * @return string
  */
-function _advanced_custom_blocks_php_version_text() {
+function advanced_custom_blocks_php_version_text() {
 	return __( 'Advanced Custom Blocks plugin error: Your version of PHP is too old to run this plugin. You must be running PHP 5.4 or higher.', 'advanced-custom-blocks' );
 }
 
 // If the PHP version is too low, show warning and return.
 if ( version_compare( phpversion(), '5.4', '<' ) ) {
 	if ( defined( 'WP_CLI' ) ) {
-		WP_CLI::warning( _advanced_custom_blocks_php_version_text() );
+		WP_CLI::warning( advanced_custom_blocks_php_version_text() );
 	} else {
-		add_action( 'admin_notices', '_advanced_custom_blocks_php_version_error' );
+		add_action( 'admin_notices', 'advanced_custom_blocks_php_version_error' );
 	}
 
 	return;
