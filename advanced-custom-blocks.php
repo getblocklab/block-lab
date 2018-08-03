@@ -9,7 +9,7 @@
  * Plugin Name: Advanced Custom Blocks
  * Plugin URI: https://github.com/rheinardkorf/advanced-custom-blocks
  * Description: Create Advanced Custom Blocks effortlessly with no Gutenberg development know-how required.
- * Version: 0.1-alpha
+ * Version: 0.1
  * Author: Rheinard Korf, Luke Carbis, Rob Stinson
  * Author URI: https://github.com/rheinardkorf/advanced-custom-blocks
  * License: GPL2
