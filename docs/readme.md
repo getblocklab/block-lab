@@ -53,7 +53,7 @@ Template: `my-custom-theme/blocks/testimonial.php`
 <p><?php acb_field( 'testimonial' ); ?></p>
 ```
 
-###Overriding the template path
+### Overriding the template path
 
 It is possible to change the template path so that it uses a custom template, outside of the theme or blocks directory.
 
