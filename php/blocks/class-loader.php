@@ -69,7 +69,7 @@ class Loader extends ComponentAbstract {
 		wp_enqueue_script(
 			'acb-blocks-js',
 			$this->assets['url']['entry'],
-			[ 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components' ],
+			[ 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-api-fetch' ],
 			filemtime( $this->assets['path']['entry'] ),
 			true
 		);
@@ -160,17 +160,18 @@ class Loader extends ComponentAbstract {
 	/**
 	 * Renders the block provided a template is provided.
 	 *
-	 * @param array $block      The block to render.
-	 * @param array $attributes Attributes to render.
+	 * @param array        $block      The block to render.
+	 * @param array        $attributes Attributes to render.
+	 * @param string|array $type       The type of template to render.
 	 *
 	 * @return mixed
 	 */
-	public function render_block_template( $block, $attributes ) {
+	public function render_block_template( $block, $attributes, $type = 'block' ) {
 		global $acb_block_attributes;
 		$acb_block_attributes = $attributes;
 
 		ob_start();
-		acb_template_part( $block['name'] );
+		acb_template_part( $block['name'], $type );
 		$output = ob_get_clean();
 
 		return $output;
