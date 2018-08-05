@@ -1,5 +1,5 @@
 import inspectorControls from './inspector'
-import { getControl } from "./controls";
+import controls from '../controls';
 import { simplifiedFields } from "./fields";
 import updatePreview from './preview';
 import icons from '../icons'
@@ -12,14 +12,16 @@ const formControls = ( props, block ) => {
 	const fields = simplifiedFields( block.fields ).map( field => {
 
 		// If its not meant for the inspector then continue (return null).
-		// if ( !field.location ) {
 		if ( !field.location || !field.location.includes( 'editor' ) ) {
 			return null
 		}
 
+		const controlFunction = controls[ field.control ];
+		const control = typeof controlFunction !== 'undefined' ? controlFunction( props, field, block ) : null;
+
 		return (
 			<div>
-				{getControl( props, field, block )}
+				{control}
 			</div>
 		)
 	} )
