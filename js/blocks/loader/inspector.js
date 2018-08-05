@@ -1,7 +1,5 @@
-import { getControl } from './controls'
 import { simplifiedFields } from "./fields";
-
-'./fields'
+import controls from "../controls";
 
 const {
 	InspectorControls,
@@ -29,9 +27,12 @@ const inspectorControls = ( props, block ) => {
 			return null
 		}
 
+		const controlFunction = field.controlFunction || controls[ field.control ];
+		const control = typeof controlFunction !== 'undefined' ? controlFunction( props, field, block ) : null;
+
 		return (
 			<PanelBody>
-				{getControl( props, field, block )}
+				{control}
 			</PanelBody>
 		)
 	} )
