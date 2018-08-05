@@ -27,7 +27,7 @@ const inspectorControls = ( props, block ) => {
 			return null
 		}
 
-		const controlFunction = controls[ field.control ];
+		const controlFunction = field.controlFunction || controls[ field.control ];
 		const control = typeof controlFunction !== 'undefined' ? controlFunction( props, field, block ) : null;
 
 		return (
