@@ -67,7 +67,7 @@ class Loader extends ComponentAbstract {
 	public function editor_assets() {
 
 		wp_enqueue_script(
-			'acb-blocks-js',
+			'acb-blocks',
 			$this->assets['url']['entry'],
 			[ 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-api-fetch' ],
 			filemtime( $this->assets['path']['entry'] ),
@@ -75,7 +75,7 @@ class Loader extends ComponentAbstract {
 		);
 
 		// Add dynamic Gutenberg blocks.
-		wp_add_inline_script( 'acb-blocks-js', '
+		wp_add_inline_script( 'acb-blocks', '
 				const acbBlocks = ' . $this->blocks . ' 
 			', 'before' );
 
