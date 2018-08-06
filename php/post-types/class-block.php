@@ -7,14 +7,16 @@
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace AdvancedCustomBlocks\PostTypes;
+namespace AdvancedCustomBlocks\Post_Types;
 
-use AdvancedCustomBlocks\ComponentAbstract;
+use AdvancedCustomBlocks\Component_Abstract;
+use AdvancedCustomBlocks\Models\Custom_Block;
+use AdvancedCustomBlocks\Models\Custom_Field;
 
 /**
- * Class BlockPostType
+ * Class Block
  */
-class Block_Post_Type extends ComponentAbstract {
+class Block extends Component_Abstract {
 
 	/**
 	 * Slug used for the custom post type.

@@ -8,12 +8,12 @@
 namespace AdvancedCustomBlocks\Endpoints;
 
 use AdvancedCustomBlocks\Blocks\Loader;
-use AdvancedCustomBlocks\ComponentAbstract;
+use AdvancedCustomBlocks\Component_Abstract;
 
 /**
  * Class Preview
  */
-class Preview extends ComponentAbstract {
+class Preview extends Component_Abstract {
 
 	const BASE = 'acb/v1';
 

@@ -12,16 +12,16 @@ namespace AdvancedCustomBlocks;
 /**
  * Interface ComponentInterface
  */
-interface ComponentInterface {
+interface Component_Interface {
 
 	/**
 	 * Set the plugin so that it can be referenced later.
 	 *
-	 * @param PluginInterface $plugin The plugin.
+	 * @param Plugin_Interface $plugin The plugin.
 	 *
-	 * @return ComponentInterface $this
+	 * @return Component_Interface $this
 	 */
-	public function set_plugin( PluginInterface $plugin );
+	public function set_plugin( Plugin_Interface $plugin );
 
 	/**
 	 * Register any hooks that this component needs.

@@ -12,7 +12,7 @@ namespace AdvancedCustomBlocks;
 /**
  * Class Plugin
  */
-class Plugin extends PluginAbstract {
+class Plugin extends Plugin_Abstract {
 
 	/**
 	 * Execute this once plugins are loaded. (not the best place for all hooks)

@@ -7,14 +7,14 @@
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace AdvancedCustomBlocks\View;
+namespace AdvancedCustomBlocks\Views;
 
-use AdvancedCustomBlocks\ComponentAbstract;
+use AdvancedCustomBlocks\Component_Abstract;
 
 /**
  * Class AdminMenu
  */
-class Admin_Menu extends ComponentAbstract {
+class Admin_Menu extends Component_Abstract {
 
 	/**
 	 * Register hooks for this view.

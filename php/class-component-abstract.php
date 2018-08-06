@@ -12,23 +12,23 @@ namespace AdvancedCustomBlocks;
 /**
  * Class ComponentAbstract
  */
-abstract class ComponentAbstract implements ComponentInterface {
+abstract class Component_Abstract implements Component_Interface {
 
 	/**
 	 * Point to the $plugin instance.
 	 *
-	 * @var PluginInterface
+	 * @var Plugin_Interface
 	 */
 	protected $plugin;
 
 	/**
 	 * Set the plugin so that it can be referenced later.
 	 *
-	 * @param PluginInterface $plugin The plugin.
+	 * @param Plugin_Interface $plugin The plugin.
 	 *
-	 * @return ComponentInterface $this
+	 * @return Component_Interface $this
 	 */
-	public function set_plugin( PluginInterface $plugin ) {
+	public function set_plugin( Plugin_Interface $plugin ) {
 		$this->plugin = $plugin;
 		return $this;
 	}
