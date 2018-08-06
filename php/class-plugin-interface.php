@@ -42,7 +42,7 @@ interface Plugin_Interface {
 	 *
 	 * @param string $directory The directory.
 	 *
-	 * @return PluginInterface The plugin instance.
+	 * @return Plugin_Interface The plugin instance.
 	 */
 	public function set_directory( $directory );
 
