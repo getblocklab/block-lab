@@ -26,7 +26,7 @@ interface Plugin_Interface {
 	 *
 	 * @param string $basename The basename.
 	 *
-	 * @return Plugin_Interfaces The plugin instance.
+	 * @return Plugin_Interface The plugin instance.
 	 */
 	public function set_basename( $basename );
 
