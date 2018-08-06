@@ -2,16 +2,16 @@
 /**
  * Block Post Type.
  *
- * @package   AdvancedCustomBlocks
+ * @package   Advanced_Custom_Blocks
  * @copyright Copyright(c) 2018, Advanced Custom Blocks
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace AdvancedCustomBlocks\Post_Types;
+namespace Advanced_Custom_Blocks\Post_Types;
 
-use AdvancedCustomBlocks\Component_Abstract;
-use AdvancedCustomBlocks\Blocks\Block;
-use AdvancedCustomBlocks\Blocks\Field;
+use Advanced_Custom_Blocks\Component_Abstract;
+use Advanced_Custom_Blocks\Blocks\Block;
+use Advanced_Custom_Blocks\Blocks\Field;
 
 /**
  * Class Block

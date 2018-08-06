@@ -2,12 +2,12 @@
 /**
  * Block.
  *
- * @package   AdvancedCustomBlocks
+ * @package   Advanced_Custom_Blocks
  * @copyright Copyright(c) 2018, Advanced Custom Blocks
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace AdvancedCustomBlocks\Blocks;
+namespace Advanced_Custom_Blocks\Blocks;
 
 /**
  * Class Block

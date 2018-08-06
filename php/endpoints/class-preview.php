@@ -2,13 +2,13 @@
 /**
  * Preview retrieves sanitized HTML to send to the Gutenberg preview.
  *
- * @package AdvancedCustomBlocks
+ * @package Advanced_Custom_Blocks
  */
 
-namespace AdvancedCustomBlocks\Endpoints;
+namespace Advanced_Custom_Blocks\Endpoints;
 
-use AdvancedCustomBlocks\Blocks\Loader;
-use AdvancedCustomBlocks\Component_Abstract;
+use Advanced_Custom_Blocks\Blocks\Loader;
+use Advanced_Custom_Blocks\Component_Abstract;
 
 /**
  * Class Preview
