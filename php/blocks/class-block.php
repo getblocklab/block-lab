@@ -1,18 +1,18 @@
 <?php
 /**
- * Custom Block.
+ * Block.
  *
  * @package   AdvancedCustomBlocks
  * @copyright Copyright(c) 2018, Advanced Custom Blocks
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace AdvancedCustomBlocks\Models;
+namespace AdvancedCustomBlocks\Blocks;
 
 /**
- * Class Custom_Block
+ * Class Block
  */
-class Custom_Block {
+class Block {
 
 	/**
 	 * Block name (slug).
@@ -115,7 +115,7 @@ class Custom_Block {
 
 		if ( isset( $config['fields'] ) ) {
 			foreach( $config['fields'] as $field ) {
-				$this->fields[] = new Custom_Field( $field );
+				$this->fields[] = new Field( $field );
 			}
 		}
 	}

@@ -10,13 +10,13 @@
 namespace AdvancedCustomBlocks\Post_Types;
 
 use AdvancedCustomBlocks\Component_Abstract;
-use AdvancedCustomBlocks\Models\Custom_Block;
-use AdvancedCustomBlocks\Models\Custom_Field;
+use AdvancedCustomBlocks\Blocks\Block;
+use AdvancedCustomBlocks\Blocks\Field;
 
 /**
  * Class Block
  */
-class Block extends Component_Abstract {
+class Block_Post extends Component_Abstract {
 
 	/**
 	 * Slug used for the custom post type.
@@ -150,7 +150,7 @@ class Block extends Component_Abstract {
 	 */
 	public function render_properties_meta_box() {
 		global $post;
-		$block = new Custom_Block( $post->ID );
+		$block = new Block( $post->ID );
 		?>
 		<table class="form-table">
 			<tr>
@@ -232,7 +232,7 @@ class Block extends Component_Abstract {
 	 */
 	public function render_fields_meta_box() {
 		global $post;
-		$block = new Custom_Block( $post->ID );
+		$block = new Block( $post->ID );
 		?>
 		<div class="acb-fields-list">
 			<table class="widefat">
@@ -273,7 +273,7 @@ class Block extends Component_Abstract {
 
 			<script type="text/html" id="tmpl-field-repeater">
 				<?php
-				$this->render_fields_meta_box_row( new Custom_Field() );
+				$this->render_fields_meta_box_row( new Field() );
 				?>
 			</script>
 		</div>
@@ -284,7 +284,7 @@ class Block extends Component_Abstract {
 	/**
 	 * Render a single Field as a row.
 	 *
-	 * @param Custom_Field $field
+	 * @param Field $field
 	 * @param mixed $uid
 	 *
 	 * @return void
@@ -496,7 +496,7 @@ class Block extends Component_Abstract {
 		check_admin_referer( 'acb_save_fields', 'acb_fields_nonce' );
 		check_admin_referer( 'acb_save_properties', 'acb_properties_nonce' );
 
-		$block = new Custom_Block();
+		$block = new Block();
 
 		// Block title
 		$block->name = sanitize_key( $data['post_name'] );
@@ -556,7 +556,7 @@ class Block extends Component_Abstract {
 					$field_config['control'] = sanitize_text_field( $_POST['acb-fields-control'][ $key ] );
 				}
 
-				$field = new Custom_Field( $field_config );
+				$field = new Field( $field_config );
 				$block->fields[ $name ] = $field;
 			}
 		}
