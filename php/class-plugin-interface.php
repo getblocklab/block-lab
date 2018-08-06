@@ -10,9 +10,9 @@
 namespace AdvancedCustomBlocks;
 
 /**
- * Interface PluginInterface
+ * Interface Plugin_Interface
  */
-interface PluginInterface {
+interface Plugin_Interface {
 
 	/**
 	 * Get the plugin basename.
@@ -26,7 +26,7 @@ interface PluginInterface {
 	 *
 	 * @param string $basename The basename.
 	 *
-	 * @return PluginInterface The plugin instance.
+	 * @return Plugin_Interfaces The plugin instance.
 	 */
 	public function set_basename( $basename );
 
@@ -67,7 +67,7 @@ interface PluginInterface {
 	 *
 	 * @param string $file The plugin file.
 	 *
-	 * @return PluginInterface The plugin instance.
+	 * @return Plugin_Interface The plugin instance.
 	 */
 	public function set_file( $file );
 
@@ -83,7 +83,7 @@ interface PluginInterface {
 	 *
 	 * @param string $slug The slug.
 	 *
-	 * @return PluginInterface The plugin instance.
+	 * @return Plugin_Interface The plugin instance.
 	 */
 	public function set_slug( $slug );
 
@@ -101,7 +101,7 @@ interface PluginInterface {
 	 *
 	 * @param string $url The url.
 	 *
-	 * @return PluginInterface The plugin instance.
+	 * @return Plugin_Interface The plugin instance.
 	 */
 	public function set_url( $url );
 
@@ -126,11 +126,11 @@ interface PluginInterface {
 	/**
 	 * Register a new Component.
 	 *
-	 * @param ComponentInterface $component The new component.
+	 * @param Component_Interface $component The new component.
 	 *
-	 * @return PluginInterface The plugin instance.
+	 * @return Plugin_Interface The plugin instance.
 	 */
-	public function register_component( ComponentInterface $component );
+	public function register_component( Component_Interface $component );
 
 	/**
 	 * Runs once 'plugins_loaded' hook fires.

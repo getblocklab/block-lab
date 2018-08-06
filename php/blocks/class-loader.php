@@ -7,12 +7,12 @@
 
 namespace AdvancedCustomBlocks\Blocks;
 
-use AdvancedCustomBlocks\ComponentAbstract;
+use AdvancedCustomBlocks\Component_Abstract;
 
 /**
  * Class Loader
  */
-class Loader extends ComponentAbstract {
+class Loader extends Component_Abstract {
 
 	/**
 	 * Asset paths and urls for blocks.

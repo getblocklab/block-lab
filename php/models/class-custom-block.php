@@ -7,10 +7,10 @@
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace AdvancedCustomBlocks\PostTypes;
+namespace AdvancedCustomBlocks\Models;
 
 /**
- * Class CustomBlock
+ * Class Custom_Block
  */
 class Custom_Block {
 

@@ -41,10 +41,10 @@ spl_autoload_register( function ( $class ) {
 		$directory .= DIRECTORY_SEPARATOR . $namespace;
 	}
 
-	// Because WordPress file naming conventions are odd.
-	$file = strtolower( str_replace( '_', '-', $class_name ) );
+	$file = $directory . DIRECTORY_SEPARATOR . $class_trait . $class_name . '.php';
 
-	$file = $directory . DIRECTORY_SEPARATOR . $class_trait . $file . '.php';
+	// Because WordPress file naming conventions are odd.
+	$file = strtolower( str_replace( '_', '-', $file ) );
 
 	if ( file_exists( $file ) ) {
 		require_once( $file );

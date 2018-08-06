@@ -66,7 +66,7 @@ require_once __DIR__ . '/php/helpers.php';
 /**
  * Get the plugin object.
  *
- * @return \AdvancedCustomBlocks\PluginInterface
+ * @return \AdvancedCustomBlocks\Plugin_Abstract
  */
 function advanced_custom_blocks() {
 	static $instance;
@@ -92,8 +92,8 @@ advanced_custom_blocks()
  * Register plugin components.
  */
 advanced_custom_blocks()
-	->register_component( new \AdvancedCustomBlocks\View\Admin_Menu() )
-	->register_component( new \AdvancedCustomBlocks\PostTypes\Block_Post_Type() )
+	->register_component( new \AdvancedCustomBlocks\Views\Admin_Menu() )
+	->register_component( new \AdvancedCustomBlocks\Post_Types\Block() )
 	->register_component( new \AdvancedCustomBlocks\Blocks\Loader() )
 	->register_component( new \AdvancedCustomBlocks\Endpoints\Preview() );
 
