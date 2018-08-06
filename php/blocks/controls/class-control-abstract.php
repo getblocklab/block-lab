@@ -7,7 +7,7 @@
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace AdvancedCustomBlocks\Controls;
+namespace AdvancedCustomBlocks\Blocks\Controls;
 
 /**
  * Class Control_Abstract
@@ -32,8 +32,5 @@ abstract class Control_Abstract {
 	 * Output the control options.
 	 */
 	public function render_options() {
-		?>
-
-		<?php
 	}
 }

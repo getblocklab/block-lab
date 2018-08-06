@@ -10,7 +10,7 @@
 namespace AdvancedCustomBlocks;
 
 /**
- * Class PluginAbstract
+ * Class Plugin_Abstract
  */
 abstract class Plugin_Abstract implements Plugin_Interface {
 

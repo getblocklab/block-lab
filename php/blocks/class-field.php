@@ -1,18 +1,18 @@
 <?php
 /**
- * Custom Block Field.
+ * Block Field.
  *
  * @package   AdvancedCustomBlocks
  * @copyright Copyright(c) 2018, Advanced Custom Blocks
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace AdvancedCustomBlocks\Models;
+namespace AdvancedCustomBlocks\Blocks;
 
 /**
- * Class Custom_Field
+ * Class Field
  */
-class Custom_Field {
+class Field {
 
 	/**
 	 * Field name (slug).
