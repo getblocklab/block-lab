@@ -2,17 +2,17 @@
 /**
  * Plugin abstract.
  *
- * @package   AdvancedCustomBlocks
+ * @package   Advanced_Custom_Blocks
  * @copyright Copyright(c) 2018, Advanced Custom Blocks
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace AdvancedCustomBlocks;
+namespace Advanced_Custom_Blocks;
 
 /**
- * Class PluginAbstract
+ * Class Plugin_Abstract
  */
-abstract class PluginAbstract implements PluginInterface {
+abstract class Plugin_Abstract implements Plugin_Interface {
 
 	/**
 	 * Plugin components.
@@ -75,7 +75,7 @@ abstract class PluginAbstract implements PluginInterface {
 	 *
 	 * @param string $basename The basename.
 	 *
-	 * @return PluginInterface The plugin instance.
+	 * @return Plugin_Abstract The plugin instance.
 	 */
 	public function set_basename( $basename ) {
 		$this->basename = $basename;
@@ -96,7 +96,7 @@ abstract class PluginAbstract implements PluginInterface {
 	 *
 	 * @param string $directory The directory.
 	 *
-	 * @return PluginInterface The plugin instance.
+	 * @return Plugin_Abstract The plugin instance.
 	 */
 	public function set_directory( $directory ) {
 		$this->directory = rtrim( $directory, DIRECTORY_SEPARATOR ) . DIRECTORY_SEPARATOR;
@@ -128,7 +128,7 @@ abstract class PluginAbstract implements PluginInterface {
 	 *
 	 * @param string $file The plugin file.
 	 *
-	 * @return PluginInterface The plugin instance.
+	 * @return Plugin_Abstract The plugin instance.
 	 */
 	public function set_file( $file ) {
 		$this->file = $file;
@@ -149,7 +149,7 @@ abstract class PluginAbstract implements PluginInterface {
 	 *
 	 * @param string $slug The slug.
 	 *
-	 * @return PluginInterface The plugin instance.
+	 * @return Plugin_Abstract The plugin instance.
 	 */
 	public function set_slug( $slug ) {
 		$this->slug = $slug;
@@ -172,7 +172,7 @@ abstract class PluginAbstract implements PluginInterface {
 	 *
 	 * @param string $url The url.
 	 *
-	 * @return PluginInterface The plugin instance.
+	 * @return Plugin_Abstract The plugin instance.
 	 */
 	public function set_url( $url ) {
 		$this->url = rtrim( $url, '/' ) . '/';
@@ -204,11 +204,11 @@ abstract class PluginAbstract implements PluginInterface {
 	/**
 	 * Register a new Component.
 	 *
-	 * @param ComponentInterface $component The new component.
+	 * @param Component_Interface $component The new component.
 	 *
-	 * @return PluginInterface The plugin instance.
+	 * @return Plugin_Abstract The plugin instance.
 	 */
-	public function register_component( ComponentInterface $component ) {
+	public function register_component( Component_Interface $component ) {
 
 		$component_class = get_class( $component );
 

@@ -2,15 +2,15 @@
 /**
  * Test_The_Plugin
  *
- * @package AdvancedCustomBlocks
+ * @package Advanced_Custom_Blocks
  */
 
-namespace AdvancedCustomBlocks;
+namespace Advanced_Custom_Blocks;
 
 /**
  * Class Test_The_Plugin
  *
- * @package AdvancedCustomBlocks
+ * @package Advanced_Custom_Blocks
  */
 class Test_The_Plugin extends \WP_UnitTestCase {
 	/**

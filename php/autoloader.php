@@ -2,7 +2,7 @@
 /**
  * Plugin Autoloader
  *
- * @package   AdvancedCustomBlocks
+ * @package   Advanced_Custom_Blocks
  * @copyright Copyright(c) 2018, Advanced Custom Blocks
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
@@ -20,7 +20,7 @@ spl_autoload_register( function ( $class ) {
 	$class_trait = preg_match( '/Trait$/', $class ) ? 'trait-' : 'class-';
 
 	// If we're not in the plugin's namespace then just return.
-	if ( 'AdvancedCustomBlocks' !== $root ) {
+	if ( 'Advanced_Custom_Blocks' !== $root ) {
 		return;
 	}
 
@@ -41,10 +41,10 @@ spl_autoload_register( function ( $class ) {
 		$directory .= DIRECTORY_SEPARATOR . $namespace;
 	}
 
-	// Because WordPress file naming conventions are odd.
-	$file = strtolower( str_replace( '_', '-', $class_name ) );
+	$file = $directory . DIRECTORY_SEPARATOR . $class_trait . $class_name . '.php';
 
-	$file = $directory . DIRECTORY_SEPARATOR . $class_trait . $file . '.php';
+	// Because WordPress file naming conventions are odd.
+	$file = strtolower( str_replace( '_', '-', $file ) );
 
 	if ( file_exists( $file ) ) {
 		require_once( $file );

@@ -1,18 +1,18 @@
 <?php
 /**
- * Loader initiates the loading of new Gutenberg blocks for the AdvancedCustomBlocks plugin.
+ * Loader initiates the loading of new Gutenberg blocks for the Advanced_Custom_Blocks plugin.
  *
- * @package AdvancedCustomBlocks
+ * @package Advanced_Custom_Blocks
  */
 
-namespace AdvancedCustomBlocks\Blocks;
+namespace Advanced_Custom_Blocks\Blocks;
 
-use AdvancedCustomBlocks\ComponentAbstract;
+use Advanced_Custom_Blocks\Component_Abstract;
 
 /**
  * Class Loader
  */
-class Loader extends ComponentAbstract {
+class Loader extends Component_Abstract {
 
 	/**
 	 * Asset paths and urls for blocks.
