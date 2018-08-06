@@ -2,19 +2,21 @@
 /**
  * Block Post Type.
  *
- * @package   AdvancedCustomBlocks
+ * @package   Advanced_Custom_Blocks
  * @copyright Copyright(c) 2018, Advanced Custom Blocks
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace AdvancedCustomBlocks\PostTypes;
+namespace Advanced_Custom_Blocks\Post_Types;
 
-use AdvancedCustomBlocks\ComponentAbstract;
+use Advanced_Custom_Blocks\Component_Abstract;
+use Advanced_Custom_Blocks\Blocks\Block;
+use Advanced_Custom_Blocks\Blocks\Field;
 
 /**
- * Class BlockPostType
+ * Class Block
  */
-class Block_Post_Type extends ComponentAbstract {
+class Block_Post extends Component_Abstract {
 
 	/**
 	 * Slug used for the custom post type.
@@ -148,7 +150,7 @@ class Block_Post_Type extends ComponentAbstract {
 	 */
 	public function render_properties_meta_box() {
 		global $post;
-		$block = new Custom_Block( $post->ID );
+		$block = new Block( $post->ID );
 		?>
 		<table class="form-table">
 			<tr>
@@ -230,7 +232,7 @@ class Block_Post_Type extends ComponentAbstract {
 	 */
 	public function render_fields_meta_box() {
 		global $post;
-		$block = new Custom_Block( $post->ID );
+		$block = new Block( $post->ID );
 		?>
 		<div class="acb-fields-list">
 			<table class="widefat">
@@ -271,7 +273,7 @@ class Block_Post_Type extends ComponentAbstract {
 
 			<script type="text/html" id="tmpl-field-repeater">
 				<?php
-				$this->render_fields_meta_box_row( new Custom_Field() );
+				$this->render_fields_meta_box_row( new Field() );
 				?>
 			</script>
 		</div>
@@ -282,7 +284,7 @@ class Block_Post_Type extends ComponentAbstract {
 	/**
 	 * Render a single Field as a row.
 	 *
-	 * @param Custom_Field $field
+	 * @param Field $field
 	 * @param mixed $uid
 	 *
 	 * @return void
@@ -494,7 +496,7 @@ class Block_Post_Type extends ComponentAbstract {
 		check_admin_referer( 'acb_save_fields', 'acb_fields_nonce' );
 		check_admin_referer( 'acb_save_properties', 'acb_properties_nonce' );
 
-		$block = new Custom_Block();
+		$block = new Block();
 
 		// Block title
 		$block->name = sanitize_key( $data['post_name'] );
@@ -554,7 +556,7 @@ class Block_Post_Type extends ComponentAbstract {
 					$field_config['control'] = sanitize_text_field( $_POST['acb-fields-control'][ $key ] );
 				}
 
-				$field = new Custom_Field( $field_config );
+				$field = new Field( $field_config );
 				$block->fields[ $name ] = $field;
 			}
 		}

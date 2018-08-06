@@ -2,7 +2,7 @@
 /**
  * Advanced Custom Blocks
  *
- * @package   AdvancedCustomBlocks
+ * @package   Advanced_Custom_Blocks
  * @copyright Copyright(c) 2018, Rheinard Korf
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  *
@@ -66,13 +66,13 @@ require_once __DIR__ . '/php/helpers.php';
 /**
  * Get the plugin object.
  *
- * @return \AdvancedCustomBlocks\PluginInterface
+ * @return \Advanced_Custom_Blocks\Plugin_Abstract
  */
 function advanced_custom_blocks() {
 	static $instance;
 
 	if ( null === $instance ) {
-		$instance = new \AdvancedCustomBlocks\Plugin();
+		$instance = new \Advanced_Custom_Blocks\Plugin();
 	}
 
 	return $instance;
@@ -92,12 +92,12 @@ advanced_custom_blocks()
  * Register plugin components.
  */
 advanced_custom_blocks()
-	->register_component( new \AdvancedCustomBlocks\View\Admin_Menu() )
-	->register_component( new \AdvancedCustomBlocks\PostTypes\Block_Post_Type() )
-	->register_component( new \AdvancedCustomBlocks\Blocks\Loader() )
-	->register_component( new \AdvancedCustomBlocks\Endpoints\Preview() );
+	->register_component( new \Advanced_Custom_Blocks\Views\Admin_Menu() )
+	->register_component( new \Advanced_Custom_Blocks\Post_Types\Block_Post() )
+	->register_component( new \Advanced_Custom_Blocks\Blocks\Loader() )
+	->register_component( new \Advanced_Custom_Blocks\Endpoints\Preview() );
 
 /**
- * Sometimes we need to do some things after the plugin is loaded, so call the PluginInterface::plugin_loaded().
+ * Sometimes we need to do some things after the plugin is loaded, so call the Plugin_Interface::plugin_loaded().
  */
 add_action( 'plugins_loaded', array( advanced_custom_blocks(), 'plugin_loaded' ) );

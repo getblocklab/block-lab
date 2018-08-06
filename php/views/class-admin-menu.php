@@ -2,19 +2,19 @@
 /**
  * Admin Menu.
  *
- * @package   AdvancedCustomBlocks
+ * @package   Advanced_Custom_Blocks
  * @copyright Copyright(c) 2018, Advanced Custom Blocks
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace AdvancedCustomBlocks\View;
+namespace Advanced_Custom_Blocks\Views;
 
-use AdvancedCustomBlocks\ComponentAbstract;
+use Advanced_Custom_Blocks\Component_Abstract;
 
 /**
  * Class AdminMenu
  */
-class Admin_Menu extends ComponentAbstract {
+class Admin_Menu extends Component_Abstract {
 
 	/**
 	 * Register hooks for this view.

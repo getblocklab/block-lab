@@ -54,8 +54,9 @@ function acb_template_part( $slug, $type = 'block' ) {
 		$wp_query = new WP_Query();
 	}
 
-	$types = (array) $type;
-	$located = '';
+	$types         = (array) $type;
+	$located       = '';
+	$template_file = '';
 
 	foreach( $types as $type ) {
 
