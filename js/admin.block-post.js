@@ -8,7 +8,7 @@
 				data = { uid: new Date().getTime() },
 				field = $( template( data ) );
 			$( '.acb-fields-rows' ).append( field );
-			field.find( '.acb-fields-options-edit' ).trigger( 'click' );
+			field.find( '.acb-fields-actions-edit' ).trigger( 'click' );
 		});
 
 		$( '#acb-properties-category' ).on( 'change', function() {
@@ -20,14 +20,14 @@
 		});
 
 		$( '.acb-fields-rows' )
-			.on( 'click', '.acb-fields-options-delete', function() {
+			.on( 'click', '.acb-fields-actions-delete', function() {
 				$( this ).closest( '.acb-fields-row' ).remove();
 			})
-			.on( 'click', '.acb-fields-options-edit, a.row-title', function() {
+			.on( 'click', '.acb-fields-actions-edit, a.row-title', function() {
 				$( this ).closest( '.acb-fields-row' ).toggleClass( 'acb-fields-row-active' );
 				$( this ).closest( '.acb-fields-row' ).find( '.acb-fields-edit' ).slideToggle();
 			})
-			.on( 'click', '.acb-fields-edit-actions-close', function() {
+			.on( 'click', '.acb-fields-edit-actions-close a.button', function() {
 				$( this ).closest( '.acb-fields-row' ).removeClass( 'acb-fields-row-active' );
 				$( this ).closest( '.acb-fields-edit' ).slideUp();
 			})

@@ -57,7 +57,7 @@ class Block {
 	public $fields = array();
 
 	/**
-	 * CustomBlock constructor.
+	 * Block constructor.
 	 *
 	 * @param int|bool $post_id
 	 *
