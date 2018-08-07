@@ -12,6 +12,7 @@ namespace Advanced_Custom_Blocks\Post_Types;
 use Advanced_Custom_Blocks\Component_Abstract;
 use Advanced_Custom_Blocks\Blocks\Block;
 use Advanced_Custom_Blocks\Blocks\Field;
+use Advanced_Custom_Blocks\Blocks\Controls;
 
 /**
  * Class Block
@@ -24,6 +25,13 @@ class Block_Post extends Component_Abstract {
 	 * @var string
 	 */
 	public $slug = 'acb_block';
+
+	/**
+	 * Registered controls.
+	 *
+	 * @var Controls\Control_Abstract[]
+	 */
+	public $controls = array();
 
 	/**
 	 * Register any hooks that this component needs.
@@ -41,6 +49,23 @@ class Block_Post extends Component_Abstract {
 		add_filter( 'disable_months_dropdown', '__return_true', 10, $this->slug );
 		add_filter( 'post_row_actions', array( $this, 'post_row_actions' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'list_tables_style' ) );
+	}
+
+	/**
+	 * Initialise Block posts.
+	 */
+	public function init() {
+		$this->register_controls();
+	}
+
+	/**
+	 * Register the controls.
+	 */
+	public function register_controls() {
+		$this->controls = apply_filters( 'acb_controls', array(
+				'text'     => new Controls\Text(),
+//				'textarea' => new Controls\Textarea()
+		) );
 	}
 
 	/**
@@ -378,14 +403,11 @@ class Block_Post extends Component_Abstract {
 								name="acb-fields-control[]"
 								id="acb-fields-edit-control-input_<?php echo esc_attr( $uid ); ?>"
 								data-sync="acb-fields-control_<?php echo esc_attr( $uid ); ?>" >
-
-								<option value="text" <?php selected( 'text', $field->control ); ?>>
-									<?php esc_html_e( 'Text', 'advanced-custom-blocks' ); ?>
-								</option>
-
-								<option value="textarea" <?php selected( 'textarea', $field->control ); ?>>
-									<?php esc_html_e( 'Text Area', 'advanced-custom-blocks' ); ?>
-								</option>
+								<?php foreach ( $this->controls as $control ) : ?>
+									<option value="<?php echo esc_attr( $control->name ); ?>" <?php selected( 'text', $control->name ); ?>>
+										<?php echo esc_html( $control->label ); ?>
+									</option>
+								<?php endforeach; ?>
 							</select>
 						</td>
 					</tr>
