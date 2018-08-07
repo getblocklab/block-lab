@@ -74,19 +74,20 @@
 	border-bottom: 1px solid #e1e1e1;
 	border-top: 1px solid #e1e1e1;
 }
-#acb_block_fields .acb-fields-rows .acb-fields-row .acb-fields-edit table {
-	background: transparent;
-}
 #acb_block_fields .acb-fields-rows .acb-fields-edit td,
 #acb_block_fields .acb-fields-rows .acb-fields-edit th {
 	padding: 8px 10px;
+	border-bottom: 1px solid #f1f1f1;
 }
 #acb_block_fields .acb-fields-rows .acb-fields-edit td.spacer {
 	width: 4%;
+	background: #f9f9f9;
 }
 #acb_block_fields .acb-fields-rows .acb-fields-edit th {
 	font-size: 12px;
 	width: 32%;
+	border-right: 1px solid #e1e1e1;
+	background: #f9f9f9;
 }
 #acb_block_fields .acb-fields-rows .acb-fields-edit th label {
 	font-weight: 600;
