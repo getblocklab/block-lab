@@ -52,19 +52,19 @@
 	display: block;
 	padding-bottom: 6px;
 }
-#acb_block_fields .acb-fields-actions {
+#acb_block_fields .acb-fields-actions-add-field {
 	padding: 10px;
 	clear: both;
 	border-top: 1px solid #ddd;
 	background: #f5f5f5;
 	text-align: right;
 }
-#acb_block_fields .acb-fields-options {
+#acb_block_fields .acb-fields-actions {
 	font-size: 12px;
 	line-height: 12px;
 	visibility: hidden;
 }
-#acb_block_fields .acb-fields-row:hover .acb-fields-options {
+#acb_block_fields .acb-fields-row:hover .acb-fields-actions {
 	visibility: visible;
 }
 #acb_block_fields .acb-fields-rows .acb-fields-row .acb-fields-edit {

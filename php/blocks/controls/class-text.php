@@ -22,19 +22,32 @@ class Text extends Control_Abstract {
 	public $name = 'text';
 
 	/**
-	 * Control label.
+	 * Text constructor.
 	 *
-	 * @var string
+	 * @return void
 	 */
-	public $label = '';
-
 	public function __construct() {
-		$this->label = __( 'Text', 'advanced-custom-blocks' );
-	}
+		parent::__construct();
 
-	/**
-	 * Output the control options.
-	 */
-	public function render_options() {
+		$this->label = __( 'Text', 'advanced-custom-blocks' );
+
+		$this->options[] = new Option( array(
+			'name'    => 'default',
+			'label'   => __( 'Default Value', 'advanced-custom-blocks' ),
+			'type'    => 'text',
+			'default' => '',
+		) );
+		$this->options[] = new Option( array(
+			'name'    => 'placeholder',
+			'label'   => __( 'Placeholder Text', 'advanced-custom-blocks' ),
+			'type'    => 'text',
+			'default' => '',
+		) );
+		$this->options[] = new Option( array(
+			'name'    => 'limit',
+			'label'   => __( 'Character Limit', 'advanced-custom-blocks' ),
+			'type'    => 'number',
+			'default' => '',
+		) );
 	}
 }

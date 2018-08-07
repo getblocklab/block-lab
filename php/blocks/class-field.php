@@ -50,7 +50,7 @@ class Field {
 	public $order = 0;
 
 	/**
-	 * CustomField constructor.
+	 * Field constructor.
 	 *
 	 * @param array $config
 	 */

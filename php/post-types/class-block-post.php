@@ -53,6 +53,8 @@ class Block_Post extends Component_Abstract {
 
 	/**
 	 * Initialise Block posts.
+	 *
+	 * @return void
 	 */
 	public function init() {
 		$this->register_controls();
@@ -60,6 +62,8 @@ class Block_Post extends Component_Abstract {
 
 	/**
 	 * Register the controls.
+	 *
+	 * @return void
 	 */
 	public function register_controls() {
 		$this->controls = apply_filters( 'acb_controls', array(
@@ -288,7 +292,7 @@ class Block_Post extends Component_Abstract {
 				</tbody>
 			</table>
 		</div>
-		<div class="acb-fields-actions">
+		<div class="acb-fields-actions-add-field">
 			<input
 				name="add-field"
 				type="button"
@@ -328,12 +332,12 @@ class Block_Post extends Component_Abstract {
 				<a class="row-title" href="javascript:" id="acb-fields-label_<?php echo esc_attr( $uid ); ?>">
 					<?php echo esc_html( $field->label ); ?>
 				</a>
-				<div class="acb-fields-options">
-					<a class="acb-fields-options-edit" href="javascript:">
+				<div class="acb-fields-actions">
+					<a class="acb-fields-actions-edit" href="javascript:">
 						<?php esc_html_e( 'Edit', 'advanced-custom-blocks'); ?>
 					</a>
 					&nbsp;|&nbsp;
-					<a class="acb-fields-options-delete" href="javascript:">
+					<a class="acb-fields-actions-delete" href="javascript:">
 						<?php esc_html_e( 'Delete', 'advanced-custom-blocks'); ?>
 					</a>
 				</div>
@@ -411,12 +415,12 @@ class Block_Post extends Component_Abstract {
 							</select>
 						</td>
 					</tr>
-					<tr class="acb-fields-edit-actions">
+					<tr class="acb-fields-edit-actions-close">
 						<td class="spacer"></td>
 						<th scope="row">
 						</th>
 						<td>
-							<a class="button acb-fields-edit-actions-close" title="Close Field" href="javascript:">
+							<a class="button" title="Close Field" href="javascript:">
 								Close Field
 							</a>
 						</td>
