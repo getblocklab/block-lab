@@ -45,7 +45,7 @@ abstract class Control_Abstract {
 			'name'    => 'is_required',
 			'label'   => __( 'Required?', 'advanced-custom-blocks' ),
 			'type'    => 'checkbox',
-			'default' => false,
+			'default' => '0',
 		) );
 	}
 
@@ -73,8 +73,9 @@ abstract class Control_Abstract {
 				</th>
 				<td>
 					<?php
-					if ( method_exists( $this, 'render_control_' . $option->name ) ) {
-						call_user_func( array( $this, 'render_options_' . $option->name, $option, $id ) );
+					$method = 'render_options_' . $option->type;
+					if ( method_exists( $this, $method ) ) {
+						$this->$method( $option, $id );
 					} else {
 						$this->render_options_text( $option, $id );
 					}
@@ -101,6 +102,64 @@ abstract class Control_Abstract {
 			id="<?php echo esc_attr( $id ); ?>"
 			class="regular-text"
 			value="<?php echo esc_attr( $option->get_value() ); ?>" />
+		<?php
+	}
+
+	/**
+	 * Render textarea options
+	 *
+	 * @param Control_Option $option
+	 * @param string $id
+	 *
+	 * @return void
+	 */
+	public function render_options_textarea( $option, $id ) {
+		?>
+		<textarea
+			name="acb-fields-options[<?php echo esc_attr( $option->name ); ?>]"
+			id="<?php echo esc_attr( $id ); ?>"
+			class="large-text">
+		<?php echo esc_attr( $option->get_value() ); ?>
+		</textarea>
+		<?php
+	}
+
+	/**
+	 * Render checkbox options
+	 *
+	 * @param Control_Option $option
+	 * @param string $id
+	 *
+	 * @return void
+	 */
+	public function render_options_checkbox( $option, $id ) {
+		?>
+		<input
+			name="acb-fields-options[<?php echo esc_attr( $option->name ); ?>]"
+			type="checkbox"
+			id="<?php echo esc_attr( $id ); ?>"
+			class=""
+			value="1"
+			<?php checked( '1', $option->get_value() ); ?> />
+		<?php
+	}
+
+	/**
+	 * Render number options
+	 *
+	 * @param Control_Option $option
+	 * @param string $id
+	 *
+	 * @return void
+	 */
+	public function render_options_number( $option, $id ) {
+		?>
+		<input
+				name="acb-fields-options[<?php echo esc_attr( $option->name ); ?>]"
+				type="number"
+				id="<?php echo esc_attr( $id ); ?>"
+				class="regular-text"
+				value="<?php echo esc_attr( $option->get_value() ); ?>" />
 		<?php
 	}
 }
