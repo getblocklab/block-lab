@@ -100,10 +100,20 @@
 			return;
 		}
 
+		let loadingRow = '' +
+			'<tr class="acb-fields-edit-loading">' +
+			'   <td class="spacer"></td>' +
+			'   <th></th>' +
+			'   <td><span class="loading"></span></td>' +
+			'</tr>';
+
 		$( '.acb-fields-edit-options', fieldRow ).remove();
+		$( '.acb-fields-edit-control', fieldRow ).after( $( loadingRow ) );
 
 		wp.ajax.send( 'fetch_field_options', {
 			success: function( data ) {
+				$( '.acb-fields-edit-loading', fieldRow ).remove();
+
 				if ( ! data.hasOwnProperty( 'html' ) ) {
 					return;
 				}
@@ -111,7 +121,7 @@
 				$( '.acb-fields-edit-control', fieldRow ).after( optionsRows );
 			},
 			error: function() {
-
+				$( '.acb-fields-edit-loading', fieldRow ).remove();
 			},
 			data: {
 				control: fieldControl,

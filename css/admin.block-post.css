@@ -42,7 +42,7 @@
 	display: block;
 	width: 15px;
 	height: 15px;
-	font-family: 'Dashicons';
+	font-family: dashicons, monospace;
 	font-size: 15px;
 	line-height: 15px;
 	cursor: grab;
@@ -95,8 +95,19 @@
 #acb_block_fields .acb-fields-rows .acb-fields-edit th .description {
 	margin-bottom: 0;
 }
+#acb_block_fields .acb-fields-rows .acb-fields-edit-loading .loading:before {
+	content: '';
+	box-sizing: border-box;
+	display: block;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	border: 2px solid #e1e1e1;
+	border-top-color: #444;
+	animation: spinner .6s linear infinite;
+}
 #acb_block_properties .inside,
-#acb_block_properties .form-table{
+#acb_block_properties .form-table {
 	padding: 0;
 	margin: 0;
 }
@@ -129,4 +140,10 @@
 }
 #acb_block_template {
 	word-wrap: break-word;
+}
+
+@keyframes spinner {
+	to {
+		transform: rotate( 360deg );
+	}
 }
