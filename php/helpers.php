@@ -145,5 +145,12 @@ function abc_locate_template( $template_names, $path = '', $single = true ) {
 		}
 	}
 
-	return $single ? array_shift( $located ) : array_values( array_unique( $located ) );
+	// Remove duplicates and re-index array.
+	$located = array_values( array_unique( $located ) );
+
+	if ( $single ) {
+		return array_shift( $located );
+	}
+
+	return $located;
 }
