@@ -49,6 +49,9 @@ class Block_Post extends Component_Abstract {
 		add_filter( 'disable_months_dropdown', '__return_true', 10, $this->slug );
 		add_filter( 'post_row_actions', array( $this, 'post_row_actions' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'list_tables_style' ) );
+
+		// AJAX Handlers
+		add_action( 'wp_ajax_fetch_field_options', array( $this, 'ajax_field_options' ) );
 	}
 
 	/**
@@ -67,8 +70,8 @@ class Block_Post extends Component_Abstract {
 	 */
 	public function register_controls() {
 		$this->controls = apply_filters( 'acb_controls', array(
-				'text'     => new Controls\Text(),
-//				'textarea' => new Controls\Textarea()
+			'text'     => new Controls\Text(),
+//			'textarea' => new Controls\Textarea()
 		) );
 	}
 
@@ -134,6 +137,13 @@ class Block_Post extends Component_Abstract {
 					$this->plugin->get_url( 'js/admin.block-post.js' ),
 					array( 'jquery', 'jquery-ui-sortable', 'wp-util', 'wp-blocks' ),
 					filemtime( $this->plugin->get_path( 'js/admin.block-post.js' ) )
+			);
+			wp_localize_script(
+				'block-post',
+				'advancedCustomBlocks',
+				array(
+					'fieldOptionsNonce' => wp_create_nonce( 'acb_field_options_nonce' ),
+				)
 			);
 		}
 	}
@@ -498,6 +508,38 @@ class Block_Post extends Component_Abstract {
 			?>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Render the Block Template meta box.
+	 *
+	 * @param string $control
+	 *
+	 * @return void
+	 */
+	public function render_field_options( $control ) {
+		if ( isset( $this->controls[ $control ] ) ) {
+			$this->controls[ $control ]->render_options();
+		}
+	}
+
+	/**
+	 * Ajax response for fetching field options.
+	 *
+	 * @return void
+	 */
+	public function ajax_field_options() {
+		$field_control = sanitize_key( $_POST['control'] );
+
+		ob_start();
+		$this->render_field_options( $field_control );
+		$data['html'] = ob_get_clean();
+
+		if ( '' === $data['html'] ) {
+			wp_send_json_error();
+		}
+
+		wp_send_json_success( $data );
 	}
 
 	/**

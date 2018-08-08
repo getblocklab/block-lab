@@ -1,4 +1,5 @@
-(function($){
+/* globals wp, advancedCustomBlocks */
+(function( $ ) {
 
 	$(function() {
 		blockCategoryInit();
@@ -26,6 +27,13 @@
 			.on( 'click', '.acb-fields-actions-edit, a.row-title', function() {
 				$( this ).closest( '.acb-fields-row' ).toggleClass( 'acb-fields-row-active' );
 				$( this ).closest( '.acb-fields-row' ).find( '.acb-fields-edit' ).slideToggle();
+
+				// Fetch field options if field is active
+				if ( $( this ).closest( '.acb-fields-row' ).hasClass( 'acb-fields-row-active' ) ) {
+					let fieldRow = $( this ).closest( '.acb-fields-row' ),
+						fieldControl = fieldRow.find( '.acb-fields-edit-control select' ).val();
+					fetchFieldOptions( fieldRow, fieldControl );
+				}
 			})
 			.on( 'click', '.acb-fields-edit-actions-close a.button', function() {
 				$( this ).closest( '.acb-fields-row' ).removeClass( 'acb-fields-row-active' );
@@ -34,6 +42,9 @@
 			.on( 'change keyup', '.acb-fields-edit input, .acb-fields-edit select', function() {
 				let sync = $( this ).data( 'sync' );
 				$( '#' + sync ).text( $( this ).val() );
+			})
+			.on( 'change', '.acb-fields-edit-control select', function() {
+				fetchFieldOptions( $( this ).val() );
 			})
 			.on( 'change keyup', '.acb-fields-edit-label input', function() {
 				let slug = slugify( $( this ).val() );
@@ -82,6 +93,31 @@
 			$( '#acb-properties-category' ).prop( 'selectedIndex', 0 );
 			category.hide();
 		}
+	};
+
+	let fetchFieldOptions = function( fieldRow, fieldControl ) {
+		if ( ! advancedCustomBlocks.hasOwnProperty( 'fieldOptionsNonce' ) ) {
+			return;
+		}
+
+		$( '.acb-fields-edit-options', fieldRow ).remove();
+
+		wp.ajax.send( 'fetch_field_options', {
+			success: function( data ) {
+				if ( ! data.hasOwnProperty( 'html' ) ) {
+					return;
+				}
+				let optionsRows = $( data.html );
+				$( '.acb-fields-edit-control', fieldRow ).after( optionsRows );
+			},
+			error: function() {
+
+			},
+			data: {
+				control: fieldControl,
+				nonce: advancedCustomBlocks.fieldOptionsNonce
+			}
+		});
 	};
 
 	let slugify = function( text ) {
