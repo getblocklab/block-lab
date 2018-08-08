@@ -44,7 +44,8 @@
 				$( '#' + sync ).text( $( this ).val() );
 			})
 			.on( 'change', '.acb-fields-edit-control select', function() {
-				fetchFieldOptions( $( this ).val() );
+				let fieldRow = $( this ).closest( '.acb-fields-row' );
+				fetchFieldOptions( fieldRow, $( this ).val() );
 			})
 			.on( 'change keyup', '.acb-fields-edit-label input', function() {
 				let slug = slugify( $( this ).val() );

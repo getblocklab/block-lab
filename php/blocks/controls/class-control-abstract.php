@@ -31,7 +31,7 @@ abstract class Control_Abstract {
 	/**
 	 * Control options.
 	 *
-	 * @var Option[]
+	 * @var Control_Option[]
 	 */
 	public $options = array();
 
@@ -41,7 +41,7 @@ abstract class Control_Abstract {
 	 * @return void
 	 */
 	public function __construct() {
-		$this->options[] = new Option( array(
+		$this->options[] = new Control_Option( array(
 			'name'    => 'is_required',
 			'label'   => __( 'Required?', 'advanced-custom-blocks' ),
 			'type'    => 'checkbox',
@@ -88,7 +88,7 @@ abstract class Control_Abstract {
 	/**
 	 * Render text options
 	 *
-	 * @param Option $option
+	 * @param Control_Option $option
 	 * @param string $id
 	 *
 	 * @return void

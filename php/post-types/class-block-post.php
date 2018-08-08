@@ -71,7 +71,7 @@ class Block_Post extends Component_Abstract {
 	public function register_controls() {
 		$this->controls = apply_filters( 'acb_controls', array(
 			'text'     => new Controls\Text(),
-//			'textarea' => new Controls\Textarea()
+			'textarea' => new Controls\Textarea()
 		) );
 	}
 
