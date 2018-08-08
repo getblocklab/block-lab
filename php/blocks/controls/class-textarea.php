@@ -12,24 +12,24 @@ namespace Advanced_Custom_Blocks\Blocks\Controls;
 /**
  * Class Text
  */
-class Text extends Control_Abstract {
+class Textarea extends Control_Abstract {
 
 	/**
 	 * Control name.
 	 *
 	 * @var string
 	 */
-	public $name = 'text';
+	public $name = 'textarea';
 
 	/**
-	 * Text constructor.
+	 * Textarea constructor.
 	 *
 	 * @return void
 	 */
 	public function __construct() {
 		parent::__construct();
 
-		$this->label = __( 'Text', 'advanced-custom-blocks' );
+		$this->label = __( 'Textarea', 'advanced-custom-blocks' );
 
 		$this->options[] = new Control_Option( array(
 			'name'    => 'default',

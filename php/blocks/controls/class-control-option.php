@@ -12,7 +12,7 @@ namespace Advanced_Custom_Blocks\Blocks\Controls;
 /**
  * Class Option
  */
-class Option {
+class Control_Option {
 
 	/**
 	 * Option name (slug).
