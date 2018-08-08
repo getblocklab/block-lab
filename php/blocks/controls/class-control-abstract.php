@@ -52,11 +52,10 @@ abstract class Control_Abstract {
 	/**
 	 * Render additional options in table rows.
 	 *
-	 * @param string $uid
-	 *
 	 * @return void
 	 */
-	public function render_options( $uid ) {
+	public function render_options() {
+		$uid = uniqid();
 		foreach ( $this->options as $option ) {
 			$classes = array(
 				'acb-fields-edit-options-' . $this->name . '-' . $option->name,
