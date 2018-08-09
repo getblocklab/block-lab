@@ -5,7 +5,17 @@ const ACBToggleControl = (props, field, block) => {
 	const { setAttributes } = props
 	const attr = { ...props.attributes }
 	return (
-		<div>ToggleControl</div>
+		<ToggleControl
+			label={field.label}
+			checked={attr[ field.name ]}
+			onChange={ toggleControl => {
+				attr[ field.name ] = toggleControl
+				setAttributes( attr )
+			} }
+			onBlur={
+				updatePreview( props, block )
+			}
+		/>
 	)
 }
 
