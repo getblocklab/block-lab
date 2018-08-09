@@ -42,10 +42,16 @@ abstract class Control_Abstract {
 	 */
 	public function __construct() {
 		$this->options[] = new Control_Option( array(
-			'name'    => 'is_required',
-			'label'   => __( 'Required?', 'advanced-custom-blocks' ),
-			'type'    => 'checkbox',
-			'default' => '0',
+			'name'    => 'default',
+			'label'   => __( 'Default Value', 'advanced-custom-blocks' ),
+			'type'    => 'text',
+			'default' => '',
+		) );
+		$this->options[] = new Control_Option( array(
+			'name'    => 'help',
+			'label'   => __( 'Field instructions', 'advanced-custom-blocks' ),
+			'type'    => 'textarea',
+			'default' => '',
 		) );
 	}
 
@@ -118,9 +124,7 @@ abstract class Control_Abstract {
 		<textarea
 			name="acb-fields-options[<?php echo esc_attr( $option->name ); ?>]"
 			id="<?php echo esc_attr( $id ); ?>"
-			class="large-text">
-		<?php echo esc_attr( $option->get_value() ); ?>
-		</textarea>
+			class="large-text"><?php echo esc_attr( $option->get_value() ); ?></textarea>
 		<?php
 	}
 
@@ -159,6 +163,7 @@ abstract class Control_Abstract {
 				type="number"
 				id="<?php echo esc_attr( $id ); ?>"
 				class="regular-text"
+				min="0"
 				value="<?php echo esc_attr( $option->get_value() ); ?>" />
 		<?php
 	}
