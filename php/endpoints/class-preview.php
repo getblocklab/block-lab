@@ -60,8 +60,11 @@ class Preview extends Component_Abstract {
 				case 'textarea':
 					$value = '<' . wp_json_encode( $field['name'] ) . '>';
 					break;
+//				case 'toggle':
+//					$value = '<' . wp_json_encode( $field['name'] ) . '>';
+//					break;
 				default:
-					$value = 'undefined';
+					$value = '<' . wp_json_encode( $field['name'] ) . '>';
 					break;
 			}
 
