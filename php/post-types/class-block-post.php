@@ -394,7 +394,7 @@ class Block_Post extends Component_Abstract {
 						<th scope="row">
 						</th>
 						<td>
-							<a class="button acb-fields-edit-actions-close" title="<?php esc_html_e( 'Close Field', 'advanced-custom-blocks' ); ?>" href="javascript:">
+							<a class="button acb-fields-edit-actions-close" title="<?php esc_attr_e( 'Close Field', 'advanced-custom-blocks' ); ?>" href="javascript:">
 								<?php esc_html_e( 'Close Field', 'advanced-custom-blocks' ); ?>
 							</a>
 						</td>
