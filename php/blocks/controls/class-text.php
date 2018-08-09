@@ -32,10 +32,10 @@ class Text extends Control_Abstract {
 		$this->label = __( 'Text', 'advanced-custom-blocks' );
 
 		$this->options[] = new Control_Option( array(
-			'name'    => 'default',
-			'label'   => __( 'Default Value', 'advanced-custom-blocks' ),
-			'type'    => 'text',
-			'default' => '',
+			'name'    => 'required',
+			'label'   => __( 'Required?', 'advanced-custom-blocks' ),
+			'type'    => 'checkbox',
+			'default' => false,
 		) );
 		$this->options[] = new Control_Option( array(
 			'name'    => 'placeholder',
@@ -44,7 +44,7 @@ class Text extends Control_Abstract {
 			'default' => '',
 		) );
 		$this->options[] = new Control_Option( array(
-			'name'    => 'limit',
+			'name'    => 'maxlength',
 			'label'   => __( 'Character Limit', 'advanced-custom-blocks' ),
 			'type'    => 'number',
 			'default' => '',
