@@ -76,6 +76,9 @@ class Text extends Control_Abstract {
 			'type'    => 'number',
 			'default' => '',
 			'sanitize' => function( $value ) {
+				if ( empty( $value ) ) {
+					return null;
+				}
 				return (int) filter_var( $value, FILTER_SANITIZE_NUMBER_INT );
 			}
 		) );
