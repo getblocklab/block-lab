@@ -9,7 +9,7 @@ const ACBTextareaControl = ( props, field, block ) => {
 		<TextareaControl
 			label={field.label}
 			placeholder={field.placeholder || ''}
-			maxlength={field.maxlength}
+			maxLength={field.maxlength}
 			help={field.help}
 			required={field.required || false}
 			value={attr[ field.name ] || field.default}

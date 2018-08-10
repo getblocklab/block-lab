@@ -9,7 +9,7 @@ const { RichText } = wp.editor;
 
 const formControls = ( props, block ) => {
 
-	const fields = simplifiedFields( block.fields ).map( field => {
+	const fields = simplifiedFields( block.fields ).map( (field, index) => {
 
 		// If its not meant for the inspector then continue (return null).
 		if ( !field.location || !field.location.includes( 'editor' ) ) {
@@ -20,14 +20,14 @@ const formControls = ( props, block ) => {
 		const control = typeof controlFunction !== 'undefined' ? controlFunction( props, field, block ) : null;
 
 		return (
-			<div>
+			<div key={field.name + "-" + index}>
 				{control}
 			</div>
 		)
 	} )
 
 	return (
-		<div>
+		<div key={ block.name + "-fields" }>
 			{fields}
 		</div>
 	)
@@ -55,7 +55,7 @@ const editComponent = ( props, block ) => {
 	return [
 		inspectorControls( props, block ),
 		(
-			<div className={className}>
+			<div className={className} key={"form-controls-" + block.name}>
 				{isSelected ? (
 					<div className="block-form">
 						<h3>{icons.logo} {block.title}</h3>
