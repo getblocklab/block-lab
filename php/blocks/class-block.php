@@ -9,8 +9,6 @@
 
 namespace Advanced_Custom_Blocks\Blocks;
 
-use Advanced_Custom_Blocks\Blocks\Controls\Control_Option;
-
 /**
  * Class Block
  */
