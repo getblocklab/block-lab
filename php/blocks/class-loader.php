@@ -178,7 +178,7 @@ class Loader extends Component_Abstract {
 	}
 
 	/**
-	 * Load all the published blocks.
+	 * Load all the published blocks and blocks/block.json files.
 	 */
 	public function retrieve_blocks() {
 
@@ -186,6 +186,20 @@ class Loader extends Component_Abstract {
 
 		$this->blocks = '';
 		$blocks       = [];
+
+		// Retrieve blocks from blocks.json.
+		// Reverse to preserve order of preference when using array_merge.
+		$blocks_files = array_reverse( (array) abc_locate_template( 'blocks/blocks.json', '', false ) );
+		foreach ( $blocks_files as $blocks_file ) {
+			// This is expected to be on the local filesystem, so file_get_contents() is ok to use here.
+			$json = file_get_contents( $blocks_file );
+			$block_data = json_decode( $json, true );
+
+			// Merge if no json_decode error occurred.
+			if ( json_last_error() == JSON_ERROR_NONE ) {
+				$blocks = array_merge( $blocks, $block_data );
+			}
+		}
 
 		$block_posts = new \WP_Query( [
 			'post_type'      => $slug,

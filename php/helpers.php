@@ -28,7 +28,7 @@ function acb_field( $key, $echo = true ) {
 /**
  * Convenience method to return the value of an ACB block field.
  *
- * @param string $key  The name of the field as created in the UI.
+ * @param string $key The name of the field as created in the UI.
  *
  * @uses acb_field()
  *
@@ -48,7 +48,7 @@ function acb_template_part( $slug, $type = 'block' ) {
 
 	// Loading async it might not come from a query, this breaks load_template();
 	global $wp_query;
-	
+
 	// So lets fix it.
 	if ( empty( $wp_query ) ) {
 		$wp_query = new WP_Query();
@@ -58,15 +58,15 @@ function acb_template_part( $slug, $type = 'block' ) {
 	$located       = '';
 	$template_file = '';
 
-	foreach( $types as $type ) {
+	foreach ( $types as $type ) {
 
 		if ( ! empty( $located ) ) {
 			continue;
 		}
 
 		$template_file = "blocks/{$type}-{$slug}.php";
-		$generic_file = "blocks/{$type}.php";
-		$templates = [
+		$generic_file  = "blocks/{$type}.php";
+		$templates     = [
 			$generic_file,
 			$template_file,
 		];
@@ -74,7 +74,7 @@ function acb_template_part( $slug, $type = 'block' ) {
 		$located = abc_locate_template( $templates );
 	}
 
-	if ( ! empty( $located) ) {
+	if ( ! empty( $located ) ) {
 		$theme_template = apply_filters( 'acb_override_theme_template', $located );
 
 		// This is not a load once template, so require_once is false.
@@ -96,36 +96,60 @@ function acb_template_part( $slug, $type = 'block' ) {
  * and allows to be called when STYLESHEET_PATH has not been set yet. Handy for async.
  *
  * @param string|array $template_names Templates to locate.
- * @param string       $path (Optional) Path to located the templates first.
+ * @param string       $path           (Optional) Path to located the templates first.
+ * @param bool         $single         `true` - Returns only the first found item. Like standard `locate_template`
+ *                                     `false` - Returns all found templates.
  *
- * @return string
+ * @return string|array
  */
-function abc_locate_template( $template_names, $path = '' ) {
+function abc_locate_template( $template_names, $path = '', $single = true ) {
 
-	$path  = apply_filters( 'acb_template_path', $path );
+	$path            = apply_filters( 'acb_template_path', $path );
 	$stylesheet_path = get_template_directory();
 	$template_path   = get_stylesheet_directory();
 
-	$located = '';
+	$located = [];
 
 	foreach ( (array) $template_names as $template_name ) {
 
-		if ( !$template_name ) {
+		if ( ! $template_name ) {
 			continue;
 		}
 
 		if ( ! empty( $path ) && file_exists( $path . '/' . $template_name ) ) {
-			$located = $path . '/' . $template_name;
-		} elseif ( file_exists($stylesheet_path . '/' . $template_name)) {
-			$located = $stylesheet_path . '/' . $template_name;
-			break;
-		} elseif ( file_exists($template_path . '/' . $template_name) ) {
-			$located = $template_path . '/' . $template_name;
-			break;
-		} elseif ( file_exists( ABSPATH . WPINC . '/theme-compat/' . $template_name ) ) {
-			$located = ABSPATH . WPINC . '/theme-compat/' . $template_name;
-			break;
+			$located[] = $path . '/' . $template_name;
+			if ( $single ) {
+				break;
+			}
 		}
+
+		if ( file_exists( $stylesheet_path . '/' . $template_name ) ) {
+			$located[] = $stylesheet_path . '/' . $template_name;
+			if ( $single ) {
+				break;
+			}
+		}
+
+		if ( file_exists( $template_path . '/' . $template_name ) ) {
+			$located[] = $template_path . '/' . $template_name;
+			if ( $single ) {
+				break;
+			}
+		}
+
+		if ( file_exists( ABSPATH . WPINC . '/theme-compat/' . $template_name ) ) {
+			$located[] = ABSPATH . WPINC . '/theme-compat/' . $template_name;
+			if ( $single ) {
+				break;
+			}
+		}
+	}
+
+	// Remove duplicates and re-index array.
+	$located = array_values( array_unique( $located ) );
+
+	if ( $single ) {
+		return array_shift( $located );
 	}
 
 	return $located;

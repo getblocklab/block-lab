@@ -86,7 +86,7 @@ class Block_Post extends Component_Abstract {
 			'singular_name'      => _x( 'Custom Block', 'post type singular name', 'advanced-custom-blocks' ),
 			'menu_name'          => _x( 'Custom Blocks', 'admin menu', 'advanced-custom-blocks' ),
 			'name_admin_bar'     => _x( 'Custom Block', 'add new on admin bar', 'advanced-custom-blocks' ),
-			'add_new'            => _x( 'Add New', 'book', 'advanced-custom-blocks' ),
+			'add_new'            => _x( 'Add New', 'block', 'advanced-custom-blocks' ),
 			'add_new_item'       => __( 'Add New Custom Block', 'advanced-custom-blocks' ),
 			'new_item'           => __( 'New Custom Block', 'advanced-custom-blocks' ),
 			'edit_item'          => __( 'Edit Custom Block', 'advanced-custom-blocks' ),
@@ -433,8 +433,8 @@ class Block_Post extends Component_Abstract {
 						<th scope="row">
 						</th>
 						<td>
-							<a class="button" title="Close Field" href="javascript:">
-								Close Field
+							<a class="button" title="<?php esc_attr_e( 'Close Field', 'advanced-custom-blocks' ); ?>" href="javascript:">
+								<?php esc_html_e( 'Close Field', 'advanced-custom-blocks' ); ?>
 							</a>
 						</td>
 					</tr>
