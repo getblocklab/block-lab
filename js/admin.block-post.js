@@ -28,11 +28,13 @@
 				$( this ).closest( '.acb-fields-row' ).toggleClass( 'acb-fields-row-active' );
 				$( this ).closest( '.acb-fields-row' ).find( '.acb-fields-edit' ).slideToggle();
 
-				// Fetch field options if field is active
+				// Fetch field options if field is active and there are no options
 				if ( $( this ).closest( '.acb-fields-row' ).hasClass( 'acb-fields-row-active' ) ) {
-					let fieldRow = $( this ).closest( '.acb-fields-row' ),
-						fieldControl = fieldRow.find( '.acb-fields-edit-control select' ).val();
-					fetchFieldOptions( fieldRow, fieldControl );
+					if ( 0 === $( this ).closest( '.acb-fields-row' ).find( '.acb-fields-edit-options' ).length ) {
+						let fieldRow = $( this ).closest( '.acb-fields-row' ),
+							fieldControl = fieldRow.find( '.acb-fields-edit-control select' ).val();
+						fetchFieldOptions( fieldRow, fieldControl );
+					}
 				}
 			})
 			.on( 'click', '.acb-fields-edit-actions-close a.button', function() {
@@ -126,7 +128,8 @@
 			},
 			data: {
 				control: fieldControl,
-				nonce: advancedCustomBlocks.fieldOptionsNonce
+				uid:     fieldRow.data( 'uid' ),
+				nonce:   advancedCustomBlocks.fieldOptionsNonce
 			}
 		});
 	};

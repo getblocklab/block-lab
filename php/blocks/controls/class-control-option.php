@@ -43,6 +43,13 @@ class Control_Option {
 	public $default = '';
 
 	/**
+	 * Sanitizing function.
+	 *
+	 * @var mixed
+	 */
+	public $sanitize = '';
+
+	/**
 	 * Current value. Null for unset.
 	 *
 	 * @var mixed
@@ -68,6 +75,9 @@ class Control_Option {
 		}
 		if ( isset ( $args['default'] ) ) {
 			$this->default = $args['default'];
+		}
+		if ( isset ( $args['sanitize'] ) ) {
+			$this->sanitize = $args['sanitize'];
 		}
 		if ( isset ( $args['value'] ) ) {
 			$this->value = $args['value'];

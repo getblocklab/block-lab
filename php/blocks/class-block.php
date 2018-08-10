@@ -9,6 +9,8 @@
 
 namespace Advanced_Custom_Blocks\Blocks;
 
+use Advanced_Custom_Blocks\Blocks\Controls\Control_Option;
+
 /**
  * Class Block
  */
@@ -52,7 +54,7 @@ class Block {
 	/**
 	 * Block fields.
 	 *
-	 * @var array
+	 * @var Field[]
 	 */
 	public $fields = array();
 
@@ -115,6 +117,11 @@ class Block {
 
 		if ( isset( $config['fields'] ) ) {
 			foreach( $config['fields'] as $field ) {
+				$field_defaults = array( 'name', 'label', 'control', 'location', 'order' );
+				$field_options  = array_diff( array_keys( $field ), $field_defaults );
+				foreach ( $field_options as $option ) {
+					$field['options'][ $option ] = $field[ $option ];
+				}
 				$this->fields[] = new Field( $field );
 			}
 		}
@@ -126,6 +133,24 @@ class Block {
 	 * @return string
 	 */
 	public function to_json() {
-		return wp_json_encode( array( 'advanced-custom-blocks/' . $this->name => $this ) );
+		$config['name']        = $this->name;
+		$config['title']       = $this->title;
+		$config['category']    = $this->category;
+		$config['description'] = $this->description;
+		$config['keywords']    = $this->keywords;
+
+		foreach ( $this->fields as $key => $field ) {
+			$config['fields'][ $key ]['name']     = $field->name;
+			$config['fields'][ $key ]['label']    = $field->label;
+			$config['fields'][ $key ]['control']  = $field->control;
+			$config['fields'][ $key ]['location'] = $field->location;
+			$config['fields'][ $key ]['order']    = $field->order;
+
+			foreach( $field->options as $option => $value ) {
+				$config['fields'][ $key ][ $option ] = $value;
+			}
+		}
+
+		return wp_json_encode( array( 'advanced-custom-blocks/' . $this->name => $config ) );
 	}
 }

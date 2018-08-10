@@ -334,7 +334,7 @@ class Block_Post extends Component_Abstract {
 			$uid = '{{ data.uid }}';
 		}
 		?>
-		<div class="acb-fields-row">
+		<div class="acb-fields-row" data-uid="<?php echo esc_attr( $uid ); ?>">
 			<div class="acb-fields-sort">
 				<span class="acb-fields-sort-handle"></span>
 			</div>
@@ -377,7 +377,7 @@ class Block_Post extends Component_Abstract {
 						</th>
 						<td>
 							<input
-								name="acb-fields-label[]"
+								name="acb-fields-label[<?php echo esc_attr( $uid ); ?>]"
 								type="text"
 								id="acb-fields-edit-label-input_<?php echo esc_attr( $uid ); ?>"
 								class="regular-text"
@@ -397,7 +397,7 @@ class Block_Post extends Component_Abstract {
 						</th>
 						<td>
 							<input
-								name="acb-fields-name[]"
+								name="acb-fields-name[<?php echo esc_attr( $uid ); ?>]"
 								type="text"
 								id="acb-fields-edit-name-input_<?php echo esc_attr( $uid ); ?>"
 								class="regular-text"
@@ -414,17 +414,20 @@ class Block_Post extends Component_Abstract {
 						</th>
 						<td>
 							<select
-								name="acb-fields-control[]"
+								name="acb-fields-control[<?php echo esc_attr( $uid ); ?>]"
 								id="acb-fields-edit-control-input_<?php echo esc_attr( $uid ); ?>"
 								data-sync="acb-fields-control_<?php echo esc_attr( $uid ); ?>" >
 								<?php foreach ( $this->controls as $control ) : ?>
-									<option value="<?php echo esc_attr( $control->name ); ?>" <?php selected( 'text', $control->name ); ?>>
+									<option
+										value="<?php echo esc_attr( $control->name ); ?>"
+										<?php selected( $field->control, $control->name ); ?>>
 										<?php echo esc_html( $control->label ); ?>
 									</option>
 								<?php endforeach; ?>
 							</select>
 						</td>
 					</tr>
+					<?php $this->render_field_options( $field, $uid ); ?>
 					<tr class="acb-fields-edit-actions-close">
 						<td class="spacer"></td>
 						<th scope="row">
@@ -513,13 +516,14 @@ class Block_Post extends Component_Abstract {
 	/**
 	 * Render the Block Template meta box.
 	 *
-	 * @param string $control
+	 * @param Field $field
+	 * @param string $uid
 	 *
 	 * @return void
 	 */
-	public function render_field_options( $control ) {
-		if ( isset( $this->controls[ $control ] ) ) {
-			$this->controls[ $control ]->render_options();
+	public function render_field_options( $field, $uid ) {
+		if ( isset( $this->controls[ $field->control ] ) ) {
+			$this->controls[ $field->control ]->render_options( $field, $uid );
 		}
 	}
 
@@ -529,10 +533,12 @@ class Block_Post extends Component_Abstract {
 	 * @return void
 	 */
 	public function ajax_field_options() {
-		$field_control = sanitize_key( $_POST['control'] );
+		$control = sanitize_key( $_POST['control'] );
+		$uid     = sanitize_key( $_POST['uid'] );
 
 		ob_start();
-		$this->render_field_options( $field_control );
+		$field = new Field( array( 'control' => $control ) );
+		$this->render_field_options( $field, $uid );
 		$data['html'] = ob_get_clean();
 
 		if ( '' === $data['html'] ) {
@@ -566,7 +572,7 @@ class Block_Post extends Component_Abstract {
 
 		$block = new Block();
 
-		// Block title
+		// Block name
 		$block->name = sanitize_key( $data['post_name'] );
 		if ( '' === $block->name ) {
 			$block->name = $post_id;
@@ -607,11 +613,12 @@ class Block_Post extends Component_Abstract {
 
 		// Block fields
 		if ( isset( $_POST['acb-fields-name'] ) && is_array( $_POST['acb-fields-name'] ) ) {
+			$order = 0;
 			foreach ( $_POST['acb-fields-name'] as $key => $name ) {
 				// Field name and order
 				$field_config = array(
 					'name'     => sanitize_key( $name ),
-					'order'    => sanitize_key( $key ),
+					'order'    => $order,
 				);
 
 				// Field label
@@ -624,8 +631,24 @@ class Block_Post extends Component_Abstract {
 					$field_config['control'] = sanitize_text_field( $_POST['acb-fields-control'][ $key ] );
 				}
 
+				// Field options
+				if ( isset( $this->controls[ $field_config['control'] ] ) ) {
+					$control = $this->controls[ $field_config['control'] ];
+					foreach( $control->options as $option ) {
+						if ( isset( $_POST['acb-fields-options'][ $key ][ $option->name ] ) ) {
+							if ( is_callable( $option->sanitize ) ) {
+								$field_config['options'][ $option->name ] = call_user_func(
+									$option->sanitize,
+									$_POST['acb-fields-options'][ $key ][ $option->name ]
+								);
+							}
+						}
+					}
+				}
+
 				$field = new Field( $field_config );
 				$block->fields[ $name ] = $field;
+				$order++;
 			}
 		}
 
