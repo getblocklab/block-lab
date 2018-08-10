@@ -10,7 +10,7 @@ const ACBTextControl = ( props, field, block ) => {
 			label={field.label}
 			required={field.required || false}
 			placeholder={field.placeholder || ''}
-			maxlength={field.maxlength}
+			maxLength={field.maxlength}
 			help={field.help}
 			value={attr[ field.name ] || field.default}
 			onChange={textControl => {
