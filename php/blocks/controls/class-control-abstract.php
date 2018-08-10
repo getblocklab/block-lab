@@ -65,6 +65,8 @@ abstract class Control_Abstract {
 		foreach ( $this->options as $option ) {
 			if ( isset( $field->options[ $option->name ] ) ) {
 				$option->value = $field->options[ $option->name ];
+			} else {
+				$option->value = $option->default;
 			}
 
 			$classes = array(
