@@ -50,7 +50,14 @@ class Field {
 	public $order = 0;
 
 	/**
-	 * CustomField constructor.
+	 * Field options.
+	 *
+	 * @var array
+	 */
+	public $options = array();
+
+	/**
+	 * Field constructor.
 	 *
 	 * @param array $config
 	 */
@@ -69,6 +76,9 @@ class Field {
 		}
 		if ( isset( $config['order'] ) ) {
 			$this->order = $config['order'];
+		}
+		if ( isset( $config['options'] ) ) {
+			$this->options = $config['options'];
 		}
 	}
 }
