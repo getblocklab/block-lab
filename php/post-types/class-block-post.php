@@ -209,11 +209,11 @@ class Block_Post extends Component_Abstract {
 					<p>
 						<input
 							name="acb-properties-category-custom"
-							title="<?php esc_html_e( 'Custom Category', 'advanced-custom-blocks' ); ?>"
+							title="<?php esc_attr_e( 'Custom Category', 'advanced-custom-blocks' ); ?>"
 							type="text"
 							id="acb-properties-category-custom"
-							value="<?php echo esc_html( $block->category ); ?>"
-							placeholder="<?php esc_html_e( 'Category Name', 'advanced-custom-blocks' ); ?>"
+							value="<?php echo esc_attr( $block->category ); ?>"
+							placeholder="<?php esc_attr_e( 'Category Name', 'advanced-custom-blocks' ); ?>"
 							class="regular-text hidden">
 					</p>
 				</td>
