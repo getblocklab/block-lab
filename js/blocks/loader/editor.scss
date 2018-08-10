@@ -36,5 +36,15 @@ div[class^="wp-block-advanced-custom-blocks-"] {
     p {
       font-size: 1rem;
     }
+
+    :required:invalid {
+      border-color: #C00000;
+    }
+
+    .components-base-control__help {
+      margin: 0 0 1em 0.5em;
+      font-size: 1em;
+      color: rgba(0, 0, 0, 0.8);
+    }
   }
 }
