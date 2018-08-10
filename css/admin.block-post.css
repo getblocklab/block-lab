@@ -42,7 +42,7 @@
 	display: block;
 	width: 15px;
 	height: 15px;
-	font-family: 'Dashicons';
+	font-family: dashicons, monospace;
 	font-size: 15px;
 	line-height: 15px;
 	cursor: grab;
@@ -52,19 +52,19 @@
 	display: block;
 	padding-bottom: 6px;
 }
-#acb_block_fields .acb-fields-actions {
+#acb_block_fields .acb-fields-actions-add-field {
 	padding: 10px;
 	clear: both;
 	border-top: 1px solid #ddd;
 	background: #f5f5f5;
 	text-align: right;
 }
-#acb_block_fields .acb-fields-options {
+#acb_block_fields .acb-fields-actions {
 	font-size: 12px;
 	line-height: 12px;
 	visibility: hidden;
 }
-#acb_block_fields .acb-fields-row:hover .acb-fields-options {
+#acb_block_fields .acb-fields-row:hover .acb-fields-actions {
 	visibility: visible;
 }
 #acb_block_fields .acb-fields-rows .acb-fields-row .acb-fields-edit {
@@ -74,19 +74,20 @@
 	border-bottom: 1px solid #e1e1e1;
 	border-top: 1px solid #e1e1e1;
 }
-#acb_block_fields .acb-fields-rows .acb-fields-row .acb-fields-edit table {
-	background: transparent;
-}
 #acb_block_fields .acb-fields-rows .acb-fields-edit td,
 #acb_block_fields .acb-fields-rows .acb-fields-edit th {
 	padding: 8px 10px;
+	border-bottom: 1px solid #f1f1f1;
 }
 #acb_block_fields .acb-fields-rows .acb-fields-edit td.spacer {
 	width: 4%;
+	background: #f9f9f9;
 }
 #acb_block_fields .acb-fields-rows .acb-fields-edit th {
 	font-size: 12px;
 	width: 32%;
+	border-right: 1px solid #e1e1e1;
+	background: #f9f9f9;
 }
 #acb_block_fields .acb-fields-rows .acb-fields-edit th label {
 	font-weight: 600;
@@ -94,8 +95,19 @@
 #acb_block_fields .acb-fields-rows .acb-fields-edit th .description {
 	margin-bottom: 0;
 }
+#acb_block_fields .acb-fields-rows .acb-fields-edit-loading .loading:before {
+	content: '';
+	box-sizing: border-box;
+	display: block;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	border: 2px solid #e1e1e1;
+	border-top-color: #444;
+	animation: spinner .6s linear infinite;
+}
 #acb_block_properties .inside,
-#acb_block_properties .form-table{
+#acb_block_properties .form-table {
 	padding: 0;
 	margin: 0;
 }
@@ -128,4 +140,10 @@
 }
 #acb_block_template {
 	word-wrap: break-word;
+}
+
+@keyframes spinner {
+	to {
+		transform: rotate( 360deg );
+	}
 }

@@ -12,6 +12,7 @@ namespace Advanced_Custom_Blocks\Post_Types;
 use Advanced_Custom_Blocks\Component_Abstract;
 use Advanced_Custom_Blocks\Blocks\Block;
 use Advanced_Custom_Blocks\Blocks\Field;
+use Advanced_Custom_Blocks\Blocks\Controls;
 
 /**
  * Class Block
@@ -24,6 +25,13 @@ class Block_Post extends Component_Abstract {
 	 * @var string
 	 */
 	public $slug = 'acb_block';
+
+	/**
+	 * Registered controls.
+	 *
+	 * @var Controls\Control_Abstract[]
+	 */
+	public $controls = array();
 
 	/**
 	 * Register any hooks that this component needs.
@@ -41,6 +49,30 @@ class Block_Post extends Component_Abstract {
 		add_filter( 'disable_months_dropdown', '__return_true', 10, $this->slug );
 		add_filter( 'post_row_actions', array( $this, 'post_row_actions' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'list_tables_style' ) );
+
+		// AJAX Handlers
+		add_action( 'wp_ajax_fetch_field_options', array( $this, 'ajax_field_options' ) );
+	}
+
+	/**
+	 * Initialise Block posts.
+	 *
+	 * @return void
+	 */
+	public function init() {
+		$this->register_controls();
+	}
+
+	/**
+	 * Register the controls.
+	 *
+	 * @return void
+	 */
+	public function register_controls() {
+		$this->controls = apply_filters( 'acb_controls', array(
+			'text'     => new Controls\Text(),
+			'textarea' => new Controls\Textarea()
+		) );
 	}
 
 	/**
@@ -105,6 +137,13 @@ class Block_Post extends Component_Abstract {
 					$this->plugin->get_url( 'js/admin.block-post.js' ),
 					array( 'jquery', 'jquery-ui-sortable', 'wp-util', 'wp-blocks' ),
 					filemtime( $this->plugin->get_path( 'js/admin.block-post.js' ) )
+			);
+			wp_localize_script(
+				'block-post',
+				'advancedCustomBlocks',
+				array(
+					'fieldOptionsNonce' => wp_create_nonce( 'acb_field_options_nonce' ),
+				)
 			);
 		}
 	}
@@ -263,7 +302,7 @@ class Block_Post extends Component_Abstract {
 				</tbody>
 			</table>
 		</div>
-		<div class="acb-fields-actions">
+		<div class="acb-fields-actions-add-field">
 			<input
 				name="add-field"
 				type="button"
@@ -295,7 +334,7 @@ class Block_Post extends Component_Abstract {
 			$uid = '{{ data.uid }}';
 		}
 		?>
-		<div class="acb-fields-row">
+		<div class="acb-fields-row" data-uid="<?php echo esc_attr( $uid ); ?>">
 			<div class="acb-fields-sort">
 				<span class="acb-fields-sort-handle"></span>
 			</div>
@@ -303,12 +342,12 @@ class Block_Post extends Component_Abstract {
 				<a class="row-title" href="javascript:" id="acb-fields-label_<?php echo esc_attr( $uid ); ?>">
 					<?php echo esc_html( $field->label ); ?>
 				</a>
-				<div class="acb-fields-options">
-					<a class="acb-fields-options-edit" href="javascript:">
+				<div class="acb-fields-actions">
+					<a class="acb-fields-actions-edit" href="javascript:">
 						<?php esc_html_e( 'Edit', 'advanced-custom-blocks'); ?>
 					</a>
 					&nbsp;|&nbsp;
-					<a class="acb-fields-options-delete" href="javascript:">
+					<a class="acb-fields-actions-delete" href="javascript:">
 						<?php esc_html_e( 'Delete', 'advanced-custom-blocks'); ?>
 					</a>
 				</div>
@@ -338,7 +377,7 @@ class Block_Post extends Component_Abstract {
 						</th>
 						<td>
 							<input
-								name="acb-fields-label[]"
+								name="acb-fields-label[<?php echo esc_attr( $uid ); ?>]"
 								type="text"
 								id="acb-fields-edit-label-input_<?php echo esc_attr( $uid ); ?>"
 								class="regular-text"
@@ -358,7 +397,7 @@ class Block_Post extends Component_Abstract {
 						</th>
 						<td>
 							<input
-								name="acb-fields-name[]"
+								name="acb-fields-name[<?php echo esc_attr( $uid ); ?>]"
 								type="text"
 								id="acb-fields-edit-name-input_<?php echo esc_attr( $uid ); ?>"
 								class="regular-text"
@@ -375,26 +414,26 @@ class Block_Post extends Component_Abstract {
 						</th>
 						<td>
 							<select
-								name="acb-fields-control[]"
+								name="acb-fields-control[<?php echo esc_attr( $uid ); ?>]"
 								id="acb-fields-edit-control-input_<?php echo esc_attr( $uid ); ?>"
 								data-sync="acb-fields-control_<?php echo esc_attr( $uid ); ?>" >
-
-								<option value="text" <?php selected( 'text', $field->control ); ?>>
-									<?php esc_html_e( 'Text', 'advanced-custom-blocks' ); ?>
-								</option>
-
-								<option value="textarea" <?php selected( 'textarea', $field->control ); ?>>
-									<?php esc_html_e( 'Text Area', 'advanced-custom-blocks' ); ?>
-								</option>
+								<?php foreach ( $this->controls as $control ) : ?>
+									<option
+										value="<?php echo esc_attr( $control->name ); ?>"
+										<?php selected( $field->control, $control->name ); ?>>
+										<?php echo esc_html( $control->label ); ?>
+									</option>
+								<?php endforeach; ?>
 							</select>
 						</td>
 					</tr>
-					<tr class="acb-fields-edit-actions">
+					<?php $this->render_field_options( $field, $uid ); ?>
+					<tr class="acb-fields-edit-actions-close">
 						<td class="spacer"></td>
 						<th scope="row">
 						</th>
 						<td>
-							<a class="button acb-fields-edit-actions-close" title="<?php esc_attr_e( 'Close Field', 'advanced-custom-blocks' ); ?>" href="javascript:">
+							<a class="button" title="<?php esc_attr_e( 'Close Field', 'advanced-custom-blocks' ); ?>" href="javascript:">
 								<?php esc_html_e( 'Close Field', 'advanced-custom-blocks' ); ?>
 							</a>
 						</td>
@@ -475,6 +514,41 @@ class Block_Post extends Component_Abstract {
 	}
 
 	/**
+	 * Render the Block Template meta box.
+	 *
+	 * @param Field $field
+	 * @param string $uid
+	 *
+	 * @return void
+	 */
+	public function render_field_options( $field, $uid ) {
+		if ( isset( $this->controls[ $field->control ] ) ) {
+			$this->controls[ $field->control ]->render_options( $field, $uid );
+		}
+	}
+
+	/**
+	 * Ajax response for fetching field options.
+	 *
+	 * @return void
+	 */
+	public function ajax_field_options() {
+		$control = sanitize_key( $_POST['control'] );
+		$uid     = sanitize_key( $_POST['uid'] );
+
+		ob_start();
+		$field = new Field( array( 'control' => $control ) );
+		$this->render_field_options( $field, $uid );
+		$data['html'] = ob_get_clean();
+
+		if ( '' === $data['html'] ) {
+			wp_send_json_error();
+		}
+
+		wp_send_json_success( $data );
+	}
+
+	/**
 	 * Save block meta boxes as a json blob in post content.
 	 *
 	 * @param array $data
@@ -498,7 +572,7 @@ class Block_Post extends Component_Abstract {
 
 		$block = new Block();
 
-		// Block title
+		// Block name
 		$block->name = sanitize_key( $data['post_name'] );
 		if ( '' === $block->name ) {
 			$block->name = $post_id;
@@ -539,11 +613,12 @@ class Block_Post extends Component_Abstract {
 
 		// Block fields
 		if ( isset( $_POST['acb-fields-name'] ) && is_array( $_POST['acb-fields-name'] ) ) {
+			$order = 0;
 			foreach ( $_POST['acb-fields-name'] as $key => $name ) {
 				// Field name and order
 				$field_config = array(
 					'name'     => sanitize_key( $name ),
-					'order'    => sanitize_key( $key ),
+					'order'    => $order,
 				);
 
 				// Field label
@@ -556,8 +631,24 @@ class Block_Post extends Component_Abstract {
 					$field_config['control'] = sanitize_text_field( $_POST['acb-fields-control'][ $key ] );
 				}
 
+				// Field options
+				if ( isset( $this->controls[ $field_config['control'] ] ) ) {
+					$control = $this->controls[ $field_config['control'] ];
+					foreach( $control->options as $option ) {
+						if ( isset( $_POST['acb-fields-options'][ $key ][ $option->name ] ) ) {
+							if ( is_callable( $option->sanitize ) ) {
+								$field_config['options'][ $option->name ] = call_user_func(
+									$option->sanitize,
+									$_POST['acb-fields-options'][ $key ][ $option->name ]
+								);
+							}
+						}
+					}
+				}
+
 				$field = new Field( $field_config );
 				$block->fields[ $name ] = $field;
+				$order++;
 			}
 		}
 
