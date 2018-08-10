@@ -61,7 +61,7 @@ class Preview extends Component_Abstract {
 					$value = '<' . wp_json_encode( $field['name'] ) . '>';
 					break;
 				default:
-					$value = 'undefined';
+					$value = '<' . wp_json_encode( $field['name'] ) . '>';
 					break;
 			}
 

@@ -125,12 +125,12 @@ class Loader extends Component_Abstract {
 		$attributes = [];
 
 		foreach ( $block['fields'] as $field_name => $field ) {
-			$attributes[ $field_name ] = [
-				'type' => 'string',
-			];
+			$attributes[ $field_name ] = [];
 
 			if ( ! empty( $field['type'] ) ) {
 				$attributes[ $field_name ]['type'] = $field['type'];
+			} else {
+				$attributes[ $field_name ]['type'] = 'string';
 			}
 
 			if ( ! empty( $field['source'] ) ) {
