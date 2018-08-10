@@ -4,7 +4,7 @@ import ACBCheckboxControl from './checkbox'
 import ACBRadioControl from './radio'
 import ACBRangeControl from './range'
 import ACBSelectControl from './select'
-import ACBToggleControl from './radio'
+import ACBToggleControl from './toggle'
 
 export default {
 	text: ACBTextControl,
