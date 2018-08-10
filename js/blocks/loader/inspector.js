@@ -38,7 +38,7 @@ const inspectorControls = ( props, block ) => {
 	} )
 
 	return (
-		<InspectorControls>
+		<InspectorControls key={"inspector-controls" + block.name}>
 			{fields}
 		</InspectorControls>
 	)
