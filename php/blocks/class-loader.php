@@ -210,7 +210,12 @@ class Loader extends Component_Abstract {
 		if ( 0 < $block_posts->post_count ) {
 			/** @var \WP_Post $post */
 			foreach ( $block_posts->posts as $post ) {
-				$blocks = array_merge( $blocks, json_decode( $post->post_content, true ) );
+				$block_data = json_decode( $post->post_content, true );
+
+				// Merge if no json_decode error occurred.
+				if ( json_last_error() == JSON_ERROR_NONE ) {
+					$blocks = array_merge( $blocks, $block_data);
+				}
 			}
 		}
 		$this->blocks = wp_json_encode( $blocks );
