@@ -1,11 +1,23 @@
 import updatePreview from "../loader/preview";
+
 const { ToggleControl } = wp.components;
 
-const ACBToggleControl = (props, field, block) => {
+const ACBToggleControl = ( props, field, block ) => {
 	const { setAttributes } = props
 	const attr = { ...props.attributes }
 	return (
-		<div>ToggleControl</div>
+		<ToggleControl
+			label={field.label}
+			help={field.help}
+			checked={attr[ field.name ] || field.default}
+			onChange={toggleControl => {
+				attr[ field.name ] = toggleControl
+				setAttributes( attr )
+			}}
+			onBlur={
+				updatePreview( props, block )
+			}
+		/>
 	)
 }
 
