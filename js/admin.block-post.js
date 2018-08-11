@@ -28,12 +28,12 @@
 				$( this ).closest( '.acb-fields-row' ).toggleClass( 'acb-fields-row-active' );
 				$( this ).closest( '.acb-fields-row' ).find( '.acb-fields-edit' ).slideToggle();
 
-				// Fetch field options if field is active and there are no options
+				// Fetch field settings if field is active and there are no settings
 				if ( $( this ).closest( '.acb-fields-row' ).hasClass( 'acb-fields-row-active' ) ) {
-					if ( 0 === $( this ).closest( '.acb-fields-row' ).find( '.acb-fields-edit-options' ).length ) {
+					if ( 0 === $( this ).closest( '.acb-fields-row' ).find( '.acb-fields-edit-settings' ).length ) {
 						let fieldRow = $( this ).closest( '.acb-fields-row' ),
 							fieldControl = fieldRow.find( '.acb-fields-edit-control select' ).val();
-						fetchFieldOptions( fieldRow, fieldControl );
+						fetchFieldSettings( fieldRow, fieldControl );
 					}
 				}
 			})
@@ -47,7 +47,7 @@
 			})
 			.on( 'change', '.acb-fields-edit-control select', function() {
 				let fieldRow = $( this ).closest( '.acb-fields-row' );
-				fetchFieldOptions( fieldRow, $( this ).val() );
+				fetchFieldSettings( fieldRow, $( this ).val() );
 			})
 			.on( 'change keyup', '.acb-fields-edit-label input', function() {
 				let slug = slugify( $( this ).val() );
@@ -98,8 +98,8 @@
 		}
 	};
 
-	let fetchFieldOptions = function( fieldRow, fieldControl ) {
-		if ( ! advancedCustomBlocks.hasOwnProperty( 'fieldOptionsNonce' ) ) {
+	let fetchFieldSettings = function( fieldRow, fieldControl ) {
+		if ( ! advancedCustomBlocks.hasOwnProperty( 'fieldSettingsNonce' ) ) {
 			return;
 		}
 
@@ -110,18 +110,18 @@
 			'   <td><span class="loading"></span></td>' +
 			'</tr>';
 
-		$( '.acb-fields-edit-options', fieldRow ).remove();
+		$( '.acb-fields-edit-settings', fieldRow ).remove();
 		$( '.acb-fields-edit-control', fieldRow ).after( $( loadingRow ) );
 
-		wp.ajax.send( 'fetch_field_options', {
+		wp.ajax.send( 'fetch_field_settings', {
 			success: function( data ) {
 				$( '.acb-fields-edit-loading', fieldRow ).remove();
 
 				if ( ! data.hasOwnProperty( 'html' ) ) {
 					return;
 				}
-				let optionsRows = $( data.html );
-				$( '.acb-fields-edit-control', fieldRow ).after( optionsRows );
+				let settingsRows = $( data.html );
+				$( '.acb-fields-edit-control', fieldRow ).after( settingsRows );
 			},
 			error: function() {
 				$( '.acb-fields-edit-loading', fieldRow ).remove();
@@ -129,7 +129,7 @@
 			data: {
 				control: fieldControl,
 				uid:     fieldRow.data( 'uid' ),
-				nonce:   advancedCustomBlocks.fieldOptionsNonce
+				nonce:   advancedCustomBlocks.fieldSettingsNonce
 			}
 		});
 	};
