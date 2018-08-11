@@ -63,7 +63,7 @@ class Select extends Control_Abstract {
 				_x( 'foo : Foo', 'Format for the menu values. option_value : Option Name', 'advanced-custom-blocks' ),
 				_x( 'bar : Bar', 'Format for the menu values. option_value : Option Name', 'advanced-custom-blocks' )
 			),
-			'sanitize' => array( $this, 'sanitise_choices' ),
+			'sanitize' => array( $this, 'sanitise_options' ),
 		) );
 		$this->settings[] = new Control_Setting( array(
 			'name'     => 'default',
@@ -131,13 +131,13 @@ class Select extends Control_Abstract {
 	}
 
 	/**
-	 * Sanitize choices
+	 * Sanitize options
 	 *
 	 * @param string $value
 	 *
 	 * @return array
 	 */
-	public function sanitise_choices( $value ) {
+	public function sanitise_options( $value ) {
 		$rows    = preg_split( '/\r\n|[\r\n]/', $value );
 		$options = array();
 
