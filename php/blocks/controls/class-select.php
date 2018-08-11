@@ -71,7 +71,7 @@ class Select extends Control_Abstract {
 			'type'     => 'textarea_default',
 			'default'  => '',
 			'help'     => __( 'Enter each default value on a new line.', 'advanced-custom-blocks' ),
-			'sanitize' => array( $this, 'sanitise_choices' ),
+			'sanitize' => array( $this, 'sanitise_default' ),
 		) );
 		$this->settings[] = new Control_Setting( array(
 			'name'    => 'multiple',
@@ -165,7 +165,7 @@ class Select extends Control_Abstract {
 	 *
 	 * @return array
 	 */
-	public function sanitise_defaults( $value ) {
+	public function sanitise_default( $value ) {
 		$rows    = preg_split( '/\r\n|[\r\n]/', $value );
 		$options = array();
 
