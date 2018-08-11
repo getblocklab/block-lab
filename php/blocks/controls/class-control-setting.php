@@ -1,6 +1,6 @@
 <?php
 /**
- * Block.
+ * Control_Setting.
  *
  * @package   Advanced_Custom_Blocks
  * @copyright Copyright(c) 2018, Advanced Custom Blocks
@@ -10,26 +10,26 @@
 namespace Advanced_Custom_Blocks\Blocks\Controls;
 
 /**
- * Class Option
+ * Class Control_Setting
  */
-class Control_Option {
+class Control_Setting {
 
 	/**
-	 * Option name (slug).
+	 * Setting name (slug).
 	 *
 	 * @var string
 	 */
 	public $name = '';
 
 	/**
-	 * Option label.
+	 * Setting label.
 	 *
 	 * @var string
 	 */
 	public $label = '';
 
 	/**
-	 * Option type.
+	 * Setting type.
 	 *
 	 * @var string
 	 */
@@ -41,6 +41,13 @@ class Control_Option {
 	 * @var mixed
 	 */
 	public $default = '';
+
+	/**
+	 * Help text.
+	 *
+	 * @var string
+	 */
+	public $help = '';
 
 	/**
 	 * Sanitizing function.
@@ -57,7 +64,7 @@ class Control_Option {
 	public $value = null;
 
 	/**
-	 * Option constructor.
+	 * Control_Setting constructor.
 	 *
 	 * @param array $args
 	 *
@@ -75,6 +82,9 @@ class Control_Option {
 		}
 		if ( isset ( $args['default'] ) ) {
 			$this->default = $args['default'];
+		}
+		if ( isset ( $args['help'] ) ) {
+			$this->help = $args['help'];
 		}
 		if ( isset ( $args['sanitize'] ) ) {
 			$this->sanitize = $args['sanitize'];

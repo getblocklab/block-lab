@@ -51,7 +51,7 @@ class Block_Post extends Component_Abstract {
 		add_action( 'admin_enqueue_scripts', array( $this, 'list_tables_style' ) );
 
 		// AJAX Handlers
-		add_action( 'wp_ajax_fetch_field_options', array( $this, 'ajax_field_options' ) );
+		add_action( 'wp_ajax_fetch_field_settings', array( $this, 'ajax_field_settings' ) );
 	}
 
 	/**
@@ -71,7 +71,8 @@ class Block_Post extends Component_Abstract {
 	public function register_controls() {
 		$this->controls = apply_filters( 'acb_controls', array(
 			'text'     => new Controls\Text(),
-			'textarea' => new Controls\Textarea()
+			'textarea' => new Controls\Textarea(),
+			'select'   => new Controls\Select()
 		) );
 	}
 
@@ -142,7 +143,7 @@ class Block_Post extends Component_Abstract {
 				'block-post',
 				'advancedCustomBlocks',
 				array(
-					'fieldOptionsNonce' => wp_create_nonce( 'acb_field_options_nonce' ),
+					'fieldSettingsNonce' => wp_create_nonce( 'acb_field_settings_nonce' ),
 				)
 			);
 		}
@@ -230,7 +231,7 @@ class Block_Post extends Component_Abstract {
 							name="acb-properties-description"
 							id="acb-properties-description"
 							class="large-text"
-							rows="3"><?php echo esc_html( $block->description ); ?></textarea>
+							rows="3"><?php echo esc_textarea( $block->description ); ?></textarea>
 					</p>
 				</td>
 			</tr>
@@ -427,7 +428,7 @@ class Block_Post extends Component_Abstract {
 							</select>
 						</td>
 					</tr>
-					<?php $this->render_field_options( $field, $uid ); ?>
+					<?php $this->render_field_settings( $field, $uid ); ?>
 					<tr class="acb-fields-edit-actions-close">
 						<td class="spacer"></td>
 						<th scope="row">
@@ -521,24 +522,24 @@ class Block_Post extends Component_Abstract {
 	 *
 	 * @return void
 	 */
-	public function render_field_options( $field, $uid ) {
+	public function render_field_settings( $field, $uid ) {
 		if ( isset( $this->controls[ $field->control ] ) ) {
-			$this->controls[ $field->control ]->render_options( $field, $uid );
+			$this->controls[ $field->control ]->render_settings( $field, $uid );
 		}
 	}
 
 	/**
-	 * Ajax response for fetching field options.
+	 * Ajax response for fetching field settings.
 	 *
 	 * @return void
 	 */
-	public function ajax_field_options() {
+	public function ajax_field_settings() {
 		$control = sanitize_key( $_POST['control'] );
 		$uid     = sanitize_key( $_POST['uid'] );
 
 		ob_start();
 		$field = new Field( array( 'control' => $control ) );
-		$this->render_field_options( $field, $uid );
+		$this->render_field_settings( $field, $uid );
 		$data['html'] = ob_get_clean();
 
 		if ( '' === $data['html'] ) {
@@ -631,15 +632,15 @@ class Block_Post extends Component_Abstract {
 					$field_config['control'] = sanitize_text_field( $_POST['acb-fields-control'][ $key ] );
 				}
 
-				// Field options
+				// Field settings
 				if ( isset( $this->controls[ $field_config['control'] ] ) ) {
 					$control = $this->controls[ $field_config['control'] ];
-					foreach( $control->options as $option ) {
-						if ( isset( $_POST['acb-fields-options'][ $key ][ $option->name ] ) ) {
-							if ( is_callable( $option->sanitize ) ) {
-								$field_config['options'][ $option->name ] = call_user_func(
-									$option->sanitize,
-									$_POST['acb-fields-options'][ $key ][ $option->name ]
+					foreach( $control->settings as $setting ) {
+						if ( isset( $_POST['acb-fields-settings'][ $key ][ $setting->name ] ) ) {
+							if ( is_callable( $setting->sanitize ) ) {
+								$field_config['settings'][ $setting->name ] = call_user_func(
+									$setting->sanitize,
+									$_POST['acb-fields-settings'][ $key ][ $setting->name ]
 								);
 							}
 						}
