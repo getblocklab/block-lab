@@ -54,7 +54,7 @@ class Select extends Control_Abstract {
 		$this->settings[] = new Control_Setting( array(
 			'name'     => 'options',
 			'label'    => __( 'Choices', 'advanced-custom-blocks' ),
-			'type'     => 'textarea',
+			'type'     => 'textarea_options',
 			'default'  => '',
 			'help'     => sprintf(
 				'%s %s<br />%s<br />%s',
@@ -68,7 +68,7 @@ class Select extends Control_Abstract {
 		$this->settings[] = new Control_Setting( array(
 			'name'     => 'default',
 			'label'    => __( 'Default Value', 'advanced-custom-blocks' ),
-			'type'     => 'textarea',
+			'type'     => 'textarea_default',
 			'default'  => '',
 			'help'     => __( 'Enter each default value on a new line.', 'advanced-custom-blocks' ),
 			'sanitize' => array( $this, 'sanitise_choices' ),
@@ -83,7 +83,7 @@ class Select extends Control_Abstract {
 	}
 
 	/**
-	 * Render textarea settings
+	 * Render options settings
 	 *
 	 * @param Control_Setting $setting
 	 * @param string $name
@@ -91,19 +91,41 @@ class Select extends Control_Abstract {
 	 *
 	 * @return void
 	 */
-	public function render_settings_textarea( $setting, $name, $id ) {
-		$value = $setting->get_value();
-		if ( is_array( $value ) ) {
+	public function render_settings_textarea_options( $setting, $name, $id ) {
+		$options = $setting->get_value();
+		if ( is_array( $options ) ) {
 			// Convert the array to text separated by new lines
-			$text = '';
-			foreach ( $value as $key => $row ) {
-				if ( $key === $row ) {
-					$text .= $row . "\n";
+			$value = '';
+			foreach ( $options as $key => $option ) {
+				if ( $key === $option ) {
+					$value .= $option . "\n";
 				} else {
-					$text .= $key . ' : ' . $row . "\n";
+					$value .= $key . ' : ' . $option . "\n";
 				}
 			}
-			$setting->value = $text;
+			$setting->value = trim( $value );
+		}
+		parent::render_settings_textarea( $setting, $name, $id );
+	}
+
+	/**
+	 * Render default settings
+	 *
+	 * @param Control_Setting $setting
+	 * @param string $name
+	 * @param string $id
+	 *
+	 * @return void
+	 */
+	public function render_settings_textarea_default( $setting, $name, $id ) {
+		$options = $setting->get_value();
+		if ( is_array( $options ) ) {
+			// Convert the array to text separated by new lines
+			$value = '';
+			foreach ( $options as $option ) {
+				$value .= $option . "\n";
+			}
+			$setting->value = trim( $value );
 		}
 		parent::render_settings_textarea( $setting, $name, $id );
 	}
@@ -130,6 +152,34 @@ class Select extends Control_Abstract {
 				$options[ $key_value[0] ] = $key_value[1];
 			} else {
 				$options[ $option ] = $option;
+			}
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Sanitize defaults
+	 *
+	 * @param string $value
+	 *
+	 * @return array
+	 */
+	public function sanitise_defaults( $value ) {
+		$rows    = preg_split( '/\r\n|[\r\n]/', $value );
+		$options = array();
+
+		foreach( $rows as $key => $option ) {
+			if ( '' === $option ) {
+				continue;
+			}
+
+			$key_value = explode( ' : ', $option );
+
+			if ( sizeof( $key_value ) > 1 ) {
+				$options[] = $key_value[0];
+			} else {
+				$options[] = $option;
 			}
 		}
 
