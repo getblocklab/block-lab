@@ -72,7 +72,8 @@ class Block_Post extends Component_Abstract {
 		$this->controls = apply_filters( 'acb_controls', array(
 			'text'     => new Controls\Text(),
 			'textarea' => new Controls\Textarea(),
-			'select'   => new Controls\Select()
+			'select'   => new Controls\Select(),
+			'toggle'   => new Controls\Toggle()
 		) );
 	}
 
