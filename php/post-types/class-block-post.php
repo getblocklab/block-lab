@@ -201,20 +201,8 @@ class Block_Post extends Component_Abstract {
 				<td>
 					<p>
 						<select name="acb-properties-category" id="acb-properties-category">
-							<option value="__custom">
-								<?php esc_html_e( '+ New Category', 'advanced-custom-blocks' ); ?>
-							</option>
 						</select>
-					</p>
-					<p>
-						<input
-							name="acb-properties-category-custom"
-							title="<?php esc_attr_e( 'Custom Category', 'advanced-custom-blocks' ); ?>"
-							type="text"
-							id="acb-properties-category-custom"
-							value="<?php echo esc_attr( $block->category ); ?>"
-							placeholder="<?php esc_attr_e( 'Category Name', 'advanced-custom-blocks' ); ?>"
-							class="regular-text hidden">
+						<input type="hidden" id="acb-properties-category-saved" value="<?php echo esc_attr( $block->category ); ?>" />
 					</p>
 				</td>
 			</tr>
@@ -587,14 +575,6 @@ class Block_Post extends Component_Abstract {
 		// Block category
 		if ( isset( $_POST['acb-properties-category'] ) ) {
 			$block->category = sanitize_key( $_POST['acb-properties-category'] );
-			if ( '__custom' === $block->category && isset( $_POST['acb-properties-category-custom'] ) ) {
-				$block->category = sanitize_text_field( $_POST['acb-properties-category-custom'] );
-
-				// Prevent category from being set to a reserved category name
-				if ( 'reusable' === $block->category ) {
-					$block->category = '';
-				}
-			}
 		}
 
 		// Block description
