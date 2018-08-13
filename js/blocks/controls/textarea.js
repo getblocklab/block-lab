@@ -12,7 +12,8 @@ const ACBTextareaControl = ( props, field, block ) => {
 			maxLength={field.maxlength}
 			help={field.help}
 			required={field.required || false}
-			value={attr[ field.name ] || field.default}
+			defaultValue={field.default}
+			value={attr[ field.name ]}
 			onChange={textControl => {
 				attr[ field.name ] = textControl
 				setAttributes( attr )
