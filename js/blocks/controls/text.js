@@ -12,7 +12,8 @@ const ACBTextControl = ( props, field, block ) => {
 			placeholder={field.placeholder || ''}
 			maxLength={field.maxlength}
 			help={field.help}
-			value={attr[ field.name ] || field.default}
+			defaultValue={field.default}
+			value={attr[ field.name ]}
 			onChange={textControl => {
 				attr[ field.name ] = textControl
 				setAttributes( attr )
