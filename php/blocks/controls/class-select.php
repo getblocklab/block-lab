@@ -96,11 +96,14 @@ class Select extends Control_Abstract {
 		if ( is_array( $options ) ) {
 			// Convert the array to text separated by new lines
 			$value = '';
-			foreach ( $options as $key => $option ) {
-				if ( $key === $option ) {
-					$value .= $option . "\n";
+			foreach ( $options as $option ) {
+				if ( ! isset( $option['value'] ) || ! isset( $option['label'] ) ) {
+					continue;
+				}
+				if ( $option['value'] === $option['label'] ) {
+					$value .= $option['label'] . "\n";
 				} else {
-					$value .= $key . ' : ' . $option . "\n";
+					$value .= $option['value'] . ' : ' . $option['label'] . "\n";
 				}
 			}
 			$setting->value = trim( $value );
@@ -149,11 +152,16 @@ class Select extends Control_Abstract {
 			$key_value = explode( ' : ', $option );
 
 			if ( sizeof( $key_value ) > 1 ) {
-				$options[ $key_value[0] ] = $key_value[1];
+				$options[ $key ]['label'] = $key_value[1];
+				$options[ $key ]['value'] = $key_value[0];
 			} else {
-				$options[ $option ] = $option;
+				$options[ $key ]['label'] = $option;
+				$options[ $key ]['value'] = $option;
 			}
 		}
+
+		// Reindex array in case of blank lines
+		$options = array_values( $options );
 
 		return $options;
 	}
@@ -182,6 +190,9 @@ class Select extends Control_Abstract {
 				$options[] = $option;
 			}
 		}
+
+		// Reindex array in case of blank lines
+		$options = array_values( $options );
 
 		return $options;
 	}
