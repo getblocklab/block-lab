@@ -12,14 +12,6 @@
 			field.find( '.acb-fields-actions-edit' ).trigger( 'click' );
 		});
 
-		$( '#acb-properties-category' ).on( 'change', function() {
-			if ( '__custom' === $( this ).val() ) {
-				$( '#acb-properties-category-custom' ).show();
-			} else {
-				$( '#acb-properties-category-custom' ).hide();
-			}
-		});
-
 		$( '.acb-fields-rows' )
 			.on( 'click', '.acb-fields-actions-delete', function() {
 				$( this ).closest( '.acb-fields-row' ).remove();
@@ -68,8 +60,7 @@
 
 	let blockCategoryInit = function() {
 		let categories = wp.blocks.getCategories(),
-			category   = $( '#acb-properties-category-custom' ),
-			custom     = $( '#acb-properties-category option[value="__custom"]' );
+			category   = $( '#acb-properties-category-saved' );
 
 		for (let i = 0; i < categories.length; i++) {
 			if ( 'reusable' === categories[i].slug ) {
@@ -80,21 +71,12 @@
 				text: categories[i].title,
 			} ).appendTo( '#acb-properties-category' );
 		}
-		custom.remove().appendTo( '#acb-properties-category' );
 
 		if ( category.val() !== '' ) {
 			let option = $( '#acb-properties-category option[value="' + category.val() + '"]' );
 			if ( option.length > 0 ) {
 				$( '#acb-properties-category' ).prop( 'selectedIndex', option.index() );
-				category.hide();
-				category.val('');
-			} else {
-				$( '#acb-properties-category' ).prop( 'selectedIndex', custom.index() );
-				category.show();
 			}
-		} else {
-			$( '#acb-properties-category' ).prop( 'selectedIndex', 0 );
-			category.hide();
 		}
 	};
 
