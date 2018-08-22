@@ -10,7 +10,7 @@
 namespace Advanced_Custom_Blocks\Blocks\Controls;
 
 /**
- * Class Range
+ * Class Radio
  */
 class Radio extends Control_Abstract {
 
