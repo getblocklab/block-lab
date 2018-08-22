@@ -184,6 +184,39 @@ abstract class Control_Abstract {
 	}
 
 	/**
+	 * Render an array of settings inside a textarea
+	 *
+	 * @param Control_Setting $setting
+	 * @param string $name
+	 * @param string $id
+	 *
+	 * @return void
+	 */
+	public function render_settings_textarea_array( $setting, $name, $id ) {
+		$options = $setting->get_value();
+		if ( is_array( $options ) ) {
+			// Convert the array to text separated by new lines
+			$value = '';
+			foreach ( $options as $option ) {
+				if ( ! is_array( $option ) ) {
+					$value .= $option . "\n";
+					continue;
+				}
+				if ( ! isset( $option['value'] ) || ! isset( $option['label'] ) ) {
+					continue;
+				}
+				if ( $option['value'] === $option['label'] ) {
+					$value .= $option['label'] . "\n";
+				} else {
+					$value .= $option['value'] . ' : ' . $option['label'] . "\n";
+				}
+			}
+			$setting->value = trim( $value );
+		}
+		$this->render_settings_textarea( $setting, $name, $id );
+	}
+
+	/**
 	 * Sanitize checkbox
 	 *
 	 * @param string $value
@@ -209,5 +242,69 @@ abstract class Control_Abstract {
 			return null;
 		}
 		return (int) filter_var( $value, FILTER_SANITIZE_NUMBER_INT );
+	}
+
+	/**
+	 * Sanitize an array of settings inside a textarea
+	 *
+	 * @param string $value
+	 *
+	 * @return array
+	 */
+	public function sanitise_textarea_assoc_array( $value ) {
+		$rows    = preg_split( '/\r\n|[\r\n]/', $value );
+		$options = array();
+
+		foreach( $rows as $key => $option ) {
+			if ( '' === $option ) {
+				continue;
+			}
+
+			$key_value = explode( ' : ', $option );
+
+			if ( sizeof( $key_value ) > 1 ) {
+				$options[ $key ]['label'] = $key_value[1];
+				$options[ $key ]['value'] = $key_value[0];
+			} else {
+				$options[ $key ]['label'] = $option;
+				$options[ $key ]['value'] = $option;
+			}
+		}
+
+		// Reindex array in case of blank lines
+		$options = array_values( $options );
+
+		return $options;
+	}
+
+	/**
+	 * Sanitize an array of settings inside a textarea
+	 *
+	 * @param string $value
+	 *
+	 * @return array
+	 */
+	public function sanitise_textarea_array( $value ) {
+		$rows    = preg_split( '/\r\n|[\r\n]/', $value );
+		$options = array();
+
+		foreach( $rows as $key => $option ) {
+			if ( '' === $option ) {
+				continue;
+			}
+
+			$key_value = explode( ' : ', $option );
+
+			if ( sizeof( $key_value ) > 1 ) {
+				$options[] = $key_value[0];
+			} else {
+				$options[] = $option;
+			}
+		}
+
+		// Reindex array in case of blank lines
+		$options = array_values( $options );
+
+		return $options;
 	}
 }

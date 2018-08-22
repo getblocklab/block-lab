@@ -1,6 +1,6 @@
 <?php
 /**
- * Select control.
+ * Radio control.
  *
  * @package   Advanced_Custom_Blocks
  * @copyright Copyright(c) 2018, Advanced Custom Blocks
@@ -10,25 +10,25 @@
 namespace Advanced_Custom_Blocks\Blocks\Controls;
 
 /**
- * Class Select
+ * Class Range
  */
-class Select extends Control_Abstract {
+class Radio extends Control_Abstract {
 
 	/**
 	 * Control name.
 	 *
 	 * @var string
 	 */
-	public $name = 'select';
+	public $name = 'radio';
 
 	/**
-	 * Select constructor.
+	 * Radio constructor.
 	 *
 	 * @return void
 	 */
 	public function __construct() {
 		parent::__construct();
-		$this->label = __( 'Select', 'advanced-custom-blocks' );
+		$this->label = __( 'Radio', 'advanced-custom-blocks' );
 	}
 
 	/**
@@ -68,17 +68,9 @@ class Select extends Control_Abstract {
 		$this->settings[] = new Control_Setting( array(
 			'name'     => 'default',
 			'label'    => __( 'Default Value', 'advanced-custom-blocks' ),
-			'type'     => 'textarea_array',
+			'type'     => 'text',
 			'default'  => '',
-			'help'     => __( 'Enter each default value on a new line.', 'advanced-custom-blocks' ),
-			'sanitize' => array( $this, 'sanitise_textarea_array' ),
-		) );
-		$this->settings[] = new Control_Setting( array(
-			'name'    => 'multiple',
-			'label'   => __( 'Allow multiple choices?', 'advanced-custom-blocks' ),
-			'type'    => 'checkbox',
-			'default' => '',
-			'sanitize' => array( $this, 'sanitise_checkbox' ),
+			'sanitize' => 'sanitize_text_field',
 		) );
 	}
 }
