@@ -1,6 +1,6 @@
 <?php
 /**
- * Control abstract.
+ * Toggle control.
  *
  * @package   Advanced_Custom_Blocks
  * @copyright Copyright(c) 2018, Advanced Custom Blocks
@@ -22,7 +22,7 @@ class Toggle extends Control_Abstract {
 	public $name = 'toggle';
 
 	/**
-	 * Text constructor.
+	 * Toggle constructor.
 	 *
 	 * @return void
 	 */

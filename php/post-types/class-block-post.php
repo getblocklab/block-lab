@@ -73,7 +73,8 @@ class Block_Post extends Component_Abstract {
 			'text'     => new Controls\Text(),
 			'textarea' => new Controls\Textarea(),
 			'select'   => new Controls\Select(),
-			'toggle'   => new Controls\Toggle()
+			'toggle'   => new Controls\Toggle(),
+			'range'    => new Controls\Range(),
 		) );
 	}
 

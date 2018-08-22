@@ -1,6 +1,6 @@
 <?php
 /**
- * Control abstract.
+ * Select control.
  *
  * @package   Advanced_Custom_Blocks
  * @copyright Copyright(c) 2018, Advanced Custom Blocks
@@ -10,7 +10,7 @@
 namespace Advanced_Custom_Blocks\Blocks\Controls;
 
 /**
- * Class Text
+ * Class Select
  */
 class Select extends Control_Abstract {
 
@@ -22,7 +22,7 @@ class Select extends Control_Abstract {
 	public $name = 'select';
 
 	/**
-	 * Text constructor.
+	 * Select constructor.
 	 *
 	 * @return void
 	 */
