@@ -75,6 +75,7 @@ class Block_Post extends Component_Abstract {
 			'select'   => new Controls\Select(),
 			'toggle'   => new Controls\Toggle(),
 			'range'    => new Controls\Range(),
+			'checkbox' => new Controls\Checkbox(),
 			'radio'    => new Controls\Radio(),
 		) );
 	}
