@@ -196,4 +196,18 @@ abstract class Control_Abstract {
 		}
 		return false;
 	}
+
+	/**
+	 * Sanitize non-zero number
+	 *
+	 * @param string $value
+	 *
+	 * @return int
+	 */
+	public function sanitise_number( $value ) {
+		if ( empty( $value ) || '0' === $value ) {
+			return null;
+		}
+		return (int) filter_var( $value, FILTER_SANITIZE_NUMBER_INT );
+	}
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Control abstract.
+ * Textarea control.
  *
  * @package   Advanced_Custom_Blocks
  * @copyright Copyright(c) 2018, Advanced Custom Blocks
@@ -10,7 +10,7 @@
 namespace Advanced_Custom_Blocks\Blocks\Controls;
 
 /**
- * Class Text
+ * Class Textarea
  */
 class Textarea extends Control_Abstract {
 
@@ -70,12 +70,7 @@ class Textarea extends Control_Abstract {
 			'label'   => __( 'Character Limit', 'advanced-custom-blocks' ),
 			'type'    => 'number',
 			'default' => '',
-			'sanitize' => function( $value ) {
-				if ( empty( $value ) || '0' === $value ) {
-					return null;
-				}
-				return (int) filter_var( $value, FILTER_SANITIZE_NUMBER_INT );
-			}
+			'sanitize' => array( $this, 'sanitise_number' ),
 		) );
 	}
 }
