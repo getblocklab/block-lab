@@ -296,7 +296,7 @@ class Block_Post extends Component_Abstract {
 								<?php
 								echo wp_kses_post(
 									sprintf(
-										__( 'No fields. Click the %s+ Add Field%s button to create your first field.' ),
+										__( 'Click the %s+ Add Field%s button below to add your first field.' ),
 										'<strong>',
 										'</strong>'
 									)
