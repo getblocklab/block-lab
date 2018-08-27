@@ -92,7 +92,6 @@ advanced_custom_blocks()
  * Register plugin components.
  */
 advanced_custom_blocks()
-	->register_component( new \Advanced_Custom_Blocks\Views\Admin_Menu() )
 	->register_component( new \Advanced_Custom_Blocks\Post_Types\Block_Post() )
 	->register_component( new \Advanced_Custom_Blocks\Blocks\Loader() )
 	->register_component( new \Advanced_Custom_Blocks\Endpoints\Preview() );
