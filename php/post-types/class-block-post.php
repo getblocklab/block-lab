@@ -220,22 +220,6 @@ class Block_Post extends Component_Abstract {
 			</tr>
 			<tr>
 				<th scope="row">
-					<label for="acb-properties-description">
-						<?php esc_html_e( 'Description', 'advanced-custom-blocks' ); ?>
-					</label>
-				</th>
-				<td>
-					<p>
-						<textarea
-							name="acb-properties-description"
-							id="acb-properties-description"
-							class="large-text"
-							rows="3"><?php echo esc_html( $block->description ); ?></textarea>
-					</p>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row">
 					<label for="acb-properties-keywords">
 						<?php esc_html_e( 'Keywords', 'advanced-custom-blocks' ); ?>
 					</label>
@@ -256,6 +240,22 @@ class Block_Post extends Component_Abstract {
 							id="acb-properties-keywords"
 							value="<?php echo esc_attr( implode( ', ', $block->keywords ) ); ?>"
 							class="regular-text">
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					<label for="acb-properties-description">
+						<?php esc_html_e( 'Description', 'advanced-custom-blocks' ); ?>
+					</label>
+				</th>
+				<td>
+					<p>
+						<textarea
+								name="acb-properties-description"
+								id="acb-properties-description"
+								class="large-text"
+								rows="3"><?php echo esc_html( $block->description ); ?></textarea>
 					</p>
 				</td>
 			</tr>
