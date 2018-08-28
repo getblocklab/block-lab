@@ -220,6 +220,48 @@ class Block_Post extends Component_Abstract {
 			</tr>
 			<tr>
 				<th scope="row">
+					<label for="acb-properties-icon">
+						<?php esc_html_e( 'Icon', 'advanced-custom-blocks' ); ?>
+					</label>
+				</th>
+				<td>
+					<input
+						name="acb-properties-icon"
+						type="hidden"
+						id="acb-properties-icon"
+						value="<?php echo esc_attr( $block->icon ); ?>">
+					<div class="acb-properties-icons">
+						<?php
+						foreach ( acb_get_icons() as $name => $icon ) {
+							$selected = $name === $block->icon ? 'selected' : '';
+							switch ( $icon['type'] ) {
+								case 'dashicons' :
+									printf(
+										'<span class="dashicons %s %s" data-value="%s"></span>',
+										esc_attr( $icon['value'] ),
+										esc_attr( $selected ),
+										esc_attr( $name )
+									);
+									break;
+								case 'svg' :
+									printf(
+										'<span class="svg %s" data-value="%s">%s</span>',
+										esc_attr( $selected ),
+										esc_attr( $name ),
+										wp_kses(
+											$icon['value'],
+											array( 'svg' => array( 'preserveAspectRatio', 'viewbox', 'xmlns' ) )
+										)
+									);
+									break;
+							}
+						}
+						?>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
 					<label for="acb-properties-keywords">
 						<?php esc_html_e( 'Keywords', 'advanced-custom-blocks' ); ?>
 					</label>
@@ -252,10 +294,10 @@ class Block_Post extends Component_Abstract {
 				<td>
 					<p>
 						<textarea
-								name="acb-properties-description"
-								id="acb-properties-description"
-								class="large-text"
-								rows="3"><?php echo esc_html( $block->description ); ?></textarea>
+							name="acb-properties-description"
+							id="acb-properties-description"
+							class="large-text"
+							rows="3"><?php echo esc_html( $block->description ); ?></textarea>
 					</p>
 				</td>
 			</tr>
@@ -598,8 +640,8 @@ class Block_Post extends Component_Abstract {
 		}
 
 		// Block description
-		if ( isset( $_POST['acb-properties-description'] ) ) {
-			$block->description = sanitize_textarea_field( $_POST['acb-properties-description'] );
+		if ( isset( $_POST['acb-properties-icon'] ) ) {
+			$block->icon = sanitize_text_field( $_POST['acb-properties-icon'] );
 		}
 
 		// Block keywords
@@ -609,6 +651,11 @@ class Block_Post extends Component_Abstract {
 			$keywords = array_map( 'trim', $keywords );
 			$keywords = array_slice( $keywords, 0, 3 );
 			$block->keywords = $keywords;
+		}
+
+		// Block description
+		if ( isset( $_POST['acb-properties-description'] ) ) {
+			$block->description = sanitize_textarea_field( $_POST['acb-properties-description'] );
 		}
 
 		// Block fields

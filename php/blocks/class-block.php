@@ -36,11 +36,11 @@ class Block {
 	public $category = '';
 
 	/**
-	 * Block description.
+	 * Icon.
 	 *
 	 * @var string
 	 */
-	public $description = '';
+	public $icon = '';
 
 	/**
 	 * Block keywords.
@@ -48,6 +48,13 @@ class Block {
 	 * @var string[]
 	 */
 	public $keywords = array();
+
+	/**
+	 * Block description.
+	 *
+	 * @var string
+	 */
+	public $description = '';
 
 	/**
 	 * Block fields.
@@ -105,12 +112,16 @@ class Block {
 			$this->category = $config['category'];
 		}
 
-		if ( isset( $config['description'] ) ) {
-			$this->description = $config['description'];
+		if ( isset( $config['icon'] ) ) {
+			$this->icon = $config['icon'];
 		}
 
 		if ( isset( $config['keywords'] ) ) {
 			$this->keywords = $config['keywords'];
+		}
+
+		if ( isset( $config['description'] ) ) {
+			$this->description = $config['description'];
 		}
 
 		if ( isset( $config['fields'] ) ) {
@@ -134,8 +145,9 @@ class Block {
 		$config['name']        = $this->name;
 		$config['title']       = $this->title;
 		$config['category']    = $this->category;
-		$config['description'] = $this->description;
+		$config['icon']        = $this->icon;
 		$config['keywords']    = $this->keywords;
+		$config['description'] = $this->description;
 
 		foreach ( $this->fields as $key => $field ) {
 			$config['fields'][ $key ]['name']     = $field->name;
