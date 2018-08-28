@@ -154,3 +154,34 @@ function abc_locate_template( $template_names, $path = '', $single = true ) {
 
 	return $located;
 }
+
+/**
+ * Provides a list of all available block icons.
+ *
+ * To include custom icons in this list use a unique key, and specify a type of 'svg' with a value of raw SVG content.
+ *
+ * For example:
+ * $icons['foo'] = array( 'type' => 'svg', 'value' => '<svg role="img" xmlns="http://www.w3.org/2000/svg">…</svg>' );
+ *
+ * @return array
+ */
+function acb_get_icons() {
+	$icons = apply_filters( 'acb_icons', array() );
+
+	$dashicons_css = file_get_contents( ABSPATH . WPINC . '/css/dashicons.css' );
+	preg_match_all( '/.(dashicons-.*?):before/', $dashicons_css, $matches );
+
+	$dashicons = array();
+	$excluded = array( 'dashicons-before', 'dashicons-format-links', 'dashicons-format-standard', 'dashicons-welcome-edit-page', 'dashicons-exerpt-view' );
+	foreach ( $matches[1] as $dashicon ) {
+		if ( in_array( $dashicon, $excluded ) ) {
+			continue;
+		}
+		$name = str_replace( 'dashicons-', '', $dashicon );
+		$dashicons[ $name ] = array( 'type' => 'dashicons', 'value' => $dashicon );
+	}
+
+	$icons = array_merge( $icons, $dashicons );
+
+	return $icons;
+}
