@@ -166,22 +166,37 @@ function abc_locate_template( $template_names, $path = '', $single = true ) {
  * @return array
  */
 function acb_get_icons() {
-	$icons = apply_filters( 'acb_icons', array() );
+	$icons = array();
 
-	$dashicons_css = file_get_contents( ABSPATH . WPINC . '/css/dashicons.css' );
-	preg_match_all( '/.(dashicons-.*?):before/', $dashicons_css, $matches );
-
-	$dashicons = array();
-	$excluded = array( 'dashicons-before', 'dashicons-format-links', 'dashicons-format-standard', 'dashicons-welcome-edit-page', 'dashicons-exerpt-view' );
-	foreach ( $matches[1] as $dashicon ) {
-		if ( in_array( $dashicon, $excluded ) ) {
-			continue;
-		}
-		$name = str_replace( 'dashicons-', '', $dashicon );
-		$dashicons[ $name ] = array( 'type' => 'dashicons', 'value' => $dashicon );
+	$dashicons = array(
+		'admin-appearance', 'admin-comments', 'admin-customizer', 'admin-generic', 'admin-home', 'admin-links',
+		'admin-media', 'admin-multisite', 'admin-network', 'admin-page', 'admin-plugins', 'admin-post',
+		'admin-settings', 'admin-site', 'admin-tools', 'admin-users', 'album', 'align-center', 'align-left',
+		'align-none', 'align-right', 'analytics', 'archive', 'art', 'awards', 'backup', 'book-alt', 'book', 'building',
+		'businessman', 'calendar-alt', 'calendar', 'camera', 'carrot', 'cart', 'category', 'chart-area', 'chart-bar',
+		'chart-line', 'chart-pie', 'clipboard', 'clock', 'cloud', 'dashboard', 'desktop', 'dismiss', 'download', 'edit',
+		'editor-code', 'editor-contract', 'editor-customchar', 'editor-expand', 'editor-help', 'editor-help',
+		'editor-insertmore', 'editor-kitchensink', 'editor-quote', 'editor-removeformatting', 'editor-table',
+		'editor-textcolor', 'editor-video', 'email-alt', 'email', 'excerpt-view', 'external', 'facebook-alt',
+		'facebook', 'feedback', 'filter', 'flag', 'format-aside', 'format-audio', 'format-chat', 'format-gallery',
+		'format-image', 'format-quote', 'format-status', 'format-video', 'forms', 'googleplus', 'grid-view', 'groups',
+		'hammer', 'heart', 'hidden', 'id-alt', 'id', 'image-crop', 'image-filter', 'image-rotate', 'images-alt',
+		'images-alt2', 'index-card', 'info', 'laptop', 'layout', 'lightbulb', 'list-view', 'location-alt', 'location',
+		'lock', 'marker', 'media-archive', 'media-audio', 'media-code', 'media-default', 'media-document',
+		'media-interactive', 'media-spreadsheet', 'media-text', 'media-video', 'megaphone', 'microphone', 'migrate',
+		'minus', 'money', 'move', 'nametag', 'networking', 'palmtree', 'paperclip', 'performance', 'phone',
+		'playlist-audio', 'playlist-video', 'portfolio', 'post-status', 'pressthis', 'products', 'randomize', 'rss',
+		'schedule', 'screenoptions', 'search', 'share-alt', 'share-alt2', 'share', 'shield-alt', 'shield', 'slides',
+		'smartphone', 'smiley', 'sos', 'star-empty', 'star-filled', 'star-half', 'sticky', 'store', 'tablet', 'tag',
+		'tagcloud', 'testimonial', 'text', 'thumbs-down', 'thumbs-up', 'tickets-alt', 'tickets', 'translation', 'trash',
+		'twitter', 'universal-access-alt', 'universal-access', 'unlock', 'update', 'upload', 'vault', 'video-alt',
+		'video-alt2', 'video-alt3', 'visibility', 'warning', 'welcome-add-page', 'welcome-comments',
+		'welcome-learn-more', 'welcome-view-site', 'welcome-widgets-menus', 'welcome-write-blog', 'wordpress-alt',
+		'wordpress', 'yes',
+	);
+	foreach ( $dashicons as $dashicon ) {
+		$icons[ 'dashicons-' . $dashicon ] = array( 'type' => 'dashicons', 'value' => $dashicon );
 	}
 
-	$icons = array_merge( $icons, $dashicons );
-
-	return $icons;
+	return apply_filters( 'acb_icons', $icons );
 }

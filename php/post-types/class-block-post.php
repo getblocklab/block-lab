@@ -233,14 +233,14 @@ class Block_Post extends Component_Abstract {
 					<div class="acb-properties-icons">
 						<?php
 						foreach ( acb_get_icons() as $name => $icon ) {
-							$selected = $name === $block->icon ? 'selected' : '';
+							$selected = $icon['value'] === $block->icon ? 'selected' : '';
 							switch ( $icon['type'] ) {
 								case 'dashicons' :
 									printf(
 										'<span class="dashicons %s %s" data-value="%s"></span>',
-										esc_attr( $icon['value'] ),
+										esc_attr( $name ),
 										esc_attr( $selected ),
-										esc_attr( $name )
+										esc_attr( $icon['value'] )
 									);
 									break;
 								case 'svg' :
