@@ -725,11 +725,11 @@ class Block_Post extends Component_Abstract {
 				esc_html_e( 'No template found.', 'advanced-custom-blocks' );
 			} else {
 				// Formatting to make the template path easier to understand
-				$template_short       = str_replace( WP_CONTENT_DIR, '', $template );
-				$template_parts       = explode( '/', $template_short );
-				$template_with_breaks = implode( '/<wbr>', $template_parts );
+				$template_short  = str_replace( WP_CONTENT_DIR, '', $template );
+				$template_parts  = explode( '/', $template_short );
+				$template_breaks = implode( '/<wbr>', $template_parts );
 				echo wp_kses(
-					'<code>' . $template_with_breaks . '</code>',
+					'<code>' . $template_breaks . '</code>',
 					array( 'code' => array(), 'wbr' => array() )
 				);
 			}
