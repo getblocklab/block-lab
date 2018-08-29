@@ -691,9 +691,10 @@ class Block_Post extends Component_Abstract {
 	public function list_table_style() {
 		$custom_css  = '.post-type-acb_block .tablenav.top { display: none; }';
 		$custom_css .= '.post-type-acb_block .search-box { display: none; }';
-		$custom_css .= '.inline-edit-date, .inline-edit-group { display: none; }';
+		$custom_css .= '.post-type-acb_block .inline-edit-date { display: none; }';
+		$custom_css .= '.post-type-acb_block .inline-edit-group { display: none; }';
 		$custom_css .= '.post-type-acb_block .column-template code { background: none; font-size: 12px; }';
-		$custom_css .= '.fixed .column-fields { width: 10%; }';
+		$custom_css .= '.post-type-acb_block .fixed .column-fields { width: 10%; }';
 		wp_add_inline_style( 'list-tables', $custom_css );
 	}
 
