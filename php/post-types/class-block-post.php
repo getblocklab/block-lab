@@ -48,6 +48,7 @@ class Block_Post extends Component_Abstract {
 		// Clean up the list table
 		add_filter( 'disable_months_dropdown', '__return_true', 10, $this->slug );
 		add_filter( 'post_row_actions', array( $this, 'post_row_actions' ) );
+		add_filter( 'bulk_actions-edit-' . $this->slug, array( $this, 'bulk_actions' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'list_table_style' ) );
 		add_filter( 'manage_edit-' . $this->slug . '_columns', array( $this, 'list_table_columns' ) ) ;
 		add_action( 'manage_' . $this->slug . '_posts_custom_column', array( $this, 'list_table_content' ), 10, 2 ) ;
@@ -690,7 +691,9 @@ class Block_Post extends Component_Abstract {
 	public function list_table_style() {
 		$custom_css  = '.post-type-acb_block .tablenav.top { display: none; }';
 		$custom_css .= '.post-type-acb_block .search-box { display: none; }';
-		$custom_css .= '.post-type-acb_block .column-template code { background: none; font-size: 11px; }';
+		$custom_css .= '.inline-edit-date, .inline-edit-group { display: none; }';
+		$custom_css .= '.post-type-acb_block .column-template code { background: none; font-size: 12px; }';
+		$custom_css .= '.fixed .column-fields { width: 10%; }';
 		wp_add_inline_style( 'list-tables', $custom_css );
 	}
 
@@ -766,6 +769,18 @@ class Block_Post extends Component_Abstract {
 		}
 
 		// Return the set of links without Quick Edit
+		return $actions;
+	}
+
+	/**
+	 * Remove Edit from the Bulk Actions menu
+	 *
+	 * @param array $actions
+	 *
+	 * @return array
+	 */
+	public function bulk_actions( $actions ) {
+		unset( $actions['edit'] );
 		return $actions;
 	}
 }
