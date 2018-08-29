@@ -107,6 +107,7 @@ class Block_Post extends Component_Abstract {
 			'show_in_menu'    => 'acb',
 			'query_var'       => true,
 			'rewrite'         => array( 'slug' => 'acb_block' ),
+			'hierarchical'    => true,
 			'capability_type' => 'post',
 			'supports'        => array( 'title' )
 		);
