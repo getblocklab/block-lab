@@ -4,6 +4,11 @@
 	$(function() {
 		blockCategoryInit();
 
+		$( '#title' ).on( 'change keyup', function() {
+			let slug = slugify( $( this ).val() );
+			$( '#acb-properties-slug' ).val( slug );
+		});
+
 		$( '#acb-add-field' ).on( 'click', function() {
 			let template = wp.template( 'field-repeater' ),
 				data = { uid: new Date().getTime() },
@@ -138,7 +143,8 @@
 		return text
 			.toLowerCase()
 			.replace(/[^\w ]+/g,'')
-			.replace(/ +/g,'-');
+			.replace(/ +/g,'-')
+			.replace(/_+/g,'-');
 	};
 
 })(jQuery);
