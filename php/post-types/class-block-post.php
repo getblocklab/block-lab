@@ -48,7 +48,9 @@ class Block_Post extends Component_Abstract {
 		// Clean up the list table
 		add_filter( 'disable_months_dropdown', '__return_true', 10, $this->slug );
 		add_filter( 'post_row_actions', array( $this, 'post_row_actions' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'list_tables_style' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'list_table_style' ) );
+		add_filter( 'manage_edit-' . $this->slug . '_columns', array( $this, 'list_table_columns' ) ) ;
+		add_action( 'manage_' . $this->slug . '_posts_custom_column', array( $this, 'list_table_content' ), 10, 2 ) ;
 
 		// AJAX Handlers
 		add_action( 'wp_ajax_fetch_field_options', array( $this, 'ajax_field_options' ) );
@@ -679,10 +681,43 @@ class Block_Post extends Component_Abstract {
 	 *
 	 * @return void
 	 */
-	public function list_tables_style() {
+	public function list_table_style() {
 		$custom_css  = '.post-type-acb_block .tablenav.top { display: none; }';
 		$custom_css .= '.post-type-acb_block .search-box { display: none; }';
 		wp_add_inline_style( 'list-tables', $custom_css );
+	}
+
+	/**
+	 * Change the columns in the Custom Blocks list table
+	 *
+	 * @param array $columns
+	 *
+	 * @return array
+	 */
+	public function list_table_columns( $columns ) {
+		unset( $columns['date'] );
+		$columns['keywords'] = __( 'Keywords', 'advanced-custom-blocks' );
+		$columns['fields'] = __( 'Fields', 'advanced-custom-blocks' );
+		return $columns;
+	}
+
+	/**
+	 * Output custom column data into the table
+	 *
+	 * @param string $column
+	 * @param int $post_id
+	 *
+	 * @return void
+	 */
+	public function list_table_content( $column, $post_id ) {
+		if ( 'keywords' === $column ) {
+			$block = new Block( $post_id );
+			echo esc_html( implode( ', ', $block->keywords ) );
+		}
+		if ( 'fields' === $column ) {
+			$block = new Block( $post_id );
+			echo esc_html( count( $block->fields ) );
+		}
 	}
 
 	/**
