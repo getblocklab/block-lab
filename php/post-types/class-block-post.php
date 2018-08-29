@@ -210,7 +210,7 @@ class Block_Post extends Component_Abstract {
 					<p class="description" id="acb-properties-keywords-description">
 						<?php
 						esc_html_e(
-							'Used to determine the location of the template file.',
+							'Used to determine the location of the template file. Lowercase letters, numbers, and hyphens.',
 							'advanced-custom-blocks'
 						);
 						?>
@@ -604,6 +604,9 @@ class Block_Post extends Component_Abstract {
 
 		check_admin_referer( 'acb_save_fields', 'acb_fields_nonce' );
 		check_admin_referer( 'acb_save_properties', 'acb_properties_nonce' );
+
+		// sanitize_title() allows underscores, but register_block_type doesn't.
+		$data['post_name'] = str_replace( '_', '-', $data['post_name'] );
 
 		$block = new Block();
 

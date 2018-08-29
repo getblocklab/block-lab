@@ -104,6 +104,9 @@ class Loader extends Component_Abstract {
 			$attributes                   = $this->get_block_attributes( $block );
 			$attributes['acb_block_name'] = $block_name;
 
+			// sanitize_title() allows underscores, but register_block_type doesn't.
+			$block_name = str_replace( '_', '-', $block_name );
+
 			register_block_type( $block_name, [
 				'attributes'      => $attributes,
 				// @see https://github.com/WordPress/gutenberg/issues/4671
