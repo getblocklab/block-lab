@@ -41,6 +41,7 @@ class Block_Post extends Component_Abstract {
 	public function register_hooks() {
 		add_action( 'init', array( $this, 'register_post_type' ) );
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
+		add_action( 'add_meta_boxes', array( $this, 'remove_meta_boxes' ) );
 		add_filter( 'enter_title_here', array( $this, 'post_title_placeholder' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'wp_insert_post_data', array( $this, 'save_block' ), 10, 2 );
@@ -183,6 +184,15 @@ class Block_Post extends Component_Abstract {
 	}
 
 	/**
+	 * Removes unneeded meta boxes.
+	 *
+	 * @return void
+	 */
+	public function remove_meta_boxes() {
+		remove_meta_box( 'slugdiv', $this->slug, 'normal' );
+	}
+
+	/**
 	 * Render the Block Fields meta box.
 	 *
 	 * @return void
@@ -192,6 +202,31 @@ class Block_Post extends Component_Abstract {
 		$block = new Block( $post->ID );
 		?>
 		<table class="form-table">
+			<tr>
+				<th scope="row">
+					<label for="acb-properties-slug">
+						<?php esc_html_e( 'Slug', 'advanced-custom-blocks' ); ?>
+					</label>
+					<p class="description" id="acb-properties-keywords-description">
+						<?php
+						esc_html_e(
+							'Used to determine the location of the template file.',
+							'advanced-custom-blocks'
+						);
+						?>
+					</p>
+				</th>
+				<td>
+					<p>
+						<input
+							name="post_name"
+							type="text"
+							id="acb-properties-slug"
+							value="<?php echo esc_attr( $post->post_name ); ?>"
+							class="regular-text">
+					</p>
+				</td>
+			</tr>
 			<tr>
 				<th scope="row">
 					<label for="acb-properties-category">
