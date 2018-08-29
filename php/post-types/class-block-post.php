@@ -49,7 +49,6 @@ class Block_Post extends Component_Abstract {
 		add_filter( 'disable_months_dropdown', '__return_true', 10, $this->slug );
 		add_filter( 'post_row_actions', array( $this, 'post_row_actions' ) );
 		add_filter( 'bulk_actions-edit-' . $this->slug, array( $this, 'bulk_actions' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'list_table_style' ) );
 		add_filter( 'manage_edit-' . $this->slug . '_columns', array( $this, 'list_table_columns' ) ) ;
 		add_action( 'manage_' . $this->slug . '_posts_custom_column', array( $this, 'list_table_content' ), 10, 2 ) ;
 
@@ -148,6 +147,14 @@ class Block_Post extends Component_Abstract {
 				array(
 					'fieldOptionsNonce' => wp_create_nonce( 'acb_field_options_nonce' ),
 				)
+			);
+		}
+		if ( $this->slug === $screen->post_type && 'edit' === $screen->base ) {
+			wp_enqueue_style(
+				'block-edit',
+				$this->plugin->get_url( 'css/admin.block-edit.css' ),
+				array(),
+				filemtime( $this->plugin->get_path( 'css/admin.block-edit.css' ) )
 			);
 		}
 	}
@@ -681,20 +688,6 @@ class Block_Post extends Component_Abstract {
 		}
 
 		return $title;
-	}
-
-	/**
-	 * Hide the search box and top pagination.
-	 *
-	 * @return void
-	 */
-	public function list_table_style() {
-		$custom_css  = '.post-type-acb_block .tablenav.top { display: none; }';
-		$custom_css .= '.post-type-acb_block .search-box { display: none; }';
-		$custom_css .= '.inline-edit-date, .inline-edit-group { display: none; }';
-		$custom_css .= '.post-type-acb_block .column-template code { background: none; font-size: 12px; }';
-		$custom_css .= '.fixed .column-fields { width: 10%; }';
-		wp_add_inline_style( 'list-tables', $custom_css );
 	}
 
 	/**
