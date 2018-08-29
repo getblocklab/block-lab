@@ -466,7 +466,9 @@ class Block_Post extends Component_Abstract {
 			return;
 		}
 
-		if ( ! file_exists( get_theme_file_path( 'blocks/block-' . $post->post_name . '.php' ) ) ) {
+		$template = acb_locate_template( 'blocks/block-' . $post->post_name . '.php', '', true );
+
+		if ( ! $template ) {
 			?>
 			<div class="template-notice template-warning">
 				<p>
@@ -490,6 +492,10 @@ class Block_Post extends Component_Abstract {
 			return;
 		}
 
+		// Formatting to make the template path easier to understand
+		$template_short       = str_replace( WP_CONTENT_DIR, '', $template );
+		$template_parts       = explode( '/', $template_short );
+		$template_with_breaks = implode( '/<wbr>', $template_parts );
 		?>
 		<div class="template-notice template-success">
 			<p>
@@ -499,18 +505,8 @@ class Block_Post extends Component_Abstract {
 				<?php esc_html_e( 'This block uses the following template:', 'advanced-custom-blocks' ); ?>
 			</p>
 			<?php
-			$child_template = str_replace( get_theme_root(), '', get_stylesheet_directory() ) . '/blocks/block-' . $post->post_name . '.php';
-			$parent_template = str_replace( get_theme_root(), '', get_template_directory() ) . '/blocks/block-' . $post->post_name . '.php';
-			if ( $child_template !== $parent_template ) {
-				?>
-				<p><code><?php echo esc_html( $child_template ); ?></code></p>
-				<?php
-			} else {
-				?>
-				<p><code><?php echo esc_html( $parent_template ); ?></code></p>
-				<?php
-			}
 			?>
+			<p><code><?php echo wp_kses( $template_with_breaks, array( 'wbr' => array() ) ); ?></code></p>
 		</div>
 		<?php
 	}
