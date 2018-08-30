@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Setup the plugin auto loader.
-require_once( 'php/autoloader.php' );
+require_once 'php/autoloader.php';
 
 /**
  * Admin notice for incompatible versions of PHP.

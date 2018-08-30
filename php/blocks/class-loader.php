@@ -28,6 +28,11 @@ class Loader extends Component_Abstract {
 	 */
 	public $blocks = '';
 
+	/**
+	 * Load the Loader.
+	 *
+	 * @return $this
+	 */
 	public function init() {
 		$this->assets = [
 			'path' => [
@@ -75,11 +80,13 @@ class Loader extends Component_Abstract {
 		);
 
 		// Add dynamic Gutenberg blocks.
-		wp_add_inline_script( 'acb-blocks', '
+		wp_add_inline_script(
+			'acb-blocks', '
 				const acbBlocks = ' . $this->blocks . ' 
-			', 'before' );
+			', 'before'
+		);
 
-		// Enqueue optional editor only styles
+		// Enqueue optional editor only styles.
 		wp_enqueue_style(
 			'acb-blocks-editor-css',
 			$this->assets['url']['editor_style'],
@@ -100,24 +107,26 @@ class Loader extends Component_Abstract {
 		// Get blocks.
 		$blocks = json_decode( $this->blocks, true );
 		foreach ( $blocks as $block_name => $block ) {
+			$attributes = $this->get_block_attributes( $block );
 
-			$attributes                   = $this->get_block_attributes( $block );
 			$attributes['acb_block_name'] = $block_name;
 
-			register_block_type( $block_name, [
-				'attributes'      => $attributes,
-				// @see https://github.com/WordPress/gutenberg/issues/4671
-				'render_callback' => function ( $attributes ) use ( $block ) {
-					return $this->render_block_template( $block, $attributes );
-				},
-			] );
+			register_block_type(
+				$block_name, [
+					'attributes'      => $attributes,
+					// @see https://github.com/WordPress/gutenberg/issues/4671
+					'render_callback' => function ( $attributes ) use ( $block ) {
+						return $this->render_block_template( $block, $attributes );
+					},
+				]
+			);
 		}
 	}
 
 	/**
 	 * Gets block attributes.
 	 *
-	 * @param $block
+	 * @param array $block An array containing block data.
 	 *
 	 * @return array
 	 */
@@ -192,29 +201,31 @@ class Loader extends Component_Abstract {
 		$blocks_files = array_reverse( (array) abc_locate_template( 'blocks/blocks.json', '', false ) );
 		foreach ( $blocks_files as $blocks_file ) {
 			// This is expected to be on the local filesystem, so file_get_contents() is ok to use here.
-			$json = file_get_contents( $blocks_file );
+			$json       = file_get_contents( $blocks_file ); // @codingStandardsIgnoreLine
 			$block_data = json_decode( $json, true );
 
 			// Merge if no json_decode error occurred.
-			if ( json_last_error() == JSON_ERROR_NONE ) {
+			if ( json_last_error() == JSON_ERROR_NONE ) { // Loose comparison okay.
 				$blocks = array_merge( $blocks, $block_data );
 			}
 		}
 
-		$block_posts = new \WP_Query( [
-			'post_type'      => $slug,
-			'post_status'    => 'publish',
-			'posts_per_page' => - 1,
-		] );
+		$block_posts = new \WP_Query(
+			[
+				'post_type'      => $slug,
+				'post_status'    => 'publish',
+				'posts_per_page' => - 1,
+			]
+		);
 
 		if ( 0 < $block_posts->post_count ) {
-			/** @var \WP_Post $post */
+			/** The WordPress Post object. @var \WP_Post $post */
 			foreach ( $block_posts->posts as $post ) {
 				$block_data = json_decode( $post->post_content, true );
 
 				// Merge if no json_decode error occurred.
-				if ( json_last_error() == JSON_ERROR_NONE ) {
-					$blocks = array_merge( $blocks, $block_data);
+				if ( json_last_error() == JSON_ERROR_NONE ) { // Loose comparison okay.
+					$blocks = array_merge( $blocks, $block_data );
 				}
 			}
 		}
