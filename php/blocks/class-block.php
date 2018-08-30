@@ -134,6 +134,7 @@ class Block {
 		$config['description'] = $this->description;
 		$config['keywords']    = $this->keywords;
 
+		$config['fields'] = array();
 		foreach ( $this->fields as $key => $field ) {
 			$config['fields'][ $key ]['name']     = $field->name;
 			$config['fields'][ $key ]['label']    = $field->label;
