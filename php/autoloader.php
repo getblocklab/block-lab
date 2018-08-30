@@ -19,7 +19,7 @@ spl_autoload_register(
 		// If a class ends with "Trait" then prefix the filename with 'trait-', else use 'class-'.
 		$class_trait = preg_match( '/Trait$/', $class ) ? 'trait-' : 'class-';
 
-			// If we're not in the plugin's namespace then just return.
+		// If we're not in the plugin's namespace then just return.
 		if ( 'Advanced_Custom_Blocks' !== $root ) {
 			return;
 		}
@@ -27,7 +27,7 @@ spl_autoload_register(
 		// Class name is the last part of the FQN.
 		$class_name = array_pop( $namespace );
 
-			// Remove "Trait" from the class name.
+		// Remove "Trait" from the class name.
 		if ( 'trait-' === $class_trait ) {
 			$class_name = str_replace( 'Trait', '', $class_name );
 		}
