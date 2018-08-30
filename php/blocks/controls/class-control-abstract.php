@@ -31,11 +31,11 @@ abstract class Control_Abstract {
 	public $label = '';
 
 	/**
-	 * Control options.
+	 * Control settings.
 	 *
-	 * @var Control_Option[]
+	 * @var Control_Setting[]
 	 */
-	public $options = array();
+	public $settings = array();
 
 	/**
 	 * Control constructor.
@@ -43,54 +43,57 @@ abstract class Control_Abstract {
 	 * @return void
 	 */
 	public function __construct() {
-		$this->register_options();
+		$this->register_settings();
 	}
 
 	/**
-	 * Register options.
+	 * Register settings.
 	 *
 	 * @return void
 	 */
-	abstract public function register_options();
+	abstract public function register_settings();
 
 	/**
-	 * Render additional options in table rows.
+	 * Render additional settings in table rows.
 	 *
-	 * @param Field $field
-	 * @param string $uid
+	 * @param Field  $field The Field containing the options to render.
+	 * @param string $uid   A unique ID to used to unify the HTML name, for, and id attributes.
 	 *
 	 * @return void
 	 */
-	public function render_options( $field, $uid ) {
-		foreach ( $this->options as $option ) {
-			if ( isset( $field->options[ $option->name ] ) ) {
-				$option->value = $field->options[ $option->name ];
+	public function render_settings( $field, $uid ) {
+		foreach ( $this->settings as $setting ) {
+			if ( isset( $field->settings[ $setting->name ] ) ) {
+				$setting->value = $field->settings[ $setting->name ];
 			} else {
-				$option->value = $option->default;
+				$setting->value = $setting->default;
 			}
 
 			$classes = array(
-				'acb-fields-edit-options-' . $this->name . '-' . $option->name,
-				'acb-fields-edit-options-' . $this->name,
-				'acb-fields-edit-options',
+				'acb-fields-edit-settings-' . $this->name . '-' . $setting->name,
+				'acb-fields-edit-settings-' . $this->name,
+				'acb-fields-edit-settings',
 			);
-			$name    = 'acb-fields-options[' . $uid . '][' . $option->name . ']';
-			$id      = 'acb-fields-edit-options-' . $this->name . '-' . $option->name . '_' . $uid;
+			$name    = 'acb-fields-settings[' . $uid . '][' . $setting->name . ']';
+			$id      = 'acb-fields-edit-settings-' . $this->name . '-' . $setting->name . '_' . $uid;
 			?>
 			<tr class="<?php echo esc_attr( implode( $classes, ' ' ) ); ?>">
 				<td class="spacer"></td>
 				<th scope="row">
 					<label for="<?php echo esc_attr( $id ); ?>">
-						<?php echo esc_html( $option->label ); ?>
+						<?php echo esc_html( $setting->label ); ?>
 					</label>
+					<p class="description">
+						<?php echo wp_kses_post( $setting->help ); ?>
+					</p>
 				</th>
 				<td>
 					<?php
-					$method = 'render_options_' . $option->type;
+					$method = 'render_settings_' . $setting->type;
 					if ( method_exists( $this, $method ) ) {
-						$this->$method( $option, $name, $id );
+						$this->$method( $setting, $name, $id );
 					} else {
-						$this->render_options_text( $option, $name, $id );
+						$this->render_settings_text( $setting, $name, $id );
 					}
 					?>
 				</td>
@@ -100,53 +103,54 @@ abstract class Control_Abstract {
 	}
 
 	/**
-	 * Render text options
+	 * Render text settings
 	 *
-	 * @param Control_Option $option
-	 * @param string $name
-	 * @param string $id
+	 * @param Control_Setting $setting The Control_Setting being rendered.
+	 * @param string          $name    The name attribute of the option.
+	 * @param string          $id      The id attribute of the option.
 	 *
 	 * @return void
 	 */
-	public function render_options_text( $option, $name, $id ) {
+	public function render_settings_text( $setting, $name, $id ) {
 		?>
 		<input
 			name="<?php echo esc_attr( $name ); ?>"
 			type="text"
 			id="<?php echo esc_attr( $id ); ?>"
 			class="regular-text"
-			value="<?php echo esc_attr( $option->get_value() ); ?>" />
+			value="<?php echo esc_attr( $setting->get_value() ); ?>" />
 		<?php
 	}
 
 	/**
-	 * Render textarea options
+	 * Render textarea settings
 	 *
-	 * @param Control_Option $option
-	 * @param string $name
-	 * @param string $id
+	 * @param Control_Setting $setting The Control_Setting being rendered.
+	 * @param string          $name    The name attribute of the option.
+	 * @param string          $id      The id attribute of the option.
 	 *
 	 * @return void
 	 */
-	public function render_options_textarea( $option, $name, $id ) {
+	public function render_settings_textarea( $setting, $name, $id ) {
 		?>
 		<textarea
 			name="<?php echo esc_attr( $name ); ?>"
 			id="<?php echo esc_attr( $id ); ?>"
-			class="large-text"><?php echo esc_attr( $option->get_value() ); ?></textarea>
+			rows="6"
+			class="large-text"><?php echo esc_textarea( $setting->get_value() ); ?></textarea>
 		<?php
 	}
 
 	/**
-	 * Render checkbox options
+	 * Render checkbox settings
 	 *
-	 * @param Control_Option $option
-	 * @param string $name
-	 * @param string $id
+	 * @param Control_Setting $setting The Control_Setting being rendered.
+	 * @param string          $name    The name attribute of the option.
+	 * @param string          $id      The id attribute of the option.
 	 *
 	 * @return void
 	 */
-	public function render_options_checkbox( $option, $name, $id ) {
+	public function render_settings_checkbox( $setting, $name, $id ) {
 		?>
 		<input
 			name="<?php echo esc_attr( $name ); ?>"
@@ -154,20 +158,20 @@ abstract class Control_Abstract {
 			id="<?php echo esc_attr( $id ); ?>"
 			class=""
 			value="1"
-			<?php checked( '1', $option->get_value() ); ?> />
+			<?php checked( '1', $setting->get_value() ); ?> />
 		<?php
 	}
 
 	/**
-	 * Render number options
+	 * Render number settings
 	 *
-	 * @param Control_Option $option
-	 * @param string $name
-	 * @param string $id
+	 * @param Control_Setting $setting The Control_Setting being rendered.
+	 * @param string          $name    The name attribute of the option.
+	 * @param string          $id      The id attribute of the option.
 	 *
 	 * @return void
 	 */
-	public function render_options_number( $option, $name, $id ) {
+	public function render_settings_number( $setting, $name, $id ) {
 		?>
 		<input
 			name="<?php echo esc_attr( $name ); ?>"
@@ -175,7 +179,132 @@ abstract class Control_Abstract {
 			id="<?php echo esc_attr( $id ); ?>"
 			class="regular-text"
 			min="1"
-			value="<?php echo esc_attr( $option->get_value() ); ?>" />
+			value="<?php echo esc_attr( $setting->get_value() ); ?>" />
 		<?php
+	}
+
+	/**
+	 * Render an array of settings inside a textarea.
+	 *
+	 * @param Control_Setting $setting The Control_Setting being rendered.
+	 * @param string          $name    The name attribute of the option.
+	 * @param string          $id      The id attribute of the option.
+	 *
+	 * @return void
+	 */
+	public function render_settings_textarea_array( $setting, $name, $id ) {
+		$options = $setting->get_value();
+		if ( is_array( $options ) ) {
+			// Convert the array to text separated by new lines.
+			$value = '';
+			foreach ( $options as $option ) {
+				if ( ! is_array( $option ) ) {
+					$value .= $option . "\n";
+					continue;
+				}
+				if ( ! isset( $option['value'] ) || ! isset( $option['label'] ) ) {
+					continue;
+				}
+				if ( $option['value'] === $option['label'] ) {
+					$value .= $option['label'] . "\n";
+				} else {
+					$value .= $option['value'] . ' : ' . $option['label'] . "\n";
+				}
+			}
+			$setting->value = trim( $value );
+		}
+		$this->render_settings_textarea( $setting, $name, $id );
+	}
+
+	/**
+	 * Sanitize checkbox.
+	 *
+	 * @param string $value The value to sanitize.
+	 *
+	 * @return string
+	 */
+	public function sanitise_checkbox( $value ) {
+		if ( '1' === $value ) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Sanitize non-zero number.
+	 *
+	 * @param string $value The value to sanitize.
+	 *
+	 * @return int
+	 */
+	public function sanitise_number( $value ) {
+		if ( empty( $value ) || '0' === $value ) {
+			return null;
+		}
+		return (int) filter_var( $value, FILTER_SANITIZE_NUMBER_INT );
+	}
+
+	/**
+	 * Sanitize an array of settings inside a textarea.
+	 *
+	 * @param string $value The value to sanitize.
+	 *
+	 * @return array
+	 */
+	public function sanitise_textarea_assoc_array( $value ) {
+		$rows    = preg_split( '/\r\n|[\r\n]/', $value );
+		$options = array();
+
+		foreach ( $rows as $key => $option ) {
+			if ( '' === $option ) {
+				continue;
+			}
+
+			$key_value = explode( ' : ', $option );
+
+			if ( count( $key_value ) > 1 ) {
+				$options[ $key ]['label'] = $key_value[1];
+				$options[ $key ]['value'] = $key_value[0];
+			} else {
+				$options[ $key ]['label'] = $option;
+				$options[ $key ]['value'] = $option;
+			}
+		}
+
+		// Reindex array in case of blank lines.
+		$options = array_values( $options );
+
+		return $options;
+	}
+
+	/**
+	 * Sanitize an array of settings inside a textarea.
+	 *
+	 * @param string $value The value to sanitize.
+	 *
+	 * @return array
+	 */
+	public function sanitise_textarea_array( $value ) {
+		$rows    = preg_split( '/\r\n|[\r\n]/', $value );
+		$options = array();
+
+		foreach ( $rows as $key => $option ) {
+			if ( '' === $option ) {
+				continue;
+			}
+
+			$key_value = explode( ' : ', $option );
+
+			if ( count( $key_value ) > 1 ) {
+				$options[] = $key_value[0];
+			} else {
+				$options[] = $option;
+			}
+		}
+
+		// Reindex array in case of blank lines.
+		$options = array_values( $options );
+
+		return $options;
 	}
 }
