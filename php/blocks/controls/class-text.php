@@ -1,6 +1,6 @@
 <?php
 /**
- * Control abstract.
+ * Text control.
  *
  * @package   Advanced_Custom_Blocks
  * @copyright Copyright(c) 2018, Advanced Custom Blocks
@@ -32,55 +32,55 @@ class Text extends Control_Abstract {
 	}
 
 	/**
-	 * Register options.
+	 * Register settings.
 	 *
 	 * @return void
 	 */
-	public function register_options() {
-		$this->options[] = new Control_Option( array(
-			'name'     => 'help',
-			'label'    => __( 'Field instructions', 'advanced-custom-blocks' ),
-			'type'     => 'textarea',
-			'default'  => '',
-			'sanitize' => 'sanitize_textarea_field',
-		) );
-		$this->options[] = new Control_Option( array(
-			'name'     => 'required',
-			'label'    => __( 'Required?', 'advanced-custom-blocks' ),
-			'type'     => 'checkbox',
-			'default'  => '0',
-			'sanitize' => function( $value ) {
-				if ( '1' === $value ) {
-					return true;
-				}
-				return false;
-			},
-		) );
-		$this->options[] = new Control_Option( array(
-			'name'     => 'default',
-			'label'    => __( 'Default Value', 'advanced-custom-blocks' ),
-			'type'     => 'text',
-			'default'  => '',
-			'sanitize' => 'sanitize_text_field',
-		) );
-		$this->options[] = new Control_Option( array(
-			'name'     => 'placeholder',
-			'label'    => __( 'Placeholder Text', 'advanced-custom-blocks' ),
-			'type'     => 'text',
-			'default'  => '',
-			'sanitize' => 'sanitize_text_field',
-		) );
-		$this->options[] = new Control_Option( array(
-			'name'    => 'maxlength',
-			'label'   => __( 'Character Limit', 'advanced-custom-blocks' ),
-			'type'    => 'number',
-			'default' => '',
-			'sanitize' => function( $value ) {
-				if ( empty( $value ) || '0' === $value ) {
-					return null;
-				}
-				return (int) filter_var( $value, FILTER_SANITIZE_NUMBER_INT );
-			}
-		) );
+	public function register_settings() {
+		$this->settings[] = new Control_Setting(
+			array(
+				'name'     => 'help',
+				'label'    => __( 'Field instructions', 'advanced-custom-blocks' ),
+				'type'     => 'textarea',
+				'default'  => '',
+				'sanitize' => 'sanitize_textarea_field',
+			)
+		);
+		$this->settings[] = new Control_Setting(
+			array(
+				'name'     => 'required',
+				'label'    => __( 'Required?', 'advanced-custom-blocks' ),
+				'type'     => 'checkbox',
+				'default'  => '0',
+				'sanitize' => array( $this, 'sanitise_checkbox' ),
+			)
+		);
+		$this->settings[] = new Control_Setting(
+			array(
+				'name'     => 'default',
+				'label'    => __( 'Default Value', 'advanced-custom-blocks' ),
+				'type'     => 'text',
+				'default'  => '',
+				'sanitize' => 'sanitize_text_field',
+			)
+		);
+		$this->settings[] = new Control_Setting(
+			array(
+				'name'     => 'placeholder',
+				'label'    => __( 'Placeholder Text', 'advanced-custom-blocks' ),
+				'type'     => 'text',
+				'default'  => '',
+				'sanitize' => 'sanitize_text_field',
+			)
+		);
+		$this->settings[] = new Control_Setting(
+			array(
+				'name'     => 'maxlength',
+				'label'    => __( 'Character Limit', 'advanced-custom-blocks' ),
+				'type'     => 'number',
+				'default'  => '',
+				'sanitize' => array( $this, 'sanitise_number' ),
+			)
+		);
 	}
 }

@@ -1,4 +1,13 @@
-/* globals wp, advancedCustomBlocks */
+/**
+ * Used for editing Blocks.
+ *
+ * @package   Advanced_Custom_Blocks
+ * @copyright Copyright(c) 2018, Advanced Custom Blocks
+ * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
+ *
+ * Globals wp, advancedCustomBlocks
+ */
+
 (function( $ ) {
 
 	$(function() {
@@ -6,8 +15,8 @@
 
 		$( '#acb-add-field' ).on( 'click', function() {
 			let template = wp.template( 'field-repeater' ),
-				data = { uid: new Date().getTime() },
-				field = $( template( data ) );
+				data     = { uid: new Date().getTime() },
+				field    = $( template( data ) );
 			$( '.acb-fields-rows' ).append( field );
 			field.find( '.acb-fields-actions-edit' ).trigger( 'click' );
 		});
@@ -20,12 +29,12 @@
 				$( this ).closest( '.acb-fields-row' ).toggleClass( 'acb-fields-row-active' );
 				$( this ).closest( '.acb-fields-row' ).find( '.acb-fields-edit' ).slideToggle();
 
-				// Fetch field options if field is active and there are no options
+				// Fetch field settings if field is active and there are no settings.
 				if ( $( this ).closest( '.acb-fields-row' ).hasClass( 'acb-fields-row-active' ) ) {
-					if ( 0 === $( this ).closest( '.acb-fields-row' ).find( '.acb-fields-edit-options' ).length ) {
-						let fieldRow = $( this ).closest( '.acb-fields-row' ),
+					if ( 0 === $( this ).closest( '.acb-fields-row' ).find( '.acb-fields-edit-settings' ).length ) {
+						let fieldRow     = $( this ).closest( '.acb-fields-row' ),
 							fieldControl = fieldRow.find( '.acb-fields-edit-control select' ).val();
-						fetchFieldOptions( fieldRow, fieldControl );
+						fetchFieldSettings( fieldRow, fieldControl );
 					}
 				}
 			})
@@ -39,7 +48,7 @@
 			})
 			.on( 'change', '.acb-fields-edit-control select', function() {
 				let fieldRow = $( this ).closest( '.acb-fields-row' );
-				fetchFieldOptions( fieldRow, $( this ).val() );
+				fetchFieldSettings( fieldRow, $( this ).val() );
 			})
 			.on( 'change keyup', '.acb-fields-edit-label input', function() {
 				let slug = slugify( $( this ).val() );
@@ -47,7 +56,7 @@
 					.closest( '.acb-fields-edit' )
 					.find( '.acb-fields-edit-name input' )
 					.val( slug )
-					.trigger('change');
+					.trigger( 'change' );
 			})
 			.sortable({
 				axis: 'y',
@@ -59,10 +68,11 @@
 	});
 
 	let blockCategoryInit = function() {
-		let categories = wp.blocks.getCategories(),
-			category   = $( '#acb-properties-category-saved' );
+		let categories       = wp.blocks.getCategories(),
+			categoriesLength = categories.length,
+			category         = $( '#acb-properties-category-saved' );
 
-		for (let i = 0; i < categories.length; i++) {
+		for (let i = 0; i < categoriesLength; i++) {
 			if ( 'reusable' === categories[i].slug ) {
 				continue;
 			}
@@ -80,8 +90,8 @@
 		}
 	};
 
-	let fetchFieldOptions = function( fieldRow, fieldControl ) {
-		if ( ! advancedCustomBlocks.hasOwnProperty( 'fieldOptionsNonce' ) ) {
+	let fetchFieldSettings = function( fieldRow, fieldControl ) {
+		if ( ! advancedCustomBlocks.hasOwnProperty( 'fieldSettingsNonce' ) ) {
 			return;
 		}
 
@@ -92,18 +102,18 @@
 			'   <td><span class="loading"></span></td>' +
 			'</tr>';
 
-		$( '.acb-fields-edit-options', fieldRow ).remove();
+		$( '.acb-fields-edit-settings', fieldRow ).remove();
 		$( '.acb-fields-edit-control', fieldRow ).after( $( loadingRow ) );
 
-		wp.ajax.send( 'fetch_field_options', {
+		wp.ajax.send( 'fetch_field_settings', {
 			success: function( data ) {
 				$( '.acb-fields-edit-loading', fieldRow ).remove();
 
 				if ( ! data.hasOwnProperty( 'html' ) ) {
 					return;
 				}
-				let optionsRows = $( data.html );
-				$( '.acb-fields-edit-control', fieldRow ).after( optionsRows );
+				let settingsRows = $( data.html );
+				$( '.acb-fields-edit-control', fieldRow ).after( settingsRows );
 			},
 			error: function() {
 				$( '.acb-fields-edit-loading', fieldRow ).remove();
@@ -111,7 +121,7 @@
 			data: {
 				control: fieldControl,
 				uid:     fieldRow.data( 'uid' ),
-				nonce:   advancedCustomBlocks.fieldOptionsNonce
+				nonce:   advancedCustomBlocks.fieldSettingsNonce
 			}
 		});
 	};
@@ -119,8 +129,8 @@
 	let slugify = function( text ) {
 		return text
 			.toLowerCase()
-			.replace(/[^\w ]+/g,'')
-			.replace(/ +/g,'-');
+			.replace( /[^\w ]+/g,'' )
+			.replace( / +/g,'-' );
 	};
 
-})(jQuery);
+})( jQuery );

@@ -3,7 +3,7 @@ const updatePreview = (props, block, data) => {
 
 		if ( !block.fields.hasOwnProperty( attrKey ) ) continue;
 
-		data = data || props.attributes.block_template
+		data = data || props.attributes.block_template || ''
 
 		let attr = props.attributes[ attrKey ];
 		let value = typeof attr != 'undefined' ? attr : '';
