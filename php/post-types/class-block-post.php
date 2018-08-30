@@ -644,7 +644,7 @@ class Block_Post extends Component_Abstract {
 				// Field settings.
 				if ( isset( $this->controls[ $field_config['control'] ] ) ) {
 					$control = $this->controls[ $field_config['control'] ];
-					foreach( $control->settings as $setting ) {
+					foreach ( $control->settings as $setting ) {
 						if ( isset( $_POST['acb-fields-settings'][ $key ][ $setting->name ] ) ) {
 							if ( is_callable( $setting->sanitize ) ) {
 								$field_config['settings'][ $setting->name ] = call_user_func(
