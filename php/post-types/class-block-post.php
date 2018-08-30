@@ -112,11 +112,14 @@ class Block_Post extends Component_Abstract {
 			'show_ui'       => true,
 			'show_in_menu'  => true,
 			'menu_position' => 100,
+			// This SVG icon is being included from the plugin directory, so using file_get_contents is okay.
+			// @codingStandardsIgnoreStart
 			'menu_icon'     => 'data:image/svg+xml;base64,' . base64_encode(
 				file_get_contents(
 					$this->plugin->get_assets_path( 'images/admin-menu-icon.svg' )
 				)
 			),
+			// @codingStandardsIgnoreEnd
 			'query_var'     => true,
 			'rewrite'       => array( 'slug' => 'acb_block' ),
 			'capabilities'  => array(
