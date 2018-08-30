@@ -59,26 +59,26 @@ class Field {
 	/**
 	 * Field constructor.
 	 *
-	 * @param array $config
+	 * @param array $args An associative array with keys corresponding to the Field's properties.
 	 */
-	public function __construct( $config = array() ) {
-		if ( isset( $config['name'] ) ) {
-			$this->name = $config['name'];
+	public function __construct( $args = array() ) {
+		if ( isset( $args['name'] ) ) {
+			$this->name = $args['name'];
 		}
-		if ( isset( $config['label'] ) ) {
-			$this->label = $config['label'];
+		if ( isset( $args['label'] ) ) {
+			$this->label = $args['label'];
 		}
-		if ( isset( $config['control'] ) ) {
-			$this->control = $config['control'];
+		if ( isset( $args['control'] ) ) {
+			$this->control = $args['control'];
 		}
-		if ( isset( $config['location'] ) ) {
-			$this->location = $config['location'];
+		if ( isset( $args['location'] ) ) {
+			$this->location = $args['location'];
 		}
-		if ( isset( $config['order'] ) ) {
-			$this->order = $config['order'];
+		if ( isset( $args['order'] ) ) {
+			$this->order = $args['order'];
 		}
-		if ( isset( $config['options'] ) ) {
-			$this->options = $config['options'];
+		if ( isset( $args['options'] ) ) {
+			$this->options = $args['options'];
 		}
 	}
 }

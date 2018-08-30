@@ -56,8 +56,8 @@ abstract class Control_Abstract {
 	/**
 	 * Render additional options in table rows.
 	 *
-	 * @param Field $field
-	 * @param string $uid
+	 * @param Field  $field The Field containing the options to render.
+	 * @param string $uid   A unique ID to used to unify the HTML name, for, and id attributes.
 	 *
 	 * @return void
 	 */
@@ -102,9 +102,9 @@ abstract class Control_Abstract {
 	/**
 	 * Render text options
 	 *
-	 * @param Control_Option $option
-	 * @param string $name
-	 * @param string $id
+	 * @param Control_Option $option The Control_Option being rendered.
+	 * @param string         $name   The name attribute of the option.
+	 * @param string         $id     The id attribute of the option.
 	 *
 	 * @return void
 	 */
@@ -122,9 +122,9 @@ abstract class Control_Abstract {
 	/**
 	 * Render textarea options
 	 *
-	 * @param Control_Option $option
-	 * @param string $name
-	 * @param string $id
+	 * @param Control_Option $option The Control_Option being rendered.
+	 * @param string         $name   The name attribute of the option.
+	 * @param string         $id     The id attribute of the option.
 	 *
 	 * @return void
 	 */
@@ -140,9 +140,9 @@ abstract class Control_Abstract {
 	/**
 	 * Render checkbox options
 	 *
-	 * @param Control_Option $option
-	 * @param string $name
-	 * @param string $id
+	 * @param Control_Option $option The Control_Option being rendered.
+	 * @param string         $name   The name attribute of the option.
+	 * @param string         $id     The id attribute of the option.
 	 *
 	 * @return void
 	 */
@@ -161,9 +161,9 @@ abstract class Control_Abstract {
 	/**
 	 * Render number options
 	 *
-	 * @param Control_Option $option
-	 * @param string $name
-	 * @param string $id
+	 * @param Control_Option $option The Control_Option being rendered.
+	 * @param string         $name   The name attribute of the option.
+	 * @param string         $id     The id attribute of the option.
 	 *
 	 * @return void
 	 */

@@ -1,4 +1,13 @@
-/* globals wp, advancedCustomBlocks */
+/**
+ * Used for editing Blocks.
+ *
+ * @package   Advanced_Custom_Blocks
+ * @copyright Copyright(c) 2018, Advanced Custom Blocks
+ * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
+ *
+ * Globals wp, advancedCustomBlocks
+ */
+
 (function( $ ) {
 
 	$(function() {
@@ -6,8 +15,8 @@
 
 		$( '#acb-add-field' ).on( 'click', function() {
 			let template = wp.template( 'field-repeater' ),
-				data = { uid: new Date().getTime() },
-				field = $( template( data ) );
+				data     = { uid: new Date().getTime() },
+				field    = $( template( data ) );
 			$( '.acb-fields-rows' ).append( field );
 			field.find( '.acb-fields-actions-edit' ).trigger( 'click' );
 		});
@@ -28,10 +37,10 @@
 				$( this ).closest( '.acb-fields-row' ).toggleClass( 'acb-fields-row-active' );
 				$( this ).closest( '.acb-fields-row' ).find( '.acb-fields-edit' ).slideToggle();
 
-				// Fetch field options if field is active and there are no options
+				// Fetch field options if field is active and there are no options.
 				if ( $( this ).closest( '.acb-fields-row' ).hasClass( 'acb-fields-row-active' ) ) {
 					if ( 0 === $( this ).closest( '.acb-fields-row' ).find( '.acb-fields-edit-options' ).length ) {
-						let fieldRow = $( this ).closest( '.acb-fields-row' ),
+						let fieldRow     = $( this ).closest( '.acb-fields-row' ),
 							fieldControl = fieldRow.find( '.acb-fields-edit-control select' ).val();
 						fetchFieldOptions( fieldRow, fieldControl );
 					}
@@ -55,7 +64,7 @@
 					.closest( '.acb-fields-edit' )
 					.find( '.acb-fields-edit-name input' )
 					.val( slug )
-					.trigger('change');
+					.trigger( 'change' );
 			})
 			.sortable({
 				axis: 'y',
@@ -67,11 +76,12 @@
 	});
 
 	let blockCategoryInit = function() {
-		let categories = wp.blocks.getCategories(),
-			category   = $( '#acb-properties-category-custom' ),
-			custom     = $( '#acb-properties-category option[value="__custom"]' );
+		let categories       = wp.blocks.getCategories(),
+			categoriesLength = categories.length,
+			category         = $( '#acb-properties-category-custom' ),
+			custom           = $( '#acb-properties-category option[value="__custom"]' );
 
-		for (let i = 0; i < categories.length; i++) {
+		for (let i = 0; i < categoriesLength; i++) {
 			if ( 'reusable' === categories[i].slug ) {
 				continue;
 			}
@@ -87,7 +97,7 @@
 			if ( option.length > 0 ) {
 				$( '#acb-properties-category' ).prop( 'selectedIndex', option.index() );
 				category.hide();
-				category.val('');
+				category.val( '' );
 			} else {
 				$( '#acb-properties-category' ).prop( 'selectedIndex', custom.index() );
 				category.show();
@@ -137,8 +147,8 @@
 	let slugify = function( text ) {
 		return text
 			.toLowerCase()
-			.replace(/[^\w ]+/g,'')
-			.replace(/ +/g,'-');
+			.replace( /[^\w ]+/g,'' )
+			.replace( / +/g,'-' );
 	};
 
-})(jQuery);
+})( jQuery );
