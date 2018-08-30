@@ -2,9 +2,7 @@
 <ruleset name="WordPress Coding Standards for Plugins">
     <description>Generally-applicable sniffs for WordPress plugins</description>
 
-    <rule ref="WordPress-Core" />
-    <rule ref="WordPress-Docs" />
-    <rule ref="WordPress-Extra" />
+    <rule ref="WordPress" />
 
     <exclude-pattern>*/node_modules/*</exclude-pattern>
     <exclude-pattern>*/tests/*</exclude-pattern>
