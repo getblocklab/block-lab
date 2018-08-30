@@ -50,11 +50,11 @@ class Field {
 	public $order = 0;
 
 	/**
-	 * Field options.
+	 * Field settings.
 	 *
 	 * @var array
 	 */
-	public $options = array();
+	public $settings = array();
 
 	/**
 	 * Field constructor.
@@ -77,8 +77,8 @@ class Field {
 		if ( isset( $args['order'] ) ) {
 			$this->order = $args['order'];
 		}
-		if ( isset( $args['options'] ) ) {
-			$this->options = $args['options'];
+		if ( isset( $config['settings'] ) ) {
+			$this->settings = $config['settings'];
 		}
 	}
 }

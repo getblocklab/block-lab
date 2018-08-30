@@ -72,16 +72,18 @@ The Text field creates a simple text input option for the block.
 
 #### Settings
 
-- **Default Value**: The default value for this field when adding the block
+- **Field instructions**: Help text to describe the field.
+- **Required**: Whether the field will allow an empty value.
+- **Default value**: The default value for this field when adding the block.
 - **Placeholder**: The helper text which appears when the input is empty.
-- **Character Limit**: The maximum number of characters allowed to be entered
+- **Character limit**: The maximum number of characters allowed to be entered.
 
 #### Template Usage
 
 The API will return a string.
 
 ```HTML+PHP
-<h3><?php acb_field( 'text-field' ); ?></h3>
+<h3><?php acb_field( 'subtitle' ); ?></h3>
 ```
 
 
@@ -92,21 +94,164 @@ The Textarea field creates a multi-line text input option for the block, suitabl
 
 #### Settings
 
-- **Default Value**: The default value for this field when adding the block
+- **Field instructions**: Help text to describe the field.
+- **Required**: Whether the field will allow an empty value.
+- **Default value**: The default value for this field when adding the block.
 - **Placeholder**: The helper text which appears when the input is empty.
-- **Character Limit**: The maximum number of characters allowed to be entered
+- **Character limit**: The maximum number of characters allowed to be entered.
 
 #### Template Usage
 
 The API will return a string.
 
 ```HTML+PHP
-<p><?php acb_field( 'textarea-field' ); ?></p>
+<div class="notification">
+	<h2>Warning!</h2>
+	<p><?php acb_field( 'notification-message' ); ?></p>
+</div>
 ```
 
 
 
-## <a name="functions"></a>Functions
+### Select
+
+The Select field creates a list-based menu input option for the block.
+
+#### Settings
+
+- **Field instructions**: Help text to describe the field.
+- **Required**: Whether the field will allow an empty value.
+- **Choices**: The available items in the list.
+    - Enter each choice on a new line.
+    - To specify the value and label separately, use this format: `foo : Foo`.
+- **Default value**: The default value for this field when adding the block.
+- **Allow multiple choices**: Whether multiple items from the list can be checked.
+
+#### Template Usage
+
+If Allow multiple choices is checked, then the API will return an array. Otherwise, the API will return a string.
+
+With multiple values:
+
+```HTML+PHP
+<h2>Featuring:</h2>
+<ul>
+	<?php foreach ( acb_value( 'features' ) as $value ) : ?>
+	<li><?php echo $value; ?></li>
+	<?php endforeach; ?>
+</ul>
+```
+
+Without multiple values:
+
+```HTML+PHP
+<p>Size: <?php acb_field( 'tshirt-size' ); ?></p>
+```
+
+
+
+### Toggle
+
+The Toggle field creates an on / off toggle switch input option for the block.
+
+#### Settings
+
+- **Field instructions**: Help text to describe the field.
+- **Default value**: The default value for this field when adding the block.
+
+#### Template Usage
+
+The API will return a boolean.
+
+```HTML+PHP
+<?php
+$class = 'container';
+if ( acb_value( 'full-width' ) ) {
+	echo $class .= ' full-width';
+}
+<div class="<?php echo $class; ?>">
+</div>
+?>
+```
+
+
+
+### Range
+
+The Range field creates a number slider input option for the block, suitable for integers.
+
+#### Settings
+
+- **Field instructions**: Help text to describe the field.
+- **Required**: Whether the field will allow an empty value.
+- **Minimum value**: The minimum value that can be selected within the range.
+- **Maximum value**: The maximum value that can be selected within the range.
+- **Step size**: The smallest change possible while moving the slider.
+- **Default value**: The default value for this field when adding the block
+
+#### Template Usage
+
+The API will return an integer.
+
+```HTML+PHP
+<div class="columns">
+	<?php for ( $i = 1; $i <= acb_value( 'number-of-columns' ); $i++ ) : ?>
+	<div class="column">
+		<p>Column #<?php echo $i; ?></p>
+	</div>
+	<?php endfor; ?>
+</div>
+```
+
+
+
+### Checkbox
+
+The Checkbox field creates a single checkbox input option for the block.
+
+#### Settings
+
+- **Field instructions**: Help text to describe the field.
+- **Default value**: The default value for this field when adding the block.
+
+#### Template Usage
+
+The API will return a boolean.
+
+```HTML+PHP
+<?php
+if ( acb_value( 'show-avatar' ) ) {
+	echo get_avatar( $email );
+}
+?>
+```
+
+
+
+### Radio
+
+The Radio field creates a multi-choice input option for the block. Multiple items can not be selected.
+
+#### Settings
+
+- **Field instructions**: Help text to describe the field.
+- **Required**: Whether the field will allow an empty value.
+- **Choices**: The available items in the list.
+    - Enter each choice on a new line.
+    - To specify the value and label separately, use this format: `foo : Foo`.
+- **Default value**: The default value for this field when adding the block.
+
+#### Template Usage
+
+The API will return a string.
+
+```HTML+PHP
+<p>Location: <?php acb_field( 'location' ); ?></p>
+```
+
+
+
+## <a name="functions"></a>Helper Functions
 
 These functions are for use in your block templates.
 
