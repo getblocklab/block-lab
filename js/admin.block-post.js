@@ -12,18 +12,23 @@
 
 	$(function() {
 		blockCategoryInit();
+		blockFieldInit();
 
 		$( '#acb-add-field' ).on( 'click', function() {
 			let template = wp.template( 'field-repeater' ),
 				data     = { uid: new Date().getTime() },
 				field    = $( template( data ) );
 			$( '.acb-fields-rows' ).append( field );
+			$( '.acb-no-fields' ).hide();
 			field.find( '.acb-fields-actions-edit' ).trigger( 'click' );
 		});
 
 		$( '.acb-fields-rows' )
 			.on( 'click', '.acb-fields-actions-delete', function() {
 				$( this ).closest( '.acb-fields-row' ).remove();
+				if ( 0 === $( '.acb-fields-rows' ).children( '.acb-fields-row' ).length ) {
+					$( '.acb-no-fields' ).show();
+				}
 			})
 			.on( 'click', '.acb-fields-actions-edit, a.row-title', function() {
 				$( this ).closest( '.acb-fields-row' ).toggleClass( 'acb-fields-row-active' );
@@ -87,6 +92,12 @@
 			if ( option.length > 0 ) {
 				$( '#acb-properties-category' ).prop( 'selectedIndex', option.index() );
 			}
+		}
+	};
+
+	let blockFieldInit = function() {
+		if ( 0 === $( '.acb-fields-rows' ).children( '.acb-fields-row' ).length ) {
+			$( '.acb-no-fields' ).show();
 		}
 	};
 
