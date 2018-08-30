@@ -304,7 +304,8 @@ class Block_Post extends Component_Abstract {
 								<?php
 								echo wp_kses_post(
 									sprintf(
-										__( 'Click the %s+ Add Field%s button below to add your first field.' ),
+										// Translators: Placeholders are for <strong> HTML tags.
+										__( 'Click the %1$s+ Add Field%2$s button below to add your first field.' ),
 										'<strong>',
 										'</strong>'
 									)
