@@ -324,9 +324,23 @@ class Block_Post extends Component_Abstract {
 				<tbody>
 					<tr>
 						<td colspan="4" class="acb-fields-rows">
+							<p class="acb-no-fields">
+								<?php
+								echo wp_kses_post(
+									sprintf(
+										// Translators: Placeholders are for <strong> HTML tags.
+										__( 'Click the %1$s+ Add Field%2$s button below to add your first field.' ),
+										'<strong>',
+										'</strong>'
+									)
+								);
+								?>
+							</p>
 							<?php
-							foreach ( $block->fields as $field ) {
-								$this->render_fields_meta_box_row( $field, uniqid() );
+							if ( count( $block->fields ) > 0 ) {
+								foreach ( $block->fields as $field ) {
+									$this->render_fields_meta_box_row( $field, uniqid() );
+								}
 							}
 							?>
 						</td>
