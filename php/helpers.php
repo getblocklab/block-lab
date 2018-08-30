@@ -185,8 +185,8 @@ function acb_get_icons() {
 
 	foreach ( $dashicons as $dashicon ) {
 		$icons[ 'dashicons-' . $dashicon ] = array(
-			'type' => 'dashicons',
-			'value' => $dashicon
+			'type'  => 'dashicons',
+			'value' => $dashicon,
 		);
 	}
 
