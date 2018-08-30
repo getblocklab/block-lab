@@ -103,33 +103,33 @@ class Block_Post extends Component_Abstract {
 			'search_items'       => __( 'Search Blocks', 'advanced-custom-blocks' ),
 			'parent_item_colon'  => __( 'Parent Blocks:', 'advanced-custom-blocks' ),
 			'not_found'          => __( 'No blocks found.', 'advanced-custom-blocks' ),
-			'not_found_in_trash' => __( 'No blocks found in Trash.', 'advanced-custom-blocks' )
+			'not_found_in_trash' => __( 'No blocks found in Trash.', 'advanced-custom-blocks' ),
 		);
 
 		$args = array(
-			'labels'          => $labels,
-			'public'          => false,
-			'show_ui'         => true,
-			'show_in_menu'    => true,
-			'menu_position'   => 100,
-			'menu_icon'       => 'data:image/svg+xml;base64,' . base64_encode(
+			'labels'        => $labels,
+			'public'        => false,
+			'show_ui'       => true,
+			'show_in_menu'  => true,
+			'menu_position' => 100,
+			'menu_icon'     => 'data:image/svg+xml;base64,' . base64_encode(
 				file_get_contents(
 					$this->plugin->get_assets_path( 'images/admin-menu-icon.svg' )
 				)
 			),
-			'query_var'       => true,
-			'rewrite'         => array( 'slug' => 'acb_block' ),
-			'capabilities' => array(
+			'query_var'     => true,
+			'rewrite'       => array( 'slug' => 'acb_block' ),
+			'capabilities'  => array(
 				'edit_post'          => 'acb_edit_block',
 				'edit_posts'         => 'acb_edit_blocks',
 				'edit_others_posts'  => 'acb_edit_others_blocks',
 				'publish_posts'      => 'acb_publish_blocks',
 				'read_post'          => 'acb_read_block',
 				'read_private_posts' => 'acb_read_private_blocks',
-				'delete_post'        => 'acb_delete_block'
+				'delete_post'        => 'acb_delete_block',
 			),
-			'map_meta_cap'    => true,
-			'supports'        => array( 'title' )
+			'map_meta_cap'  => true,
+			'supports'      => array( 'title' ),
 		);
 
 		register_post_type( $this->slug, $args );
