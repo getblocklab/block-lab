@@ -49,8 +49,8 @@ class Block_Post extends Component_Abstract {
 		add_filter( 'disable_months_dropdown', '__return_true', 10, $this->slug );
 		add_filter( 'post_row_actions', array( $this, 'post_row_actions' ) );
 		add_filter( 'bulk_actions-edit-' . $this->slug, array( $this, 'bulk_actions' ) );
-		add_filter( 'manage_edit-' . $this->slug . '_columns', array( $this, 'list_table_columns' ) ) ;
-		add_action( 'manage_' . $this->slug . '_posts_custom_column', array( $this, 'list_table_content' ), 10, 2 ) ;
+		add_filter( 'manage_edit-' . $this->slug . '_columns', array( $this, 'list_table_columns' ) );
+		add_action( 'manage_' . $this->slug . '_posts_custom_column', array( $this, 'list_table_content' ), 10, 2 );
 
 		// AJAX Handlers.
 		add_action( 'wp_ajax_fetch_field_settings', array( $this, 'ajax_field_settings' ) );
@@ -494,8 +494,8 @@ class Block_Post extends Component_Abstract {
 					<?php esc_html_e( 'To display this block, ACB will look for one of these templates:', 'advanced-custom-blocks' ); ?>
 				</p>
 				<?php
-				// Formatting to make the template paths easier to understand
-				$child_template = get_stylesheet_directory() . '/blocks/block-' . $post->post_name . '.php';
+				// Formatting to make the template paths easier to understand.
+				$child_template        = get_stylesheet_directory() . '/blocks/block-' . $post->post_name . '.php';
 				$child_template_short  = str_replace( WP_CONTENT_DIR, '', $child_template );
 				$child_template_parts  = explode( '/', $child_template_short );
 				$child_template_breaks = implode( '/<wbr>', $child_template_parts );
@@ -517,7 +517,7 @@ class Block_Post extends Component_Abstract {
 			return;
 		}
 
-		// Formatting to make the template path easier to understand
+		// Formatting to make the template path easier to understand.
 		$template_short       = str_replace( WP_CONTENT_DIR, '', $template );
 		$template_parts       = explode( '/', $template_short );
 		$template_with_breaks = implode( '/<wbr>', $template_parts );
@@ -721,7 +721,7 @@ class Block_Post extends Component_Abstract {
 	/**
 	 * Change the columns in the Custom Blocks list table
 	 *
-	 * @param array $columns
+	 * @param array $columns An array of column name ⇒ label. The name is passed to functions to identify the column.
 	 *
 	 * @return array
 	 */
@@ -729,33 +729,36 @@ class Block_Post extends Component_Abstract {
 		unset( $columns['date'] );
 		$columns['template'] = __( 'Template', 'advanced-custom-blocks' );
 		$columns['keywords'] = __( 'Keywords', 'advanced-custom-blocks' );
-		$columns['fields'] = __( 'Fields', 'advanced-custom-blocks' );
+		$columns['fields']   = __( 'Fields', 'advanced-custom-blocks' );
 		return $columns;
 	}
 
 	/**
 	 * Output custom column data into the table
 	 *
-	 * @param string $column
-	 * @param int $post_id
+	 * @param string $column  The name of the column to display.
+	 * @param int    $post_id The ID of the current post.
 	 *
 	 * @return void
 	 */
 	public function list_table_content( $column, $post_id ) {
 		if ( 'template' === $column ) {
-			$block = new Block( $post_id );
+			$block    = new Block( $post_id );
 			$template = acb_locate_template( 'blocks/block-' . $block->name . '.php', '', true );
 
 			if ( ! $template ) {
 				esc_html_e( 'No template found.', 'advanced-custom-blocks' );
 			} else {
-				// Formatting to make the template path easier to understand
+				// Formatting to make the template path easier to understand.
 				$template_short  = str_replace( WP_CONTENT_DIR, '', $template );
 				$template_parts  = explode( '/', $template_short );
 				$template_breaks = implode( '/<wbr>', $template_parts );
 				echo wp_kses(
 					'<code>' . $template_breaks . '</code>',
-					array( 'code' => array(), 'wbr' => array() )
+					array(
+						'code' => array(),
+						'wbr'  => array(),
+					)
 				);
 			}
 		}
@@ -796,7 +799,7 @@ class Block_Post extends Component_Abstract {
 	/**
 	 * Remove Edit from the Bulk Actions menu
 	 *
-	 * @param array $actions
+	 * @param array $actions An array of bulk actions.
 	 *
 	 * @return array
 	 */
