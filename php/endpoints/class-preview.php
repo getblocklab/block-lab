@@ -25,13 +25,18 @@ class Preview extends Component_Abstract {
 	public $blocks = [];
 
 	/**
+	 * Used to load blocks.
+	 *
 	 * @var Loader
 	 */
 	public $block_loader;
 
+	/**
+	 * Init the block loader to get blocks.
+	 *
+	 * @return $this
+	 */
 	public function init() {
-
-		// Init the block loader to get blocks.
 		$this->block_loader = new Loader();
 		$this->block_loader->set_plugin( $this->plugin );
 		$this->block_loader->init();
@@ -43,17 +48,16 @@ class Preview extends Component_Abstract {
 	/**
 	 * Populate fields with dummy data.
 	 *
-	 * @param $block
+	 * @param array $block An array containing block data.
 	 *
 	 * @return mixed
 	 */
 	public function mock_attributes( $block ) {
-
 		$attributes = [];
 
-		foreach( $block['fields'] as $field_name => $field ) {
+		foreach ( $block['fields'] as $field_name => $field ) {
 
-			switch( $field['control'] ) {
+			switch ( $field['control'] ) {
 				case 'text':
 					$value = '<' . wp_json_encode( $field['name'] ) . '>';
 					break;
@@ -75,7 +79,6 @@ class Preview extends Component_Abstract {
 	 * Register all the hooks.
 	 */
 	public function register_hooks() {
-
 		add_action( 'rest_api_init', array( $this, 'rest_api_init' ) );
 	}
 
@@ -83,31 +86,29 @@ class Preview extends Component_Abstract {
 	 * Register endpoint.
 	 */
 	public function rest_api_init() {
-		register_rest_route( static::BASE, 'block-preview', array(
-			'methods'             => 'GET',
-			'callback'            => [ $this, 'handle_preview_request' ],
-			'args'                => [],
-			'permission_callback' => '__return_true',
-//			'permission_callback' => function () {
-//				return current_user_can( 'edit_posts' );
-//			},
-		) );
+		register_rest_route(
+			static::BASE, 'block-preview', array(
+				'methods'             => 'GET',
+				'callback'            => [ $this, 'handle_preview_request' ],
+				'args'                => [],
+				'permission_callback' => '__return_true',
+			)
+		);
 	}
 
 	/**
 	 * Return a block preview.
 	 *
-	 * @param \WP_REST_Request $r
+	 * @param \WP_REST_Request $r REST request object.
 	 *
 	 * @return mixed|\WP_REST_Response
 	 */
 	public function handle_preview_request( \WP_REST_Request $r ) {
-
 		$content = '';
 
-		$slug = $r->get_param('slug');
+		$slug = $r->get_param( 'slug' );
 		if ( ! empty( $slug ) && array_key_exists( 'advanced-custom-blocks/' . $slug, $this->blocks ) ) {
-			$block = $this->blocks[ 'advanced-custom-blocks/' . $slug ];
+			$block   = $this->blocks[ 'advanced-custom-blocks/' . $slug ];
 			$content = $this->block_loader->render_block_template( $block, $this->mock_attributes( $block ), [ 'preview', 'block' ] );
 		}
 
