@@ -243,7 +243,7 @@ class Block_Post extends Component_Abstract {
 						foreach ( acb_get_icons() as $name => $icon ) {
 							$selected = $icon['value'] === $block->icon ? 'selected' : '';
 							switch ( $icon['type'] ) {
-								case 'dashicons' :
+								case 'dashicons':
 									printf(
 										'<span class="dashicons %s %s" data-value="%s"></span>',
 										esc_attr( $name ),
@@ -251,7 +251,7 @@ class Block_Post extends Component_Abstract {
 										esc_attr( $icon['value'] )
 									);
 									break;
-								case 'svg' :
+								case 'svg':
 									printf(
 										'<span class="svg %s" data-value="%s">%s</span>',
 										esc_attr( $selected ),
@@ -681,6 +681,7 @@ class Block_Post extends Component_Abstract {
 			$block->description = sanitize_textarea_field(
 				wp_unslash( $_POST['acb-properties-description'] )
 			);
+		}
 
 		// Block fields.
 		if ( isset( $_POST['acb-fields-name'] ) && is_array( $_POST['acb-fields-name'] ) ) {
