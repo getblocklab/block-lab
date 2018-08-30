@@ -184,7 +184,10 @@ function acb_get_icons() {
 	$dashicons = json_decode( $json, true );
 
 	foreach ( $dashicons as $dashicon ) {
-		$icons[ 'dashicons-' . $dashicon ] = array( 'type' => 'dashicons', 'value' => $dashicon );
+		$icons[ 'dashicons-' . $dashicon ] = array(
+			'type' => 'dashicons',
+			'value' => $dashicon
+		);
 	}
 
 	return apply_filters( 'acb_icons', $icons );
