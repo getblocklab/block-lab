@@ -40,6 +40,7 @@ class Block_Post extends Component_Abstract {
 	 */
 	public function register_hooks() {
 		add_action( 'init', array( $this, 'register_post_type' ) );
+		add_action( 'admin_init', array( $this, 'add_caps' ) );
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 		add_action( 'add_meta_boxes', array( $this, 'remove_meta_boxes' ) );
 		add_filter( 'enter_title_here', array( $this, 'post_title_placeholder' ) );
@@ -93,31 +94,66 @@ class Block_Post extends Component_Abstract {
 			'name'               => _x( 'Custom Blocks', 'post type general name', 'advanced-custom-blocks' ),
 			'singular_name'      => _x( 'Custom Block', 'post type singular name', 'advanced-custom-blocks' ),
 			'menu_name'          => _x( 'Custom Blocks', 'admin menu', 'advanced-custom-blocks' ),
-			'name_admin_bar'     => _x( 'Custom Block', 'add new on admin bar', 'advanced-custom-blocks' ),
+			'name_admin_bar'     => _x( 'Block', 'add new on admin bar', 'advanced-custom-blocks' ),
 			'add_new'            => _x( 'Add New', 'block', 'advanced-custom-blocks' ),
-			'add_new_item'       => __( 'Add New Custom Block', 'advanced-custom-blocks' ),
-			'new_item'           => __( 'New Custom Block', 'advanced-custom-blocks' ),
-			'edit_item'          => __( 'Edit Custom Block', 'advanced-custom-blocks' ),
-			'view_item'          => __( 'View Custom Block', 'advanced-custom-blocks' ),
-			'all_items'          => __( 'Custom Blocks', 'advanced-custom-blocks' ),
-			'search_items'       => __( 'Search Custom Blocks', 'advanced-custom-blocks' ),
-			'parent_item_colon'  => __( 'Parent Custom Blocks:', 'advanced-custom-blocks' ),
-			'not_found'          => __( 'No custom blocks found.', 'advanced-custom-blocks' ),
-			'not_found_in_trash' => __( 'No custom blocks found in Trash.', 'advanced-custom-blocks' ),
+			'add_new_item'       => __( 'Add New Block', 'advanced-custom-blocks' ),
+			'new_item'           => __( 'New Block', 'advanced-custom-blocks' ),
+			'edit_item'          => __( 'Edit Block', 'advanced-custom-blocks' ),
+			'view_item'          => __( 'View Block', 'advanced-custom-blocks' ),
+			'all_items'          => __( 'All Blocks', 'advanced-custom-blocks' ),
+			'search_items'       => __( 'Search Blocks', 'advanced-custom-blocks' ),
+			'parent_item_colon'  => __( 'Parent Blocks:', 'advanced-custom-blocks' ),
+			'not_found'          => __( 'No blocks found.', 'advanced-custom-blocks' ),
+			'not_found_in_trash' => __( 'No blocks found in Trash.', 'advanced-custom-blocks' ),
 		);
 
 		$args = array(
-			'labels'          => $labels,
-			'public'          => false,
-			'show_ui'         => true,
-			'show_in_menu'    => 'acb',
-			'query_var'       => true,
-			'rewrite'         => array( 'slug' => 'acb_block' ),
-			'capability_type' => 'post',
-			'supports'        => array( 'title' ),
+			'labels'        => $labels,
+			'public'        => false,
+			'show_ui'       => true,
+			'show_in_menu'  => true,
+			'menu_position' => 100,
+			// This SVG icon is being included from the plugin directory, so using file_get_contents is okay.
+			// @codingStandardsIgnoreStart
+			'menu_icon'     => 'data:image/svg+xml;base64,' . base64_encode(
+				file_get_contents(
+					$this->plugin->get_assets_path( 'images/admin-menu-icon.svg' )
+				)
+			),
+			// @codingStandardsIgnoreEnd
+			'query_var'     => true,
+			'rewrite'       => array( 'slug' => 'acb_block' ),
+			'capabilities'  => array(
+				'edit_post'          => 'acb_edit_block',
+				'edit_posts'         => 'acb_edit_blocks',
+				'edit_others_posts'  => 'acb_edit_others_blocks',
+				'publish_posts'      => 'acb_publish_blocks',
+				'read_post'          => 'acb_read_block',
+				'read_private_posts' => 'acb_read_private_blocks',
+				'delete_post'        => 'acb_delete_block',
+			),
+			'map_meta_cap'  => true,
+			'supports'      => array( 'title' ),
 		);
 
 		register_post_type( $this->slug, $args );
+	}
+
+	/**
+	 * Add custom capabilities
+	 *
+	 * @return void
+	 */
+	public function add_caps() {
+		$admins = get_role( 'administrator' );
+
+		$admins->add_cap( 'acb_edit_block' );
+		$admins->add_cap( 'acb_edit_blocks' );
+		$admins->add_cap( 'acb_edit_others_blocks' );
+		$admins->add_cap( 'acb_publish_blocks' );
+		$admins->add_cap( 'acb_read_block' );
+		$admins->add_cap( 'acb_read_private_blocks' );
+		$admins->add_cap( 'acb_delete_block' );
 	}
 
 	/**
@@ -244,20 +280,8 @@ class Block_Post extends Component_Abstract {
 				<td>
 					<p>
 						<select name="acb-properties-category" id="acb-properties-category">
-							<option value="__custom">
-								<?php esc_html_e( '+ New Category', 'advanced-custom-blocks' ); ?>
-							</option>
 						</select>
-					</p>
-					<p>
-						<input
-							name="acb-properties-category-custom"
-							title="<?php esc_attr_e( 'Custom Category', 'advanced-custom-blocks' ); ?>"
-							type="text"
-							id="acb-properties-category-custom"
-							value="<?php echo esc_attr( $block->category ); ?>"
-							placeholder="<?php esc_attr_e( 'Category Name', 'advanced-custom-blocks' ); ?>"
-							class="regular-text hidden">
+						<input type="hidden" id="acb-properties-category-saved" value="<?php echo esc_attr( $block->category ); ?>" />
 					</p>
 				</td>
 			</tr>
@@ -335,9 +359,23 @@ class Block_Post extends Component_Abstract {
 				<tbody>
 					<tr>
 						<td colspan="4" class="acb-fields-rows">
+							<p class="acb-no-fields">
+								<?php
+								echo wp_kses_post(
+									sprintf(
+										// Translators: Placeholders are for <strong> HTML tags.
+										__( 'Click the %1$s+ Add Field%2$s button below to add your first field.' ),
+										'<strong>',
+										'</strong>'
+									)
+								);
+								?>
+							</p>
 							<?php
-							foreach ( $block->fields as $field ) {
-								$this->render_fields_meta_box_row( $field, uniqid() );
+							if ( count( $block->fields ) > 0 ) {
+								foreach ( $block->fields as $field ) {
+									$this->render_fields_meta_box_row( $field, uniqid() );
+								}
 							}
 							?>
 						</td>
@@ -641,16 +679,6 @@ class Block_Post extends Component_Abstract {
 		// Block category.
 		if ( isset( $_POST['acb-properties-category'] ) ) {
 			$block->category = sanitize_key( $_POST['acb-properties-category'] );
-			if ( '__custom' === $block->category && isset( $_POST['acb-properties-category-custom'] ) ) {
-				$block->category = sanitize_text_field(
-					wp_unslash( $_POST['acb-properties-category-custom'] )
-				);
-
-				// Prevent category from being set to a reserved category name.
-				if ( 'reusable' === $block->category ) {
-					$block->category = '';
-				}
-			}
 		}
 
 		// Block description.
