@@ -542,6 +542,13 @@ class Block_Post extends Component_Abstract {
 	 * @return void
 	 */
 	public function ajax_field_settings() {
+		wp_verify_nonce( 'acb_field_options_nonce' );
+
+		if ( ! isset( $_POST['control'] ) || ! isset( $_POST['uid'] ) ) {
+			wp_send_json_error();
+			return;
+		}
+
 		$control = sanitize_key( $_POST['control'] );
 		$uid     = sanitize_key( $_POST['uid'] );
 
@@ -597,7 +604,9 @@ class Block_Post extends Component_Abstract {
 		if ( isset( $_POST['acb-properties-category'] ) ) {
 			$block->category = sanitize_key( $_POST['acb-properties-category'] );
 			if ( '__custom' === $block->category && isset( $_POST['acb-properties-category-custom'] ) ) {
-				$block->category = sanitize_text_field( $_POST['acb-properties-category-custom'] );
+				$block->category = sanitize_text_field(
+					wp_unslash( $_POST['acb-properties-category-custom'] )
+				);
 
 				// Prevent category from being set to a reserved category name.
 				if ( 'reusable' === $block->category ) {
@@ -608,12 +617,16 @@ class Block_Post extends Component_Abstract {
 
 		// Block description.
 		if ( isset( $_POST['acb-properties-description'] ) ) {
-			$block->description = sanitize_textarea_field( $_POST['acb-properties-description'] );
+			$block->description = sanitize_textarea_field(
+				wp_unslash( $_POST['acb-properties-description'] )
+			);
 		}
 
 		// Block keywords.
 		if ( isset( $_POST['acb-properties-keywords'] ) ) {
-			$keywords = sanitize_text_field( $_POST['acb-properties-keywords'] );
+			$keywords = sanitize_text_field(
+				wp_unslash( $_POST['acb-properties-keywords'] )
+			);
 			$keywords = explode( ',', $keywords );
 			$keywords = array_map( 'trim', $keywords );
 			$keywords = array_slice( $keywords, 0, 3 );
@@ -624,7 +637,10 @@ class Block_Post extends Component_Abstract {
 		// Block fields.
 		if ( isset( $_POST['acb-fields-name'] ) && is_array( $_POST['acb-fields-name'] ) ) {
 			$order = 0;
-			foreach ( $_POST['acb-fields-name'] as $key => $name ) {
+
+			// We loop through this array and sanitize its content according to the content type.
+			$fields = wp_unslash( $_POST['acb-fields-name'] ); // Sanitization okay.
+			foreach ( $fields as $key => $name ) {
 				// Field name and order.
 				$field_config = array(
 					'name'  => sanitize_key( $name ),
@@ -633,12 +649,16 @@ class Block_Post extends Component_Abstract {
 
 				// Field label.
 				if ( isset( $_POST['acb-fields-label'][ $key ] ) ) {
-					$field_config['label'] = sanitize_text_field( $_POST['acb-fields-label'][ $key ] );
+					$field_config['label'] = sanitize_text_field(
+						wp_unslash( $_POST['acb-fields-label'][ $key ] )
+					);
 				}
 
 				// Field control.
 				if ( isset( $_POST['acb-fields-control'][ $key ] ) ) {
-					$field_config['control'] = sanitize_text_field( $_POST['acb-fields-control'][ $key ] );
+					$field_config['control'] = sanitize_text_field(
+						wp_unslash( $_POST['acb-fields-control'][ $key ] )
+					);
 				}
 
 				// Field settings.
@@ -646,10 +666,11 @@ class Block_Post extends Component_Abstract {
 					$control = $this->controls[ $field_config['control'] ];
 					foreach ( $control->settings as $setting ) {
 						if ( isset( $_POST['acb-fields-settings'][ $key ][ $setting->name ] ) ) {
+							// Sanitize the field options according to their type.
 							if ( is_callable( $setting->sanitize ) ) {
 								$field_config['settings'][ $setting->name ] = call_user_func(
 									$setting->sanitize,
-									$_POST['acb-fields-settings'][ $key ][ $setting->name ]
+									$_POST['acb-fields-settings'][ $key ][ $setting->name ] // Sanitization okay.
 								);
 							}
 						}
