@@ -45,12 +45,12 @@ class Block_Post extends Component_Abstract {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'wp_insert_post_data', array( $this, 'save_block' ), 10, 2 );
 
-		// Clean up the list table
+		// Clean up the list table.
 		add_filter( 'disable_months_dropdown', '__return_true', 10, $this->slug );
 		add_filter( 'post_row_actions', array( $this, 'post_row_actions' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'list_tables_style' ) );
 
-		// AJAX Handlers
+		// AJAX Handlers.
 		add_action( 'wp_ajax_fetch_field_settings', array( $this, 'ajax_field_settings' ) );
 	}
 
@@ -69,15 +69,17 @@ class Block_Post extends Component_Abstract {
 	 * @return void
 	 */
 	public function register_controls() {
-		$this->controls = apply_filters( 'acb_controls', array(
-			'text'     => new Controls\Text(),
-			'textarea' => new Controls\Textarea(),
-			'select'   => new Controls\Select(),
-			'toggle'   => new Controls\Toggle(),
-			'range'    => new Controls\Range(),
-			'checkbox' => new Controls\Checkbox(),
-			'radio'    => new Controls\Radio(),
-		) );
+		$this->controls = apply_filters(
+			'acb_controls', array(
+				'text'     => new Controls\Text(),
+				'textarea' => new Controls\Textarea(),
+				'select'   => new Controls\Select(),
+				'toggle'   => new Controls\Toggle(),
+				'range'    => new Controls\Range(),
+				'checkbox' => new Controls\Checkbox(),
+				'radio'    => new Controls\Radio(),
+			)
+		);
 	}
 
 	/**
@@ -100,7 +102,7 @@ class Block_Post extends Component_Abstract {
 			'search_items'       => __( 'Search Custom Blocks', 'advanced-custom-blocks' ),
 			'parent_item_colon'  => __( 'Parent Custom Blocks:', 'advanced-custom-blocks' ),
 			'not_found'          => __( 'No custom blocks found.', 'advanced-custom-blocks' ),
-			'not_found_in_trash' => __( 'No custom blocks found in Trash.', 'advanced-custom-blocks' )
+			'not_found_in_trash' => __( 'No custom blocks found in Trash.', 'advanced-custom-blocks' ),
 		);
 
 		$args = array(
@@ -111,7 +113,7 @@ class Block_Post extends Component_Abstract {
 			'query_var'       => true,
 			'rewrite'         => array( 'slug' => 'acb_block' ),
 			'capability_type' => 'post',
-			'supports'        => array( 'title' )
+			'supports'        => array( 'title' ),
 		);
 
 		register_post_type( $this->slug, $args );
@@ -132,16 +134,17 @@ class Block_Post extends Component_Abstract {
 		// Enqueue scripts and styles on the edit screen of the Block post type.
 		if ( $this->slug === $screen->post_type && 'post' === $screen->base ) {
 			wp_enqueue_style(
-					'block-post',
-					$this->plugin->get_url( 'css/admin.block-post.css' ),
-					array(),
-					filemtime( $this->plugin->get_path( 'css/admin.block-post.css' ) )
+				'block-post',
+				$this->plugin->get_url( 'css/admin.block-post.css' ),
+				array(),
+				filemtime( $this->plugin->get_path( 'css/admin.block-post.css' ) )
 			);
 			wp_enqueue_script(
-					'block-post',
-					$this->plugin->get_url( 'js/admin.block-post.js' ),
-					array( 'jquery', 'jquery-ui-sortable', 'wp-util', 'wp-blocks' ),
-					filemtime( $this->plugin->get_path( 'js/admin.block-post.js' ) )
+				'block-post',
+				$this->plugin->get_url( 'js/admin.block-post.js' ),
+				array( 'jquery', 'jquery-ui-sortable', 'wp-util', 'wp-blocks' ),
+				filemtime( $this->plugin->get_path( 'js/admin.block-post.js' ) ),
+				false
 			);
 			wp_localize_script(
 				'block-post',
@@ -298,7 +301,7 @@ class Block_Post extends Component_Abstract {
 					<tr>
 						<td colspan="4" class="acb-fields-rows">
 							<?php
-							foreach( $block->fields as $field ) {
+							foreach ( $block->fields as $field ) {
 								$this->render_fields_meta_box_row( $field, uniqid() );
 							}
 							?>
@@ -328,8 +331,8 @@ class Block_Post extends Component_Abstract {
 	/**
 	 * Render a single Field as a row.
 	 *
-	 * @param Field $field
-	 * @param mixed $uid
+	 * @param Field $field The Field containing the options to render.
+	 * @param mixed $uid   A unique ID to used to unify the HTML name, for, and id attributes.
 	 *
 	 * @return void
 	 */
@@ -349,11 +352,11 @@ class Block_Post extends Component_Abstract {
 				</a>
 				<div class="acb-fields-actions">
 					<a class="acb-fields-actions-edit" href="javascript:">
-						<?php esc_html_e( 'Edit', 'advanced-custom-blocks'); ?>
+						<?php esc_html_e( 'Edit', 'advanced-custom-blocks' ); ?>
 					</a>
 					&nbsp;|&nbsp;
 					<a class="acb-fields-actions-delete" href="javascript:">
-						<?php esc_html_e( 'Delete', 'advanced-custom-blocks'); ?>
+						<?php esc_html_e( 'Delete', 'advanced-custom-blocks' ); ?>
 					</a>
 				</div>
 			</div>
@@ -451,6 +454,7 @@ class Block_Post extends Component_Abstract {
 
 	/**
 	 * Render the Block Template meta box.
+	 *
 	 * @TODO: Change this so that it uses a built-in template fallback method
 	 *
 	 * @return void
@@ -479,7 +483,7 @@ class Block_Post extends Component_Abstract {
 					<?php esc_html_e( 'To display this block, ACB will look for one of these templates:', 'advanced-custom-blocks' ); ?>
 				</p>
 				<?php
-				$child_template = str_replace( get_theme_root(), '', get_stylesheet_directory() ) . '/blocks/block-' . $post->post_name . '.php';
+				$child_template  = str_replace( get_theme_root(), '', get_stylesheet_directory() ) . '/blocks/block-' . $post->post_name . '.php';
 				$parent_template = str_replace( get_theme_root(), '', get_template_directory() ) . '/blocks/block-' . $post->post_name . '.php';
 				if ( $child_template !== $parent_template ) {
 					?>
@@ -502,7 +506,7 @@ class Block_Post extends Component_Abstract {
 				<?php esc_html_e( 'This block uses the following template:', 'advanced-custom-blocks' ); ?>
 			</p>
 			<?php
-			$child_template = str_replace( get_theme_root(), '', get_stylesheet_directory() ) . '/blocks/block-' . $post->post_name . '.php';
+			$child_template  = str_replace( get_theme_root(), '', get_stylesheet_directory() ) . '/blocks/block-' . $post->post_name . '.php';
 			$parent_template = str_replace( get_theme_root(), '', get_template_directory() ) . '/blocks/block-' . $post->post_name . '.php';
 			if ( $child_template !== $parent_template ) {
 				?>
@@ -521,8 +525,8 @@ class Block_Post extends Component_Abstract {
 	/**
 	 * Render the Block Template meta box.
 	 *
-	 * @param Field $field
-	 * @param string $uid
+	 * @param Field  $field The Field containing the options to render.
+	 * @param string $uid   A unique ID to used to unify the HTML name, for, and id attributes.
 	 *
 	 * @return void
 	 */
@@ -556,7 +560,7 @@ class Block_Post extends Component_Abstract {
 	/**
 	 * Save block meta boxes as a json blob in post content.
 	 *
-	 * @param array $data
+	 * @param array $data An array of slashed post data.
 	 *
 	 * @return array
 	 */
@@ -567,7 +571,7 @@ class Block_Post extends Component_Abstract {
 
 		$post_id = sanitize_key( $_POST['post_ID'] );
 
-		// Exits script depending on save status
+		// Exits script depending on save status.
 		if ( wp_is_post_autosave( $post_id ) || wp_is_post_revision( $post_id ) ) {
 			return $data;
 		}
@@ -577,66 +581,67 @@ class Block_Post extends Component_Abstract {
 
 		$block = new Block();
 
-		// Block name
+		// Block name.
 		$block->name = sanitize_key( $data['post_name'] );
 		if ( '' === $block->name ) {
 			$block->name = $post_id;
 		}
 
-		// Block title
+		// Block title.
 		$block->title = sanitize_text_field( $data['post_title'] );
 		if ( '' === $block->title ) {
 			$block->title = $post_id;
 		}
 
-		// Block category
+		// Block category.
 		if ( isset( $_POST['acb-properties-category'] ) ) {
 			$block->category = sanitize_key( $_POST['acb-properties-category'] );
 			if ( '__custom' === $block->category && isset( $_POST['acb-properties-category-custom'] ) ) {
 				$block->category = sanitize_text_field( $_POST['acb-properties-category-custom'] );
 
-				// Prevent category from being set to a reserved category name
+				// Prevent category from being set to a reserved category name.
 				if ( 'reusable' === $block->category ) {
 					$block->category = '';
 				}
 			}
 		}
 
-		// Block description
+		// Block description.
 		if ( isset( $_POST['acb-properties-description'] ) ) {
 			$block->description = sanitize_textarea_field( $_POST['acb-properties-description'] );
 		}
 
-		// Block keywords
+		// Block keywords.
 		if ( isset( $_POST['acb-properties-keywords'] ) ) {
 			$keywords = sanitize_text_field( $_POST['acb-properties-keywords'] );
 			$keywords = explode( ',', $keywords );
 			$keywords = array_map( 'trim', $keywords );
 			$keywords = array_slice( $keywords, 0, 3 );
+
 			$block->keywords = $keywords;
 		}
 
-		// Block fields
+		// Block fields.
 		if ( isset( $_POST['acb-fields-name'] ) && is_array( $_POST['acb-fields-name'] ) ) {
 			$order = 0;
 			foreach ( $_POST['acb-fields-name'] as $key => $name ) {
-				// Field name and order
+				// Field name and order.
 				$field_config = array(
-					'name'     => sanitize_key( $name ),
-					'order'    => $order,
+					'name'  => sanitize_key( $name ),
+					'order' => $order,
 				);
 
-				// Field label
+				// Field label.
 				if ( isset( $_POST['acb-fields-label'][ $key ] ) ) {
 					$field_config['label'] = sanitize_text_field( $_POST['acb-fields-label'][ $key ] );
 				}
 
-				// Field control
+				// Field control.
 				if ( isset( $_POST['acb-fields-control'][ $key ] ) ) {
 					$field_config['control'] = sanitize_text_field( $_POST['acb-fields-control'][ $key ] );
 				}
 
-				// Field settings
+				// Field settings.
 				if ( isset( $this->controls[ $field_config['control'] ] ) ) {
 					$control = $this->controls[ $field_config['control'] ];
 					foreach( $control->settings as $setting ) {
@@ -652,6 +657,7 @@ class Block_Post extends Component_Abstract {
 				}
 
 				$field = new Field( $field_config );
+
 				$block->fields[ $name ] = $field;
 				$order++;
 			}
@@ -664,7 +670,7 @@ class Block_Post extends Component_Abstract {
 	/**
 	 * Change the default "Enter Title Here" placeholder on the edit post screen.
 	 *
-	 * @param string $title
+	 * @param string $title Placeholder text. Default 'Enter title here'.
 	 *
 	 * @return string
 	 */
@@ -693,24 +699,24 @@ class Block_Post extends Component_Abstract {
 	/**
 	 * Hide the Quick Edit row action.
 	 *
-	 * @param array $actions
+	 * @param array $actions An array of row action links.
 	 *
 	 * @return array
 	 */
 	public function post_row_actions( $actions = array() ) {
 		global $post;
 
-		// Abort if the post type is incorrect
+		// Abort if the post type is incorrect.
 		if ( $post->post_type !== $this->slug ) {
 			return $actions;
 		}
 
-		// Remove the Quick Edit link
+		// Remove the Quick Edit link.
 		if ( isset( $actions['inline hide-if-no-js'] ) ) {
 			unset( $actions['inline hide-if-no-js'] );
 		}
 
-		// Return the set of links without Quick Edit
+		// Return the set of links without Quick Edit.
 		return $actions;
 	}
 }

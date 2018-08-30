@@ -56,8 +56,8 @@ abstract class Control_Abstract {
 	/**
 	 * Render additional settings in table rows.
 	 *
-	 * @param Field $field
-	 * @param string $uid
+	 * @param Field  $field The Field containing the options to render.
+	 * @param string $uid   A unique ID to used to unify the HTML name, for, and id attributes.
 	 *
 	 * @return void
 	 */
@@ -105,9 +105,9 @@ abstract class Control_Abstract {
 	/**
 	 * Render text settings
 	 *
-	 * @param Control_Setting $setting
-	 * @param string $name
-	 * @param string $id
+	 * @param Control_Setting $setting The Control_Setting being rendered.
+	 * @param string          $name    The name attribute of the option.
+	 * @param string          $id      The id attribute of the option.
 	 *
 	 * @return void
 	 */
@@ -125,9 +125,9 @@ abstract class Control_Abstract {
 	/**
 	 * Render textarea settings
 	 *
-	 * @param Control_Setting $setting
-	 * @param string $name
-	 * @param string $id
+	 * @param Control_Setting $setting The Control_Setting being rendered.
+	 * @param string          $name    The name attribute of the option.
+	 * @param string          $id      The id attribute of the option.
 	 *
 	 * @return void
 	 */
@@ -144,9 +144,9 @@ abstract class Control_Abstract {
 	/**
 	 * Render checkbox settings
 	 *
-	 * @param Control_Setting $setting
-	 * @param string $name
-	 * @param string $id
+	 * @param Control_Setting $setting The Control_Setting being rendered.
+	 * @param string          $name    The name attribute of the option.
+	 * @param string          $id      The id attribute of the option.
 	 *
 	 * @return void
 	 */
@@ -165,9 +165,9 @@ abstract class Control_Abstract {
 	/**
 	 * Render number settings
 	 *
-	 * @param Control_Setting $setting
-	 * @param string $name
-	 * @param string $id
+	 * @param Control_Setting $setting The Control_Setting being rendered.
+	 * @param string          $name    The name attribute of the option.
+	 * @param string          $id      The id attribute of the option.
 	 *
 	 * @return void
 	 */
@@ -186,9 +186,9 @@ abstract class Control_Abstract {
 	/**
 	 * Render an array of settings inside a textarea
 	 *
-	 * @param Control_Setting $setting
-	 * @param string $name
-	 * @param string $id
+	 * @param Control_Setting $setting The Control_Setting being rendered.
+	 * @param string          $name    The name attribute of the option.
+	 * @param string          $id      The id attribute of the option.
 	 *
 	 * @return void
 	 */
