@@ -37,7 +37,7 @@
 				$( this ).closest( '.acb-fields-row' ).toggleClass( 'acb-fields-row-active' );
 				$( this ).closest( '.acb-fields-row' ).find( '.acb-fields-edit' ).slideToggle();
 
-				// Fetch field settings if field is active and there are no settings
+				// Fetch field settings if field is active and there are no settings.
 				if ( $( this ).closest( '.acb-fields-row' ).hasClass( 'acb-fields-row-active' ) ) {
 					if ( 0 === $( this ).closest( '.acb-fields-row' ).find( '.acb-fields-edit-settings' ).length ) {
 						let fieldRow     = $( this ).closest( '.acb-fields-row' ),

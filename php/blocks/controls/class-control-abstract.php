@@ -184,7 +184,7 @@ abstract class Control_Abstract {
 	}
 
 	/**
-	 * Render an array of settings inside a textarea
+	 * Render an array of settings inside a textarea.
 	 *
 	 * @param Control_Setting $setting The Control_Setting being rendered.
 	 * @param string          $name    The name attribute of the option.
@@ -195,7 +195,7 @@ abstract class Control_Abstract {
 	public function render_settings_textarea_array( $setting, $name, $id ) {
 		$options = $setting->get_value();
 		if ( is_array( $options ) ) {
-			// Convert the array to text separated by new lines
+			// Convert the array to text separated by new lines.
 			$value = '';
 			foreach ( $options as $option ) {
 				if ( ! is_array( $option ) ) {
@@ -217,9 +217,9 @@ abstract class Control_Abstract {
 	}
 
 	/**
-	 * Sanitize checkbox
+	 * Sanitize checkbox.
 	 *
-	 * @param string $value
+	 * @param string $value The value to sanitize.
 	 *
 	 * @return string
 	 */
@@ -231,9 +231,9 @@ abstract class Control_Abstract {
 	}
 
 	/**
-	 * Sanitize non-zero number
+	 * Sanitize non-zero number.
 	 *
-	 * @param string $value
+	 * @param string $value The value to sanitize.
 	 *
 	 * @return int
 	 */
@@ -245,9 +245,9 @@ abstract class Control_Abstract {
 	}
 
 	/**
-	 * Sanitize an array of settings inside a textarea
+	 * Sanitize an array of settings inside a textarea.
 	 *
-	 * @param string $value
+	 * @param string $value The value to sanitize.
 	 *
 	 * @return array
 	 */
@@ -255,14 +255,14 @@ abstract class Control_Abstract {
 		$rows    = preg_split( '/\r\n|[\r\n]/', $value );
 		$options = array();
 
-		foreach( $rows as $key => $option ) {
+		foreach ( $rows as $key => $option ) {
 			if ( '' === $option ) {
 				continue;
 			}
 
 			$key_value = explode( ' : ', $option );
 
-			if ( sizeof( $key_value ) > 1 ) {
+			if ( count( $key_value ) > 1 ) {
 				$options[ $key ]['label'] = $key_value[1];
 				$options[ $key ]['value'] = $key_value[0];
 			} else {
@@ -271,16 +271,16 @@ abstract class Control_Abstract {
 			}
 		}
 
-		// Reindex array in case of blank lines
+		// Reindex array in case of blank lines.
 		$options = array_values( $options );
 
 		return $options;
 	}
 
 	/**
-	 * Sanitize an array of settings inside a textarea
+	 * Sanitize an array of settings inside a textarea.
 	 *
-	 * @param string $value
+	 * @param string $value The value to sanitize.
 	 *
 	 * @return array
 	 */
@@ -288,21 +288,21 @@ abstract class Control_Abstract {
 		$rows    = preg_split( '/\r\n|[\r\n]/', $value );
 		$options = array();
 
-		foreach( $rows as $key => $option ) {
+		foreach ( $rows as $key => $option ) {
 			if ( '' === $option ) {
 				continue;
 			}
 
 			$key_value = explode( ' : ', $option );
 
-			if ( sizeof( $key_value ) > 1 ) {
+			if ( count( $key_value ) > 1 ) {
 				$options[] = $key_value[0];
 			} else {
 				$options[] = $option;
 			}
 		}
 
-		// Reindex array in case of blank lines
+		// Reindex array in case of blank lines.
 		$options = array_values( $options );
 
 		return $options;

@@ -116,7 +116,7 @@ class Block {
 		if ( isset( $config['fields'] ) ) {
 			foreach ( $config['fields'] as $field ) {
 				$field_defaults = array( 'name', 'label', 'control', 'location', 'order' );
-				$field_settings  = array_diff( array_keys( $field ), $field_defaults );
+				$field_settings = array_diff( array_keys( $field ), $field_defaults );
 				foreach ( $field_settings as $setting ) {
 					$field['settings'][ $setting ] = $field[ $setting ];
 				}

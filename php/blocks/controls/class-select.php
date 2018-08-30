@@ -59,7 +59,7 @@ class Select extends Control_Abstract {
 			'help'     => sprintf(
 				'%s %s<br />%s<br />%s',
 				__( 'Enter each choice on a new line.', 'advanced-custom-blocks' ),
-				__( 'To specify the value and label separately, use this format:', 'advanced-custom-blocks'),
+				__( 'To specify the value and label separately, use this format:', 'advanced-custom-blocks' ),
 				_x( 'foo : Foo', 'Format for the menu values. option_value : Option Name', 'advanced-custom-blocks' ),
 				_x( 'bar : Bar', 'Format for the menu values. option_value : Option Name', 'advanced-custom-blocks' )
 			),
@@ -74,10 +74,10 @@ class Select extends Control_Abstract {
 			'sanitize' => array( $this, 'sanitise_textarea_array' ),
 		) );
 		$this->settings[] = new Control_Setting( array(
-			'name'    => 'multiple',
-			'label'   => __( 'Allow multiple choices?', 'advanced-custom-blocks' ),
-			'type'    => 'checkbox',
-			'default' => '',
+			'name'     => 'multiple',
+			'label'    => __( 'Allow multiple choices?', 'advanced-custom-blocks' ),
+			'type'     => 'checkbox',
+			'default'  => '',
 			'sanitize' => array( $this, 'sanitise_checkbox' ),
 		) );
 	}

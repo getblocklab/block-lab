@@ -59,7 +59,7 @@ class Radio extends Control_Abstract {
 			'help'     => sprintf(
 				'%s %s<br />%s<br />%s',
 				__( 'Enter each choice on a new line.', 'advanced-custom-blocks' ),
-				__( 'To specify the value and label separately, use this format:', 'advanced-custom-blocks'),
+				__( 'To specify the value and label separately, use this format:', 'advanced-custom-blocks' ),
 				_x( 'foo : Foo', 'Format for the menu values. option_value : Option Name', 'advanced-custom-blocks' ),
 				_x( 'bar : Bar', 'Format for the menu values. option_value : Option Name', 'advanced-custom-blocks' )
 			),
