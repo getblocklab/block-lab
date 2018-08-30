@@ -10,6 +10,7 @@
     <exclude-pattern>*/tests/*</exclude-pattern>
     <exclude-pattern>gulpfile.js</exclude-pattern>
     <exclude-pattern>webpack.config.js</exclude-pattern>
+    <exclude-pattern>css/blocks.editor.css</exclude-pattern>
     <exclude-pattern>js/blocks/*</exclude-pattern>
     <exclude-pattern>js/src/*</exclude-pattern>
     <exclude-pattern>js/editor.blocks.js</exclude-pattern>
