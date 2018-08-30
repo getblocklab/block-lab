@@ -1,4 +1,11 @@
 <?php
+/**
+ * Helper functions.
+ *
+ * @package   Advanced_Custom_Blocks
+ * @copyright Copyright(c) 2018, Advanced Custom Blocks
+ * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
+ */
 
 /**
  * Echos out the value of an ACB block field.
@@ -9,7 +16,6 @@
  * @return mixed|null
  */
 function acb_field( $key, $echo = true ) {
-
 	global $acb_block_attributes;
 
 	if ( ! isset( $acb_block_attributes ) || ! is_array( $acb_block_attributes ) || ! array_key_exists( $key, $acb_block_attributes ) ) {
@@ -19,7 +25,12 @@ function acb_field( $key, $echo = true ) {
 	$value = $acb_block_attributes[ $key ];
 
 	if ( $echo ) {
-		echo $value;
+		/**
+		 * Escaping this value may cause it to break in some use cases.
+		 * If this happens, retrieve the field's value using acb_value(),
+		 * and then output the field with a more suitable escaping function.
+		 */
+		echo wp_kses_post( $value );
 	}
 
 	return $value;
@@ -41,17 +52,16 @@ function acb_value( $key ) {
 /**
  * Loads a template part to render the ACB block.
  *
- * @param string $slug The name of the block (slug as defined in UI)
+ * @param string $slug The name of the block (slug as defined in UI).
  * @param string $type The type of template to load. Only 'block' supported at this stage.
  */
 function acb_template_part( $slug, $type = 'block' ) {
-
-	// Loading async it might not come from a query, this breaks load_template();
+	// Loading async it might not come from a query, this breaks load_template().
 	global $wp_query;
 
 	// So lets fix it.
 	if ( empty( $wp_query ) ) {
-		$wp_query = new WP_Query();
+		$wp_query = new WP_Query(); // Override okay.
 	}
 
 	$types         = (array) $type;
@@ -83,6 +93,7 @@ function acb_template_part( $slug, $type = 'block' ) {
 		printf(
 			'<div class="notice notice-warning">%s</div>',
 			wp_kses_post(
+				// Translators: Placeholder is a file path.
 				sprintf( __( 'Template file %s not found.' ), '<code>' . esc_html( $template_file ) . '</code>' )
 			)
 		);
@@ -103,7 +114,6 @@ function acb_template_part( $slug, $type = 'block' ) {
  * @return string|array
  */
 function abc_locate_template( $template_names, $path = '', $single = true ) {
-
 	$path            = apply_filters( 'acb_template_path', $path );
 	$stylesheet_path = get_template_directory();
 	$template_path   = get_stylesheet_directory();

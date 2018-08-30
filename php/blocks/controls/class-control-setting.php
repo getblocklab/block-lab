@@ -66,30 +66,30 @@ class Control_Setting {
 	/**
 	 * Control_Setting constructor.
 	 *
-	 * @param array $args
+	 * @param array $args An associative array with keys corresponding to the Option's properties.
 	 *
 	 * @return void
 	 */
 	public function __construct( $args = array() ) {
-		if ( isset ( $args['name'] ) ) {
+		if ( isset( $args['name'] ) ) {
 			$this->name = $args['name'];
 		}
-		if ( isset ( $args['label'] ) ) {
+		if ( isset( $args['label'] ) ) {
 			$this->label = $args['label'];
 		}
-		if ( isset ( $args['type'] ) ) {
+		if ( isset( $args['type'] ) ) {
 			$this->type = $args['type'];
 		}
-		if ( isset ( $args['default'] ) ) {
+		if ( isset( $args['default'] ) ) {
 			$this->default = $args['default'];
 		}
-		if ( isset ( $args['help'] ) ) {
+		if ( isset( $args['help'] ) ) {
 			$this->help = $args['help'];
 		}
-		if ( isset ( $args['sanitize'] ) ) {
+		if ( isset( $args['sanitize'] ) ) {
 			$this->sanitize = $args['sanitize'];
 		}
-		if ( isset ( $args['value'] ) ) {
+		if ( isset( $args['value'] ) ) {
 			$this->value = $args['value'];
 		}
 	}
