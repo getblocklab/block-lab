@@ -621,6 +621,11 @@ class Block_Post extends Component_Abstract {
 			return $data;
 		}
 
+		// Exits script if not the right post type.
+		if ( $data ['post_type'] !== $this->slug ) {
+			return $data;
+		}
+
 		check_admin_referer( 'acb_save_fields', 'acb_fields_nonce' );
 		check_admin_referer( 'acb_save_properties', 'acb_properties_nonce' );
 
