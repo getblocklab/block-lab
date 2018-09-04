@@ -42,6 +42,7 @@ class Block_Post extends Component_Abstract {
 		add_action( 'init', array( $this, 'register_post_type' ) );
 		add_action( 'admin_init', array( $this, 'add_caps' ) );
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
+		add_action( 'add_meta_boxes', array( $this, 'remove_meta_boxes' ) );
 		add_filter( 'enter_title_here', array( $this, 'post_title_placeholder' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'wp_insert_post_data', array( $this, 'save_block' ), 10, 2 );
@@ -227,6 +228,15 @@ class Block_Post extends Component_Abstract {
 	}
 
 	/**
+	 * Removes unneeded meta boxes.
+	 *
+	 * @return void
+	 */
+	public function remove_meta_boxes() {
+		remove_meta_box( 'slugdiv', $this->slug, 'normal' );
+	}
+
+	/**
 	 * Render the Block Fields meta box.
 	 *
 	 * @return void
@@ -236,6 +246,31 @@ class Block_Post extends Component_Abstract {
 		$block = new Block( $post->ID );
 		?>
 		<table class="form-table">
+			<tr>
+				<th scope="row">
+					<label for="acb-properties-slug">
+						<?php esc_html_e( 'Slug', 'advanced-custom-blocks' ); ?>
+					</label>
+					<p class="description" id="acb-properties-keywords-description">
+						<?php
+						esc_html_e(
+							'Used to determine the location of the template file. Lowercase letters, numbers, and hyphens.',
+							'advanced-custom-blocks'
+						);
+						?>
+					</p>
+				</th>
+				<td>
+					<p>
+						<input
+							name="post_name"
+							type="text"
+							id="acb-properties-slug"
+							value="<?php echo esc_attr( $post->post_name ); ?>"
+							class="regular-text">
+					</p>
+				</td>
+			</tr>
 			<tr>
 				<th scope="row">
 					<label for="acb-properties-category">
@@ -665,6 +700,9 @@ class Block_Post extends Component_Abstract {
 
 		check_admin_referer( 'acb_save_fields', 'acb_fields_nonce' );
 		check_admin_referer( 'acb_save_properties', 'acb_properties_nonce' );
+
+		// sanitize_title() allows underscores, but register_block_type doesn't.
+		$data['post_name'] = str_replace( '_', '-', $data['post_name'] );
 
 		$block = new Block();
 

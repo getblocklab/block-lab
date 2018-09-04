@@ -111,6 +111,9 @@ class Loader extends Component_Abstract {
 
 			$attributes['acb_block_name'] = $block_name;
 
+			// sanitize_title() allows underscores, but register_block_type doesn't.
+			$block_name = str_replace( '_', '-', $block_name );
+
 			register_block_type(
 				$block_name, [
 					'attributes'      => $attributes,
