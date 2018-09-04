@@ -2,6 +2,10 @@ $black: #222;
 $dark: rgba(0, 0, 0, 0.39);
 $light: rgba(140, 140, 151, 0.1);
 
+.editor-block-icon .material-icons {
+  display:block !important;
+}
+
 .entry-content div[class^="wp-block-advanced-custom-blocks-"],
 div[class^="wp-block-advanced-custom-blocks-"] {
 

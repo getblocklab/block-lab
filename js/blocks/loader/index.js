@@ -26,7 +26,7 @@ const registerAdvancedCustomBlocks = () => {
 			title: block.title,
 			description: block.description,
 			category: block.category,
-			icon: ( 'undefined' === typeof block.icon || '' === block.icon ) ? icons.logo : block.icon,
+			icon: ( 'undefined' === typeof block.icon || '' === block.icon ) ? icons.logo : (<i className="material-icons">{block.icon}</i>),
 			keywords: block.keywords,
 			attributes: blockAttributes( block ),
 			edit: props => {
