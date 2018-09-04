@@ -136,6 +136,10 @@ class Loader extends Component_Abstract {
 	public function get_block_attributes( $block ) {
 		$attributes = [];
 
+		if ( ! isset( $block['fields'] ) ) {
+			return $attributes;
+		}
+
 		foreach ( $block['fields'] as $field_name => $field ) {
 			$attributes[ $field_name ] = [];
 
