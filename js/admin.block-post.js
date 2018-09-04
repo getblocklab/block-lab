@@ -23,6 +23,12 @@
 			field.find( '.acb-fields-actions-edit' ).trigger( 'click' );
 		});
 
+		$( '#acb_block_properties .acb-properties-icons span' ).on( 'click', function() {
+			$( '#acb_block_properties .acb-properties-icons span.selected' ).removeClass( 'selected' );
+			$( this ).addClass( 'selected' );
+			$( '#acb-properties-icon' ).val( $( this ).data( 'value' ) );
+		});
+
 		$( '.acb-fields-rows' )
 			.on( 'click', '.acb-fields-actions-delete', function() {
 				$( this ).closest( '.acb-fields-row' ).remove();

@@ -26,12 +26,7 @@ const registerAdvancedCustomBlocks = () => {
 			title: block.title,
 			description: block.description,
 			category: block.category,
-			icon: () => {
-				if ( 'undefined' === typeof block.icon || '' === block.icon || 'default' === block.icon ) {
-					return icons.logo
-				}
-				return block.icon
-			},
+			icon: ( 'undefined' === typeof block.icon || '' === block.icon ) ? icons.logo : block.icon,
 			keywords: block.keywords,
 			attributes: blockAttributes( block ),
 			edit: props => {
