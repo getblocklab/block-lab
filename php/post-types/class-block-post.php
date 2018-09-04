@@ -50,7 +50,9 @@ class Block_Post extends Component_Abstract {
 		// Clean up the list table.
 		add_filter( 'disable_months_dropdown', '__return_true', 10, $this->slug );
 		add_filter( 'post_row_actions', array( $this, 'post_row_actions' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'list_tables_style' ) );
+		add_filter( 'bulk_actions-edit-' . $this->slug, array( $this, 'bulk_actions' ) );
+		add_filter( 'manage_edit-' . $this->slug . '_columns', array( $this, 'list_table_columns' ) );
+		add_action( 'manage_' . $this->slug . '_posts_custom_column', array( $this, 'list_table_content' ), 10, 2 );
 
 		// AJAX Handlers.
 		add_action( 'wp_ajax_fetch_field_settings', array( $this, 'ajax_field_settings' ) );
@@ -123,6 +125,7 @@ class Block_Post extends Component_Abstract {
 			// @codingStandardsIgnoreEnd
 			'query_var'     => true,
 			'rewrite'       => array( 'slug' => 'acb_block' ),
+			'hierarchical'  => true,
 			'capabilities'  => array(
 				'edit_post'          => 'acb_edit_block',
 				'edit_posts'         => 'acb_edit_blocks',
@@ -189,6 +192,14 @@ class Block_Post extends Component_Abstract {
 				array(
 					'fieldSettingsNonce' => wp_create_nonce( 'acb_field_settings_nonce' ),
 				)
+			);
+		}
+		if ( $this->slug === $screen->post_type && 'edit' === $screen->base ) {
+			wp_enqueue_style(
+				'block-edit',
+				$this->plugin->get_url( 'css/admin.block-edit.css' ),
+				array(),
+				filemtime( $this->plugin->get_path( 'css/admin.block-edit.css' ) )
 			);
 		}
 	}
@@ -570,8 +581,6 @@ class Block_Post extends Component_Abstract {
 	/**
 	 * Render the Block Template meta box.
 	 *
-	 * @TODO: Change this so that it uses a built-in template fallback method
-	 *
 	 * @return void
 	 */
 	public function render_template_meta_box() {
@@ -588,7 +597,9 @@ class Block_Post extends Component_Abstract {
 			return;
 		}
 
-		if ( ! file_exists( get_theme_file_path( 'blocks/block-' . $post->post_name . '.php' ) ) ) {
+		$template = acb_locate_template( 'blocks/block-' . $post->post_name . '.php', '', true );
+
+		if ( ! $template ) {
 			?>
 			<div class="template-notice template-warning">
 				<p>
@@ -598,20 +609,33 @@ class Block_Post extends Component_Abstract {
 					<?php esc_html_e( 'To display this block, ACB will look for one of these templates:', 'advanced-custom-blocks' ); ?>
 				</p>
 				<?php
-				$child_template  = str_replace( get_theme_root(), '', get_stylesheet_directory() ) . '/blocks/block-' . $post->post_name . '.php';
-				$parent_template = str_replace( get_theme_root(), '', get_template_directory() ) . '/blocks/block-' . $post->post_name . '.php';
+				// Formatting to make the template paths easier to understand.
+				$child_template        = get_stylesheet_directory() . '/blocks/block-' . $post->post_name . '.php';
+				$child_template_short  = str_replace( WP_CONTENT_DIR, '', $child_template );
+				$child_template_parts  = explode( '/', $child_template_short );
+				$child_template_breaks = implode( '/<wbr>', $child_template_parts );
+
+				$parent_template        = get_template_directory() . '/blocks/block-' . $post->post_name . '.php';
+				$parent_template_short  = str_replace( WP_CONTENT_DIR, '', $parent_template );
+				$parent_template_parts  = explode( '/', $parent_template_short );
+				$parent_template_breaks = implode( '/<wbr>', $parent_template_parts );
+
 				if ( $child_template !== $parent_template ) {
 					?>
-					<p><code><?php echo esc_html( $child_template ); ?></code></p>
+					<p><code><?php echo wp_kses( $child_template_breaks, array( 'wbr' => array() ) ); ?></code></p>
 					<?php
 				}
 				?>
-				<p><code><?php echo esc_html( $parent_template ); ?></code></p>
+				<p><code><?php echo wp_kses( $parent_template_breaks, array( 'wbr' => array() ) ); ?></code></p>
 			</div>
 			<?php
 			return;
 		}
 
+		// Formatting to make the template path easier to understand.
+		$template_short       = str_replace( WP_CONTENT_DIR, '', $template );
+		$template_parts       = explode( '/', $template_short );
+		$template_with_breaks = implode( '/<wbr>', $template_parts );
 		?>
 		<div class="template-notice template-success">
 			<p>
@@ -620,19 +644,7 @@ class Block_Post extends Component_Abstract {
 			<p>
 				<?php esc_html_e( 'This block uses the following template:', 'advanced-custom-blocks' ); ?>
 			</p>
-			<?php
-			$child_template  = str_replace( get_theme_root(), '', get_stylesheet_directory() ) . '/blocks/block-' . $post->post_name . '.php';
-			$parent_template = str_replace( get_theme_root(), '', get_template_directory() ) . '/blocks/block-' . $post->post_name . '.php';
-			if ( $child_template !== $parent_template ) {
-				?>
-				<p><code><?php echo esc_html( $child_template ); ?></code></p>
-				<?php
-			} else {
-				?>
-				<p><code><?php echo esc_html( $parent_template ); ?></code></p>
-				<?php
-			}
-			?>
+			<p><code><?php echo wp_kses( $template_with_breaks, array( 'wbr' => array() ) ); ?></code></p>
 		</div>
 		<?php
 	}
@@ -822,14 +834,57 @@ class Block_Post extends Component_Abstract {
 	}
 
 	/**
-	 * Hide the search box and top pagination.
+	 * Change the columns in the Custom Blocks list table
+	 *
+	 * @param array $columns An array of column name ⇒ label. The name is passed to functions to identify the column.
+	 *
+	 * @return array
+	 */
+	public function list_table_columns( $columns ) {
+		unset( $columns['date'] );
+		$columns['template'] = __( 'Template', 'advanced-custom-blocks' );
+		$columns['keywords'] = __( 'Keywords', 'advanced-custom-blocks' );
+		$columns['fields']   = __( 'Fields', 'advanced-custom-blocks' );
+		return $columns;
+	}
+
+	/**
+	 * Output custom column data into the table
+	 *
+	 * @param string $column  The name of the column to display.
+	 * @param int    $post_id The ID of the current post.
 	 *
 	 * @return void
 	 */
-	public function list_tables_style() {
-		$custom_css  = '.post-type-acb_block .tablenav.top { display: none; }';
-		$custom_css .= '.post-type-acb_block .search-box { display: none; }';
-		wp_add_inline_style( 'list-tables', $custom_css );
+	public function list_table_content( $column, $post_id ) {
+		if ( 'template' === $column ) {
+			$block    = new Block( $post_id );
+			$template = acb_locate_template( 'blocks/block-' . $block->name . '.php', '', true );
+
+			if ( ! $template ) {
+				esc_html_e( 'No template found.', 'advanced-custom-blocks' );
+			} else {
+				// Formatting to make the template path easier to understand.
+				$template_short  = str_replace( WP_CONTENT_DIR, '', $template );
+				$template_parts  = explode( '/', $template_short );
+				$template_breaks = implode( '/<wbr>', $template_parts );
+				echo wp_kses(
+					'<code>' . $template_breaks . '</code>',
+					array(
+						'code' => array(),
+						'wbr'  => array(),
+					)
+				);
+			}
+		}
+		if ( 'keywords' === $column ) {
+			$block = new Block( $post_id );
+			echo esc_html( implode( ', ', $block->keywords ) );
+		}
+		if ( 'fields' === $column ) {
+			$block = new Block( $post_id );
+			echo esc_html( count( $block->fields ) );
+		}
 	}
 
 	/**
@@ -853,6 +908,18 @@ class Block_Post extends Component_Abstract {
 		}
 
 		// Return the set of links without Quick Edit.
+		return $actions;
+	}
+
+	/**
+	 * Remove Edit from the Bulk Actions menu
+	 *
+	 * @param array $actions An array of bulk actions.
+	 *
+	 * @return array
+	 */
+	public function bulk_actions( $actions ) {
+		unset( $actions['edit'] );
 		return $actions;
 	}
 }

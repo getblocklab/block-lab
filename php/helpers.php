@@ -107,13 +107,13 @@ function acb_template_part( $slug, $type = 'block' ) {
  * and allows to be called when STYLESHEET_PATH has not been set yet. Handy for async.
  *
  * @param string|array $template_names Templates to locate.
- * @param string       $path           (Optional) Path to located the templates first.
+ * @param string       $path           (Optional) Path to locate the templates first.
  * @param bool         $single         `true` - Returns only the first found item. Like standard `locate_template`
  *                                     `false` - Returns all found templates.
  *
  * @return string|array
  */
-function abc_locate_template( $template_names, $path = '', $single = true ) {
+function acb_locate_template( $template_names, $path = '', $single = true ) {
 	$path            = apply_filters( 'acb_template_path', $path );
 	$stylesheet_path = get_template_directory();
 	$template_path   = get_stylesheet_directory();

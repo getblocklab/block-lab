@@ -1,0 +1,13 @@
+.post-type-acb_block .tablenav.top,
+.post-type-acb_block .search-box,
+.post-type-acb_block .inline-edit-date,
+.post-type-acb_block .inline-edit-group {
+	display: none;
+}
+.post-type-acb_block .column-template code {
+	background: none;
+	font-size: 12px;
+}
+.post-type-acb_block .fixed .column-fields {
+	width: 10%;
+}
