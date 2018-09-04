@@ -622,7 +622,7 @@ class Block_Post extends Component_Abstract {
 		}
 
 		// Exits script if not the right post type.
-		if ( $data ['post_type'] !== $this->slug ) {
+		if ( $data['post_type'] !== $this->slug ) {
 			return $data;
 		}
 
