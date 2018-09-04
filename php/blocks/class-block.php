@@ -80,32 +80,29 @@ class Block {
 		if ( ! $post instanceof \WP_Post ) {
 			return;
 		}
-		$this->from_json( $post->post_content, $post->post_name );
+
+		$this->name = $post->post_name;
+		$this->from_json( $post->post_content );
 	}
 
 	/**
 	 * Construct the Block from a JSON blob
 	 *
 	 * @param string $json JSON blob.
-	 * @param string $name Block name.
 	 *
 	 * @return void
 	 */
-	public function from_json( $json, $name ) {
+	public function from_json( $json ) {
 		$json = json_decode( $json, true );
 
-		if ( ! isset( $json[ 'advanced-custom-blocks/' . $name ] ) ) {
+		if ( ! isset( $json[ 'advanced-custom-blocks/' . $this->name ] ) ) {
 			return;
 		}
 
-		$config = $json[ 'advanced-custom-blocks/' . $name ];
-
-		if ( isset( $config['name'] ) ) {
-			$this->name = $config['name'];
-		}
+		$config = $json[ 'advanced-custom-blocks/' . $this->name ];
 
 		if ( isset( $config['title'] ) ) {
-			$this->name = $config['title'];
+			$this->title = $config['title'];
 		}
 
 		if ( isset( $config['category'] ) ) {

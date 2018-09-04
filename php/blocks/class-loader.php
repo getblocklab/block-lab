@@ -201,7 +201,7 @@ class Loader extends Component_Abstract {
 
 		// Retrieve blocks from blocks.json.
 		// Reverse to preserve order of preference when using array_merge.
-		$blocks_files = array_reverse( (array) abc_locate_template( 'blocks/blocks.json', '', false ) );
+		$blocks_files = array_reverse( (array) acb_locate_template( 'blocks/blocks.json', '', false ) );
 		foreach ( $blocks_files as $blocks_file ) {
 			// This is expected to be on the local filesystem, so file_get_contents() is ok to use here.
 			$json       = file_get_contents( $blocks_file ); // @codingStandardsIgnoreLine

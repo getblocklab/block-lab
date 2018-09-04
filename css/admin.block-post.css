@@ -183,8 +183,8 @@
 #acb_block_template .template-success {
 	border-left-color: #46b450;
 }
-#acb_block_template {
-	word-wrap: break-word;
+#acb_block_template code {
+	display: block;
 }
 
 @keyframes spinner {
