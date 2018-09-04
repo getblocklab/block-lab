@@ -114,6 +114,11 @@ class Loader extends Component_Abstract {
 			// sanitize_title() allows underscores, but register_block_type doesn't.
 			$block_name = str_replace( '_', '-', $block_name );
 
+			// register_block_type doesn't allow slugs starting with a number.
+			if ( $block_name[0] ) {
+				$block_name = 'acb-' . $block_name;
+			}
+
 			register_block_type(
 				$block_name, [
 					'attributes'      => $attributes,

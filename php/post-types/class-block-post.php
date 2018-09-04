@@ -716,6 +716,20 @@ class Block_Post extends Component_Abstract {
 		// sanitize_title() allows underscores, but register_block_type doesn't.
 		$data['post_name'] = str_replace( '_', '-', $data['post_name'] );
 
+		// register_block_type doesn't allow slugs starting with a number.
+		if ( $data['post_name'][0] ) {
+			$data['post_name'] = 'acb-' . $data['post_name'];
+		}
+
+		// Make sure the block slug is still unique.
+		$data['post_name'] = wp_unique_post_slug(
+			$data['post_name'],
+			$post_id,
+			$data['post_status'],
+			$data['post_type'],
+			$data['post_parent']
+		);
+
 		$block = new Block();
 
 		// Block name.
