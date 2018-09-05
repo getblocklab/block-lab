@@ -2,8 +2,8 @@
 /**
  * Plugin Autoloader
  *
- * @package   Advanced_Custom_Blocks
- * @copyright Copyright(c) 2018, Advanced Custom Blocks
+ * @package   Block_Lab
+ * @copyright Copyright(c) 2018, Block Lab
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
@@ -20,7 +20,7 @@ spl_autoload_register(
 		$class_trait = preg_match( '/Trait$/', $class ) ? 'trait-' : 'class-';
 
 		// If we're not in the plugin's namespace then just return.
-		if ( 'Advanced_Custom_Blocks' !== $root ) {
+		if ( 'Block_Lab' !== $root ) {
 			return;
 		}
 

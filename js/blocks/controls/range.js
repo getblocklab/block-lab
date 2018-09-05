@@ -2,7 +2,7 @@ import updatePreview from "../loader/preview";
 
 const { RangeControl } = wp.components;
 
-const ACBRangeControl = ( props, field, block ) => {
+const BLRangeControl = ( props, field, block ) => {
 	const { setAttributes } = props
 	const attr = { ...props.attributes }
 	return (
@@ -28,4 +28,4 @@ const ACBRangeControl = ( props, field, block ) => {
 	)
 }
 
-export default ACBRangeControl
+export default BLRangeControl

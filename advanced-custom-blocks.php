@@ -1,20 +1,20 @@
 <?php
 /**
- * Advanced Custom Blocks
+ * Block Lab
  *
- * @package   Advanced_Custom_Blocks
+ * @package   Block_Lab
  * @copyright Copyright(c) 2018, Rheinard Korf
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  *
- * Plugin Name: Advanced Custom Blocks
- * Plugin URI: https://github.com/rheinardkorf/advanced-custom-blocks
- * Description: Create Advanced Custom Blocks effortlessly with no Gutenberg development know-how required.
+ * Plugin Name: Block Lab
+ * Plugin URI: https://github.com/rheinardkorf/block-lab
+ * Description: Create Block Lab effortlessly with no Gutenberg development know-how required.
  * Version: 0.1.1
  * Author: Rheinard Korf, Luke Carbis, Rob Stinson
- * Author URI: https://github.com/rheinardkorf/advanced-custom-blocks
+ * Author URI: https://github.com/rheinardkorf/block-lab
  * License: GPL2
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: advanced-custom-blocks
+ * Text Domain: block-lab
  * Domain Path: languages
  */
 
@@ -29,8 +29,8 @@ require_once 'php/autoloader.php';
 /**
  * Admin notice for incompatible versions of PHP.
  */
-function advanced_custom_blocks_php_version_error() {
-	printf( '<div class="error"><p>%s</p></div>', esc_html( advanced_custom_blocks_php_version_text() ) );
+function block_lab_php_version_error() {
+	printf( '<div class="error"><p>%s</p></div>', esc_html( block_lab_php_version_text() ) );
 }
 
 /**
@@ -45,16 +45,16 @@ function advanced_custom_blocks_php_version_error() {
  *
  * @return string
  */
-function advanced_custom_blocks_php_version_text() {
-	return __( 'Advanced Custom Blocks plugin error: Your version of PHP is too old to run this plugin. You must be running PHP 5.4 or higher.', 'advanced-custom-blocks' );
+function block_lab_php_version_text() {
+	return __( 'Block Lab plugin error: Your version of PHP is too old to run this plugin. You must be running PHP 5.4 or higher.', 'block-lab' );
 }
 
 // If the PHP version is too low, show warning and return.
 if ( version_compare( phpversion(), '5.4', '<' ) ) {
 	if ( defined( 'WP_CLI' ) ) {
-		WP_CLI::warning( advanced_custom_blocks_php_version_text() );
+		WP_CLI::warning( block_lab_php_version_text() );
 	} else {
-		add_action( 'admin_notices', 'advanced_custom_blocks_php_version_error' );
+		add_action( 'admin_notices', 'block_lab_php_version_error' );
 	}
 
 	return;
@@ -66,13 +66,13 @@ require_once __DIR__ . '/php/helpers.php';
 /**
  * Get the plugin object.
  *
- * @return \Advanced_Custom_Blocks\Plugin_Abstract
+ * @return \Block_Lab\Plugin_Abstract
  */
-function advanced_custom_blocks() {
+function block_lab() {
 	static $instance;
 
 	if ( null === $instance ) {
-		$instance = new \Advanced_Custom_Blocks\Plugin();
+		$instance = new \Block_Lab\Plugin();
 	}
 
 	return $instance;
@@ -81,22 +81,22 @@ function advanced_custom_blocks() {
 /**
  * Setup the plugin instance.
  */
-advanced_custom_blocks()
+block_lab()
 	->set_basename( plugin_basename( __FILE__ ) )
 	->set_directory( plugin_dir_path( __FILE__ ) )
 	->set_file( __FILE__ )
-	->set_slug( 'advanced-custom-blocks' )
+	->set_slug( 'block-lab' )
 	->set_url( plugin_dir_url( __FILE__ ) );
 
 /**
  * Register plugin components.
  */
-advanced_custom_blocks()
-	->register_component( new \Advanced_Custom_Blocks\Post_Types\Block_Post() )
-	->register_component( new \Advanced_Custom_Blocks\Blocks\Loader() )
-	->register_component( new \Advanced_Custom_Blocks\Endpoints\Preview() );
+block_lab()
+	->register_component( new \Block_Lab\Post_Types\Block_Post() )
+	->register_component( new \Block_Lab\Blocks\Loader() )
+	->register_component( new \Block_Lab\Endpoints\Preview() );
 
 /**
  * Sometimes we need to do some things after the plugin is loaded, so call the Plugin_Interface::plugin_loaded().
  */
-add_action( 'plugins_loaded', array( advanced_custom_blocks(), 'plugin_loaded' ) );
+add_action( 'plugins_loaded', array( block_lab(), 'plugin_loaded' ) );

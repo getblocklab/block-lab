@@ -2,20 +2,20 @@
 /**
  * Preview retrieves sanitized HTML to send to the Gutenberg preview.
  *
- * @package Advanced_Custom_Blocks
+ * @package Block_Lab
  */
 
-namespace Advanced_Custom_Blocks\Endpoints;
+namespace Block_Lab\Endpoints;
 
-use Advanced_Custom_Blocks\Blocks\Loader;
-use Advanced_Custom_Blocks\Component_Abstract;
+use Block_Lab\Blocks\Loader;
+use Block_Lab\Component_Abstract;
 
 /**
  * Class Preview
  */
 class Preview extends Component_Abstract {
 
-	const BASE = 'acb/v1';
+	const BASE = 'block-lab/v1';
 
 	/**
 	 * Array of available blocks.
@@ -107,9 +107,13 @@ class Preview extends Component_Abstract {
 		$content = '';
 
 		$slug = $r->get_param( 'slug' );
-		if ( ! empty( $slug ) && array_key_exists( 'advanced-custom-blocks/' . $slug, $this->blocks ) ) {
-			$block   = $this->blocks[ 'advanced-custom-blocks/' . $slug ];
-			$content = $this->block_loader->render_block_template( $block, $this->mock_attributes( $block ), [ 'preview', 'block' ] );
+		if ( ! empty( $slug ) && array_key_exists( 'block-lab/' . $slug, $this->blocks ) ) {
+			$block   = $this->blocks[ 'block-lab/' . $slug ];
+			$content = $this->block_loader->render_block_template(
+				$block,
+				$this->mock_attributes( $block ),
+				[ 'preview', 'block' ]
+			);
 		}
 
 		return rest_ensure_response( $content );

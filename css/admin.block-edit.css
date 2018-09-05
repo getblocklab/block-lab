@@ -1,25 +1,25 @@
-.post-type-acb_block .tablenav.top,
-.post-type-acb_block .search-box,
-.post-type-acb_block .inline-edit-date,
-.post-type-acb_block .inline-edit-group {
+.post-type-block_lab_block .tablenav.top,
+.post-type-block_lab_block .search-box,
+.post-type-block_lab_block .inline-edit-date,
+.post-type-block_lab_block .inline-edit-group {
 	display: none;
 }
-.post-type-acb_block .column-template code {
+.post-type-block_lab_block .column-template code {
 	background: none;
 	font-size: 12px;
 }
-.post-type-acb_block .fixed .column-icon {
+.post-type-block_lab_block .fixed .column-icon {
 	width: 10%;
 }
-.post-type-acb_block .fixed td.column-icon {
+.post-type-block_lab_block .fixed td.column-icon {
 	color: #72777c;
 }
-.post-type-acb_block .fixed td.column-icon i {
+.post-type-block_lab_block .fixed td.column-icon i {
 	background: #ffffff;
 	border: 1px solid #aaa;
 	border-radius: 4px;
 	padding: 4px;
 }
-.post-type-acb_block .fixed .column-fields {
+.post-type-block_lab_block .fixed .column-fields {
 	width: 10%;
 }

@@ -2,14 +2,14 @@
 /**
  * Control abstract.
  *
- * @package   Advanced_Custom_Blocks
- * @copyright Copyright(c) 2018, Advanced Custom Blocks
+ * @package   Block_Lab
+ * @copyright Copyright(c) 2018, Block Lab
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace Advanced_Custom_Blocks\Blocks\Controls;
+namespace Block_Lab\Blocks\Controls;
 
-use Advanced_Custom_Blocks\Blocks\Field;
+use Block_Lab\Blocks\Field;
 
 /**
  * Class Control_Abstract
@@ -70,12 +70,12 @@ abstract class Control_Abstract {
 			}
 
 			$classes = array(
-				'acb-fields-edit-settings-' . $this->name . '-' . $setting->name,
-				'acb-fields-edit-settings-' . $this->name,
-				'acb-fields-edit-settings',
+				'block-lab-fields-edit-settings-' . $this->name . '-' . $setting->name,
+				'block-lab-fields-edit-settings-' . $this->name,
+				'block-lab-fields-edit-settings',
 			);
-			$name    = 'acb-fields-settings[' . $uid . '][' . $setting->name . ']';
-			$id      = 'acb-fields-edit-settings-' . $this->name . '-' . $setting->name . '_' . $uid;
+			$name    = 'block-lab-fields-settings[' . $uid . '][' . $setting->name . ']';
+			$id      = 'block-lab-fields-edit-settings-' . $this->name . '-' . $setting->name . '_' . $uid;
 			?>
 			<tr class="<?php echo esc_attr( implode( $classes, ' ' ) ); ?>">
 				<td class="spacer"></td>
