@@ -21,12 +21,17 @@ const registerAdvancedCustomBlocks = () => {
 		let block = acbBlocks[ blockName ];
 		block.block_slug = blockName;
 
+		let icon = icons.logo;
+		if ( 'undefined' !== typeof block.icon && '' !== block.icon ) {
+			icon = <i className="material-icons">{block.icon}</i>;
+		}
+
 		// Register the block.
 		registerBlockType( blockName, {
 			title: block.title,
 			description: block.description,
 			category: block.category,
-			icon: ( 'undefined' === typeof block.icon || '' === block.icon ) ? icons.logo : block.icon,
+			icon: icon,
 			keywords: block.keywords,
 			attributes: blockAttributes( block ),
 			edit: props => {

@@ -202,6 +202,16 @@ class Block_Post extends Component_Abstract {
 				filemtime( $this->plugin->get_path( 'css/admin.block-edit.css' ) )
 			);
 		}
+		if ( $this->slug === $screen->post_type ) {
+			if ( ! wp_style_is( 'material-icons', 'enqueued' ) ) {
+				wp_enqueue_style(
+					'material-icons',
+					'https://fonts.googleapis.com/icon?family=Material+Icons',
+					[],
+					'20180904'
+				);
+			}
+		}
 	}
 
 	/**
@@ -310,29 +320,13 @@ class Block_Post extends Component_Abstract {
 						value="<?php echo esc_attr( $block->icon ); ?>">
 					<div class="acb-properties-icons">
 						<?php
-						foreach ( acb_get_icons() as $name => $icon ) {
-							$selected = $icon['value'] === $block->icon ? 'selected' : '';
-							switch ( $icon['type'] ) {
-								case 'dashicons':
-									printf(
-										'<span class="dashicons %s %s" data-value="%s"></span>',
-										esc_attr( $name ),
-										esc_attr( $selected ),
-										esc_attr( $icon['value'] )
-									);
-									break;
-								case 'svg':
-									printf(
-										'<span class="svg %s" data-value="%s">%s</span>',
-										esc_attr( $selected ),
-										esc_attr( $name ),
-										wp_kses(
-											$icon['value'],
-											array( 'svg' => array( 'preserveAspectRatio', 'viewbox', 'xmlns' ) )
-										)
-									);
-									break;
-							}
+						foreach ( acb_get_icons() as $icon ) {
+							$selected = $icon === $block->icon ? 'selected' : '';
+							printf(
+								'<span class="material-icons %1$s" data-value="%2$s">%2$s</span>',
+								esc_attr( $selected ),
+								esc_attr( $icon )
+							);
 						}
 						?>
 					</div>
@@ -722,7 +716,7 @@ class Block_Post extends Component_Abstract {
 		$data['post_name'] = str_replace( '_', '-', $data['post_name'] );
 
 		// register_block_type doesn't allow slugs starting with a number.
-		if ( $data['post_name'][0] ) {
+		if ( is_numeric( $data['post_name'][0] ) ) {
 			$data['post_name'] = 'acb-' . $data['post_name'];
 		}
 
@@ -860,11 +854,14 @@ class Block_Post extends Component_Abstract {
 	 * @return array
 	 */
 	public function list_table_columns( $columns ) {
-		unset( $columns['date'] );
-		$columns['template'] = __( 'Template', 'advanced-custom-blocks' );
-		$columns['keywords'] = __( 'Keywords', 'advanced-custom-blocks' );
-		$columns['fields']   = __( 'Fields', 'advanced-custom-blocks' );
-		return $columns;
+		$new_columns = array(
+			'cb'       => $columns['cb'],
+			'title'    => $columns['title'],
+			'icon'     => __( 'Icon', 'advanced-custom-blocks' ),
+			'template' => __( 'Template', 'advanced-custom-blocks' ),
+			'keywords' => __( 'Keywords', 'advanced-custom-blocks' ),
+		);
+		return $new_columns;
 	}
 
 	/**
@@ -876,6 +873,10 @@ class Block_Post extends Component_Abstract {
 	 * @return void
 	 */
 	public function list_table_content( $column, $post_id ) {
+		if ( 'icon' === $column ) {
+			$block = new Block( $post_id );
+			echo wp_kses_post( '<i class="material-icons">' . $block->icon . '</i>' );
+		}
 		if ( 'template' === $column ) {
 			$block    = new Block( $post_id );
 			$template = acb_locate_template( 'blocks/block-' . $block->name . '.php', '', true );

@@ -93,6 +93,16 @@ class Loader extends Component_Abstract {
 			[ 'wp-blocks' ],
 			filemtime( $this->assets['path']['editor_style'] )
 		);
+
+		// Enqueue 'material-icons'.
+		if ( ! wp_style_is( 'material-icons', 'enqueued' ) ) {
+			wp_enqueue_style(
+				'material-icons',
+				'https://fonts.googleapis.com/icon?family=Material+Icons',
+				[],
+				'20180904'
+			);
+		}
 	}
 
 	/**
@@ -115,7 +125,7 @@ class Loader extends Component_Abstract {
 			$block_name = str_replace( '_', '-', $block_name );
 
 			// register_block_type doesn't allow slugs starting with a number.
-			if ( $block_name[0] ) {
+			if ( is_numeric( $block_name[0] ) ) {
 				$block_name = 'acb-' . $block_name;
 			}
 
@@ -202,7 +212,6 @@ class Loader extends Component_Abstract {
 	 * Load all the published blocks and blocks/block.json files.
 	 */
 	public function retrieve_blocks() {
-
 		$slug = 'acb_block';
 
 		$this->blocks = '';
@@ -233,11 +242,11 @@ class Loader extends Component_Abstract {
 		if ( 0 < $block_posts->post_count ) {
 			/** The WordPress Post object. @var \WP_Post $post */
 			foreach ( $block_posts->posts as $post ) {
-				$block_data = json_decode( $post->post_content, true );
+				$block = new Block( $post->ID );
 
 				// Merge if no json_decode error occurred.
 				if ( json_last_error() == JSON_ERROR_NONE ) { // Loose comparison okay.
-					$blocks = array_merge( $blocks, $block_data );
+					$blocks[ 'advanced-custom-blocks/' . $block->name ] = $block;
 				}
 			}
 		}

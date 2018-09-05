@@ -46,7 +46,7 @@
 	display: block;
 	width: 15px;
 	height: 15px;
-	font-family: dashicons, monospace;
+	font-family: 'Dashicons', monospace;
 	font-size: 15px;
 	line-height: 15px;
 	cursor: grab;
@@ -133,40 +133,31 @@
 	overflow-y: scroll;
 	padding: 8px;
 	height: 110px;
+	position: relative;
 }
-#acb_block_properties .acb-properties-icons .dashicons,
-#acb_block_properties .acb-properties-icons .svg svg {
+#acb_block_properties .acb-properties-icons .material-icons {
+	display: inline-block;
 	padding: 4px;
 	margin: 4px;
-	border: 2px solid transparent;
-	border-radius: 3px;
+	border: 1px solid transparent;
+	border-radius: 4px;
 	cursor: pointer;
+	color: #72777c;
 }
-#acb_block_properties .acb-properties-icons .dashicons:hover,
-#acb_block_properties .acb-properties-icons .svg svg:hover {
-	background: #f1f1f1;
-	border: 2px solid #e5e5e5;
+#acb_block_properties .acb-properties-icons .material-icons:hover {
+	background: #fff;
+	border: 1px solid #aaa;
+	color: #444;
 }
-#acb_block_properties .acb-properties-icons .dashicons.selected,
-#acb_block_properties .acb-properties-icons .dashicons.selected:hover,
-#acb_block_properties .acb-properties-icons .svg.selected svg,
-#acb_block_properties .acb-properties-icons .svg.selected svg:hover {
-	background: rgba(0, 115, 170, 0.15);
-	border: 2px solid rgba(0, 115, 170, 0.5);
+#acb_block_properties .acb-properties-icons .material-icons.selected,
+#acb_block_properties .acb-properties-icons .material-icons.selected:hover {
+	border: 1px solid rgba(0, 160, 210, 1);
+	color: rgba(0, 160, 210, 1);
 }
-#acb_block_properties .acb-properties-icons .svg svg {
-	width: 25px;
-	height: 25px;
-}
-#acb_block_properties .acb-properties-icons .dashicons {
+#acb_block_properties .acb-properties-icons .material-icons {
 	font-size: 25px;
 	width: 1em;
 	height: 1em;
-}
-#acb_block_properties .acb-properties-icons .dashicons.selected,
-#acb_block_properties .acb-properties-icons .dashicons.selected:hover {
-	background: rgba(0, 115, 170, 0.15);
-	border: 2px solid rgba(0, 115, 170, 0.5);
 }
 #acb_block_template .inside {
 	padding: 0;

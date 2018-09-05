@@ -168,27 +168,15 @@ function acb_locate_template( $template_names, $path = '', $single = true ) {
 /**
  * Provides a list of all available block icons.
  *
- * To include custom icons in this list use a unique key, and specify a type of 'svg' with a value of raw SVG content.
- *
- * For example:
- * $icons['foo'] = array( 'type' => 'svg', 'value' => '<svg role="img" xmlns="http://www.w3.org/2000/svg">…</svg>' );
+ * To include other material icons in this list, use the acb_icons filter to add their material icons name.
  *
  * @return array
  */
 function acb_get_icons() {
-	$icons = array();
-
 	// This is on the local filesystem, so file_get_contents() is ok to use here.
-	$json_file = advanced_custom_blocks()->get_assets_path( 'dashicons.json' );
+	$json_file = advanced_custom_blocks()->get_assets_path( 'icons.json' );
 	$json      = file_get_contents( $json_file ); // @codingStandardsIgnoreLine
-	$dashicons = json_decode( $json, true );
-
-	foreach ( $dashicons as $dashicon ) {
-		$icons[ 'dashicons-' . $dashicon ] = array(
-			'type'  => 'dashicons',
-			'value' => $dashicon,
-		);
-	}
+	$icons     = json_decode( $json, true );
 
 	return apply_filters( 'acb_icons', $icons );
 }

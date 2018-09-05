@@ -8,6 +8,18 @@
 	background: none;
 	font-size: 12px;
 }
+.post-type-acb_block .fixed .column-icon {
+	width: 10%;
+}
+.post-type-acb_block .fixed td.column-icon {
+	color: #72777c;
+}
+.post-type-acb_block .fixed td.column-icon i {
+	background: #ffffff;
+	border: 1px solid #aaa;
+	border-radius: 4px;
+	padding: 4px;
+}
 .post-type-acb_block .fixed .column-fields {
 	width: 10%;
 }
