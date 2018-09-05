@@ -855,12 +855,12 @@ class Block_Post extends Component_Abstract {
 	 */
 	public function list_table_columns( $columns ) {
 		$new_columns = array(
-			'cb'   => $columns['cb'],
-			'icon' => '',
-			'title' => $columns['title'],
+			'cb'       => $columns['cb'],
+			'icon'     => '',
+			'title'    => $columns['title'],
 			'template' => __( 'Template', 'advanced-custom-blocks' ),
 			'keywords' => __( 'Keywords', 'advanced-custom-blocks' ),
-			'fields' => __( 'Fields', 'advanced-custom-blocks' ),
+			'fields'   => __( 'Fields', 'advanced-custom-blocks' ),
 		);
 		return $new_columns;
 	}
