@@ -21,12 +21,26 @@ const registerAdvancedCustomBlocks = () => {
 		let block = acbBlocks[ blockName ];
 		block.block_slug = blockName;
 
+		let icon = icons.logo;
+		if ( undefined !== typeof block.icon_data &&
+			undefined !== typeof block.icon_data.type &&
+			undefined !== typeof block.icon_data.value
+		) {
+			if ( 'material-icon' === block.icon_data.type ) {
+				icon = <i className="material-icons">{block.icon_data.value}</i>;
+			}
+			if ( 'svg' === block.icon_data.type ) {
+				icon = ( block.icon_data.value )
+			}
+		}
+		console.log(icon);
+
 		// Register the block.
 		registerBlockType( blockName, {
 			title: block.title,
 			description: block.description,
 			category: block.category,
-			icon: ( 'undefined' === typeof block.icon || '' === block.icon ) ? icons.logo : (<i className="material-icons">{block.icon}</i>),
+			icon: icon,
 			keywords: block.keywords,
 			attributes: blockAttributes( block ),
 			edit: props => {

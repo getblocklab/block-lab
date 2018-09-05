@@ -179,16 +179,21 @@ function acb_get_icons() {
 	$icons = array();
 
 	// This is on the local filesystem, so file_get_contents() is ok to use here.
-	$json_file = advanced_custom_blocks()->get_assets_path( 'dashicons.json' );
-	$json      = file_get_contents( $json_file ); // @codingStandardsIgnoreLine
-	$dashicons = json_decode( $json, true );
+	$json_file      = advanced_custom_blocks()->get_assets_path( 'icons.json' );
+	$json           = file_get_contents( $json_file ); // @codingStandardsIgnoreLine
+	$material_icons = json_decode( $json, true );
 
-	foreach ( $dashicons as $dashicon ) {
-		$icons[ 'dashicons-' . $dashicon ] = array(
-			'type'  => 'dashicons',
-			'value' => $dashicon,
+	foreach ( $material_icons as $icon ) {
+		$icons[ $icon ] = array(
+			'type'  => 'material-icon',
+			'value' => $icon,
 		);
 	}
+
+	$icons['example'] = array(
+		'type' => 'svg',
+		'value' => '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.5,11h-2V9H1v6h1.5v-2.5h2V15H6V9H4.5V11z M7,10.5h1.5V15H10v-4.5h1.5V9H7V10.5z M14.5,10l-1-1H12v6h1.5v-3.9  l1,1l1-1V15H17V9h-1.5L14.5,10z M19.5,13.5V9H18v6h5v-1.5H19.5z" /></svg>'
+	);
 
 	return apply_filters( 'acb_icons', $icons );
 }

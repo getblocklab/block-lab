@@ -179,6 +179,14 @@ class Block_Post extends Component_Abstract {
 				array(),
 				filemtime( $this->plugin->get_path( 'css/admin.block-post.css' ) )
 			);
+			if ( ! wp_style_is( 'material-icons', 'enqueued' ) ) {
+				wp_enqueue_style(
+					'material-icons',
+					'https://fonts.googleapis.com/icon?family=Material+Icons',
+					[],
+					'20180904'
+				);
+			}
 			wp_enqueue_script(
 				'block-post',
 				$this->plugin->get_url( 'js/admin.block-post.js' ),
@@ -311,12 +319,11 @@ class Block_Post extends Component_Abstract {
 					<div class="acb-properties-icons">
 						<?php
 						foreach ( acb_get_icons() as $name => $icon ) {
-							$selected = $icon['value'] === $block->icon ? 'selected' : '';
+							$selected = $name === $block->icon ? 'selected' : '';
 							switch ( $icon['type'] ) {
-								case 'dashicons':
+								case 'material-icon':
 									printf(
-										'<span class="dashicons %s %s" data-value="%s"></span>',
-										esc_attr( $name ),
+										'<span class="material-icons %1$s" data-value="%2$s">%2$s</span>',
 										esc_attr( $selected ),
 										esc_attr( $icon['value'] )
 									);
@@ -326,6 +333,7 @@ class Block_Post extends Component_Abstract {
 										'<span class="svg %s" data-value="%s">%s</span>',
 										esc_attr( $selected ),
 										esc_attr( $name ),
+										$icon['value'],
 										wp_kses(
 											$icon['value'],
 											array( 'svg' => array( 'preserveAspectRatio', 'viewbox', 'xmlns' ) )
@@ -722,7 +730,7 @@ class Block_Post extends Component_Abstract {
 		$data['post_name'] = str_replace( '_', '-', $data['post_name'] );
 
 		// register_block_type doesn't allow slugs starting with a number.
-		if ( $data['post_name'][0] ) {
+		if ( is_numeric( $data['post_name'][0] ) ) {
 			$data['post_name'] = 'acb-' . $data['post_name'];
 		}
 
