@@ -179,14 +179,6 @@ class Block_Post extends Component_Abstract {
 				array(),
 				filemtime( $this->plugin->get_path( 'css/admin.block-post.css' ) )
 			);
-			if ( ! wp_style_is( 'material-icons', 'enqueued' ) ) {
-				wp_enqueue_style(
-					'material-icons',
-					'https://fonts.googleapis.com/icon?family=Material+Icons',
-					[],
-					'20180904'
-				);
-			}
 			wp_enqueue_script(
 				'block-post',
 				$this->plugin->get_url( 'js/admin.block-post.js' ),
@@ -209,6 +201,16 @@ class Block_Post extends Component_Abstract {
 				array(),
 				filemtime( $this->plugin->get_path( 'css/admin.block-edit.css' ) )
 			);
+		}
+		if ( $this->slug === $screen->post_type ) {
+			if ( ! wp_style_is( 'material-icons', 'enqueued' ) ) {
+				wp_enqueue_style(
+					'material-icons',
+					'https://fonts.googleapis.com/icon?family=Material+Icons',
+					[],
+					'20180904'
+				);
+			}
 		}
 	}
 
@@ -852,11 +854,15 @@ class Block_Post extends Component_Abstract {
 	 * @return array
 	 */
 	public function list_table_columns( $columns ) {
-		unset( $columns['date'] );
-		$columns['template'] = __( 'Template', 'advanced-custom-blocks' );
-		$columns['keywords'] = __( 'Keywords', 'advanced-custom-blocks' );
-		$columns['fields']   = __( 'Fields', 'advanced-custom-blocks' );
-		return $columns;
+		$new_columns = array(
+			'cb'   => $columns['cb'],
+			'icon' => '',
+			'title' => $columns['title'],
+			'template' => __( 'Template', 'advanced-custom-blocks' ),
+			'keywords' => __( 'Keywords', 'advanced-custom-blocks' ),
+			'fields' => __( 'Fields', 'advanced-custom-blocks' ),
+		);
+		return $new_columns;
 	}
 
 	/**
@@ -868,6 +874,10 @@ class Block_Post extends Component_Abstract {
 	 * @return void
 	 */
 	public function list_table_content( $column, $post_id ) {
+		if ( 'icon' === $column ) {
+			$block = new Block( $post_id );
+			echo wp_kses_post( '<i class="material-icons">' . $block->icon . '</i>' );
+		}
 		if ( 'template' === $column ) {
 			$block    = new Block( $post_id );
 			$template = acb_locate_template( 'blocks/block-' . $block->name . '.php', '', true );
