@@ -12,6 +12,7 @@
 
 	$(function() {
 		blockCategoryInit();
+		blockIconInit();
 		blockFieldInit();
 
 		$( '#title' ).on( 'change keyup', function() {
@@ -105,6 +106,14 @@
 			}
 		}
 	};
+
+	let blockIconInit = function() {
+		let iconsContainer = $( '.acb-properties-icons' ),
+			selectedIcon   = $( '.selected', iconsContainer );
+		if ( 0 !== iconsContainer.length && 0 !== selectedIcon.length ) {
+			iconsContainer.scrollTop( selectedIcon.position().top );
+		}
+	}
 
 	let blockFieldInit = function() {
 		if ( 0 === $( '.acb-fields-rows' ).children( '.acb-fields-row' ).length ) {
