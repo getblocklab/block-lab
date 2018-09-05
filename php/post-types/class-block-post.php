@@ -318,29 +318,13 @@ class Block_Post extends Component_Abstract {
 						value="<?php echo esc_attr( $block->icon ); ?>">
 					<div class="acb-properties-icons">
 						<?php
-						foreach ( acb_get_icons() as $name => $icon ) {
-							$selected = $name === $block->icon ? 'selected' : '';
-							switch ( $icon['type'] ) {
-								case 'material-icon':
-									printf(
-										'<span class="material-icons %1$s" data-value="%2$s">%2$s</span>',
-										esc_attr( $selected ),
-										esc_attr( $icon['value'] )
-									);
-									break;
-								case 'svg':
-									printf(
-										'<span class="svg %s" data-value="%s">%s</span>',
-										esc_attr( $selected ),
-										esc_attr( $name ),
-										$icon['value'],
-										wp_kses(
-											$icon['value'],
-											array( 'svg' => array( 'preserveAspectRatio', 'viewbox', 'xmlns' ) )
-										)
-									);
-									break;
-							}
+						foreach ( acb_get_icons() as $icon ) {
+							$selected = $icon === $block->icon ? 'selected' : '';
+							printf(
+								'<span class="material-icons %1$s" data-value="%2$s">%2$s</span>',
+								esc_attr( $selected ),
+								esc_attr( $icon )
+							);
 						}
 						?>
 					</div>

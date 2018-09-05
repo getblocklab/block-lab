@@ -22,18 +22,9 @@ const registerAdvancedCustomBlocks = () => {
 		block.block_slug = blockName;
 
 		let icon = icons.logo;
-		if ( undefined !== typeof block.icon_data &&
-			undefined !== typeof block.icon_data.type &&
-			undefined !== typeof block.icon_data.value
-		) {
-			if ( 'material-icon' === block.icon_data.type ) {
-				icon = <i className="material-icons">{block.icon_data.value}</i>;
-			}
-			if ( 'svg' === block.icon_data.type ) {
-				icon = ( block.icon_data.value )
-			}
+		if ( 'undefined' !== typeof block.icon && '' !== block.icon ) {
+			icon = <i className="material-icons">{block.icon}</i>;
 		}
-		console.log(icon);
 
 		// Register the block.
 		registerBlockType( blockName, {

@@ -43,13 +43,6 @@ class Block {
 	public $icon = '';
 
 	/**
-	 * Icon data. Expecting 'type' and 'value' keys.
-	 *
-	 * @var array
-	 */
-	public $icon_data = array();
-
-	/**
 	 * Block keywords.
 	 *
 	 * @var string[]
@@ -118,10 +111,6 @@ class Block {
 
 		if ( isset( $config['icon'] ) ) {
 			$this->icon = $config['icon'];
-			$icons = acb_get_icons();
-			if ( isset( $icons[ $this->icon ] ) ) {
-				$this->icon_data = $icons[ $this->icon ];
-			}
 		}
 
 		if ( isset( $config['keywords'] ) ) {
