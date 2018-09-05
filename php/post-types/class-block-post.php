@@ -856,11 +856,10 @@ class Block_Post extends Component_Abstract {
 	public function list_table_columns( $columns ) {
 		$new_columns = array(
 			'cb'       => $columns['cb'],
-			'icon'     => '',
 			'title'    => $columns['title'],
+			'icon'     => __( 'Icon', 'advanced-custom-blocks' ),
 			'template' => __( 'Template', 'advanced-custom-blocks' ),
 			'keywords' => __( 'Keywords', 'advanced-custom-blocks' ),
-			'fields'   => __( 'Fields', 'advanced-custom-blocks' ),
 		);
 		return $new_columns;
 	}
