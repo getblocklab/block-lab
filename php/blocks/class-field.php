@@ -77,8 +77,8 @@ class Field {
 		if ( isset( $args['order'] ) ) {
 			$this->order = $args['order'];
 		}
-		if ( isset( $config['settings'] ) ) {
-			$this->settings = $config['settings'];
+		if ( isset( $args['settings'] ) ) {
+			$this->settings = $args['settings'];
 		}
 	}
 }
