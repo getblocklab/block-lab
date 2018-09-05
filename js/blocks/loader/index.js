@@ -12,13 +12,13 @@ const registerAdvancedCustomBlocks = () => {
 
 	// Loop through all the blocks.
 	// Note: This is not guaranteed to be sequential.
-	for ( let blockName in acbBlocks ) {
+	for ( let blockName in blockLabBlocks ) {
 
 		// Avoid weird inheritance issues. Which should not happen because the backend is safe.
-		if ( !acbBlocks.hasOwnProperty( blockName ) ) continue;
+		if ( !blockLabBlocks.hasOwnProperty( blockName ) ) continue;
 
 		// Get the block definition.
-		let block = acbBlocks[ blockName ];
+		let block = blockLabBlocks[ blockName ];
 		block.block_slug = blockName;
 
 		let icon = icons.logo;

@@ -38,7 +38,7 @@ const previewData = ( props, block ) => {
 		return;
 	}
 
-	wp.apiFetch( { path: `/acb/v1/block-preview?slug=` + block.name } ).then(
+	wp.apiFetch( { path: `/block-lab/v1/block-preview?slug=` + block.name } ).then(
 		data => {
 			props.setAttributes( { block_template: data } );
 			updatePreview( props, block, data );
@@ -65,7 +65,7 @@ const editComponent = ( props, block ) => {
 					</div>
 				) : (
 					<RichText
-						value={props.attributes.block_preview || __( 'Loading preview...', 'advanced-custom-blocks' )}
+						value={props.attributes.block_preview || __( 'Loading preview...', 'block-lab' )}
 						onChange={e => {
 							e.preventDefault;
 						}}

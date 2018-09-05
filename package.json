@@ -1,11 +1,11 @@
 {
-  "name": "advanced-custom-blocks",
-  "title": "Advanced Custom Blocks",
+  "name": "block-lab",
+  "title": "Block Lab",
   "version": "0.1.1",
-  "homepage": "https://github.com/rheinardkorf/advanced-custom-blocks",
+  "homepage": "https://github.com/rheinardkorf/block-lab",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rheinardkorf/advanced-custom-blocks"
+    "url": "https://github.com/rheinardkorf/block-lab"
   },
   "scripts": {
     "dev": "cross-env BABEL_ENV=default webpack --watch",

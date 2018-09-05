@@ -2,12 +2,12 @@
 /**
  * Toggle control.
  *
- * @package   Advanced_Custom_Blocks
- * @copyright Copyright(c) 2018, Advanced Custom Blocks
+ * @package   Block_Lab
+ * @copyright Copyright(c) 2018, Block Lab
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace Advanced_Custom_Blocks\Blocks\Controls;
+namespace Block_Lab\Blocks\Controls;
 
 /**
  * Class Toggle
@@ -28,7 +28,7 @@ class Toggle extends Control_Abstract {
 	 */
 	public function __construct() {
 		parent::__construct();
-		$this->label = __( 'Toggle', 'advanced-custom-blocks' );
+		$this->label = __( 'Toggle', 'block-lab' );
 	}
 
 	/**
@@ -39,14 +39,14 @@ class Toggle extends Control_Abstract {
 	public function register_settings() {
 		$this->settings[] = new Control_Setting( array(
 			'name'     => 'help',
-			'label'    => __( 'Field instructions', 'advanced-custom-blocks' ),
+			'label'    => __( 'Field instructions', 'block-lab' ),
 			'type'     => 'textarea',
 			'default'  => '',
 			'sanitize' => 'sanitize_textarea_field',
 		) );
 		$this->settings[] = new Control_Setting( array(
 			'name'     => 'default',
-			'label'    => __( 'Default Value', 'advanced-custom-blocks' ),
+			'label'    => __( 'Default Value', 'block-lab' ),
 			'type'     => 'checkbox',
 			'default'  => '0',
 			'sanitize' => array( $this, 'sanitise_checkbox' ),

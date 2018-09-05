@@ -2,17 +2,17 @@
 /**
  * Block Post Type.
  *
- * @package   Advanced_Custom_Blocks
- * @copyright Copyright(c) 2018, Advanced Custom Blocks
+ * @package   Block_Lab
+ * @copyright Copyright(c) 2018, Block Lab
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace Advanced_Custom_Blocks\Post_Types;
+namespace Block_Lab\Post_Types;
 
-use Advanced_Custom_Blocks\Component_Abstract;
-use Advanced_Custom_Blocks\Blocks\Block;
-use Advanced_Custom_Blocks\Blocks\Field;
-use Advanced_Custom_Blocks\Blocks\Controls;
+use Block_Lab\Component_Abstract;
+use Block_Lab\Blocks\Block;
+use Block_Lab\Blocks\Field;
+use Block_Lab\Blocks\Controls;
 
 /**
  * Class Block
@@ -24,7 +24,7 @@ class Block_Post extends Component_Abstract {
 	 *
 	 * @var string
 	 */
-	public $slug = 'acb_block';
+	public $slug = 'block_lab_block';
 
 	/**
 	 * Registered controls.
@@ -74,7 +74,7 @@ class Block_Post extends Component_Abstract {
 	 */
 	public function register_controls() {
 		$this->controls = apply_filters(
-			'acb_controls', array(
+			'block_lab_controls', array(
 				'text'     => new Controls\Text(),
 				'textarea' => new Controls\Textarea(),
 				'select'   => new Controls\Select(),
@@ -93,20 +93,20 @@ class Block_Post extends Component_Abstract {
 	 */
 	public function register_post_type() {
 		$labels = array(
-			'name'               => _x( 'Custom Blocks', 'post type general name', 'advanced-custom-blocks' ),
-			'singular_name'      => _x( 'Custom Block', 'post type singular name', 'advanced-custom-blocks' ),
-			'menu_name'          => _x( 'Custom Blocks', 'admin menu', 'advanced-custom-blocks' ),
-			'name_admin_bar'     => _x( 'Block', 'add new on admin bar', 'advanced-custom-blocks' ),
-			'add_new'            => _x( 'Add New', 'block', 'advanced-custom-blocks' ),
-			'add_new_item'       => __( 'Add New Block', 'advanced-custom-blocks' ),
-			'new_item'           => __( 'New Block', 'advanced-custom-blocks' ),
-			'edit_item'          => __( 'Edit Block', 'advanced-custom-blocks' ),
-			'view_item'          => __( 'View Block', 'advanced-custom-blocks' ),
-			'all_items'          => __( 'All Blocks', 'advanced-custom-blocks' ),
-			'search_items'       => __( 'Search Blocks', 'advanced-custom-blocks' ),
-			'parent_item_colon'  => __( 'Parent Blocks:', 'advanced-custom-blocks' ),
-			'not_found'          => __( 'No blocks found.', 'advanced-custom-blocks' ),
-			'not_found_in_trash' => __( 'No blocks found in Trash.', 'advanced-custom-blocks' ),
+			'name'               => _x( 'Custom Blocks', 'post type general name', 'block-lab' ),
+			'singular_name'      => _x( 'Custom Block', 'post type singular name', 'block-lab' ),
+			'menu_name'          => _x( 'Custom Blocks', 'admin menu', 'block-lab' ),
+			'name_admin_bar'     => _x( 'Block', 'add new on admin bar', 'block-lab' ),
+			'add_new'            => _x( 'Add New', 'block', 'block-lab' ),
+			'add_new_item'       => __( 'Add New Block', 'block-lab' ),
+			'new_item'           => __( 'New Block', 'block-lab' ),
+			'edit_item'          => __( 'Edit Block', 'block-lab' ),
+			'view_item'          => __( 'View Block', 'block-lab' ),
+			'all_items'          => __( 'All Blocks', 'block-lab' ),
+			'search_items'       => __( 'Search Blocks', 'block-lab' ),
+			'parent_item_colon'  => __( 'Parent Blocks:', 'block-lab' ),
+			'not_found'          => __( 'No blocks found.', 'block-lab' ),
+			'not_found_in_trash' => __( 'No blocks found in Trash.', 'block-lab' ),
 		);
 
 		$args = array(
@@ -124,16 +124,16 @@ class Block_Post extends Component_Abstract {
 			),
 			// @codingStandardsIgnoreEnd
 			'query_var'     => true,
-			'rewrite'       => array( 'slug' => 'acb_block' ),
+			'rewrite'       => array( 'slug' => 'block_lab_block' ),
 			'hierarchical'  => true,
 			'capabilities'  => array(
-				'edit_post'          => 'acb_edit_block',
-				'edit_posts'         => 'acb_edit_blocks',
-				'edit_others_posts'  => 'acb_edit_others_blocks',
-				'publish_posts'      => 'acb_publish_blocks',
-				'read_post'          => 'acb_read_block',
-				'read_private_posts' => 'acb_read_private_blocks',
-				'delete_post'        => 'acb_delete_block',
+				'edit_post'          => 'block_lab_edit_block',
+				'edit_posts'         => 'block_lab_edit_blocks',
+				'edit_others_posts'  => 'block_lab_edit_others_blocks',
+				'publish_posts'      => 'block_lab_publish_blocks',
+				'read_post'          => 'block_lab_read_block',
+				'read_private_posts' => 'block_lab_read_private_blocks',
+				'delete_post'        => 'block_lab_delete_block',
 			),
 			'map_meta_cap'  => true,
 			'supports'      => array( 'title' ),
@@ -150,13 +150,13 @@ class Block_Post extends Component_Abstract {
 	public function add_caps() {
 		$admins = get_role( 'administrator' );
 
-		$admins->add_cap( 'acb_edit_block' );
-		$admins->add_cap( 'acb_edit_blocks' );
-		$admins->add_cap( 'acb_edit_others_blocks' );
-		$admins->add_cap( 'acb_publish_blocks' );
-		$admins->add_cap( 'acb_read_block' );
-		$admins->add_cap( 'acb_read_private_blocks' );
-		$admins->add_cap( 'acb_delete_block' );
+		$admins->add_cap( 'block_lab_edit_block' );
+		$admins->add_cap( 'block_lab_edit_blocks' );
+		$admins->add_cap( 'block_lab_edit_others_blocks' );
+		$admins->add_cap( 'block_lab_publish_blocks' );
+		$admins->add_cap( 'block_lab_read_block' );
+		$admins->add_cap( 'block_lab_read_private_blocks' );
+		$admins->add_cap( 'block_lab_delete_block' );
 	}
 
 	/**
@@ -188,9 +188,9 @@ class Block_Post extends Component_Abstract {
 			);
 			wp_localize_script(
 				'block-post',
-				'advancedCustomBlocks',
+				'blockLab',
 				array(
-					'fieldSettingsNonce' => wp_create_nonce( 'acb_field_settings_nonce' ),
+					'fieldSettingsNonce' => wp_create_nonce( 'block_lab_field_settings_nonce' ),
 				)
 			);
 		}
@@ -221,8 +221,8 @@ class Block_Post extends Component_Abstract {
 	 */
 	public function add_meta_boxes() {
 		add_meta_box(
-			'acb_block_properties',
-			__( 'Block Properties', 'advanced-custom-blocks' ),
+			'block_lab_block_properties',
+			__( 'Block Properties', 'block-lab' ),
 			array( $this, 'render_properties_meta_box' ),
 			$this->slug,
 			'normal',
@@ -230,8 +230,8 @@ class Block_Post extends Component_Abstract {
 		);
 
 		add_meta_box(
-			'acb_block_fields',
-			__( 'Block Fields', 'advanced-custom-blocks' ),
+			'block_lab_block_fields',
+			__( 'Block Fields', 'block-lab' ),
 			array( $this, 'render_fields_meta_box' ),
 			$this->slug,
 			'normal',
@@ -239,8 +239,8 @@ class Block_Post extends Component_Abstract {
 		);
 
 		add_meta_box(
-			'acb_block_template',
-			__( 'Template', 'advanced-custom-blocks' ),
+			'block_lab_block_template',
+			__( 'Template', 'block-lab' ),
 			array( $this, 'render_template_meta_box' ),
 			$this->slug,
 			'side',
@@ -269,14 +269,14 @@ class Block_Post extends Component_Abstract {
 		<table class="form-table">
 			<tr>
 				<th scope="row">
-					<label for="acb-properties-slug">
-						<?php esc_html_e( 'Slug', 'advanced-custom-blocks' ); ?>
+					<label for="block-lab-properties-slug">
+						<?php esc_html_e( 'Slug', 'block-lab' ); ?>
 					</label>
-					<p class="description" id="acb-properties-keywords-description">
+					<p class="description" id="block-lab-properties-keywords-description">
 						<?php
 						esc_html_e(
 							'Used to determine the location of the template file. Lowercase letters, numbers, and hyphens.',
-							'advanced-custom-blocks'
+							'block-lab'
 						);
 						?>
 					</p>
@@ -286,7 +286,7 @@ class Block_Post extends Component_Abstract {
 						<input
 							name="post_name"
 							type="text"
-							id="acb-properties-slug"
+							id="block-lab-properties-slug"
 							value="<?php echo esc_attr( $post->post_name ); ?>"
 							class="regular-text">
 					</p>
@@ -294,33 +294,33 @@ class Block_Post extends Component_Abstract {
 			</tr>
 			<tr>
 				<th scope="row">
-					<label for="acb-properties-category">
-						<?php esc_html_e( 'Category', 'advanced-custom-blocks' ); ?>
+					<label for="block-lab-properties-category">
+						<?php esc_html_e( 'Category', 'block-lab' ); ?>
 					</label>
 				</th>
 				<td>
 					<p>
-						<select name="acb-properties-category" id="acb-properties-category">
+						<select name="block-lab-properties-category" id="block-lab-properties-category">
 						</select>
-						<input type="hidden" id="acb-properties-category-saved" value="<?php echo esc_attr( $block->category ); ?>" />
+						<input type="hidden" id="block-lab-properties-category-saved" value="<?php echo esc_attr( $block->category ); ?>" />
 					</p>
 				</td>
 			</tr>
 			<tr>
 				<th scope="row">
-					<label for="acb-properties-icon">
-						<?php esc_html_e( 'Icon', 'advanced-custom-blocks' ); ?>
+					<label for="block-lab-properties-icon">
+						<?php esc_html_e( 'Icon', 'block-lab' ); ?>
 					</label>
 				</th>
 				<td>
 					<input
-						name="acb-properties-icon"
+						name="block-lab-properties-icon"
 						type="hidden"
-						id="acb-properties-icon"
+						id="block-lab-properties-icon"
 						value="<?php echo esc_attr( $block->icon ); ?>">
-					<div class="acb-properties-icons">
+					<div class="block-lab-properties-icons">
 						<?php
-						foreach ( acb_get_icons() as $icon ) {
+						foreach ( block_lab_get_icons() as $icon ) {
 							$selected = $icon === $block->icon ? 'selected' : '';
 							printf(
 								'<span class="material-icons %1$s" data-value="%2$s">%2$s</span>',
@@ -334,14 +334,14 @@ class Block_Post extends Component_Abstract {
 			</tr>
 			<tr>
 				<th scope="row">
-					<label for="acb-properties-keywords">
-						<?php esc_html_e( 'Keywords', 'advanced-custom-blocks' ); ?>
+					<label for="block-lab-properties-keywords">
+						<?php esc_html_e( 'Keywords', 'block-lab' ); ?>
 					</label>
-					<p class="description" id="acb-properties-keywords-description">
+					<p class="description" id="block-lab-properties-keywords-description">
 						<?php
 						esc_html_e(
 							'A comma separated list of keywords, used when searching. Maximum of 3 keywords.',
-							'advanced-custom-blocks'
+							'block-lab'
 						);
 						?>
 					</p>
@@ -349,9 +349,9 @@ class Block_Post extends Component_Abstract {
 				<td>
 					<p>
 						<input
-							name="acb-properties-keywords"
+							name="block-lab-properties-keywords"
 							type="text"
-							id="acb-properties-keywords"
+							id="block-lab-properties-keywords"
 							value="<?php echo esc_attr( implode( ', ', $block->keywords ) ); ?>"
 							class="regular-text">
 					</p>
@@ -359,15 +359,15 @@ class Block_Post extends Component_Abstract {
 			</tr>
 			<tr>
 				<th scope="row">
-					<label for="acb-properties-description">
-						<?php esc_html_e( 'Description', 'advanced-custom-blocks' ); ?>
+					<label for="block-lab-properties-description">
+						<?php esc_html_e( 'Description', 'block-lab' ); ?>
 					</label>
 				</th>
 				<td>
 					<p>
 						<textarea
-							name="acb-properties-description"
-							id="acb-properties-description"
+							name="block-lab-properties-description"
+							id="block-lab-properties-description"
 							class="large-text"
 							rows="3"><?php echo esc_textarea( $block->description ); ?></textarea>
 					</p>
@@ -375,7 +375,7 @@ class Block_Post extends Component_Abstract {
 			</tr>
 		</table>
 		<?php
-		wp_nonce_field( 'acb_save_properties', 'acb_properties_nonce' );
+		wp_nonce_field( 'block_lab_save_properties', 'block_lab_properties_nonce' );
 	}
 
 	/**
@@ -387,26 +387,26 @@ class Block_Post extends Component_Abstract {
 		global $post;
 		$block = new Block( $post->ID );
 		?>
-		<div class="acb-fields-list">
+		<div class="block-lab-fields-list">
 			<table class="widefat">
 				<thead>
 					<tr>
-						<th class="acb-fields-sort"></th>
-						<th class="acb-fields-label">
-							<?php esc_html_e( 'Field Label', 'advanced-custom-blocks' ); ?>
+						<th class="block-lab-fields-sort"></th>
+						<th class="block-lab-fields-label">
+							<?php esc_html_e( 'Field Label', 'block-lab' ); ?>
 						</th>
-						<th class="acb-fields-name">
-							<?php esc_html_e( 'Field Name', 'advanced-custom-blocks' ); ?>
+						<th class="block-lab-fields-name">
+							<?php esc_html_e( 'Field Name', 'block-lab' ); ?>
 						</th>
-						<th class="acb-fields-control">
-							<?php esc_html_e( 'Field Type', 'advanced-custom-blocks' ); ?>
+						<th class="block-lab-fields-control">
+							<?php esc_html_e( 'Field Type', 'block-lab' ); ?>
 						</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td colspan="4" class="acb-fields-rows">
-							<p class="acb-no-fields">
+						<td colspan="4" class="block-lab-fields-rows">
+							<p class="block-lab-no-fields">
 								<?php
 								echo wp_kses_post(
 									sprintf(
@@ -430,13 +430,13 @@ class Block_Post extends Component_Abstract {
 				</tbody>
 			</table>
 		</div>
-		<div class="acb-fields-actions-add-field">
+		<div class="block-lab-fields-actions-add-field">
 			<input
 				name="add-field"
 				type="button"
 				class="button button-primary button-large"
-				id="acb-add-field"
-				value="<?php esc_attr_e( '+ Add Field', 'advanced-custom-blocks' ); ?>" />
+				id="block-lab-add-field"
+				value="<?php esc_attr_e( '+ Add Field', 'block-lab' ); ?>" />
 
 			<script type="text/html" id="tmpl-field-repeater">
 				<?php
@@ -445,7 +445,7 @@ class Block_Post extends Component_Abstract {
 			</script>
 		</div>
 		<?php
-		wp_nonce_field( 'acb_save_fields', 'acb_fields_nonce' );
+		wp_nonce_field( 'block_lab_save_fields', 'block_lab_fields_nonce' );
 	}
 
 	/**
@@ -462,89 +462,89 @@ class Block_Post extends Component_Abstract {
 			$uid = '{{ data.uid }}';
 		}
 		?>
-		<div class="acb-fields-row" data-uid="<?php echo esc_attr( $uid ); ?>">
-			<div class="acb-fields-sort">
-				<span class="acb-fields-sort-handle"></span>
+		<div class="block-lab-fields-row" data-uid="<?php echo esc_attr( $uid ); ?>">
+			<div class="block-lab-fields-sort">
+				<span class="block-lab-fields-sort-handle"></span>
 			</div>
-			<div class="acb-fields-label">
-				<a class="row-title" href="javascript:" id="acb-fields-label_<?php echo esc_attr( $uid ); ?>">
+			<div class="block-lab-fields-label">
+				<a class="row-title" href="javascript:" id="block-lab-fields-label_<?php echo esc_attr( $uid ); ?>">
 					<?php echo esc_html( $field->label ); ?>
 				</a>
-				<div class="acb-fields-actions">
-					<a class="acb-fields-actions-edit" href="javascript:">
-						<?php esc_html_e( 'Edit', 'advanced-custom-blocks' ); ?>
+				<div class="block-lab-fields-actions">
+					<a class="block-lab-fields-actions-edit" href="javascript:">
+						<?php esc_html_e( 'Edit', 'block-lab' ); ?>
 					</a>
 					&nbsp;|&nbsp;
-					<a class="acb-fields-actions-delete" href="javascript:">
-						<?php esc_html_e( 'Delete', 'advanced-custom-blocks' ); ?>
+					<a class="block-lab-fields-actions-delete" href="javascript:">
+						<?php esc_html_e( 'Delete', 'block-lab' ); ?>
 					</a>
 				</div>
 			</div>
-			<div class="acb-fields-name" id="acb-fields-name_<?php echo esc_attr( $uid ); ?>">
+			<div class="block-lab-fields-name" id="block-lab-fields-name_<?php echo esc_attr( $uid ); ?>">
 				<?php echo esc_html( $field->name ); ?>
 			</div>
-			<div class="acb-fields-control" id="acb-fields-control_<?php echo esc_attr( $uid ); ?>">
+			<div class="block-lab-fields-control" id="block-lab-fields-control_<?php echo esc_attr( $uid ); ?>">
 				<?php echo esc_html( $field->control ); ?>
 			</div>
-			<div class="acb-fields-edit">
+			<div class="block-lab-fields-edit">
 				<table class="widefat">
-					<tr class="acb-fields-edit-label">
+					<tr class="block-lab-fields-edit-label">
 						<td class="spacer"></td>
 						<th scope="row">
-							<label for="acb-fields-edit-label-input_<?php echo esc_attr( $uid ); ?>">
-								<?php esc_html_e( 'Field Label', 'advanced-custom-blocks' ); ?>
+							<label for="block-lab-fields-edit-label-input_<?php echo esc_attr( $uid ); ?>">
+								<?php esc_html_e( 'Field Label', 'block-lab' ); ?>
 							</label>
-							<p class="description" id="acb-fields-edit-label-description">
+							<p class="description" id="block-lab-fields-edit-label-description">
 								<?php
 								esc_html_e(
 									'A label describing your block\'s custom field.',
-									'advanced-custom-blocks'
+									'block-lab'
 								);
 								?>
 							</p>
 						</th>
 						<td>
 							<input
-								name="acb-fields-label[<?php echo esc_attr( $uid ); ?>]"
+								name="block-lab-fields-label[<?php echo esc_attr( $uid ); ?>]"
 								type="text"
-								id="acb-fields-edit-label-input_<?php echo esc_attr( $uid ); ?>"
+								id="block-lab-fields-edit-label-input_<?php echo esc_attr( $uid ); ?>"
 								class="regular-text"
 								value="<?php echo esc_attr( $field->label ); ?>"
-								data-sync="acb-fields-label_<?php echo esc_attr( $uid ); ?>" />
+								data-sync="block-lab-fields-label_<?php echo esc_attr( $uid ); ?>" />
 						</td>
 					</tr>
-					<tr class="acb-fields-edit-name">
+					<tr class="block-lab-fields-edit-name">
 						<td class="spacer"></td>
 						<th scope="row">
-							<label for="acb-fields-edit-name-input_<?php echo esc_attr( $uid ); ?>">
-								<?php esc_html_e( 'Field Name', 'advanced-custom-blocks' ); ?>
+							<label for="block-lab-fields-edit-name-input_<?php echo esc_attr( $uid ); ?>">
+								<?php esc_html_e( 'Field Name', 'block-lab' ); ?>
 							</label>
-							<p class="description" id="acb-fields-edit-name-description">
-								<?php esc_html_e( 'Single word, no spaces.', 'advanced-custom-blocks' ); ?>
+							<p class="description" id="block-lab-fields-edit-name-description">
+								<?php esc_html_e( 'Single word, no spaces.', 'block-lab' ); ?>
 							</p>
 						</th>
 						<td>
 							<input
-								name="acb-fields-name[<?php echo esc_attr( $uid ); ?>]"
+								name="block-lab-fields-name[<?php echo esc_attr( $uid ); ?>]"
 								type="text"
-								id="acb-fields-edit-name-input_<?php echo esc_attr( $uid ); ?>"
+								id="block-lab-fields-edit-name-input_<?php echo esc_attr( $uid ); ?>"
 								class="regular-text"
 								value="<?php echo esc_attr( $field->name ); ?>"
-								data-sync="acb-fields-name_<?php echo esc_attr( $uid ); ?>" />
+								data-sync="block-lab-fields-name_<?php echo esc_attr( $uid ); ?>" />
 						</td>
 					</tr>
-					<tr class="acb-fields-edit-control">
+					<tr class="block-lab-fields-edit-control">
 						<td class="spacer"></td>
 						<th scope="row">
-							<label for="acb-fields-edit-control-input_<?php echo esc_attr( $uid ); ?>">
-								<?php esc_html_e( 'Field Type', 'advanced-custom-blocks' ); ?>
+							<label for="block-lab-fields-edit-control-input_<?php echo esc_attr( $uid ); ?>">
+								<?php esc_html_e( 'Field Type', 'block-lab' ); ?>
 							</label>
 						</th>
 						<td>
 							<select
-								name="acb-fields-control[<?php echo esc_attr( $uid ); ?>]"
-								id="acb-fields-edit-control-input_<?php echo esc_attr( $uid ); ?>"
-								data-sync="acb-fields-control_<?php echo esc_attr( $uid ); ?>" >
+								name="block-lab-fields-control[<?php echo esc_attr( $uid ); ?>]"
+								id="block-lab-fields-edit-control-input_<?php echo esc_attr( $uid ); ?>"
+								data-sync="block-lab-fields-control_<?php echo esc_attr( $uid ); ?>" >
 								<?php foreach ( $this->controls as $control ) : ?>
 									<option
 										value="<?php echo esc_attr( $control->name ); ?>"
@@ -556,13 +556,13 @@ class Block_Post extends Component_Abstract {
 						</td>
 					</tr>
 					<?php $this->render_field_settings( $field, $uid ); ?>
-					<tr class="acb-fields-edit-actions-close">
+					<tr class="block-lab-fields-edit-actions-close">
 						<td class="spacer"></td>
 						<th scope="row">
 						</th>
 						<td>
-							<a class="button" title="<?php esc_attr_e( 'Close Field', 'advanced-custom-blocks' ); ?>" href="javascript:">
-								<?php esc_html_e( 'Close Field', 'advanced-custom-blocks' ); ?>
+							<a class="button" title="<?php esc_attr_e( 'Close Field', 'block-lab' ); ?>" href="javascript:">
+								<?php esc_html_e( 'Close Field', 'block-lab' ); ?>
 							</a>
 						</td>
 					</tr>
@@ -584,23 +584,23 @@ class Block_Post extends Component_Abstract {
 			?>
 			<div class="template-notice template-warning">
 				<p>
-					<?php esc_html_e( 'The template path will be available after publishing this block.', 'advanced-custom-blocks' ); ?>
+					<?php esc_html_e( 'The template path will be available after publishing this block.', 'block-lab' ); ?>
 				</p>
 			</div>
 			<?php
 			return;
 		}
 
-		$template = acb_locate_template( 'blocks/block-' . $post->post_name . '.php', '', true );
+		$template = block_lab_locate_template( 'blocks/block-' . $post->post_name . '.php', '', true );
 
 		if ( ! $template ) {
 			?>
 			<div class="template-notice template-warning">
 				<p>
-					<strong><?php esc_html_e( 'Template not found.', 'advanced-custom-blocks' ); ?></strong>
+					<strong><?php esc_html_e( 'Template not found.', 'block-lab' ); ?></strong>
 				</p>
 				<p>
-					<?php esc_html_e( 'To display this block, ACB will look for one of these templates:', 'advanced-custom-blocks' ); ?>
+					<?php esc_html_e( 'To display this block, Block Lab will look for one of these templates:', 'block-lab' ); ?>
 				</p>
 				<?php
 				// Formatting to make the template paths easier to understand.
@@ -633,10 +633,10 @@ class Block_Post extends Component_Abstract {
 		?>
 		<div class="template-notice template-success">
 			<p>
-				<strong><?php esc_html_e( 'Template found.', 'advanced-custom-blocks' ); ?></strong>
+				<strong><?php esc_html_e( 'Template found.', 'block-lab' ); ?></strong>
 			</p>
 			<p>
-				<?php esc_html_e( 'This block uses the following template:', 'advanced-custom-blocks' ); ?>
+				<?php esc_html_e( 'This block uses the following template:', 'block-lab' ); ?>
 			</p>
 			<p><code><?php echo wp_kses( $template_with_breaks, array( 'wbr' => array() ) ); ?></code></p>
 		</div>
@@ -663,7 +663,7 @@ class Block_Post extends Component_Abstract {
 	 * @return void
 	 */
 	public function ajax_field_settings() {
-		wp_verify_nonce( 'acb_field_options_nonce' );
+		wp_verify_nonce( 'block_lab_field_options_nonce' );
 
 		if ( ! isset( $_POST['control'] ) || ! isset( $_POST['uid'] ) ) {
 			wp_send_json_error();
@@ -709,15 +709,15 @@ class Block_Post extends Component_Abstract {
 			return $data;
 		}
 
-		check_admin_referer( 'acb_save_fields', 'acb_fields_nonce' );
-		check_admin_referer( 'acb_save_properties', 'acb_properties_nonce' );
+		check_admin_referer( 'block_lab_save_fields', 'block_lab_fields_nonce' );
+		check_admin_referer( 'block_lab_save_properties', 'block_lab_properties_nonce' );
 
 		// sanitize_title() allows underscores, but register_block_type doesn't.
 		$data['post_name'] = str_replace( '_', '-', $data['post_name'] );
 
 		// register_block_type doesn't allow slugs starting with a number.
 		if ( is_numeric( $data['post_name'][0] ) ) {
-			$data['post_name'] = 'acb-' . $data['post_name'];
+			$data['post_name'] = 'block-lab-' . $data['post_name'];
 		}
 
 		// Make sure the block slug is still unique.
@@ -744,21 +744,21 @@ class Block_Post extends Component_Abstract {
 		}
 
 		// Block category.
-		if ( isset( $_POST['acb-properties-category'] ) ) {
-			$block->category = sanitize_key( $_POST['acb-properties-category'] );
+		if ( isset( $_POST['block-lab-properties-category'] ) ) {
+			$block->category = sanitize_key( $_POST['block-lab-properties-category'] );
 		}
 
 		// Block icon.
-		if ( isset( $_POST['acb-properties-icon'] ) ) {
+		if ( isset( $_POST['block-lab-properties-icon'] ) ) {
 			$block->icon = sanitize_text_field(
-				wp_unslash( $_POST['acb-properties-icon'] )
+				wp_unslash( $_POST['block-lab-properties-icon'] )
 			);
 		}
 
 		// Block keywords.
-		if ( isset( $_POST['acb-properties-keywords'] ) ) {
+		if ( isset( $_POST['block-lab-properties-keywords'] ) ) {
 			$keywords = sanitize_text_field(
-				wp_unslash( $_POST['acb-properties-keywords'] )
+				wp_unslash( $_POST['block-lab-properties-keywords'] )
 			);
 			$keywords = explode( ',', $keywords );
 			$keywords = array_map( 'trim', $keywords );
@@ -768,18 +768,18 @@ class Block_Post extends Component_Abstract {
 		}
 
 		// Block description.
-		if ( isset( $_POST['acb-properties-description'] ) ) {
+		if ( isset( $_POST['block-lab-properties-description'] ) ) {
 			$block->description = sanitize_textarea_field(
-				wp_unslash( $_POST['acb-properties-description'] )
+				wp_unslash( $_POST['block-lab-properties-description'] )
 			);
 		}
 
 		// Block fields.
-		if ( isset( $_POST['acb-fields-name'] ) && is_array( $_POST['acb-fields-name'] ) ) {
+		if ( isset( $_POST['block-lab-fields-name'] ) && is_array( $_POST['block-lab-fields-name'] ) ) {
 			$order = 0;
 
 			// We loop through this array and sanitize its content according to the content type.
-			$fields = wp_unslash( $_POST['acb-fields-name'] ); // Sanitization okay.
+			$fields = wp_unslash( $_POST['block-lab-fields-name'] ); // Sanitization okay.
 			foreach ( $fields as $key => $name ) {
 				// Field name and order.
 				$field_config = array(
@@ -788,16 +788,16 @@ class Block_Post extends Component_Abstract {
 				);
 
 				// Field label.
-				if ( isset( $_POST['acb-fields-label'][ $key ] ) ) {
+				if ( isset( $_POST['block-lab-fields-label'][ $key ] ) ) {
 					$field_config['label'] = sanitize_text_field(
-						wp_unslash( $_POST['acb-fields-label'][ $key ] )
+						wp_unslash( $_POST['block-lab-fields-label'][ $key ] )
 					);
 				}
 
 				// Field control.
-				if ( isset( $_POST['acb-fields-control'][ $key ] ) ) {
+				if ( isset( $_POST['block-lab-fields-control'][ $key ] ) ) {
 					$field_config['control'] = sanitize_text_field(
-						wp_unslash( $_POST['acb-fields-control'][ $key ] )
+						wp_unslash( $_POST['block-lab-fields-control'][ $key ] )
 					);
 				}
 
@@ -805,12 +805,12 @@ class Block_Post extends Component_Abstract {
 				if ( isset( $this->controls[ $field_config['control'] ] ) ) {
 					$control = $this->controls[ $field_config['control'] ];
 					foreach ( $control->settings as $setting ) {
-						if ( isset( $_POST['acb-fields-settings'][ $key ][ $setting->name ] ) ) {
+						if ( isset( $_POST['block-lab-fields-settings'][ $key ][ $setting->name ] ) ) {
 							// Sanitize the field options according to their type.
 							if ( is_callable( $setting->sanitize ) ) {
 								$field_config['settings'][ $setting->name ] = call_user_func(
 									$setting->sanitize,
-									$_POST['acb-fields-settings'][ $key ][ $setting->name ] // Sanitization okay.
+									$_POST['block-lab-fields-settings'][ $key ][ $setting->name ] // Sanitization okay.
 								);
 							}
 						}
@@ -840,7 +840,7 @@ class Block_Post extends Component_Abstract {
 
 		// Enqueue scripts and styles on the edit screen of the Block post type.
 		if ( is_object( $screen ) && $this->slug === $screen->post_type ) {
-			$title = __( 'Enter block name here', 'advanced-custom-blocks' );
+			$title = __( 'Enter block name here', 'block-lab' );
 		}
 
 		return $title;
@@ -857,9 +857,9 @@ class Block_Post extends Component_Abstract {
 		$new_columns = array(
 			'cb'       => $columns['cb'],
 			'title'    => $columns['title'],
-			'icon'     => __( 'Icon', 'advanced-custom-blocks' ),
-			'template' => __( 'Template', 'advanced-custom-blocks' ),
-			'keywords' => __( 'Keywords', 'advanced-custom-blocks' ),
+			'icon'     => __( 'Icon', 'block-lab' ),
+			'template' => __( 'Template', 'block-lab' ),
+			'keywords' => __( 'Keywords', 'block-lab' ),
 		);
 		return $new_columns;
 	}
@@ -879,10 +879,10 @@ class Block_Post extends Component_Abstract {
 		}
 		if ( 'template' === $column ) {
 			$block    = new Block( $post_id );
-			$template = acb_locate_template( 'blocks/block-' . $block->name . '.php', '', true );
+			$template = block_lab_locate_template( 'blocks/block-' . $block->name . '.php', '', true );
 
 			if ( ! $template ) {
-				esc_html_e( 'No template found.', 'advanced-custom-blocks' );
+				esc_html_e( 'No template found.', 'block-lab' );
 			} else {
 				// Formatting to make the template path easier to understand.
 				$template_short  = str_replace( WP_CONTENT_DIR, '', $template );
