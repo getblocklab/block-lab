@@ -81,7 +81,7 @@ function acb_template_part( $slug, $type = 'block' ) {
 			$template_file,
 		];
 
-		$located = abc_locate_template( $templates );
+		$located = acb_locate_template( $templates );
 	}
 
 	if ( ! empty( $located ) ) {
