@@ -8,7 +8,7 @@ const updatePreview = (props, block, data) => {
 		let attr = props.attributes[ attrKey ];
 		let value = typeof attr != 'undefined' ? attr : '';
 
-		data = data.replace( '<"' + attrKey + '">', value )
+		data = data.replace( '["' + attrKey + '"]', value )
 	}
 
 	props.setAttributes( { block_preview: data } )
