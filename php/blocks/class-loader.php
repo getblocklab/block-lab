@@ -119,14 +119,14 @@ class Loader extends Component_Abstract {
 		foreach ( $blocks as $block_name => $block ) {
 			$attributes = $this->get_block_attributes( $block );
 
-			$attributes['block_lab_block_name'] = $block_name;
+			$attributes['block_name'] = $block_name;
 
 			// sanitize_title() allows underscores, but register_block_type doesn't.
 			$block_name = str_replace( '_', '-', $block_name );
 
 			// register_block_type doesn't allow slugs starting with a number.
 			if ( is_numeric( $block_name[0] ) ) {
-				$block_name = 'block-lab-' . $block_name;
+				$block_name = 'block-' . $block_name;
 			}
 
 			register_block_type(
