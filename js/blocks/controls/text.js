@@ -2,7 +2,7 @@ import updatePreview from "../loader/preview";
 
 const { TextControl } = wp.components;
 
-const BLTextControl = ( props, field, block ) => {
+const BlockLabTextControl = ( props, field, block ) => {
 	const { setAttributes } = props;
 	const attr = { ...props.attributes };
 	return (
@@ -25,4 +25,4 @@ const BLTextControl = ( props, field, block ) => {
 	)
 }
 
-export default BLTextControl
+export default BlockLabTextControl

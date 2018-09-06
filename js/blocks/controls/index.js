@@ -1,17 +1,17 @@
-import BLTextControl from './text'
-import BLTextareaControl from './textarea'
-import BLCheckboxControl from './checkbox'
-import BLRadioControl from './radio'
-import BLRangeControl from './range'
-import BLSelectControl from './select'
-import BLToggleControl from './toggle'
+import BlockLabTextControl from './text'
+import BlockLabTextareaControl from './textarea'
+import BlockLabCheckboxControl from './checkbox'
+import BlockLabRadioControl from './radio'
+import BlockLabRangeControl from './range'
+import BlockLabSelectControl from './select'
+import BlockLabToggleControl from './toggle'
 
 export default {
-	text: BLTextControl,
-	textarea: BLTextareaControl,
-	checkbox: BLCheckboxControl,
-	radio: BLRadioControl,
-	range: BLRangeControl,
-	select: BLSelectControl,
-	toggle: BLToggleControl,
+	text: BlockLabTextControl,
+	textarea: BlockLabTextareaControl,
+	checkbox: BlockLabCheckboxControl,
+	radio: BlockLabRadioControl,
+	range: BlockLabRangeControl,
+	select: BlockLabSelectControl,
+	toggle: BlockLabToggleControl,
 }
