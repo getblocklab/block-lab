@@ -82,7 +82,7 @@ class Loader extends Component_Abstract {
 		// Add dynamic Gutenberg blocks.
 		wp_add_inline_script(
 			'acb-blocks', '
-				const acbBlocks = ' . $this->blocks . ' 
+				const acbBlocks = ' . $this->blocks . '
 			', 'before'
 		);
 
@@ -242,11 +242,11 @@ class Loader extends Component_Abstract {
 		if ( 0 < $block_posts->post_count ) {
 			/** The WordPress Post object. @var \WP_Post $post */
 			foreach ( $block_posts->posts as $post ) {
-				$block = new Block( $post->ID );
+				$block_data = json_decode( $post->post_content, true );
 
 				// Merge if no json_decode error occurred.
 				if ( json_last_error() == JSON_ERROR_NONE ) { // Loose comparison okay.
-					$blocks[ 'advanced-custom-blocks/' . $block->name ] = $block;
+					$blocks = array_merge( $blocks, $block_data );
 				}
 			}
 		}
