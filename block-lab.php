@@ -8,7 +8,7 @@
  *
  * Plugin Name: Block Lab
  * Plugin URI: https://github.com/rheinardkorf/block-lab
- * Description: Create Block Lab effortlessly with no Gutenberg development know-how required.
+ * Description: Create custom blocks effortlessly with no Gutenberg development know-how required.
  * Version: 0.1.1
  * Author: Rheinard Korf, Luke Carbis, Rob Stinson
  * Author URI: https://github.com/rheinardkorf/block-lab
