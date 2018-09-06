@@ -24,7 +24,7 @@ class Block_Post extends Component_Abstract {
 	 *
 	 * @var string
 	 */
-	public $slug = 'block_lab_block';
+	public $slug = 'block_lab';
 
 	/**
 	 * Registered controls.
@@ -124,7 +124,7 @@ class Block_Post extends Component_Abstract {
 			),
 			// @codingStandardsIgnoreEnd
 			'query_var'     => true,
-			'rewrite'       => array( 'slug' => 'block_lab_block' ),
+			'rewrite'       => array( 'slug' => $this->slug ),
 			'hierarchical'  => true,
 			'capabilities'  => array(
 				'edit_post'          => 'block_lab_edit_block',

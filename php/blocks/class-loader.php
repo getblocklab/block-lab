@@ -88,7 +88,7 @@ class Loader extends Component_Abstract {
 
 		// Enqueue optional editor only styles.
 		wp_enqueue_style(
-			'block-lab-blocks-editor-css',
+			'block-lab-editor-css',
 			$this->assets['url']['editor_style'],
 			[ 'wp-blocks' ],
 			filemtime( $this->assets['path']['editor_style'] )
@@ -212,7 +212,7 @@ class Loader extends Component_Abstract {
 	 * Load all the published blocks and blocks/block.json files.
 	 */
 	public function retrieve_blocks() {
-		$slug = 'block_lab_block';
+		$slug = 'block_lab';
 
 		$this->blocks = '';
 		$blocks       = [];
