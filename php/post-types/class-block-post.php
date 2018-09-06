@@ -221,7 +221,7 @@ class Block_Post extends Component_Abstract {
 	 */
 	public function add_meta_boxes() {
 		add_meta_box(
-			'block_lab_block_properties',
+			'block_properties',
 			__( 'Block Properties', 'block-lab' ),
 			array( $this, 'render_properties_meta_box' ),
 			$this->slug,
@@ -230,7 +230,7 @@ class Block_Post extends Component_Abstract {
 		);
 
 		add_meta_box(
-			'block_lab_block_fields',
+			'block_fields',
 			__( 'Block Fields', 'block-lab' ),
 			array( $this, 'render_fields_meta_box' ),
 			$this->slug,
@@ -239,7 +239,7 @@ class Block_Post extends Component_Abstract {
 		);
 
 		add_meta_box(
-			'block_lab_block_template',
+			'block_template',
 			__( 'Template', 'block-lab' ),
 			array( $this, 'render_template_meta_box' ),
 			$this->slug,
@@ -269,10 +269,10 @@ class Block_Post extends Component_Abstract {
 		<table class="form-table">
 			<tr>
 				<th scope="row">
-					<label for="block-lab-properties-slug">
+					<label for="block-properties-slug">
 						<?php esc_html_e( 'Slug', 'block-lab' ); ?>
 					</label>
-					<p class="description" id="block-lab-properties-keywords-description">
+					<p class="description" id="block-properties-keywords-description">
 						<?php
 						esc_html_e(
 							'Used to determine the location of the template file. Lowercase letters, numbers, and hyphens.',
@@ -286,7 +286,7 @@ class Block_Post extends Component_Abstract {
 						<input
 							name="post_name"
 							type="text"
-							id="block-lab-properties-slug"
+							id="block-properties-slug"
 							value="<?php echo esc_attr( $post->post_name ); ?>"
 							class="regular-text">
 					</p>
@@ -294,31 +294,31 @@ class Block_Post extends Component_Abstract {
 			</tr>
 			<tr>
 				<th scope="row">
-					<label for="block-lab-properties-category">
+					<label for="block-properties-category">
 						<?php esc_html_e( 'Category', 'block-lab' ); ?>
 					</label>
 				</th>
 				<td>
 					<p>
-						<select name="block-lab-properties-category" id="block-lab-properties-category">
+						<select name="block-properties-category" id="block-properties-category">
 						</select>
-						<input type="hidden" id="block-lab-properties-category-saved" value="<?php echo esc_attr( $block->category ); ?>" />
+						<input type="hidden" id="block-properties-category-saved" value="<?php echo esc_attr( $block->category ); ?>" />
 					</p>
 				</td>
 			</tr>
 			<tr>
 				<th scope="row">
-					<label for="block-lab-properties-icon">
+					<label for="block-properties-icon">
 						<?php esc_html_e( 'Icon', 'block-lab' ); ?>
 					</label>
 				</th>
 				<td>
 					<input
-						name="block-lab-properties-icon"
+						name="block-properties-icon"
 						type="hidden"
-						id="block-lab-properties-icon"
+						id="block-properties-icon"
 						value="<?php echo esc_attr( $block->icon ); ?>">
-					<div class="block-lab-properties-icons">
+					<div class="block-properties-icons">
 						<?php
 						foreach ( block_lab_get_icons() as $icon ) {
 							$selected = $icon === $block->icon ? 'selected' : '';
@@ -334,10 +334,10 @@ class Block_Post extends Component_Abstract {
 			</tr>
 			<tr>
 				<th scope="row">
-					<label for="block-lab-properties-keywords">
+					<label for="block-properties-keywords">
 						<?php esc_html_e( 'Keywords', 'block-lab' ); ?>
 					</label>
-					<p class="description" id="block-lab-properties-keywords-description">
+					<p class="description" id="block-properties-keywords-description">
 						<?php
 						esc_html_e(
 							'A comma separated list of keywords, used when searching. Maximum of 3 keywords.',
@@ -349,9 +349,9 @@ class Block_Post extends Component_Abstract {
 				<td>
 					<p>
 						<input
-							name="block-lab-properties-keywords"
+							name="block-properties-keywords"
 							type="text"
-							id="block-lab-properties-keywords"
+							id="block-properties-keywords"
 							value="<?php echo esc_attr( implode( ', ', $block->keywords ) ); ?>"
 							class="regular-text">
 					</p>
@@ -359,15 +359,15 @@ class Block_Post extends Component_Abstract {
 			</tr>
 			<tr>
 				<th scope="row">
-					<label for="block-lab-properties-description">
+					<label for="block-properties-description">
 						<?php esc_html_e( 'Description', 'block-lab' ); ?>
 					</label>
 				</th>
 				<td>
 					<p>
 						<textarea
-							name="block-lab-properties-description"
-							id="block-lab-properties-description"
+							name="block-properties-description"
+							id="block-properties-description"
 							class="large-text"
 							rows="3"><?php echo esc_textarea( $block->description ); ?></textarea>
 					</p>
@@ -387,26 +387,26 @@ class Block_Post extends Component_Abstract {
 		global $post;
 		$block = new Block( $post->ID );
 		?>
-		<div class="block-lab-fields-list">
+		<div class="block-fields-list">
 			<table class="widefat">
 				<thead>
 					<tr>
-						<th class="block-lab-fields-sort"></th>
-						<th class="block-lab-fields-label">
+						<th class="block-fields-sort"></th>
+						<th class="block-fields-label">
 							<?php esc_html_e( 'Field Label', 'block-lab' ); ?>
 						</th>
-						<th class="block-lab-fields-name">
+						<th class="block-fields-name">
 							<?php esc_html_e( 'Field Name', 'block-lab' ); ?>
 						</th>
-						<th class="block-lab-fields-control">
+						<th class="block-fields-control">
 							<?php esc_html_e( 'Field Type', 'block-lab' ); ?>
 						</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td colspan="4" class="block-lab-fields-rows">
-							<p class="block-lab-no-fields">
+						<td colspan="4" class="block-fields-rows">
+							<p class="block-no-fields">
 								<?php
 								echo wp_kses_post(
 									sprintf(
@@ -430,12 +430,12 @@ class Block_Post extends Component_Abstract {
 				</tbody>
 			</table>
 		</div>
-		<div class="block-lab-fields-actions-add-field">
+		<div class="block-fields-actions-add-field">
 			<input
 				name="add-field"
 				type="button"
 				class="button button-primary button-large"
-				id="block-lab-add-field"
+				id="block-add-field"
 				value="<?php esc_attr_e( '+ Add Field', 'block-lab' ); ?>" />
 
 			<script type="text/html" id="tmpl-field-repeater">
@@ -462,39 +462,39 @@ class Block_Post extends Component_Abstract {
 			$uid = '{{ data.uid }}';
 		}
 		?>
-		<div class="block-lab-fields-row" data-uid="<?php echo esc_attr( $uid ); ?>">
-			<div class="block-lab-fields-sort">
-				<span class="block-lab-fields-sort-handle"></span>
+		<div class="block-fields-row" data-uid="<?php echo esc_attr( $uid ); ?>">
+			<div class="block-fields-sort">
+				<span class="block-fields-sort-handle"></span>
 			</div>
-			<div class="block-lab-fields-label">
-				<a class="row-title" href="javascript:" id="block-lab-fields-label_<?php echo esc_attr( $uid ); ?>">
+			<div class="block-fields-label">
+				<a class="row-title" href="javascript:" id="block-fields-label_<?php echo esc_attr( $uid ); ?>">
 					<?php echo esc_html( $field->label ); ?>
 				</a>
-				<div class="block-lab-fields-actions">
-					<a class="block-lab-fields-actions-edit" href="javascript:">
+				<div class="block-fields-actions">
+					<a class="block-fields-actions-edit" href="javascript:">
 						<?php esc_html_e( 'Edit', 'block-lab' ); ?>
 					</a>
 					&nbsp;|&nbsp;
-					<a class="block-lab-fields-actions-delete" href="javascript:">
+					<a class="block-fields-actions-delete" href="javascript:">
 						<?php esc_html_e( 'Delete', 'block-lab' ); ?>
 					</a>
 				</div>
 			</div>
-			<div class="block-lab-fields-name" id="block-lab-fields-name_<?php echo esc_attr( $uid ); ?>">
+			<div class="block-fields-name" id="block-fields-name_<?php echo esc_attr( $uid ); ?>">
 				<?php echo esc_html( $field->name ); ?>
 			</div>
-			<div class="block-lab-fields-control" id="block-lab-fields-control_<?php echo esc_attr( $uid ); ?>">
+			<div class="block-fields-control" id="block-fields-control_<?php echo esc_attr( $uid ); ?>">
 				<?php echo esc_html( $field->control ); ?>
 			</div>
-			<div class="block-lab-fields-edit">
+			<div class="block-fields-edit">
 				<table class="widefat">
-					<tr class="block-lab-fields-edit-label">
+					<tr class="block-fields-edit-label">
 						<td class="spacer"></td>
 						<th scope="row">
-							<label for="block-lab-fields-edit-label-input_<?php echo esc_attr( $uid ); ?>">
+							<label for="block-fields-edit-label-input_<?php echo esc_attr( $uid ); ?>">
 								<?php esc_html_e( 'Field Label', 'block-lab' ); ?>
 							</label>
-							<p class="description" id="block-lab-fields-edit-label-description">
+							<p class="description" id="block-fields-edit-label-description">
 								<?php
 								esc_html_e(
 									'A label describing your block\'s custom field.',
@@ -505,46 +505,46 @@ class Block_Post extends Component_Abstract {
 						</th>
 						<td>
 							<input
-								name="block-lab-fields-label[<?php echo esc_attr( $uid ); ?>]"
+								name="block-fields-label[<?php echo esc_attr( $uid ); ?>]"
 								type="text"
-								id="block-lab-fields-edit-label-input_<?php echo esc_attr( $uid ); ?>"
+								id="block-fields-edit-label-input_<?php echo esc_attr( $uid ); ?>"
 								class="regular-text"
 								value="<?php echo esc_attr( $field->label ); ?>"
-								data-sync="block-lab-fields-label_<?php echo esc_attr( $uid ); ?>" />
+								data-sync="block-fields-label_<?php echo esc_attr( $uid ); ?>" />
 						</td>
 					</tr>
-					<tr class="block-lab-fields-edit-name">
+					<tr class="block-fields-edit-name">
 						<td class="spacer"></td>
 						<th scope="row">
-							<label for="block-lab-fields-edit-name-input_<?php echo esc_attr( $uid ); ?>">
+							<label for="block-fields-edit-name-input_<?php echo esc_attr( $uid ); ?>">
 								<?php esc_html_e( 'Field Name', 'block-lab' ); ?>
 							</label>
-							<p class="description" id="block-lab-fields-edit-name-description">
+							<p class="description" id="block-fields-edit-name-description">
 								<?php esc_html_e( 'Single word, no spaces.', 'block-lab' ); ?>
 							</p>
 						</th>
 						<td>
 							<input
-								name="block-lab-fields-name[<?php echo esc_attr( $uid ); ?>]"
+								name="block-fields-name[<?php echo esc_attr( $uid ); ?>]"
 								type="text"
-								id="block-lab-fields-edit-name-input_<?php echo esc_attr( $uid ); ?>"
+								id="block-fields-edit-name-input_<?php echo esc_attr( $uid ); ?>"
 								class="regular-text"
 								value="<?php echo esc_attr( $field->name ); ?>"
-								data-sync="block-lab-fields-name_<?php echo esc_attr( $uid ); ?>" />
+								data-sync="block-fields-name_<?php echo esc_attr( $uid ); ?>" />
 						</td>
 					</tr>
-					<tr class="block-lab-fields-edit-control">
+					<tr class="block-fields-edit-control">
 						<td class="spacer"></td>
 						<th scope="row">
-							<label for="block-lab-fields-edit-control-input_<?php echo esc_attr( $uid ); ?>">
+							<label for="block-fields-edit-control-input_<?php echo esc_attr( $uid ); ?>">
 								<?php esc_html_e( 'Field Type', 'block-lab' ); ?>
 							</label>
 						</th>
 						<td>
 							<select
-								name="block-lab-fields-control[<?php echo esc_attr( $uid ); ?>]"
-								id="block-lab-fields-edit-control-input_<?php echo esc_attr( $uid ); ?>"
-								data-sync="block-lab-fields-control_<?php echo esc_attr( $uid ); ?>" >
+								name="block-fields-control[<?php echo esc_attr( $uid ); ?>]"
+								id="block-fields-edit-control-input_<?php echo esc_attr( $uid ); ?>"
+								data-sync="block-fields-control_<?php echo esc_attr( $uid ); ?>" >
 								<?php foreach ( $this->controls as $control ) : ?>
 									<option
 										value="<?php echo esc_attr( $control->name ); ?>"
@@ -556,7 +556,7 @@ class Block_Post extends Component_Abstract {
 						</td>
 					</tr>
 					<?php $this->render_field_settings( $field, $uid ); ?>
-					<tr class="block-lab-fields-edit-actions-close">
+					<tr class="block-fields-edit-actions-close">
 						<td class="spacer"></td>
 						<th scope="row">
 						</th>
@@ -717,7 +717,7 @@ class Block_Post extends Component_Abstract {
 
 		// register_block_type doesn't allow slugs starting with a number.
 		if ( is_numeric( $data['post_name'][0] ) ) {
-			$data['post_name'] = 'block-lab-' . $data['post_name'];
+			$data['post_name'] = 'block-' . $data['post_name'];
 		}
 
 		// Make sure the block slug is still unique.
@@ -744,21 +744,21 @@ class Block_Post extends Component_Abstract {
 		}
 
 		// Block category.
-		if ( isset( $_POST['block-lab-properties-category'] ) ) {
-			$block->category = sanitize_key( $_POST['block-lab-properties-category'] );
+		if ( isset( $_POST['block-properties-category'] ) ) {
+			$block->category = sanitize_key( $_POST['block-properties-category'] );
 		}
 
 		// Block icon.
-		if ( isset( $_POST['block-lab-properties-icon'] ) ) {
+		if ( isset( $_POST['block-properties-icon'] ) ) {
 			$block->icon = sanitize_text_field(
-				wp_unslash( $_POST['block-lab-properties-icon'] )
+				wp_unslash( $_POST['block-properties-icon'] )
 			);
 		}
 
 		// Block keywords.
-		if ( isset( $_POST['block-lab-properties-keywords'] ) ) {
+		if ( isset( $_POST['block-properties-keywords'] ) ) {
 			$keywords = sanitize_text_field(
-				wp_unslash( $_POST['block-lab-properties-keywords'] )
+				wp_unslash( $_POST['block-properties-keywords'] )
 			);
 			$keywords = explode( ',', $keywords );
 			$keywords = array_map( 'trim', $keywords );
@@ -768,18 +768,18 @@ class Block_Post extends Component_Abstract {
 		}
 
 		// Block description.
-		if ( isset( $_POST['block-lab-properties-description'] ) ) {
+		if ( isset( $_POST['block-properties-description'] ) ) {
 			$block->description = sanitize_textarea_field(
-				wp_unslash( $_POST['block-lab-properties-description'] )
+				wp_unslash( $_POST['block-properties-description'] )
 			);
 		}
 
 		// Block fields.
-		if ( isset( $_POST['block-lab-fields-name'] ) && is_array( $_POST['block-lab-fields-name'] ) ) {
+		if ( isset( $_POST['block-fields-name'] ) && is_array( $_POST['block-fields-name'] ) ) {
 			$order = 0;
 
 			// We loop through this array and sanitize its content according to the content type.
-			$fields = wp_unslash( $_POST['block-lab-fields-name'] ); // Sanitization okay.
+			$fields = wp_unslash( $_POST['block-fields-name'] ); // Sanitization okay.
 			foreach ( $fields as $key => $name ) {
 				// Field name and order.
 				$field_config = array(
@@ -788,16 +788,16 @@ class Block_Post extends Component_Abstract {
 				);
 
 				// Field label.
-				if ( isset( $_POST['block-lab-fields-label'][ $key ] ) ) {
+				if ( isset( $_POST['block-fields-label'][ $key ] ) ) {
 					$field_config['label'] = sanitize_text_field(
-						wp_unslash( $_POST['block-lab-fields-label'][ $key ] )
+						wp_unslash( $_POST['block-fields-label'][ $key ] )
 					);
 				}
 
 				// Field control.
-				if ( isset( $_POST['block-lab-fields-control'][ $key ] ) ) {
+				if ( isset( $_POST['block-fields-control'][ $key ] ) ) {
 					$field_config['control'] = sanitize_text_field(
-						wp_unslash( $_POST['block-lab-fields-control'][ $key ] )
+						wp_unslash( $_POST['block-fields-control'][ $key ] )
 					);
 				}
 
@@ -805,12 +805,12 @@ class Block_Post extends Component_Abstract {
 				if ( isset( $this->controls[ $field_config['control'] ] ) ) {
 					$control = $this->controls[ $field_config['control'] ];
 					foreach ( $control->settings as $setting ) {
-						if ( isset( $_POST['block-lab-fields-settings'][ $key ][ $setting->name ] ) ) {
+						if ( isset( $_POST['block-fields-settings'][ $key ][ $setting->name ] ) ) {
 							// Sanitize the field options according to their type.
 							if ( is_callable( $setting->sanitize ) ) {
 								$field_config['settings'][ $setting->name ] = call_user_func(
 									$setting->sanitize,
-									$_POST['block-lab-fields-settings'][ $key ][ $setting->name ] // Sanitization okay.
+									$_POST['block-fields-settings'][ $key ][ $setting->name ] // Sanitization okay.
 								);
 							}
 						}

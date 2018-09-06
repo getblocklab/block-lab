@@ -3,46 +3,46 @@
 #misc-publishing-actions .curtime {
 	display: none;
 }
-#block_lab_block_fields .handlediv,
-#block_lab_block_fields .hndle {
+#block_fields .handlediv,
+#block_fields .hndle {
 	display: none;
 }
-#block_lab_block_fields .inside {
+#block_fields .inside {
 	padding: 0;
 	margin: 0;
 }
-#block_lab_block_fields .block-lab-fields-list .widefat {
+#block_fields .block-fields-list .widefat {
 	border: none;
 }
-#block_lab_block_fields .block-lab-fields-list td {
+#block_fields .block-fields-list td {
 	padding: 0;
 }
-#block_lab_block_fields .block-lab-fields-list thead th {
+#block_fields .block-fields-list thead th {
 	font-weight: 600;
 	width: 32%
 }
-#block_lab_block_fields .block-lab-fields-list thead th.block-lab-fields-sort {
+#block_fields .block-fields-list thead th.block-fields-sort {
 	width: 4%
 }
-#block_lab_block_fields .block-lab-fields-rows .block-lab-no-fields {
+#block_fields .block-fields-rows .block-no-fields {
 	display: none;
 	padding: 10px;
 }
-#block_lab_block_fields .block-lab-fields-rows .block-lab-fields-row {
+#block_fields .block-fields-rows .block-fields-row {
 	background: #fff;
 	display: grid;
 	grid-template-columns: [handle] 4% 32% 32% 32%;
 }
-#block_lab_block_fields .block-lab-fields-rows .block-lab-fields-row > div {
+#block_fields .block-fields-rows .block-fields-row > div {
 	padding: 8px 10px;
 }
-#block_lab_block_fields .block-lab-fields-rows .block-lab-fields-row:nth-child(odd) {
+#block_fields .block-fields-rows .block-fields-row:nth-child(odd) {
 	background: #f9f9f9;
 }
-#block_lab_block_fields .block-lab-fields-sort-handle:before {
+#block_fields .block-fields-sort-handle:before {
 	content: "\f333";
 }
-#block_lab_block_fields .block-lab-fields-sort-handle {
+#block_fields .block-fields-sort-handle {
 	display: block;
 	width: 15px;
 	height: 15px;
@@ -52,54 +52,54 @@
 	cursor: grab;
 	padding-top: 2px;
 }
-#block_lab_block_fields .block-lab-fields-rows .row-title {
+#block_fields .block-fields-rows .row-title {
 	display: block;
 	padding-bottom: 6px;
 }
-#block_lab_block_fields .block-lab-fields-actions-add-field {
+#block_fields .block-fields-actions-add-field {
 	padding: 10px;
 	clear: both;
 	border-top: 1px solid #ddd;
 	background: #f5f5f5;
 	text-align: right;
 }
-#block_lab_block_fields .block-lab-fields-actions {
+#block_fields .block-fields-actions {
 	font-size: 12px;
 	line-height: 12px;
 	visibility: hidden;
 }
-#block_lab_block_fields .block-lab-fields-row:hover .block-lab-fields-actions {
+#block_fields .block-fields-row:hover .block-fields-actions {
 	visibility: visible;
 }
-#block_lab_block_fields .block-lab-fields-rows .block-lab-fields-row .block-lab-fields-edit {
+#block_fields .block-fields-rows .block-fields-row .block-fields-edit {
 	display: none;
 	grid-column: 1 / span 4;
 	padding: 0;
 	border-bottom: 1px solid #e1e1e1;
 	border-top: 1px solid #e1e1e1;
 }
-#block_lab_block_fields .block-lab-fields-rows .block-lab-fields-edit td,
-#block_lab_block_fields .block-lab-fields-rows .block-lab-fields-edit th {
+#block_fields .block-fields-rows .block-fields-edit td,
+#block_fields .block-fields-rows .block-fields-edit th {
 	padding: 8px 10px;
 	border-bottom: 1px solid #f1f1f1;
 }
-#block_lab_block_fields .block-lab-fields-rows .block-lab-fields-edit td.spacer {
+#block_fields .block-fields-rows .block-fields-edit td.spacer {
 	width: 4%;
 	background: #f9f9f9;
 }
-#block_lab_block_fields .block-lab-fields-rows .block-lab-fields-edit th {
+#block_fields .block-fields-rows .block-fields-edit th {
 	font-size: 12px;
 	width: 32%;
 	border-right: 1px solid #e1e1e1;
 	background: #f9f9f9;
 }
-#block_lab_block_fields .block-lab-fields-rows .block-lab-fields-edit th label {
+#block_fields .block-fields-rows .block-fields-edit th label {
 	font-weight: 600;
 }
-#block_lab_block_fields .block-lab-fields-rows .block-lab-fields-edit th .description {
+#block_fields .block-fields-rows .block-fields-edit th .description {
 	margin-bottom: 0;
 }
-#block_lab_block_fields .block-lab-fields-rows .block-lab-fields-edit-loading .loading:before {
+#block_fields .block-fields-rows .block-fields-edit-loading .loading:before {
 	content: '';
 	box-sizing: border-box;
 	display: block;
@@ -110,32 +110,32 @@
 	border-top-color: #444;
 	animation: spinner .6s linear infinite;
 }
-#block_lab_block_properties .inside,
-#block_lab_block_properties .form-table {
+#block_properties .inside,
+#block_properties .form-table {
 	padding: 0;
 	margin: 0;
 }
-#block_lab_block_properties .form-table td,
-#block_lab_block_properties .form-table th{
+#block_properties .form-table td,
+#block_properties .form-table th{
 	padding: 8px 10px;
 	vertical-align: top;
 }
-#block_lab_block_properties .form-table th {
+#block_properties .form-table th {
 	font-weight: 400;
 	border-right: 1px solid #f1f1f1;
 	font-size: 12px;
 }
-#block_lab_block_properties .form-table th label {
+#block_properties .form-table th label {
 	font-weight: 600;
 }
-#block_lab_block_properties .block-lab-properties-icons {
+#block_properties .block-properties-icons {
 	background: #f9f9f9;
 	overflow-y: scroll;
 	padding: 8px;
 	height: 110px;
 	position: relative;
 }
-#block_lab_block_properties .block-lab-properties-icons .material-icons {
+#block_properties .block-properties-icons .material-icons {
 	display: inline-block;
 	padding: 4px;
 	margin: 4px;
@@ -144,37 +144,37 @@
 	cursor: pointer;
 	color: #72777c;
 }
-#block_lab_block_properties .block-lab-properties-icons .material-icons:hover {
+#block_properties .block-properties-icons .material-icons:hover {
 	background: #fff;
 	border: 1px solid #aaa;
 	color: #444;
 }
-#block_lab_block_properties .block-lab-properties-icons .material-icons.selected,
-#block_lab_block_properties .block-lab-properties-icons .material-icons.selected:hover {
+#block_properties .block-properties-icons .material-icons.selected,
+#block_properties .block-properties-icons .material-icons.selected:hover {
 	border: 1px solid rgba(0, 160, 210, 1);
 	color: rgba(0, 160, 210, 1);
 }
-#block_lab_block_properties .block-lab-properties-icons .material-icons {
+#block_properties .block-properties-icons .material-icons {
 	font-size: 25px;
 	width: 1em;
 	height: 1em;
 }
-#block_lab_block_template .inside {
+#block_template .inside {
 	padding: 0;
 	margin: 0;
 }
-#block_lab_block_template .template-notice {
+#block_template .template-notice {
 	background: #fff;
 	border-left: 4px solid #ffffff;
 	padding: 1px 12px;
 }
-#block_lab_block_template .template-warning {
+#block_template .template-warning {
 	border-left-color: #ffb900;
 }
-#block_lab_block_template .template-success {
+#block_template .template-success {
 	border-left-color: #46b450;
 }
-#block_lab_block_template code {
+#block_template code {
 	display: block;
 }
 
