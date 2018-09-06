@@ -70,12 +70,12 @@ abstract class Control_Abstract {
 			}
 
 			$classes = array(
-				'block-lab-fields-edit-settings-' . $this->name . '-' . $setting->name,
-				'block-lab-fields-edit-settings-' . $this->name,
-				'block-lab-fields-edit-settings',
+				'block-fields-edit-settings-' . $this->name . '-' . $setting->name,
+				'block-fields-edit-settings-' . $this->name,
+				'block-fields-edit-settings',
 			);
-			$name    = 'block-lab-fields-settings[' . $uid . '][' . $setting->name . ']';
-			$id      = 'block-lab-fields-edit-settings-' . $this->name . '-' . $setting->name . '_' . $uid;
+			$name    = 'block-fields-settings[' . $uid . '][' . $setting->name . ']';
+			$id      = 'block-fields-edit-settings-' . $this->name . '-' . $setting->name . '_' . $uid;
 			?>
 			<tr class="<?php echo esc_attr( implode( $classes, ' ' ) ); ?>">
 				<td class="spacer"></td>
