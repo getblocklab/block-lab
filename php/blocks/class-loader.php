@@ -242,11 +242,11 @@ class Loader extends Component_Abstract {
 		if ( 0 < $block_posts->post_count ) {
 			/** The WordPress Post object. @var \WP_Post $post */
 			foreach ( $block_posts->posts as $post ) {
-				$block = new Block( $post->ID );
+				$block_data = json_decode( $post->post_content, true );
 
 				// Merge if no json_decode error occurred.
 				if ( json_last_error() == JSON_ERROR_NONE ) { // Loose comparison okay.
-					$blocks[ 'block-lab/' . $block->name ] = $block;
+					$blocks = array_merge( $blocks, $block_data );
 				}
 			}
 		}

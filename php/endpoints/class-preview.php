@@ -59,13 +59,13 @@ class Preview extends Component_Abstract {
 
 			switch ( $field['control'] ) {
 				case 'text':
-					$value = '<' . wp_json_encode( $field['name'] ) . '>';
+					$value = '[' . wp_json_encode( $field['name'] ) . ']';
 					break;
 				case 'textarea':
-					$value = '<' . wp_json_encode( $field['name'] ) . '>';
+					$value = '[' . wp_json_encode( $field['name'] ) . ']';
 					break;
 				default:
-					$value = '<' . wp_json_encode( $field['name'] ) . '>';
+					$value = '[' . wp_json_encode( $field['name'] ) . ']';
 					break;
 			}
 
