@@ -93,9 +93,9 @@ class Block_Post extends Component_Abstract {
 	 */
 	public function register_post_type() {
 		$labels = array(
-			'name'               => _x( 'Custom Blocks', 'post type general name', 'block-lab' ),
-			'singular_name'      => _x( 'Custom Block', 'post type singular name', 'block-lab' ),
-			'menu_name'          => _x( 'Custom Blocks', 'admin menu', 'block-lab' ),
+			'name'               => _x( 'Content Blocks', 'post type general name', 'block-lab' ),
+			'singular_name'      => _x( 'Content Block', 'post type singular name', 'block-lab' ),
+			'menu_name'          => _x( 'Block Lab', 'admin menu', 'block-lab' ),
 			'name_admin_bar'     => _x( 'Block', 'add new on admin bar', 'block-lab' ),
 			'add_new'            => _x( 'Add New', 'block', 'block-lab' ),
 			'add_new_item'       => __( 'Add New Block', 'block-lab' ),
