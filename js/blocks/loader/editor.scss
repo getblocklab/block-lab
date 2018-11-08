@@ -2,10 +2,6 @@ $black: #222;
 $dark: rgba(0, 0, 0, 0.39);
 $light: rgba(140, 140, 151, 0.1);
 
-.editor-block-icon .material-icons {
-  display:block !important;
-}
-
 .entry-content div[class^="wp-block-block-lab-"],
 div[class^="wp-block-block-lab-"] {
 
@@ -28,7 +24,8 @@ div[class^="wp-block-block-lab-"] {
 
       svg {
         position: relative;
-        top: 3px;
+        top: 6px;
+        margin-right: 4px;
       }
     }
 

@@ -202,16 +202,6 @@ class Block_Post extends Component_Abstract {
 				filemtime( $this->plugin->get_path( 'css/admin.block-edit.css' ) )
 			);
 		}
-		if ( $this->slug === $screen->post_type ) {
-			if ( ! wp_style_is( 'material-icons', 'enqueued' ) ) {
-				wp_enqueue_style(
-					'material-icons',
-					'https://fonts.googleapis.com/icon?family=Material+Icons',
-					[],
-					'20180904'
-				);
-			}
-		}
 	}
 
 	/**
@@ -320,12 +310,24 @@ class Block_Post extends Component_Abstract {
 						value="<?php echo esc_attr( $block->icon ); ?>">
 					<div class="block-properties-icons">
 						<?php
-						foreach ( block_lab_get_icons() as $icon ) {
+						$allowed_tags = array(
+							'svg'   => array(
+								'xmlns' => true,
+								'width' => true,
+								'height' => true,
+								'viewbox' => true,
+							),
+							'g'     => array( 'fill' => true ),
+							'title' => array( 'title' => true ),
+							'path'  => array( 'd' => true, 'fill' => true,  ),
+						);
+						foreach ( block_lab_get_icons() as $icon => $svg ) {
 							$selected = $icon === $block->icon ? 'selected' : '';
 							printf(
-								'<span class="material-icons %1$s" data-value="%2$s">%2$s</span>',
+								'<span class="icon %1$s" data-value="%2$s">%3$s</span>',
 								esc_attr( $selected ),
-								esc_attr( $icon )
+								$icon,
+								wp_kses( $svg, $allowed_tags )
 							);
 						}
 						?>
@@ -875,7 +877,26 @@ class Block_Post extends Component_Abstract {
 	public function list_table_content( $column, $post_id ) {
 		if ( 'icon' === $column ) {
 			$block = new Block( $post_id );
-			echo wp_kses_post( '<i class="material-icons">' . $block->icon . '</i>' );
+			$icons = block_lab_get_icons();
+			$allowed_tags = array(
+				'svg'   => array(
+					'xmlns' => true,
+					'width' => true,
+					'height' => true,
+					'viewbox' => true,
+				),
+				'g'     => array( 'fill' => true ),
+				'title' => array( 'title' => true ),
+				'path'  => array( 'd' => true, 'fill' => true,  ),
+			);
+
+			if ( isset( $icons[ $block->icon ] ) ) {
+				printf(
+					'<span class="icon %1$s">%2$s</span>',
+					esc_attr( $block->icon ),
+					wp_kses( $icons[ $block->icon ], $allowed_tags )
+				);
+			}
 		}
 		if ( 'template' === $column ) {
 			$block    = new Block( $post_id );
