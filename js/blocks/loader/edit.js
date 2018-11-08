@@ -44,7 +44,7 @@ const previewData = ( props, block ) => {
 			updatePreview( props, block, data );
 		}
 	);
-};
+}
 
 
 const editComponent = ( props, block ) => {
