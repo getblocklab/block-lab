@@ -1,4 +1,4 @@
-import icons from '../icons'
+import icons from '../../../assets/icons.json';
 
 import blockAttributes from './attributes'
 import editComponent from './edit'
@@ -8,7 +8,7 @@ import './editor.scss';
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
 
-const registerAdvancedCustomBlocks = () => {
+const registerBlocks = () => {
 
 	// Loop through all the blocks.
 	// Note: This is not guaranteed to be sequential.
@@ -21,9 +21,13 @@ const registerAdvancedCustomBlocks = () => {
 		let block = blockLabBlocks[ blockName ];
 		block.block_slug = blockName;
 
-		let icon = icons.logo;
-		if ( 'undefined' !== typeof block.icon && '' !== block.icon ) {
-			icon = <i className="material-icons">{block.icon}</i>;
+		let icon = '';
+		if ( 'undefined' !== typeof icons[ block.icon ] ) {
+			icon = (
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+				     dangerouslySetInnerHTML={{ __html: icons[ block.icon ] }}
+				/>
+			);
 		}
 
 		// Register the block.
@@ -44,4 +48,4 @@ const registerAdvancedCustomBlocks = () => {
 	}
 }
 
-export default registerAdvancedCustomBlocks()
+export default registerBlocks()

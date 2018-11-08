@@ -135,7 +135,7 @@
 	height: 110px;
 	position: relative;
 }
-#block_properties .block-properties-icons .material-icons {
+#block_properties .block-properties-icons .icon {
 	display: inline-block;
 	padding: 4px;
 	margin: 4px;
@@ -144,17 +144,18 @@
 	cursor: pointer;
 	color: #72777c;
 }
-#block_properties .block-properties-icons .material-icons:hover {
+#block_properties .block-properties-icons .icon:hover {
 	background: #fff;
 	border: 1px solid #aaa;
 	color: #444;
 }
-#block_properties .block-properties-icons .material-icons.selected,
-#block_properties .block-properties-icons .material-icons.selected:hover {
+#block_properties .block-properties-icons .icon.selected,
+#block_properties .block-properties-icons .icon.selected:hover {
 	border: 1px solid rgba(0, 160, 210, 1);
 	color: rgba(0, 160, 210, 1);
+	fill: rgba(0, 160, 210, 1);
 }
-#block_properties .block-properties-icons .material-icons {
+#block_properties .block-properties-icons .icon {
 	font-size: 25px;
 	width: 1em;
 	height: 1em;

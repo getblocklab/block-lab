@@ -172,7 +172,10 @@ function block_lab_locate_template( $template_names, $path = '', $single = true 
 /**
  * Provides a list of all available block icons.
  *
- * To include other material icons in this list, use the block_lab_icons filter to add their material icons name.
+ * To include additional icons in this list, use the block_lab_icons filter, and add a new svg string to the array,
+ * using a unique key. For example:
+ *
+ * $icons['foo'] = '<svg>…</svg>';
  *
  * @return array
  */

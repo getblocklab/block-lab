@@ -2,7 +2,7 @@ import inspectorControls from './inspector'
 import controls from '../controls';
 import { simplifiedFields } from "./fields";
 import updatePreview from './preview';
-import icons from '../icons'
+import icons from '../../../assets/icons.json';
 
 const { __ } = wp.i18n;
 const { RichText } = wp.editor;
@@ -58,7 +58,7 @@ const editComponent = ( props, block ) => {
 			<div className={className} key={"form-controls-" + block.name}>
 				{isSelected ? (
 					<div className="block-form">
-						<h3>{icons.logo} {block.title}</h3>
+						<h3 dangerouslySetInnerHTML={{ __html: icons[block.icon] + ' ' + block.title }} />
 						<div>
 							{formControls( props, block )}
 						</div>

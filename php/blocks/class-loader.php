@@ -93,16 +93,6 @@ class Loader extends Component_Abstract {
 			[ 'wp-blocks' ],
 			filemtime( $this->assets['path']['editor_style'] )
 		);
-
-		// Enqueue 'material-icons'.
-		if ( ! wp_style_is( 'material-icons', 'enqueued' ) ) {
-			wp_enqueue_style(
-				'material-icons',
-				'https://fonts.googleapis.com/icon?family=Material+Icons',
-				[],
-				'20180904'
-			);
-		}
 	}
 
 	/**
@@ -250,6 +240,7 @@ class Loader extends Component_Abstract {
 				}
 			}
 		}
+
 		$this->blocks = wp_json_encode( $blocks );
 	}
 }
