@@ -2,7 +2,7 @@ import updatePreview from "../loader/preview";
 
 const { CheckboxControl } = wp.components;
 
-const ACBCheckboxControl = ( props, field, block ) => {
+const BlockLabCheckboxControl = ( props, field, block ) => {
 	const { setAttributes } = props
 	const attr = { ...props.attributes }
 	return (
@@ -22,4 +22,4 @@ const ACBCheckboxControl = ( props, field, block ) => {
 	)
 }
 
-export default ACBCheckboxControl
+export default BlockLabCheckboxControl

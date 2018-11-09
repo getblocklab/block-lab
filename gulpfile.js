@@ -13,7 +13,7 @@ var changelog = fs.readFileSync( './CHANGELOG.md' )
 	.replace( new RegExp( '#', 'g'), '==' );
 
 gulp.task( 'version', function () {
-	var pluginStream = gulp.src( [ 'advanced-custom-blocks.php' ] )
+	var pluginStream = gulp.src( [ 'block-lab.php' ] )
 		.pipe( replace( new RegExp( /Version:\s*(.*)/, 'g' ), "Version: " + config.version ) )
 		.pipe(gulp.dest('./package/trunk/'))
 		.pipe(gulp.dest('./'))

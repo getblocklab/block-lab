@@ -2,7 +2,7 @@ import updatePreview from "../loader/preview";
 
 const { TextareaControl } = wp.components;
 
-const ACBTextareaControl = ( props, field, block ) => {
+const BlockLabTextareaControl = ( props, field, block ) => {
 	const { setAttributes } = props
 	const attr = { ...props.attributes }
 	return (
@@ -25,4 +25,4 @@ const ACBTextareaControl = ( props, field, block ) => {
 	)
 }
 
-export default ACBTextareaControl
+export default BlockLabTextareaControl

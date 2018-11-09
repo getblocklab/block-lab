@@ -2,32 +2,36 @@
 /**
  * Helper functions.
  *
- * @package   Advanced_Custom_Blocks
- * @copyright Copyright(c) 2018, Advanced Custom Blocks
+ * @package   Block_Lab
+ * @copyright Copyright(c) 2018, Block Lab
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
 /**
- * Echos out the value of an ACB block field.
+ * Echos out the value of a block field.
  *
  * @param string $key  The name of the field as created in the UI.
  * @param bool   $echo Whether to echo and return the field, or just return the field.
  *
  * @return mixed|null
  */
-function acb_field( $key, $echo = true ) {
-	global $acb_block_attributes;
+function block_field( $key, $echo = true ) {
+	global $block_lab_attributes;
 
-	if ( ! isset( $acb_block_attributes ) || ! is_array( $acb_block_attributes ) || ! array_key_exists( $key, $acb_block_attributes ) ) {
+	if (
+		! isset( $block_lab_attributes ) ||
+		! is_array( $block_lab_attributes ) ||
+		! array_key_exists( $key, $block_lab_attributes )
+	) {
 		return null;
 	}
 
-	$value = $acb_block_attributes[ $key ];
+	$value = $block_lab_attributes[ $key ];
 
 	if ( $echo ) {
 		/**
 		 * Escaping this value may cause it to break in some use cases.
-		 * If this happens, retrieve the field's value using acb_value(),
+		 * If this happens, retrieve the field's value using block_value(),
 		 * and then output the field with a more suitable escaping function.
 		 */
 		echo wp_kses_post( $value );
@@ -37,25 +41,25 @@ function acb_field( $key, $echo = true ) {
 }
 
 /**
- * Convenience method to return the value of an ACB block field.
+ * Convenience method to return the value of a block field.
  *
  * @param string $key The name of the field as created in the UI.
  *
- * @uses acb_field()
+ * @uses block_field()
  *
  * @return mixed|null
  */
-function acb_value( $key ) {
-	return acb_field( $key, false );
+function block_value( $key ) {
+	return block_field( $key, false );
 }
 
 /**
- * Loads a template part to render the ACB block.
+ * Loads a template part to render the block.
  *
  * @param string $slug The name of the block (slug as defined in UI).
  * @param string $type The type of template to load. Only 'block' supported at this stage.
  */
-function acb_template_part( $slug, $type = 'block' ) {
+function block_lab_template_part( $slug, $type = 'block' ) {
 	// Loading async it might not come from a query, this breaks load_template().
 	global $wp_query;
 
@@ -81,11 +85,11 @@ function acb_template_part( $slug, $type = 'block' ) {
 			$template_file,
 		];
 
-		$located = acb_locate_template( $templates );
+		$located = block_lab_locate_template( $templates );
 	}
 
 	if ( ! empty( $located ) ) {
-		$theme_template = apply_filters( 'acb_override_theme_template', $located );
+		$theme_template = apply_filters( 'block_lab_override_theme_template', $located );
 
 		// This is not a load once template, so require_once is false.
 		load_template( $theme_template, false );
@@ -101,7 +105,7 @@ function acb_template_part( $slug, $type = 'block' ) {
 }
 
 /**
- * Locates ACB templates.
+ * Locates templates.
  *
  * Works similar to `locate_template`, but allows specifying a path outside of themes
  * and allows to be called when STYLESHEET_PATH has not been set yet. Handy for async.
@@ -113,8 +117,8 @@ function acb_template_part( $slug, $type = 'block' ) {
  *
  * @return string|array
  */
-function acb_locate_template( $template_names, $path = '', $single = true ) {
-	$path            = apply_filters( 'acb_template_path', $path );
+function block_lab_locate_template( $template_names, $path = '', $single = true ) {
+	$path            = apply_filters( 'block_lab_template_path', $path );
 	$stylesheet_path = get_template_directory();
 	$template_path   = get_stylesheet_directory();
 
@@ -168,15 +172,18 @@ function acb_locate_template( $template_names, $path = '', $single = true ) {
 /**
  * Provides a list of all available block icons.
  *
- * To include other material icons in this list, use the acb_icons filter to add their material icons name.
+ * To include additional icons in this list, use the block_lab_icons filter, and add a new svg string to the array,
+ * using a unique key. For example:
+ *
+ * $icons['foo'] = '<svg>…</svg>';
  *
  * @return array
  */
-function acb_get_icons() {
+function block_lab_get_icons() {
 	// This is on the local filesystem, so file_get_contents() is ok to use here.
-	$json_file = advanced_custom_blocks()->get_assets_path( 'icons.json' );
+	$json_file = block_lab()->get_assets_path( 'icons.json' );
 	$json      = file_get_contents( $json_file ); // @codingStandardsIgnoreLine
 	$icons     = json_decode( $json, true );
 
-	return apply_filters( 'acb_icons', $icons );
+	return apply_filters( 'block_lab_icons', $icons );
 }

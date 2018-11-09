@@ -5,6 +5,10 @@ const updatePreview = (props, block, data) => {
 
 		data = data || props.attributes.block_template || ''
 
+		if ( 'string' !== typeof data ) {
+			data = ''
+		}
+
 		let attr = props.attributes[ attrKey ];
 		let value = typeof attr != 'undefined' ? attr : '';
 

@@ -2,12 +2,12 @@
 /**
  * Text control.
  *
- * @package   Advanced_Custom_Blocks
- * @copyright Copyright(c) 2018, Advanced Custom Blocks
+ * @package   Block_Lab
+ * @copyright Copyright(c) 2018, Block Lab
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace Advanced_Custom_Blocks\Blocks\Controls;
+namespace Block_Lab\Blocks\Controls;
 
 /**
  * Class Text
@@ -28,7 +28,7 @@ class Text extends Control_Abstract {
 	 */
 	public function __construct() {
 		parent::__construct();
-		$this->label = __( 'Text', 'advanced-custom-blocks' );
+		$this->label = __( 'Text', 'block-lab' );
 	}
 
 	/**
@@ -40,7 +40,7 @@ class Text extends Control_Abstract {
 		$this->settings[] = new Control_Setting(
 			array(
 				'name'     => 'help',
-				'label'    => __( 'Field instructions', 'advanced-custom-blocks' ),
+				'label'    => __( 'Field instructions', 'block-lab' ),
 				'type'     => 'textarea',
 				'default'  => '',
 				'sanitize' => 'sanitize_textarea_field',
@@ -49,7 +49,7 @@ class Text extends Control_Abstract {
 		$this->settings[] = new Control_Setting(
 			array(
 				'name'     => 'required',
-				'label'    => __( 'Required?', 'advanced-custom-blocks' ),
+				'label'    => __( 'Required?', 'block-lab' ),
 				'type'     => 'checkbox',
 				'default'  => '0',
 				'sanitize' => array( $this, 'sanitise_checkbox' ),
@@ -58,7 +58,7 @@ class Text extends Control_Abstract {
 		$this->settings[] = new Control_Setting(
 			array(
 				'name'     => 'default',
-				'label'    => __( 'Default Value', 'advanced-custom-blocks' ),
+				'label'    => __( 'Default Value', 'block-lab' ),
 				'type'     => 'text',
 				'default'  => '',
 				'sanitize' => 'sanitize_text_field',
@@ -67,7 +67,7 @@ class Text extends Control_Abstract {
 		$this->settings[] = new Control_Setting(
 			array(
 				'name'     => 'placeholder',
-				'label'    => __( 'Placeholder Text', 'advanced-custom-blocks' ),
+				'label'    => __( 'Placeholder Text', 'block-lab' ),
 				'type'     => 'text',
 				'default'  => '',
 				'sanitize' => 'sanitize_text_field',
@@ -76,7 +76,7 @@ class Text extends Control_Abstract {
 		$this->settings[] = new Control_Setting(
 			array(
 				'name'     => 'maxlength',
-				'label'    => __( 'Character Limit', 'advanced-custom-blocks' ),
+				'label'    => __( 'Character Limit', 'block-lab' ),
 				'type'     => 'number',
 				'default'  => '',
 				'sanitize' => array( $this, 'sanitise_number' ),

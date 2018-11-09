@@ -1,13 +1,13 @@
 <?php
 /**
- * Loader initiates the loading of new Gutenberg blocks for the Advanced_Custom_Blocks plugin.
+ * Loader initiates the loading of new Gutenberg blocks for the Block_Lab plugin.
  *
- * @package Advanced_Custom_Blocks
+ * @package Block_Lab
  */
 
-namespace Advanced_Custom_Blocks\Blocks;
+namespace Block_Lab\Blocks;
 
-use Advanced_Custom_Blocks\Component_Abstract;
+use Block_Lab\Component_Abstract;
 
 /**
  * Class Loader
@@ -72,7 +72,7 @@ class Loader extends Component_Abstract {
 	public function editor_assets() {
 
 		wp_enqueue_script(
-			'acb-blocks',
+			'block-lab-blocks',
 			$this->assets['url']['entry'],
 			[ 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-api-fetch' ],
 			filemtime( $this->assets['path']['entry'] ),
@@ -81,28 +81,18 @@ class Loader extends Component_Abstract {
 
 		// Add dynamic Gutenberg blocks.
 		wp_add_inline_script(
-			'acb-blocks', '
-				const acbBlocks = ' . $this->blocks . '
+			'block-lab-blocks', '
+				const blockLabBlocks = ' . $this->blocks . ' 
 			', 'before'
 		);
 
 		// Enqueue optional editor only styles.
 		wp_enqueue_style(
-			'acb-blocks-editor-css',
+			'block-lab-editor-css',
 			$this->assets['url']['editor_style'],
 			[ 'wp-blocks' ],
 			filemtime( $this->assets['path']['editor_style'] )
 		);
-
-		// Enqueue 'material-icons'.
-		if ( ! wp_style_is( 'material-icons', 'enqueued' ) ) {
-			wp_enqueue_style(
-				'material-icons',
-				'https://fonts.googleapis.com/icon?family=Material+Icons',
-				[],
-				'20180904'
-			);
-		}
 	}
 
 	/**
@@ -119,14 +109,14 @@ class Loader extends Component_Abstract {
 		foreach ( $blocks as $block_name => $block ) {
 			$attributes = $this->get_block_attributes( $block );
 
-			$attributes['acb_block_name'] = $block_name;
+			$attributes['block_name'] = $block_name;
 
 			// sanitize_title() allows underscores, but register_block_type doesn't.
 			$block_name = str_replace( '_', '-', $block_name );
 
 			// register_block_type doesn't allow slugs starting with a number.
 			if ( is_numeric( $block_name[0] ) ) {
-				$block_name = 'acb-' . $block_name;
+				$block_name = 'block-' . $block_name;
 			}
 
 			register_block_type(
@@ -198,11 +188,11 @@ class Loader extends Component_Abstract {
 	 * @return mixed
 	 */
 	public function render_block_template( $block, $attributes, $type = 'block' ) {
-		global $acb_block_attributes;
-		$acb_block_attributes = $attributes;
+		global $block_lab_attributes;
+		$block_lab_attributes = $attributes;
 
 		ob_start();
-		acb_template_part( $block['name'], $type );
+		block_lab_template_part( $block['name'], $type );
 		$output = ob_get_clean();
 
 		return $output;
@@ -212,14 +202,14 @@ class Loader extends Component_Abstract {
 	 * Load all the published blocks and blocks/block.json files.
 	 */
 	public function retrieve_blocks() {
-		$slug = 'acb_block';
+		$slug = 'block_lab';
 
 		$this->blocks = '';
 		$blocks       = [];
 
 		// Retrieve blocks from blocks.json.
 		// Reverse to preserve order of preference when using array_merge.
-		$blocks_files = array_reverse( (array) acb_locate_template( 'blocks/blocks.json', '', false ) );
+		$blocks_files = array_reverse( (array) block_lab_locate_template( 'blocks/blocks.json', '', false ) );
 		foreach ( $blocks_files as $blocks_file ) {
 			// This is expected to be on the local filesystem, so file_get_contents() is ok to use here.
 			$json       = file_get_contents( $blocks_file ); // @codingStandardsIgnoreLine
@@ -250,6 +240,7 @@ class Loader extends Component_Abstract {
 				}
 			}
 		}
+
 		$this->blocks = wp_json_encode( $blocks );
 	}
 }

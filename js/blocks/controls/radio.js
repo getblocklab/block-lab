@@ -2,7 +2,7 @@ import updatePreview from "../loader/preview";
 
 const { RadioControl } = wp.components;
 
-const ACBRadioControl = ( props, field, block ) => {
+const BlockLabRadioControl = ( props, field, block ) => {
 	const { setAttributes } = props
 	const attr = { ...props.attributes }
 	return (
@@ -22,4 +22,4 @@ const ACBRadioControl = ( props, field, block ) => {
 	)
 }
 
-export default ACBRadioControl
+export default BlockLabRadioControl
