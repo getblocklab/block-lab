@@ -2,7 +2,7 @@ import inspectorControls from './inspector'
 import controls from '../controls';
 import { simplifiedFields } from "./fields";
 import updatePreview from './preview';
-import icons from '../icons'
+import icons from '../../../assets/icons.json';
 
 const { __ } = wp.i18n;
 const { RichText } = wp.editor;
@@ -38,13 +38,13 @@ const previewData = ( props, block ) => {
 		return;
 	}
 
-	wp.apiFetch( { path: `/acb/v1/block-preview?slug=` + block.name } ).then(
+	wp.apiFetch( { path: `/block-lab/v1/block-preview?slug=` + block.name } ).then(
 		data => {
 			props.setAttributes( { block_template: data } );
 			updatePreview( props, block, data );
 		}
 	);
-};
+}
 
 
 const editComponent = ( props, block ) => {
@@ -58,14 +58,14 @@ const editComponent = ( props, block ) => {
 			<div className={className} key={"form-controls-" + block.name}>
 				{isSelected ? (
 					<div className="block-form">
-						<h3>{icons.logo} {block.title}</h3>
+						<h3 dangerouslySetInnerHTML={{ __html: icons[block.icon] + ' ' + block.title }} />
 						<div>
 							{formControls( props, block )}
 						</div>
 					</div>
 				) : (
 					<RichText
-						value={props.attributes.block_preview || __( 'Loading preview...', 'advanced-custom-blocks' )}
+						value={props.attributes.block_preview || __( 'Loading preview...', 'block-lab' )}
 						onChange={e => {
 							e.preventDefault;
 						}}

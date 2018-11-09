@@ -2,7 +2,7 @@ import updatePreview from "../loader/preview";
 
 const { ToggleControl } = wp.components;
 
-const ACBToggleControl = ( props, field, block ) => {
+const BlockLabToggleControl = ( props, field, block ) => {
 	const { setAttributes } = props
 	const attr = { ...props.attributes }
 	return (
@@ -21,4 +21,4 @@ const ACBToggleControl = ( props, field, block ) => {
 	)
 }
 
-export default ACBToggleControl
+export default BlockLabToggleControl

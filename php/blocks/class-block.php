@@ -2,12 +2,12 @@
 /**
  * Block.
  *
- * @package   Advanced_Custom_Blocks
- * @copyright Copyright(c) 2018, Advanced Custom Blocks
+ * @package   Block_Lab
+ * @copyright Copyright(c) 2018, Block Lab
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace Advanced_Custom_Blocks\Blocks;
+namespace Block_Lab\Blocks;
 
 /**
  * Class Block
@@ -95,11 +95,11 @@ class Block {
 	public function from_json( $json ) {
 		$json = json_decode( $json, true );
 
-		if ( ! isset( $json[ 'advanced-custom-blocks/' . $this->name ] ) ) {
+		if ( ! isset( $json[ 'block-lab/' . $this->name ] ) ) {
 			return;
 		}
 
-		$config = $json[ 'advanced-custom-blocks/' . $this->name ];
+		$config = $json[ 'block-lab/' . $this->name ];
 
 		if ( isset( $config['title'] ) ) {
 			$this->title = $config['title'];
@@ -159,6 +159,6 @@ class Block {
 			}
 		}
 
-		return wp_json_encode( array( 'advanced-custom-blocks/' . $this->name => $config ) );
+		return wp_json_encode( array( 'block-lab/' . $this->name => $config ) );
 	}
 }

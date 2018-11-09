@@ -1,11 +1,11 @@
 /**
  * Used for editing Blocks.
  *
- * @package   Advanced_Custom_Blocks
- * @copyright Copyright(c) 2018, Advanced Custom Blocks
+ * @package   Block_Lab
+ * @copyright Copyright(c) 2018, Block Lab
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  *
- * Globals wp, advancedCustomBlocks
+ * Globals wp, blockLab
  */
 
 (function( $ ) {
@@ -17,68 +17,68 @@
 
 		$( '#title' ).on( 'change keyup', function() {
 			let slug = slugify( $( this ).val() );
-			$( '#acb-properties-slug' ).val( slug );
+			$( '#block-properties-slug' ).val( slug );
 		});
 
-		$( '#acb-add-field' ).on( 'click', function() {
+		$( '#block-add-field' ).on( 'click', function() {
 			let template = wp.template( 'field-repeater' ),
 				data     = { uid: new Date().getTime() },
 				field    = $( template( data ) );
-			$( '.acb-fields-rows' ).append( field );
-			$( '.acb-no-fields' ).hide();
-			field.find( '.acb-fields-actions-edit' ).trigger( 'click' );
+			$( '.block-fields-rows' ).append( field );
+			$( '.block-no-fields' ).hide();
+			field.find( '.block-fields-actions-edit' ).trigger( 'click' );
 		});
 
-		$( '#acb_block_properties .acb-properties-icons span' ).on( 'click', function() {
-			$( '#acb_block_properties .acb-properties-icons span.selected' ).removeClass( 'selected' );
+		$( '#block_properties .block-properties-icons span' ).on( 'click', function() {
+			$( '#block_properties .block-properties-icons span.selected' ).removeClass( 'selected' );
 			$( this ).addClass( 'selected' );
-			$( '#acb-properties-icon' ).val( $( this ).data( 'value' ) );
+			$( '#block-properties-icon' ).val( $( this ).data( 'value' ) );
 		});
 
-		$( '.acb-fields-rows' )
-			.on( 'click', '.acb-fields-actions-delete', function() {
-				$( this ).closest( '.acb-fields-row' ).remove();
-				if ( 0 === $( '.acb-fields-rows' ).children( '.acb-fields-row' ).length ) {
-					$( '.acb-no-fields' ).show();
+		$( '.block-fields-rows' )
+			.on( 'click', '.block-fields-actions-delete', function() {
+				$( this ).closest( '.block-fields-row' ).remove();
+				if ( 0 === $( '.block-fields-rows' ).children( '.block-fields-row' ).length ) {
+					$( '.block-no-fields' ).show();
 				}
 			})
-			.on( 'click', '.acb-fields-actions-edit, a.row-title', function() {
-				$( this ).closest( '.acb-fields-row' ).toggleClass( 'acb-fields-row-active' );
-				$( this ).closest( '.acb-fields-row' ).find( '.acb-fields-edit' ).slideToggle();
+			.on( 'click', '.block-fields-actions-edit, a.row-title', function() {
+				$( this ).closest( '.block-fields-row' ).toggleClass( 'block-fields-row-active' );
+				$( this ).closest( '.block-fields-row' ).find( '.block-fields-edit' ).slideToggle();
 
 				// Fetch field settings if field is active and there are no settings.
-				if ( $( this ).closest( '.acb-fields-row' ).hasClass( 'acb-fields-row-active' ) ) {
-					if ( 0 === $( this ).closest( '.acb-fields-row' ).find( '.acb-fields-edit-settings' ).length ) {
-						let fieldRow     = $( this ).closest( '.acb-fields-row' ),
-							fieldControl = fieldRow.find( '.acb-fields-edit-control select' ).val();
+				if ( $( this ).closest( '.block-fields-row' ).hasClass( 'block-fields-row-active' ) ) {
+					let fieldRow = $( this ).closest( '.block-fields-row' );
+					if ( 0 === fieldRow.find( '.block-fields-edit-settings' ).length ) {
+						let fieldControl = fieldRow.find( '.block-fields-edit-control select' ).val();
 						fetchFieldSettings( fieldRow, fieldControl );
 					}
 				}
 			})
-			.on( 'click', '.acb-fields-edit-actions-close a.button', function() {
-				$( this ).closest( '.acb-fields-row' ).removeClass( 'acb-fields-row-active' );
-				$( this ).closest( '.acb-fields-edit' ).slideUp();
+			.on( 'click', '.block-fields-edit-actions-close a.button', function() {
+				$( this ).closest( '.block-fields-row' ).removeClass( 'block-fields-row-active' );
+				$( this ).closest( '.block-fields-edit' ).slideUp();
 			})
-			.on( 'change keyup', '.acb-fields-edit input, .acb-fields-edit select', function() {
+			.on( 'change keyup', '.block-fields-edit input, .block-fields-edit select', function() {
 				let sync = $( this ).data( 'sync' );
 				$( '#' + sync ).text( $( this ).val() );
 			})
-			.on( 'change', '.acb-fields-edit-control select', function() {
-				let fieldRow = $( this ).closest( '.acb-fields-row' );
+			.on( 'change', '.block-fields-edit-control select', function() {
+				let fieldRow = $( this ).closest( '.block-fields-row' );
 				fetchFieldSettings( fieldRow, $( this ).val() );
 			})
-			.on( 'change keyup', '.acb-fields-edit-label input', function() {
+			.on( 'change keyup', '.block-fields-edit-label input', function() {
 				let slug = slugify( $( this ).val() );
 				$( this )
-					.closest( '.acb-fields-edit' )
-					.find( '.acb-fields-edit-name input' )
+					.closest( '.block-fields-edit' )
+					.find( '.block-fields-edit-name input' )
 					.val( slug )
 					.trigger( 'change' );
 			})
 			.sortable({
 				axis: 'y',
 				cursor: 'grabbing',
-				handle: '.acb-fields-sort-handle',
+				handle: '.block-fields-sort-handle',
 				containment: 'parent',
 				tolerance: 'pointer'
 			});
@@ -87,7 +87,7 @@
 	let blockCategoryInit = function() {
 		let categories       = wp.blocks.getCategories(),
 			categoriesLength = categories.length,
-			category         = $( '#acb-properties-category-saved' );
+			category         = $( '#block-properties-category-saved' );
 
 		for (let i = 0; i < categoriesLength; i++) {
 			if ( 'reusable' === categories[i].slug ) {
@@ -96,19 +96,19 @@
 			$( '<option/>', {
 				value: categories[i].slug,
 				text: categories[i].title,
-			} ).appendTo( '#acb-properties-category' );
+			} ).appendTo( '#block-properties-category' );
 		}
 
 		if ( category.val() !== '' ) {
-			let option = $( '#acb-properties-category option[value="' + category.val() + '"]' );
+			let option = $( '#block-properties-category option[value="' + category.val() + '"]' );
 			if ( option.length > 0 ) {
-				$( '#acb-properties-category' ).prop( 'selectedIndex', option.index() );
+				$( '#block-properties-category' ).prop( 'selectedIndex', option.index() );
 			}
 		}
 	};
 
 	let blockIconInit = function() {
-		let iconsContainer = $( '.acb-properties-icons' ),
+		let iconsContainer = $( '.block-properties-icons' ),
 			selectedIcon   = $( '.selected', iconsContainer );
 		if ( 0 !== iconsContainer.length && 0 !== selectedIcon.length ) {
 			iconsContainer.scrollTop( selectedIcon.position().top );
@@ -116,43 +116,43 @@
 	}
 
 	let blockFieldInit = function() {
-		if ( 0 === $( '.acb-fields-rows' ).children( '.acb-fields-row' ).length ) {
-			$( '.acb-no-fields' ).show();
+		if ( 0 === $( '.block-fields-rows' ).children( '.block-fields-row' ).length ) {
+			$( '.block-no-fields' ).show();
 		}
 	};
 
 	let fetchFieldSettings = function( fieldRow, fieldControl ) {
-		if ( ! advancedCustomBlocks.hasOwnProperty( 'fieldSettingsNonce' ) ) {
+		if ( ! blockLab.hasOwnProperty( 'fieldSettingsNonce' ) ) {
 			return;
 		}
 
 		let loadingRow = '' +
-			'<tr class="acb-fields-edit-loading">' +
+			'<tr class="block-fields-edit-loading">' +
 			'   <td class="spacer"></td>' +
 			'   <th></th>' +
 			'   <td><span class="loading"></span></td>' +
 			'</tr>';
 
-		$( '.acb-fields-edit-settings', fieldRow ).remove();
-		$( '.acb-fields-edit-control', fieldRow ).after( $( loadingRow ) );
+		$( '.block-fields-edit-settings', fieldRow ).remove();
+		$( '.block-fields-edit-control', fieldRow ).after( $( loadingRow ) );
 
 		wp.ajax.send( 'fetch_field_settings', {
 			success: function( data ) {
-				$( '.acb-fields-edit-loading', fieldRow ).remove();
+				$( '.block-fields-edit-loading', fieldRow ).remove();
 
 				if ( ! data.hasOwnProperty( 'html' ) ) {
 					return;
 				}
 				let settingsRows = $( data.html );
-				$( '.acb-fields-edit-control', fieldRow ).after( settingsRows );
+				$( '.block-fields-edit-control', fieldRow ).after( settingsRows );
 			},
 			error: function() {
-				$( '.acb-fields-edit-loading', fieldRow ).remove();
+				$( '.block-fields-edit-loading', fieldRow ).remove();
 			},
 			data: {
 				control: fieldControl,
 				uid:     fieldRow.data( 'uid' ),
-				nonce:   advancedCustomBlocks.fieldSettingsNonce
+				nonce:   blockLab.fieldSettingsNonce
 			}
 		});
 	};

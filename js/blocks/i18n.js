@@ -1,1 +1,1 @@
-wp.i18n.setLocaleData( { '': {} }, 'advanced-custom-blocks' );
+wp.i18n.setLocaleData( { '': {} }, 'block-lab' );

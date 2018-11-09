@@ -1,17 +1,17 @@
-import ACBTextControl from './text'
-import ACBTextareaControl from './textarea'
-import ACBCheckboxControl from './checkbox'
-import ACBRadioControl from './radio'
-import ACBRangeControl from './range'
-import ACBSelectControl from './select'
-import ACBToggleControl from './toggle'
+import BlockLabTextControl from './text'
+import BlockLabTextareaControl from './textarea'
+import BlockLabCheckboxControl from './checkbox'
+import BlockLabRadioControl from './radio'
+import BlockLabRangeControl from './range'
+import BlockLabSelectControl from './select'
+import BlockLabToggleControl from './toggle'
 
 export default {
-	text: ACBTextControl,
-	textarea: ACBTextareaControl,
-	checkbox: ACBCheckboxControl,
-	radio: ACBRadioControl,
-	range: ACBRangeControl,
-	select: ACBSelectControl,
-	toggle: ACBToggleControl,
+	text: BlockLabTextControl,
+	textarea: BlockLabTextareaControl,
+	checkbox: BlockLabCheckboxControl,
+	radio: BlockLabRadioControl,
+	range: BlockLabRangeControl,
+	select: BlockLabSelectControl,
+	toggle: BlockLabToggleControl,
 }
