@@ -33,7 +33,7 @@ spl_autoload_register(
 		}
 
 		// For file naming, the namespace is everything but the class name and the root namespace.
-		$namespace = trim( implode( DIRECTORY_SEPARATOR, $namespace ) );
+		$namespace = strtolower( trim( implode( DIRECTORY_SEPARATOR, $namespace ) ) );
 
 		// Get the path to our files.
 		$directory = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . '../php';
