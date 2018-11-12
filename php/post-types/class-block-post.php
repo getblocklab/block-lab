@@ -312,21 +312,24 @@ class Block_Post extends Component_Abstract {
 						<?php
 						$allowed_tags = array(
 							'svg'   => array(
-								'xmlns' => true,
-								'width' => true,
-								'height' => true,
+								'xmlns'   => true,
+								'width'   => true,
+								'height'  => true,
 								'viewbox' => true,
 							),
 							'g'     => array( 'fill' => true ),
 							'title' => array( 'title' => true ),
-							'path'  => array( 'd' => true, 'fill' => true,  ),
+							'path'  => array(
+								'd'    => true,
+								'fill' => true,
+							),
 						);
 						foreach ( block_lab_get_icons() as $icon => $svg ) {
 							$selected = $icon === $block->icon ? 'selected' : '';
 							printf(
 								'<span class="icon %1$s" data-value="%2$s">%3$s</span>',
 								esc_attr( $selected ),
-								$icon,
+								esc_attr( $icon ),
 								wp_kses( $svg, $allowed_tags )
 							);
 						}
@@ -878,16 +881,20 @@ class Block_Post extends Component_Abstract {
 		if ( 'icon' === $column ) {
 			$block = new Block( $post_id );
 			$icons = block_lab_get_icons();
+
 			$allowed_tags = array(
 				'svg'   => array(
-					'xmlns' => true,
-					'width' => true,
-					'height' => true,
+					'xmlns'   => true,
+					'width'   => true,
+					'height'  => true,
 					'viewbox' => true,
 				),
 				'g'     => array( 'fill' => true ),
 				'title' => array( 'title' => true ),
-				'path'  => array( 'd' => true, 'fill' => true,  ),
+				'path'  => array(
+					'd'    => true,
+					'fill' => true,
+				),
 			);
 
 			if ( isset( $icons[ $block->icon ] ) ) {
