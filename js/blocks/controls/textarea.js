@@ -11,7 +11,6 @@ const BlockLabTextareaControl = ( props, field, block ) => {
 			placeholder={field.placeholder || ''}
 			maxLength={field.maxlength}
 			help={field.help}
-			required={field.required || false}
 			defaultValue={field.default}
 			value={attr[ field.name ]}
 			onChange={textControl => {

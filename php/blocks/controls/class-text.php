@@ -48,15 +48,6 @@ class Text extends Control_Abstract {
 		);
 		$this->settings[] = new Control_Setting(
 			array(
-				'name'     => 'required',
-				'label'    => __( 'Required?', 'block-lab' ),
-				'type'     => 'checkbox',
-				'default'  => '0',
-				'sanitize' => array( $this, 'sanitise_checkbox' ),
-			)
-		);
-		$this->settings[] = new Control_Setting(
-			array(
 				'name'     => 'default',
 				'label'    => __( 'Default Value', 'block-lab' ),
 				'type'     => 'text',

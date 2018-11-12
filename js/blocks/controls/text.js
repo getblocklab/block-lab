@@ -8,7 +8,6 @@ const BlockLabTextControl = ( props, field, block ) => {
 	return (
 		<TextControl
 			label={field.label}
-			required={field.required || false}
 			placeholder={field.placeholder || ''}
 			maxLength={field.maxlength}
 			help={field.help}
