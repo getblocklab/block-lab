@@ -12,6 +12,8 @@ const simplifiedFields = ( fields ) => {
 
 	for ( let fieldName in fields ) {
 
+		if ( '' === fieldName ) continue;
+
 		if ( !fields.hasOwnProperty( fieldName ) ) continue;
 
 		let field = fields[ fieldName ];
