@@ -185,7 +185,7 @@ abstract class Control_Abstract {
 			type="number"
 			id="<?php echo esc_attr( $id ); ?>"
 			class="regular-text"
-			min="1"
+			min="0"
 			value="<?php echo esc_attr( $setting->get_value() ); ?>" />
 		<?php
 	}
