@@ -29,6 +29,18 @@ function block_field( $key, $echo = true ) {
 	$value = $block_lab_attributes[ $key ];
 
 	if ( $echo ) {
+		if ( is_array( $value ) ) {
+			$value = implode( ', ', $value );
+		}
+
+		if ( true === $value ) {
+			$value = __( 'Yes', 'block-lab' );
+		}
+
+		if ( false === $value ) {
+			$value = __( 'No', 'block-lab' );
+		}
+
 		/**
 		 * Escaping this value may cause it to break in some use cases.
 		 * If this happens, retrieve the field's value using block_value(),

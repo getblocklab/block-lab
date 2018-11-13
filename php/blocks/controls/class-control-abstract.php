@@ -31,6 +31,13 @@ abstract class Control_Abstract {
 	public $label = '';
 
 	/**
+	 * Field variable type.
+	 *
+	 * @var string
+	 */
+	public $type = 'string';
+
+	/**
 	 * Control settings.
 	 *
 	 * @var Control_Setting[]

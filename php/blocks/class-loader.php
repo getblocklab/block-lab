@@ -106,10 +106,9 @@ class Loader extends Component_Abstract {
 
 		// Get blocks.
 		$blocks = json_decode( $this->blocks, true );
+
 		foreach ( $blocks as $block_name => $block ) {
 			$attributes = $this->get_block_attributes( $block );
-
-			$attributes['block_name'] = $block_name;
 
 			// sanitize_title() allows underscores, but register_block_type doesn't.
 			$block_name = str_replace( '_', '-', $block_name );
@@ -154,16 +153,16 @@ class Loader extends Component_Abstract {
 				$attributes[ $field_name ]['type'] = 'string';
 			}
 
+			if ( ! empty( $field['default'] ) ) {
+				$attributes[ $field_name ]['default'] = $field['default'];
+			}
+
 			if ( ! empty( $field['source'] ) ) {
 				$attributes[ $field_name ]['source'] = $field['source'];
 			}
 
 			if ( ! empty( $field['meta'] ) ) {
 				$attributes[ $field_name ]['meta'] = $field['meta'];
-			}
-
-			if ( ! empty( $field['default'] ) ) {
-				$attributes[ $field_name ]['default'] = $field['default'];
 			}
 
 			if ( ! empty( $field['selector'] ) ) {
