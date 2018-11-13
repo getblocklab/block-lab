@@ -3,15 +3,15 @@
  * Block Lab
  *
  * @package   Block_Lab
- * @copyright Copyright(c) 2018, Rheinard Korf
+ * @copyright Copyright(c) 2018, Block Lab
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  *
  * Plugin Name: Block Lab
- * Plugin URI: https://github.com/rheinardkorf/block-lab
+ * Plugin URI: https://github.com/getblocklab/block-lab
  * Description: Create custom blocks effortlessly. No Gutenberg development know-how required.
- * Version: 0.1.1
- * Author: Rheinard Korf, Luke Carbis, Rob Stinson
- * Author URI: https://github.com/rheinardkorf/block-lab
+ * Version: 1.0
+ * Author: Block Lab
+ * Author URI: https://getblocklab.com
  * License: GPL2
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: block-lab
