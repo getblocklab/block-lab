@@ -22,6 +22,13 @@ class Select extends Control_Abstract {
 	public $name = 'select';
 
 	/**
+	 * Field variable type.
+	 *
+	 * @var string
+	 */
+	public $type = 'text';
+
+	/**
 	 * Select constructor.
 	 *
 	 * @return void

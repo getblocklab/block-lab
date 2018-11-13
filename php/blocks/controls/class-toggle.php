@@ -22,6 +22,13 @@ class Toggle extends Control_Abstract {
 	public $name = 'toggle';
 
 	/**
+	 * Field variable type.
+	 *
+	 * @var string
+	 */
+	public $type = 'boolean';
+
+	/**
 	 * Toggle constructor.
 	 *
 	 * @return void
