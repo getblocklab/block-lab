@@ -22,6 +22,13 @@ class Checkbox extends Control_Abstract {
 	public $name = 'checkbox';
 
 	/**
+	 * Field variable type.
+	 *
+	 * @var string
+	 */
+	public $type = 'boolean';
+
+	/**
 	 * Checkbox constructor.
 	 *
 	 * @return void

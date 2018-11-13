@@ -806,8 +806,13 @@ class Block_Post extends Component_Abstract {
 					);
 				}
 
+				// Field type.
+				if ( isset( $field_config['control'] ) && isset( $this->controls[ $field_config['control'] ] ) ) {
+					$field_config['type'] = $this->controls[ $field_config['control'] ]->type;
+				}
+
 				// Field settings.
-				if ( isset( $this->controls[ $field_config['control'] ] ) ) {
+				if ( isset( $field_config['control'] ) && isset( $this->controls[ $field_config['control'] ] ) ) {
 					$control = $this->controls[ $field_config['control'] ];
 					foreach ( $control->settings as $setting ) {
 						if ( isset( $_POST['block-fields-settings'][ $key ][ $setting->name ] ) ) {

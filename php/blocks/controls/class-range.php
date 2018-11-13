@@ -22,6 +22,13 @@ class Range extends Control_Abstract {
 	public $name = 'range';
 
 	/**
+	 * Field variable type.
+	 *
+	 * @var string
+	 */
+	public $type = 'integer';
+
+	/**
 	 * Range constructor.
 	 *
 	 * @return void
