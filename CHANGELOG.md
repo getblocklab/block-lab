@@ -1,5 +1,20 @@
 # Changelog #
  
+## 1.0 - 2018-11-14 ##
+
+__Rename!__
+* Advanced Custom Blocks is now Block Lab
+
+__Added__
+* New control types (Radio, Checkbox, Toggle, Select)
+* Block icons
+* Field location – add your block fields to the inspector
+* List table refinements
+* Field repeater table improvements
+
+__Fixed__
+* All the things. Probably not _all_ the things, but close.
+ 
 ## 0.1.2 - 2018-08-10 ##
 
 __Added__
