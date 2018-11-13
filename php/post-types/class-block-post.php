@@ -310,27 +310,13 @@ class Block_Post extends Component_Abstract {
 						value="<?php echo esc_attr( $block->icon ); ?>">
 					<div class="block-properties-icons">
 						<?php
-						$allowed_tags = array(
-							'svg'   => array(
-								'xmlns'   => true,
-								'width'   => true,
-								'height'  => true,
-								'viewbox' => true,
-							),
-							'g'     => array( 'fill' => true ),
-							'title' => array( 'title' => true ),
-							'path'  => array(
-								'd'    => true,
-								'fill' => true,
-							),
-						);
 						foreach ( block_lab_get_icons() as $icon => $svg ) {
 							$selected = $icon === $block->icon ? 'selected' : '';
 							printf(
 								'<span class="icon %1$s" data-value="%2$s">%3$s</span>',
 								esc_attr( $selected ),
 								esc_attr( $icon ),
-								wp_kses( $svg, $allowed_tags )
+								wp_kses( $svg, block_lab_allowed_svg_tags() )
 							);
 						}
 						?>
@@ -887,26 +873,11 @@ class Block_Post extends Component_Abstract {
 			$block = new Block( $post_id );
 			$icons = block_lab_get_icons();
 
-			$allowed_tags = array(
-				'svg'   => array(
-					'xmlns'   => true,
-					'width'   => true,
-					'height'  => true,
-					'viewbox' => true,
-				),
-				'g'     => array( 'fill' => true ),
-				'title' => array( 'title' => true ),
-				'path'  => array(
-					'd'    => true,
-					'fill' => true,
-				),
-			);
-
 			if ( isset( $icons[ $block->icon ] ) ) {
 				printf(
 					'<span class="icon %1$s">%2$s</span>',
 					esc_attr( $block->icon ),
-					wp_kses( $icons[ $block->icon ], $allowed_tags )
+					wp_kses( $icons[ $block->icon ], block_lab_allowed_svg_tags() )
 				);
 			}
 		}
