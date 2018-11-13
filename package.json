@@ -1,17 +1,17 @@
 {
   "name": "block-lab",
   "title": "Block Lab",
-  "version": "0.1.1",
-  "homepage": "https://github.com/rheinardkorf/block-lab",
+  "version": "1.0.0",
+  "homepage": "https://github.com/getblocklab/block-lab",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rheinardkorf/block-lab"
+    "url": "https://github.com/getblocklab/block-lab"
   },
   "scripts": {
     "dev": "cross-env BABEL_ENV=default webpack --watch",
     "build": "cross-env BABEL_ENV=default NODE_ENV=production webpack"
   },
-  "author": "Rheinard Korf",
+  "author": "Block Lab",
   "license": "GPL-2.0+",
   "devDependencies": {
     "@wordpress/babel-preset-default": "^1.2.0",
