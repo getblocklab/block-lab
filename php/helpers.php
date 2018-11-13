@@ -94,6 +94,9 @@ function block_lab_template_part( $slug, $type = 'block' ) {
 		// This is not a load once template, so require_once is false.
 		load_template( $theme_template, false );
 	} else {
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			return;
+		}
 		printf(
 			'<div class="notice notice-warning">%s</div>',
 			wp_kses_post(
