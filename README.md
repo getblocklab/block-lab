@@ -23,8 +23,8 @@ The plugin is currently in beta and we welcome early users and testers. Your fee
 
 ## Links
 * [WordPress.org](https://wordpress.org/plugins/block-lab)
-* [Github](https://github.com/rheinardkorf/block-lab)
-* [Documentation](https://github.com/rheinardkorf/block-lab/tree/develop/docs)
+* [Github](https://github.com/getblocklab/block-lab)
+* [Documentation](https://github.com/getblocklab/block-lab/wiki)
 * [Support](https://wordpress.org/support/plugin/block-lab)
 
 ## Installation
@@ -45,10 +45,10 @@ A: Although the plugin handles the majority of the work in building a custom blo
 A: This plugin is in beta so it will be updated regularly. If you use this in production, we recommend you watch for changes that may impact your implementation.
 
 **Q: I have an idea for the plugin**
-A: This plugin is open source and can only be better through community contribution. The GitHub repo is [here](https://github.com/rheinardkorf/block-lab).
+A: This plugin is open source and can only be better through community contribution. The GitHub repo is [here](https://github.com/getblocklab/block-lab).
 
 **Q: Where can I find documentation for this plugin?**
-A: [Here](https://github.com/rheinardkorf/block-lab/tree/develop/docs)
+A: [Here](https://github.com/getblocklab/block-lab/wiki)
 
 ## Contributing
 
