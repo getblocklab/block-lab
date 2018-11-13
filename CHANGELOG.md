@@ -1,12 +1,12 @@
 # Changelog #
  
-## 1.0 - 2018-11-14 ##
+## 1.0.0 - 2018-11-14 ##
 
 __Rename!__
 * Advanced Custom Blocks is now Block Lab
 
 __Added__
-* New control types (Radio, Checkbox, Toggle, Select)
+* New control types (Radio, Checkbox, Toggle, Select, Range)
 * Block icons
 * Field location – add your block fields to the inspector
 * List table refinements
