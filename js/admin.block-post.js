@@ -27,6 +27,7 @@
 			$( '.block-fields-rows' ).append( field );
 			$( '.block-no-fields' ).hide();
 			field.find( '.block-fields-actions-edit' ).trigger( 'click' );
+			field.find( '.block-fields-edit-label input' ).select();
 		});
 
 		$( '#block_properties .block-properties-icons span' ).on( 'click', function() {
@@ -59,9 +60,14 @@
 				$( this ).closest( '.block-fields-row' ).removeClass( 'block-fields-row-active' );
 				$( this ).closest( '.block-fields-edit' ).slideUp();
 			})
-			.on( 'change keyup', '.block-fields-edit input, .block-fields-edit select', function() {
+			.on( 'change keyup', '.block-fields-edit input', function() {
 				let sync = $( this ).data( 'sync' );
 				$( '#' + sync ).text( $( this ).val() );
+			})
+			.on( 'change keyup', '.block-fields-edit select', function() {
+				let sync   = $( this ).data( 'sync' );
+				let option = $( 'option:selected', $( this ) ).text();
+				$( '#' + sync ).text( option );
 			})
 			.on( 'change', '.block-fields-edit-control select', function() {
 				let fieldRow = $( this ).closest( '.block-fields-row' );
@@ -144,7 +150,7 @@
 					return;
 				}
 				let settingsRows = $( data.html );
-				$( '.block-fields-edit-control', fieldRow ).after( settingsRows );
+				$( '.block-fields-edit-location', fieldRow ).after( settingsRows );
 			},
 			error: function() {
 				$( '.block-fields-edit-loading', fieldRow ).remove();

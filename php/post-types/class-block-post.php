@@ -392,11 +392,14 @@ class Block_Post extends Component_Abstract {
 						<th class="block-fields-control">
 							<?php esc_html_e( 'Field Type', 'block-lab' ); ?>
 						</th>
+						<th class="block-fields-location">
+							<?php esc_html_e( 'Field Location', 'block-lab' ); ?>
+						</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td colspan="4" class="block-fields-rows">
+						<td colspan="5" class="block-fields-rows">
 							<p class="block-no-fields">
 								<?php
 								echo wp_kses_post(
@@ -431,7 +434,11 @@ class Block_Post extends Component_Abstract {
 
 			<script type="text/html" id="tmpl-field-repeater">
 				<?php
-				$this->render_fields_meta_box_row( new Field() );
+				$args = array(
+					'name'  => 'new-field',
+					'label' => __( 'New Field', 'block-lab' ),
+				);
+				$this->render_fields_meta_box_row( new Field( $args ) );
 				?>
 			</script>
 		</div>
@@ -472,10 +479,19 @@ class Block_Post extends Component_Abstract {
 				</div>
 			</div>
 			<div class="block-fields-name" id="block-fields-name_<?php echo esc_attr( $uid ); ?>">
-				<?php echo esc_html( $field->name ); ?>
+				<code id="block-fields-name-code_<?php echo esc_attr( $uid ); ?>"><?php echo esc_html( $field->name ); ?></code>
 			</div>
 			<div class="block-fields-control" id="block-fields-control_<?php echo esc_attr( $uid ); ?>">
-				<?php echo esc_html( $field->control ); ?>
+				<?php echo esc_html( $this->controls[ $field->control ]->label ); ?>
+			</div>
+			<div class="block-fields-location" id="block-fields-location_<?php echo esc_attr( $uid ); ?>">
+				<?php
+				if ( 'editor' === $field->location ) {
+					esc_html_e( 'Editor', 'block-lab' );
+				} elseif ( 'inspector' === $field->location ) {
+					esc_html_e( 'Inspector', 'block-lab' );
+				}
+				?>
 			</div>
 			<div class="block-fields-edit">
 				<table class="widefat">
@@ -521,7 +537,7 @@ class Block_Post extends Component_Abstract {
 								id="block-fields-edit-name-input_<?php echo esc_attr( $uid ); ?>"
 								class="regular-text"
 								value="<?php echo esc_attr( $field->name ); ?>"
-								data-sync="block-fields-name_<?php echo esc_attr( $uid ); ?>" />
+								data-sync="block-fields-name-code_<?php echo esc_attr( $uid ); ?>" />
 						</td>
 					</tr>
 					<tr class="block-fields-edit-control">
@@ -543,6 +559,31 @@ class Block_Post extends Component_Abstract {
 										<?php echo esc_html( $control->label ); ?>
 									</option>
 								<?php endforeach; ?>
+							</select>
+						</td>
+					</tr>
+					<tr class="block-fields-edit-location">
+						<td class="spacer"></td>
+						<th scope="row">
+							<label for="block-fields-edit-location-input_<?php echo esc_attr( $uid ); ?>">
+								<?php esc_html_e( 'Field Location', 'block-lab' ); ?>
+							</label>
+						</th>
+						<td>
+							<select
+								name="block-fields-location[<?php echo esc_attr( $uid ); ?>]"
+								id="block-fields-edit-location-input_<?php echo esc_attr( $uid ); ?>"
+								data-sync="block-fields-location_<?php echo esc_attr( $uid ); ?>" >
+									<option
+										value="editor"
+										<?php selected( $field->location, 'editor' ); ?>>
+										<?php esc_html_e( 'Editor', 'block-lab' ); ?>
+									</option>
+									<option
+										value="inspector"
+										<?php selected( $field->location, 'inspector' ); ?>>
+										<?php esc_html_e( 'Inspector', 'block-lab' ); ?>
+									</option>
 							</select>
 						</td>
 					</tr>
@@ -795,6 +836,13 @@ class Block_Post extends Component_Abstract {
 				// Field type.
 				if ( isset( $field_config['control'] ) && isset( $this->controls[ $field_config['control'] ] ) ) {
 					$field_config['type'] = $this->controls[ $field_config['control'] ]->type;
+				}
+
+				// Field location.
+				if ( isset( $_POST['block-fields-location'][ $key ] ) ) {
+					$field_config['location'] = sanitize_text_field(
+						wp_unslash( $_POST['block-fields-location'][ $key ] )
+					);
 				}
 
 				// Field settings.
