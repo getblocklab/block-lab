@@ -36,6 +36,13 @@ class Field {
 	public $control = 'text';
 
 	/**
+	 * Field variable type.
+	 *
+	 * @var string
+	 */
+	public $type = 'string';
+
+	/**
 	 * Field location.
 	 *
 	 * @var string
@@ -70,6 +77,9 @@ class Field {
 		}
 		if ( isset( $args['control'] ) ) {
 			$this->control = $args['control'];
+		}
+		if ( isset( $args['type'] ) ) {
+			$this->type = $args['type'];
 		}
 		if ( isset( $args['location'] ) ) {
 			$this->location = $args['location'];
