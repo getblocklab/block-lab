@@ -19,7 +19,7 @@
 }
 #block_fields .block-fields-list thead th {
 	font-weight: 600;
-	width: 32%
+	width: 24%
 }
 #block_fields .block-fields-list thead th.block-fields-sort {
 	width: 4%
@@ -31,7 +31,7 @@
 #block_fields .block-fields-rows .block-fields-row {
 	background: #fff;
 	display: grid;
-	grid-template-columns: [handle] 4% 32% 32% 32%;
+	grid-template-columns: [handle] 4% 24% 24% 24% 24%;
 }
 #block_fields .block-fields-rows .block-fields-row > div {
 	padding: 8px 10px;
@@ -73,7 +73,7 @@
 }
 #block_fields .block-fields-rows .block-fields-row .block-fields-edit {
 	display: none;
-	grid-column: 1 / span 4;
+	grid-column: 1 / span 5;
 	padding: 0;
 	border-bottom: 1px solid #e1e1e1;
 	border-top: 1px solid #e1e1e1;
@@ -89,7 +89,7 @@
 }
 #block_fields .block-fields-rows .block-fields-edit th {
 	font-size: 12px;
-	width: 32%;
+	width: 24%;
 	border-right: 1px solid #e1e1e1;
 	background: #f9f9f9;
 }

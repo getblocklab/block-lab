@@ -11,7 +11,7 @@ const formControls = ( props, block ) => {
 
 	const fields = simplifiedFields( block.fields ).map( (field, index) => {
 
-		// If its not meant for the inspector then continue (return null).
+		// If its not meant for the editor then continue (return null).
 		if ( !field.location || !field.location.includes( 'editor' ) ) {
 			return null
 		}
