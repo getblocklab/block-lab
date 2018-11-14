@@ -51,6 +51,9 @@ const editComponent = ( props, block ) => {
 	const { className, isSelected } = props;
 
 	previewData( props, block )
+	if ( 'undefined' === typeof icons[block.icon] ) {
+		icons[block.icon] = ''
+	}
 
 	return [
 		inspectorControls( props, block ),
