@@ -29,9 +29,6 @@ Let the plugin do the heavy lifting so you can use familiar WordPress developmen
 ### Developer Friendly Functions ###
 Simple to use functions, ready to render and work with the values stored through your custom block fields.
 
-### There is more to come... ###
-The plugin is currently in beta and we welcome early users and testers. Your feedback will help us improve the plugin and make it better.
-
 ## Links ##
 * [WordPress.org](https://wordpress.org/plugins/block-lab)
 * [Github](https://github.com/getblocklab/block-lab)
