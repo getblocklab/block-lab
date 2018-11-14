@@ -64,7 +64,6 @@ A: [Here](https://github.com/getblocklab/block-lab/wiki)
 ## Contributing ##
 
 First execute...
-
 ```
 npm install
 ```
