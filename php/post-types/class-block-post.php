@@ -785,9 +785,7 @@ class Block_Post extends Component_Abstract {
 
 		// Block icon.
 		if ( isset( $_POST['block-properties-icon'] ) ) {
-			$block->icon = sanitize_text_field(
-				wp_unslash( $_POST['block-properties-icon'] )
-			);
+			$block->icon = sanitize_key( $_POST['block-properties-icon'] );
 		}
 
 		// Block keywords.
