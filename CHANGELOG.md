@@ -1,6 +1,6 @@
-# Changelog #
+## Changelog #
  
-## 1.0.0 - 2018-11-14 ##
+### 1.0.0 - 2018-11-14 ###
 
 __Rename!__
 * Advanced Custom Blocks is now Block Lab
@@ -15,7 +15,7 @@ __Added__
 __Fixed__
 * All the things. Probably not _all_ the things, but close.
  
-## 0.1.2 - 2018-08-10 ##
+### 0.1.2 - 2018-08-10 ###
 
 __Added__
 * New properties `help`, `default` and `required` added to fields.
@@ -28,5 +28,5 @@ __Technical Changes__
   and adding adding of additional controls. 
 * Clean up enqueuing of scripts.
  
-## 0.1 - 2018-08-03 ##
+### 0.1 - 2018-08-03 ###
 * Initial release.
