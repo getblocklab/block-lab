@@ -160,6 +160,9 @@ class Block {
 			}
 		}
 
+		$config = map_deep( $config, 'wp_encode_emoji' );
+		$config = stripslashes_deep( $config );
+
 		return wp_json_encode( array( 'block-lab/' . $this->name => $config ) );
 	}
 }
