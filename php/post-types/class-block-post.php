@@ -360,7 +360,7 @@ class Block_Post extends Component_Abstract {
 							name="block-properties-description"
 							id="block-properties-description"
 							class="large-text"
-							rows="3"><?php echo esc_textarea( $block->description ); ?></textarea>
+							rows="3"><?php echo esc_html( $block->description ); ?></textarea>
 					</p>
 				</td>
 			</tr>
@@ -743,6 +743,9 @@ class Block_Post extends Component_Abstract {
 
 		check_admin_referer( 'block_lab_save_fields', 'block_lab_fields_nonce' );
 		check_admin_referer( 'block_lab_save_properties', 'block_lab_properties_nonce' );
+
+		// Strip encoded special characters, like 🖖.
+		$data['post_name'] = preg_replace( '/%[a-f|0-9][a-f|0-9]/', '', $data['post_name'] );
 
 		// sanitize_title() allows underscores, but register_block_type doesn't.
 		$data['post_name'] = str_replace( '_', '-', $data['post_name'] );
