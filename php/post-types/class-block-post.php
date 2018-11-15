@@ -166,6 +166,8 @@ class Block_Post extends Component_Abstract {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
+		global $post;
+
 		$screen = get_current_screen();
 
 		if ( ! is_object( $screen ) ) {
@@ -180,6 +182,9 @@ class Block_Post extends Component_Abstract {
 				array(),
 				filemtime( $this->plugin->get_path( 'css/admin.block-post.css' ) )
 			);
+			if ( ! in_array( $post->post_status, array( 'publish', 'future', 'pending' ), true ) ) {
+				wp_add_inline_style( 'block-post', '#delete-action { display: none; }' );
+			}
 			wp_enqueue_script(
 				'block-post',
 				$this->plugin->get_url( 'js/admin.block-post.js' ),
