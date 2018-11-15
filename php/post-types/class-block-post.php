@@ -245,6 +245,12 @@ class Block_Post extends Component_Abstract {
 	 * @return void
 	 */
 	public function remove_meta_boxes() {
+		$screen = get_current_screen();
+
+		if ( ! is_object( $screen ) || $this->slug !== $screen->post_type ) {
+			return;
+		}
+
 		remove_meta_box( 'slugdiv', $this->slug, 'normal' );
 	}
 
@@ -255,6 +261,13 @@ class Block_Post extends Component_Abstract {
 	 */
 	public function save_draft_button() {
 		global $post;
+
+		$screen = get_current_screen();
+
+		if ( ! is_object( $screen ) || $this->slug !== $screen->post_type ) {
+			return;
+		}
+
 		if ( ! in_array( $post->post_status, array( 'publish', 'future', 'pending' ), true ) ) {
 			?>
 			<input type="submit" name="save" value="<?php esc_attr_e( 'Save Draft', 'block-lab' ); ?>" class="button" />
