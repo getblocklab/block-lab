@@ -11,14 +11,10 @@
 (function( $ ) {
 
 	$(function() {
+		blockTitleInit();
 		blockCategoryInit();
 		blockIconInit();
 		blockFieldInit();
-
-		$( '#title' ).on( 'change keyup', function() {
-			let slug = slugify( $( this ).val() );
-			$( '#block-properties-slug' ).val( slug );
-		});
 
 		$( '#block-add-field' ).on( 'click', function() {
 			let template = wp.template( 'field-repeater' ),
@@ -98,6 +94,30 @@
 			});
 	});
 
+	let blockTitleInit = function() {
+		let title = $( '#title' ),
+		    slug  = $( '#block-properties-slug' );
+
+		// If this is a new block, then enable auto-generated slugs.
+		if( '' === title.val() && '' === slug.val() ) {
+			let autoSlug = true;
+
+			// If auto-generated slugs are enabled, set the slug based on the title.
+			title.on( 'change keyup', function() {
+				if ( autoSlug ) {
+					slug.val( slugify( title.val() ) );
+				}
+			});
+
+			// Turn auto-generated slugs off once a title has been set.
+			title.on( 'blur', function() {
+				if ( '' !== title.val() ) {
+					autoSlug = false;
+				}
+			});
+		}
+	};
+
 	let blockCategoryInit = function() {
 		let categories       = wp.blocks.getCategories(),
 			categoriesLength = categories.length,
@@ -127,7 +147,7 @@
 		if ( 0 !== iconsContainer.length && 0 !== selectedIcon.length ) {
 			iconsContainer.scrollTop( selectedIcon.position().top );
 		}
-	}
+	};
 
 	let blockFieldInit = function() {
 		if ( 0 === $( '.block-fields-rows' ).children( '.block-fields-row' ).length ) {
