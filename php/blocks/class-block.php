@@ -160,6 +160,8 @@ class Block {
 			}
 		}
 
-		return wp_json_encode( array( 'block-lab/' . $this->name => $config ) );
+		$config = stripslashes_deep( $config );
+
+		return wp_json_encode( array( 'block-lab/' . $this->name => $config ), JSON_UNESCAPED_UNICODE );
 	}
 }
