@@ -144,7 +144,7 @@ abstract class Control_Abstract {
 			name="<?php echo esc_attr( $name ); ?>"
 			id="<?php echo esc_attr( $id ); ?>"
 			rows="6"
-			class="large-text"><?php echo esc_textarea( $setting->get_value() ); ?></textarea>
+			class="large-text"><?php echo esc_html( $setting->get_value() ); ?></textarea>
 		<?php
 	}
 
