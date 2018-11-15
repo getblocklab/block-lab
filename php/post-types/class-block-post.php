@@ -43,6 +43,7 @@ class Block_Post extends Component_Abstract {
 		add_action( 'admin_init', array( $this, 'add_caps' ) );
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 		add_action( 'add_meta_boxes', array( $this, 'remove_meta_boxes' ) );
+		add_action( 'post_submitbox_start', array( $this, 'save_draft_button' ) );
 		add_filter( 'enter_title_here', array( $this, 'post_title_placeholder' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'wp_insert_post_data', array( $this, 'save_block' ), 10, 2 );
@@ -245,6 +246,20 @@ class Block_Post extends Component_Abstract {
 	 */
 	public function remove_meta_boxes() {
 		remove_meta_box( 'slugdiv', $this->slug, 'normal' );
+	}
+
+	/**
+	 * Adds a "Save Draft" button next to the "Publish" button
+	 *
+	 * @return void
+	 */
+	public function save_draft_button() {
+		global $post;
+		if ( ! in_array( $post->post_status, array( 'publish', 'future', 'pending' ), true ) ) {
+			?>
+			<input type="submit" name="save" value="<?php esc_attr_e( 'Save Draft', 'block-lab' ); ?>" class="button" />
+			<?php
+		}
 	}
 
 	/**
