@@ -49,9 +49,6 @@ Simple to use functions, ready to render and work with the values stored through
 **Q: Do I need to write code to use this plugin?**
 A: Although the plugin handles the majority of the work in building a custom block, you will need to build HTML templates to display the content of the block. You can learn how in the the developer documentation.
 
-**Q: Should I rely on this plugin in production?**
-A: This plugin is in beta so it will be updated regularly. If you use this in production, we recommend you watch for changes that may impact your implementation.
-
 **Q: I have an idea for the plugin**
 A: This plugin is open source and can only be better through community contribution. The GitHub repo is [here](https://github.com/getblocklab/block-lab).
 
