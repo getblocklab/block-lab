@@ -750,6 +750,11 @@ class Block_Post extends Component_Abstract {
 		// sanitize_title() allows underscores, but register_block_type doesn't.
 		$data['post_name'] = str_replace( '_', '-', $data['post_name'] );
 
+		// If only special characters were used, it's possible the post_name is now empty.
+		if ( '' === $data['post_name'] ) {
+			$data['post_name'] = $post_id;
+		}
+
 		// register_block_type doesn't allow slugs starting with a number.
 		if ( is_numeric( $data['post_name'][0] ) ) {
 			$data['post_name'] = 'block-' . $data['post_name'];
