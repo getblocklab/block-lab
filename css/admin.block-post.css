@@ -1,6 +1,7 @@
 #minor-publishing-actions,
 #misc-publishing-actions #visibility,
-#misc-publishing-actions .curtime {
+#misc-publishing-actions .curtime,
+#major-publishing-actions #delete-action {
 	display: none;
 }
 #block_fields .handlediv,
