@@ -44,8 +44,16 @@
 				}
 			})
 			.on( 'click', '.block-fields-actions-edit, a.row-title', function() {
-				$( this ).closest( '.block-fields-row' ).toggleClass( 'block-fields-row-active' );
-				$( this ).closest( '.block-fields-row' ).find( '.block-fields-edit' ).slideToggle();
+				let currentRow = $( this ).closest( '.block-fields-row' );
+
+				// If we're expanding this row, first collapse all other rows.
+				if ( ! currentRow.hasClass( 'block-fields-row-active' ) ) {
+					$( '.block-fields-rows .block-fields-edit' ).slideUp();
+					$( '.block-fields-rows .block-fields-row-active' ).removeClass( 'block-fields-row-active' );
+				}
+
+				currentRow.toggleClass( 'block-fields-row-active' );
+				currentRow.find( '.block-fields-edit' ).slideToggle();
 
 				// Fetch field settings if field is active and there are no settings.
 				if ( $( this ).closest( '.block-fields-row' ).hasClass( 'block-fields-row-active' ) ) {
