@@ -96,9 +96,6 @@
 #block_fields .block-fields-rows .block-fields-edit th label {
 	font-weight: 600;
 }
-#block_fields .block-fields-rows .block-fields-edit th .description {
-	margin-bottom: 0;
-}
 #block_fields .block-fields-rows .block-fields-edit-loading .loading:before {
 	content: '';
 	box-sizing: border-box;
