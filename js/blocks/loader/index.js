@@ -33,7 +33,6 @@ const registerBlocks = () => {
 		// Register the block.
 		registerBlockType( blockName, {
 			title: block.title,
-			description: block.description,
 			category: block.category,
 			icon: icon,
 			keywords: block.keywords,
