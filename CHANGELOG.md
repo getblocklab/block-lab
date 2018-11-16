@@ -1,5 +1,15 @@
 ## Changelog #
  
+### 1.0.1 - 2018-11-16 ###
+
+* New: Added "Save Draft" button, so you can save Blocks-in-Progress
+* New: Better handling of the auto-slug feature, so you don't accidentally change your block's slug
+* New: Better expanding / contracting of the Field settings
+* New: Emoji (and special character) support! 😎
+* Fix: Resolved Fatal Error that could occur in some environments
+* Fix: Remove unused "Description" field
+* Fix: Remove duplicate star icon
+ 
 ### 1.0.0 - 2018-11-14 ###
 
 __Rename!__
