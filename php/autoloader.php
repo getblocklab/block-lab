@@ -36,7 +36,7 @@ spl_autoload_register(
 		$namespace = strtolower( trim( implode( DIRECTORY_SEPARATOR, $namespace ) ) );
 
 		// Get the path to our files.
-		$directory = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . '../php';
+		$directory = dirname( __FILE__ );
 		if ( ! empty( $namespace ) ) {
 			$directory .= DIRECTORY_SEPARATOR . $namespace;
 		}
