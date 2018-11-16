@@ -49,9 +49,6 @@ spl_autoload_register(
 
 		$file = $directory . DIRECTORY_SEPARATOR . $filename;
 
-		// Because WordPress file naming conventions are odd.
-		$file = strtolower( str_replace( '_', '-', $file ) );
-
 		if ( file_exists( $file ) ) {
 			require_once $file;
 		}
