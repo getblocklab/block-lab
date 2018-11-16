@@ -295,7 +295,7 @@ class Block_Post extends Component_Abstract {
 					<label for="block-properties-slug">
 						<?php esc_html_e( 'Slug', 'block-lab' ); ?>
 					</label>
-					<p class="description" id="block-properties-keywords-description">
+					<p class="description" id="block-properties-slug-description">
 						<?php
 						esc_html_e(
 							'Used to determine the location of the template file. Lowercase letters, numbers, and hyphens.',
@@ -317,30 +317,16 @@ class Block_Post extends Component_Abstract {
 			</tr>
 			<tr>
 				<th scope="row">
-					<label for="block-properties-category">
-						<?php esc_html_e( 'Category', 'block-lab' ); ?>
-					</label>
-				</th>
-				<td>
-					<p>
-						<select name="block-properties-category" id="block-properties-category">
-						</select>
-						<input type="hidden" id="block-properties-category-saved" value="<?php echo esc_attr( $block->category ); ?>" />
-					</p>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row">
 					<label for="block-properties-icon">
 						<?php esc_html_e( 'Icon', 'block-lab' ); ?>
 					</label>
 				</th>
 				<td>
 					<input
-						name="block-properties-icon"
-						type="hidden"
-						id="block-properties-icon"
-						value="<?php echo esc_attr( $block->icon ); ?>">
+							name="block-properties-icon"
+							type="hidden"
+							id="block-properties-icon"
+							value="<?php echo esc_attr( $block->icon ); ?>">
 					<div class="block-properties-icons">
 						<?php
 						foreach ( block_lab_get_icons() as $icon => $svg ) {
@@ -354,6 +340,20 @@ class Block_Post extends Component_Abstract {
 						}
 						?>
 					</div>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					<label for="block-properties-category">
+						<?php esc_html_e( 'Category', 'block-lab' ); ?>
+					</label>
+				</th>
+				<td>
+					<p>
+						<select name="block-properties-category" id="block-properties-category">
+						</select>
+						<input type="hidden" id="block-properties-category-saved" value="<?php echo esc_attr( $block->category ); ?>" />
+					</p>
 				</td>
 			</tr>
 			<tr>
@@ -378,22 +378,6 @@ class Block_Post extends Component_Abstract {
 							id="block-properties-keywords"
 							value="<?php echo esc_attr( implode( ', ', $block->keywords ) ); ?>"
 							class="regular-text">
-					</p>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row">
-					<label for="block-properties-description">
-						<?php esc_html_e( 'Description', 'block-lab' ); ?>
-					</label>
-				</th>
-				<td>
-					<p>
-						<textarea
-							name="block-properties-description"
-							id="block-properties-description"
-							class="large-text"
-							rows="3"><?php echo esc_html( $block->description ); ?></textarea>
 					</p>
 				</td>
 			</tr>
@@ -816,14 +800,14 @@ class Block_Post extends Component_Abstract {
 			$block->title = $post_id;
 		}
 
-		// Block category.
-		if ( isset( $_POST['block-properties-category'] ) ) {
-			$block->category = sanitize_key( $_POST['block-properties-category'] );
-		}
-
 		// Block icon.
 		if ( isset( $_POST['block-properties-icon'] ) ) {
 			$block->icon = sanitize_key( $_POST['block-properties-icon'] );
+		}
+
+		// Block category.
+		if ( isset( $_POST['block-properties-category'] ) ) {
+			$block->category = sanitize_key( $_POST['block-properties-category'] );
 		}
 
 		// Block keywords.
@@ -836,13 +820,6 @@ class Block_Post extends Component_Abstract {
 			$keywords = array_slice( $keywords, 0, 3 );
 
 			$block->keywords = $keywords;
-		}
-
-		// Block description.
-		if ( isset( $_POST['block-properties-description'] ) ) {
-			$block->description = sanitize_textarea_field(
-				wp_unslash( $_POST['block-properties-description'] )
-			);
 		}
 
 		// Block fields.

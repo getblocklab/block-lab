@@ -29,13 +29,6 @@ class Block {
 	public $title = '';
 
 	/**
-	 * Category name.
-	 *
-	 * @var string
-	 */
-	public $category = '';
-
-	/**
 	 * Icon.
 	 *
 	 * @var string
@@ -43,18 +36,18 @@ class Block {
 	public $icon = '';
 
 	/**
+	 * Category name.
+	 *
+	 * @var string
+	 */
+	public $category = '';
+
+	/**
 	 * Block keywords.
 	 *
 	 * @var string[]
 	 */
 	public $keywords = array();
-
-	/**
-	 * Block description.
-	 *
-	 * @var string
-	 */
-	public $description = '';
 
 	/**
 	 * Block fields.
@@ -105,20 +98,16 @@ class Block {
 			$this->title = $config['title'];
 		}
 
-		if ( isset( $config['category'] ) ) {
-			$this->category = $config['category'];
-		}
-
 		if ( isset( $config['icon'] ) ) {
 			$this->icon = $config['icon'];
 		}
 
-		if ( isset( $config['keywords'] ) ) {
-			$this->keywords = $config['keywords'];
+		if ( isset( $config['category'] ) ) {
+			$this->category = $config['category'];
 		}
 
-		if ( isset( $config['description'] ) ) {
-			$this->description = $config['description'];
+		if ( isset( $config['keywords'] ) ) {
+			$this->keywords = $config['keywords'];
 		}
 
 		if ( isset( $config['fields'] ) ) {
@@ -139,12 +128,11 @@ class Block {
 	 * @return string
 	 */
 	public function to_json() {
-		$config['name']        = $this->name;
-		$config['title']       = $this->title;
-		$config['category']    = $this->category;
-		$config['icon']        = $this->icon;
-		$config['keywords']    = $this->keywords;
-		$config['description'] = $this->description;
+		$config['name']     = $this->name;
+		$config['title']    = $this->title;
+		$config['icon']     = $this->icon;
+		$config['category'] = $this->category;
+		$config['keywords'] = $this->keywords;
 
 		$config['fields'] = array();
 		foreach ( $this->fields as $key => $field ) {
