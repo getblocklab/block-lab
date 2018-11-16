@@ -32,8 +32,14 @@ spl_autoload_register(
 			$class_name = str_replace( 'Trait', '', $class_name );
 		}
 
+		$filename = $class_trait . $class_name . '.php';
+
 		// For file naming, the namespace is everything but the class name and the root namespace.
-		$namespace = strtolower( trim( implode( DIRECTORY_SEPARATOR, $namespace ) ) );
+		$namespace = trim( implode( DIRECTORY_SEPARATOR, $namespace ) );
+
+		// Because WordPress file naming conventions are odd.
+		$filename  = strtolower( str_replace( '_', '-', $filename ) );
+		$namespace = strtolower( str_replace( '_', '-', $namespace ) );
 
 		// Get the path to our files.
 		$directory = dirname( __FILE__ );
@@ -41,7 +47,7 @@ spl_autoload_register(
 			$directory .= DIRECTORY_SEPARATOR . $namespace;
 		}
 
-		$file = $directory . DIRECTORY_SEPARATOR . $class_trait . $class_name . '.php';
+		$file = $directory . DIRECTORY_SEPARATOR . $filename;
 
 		// Because WordPress file naming conventions are odd.
 		$file = strtolower( str_replace( '_', '-', $file ) );
