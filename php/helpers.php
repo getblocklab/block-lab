@@ -66,6 +66,16 @@ function block_value( $key ) {
 }
 
 /**
+ * Convenience method to return the block object.
+ *
+ * @return mixed|null
+ */
+function block_params( ) {
+	global $block_lab_block;
+	return $block_lab_block;
+}
+
+/**
  * Loads a template part to render the block.
  *
  * @param string $slug The name of the block (slug as defined in UI).
