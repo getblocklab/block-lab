@@ -75,7 +75,7 @@ class Loader extends Component_Abstract {
 			'block-lab-blocks',
 			$this->assets['url']['entry'],
 			[ 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-api-fetch' ],
-			filemtime( $this->assets['path']['entry'] ),
+			$this->plugin->get_version(),
 			true
 		);
 
@@ -91,7 +91,7 @@ class Loader extends Component_Abstract {
 			'block-lab-editor-css',
 			$this->assets['url']['editor_style'],
 			[ 'wp-blocks' ],
-			filemtime( $this->assets['path']['editor_style'] )
+			$this->plugin->get_version()
 		);
 	}
 
