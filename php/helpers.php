@@ -66,13 +66,28 @@ function block_value( $key ) {
 }
 
 /**
- * Convenience method to return the block object.
+ * Convenience method to return the block configuration.
  *
- * @return mixed|null
+ * @return array
  */
-function block_params( ) {
-	global $block_lab_block;
-	return $block_lab_block;
+function block_config() {
+	global $block_lab_config;
+	return $block_lab_config;
+}
+
+/**
+ * Convenience method to return a field's configuration.
+ *
+ * @param string $key The name of the field as created in the UI.
+ *
+ * @return array|null
+ */
+function block_field_config( $key ) {
+	global $block_lab_config;
+	if ( ! isset( $block_lab_config['fields'][ $key ] ) ) {
+		return null;
+	}
+	return $block_lab_config['fields'][ $key ];
 }
 
 /**
