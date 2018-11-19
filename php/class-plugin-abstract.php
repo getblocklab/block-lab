@@ -62,6 +62,14 @@ abstract class Plugin_Abstract implements Plugin_Interface {
 	protected $url;
 
 	/**
+	 * The plugin version.
+	 *
+	 * @since 1.0.2
+	 * @var string
+	 */
+	protected $version;
+
+	/**
 	 * Get the plugin basename.
 	 *
 	 * @return string The basename.
@@ -176,6 +184,36 @@ abstract class Plugin_Abstract implements Plugin_Interface {
 	 */
 	public function set_url( $url ) {
 		$this->url = rtrim( $url, '/' ) . '/';
+		return $this;
+	}
+
+	/**
+	 * Get the plugin's version.
+	 *
+	 * @return string The url.
+	 */
+	public function get_version() {
+		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
+			return time();
+		}
+		return $this->version;
+	}
+
+	/**
+	 * Set the plugin's version.
+	 *
+	 * @param string $file The absolute path to the plugin file.
+	 *
+	 * @return Plugin_Abstract The plugin instance.
+	 */
+	public function set_version( $file ) {
+		$headers   = array( 'Version' => 'Version' );
+		$file_data = get_file_data( $file, $headers, 'plugin' );
+
+		if ( isset( $file_data['Version'] ) ) {
+			$this->version = $file_data['Version'];
+		};
+
 		return $this;
 	}
 
