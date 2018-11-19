@@ -180,7 +180,7 @@ class Block_Post extends Component_Abstract {
 				'block-post',
 				$this->plugin->get_url( 'css/admin.block-post.css' ),
 				array(),
-				filemtime( $this->plugin->get_path( 'css/admin.block-post.css' ) )
+				$this->plugin->get_version()
 			);
 			if ( ! in_array( $post->post_status, array( 'publish', 'future', 'pending' ), true ) ) {
 				wp_add_inline_style( 'block-post', '#delete-action { display: none; }' );
@@ -189,7 +189,7 @@ class Block_Post extends Component_Abstract {
 				'block-post',
 				$this->plugin->get_url( 'js/admin.block-post.js' ),
 				array( 'jquery', 'jquery-ui-sortable', 'wp-util', 'wp-blocks' ),
-				filemtime( $this->plugin->get_path( 'js/admin.block-post.js' ) ),
+				$this->plugin->get_version(),
 				false
 			);
 			wp_localize_script(
@@ -205,7 +205,7 @@ class Block_Post extends Component_Abstract {
 				'block-edit',
 				$this->plugin->get_url( 'css/admin.block-edit.css' ),
 				array(),
-				filemtime( $this->plugin->get_path( 'css/admin.block-edit.css' ) )
+				$this->plugin->get_version()
 			);
 		}
 	}

@@ -86,7 +86,8 @@ block_lab()
 	->set_directory( plugin_dir_path( __FILE__ ) )
 	->set_file( __FILE__ )
 	->set_slug( 'block-lab' )
-	->set_url( plugin_dir_url( __FILE__ ) );
+	->set_url( plugin_dir_url( __FILE__ ) )
+	->set_version( __FILE__ );
 
 /**
  * Register plugin components.

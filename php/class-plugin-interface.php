@@ -106,6 +106,22 @@ interface Plugin_Interface {
 	public function set_url( $url );
 
 	/**
+	 * Get the plugin's version.
+	 *
+	 * @return string The version.
+	 */
+	public function get_version();
+
+	/**
+	 * Set the plugin's version, based on the file.
+	 *
+	 * @param string $file The absolute path to the plugin file.
+	 *
+	 * @return Plugin_Interface The plugin instance.
+	 */
+	public function set_version( $file );
+
+	/**
 	 * Get url relative to assets url.
 	 *
 	 * @param string $path The relative url to get.
