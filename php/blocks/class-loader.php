@@ -70,7 +70,6 @@ class Loader extends Component_Abstract {
 	 * Launch the blocks inside Gutenberg.
 	 */
 	public function editor_assets() {
-
 		wp_enqueue_script(
 			'block-lab-blocks',
 			$this->assets['url']['entry'],
