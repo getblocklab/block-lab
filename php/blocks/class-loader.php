@@ -186,8 +186,9 @@ class Loader extends Component_Abstract {
 	 * @return mixed
 	 */
 	public function render_block_template( $block, $attributes, $type = 'block' ) {
-		global $block_lab_attributes;
+		global $block_lab_attributes, $block_lab_config;
 		$block_lab_attributes = $attributes;
+		$block_lab_config     = $block;
 
 		ob_start();
 		block_lab_template_part( $block['name'], $type );
