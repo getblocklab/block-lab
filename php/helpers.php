@@ -66,6 +66,31 @@ function block_value( $key ) {
 }
 
 /**
+ * Convenience method to return the block configuration.
+ *
+ * @return array
+ */
+function block_config() {
+	global $block_lab_config;
+	return $block_lab_config;
+}
+
+/**
+ * Convenience method to return a field's configuration.
+ *
+ * @param string $key The name of the field as created in the UI.
+ *
+ * @return array|null
+ */
+function block_field_config( $key ) {
+	global $block_lab_config;
+	if ( ! isset( $block_lab_config['fields'][ $key ] ) ) {
+		return null;
+	}
+	return $block_lab_config['fields'][ $key ];
+}
+
+/**
  * Loads a template part to render the block.
  *
  * @param string $slug The name of the block (slug as defined in UI).
