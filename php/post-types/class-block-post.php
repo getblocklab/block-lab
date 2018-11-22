@@ -795,7 +795,9 @@ class Block_Post extends Component_Abstract {
 		}
 
 		// Block title.
-		$block->title = sanitize_text_field( $data['post_title'] );
+		$block->title = sanitize_text_field(
+			wp_unslash( $data['post_title'] )
+		);
 		if ( '' === $block->title ) {
 			$block->title = $post_id;
 		}
@@ -884,7 +886,7 @@ class Block_Post extends Component_Abstract {
 			}
 		}
 
-		$data['post_content'] = $block->to_json();
+		$data['post_content'] = wp_slash( $block->to_json() );
 		return $data;
 	}
 
