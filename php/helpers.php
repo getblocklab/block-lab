@@ -93,10 +93,10 @@ function block_field_config( $name ) {
 /**
  * Loads a template part to render the block.
  *
- * @param string $slug The name of the block (slug as defined in UI).
+ * @param string $name The name of the block (slug as defined in UI).
  * @param string $type The type of template to load. Only 'block' supported at this stage.
  */
-function block_lab_template_part( $slug, $type = 'block' ) {
+function block_lab_template_part( $name, $type = 'block' ) {
 	// Loading async it might not come from a query, this breaks load_template().
 	global $wp_query;
 
@@ -115,7 +115,7 @@ function block_lab_template_part( $slug, $type = 'block' ) {
 			continue;
 		}
 
-		$template_file = "blocks/{$type}-{$slug}.php";
+		$template_file = "blocks/{$type}-{$name}.php";
 		$generic_file  = "blocks/{$type}.php";
 		$templates     = [
 			$generic_file,
