@@ -10,23 +10,23 @@
 /**
  * Echos out the value of a block field.
  *
- * @param string $key  The name of the field as created in the UI.
+ * @param string $name The name of the field as created in the UI.
  * @param bool   $echo Whether to echo and return the field, or just return the field.
  *
  * @return mixed|null
  */
-function block_field( $key, $echo = true ) {
+function block_field( $name, $echo = true ) {
 	global $block_lab_attributes;
 
 	if (
 		! isset( $block_lab_attributes ) ||
 		! is_array( $block_lab_attributes ) ||
-		! array_key_exists( $key, $block_lab_attributes )
+		! array_key_exists( $name, $block_lab_attributes )
 	) {
 		return null;
 	}
 
-	$value = $block_lab_attributes[ $key ];
+	$value = $block_lab_attributes[ $name ];
 
 	if ( $echo ) {
 		if ( is_array( $value ) ) {
@@ -55,14 +55,14 @@ function block_field( $key, $echo = true ) {
 /**
  * Convenience method to return the value of a block field.
  *
- * @param string $key The name of the field as created in the UI.
+ * @param string $name The name of the field as created in the UI.
  *
  * @uses block_field()
  *
  * @return mixed|null
  */
-function block_value( $key ) {
-	return block_field( $key, false );
+function block_value( $name ) {
+	return block_field( $name, false );
 }
 
 /**
@@ -78,25 +78,25 @@ function block_config() {
 /**
  * Convenience method to return a field's configuration.
  *
- * @param string $key The name of the field as created in the UI.
+ * @param string $name The name of the field as created in the UI.
  *
  * @return array|null
  */
-function block_field_config( $key ) {
+function block_field_config( $name ) {
 	global $block_lab_config;
-	if ( ! isset( $block_lab_config['fields'][ $key ] ) ) {
+	if ( ! isset( $block_lab_config['fields'][ $name ] ) ) {
 		return null;
 	}
-	return $block_lab_config['fields'][ $key ];
+	return $block_lab_config['fields'][ $name ];
 }
 
 /**
  * Loads a template part to render the block.
  *
- * @param string $slug The name of the block (slug as defined in UI).
+ * @param string $name The name of the block (slug as defined in UI).
  * @param string $type The type of template to load. Only 'block' supported at this stage.
  */
-function block_lab_template_part( $slug, $type = 'block' ) {
+function block_lab_template_part( $name, $type = 'block' ) {
 	// Loading async it might not come from a query, this breaks load_template().
 	global $wp_query;
 
@@ -115,7 +115,7 @@ function block_lab_template_part( $slug, $type = 'block' ) {
 			continue;
 		}
 
-		$template_file = "blocks/{$type}-{$slug}.php";
+		$template_file = "blocks/{$type}-{$name}.php";
 		$generic_file  = "blocks/{$type}.php";
 		$templates     = [
 			$generic_file,
