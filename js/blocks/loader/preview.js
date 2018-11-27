@@ -9,10 +9,11 @@ const updatePreview = (props, block, data) => {
 			data = ''
 		}
 
-		let attr = props.attributes[ attrKey ];
-		let value = typeof attr != 'undefined' ? attr : '';
+		let attr   = props.attributes[ attrKey ];
+		let value  = typeof attr != 'undefined' ? attr : '';
+		let search = new RegExp( '\\["' + attrKey + '"\\]', 'g' );
 
-		data = data.replace( '["' + attrKey + '"]', value )
+		data = data.replace( search, value )
 	}
 
 	props.setAttributes( { block_preview: data } )
