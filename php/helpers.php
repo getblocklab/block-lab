@@ -16,6 +16,11 @@
  * @return mixed|null
  */
 function block_field( $key, $echo = true ) {
+	/*
+	 * Defined in Block_Lab\Blocks\Loader->render_block_template()
+	 *
+	 * @var array
+	 */
 	global $block_lab_attributes;
 
 	if (
