@@ -1,5 +1,3 @@
-import updatePreview from "../loader/preview";
-
 const { SelectControl } = wp.components;
 
 const BlockLabSelectControl = ( props, field, block ) => {
@@ -18,9 +16,6 @@ const BlockLabSelectControl = ( props, field, block ) => {
 				attr[ field.name ] = selectControl
 				setAttributes( attr )
 			}}
-			onBlur={
-				updatePreview( props, block )
-			}
 		/>
 	)
 }
