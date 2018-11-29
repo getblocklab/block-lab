@@ -46,36 +46,6 @@ class Preview extends Component_Abstract {
 	}
 
 	/**
-	 * Populate fields with dummy data.
-	 *
-	 * @param array $block An array containing block data.
-	 *
-	 * @return mixed
-	 */
-	public function mock_attributes( $block ) {
-		$attributes = [];
-
-		foreach ( $block['fields'] as $field_name => $field ) {
-
-			switch ( $field['control'] ) {
-				case 'text':
-					$value = '[' . wp_json_encode( $field['name'] ) . ']';
-					break;
-				case 'textarea':
-					$value = '[' . wp_json_encode( $field['name'] ) . ']';
-					break;
-				default:
-					$value = '[' . wp_json_encode( $field['name'] ) . ']';
-					break;
-			}
-
-			$attributes[ $field_name ] = $value;
-		}
-
-		return $attributes;
-	}
-
-	/**
 	 * Register all the hooks.
 	 */
 	public function register_hooks() {
@@ -89,8 +59,8 @@ class Preview extends Component_Abstract {
 		register_rest_route(
 			static::BASE, 'block-preview', array(
 				'methods'             => 'GET',
-				'callback'            => [ $this, 'handle_preview_request' ],
-				'args'                => [],
+				'callback'            => array( $this, 'handle_preview_request' ),
+				'args'                => array(),
 				'permission_callback' => '__return_true',
 			)
 		);
@@ -107,12 +77,33 @@ class Preview extends Component_Abstract {
 		$content = '';
 
 		$slug = $r->get_param( 'slug' );
+
 		if ( ! empty( $slug ) && array_key_exists( 'block-lab/' . $slug, $this->blocks ) ) {
-			$block   = $this->blocks[ 'block-lab/' . $slug ];
+			$block      = $this->blocks[ 'block-lab/' . $slug ];
+			$attributes = array();
+
+			foreach ( $block['fields'] as $field ) {
+
+				switch ( $field['type'] ) {
+					case 'boolean':
+						$attributes[ $field['name'] ] = 'true' === $r->get_param( $field['name'] ) ? true : false;
+						break;
+					case 'integer':
+						$attributes[ $field['name'] ] = (int) $r->get_param( $field['name'] );
+						break;
+					case 'array':
+						$attributes[ $field['name'] ] = explode( ',', $r->get_param( $field['name'] ) );
+						break;
+					default:
+						$attributes[ $field['name'] ] = $r->get_param( $field['name'] );
+						break;
+				}
+			}
+
 			$content = $this->block_loader->render_block_template(
 				$block,
-				$this->mock_attributes( $block ),
-				[ 'preview', 'block' ]
+				$attributes,
+				array( 'preview', 'block' )
 			);
 		}
 

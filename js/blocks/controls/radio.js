@@ -1,5 +1,3 @@
-import updatePreview from "../loader/preview";
-
 const { RadioControl } = wp.components;
 
 const BlockLabRadioControl = ( props, field, block ) => {
@@ -15,9 +13,6 @@ const BlockLabRadioControl = ( props, field, block ) => {
 				attr[ field.name ] = radioControl
 				setAttributes( attr )
 			}}
-			onBlur={
-				updatePreview( props, block )
-			}
 		/>
 	)
 }
