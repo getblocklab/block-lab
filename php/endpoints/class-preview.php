@@ -32,7 +32,7 @@ class Preview extends Component_Abstract {
 	public $block_loader;
 
 	/**
-	 * Init the block loader to get blocks.
+	 * Initialise the block loader to get blocks.
 	 *
 	 * @return $this
 	 */
