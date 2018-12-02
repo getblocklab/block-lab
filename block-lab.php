@@ -75,7 +75,7 @@ function block_lab_wp_version_error() {
  * @return string
  */
 function block_lab_wp_version_text() {
-	return __( 'Block Lab plugin error: Your version of WordPress is too old or Gutenberg Plugin is not installed. You must be running WordPress 5.0 or install the Gutenberg Plugin to use Block Labs.', 'block-lab' );
+	return __( 'Block Lab plugin error: Your version of WordPress is too old or the Gutenberg Plugin is not installed. You must be running WordPress 5.0 or install the Gutenberg Plugin to use Block Lab.', 'block-lab' );
 }
 
 // If the WordPress version is too low or Gutenberg is not installed, show warning and return.
