@@ -81,7 +81,7 @@ function block_lab_wp_version_text() {
 // If the WordPress version is too low or Gutenberg is not installed, show warning and return.
 if ( version_compare( $GLOBALS['wp_version'], '5.0', '<' ) ) {
 	// Check if Gutenberg is installed.
-	$gutenberg_active = in_array( 'gutenberg/gutenberg.php', (array) get_option( 'active_plugins', array() ) );
+	$gutenberg_active = in_array( 'gutenberg/gutenberg.php', (array) get_option( 'active_plugins', array() ), true );
 
 	// If is multisite and no active Gutenberg, check the network active plugins.
 	if ( is_multisite() && ! $gutenberg_active ) {
@@ -99,7 +99,6 @@ if ( version_compare( $GLOBALS['wp_version'], '5.0', '<' ) ) {
 
 		return;
 	}
-
 }
 
 // Load some helpers.
