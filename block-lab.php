@@ -60,6 +60,48 @@ if ( version_compare( phpversion(), '5.4', '<' ) ) {
 	return;
 }
 
+/**
+ * Admin notice for incompatible versions of WordPress or missing Gutenberg Plugin.
+ */
+function block_lab_wp_version_error() {
+	printf( '<div class="error"><p>%s</p></div>', esc_html( block_lab_wp_version_text() ) );
+}
+
+/**
+ * String describing the minimum WP version or Gutenberg Plugin requirement.
+ *
+ * "Blocks" are a feature of WordPress 5.0+ or require the Gutenberg plugin.
+ *
+ * @return string
+ */
+function block_lab_wp_version_text() {
+	return __( 'Block Lab plugin error: Your version of WordPress is too old or the Gutenberg Plugin is not installed. You must be running WordPress 5.0 or install the Gutenberg Plugin to use Block Lab.', 'block-lab' );
+}
+
+// If the WordPress version is too low or Gutenberg is not installed, show warning and return.
+if ( version_compare( $GLOBALS['wp_version'], '5.0', '<' ) ) {
+	// Check if Gutenberg is installed.
+	$gutenberg_active = in_array( 'gutenberg/gutenberg.php', (array) get_option( 'active_plugins', array() ) );
+
+	// If is multisite and no active Gutenberg, check the network active plugins.
+	if ( is_multisite() && ! $gutenberg_active ) {
+		$network_plugins = get_site_option( 'active_sitewide_plugins' );
+
+		$gutenberg_active = isset( $network_plugins['gutenberg/gutenberg.php'] );
+	}
+
+	if ( ! $gutenberg_active ) {
+		if ( defined( 'WP_CLI' ) ) {
+			WP_CLI::warning( block_lab_wp_version_text() );
+		} else {
+			add_action( 'admin_notices', 'block_lab_wp_version_error' );
+		}
+
+		return;
+	}
+
+}
+
 // Load some helpers.
 require_once __DIR__ . '/php/helpers.php';
 
