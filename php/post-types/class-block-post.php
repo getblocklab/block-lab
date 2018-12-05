@@ -78,6 +78,7 @@ class Block_Post extends Component_Abstract {
 			'block_lab_controls', array(
 				'text'     => new Controls\Text(),
 				'textarea' => new Controls\Textarea(),
+				'url'      => new Controls\URL(),
 				'select'   => new Controls\Select(),
 				'toggle'   => new Controls\Toggle(),
 				'range'    => new Controls\Range(),

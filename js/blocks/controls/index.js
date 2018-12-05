@@ -1,5 +1,6 @@
 import BlockLabTextControl from './text'
 import BlockLabTextareaControl from './textarea'
+import BlockLabURLControl from './url'
 import BlockLabCheckboxControl from './checkbox'
 import BlockLabRadioControl from './radio'
 import BlockLabRangeControl from './range'
@@ -9,6 +10,7 @@ import BlockLabToggleControl from './toggle'
 export default {
 	text: BlockLabTextControl,
 	textarea: BlockLabTextareaControl,
+	url: BlockLabURLControl,
 	checkbox: BlockLabCheckboxControl,
 	radio: BlockLabRadioControl,
 	range: BlockLabRangeControl,
