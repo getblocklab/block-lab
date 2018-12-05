@@ -1,7 +1,7 @@
 const path = require( 'path' );
 const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
 const UglifyJSPlugin = require( 'uglifyjs-webpack-plugin' );
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
 
 // Set different CSS extraction for editor only and common block styles
 const blocksCSSPlugin = new ExtractTextPlugin( {
