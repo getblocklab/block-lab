@@ -1,5 +1,3 @@
-import updatePreview from "../loader/preview";
-
 const { TextControl } = wp.components;
 
 const BlockLabTextControl = ( props, field, block ) => {
@@ -16,9 +14,6 @@ const BlockLabTextControl = ( props, field, block ) => {
 			onChange={textControl => {
 				attr[ field.name ] = textControl
 				setAttributes( attr )
-			}}
-			onKeyUp={() => {
-				updatePreview( props, block )
 			}}
 		/>
 	)
