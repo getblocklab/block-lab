@@ -79,6 +79,8 @@ class Block_Post extends Component_Abstract {
 				'text'        => new Controls\Text(),
 				'textarea'    => new Controls\Textarea(),
 				'url'         => new Controls\URL(),
+				'email'       => new Controls\Email(),
+				'number'      => new Controls\Number(),
 				'select'      => new Controls\Select(),
 				'multiselect' => new Controls\Multiselect(),
 				'toggle'      => new Controls\Toggle(),

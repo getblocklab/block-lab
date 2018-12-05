@@ -12,14 +12,14 @@ namespace Block_Lab\Blocks\Controls;
 /**
  * Class Text
  */
-class URL extends Control_Abstract {
+class Number extends Control_Abstract {
 
 	/**
 	 * Control name.
 	 *
 	 * @var string
 	 */
-	public $name = 'url';
+	public $name = 'number';
 
 	/**
 	 * Text constructor.
@@ -28,7 +28,7 @@ class URL extends Control_Abstract {
 	 */
 	public function __construct() {
 		parent::__construct();
-		$this->label = __( 'URL', 'block-lab' );
+		$this->label = __( 'Number', 'block-lab' );
 	}
 
 	/**
@@ -50,9 +50,9 @@ class URL extends Control_Abstract {
 			array(
 				'name'     => 'default',
 				'label'    => __( 'Default Value', 'block-lab' ),
-				'type'     => 'url',
+				'type'     => 'number',
 				'default'  => '',
-				'sanitize' => 'esc_url_raw',
+				'sanitize' => 'intval',
 			)
 		);
 		$this->settings[] = new Control_Setting(
