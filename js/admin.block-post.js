@@ -16,6 +16,10 @@
 		blockIconInit();
 		blockFieldInit();
 
+		$( '.block-fields-edit-control select' ).select2( {
+			width: '60%',
+		} );
+
 		$( '#block-add-field' ).on( 'click', function() {
 			let template = wp.template( 'field-repeater' ),
 				data     = { uid: new Date().getTime() },
@@ -24,6 +28,9 @@
 			$( '.block-no-fields' ).hide();
 			field.find( '.block-fields-actions-edit' ).trigger( 'click' );
 			field.find( '.block-fields-edit-label input' ).select();
+			field.find( '.block-fields-edit-control select' ).select2( {
+				width: '60%',
+			} );
 		});
 
 		$( '#block_properties .block-properties-icons span' ).on( 'click', function() {

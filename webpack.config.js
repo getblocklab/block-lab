@@ -1,6 +1,7 @@
 const path = require( 'path' );
 const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
 const UglifyJSPlugin = require( 'uglifyjs-webpack-plugin' );
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 // Set different CSS extraction for editor only and common block styles
 const blocksCSSPlugin = new ExtractTextPlugin( {
@@ -16,6 +17,19 @@ const uglifyJSPlugin = new UglifyJSPlugin( {
 	},
 	sourceMap: false
 } );
+
+const copyWebpackPlugin = new CopyWebpackPlugin( [
+	{
+		from: 'dist/js/select2.min.js',
+		to: './js/libs/',
+		context: 'node_modules/select2',
+	},
+	{
+		from: 'dist/css/select2.min.css',
+		to: './css/libs/',
+		context: 'node_modules/select2',
+	}
+] );
 
 // Configuration for the ExtractTextPlugin.
 const extractConfig = {
@@ -71,5 +85,6 @@ module.exports = {
 		blocksCSSPlugin,
 		editBlocksCSSPlugin,
 		uglifyJSPlugin,
+		copyWebpackPlugin,
 	],
 };

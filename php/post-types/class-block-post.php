@@ -174,12 +174,25 @@ class Block_Post extends Component_Abstract {
 			return;
 		}
 
+		wp_register_style(
+			'select2',
+			$this->plugin->get_url( 'css/libs/select2.min.css' ),
+			array(),
+			'4.0.6-rc.1'
+		);
+		wp_register_script(
+			'select2',
+			$this->plugin->get_url( 'js/libs/select2.min.js' ),
+			array(),
+			'4.0.6-rc.1'
+		);
+
 		// Enqueue scripts and styles on the edit screen of the Block post type.
 		if ( $this->slug === $screen->post_type && 'post' === $screen->base ) {
 			wp_enqueue_style(
 				'block-post',
 				$this->plugin->get_url( 'css/admin.block-post.css' ),
-				array(),
+				array( 'select2' ),
 				$this->plugin->get_version()
 			);
 			if ( ! in_array( $post->post_status, array( 'publish', 'future', 'pending' ), true ) ) {
@@ -188,7 +201,7 @@ class Block_Post extends Component_Abstract {
 			wp_enqueue_script(
 				'block-post',
 				$this->plugin->get_url( 'js/admin.block-post.js' ),
-				array( 'jquery', 'jquery-ui-sortable', 'wp-util', 'wp-blocks' ),
+				array( 'jquery', 'jquery-ui-sortable', 'wp-util', 'wp-blocks', 'select2' ),
 				$this->plugin->get_version(),
 				false
 			);
