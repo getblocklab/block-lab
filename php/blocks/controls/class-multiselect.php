@@ -35,7 +35,7 @@ class Multiselect extends Control_Abstract {
 	 */
 	public function __construct() {
 		parent::__construct();
-		$this->label = __( 'Multiselect', 'block-lab' );
+		$this->label = __( 'Multi-Select', 'block-lab' );
 	}
 
 	/**
