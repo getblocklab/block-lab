@@ -1,5 +1,3 @@
-import updatePreview from "../loader/preview";
-
 const { TextControl } = wp.components;
 
 const BlockLabURLControl = ( props, field, block ) => {
@@ -17,8 +15,14 @@ const BlockLabURLControl = ( props, field, block ) => {
 				attr[ field.name ] = urlControl
 				setAttributes( attr )
 			}}
-			onKeyUp={() => {
-				updatePreview( props, block )
+			onFocus={ event => {
+				event.target.reportValidity()
+			}}
+			onBlur={ event => {
+				if ( ! event.target.checkValidity() ) {
+					let input = Object.assign({},event).target
+					setTimeout(() => input.focus(), 10);
+				}
 			}}
 		/>
 	)
