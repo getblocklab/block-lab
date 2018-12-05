@@ -11,8 +11,8 @@ const BlockLabTextareaControl = ( props, field, block ) => {
 			help={field.help}
 			defaultValue={field.default}
 			value={attr[ field.name ]}
-			onChange={textControl => {
-				attr[ field.name ] = textControl
+			onChange={textareaControl => {
+				attr[ field.name ] = textareaControl
 				setAttributes( attr )
 			}}
 		/>

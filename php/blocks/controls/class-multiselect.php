@@ -12,14 +12,21 @@ namespace Block_Lab\Blocks\Controls;
 /**
  * Class Select
  */
-class Select extends Control_Abstract {
+class Multiselect extends Control_Abstract {
 
 	/**
 	 * Control name.
 	 *
 	 * @var string
 	 */
-	public $name = 'select';
+	public $name = 'multiselect';
+
+	/**
+	 * Field variable type.
+	 *
+	 * @var string
+	 */
+	public $type = 'array';
 
 	/**
 	 * Select constructor.
@@ -28,7 +35,7 @@ class Select extends Control_Abstract {
 	 */
 	public function __construct() {
 		parent::__construct();
-		$this->label = __( 'Select', 'block-lab' );
+		$this->label = __( 'Multi-Select', 'block-lab' );
 	}
 
 	/**
@@ -61,9 +68,10 @@ class Select extends Control_Abstract {
 		$this->settings[] = new Control_Setting( array(
 			'name'     => 'default',
 			'label'    => __( 'Default Value', 'block-lab' ),
-			'type'     => 'text',
+			'type'     => 'textarea_array',
 			'default'  => '',
-			'sanitize' => 'sanitize_text_field',
+			'help'     => __( 'Enter each default value on a new line.', 'block-lab' ),
+			'sanitize' => array( $this, 'sanitise_textarea_array' ),
 		) );
 	}
 }

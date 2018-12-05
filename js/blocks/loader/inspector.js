@@ -5,16 +5,7 @@ const {
 	InspectorControls,
 } = wp.editor;
 const {
-	CheckboxControl,
 	PanelBody,
-	PanelRow,
-	PanelColor,
-	RadioControl,
-	RangeControl,
-	TextControl,
-	TextareaControl,
-	ToggleControl,
-	SelectControl
 } = wp.components;
 
 
