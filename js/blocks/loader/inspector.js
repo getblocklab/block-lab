@@ -6,17 +6,6 @@ const {
 } = wp.editor;
 const {
 	PanelBody,
-	PanelRow,
-	PanelColor,
-	CheckboxControl,
-	RadioControl,
-	RangeControl,
-	TextControl,
-	TextareaControl,
-	UrlControl,
-	ToggleControl,
-	SelectControl,
-	MultiselectControl
 } = wp.components;
 
 

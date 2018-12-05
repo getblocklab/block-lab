@@ -122,7 +122,7 @@ abstract class Control_Abstract {
 		?>
 		<input
 			name="<?php echo esc_attr( $name ); ?>"
-			type="text"
+			type="<?php echo esc_attr( $setting->type ); ?>"
 			id="<?php echo esc_attr( $id ); ?>"
 			class="regular-text"
 			value="<?php echo esc_attr( $setting->get_value() ); ?>" />
