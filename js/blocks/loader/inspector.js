@@ -15,7 +15,8 @@ const {
 	TextareaControl,
 	UrlControl,
 	ToggleControl,
-	SelectControl
+	SelectControl,
+	MultiselectControl
 } = wp.components;
 
 
