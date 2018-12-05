@@ -1,5 +1,3 @@
-import updatePreview from "../loader/preview";
-
 const { TextareaControl } = wp.components;
 
 const BlockLabTextareaControl = ( props, field, block ) => {
@@ -16,9 +14,6 @@ const BlockLabTextareaControl = ( props, field, block ) => {
 			onChange={textareaControl => {
 				attr[ field.name ] = textareaControl
 				setAttributes( attr )
-			}}
-			onKeyUp={() => {
-				updatePreview( props, block )
 			}}
 		/>
 	)
