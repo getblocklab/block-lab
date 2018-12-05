@@ -51,4 +51,9 @@ div[class^="wp-block-block-lab-"] {
       color: rgba(0, 0, 0, 0.8);
     }
   }
+
+  .text-control__error {
+    border-color: #d94f4f;
+    box-shadow: 0 0 0 1px #d94f4f;
+  }
 }
