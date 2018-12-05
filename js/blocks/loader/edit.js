@@ -1,7 +1,6 @@
 import inspectorControls from './inspector'
 import controls from '../controls';
 import { simplifiedFields } from "./fields";
-import updatePreview from './preview';
 import icons from '../../../assets/icons.json';
 
 const { __ } = wp.i18n;
@@ -34,14 +33,22 @@ const formControls = ( props, block ) => {
 }
 
 const previewData = ( props, block ) => {
-	if ( typeof props.attributes.block_template !== 'undefined' && props.attributes.block_template.length > 0 ) {
-		return;
+	let params = new URLSearchParams();
+
+	for ( let attribute in props.attributes ) {
+
+		if ( ! props.attributes.hasOwnProperty( attribute ) ) continue;
+
+		if ( 'block_template' === attribute || 'block_preview' === attribute ) {
+			continue;
+		}
+
+		params.append( attribute, props.attributes[ attribute ] );
 	}
 
-	wp.apiFetch( { path: `/block-lab/v1/block-preview?slug=` + block.name } ).then(
+	wp.apiFetch( { path: '/block-lab/v1/block-preview?slug=' + block.name + '&' + params.toString() } ).then(
 		data => {
-			props.setAttributes( { block_template: data } );
-			updatePreview( props, block, data );
+			props.setAttributes( { block_template: data, block_preview: data } );
 		}
 	);
 }

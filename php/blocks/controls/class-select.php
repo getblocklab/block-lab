@@ -26,7 +26,7 @@ class Select extends Control_Abstract {
 	 *
 	 * @var string
 	 */
-	public $type = 'text';
+	public $type = 'array';
 
 	/**
 	 * Select constructor.
