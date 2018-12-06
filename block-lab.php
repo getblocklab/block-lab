@@ -75,29 +75,15 @@ function block_lab_wp_version_error() {
  * @return string
  */
 function block_lab_wp_version_text() {
-	return __( 'Block Lab plugin error: Your version of WordPress is too old or the Gutenberg Plugin is not installed. You must be running WordPress 5.0 or install the Gutenberg Plugin to use Block Lab.', 'block-lab' );
+	return __( 'Block Lab plugin error: Your version of WordPress is too old. You must be running WordPress 5.0 to use Block Lab.', 'block-lab' );
 }
 
-// If the WordPress version is too low or Gutenberg is not installed, show warning and return.
-if ( version_compare( $GLOBALS['wp_version'], '5.0', '<' ) ) {
-	// Check if Gutenberg is installed.
-	$gutenberg_active = in_array( 'gutenberg/gutenberg.php', (array) get_option( 'active_plugins', array() ), true );
-
-	// If is multisite and no active Gutenberg, check the network active plugins.
-	if ( is_multisite() && ! $gutenberg_active ) {
-		$network_plugins = get_site_option( 'active_sitewide_plugins' );
-
-		$gutenberg_active = isset( $network_plugins['gutenberg/gutenberg.php'] );
-	}
-
-	if ( ! $gutenberg_active ) {
-		if ( defined( 'WP_CLI' ) ) {
-			WP_CLI::warning( block_lab_wp_version_text() );
-		} else {
-			add_action( 'admin_notices', 'block_lab_wp_version_error' );
-		}
-
-		return;
+// If the WordPress version is too low, show warning and return.
+if ( function_exists( 'register_block_type' ) ) {
+	if ( defined( 'WP_CLI' ) ) {
+		WP_CLI::warning( block_lab_wp_version_text() );
+	} else {
+		add_action( 'admin_notices', 'block_lab_wp_version_error' );
 	}
 }
 
