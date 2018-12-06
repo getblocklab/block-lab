@@ -57,4 +57,4 @@ A: [Here](https://github.com/getblocklab/block-lab/wiki)
 
 ## Contributing ##
 
-See [CONTRIBUTING.md](CONTRIBUTING.md)
+See [Contributing to Block Lab](https://github.com/getblocklab/block-lab/blob/develop/CONTRIBUTING.md).
