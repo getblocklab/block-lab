@@ -1,5 +1,3 @@
-import updatePreview from "../loader/preview";
-
 const { CheckboxControl } = wp.components;
 
 const BlockLabCheckboxControl = ( props, field, block ) => {
@@ -18,9 +16,6 @@ const BlockLabCheckboxControl = ( props, field, block ) => {
 				attr[ field.name ] = checkboxControl
 				setAttributes( attr )
 			}}
-			onBlur={
-				updatePreview( props, block )
-			}
 		/>
 	)
 }
