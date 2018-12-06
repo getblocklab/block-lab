@@ -79,7 +79,7 @@ function block_lab_wp_version_text() {
 }
 
 // If the WordPress version is too low, show warning and return.
-if ( function_exists( 'register_block_type' ) ) {
+if ( ! function_exists( 'register_block_type' ) ) {
 	if ( defined( 'WP_CLI' ) ) {
 		WP_CLI::warning( block_lab_wp_version_text() );
 	} else {
