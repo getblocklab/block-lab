@@ -165,7 +165,7 @@ While developing, it is a best practice to watch for changes. This command will 
 composer install
 ```
 
-Also while development, it is advantageous to install the composer dependencies to ensure adhereance to PHP WordPress coding standards.
+Also while developing, it is advantageous to install the Composer dependencies to ensure adherence to PHP WordPress coding standards.
 
 ## Additional Notes
 
