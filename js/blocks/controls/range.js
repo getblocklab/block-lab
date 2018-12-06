@@ -1,5 +1,3 @@
-import updatePreview from "../loader/preview";
-
 const { RangeControl } = wp.components;
 
 const BlockLabRangeControl = ( props, field, block ) => {
@@ -16,9 +14,6 @@ const BlockLabRangeControl = ( props, field, block ) => {
 				attr[ field.name ] = rangeControl
 				setAttributes( attr )
 			}}
-			onBlur={
-				updatePreview( props, block )
-			}
 			min={field.min}
 			max={field.max}
 			step={field.step}

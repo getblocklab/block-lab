@@ -1,5 +1,3 @@
-import updatePreview from "../loader/preview";
-
 const { ToggleControl } = wp.components;
 
 const BlockLabToggleControl = ( props, field, block ) => {
@@ -17,9 +15,6 @@ const BlockLabToggleControl = ( props, field, block ) => {
 				attr[ field.name ] = toggleControl
 				setAttributes( attr )
 			}}
-			onBlur={
-				updatePreview( props, block )
-			}
 		/>
 	)
 }
