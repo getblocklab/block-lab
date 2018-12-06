@@ -57,17 +57,4 @@ A: [Here](https://github.com/getblocklab/block-lab/wiki)
 
 ## Contributing ##
 
-First execute...
-```
-npm install
-```
-
-For development...
-```
-npm run dev 
-```
-
-For build...
-```
-npm run build 
-```
+See [Contributing to Block Lab](https://github.com/getblocklab/block-lab/blob/develop/CONTRIBUTING.md).

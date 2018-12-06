@@ -13,6 +13,7 @@ The following is a set of guidelines for contributing to Block Lab.  These are m
   * [Suggesting Enhancements](#suggesting-enhancements)
   * [Your First Code Contribution](#your-first-code-contribution)
   * [Pull Requests](#pull-requests)
+  * [Local Setup](#local-setup)
 
 [Styleguides](#styleguides)
   * [Git Commit Messages](#git-commit-messages)
@@ -135,6 +136,36 @@ While the prerequisites above must be satisfied prior to having your pull reques
     * :fire: `:fire:` when removing code or files
     * :white_check_mark: `:white_check_mark:` when adding tests
     * :lock: `:lock:` when dealing with security
+
+### Local Setup
+
+Block Lab development requires Node.js and follows the WordPress coding standards for PHP and JavaScript. In order to get your development enviorment setup quickly, simply run the following commands after cloning the plugin from Github:
+
+#### Node
+
+**Install Packages**
+
+```
+npm install
+```
+
+This command installs required Node packages locally and is required before running build setup.
+
+**Watch Changes**
+
+```
+npm run dev
+```
+
+While developing, it is a best practice to watch for changes. This command will build assets as modifications are made.
+
+#### Composer
+
+```
+composer install
+```
+
+Also while developing, it is advantageous to install the Composer dependencies to ensure adherence to PHP WordPress coding standards.
 
 ## Additional Notes
 

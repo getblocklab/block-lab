@@ -1,0 +1,19 @@
+{
+    "name": "block-lab/block-lab",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Justin Kopepasah",
+            "email": "justin@kopepasah.com"
+        },
+        {
+            "name": "Luke Carbis",
+            "email": "luke@carb.is"
+        }
+    ],
+    "prefer-stable": true,
+    "require-dev": {
+        "wp-coding-standards/wpcs": "^1.2",
+        "wimg/php-compatibility": "^9.0"
+    }
+}
