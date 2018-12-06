@@ -121,8 +121,7 @@ block_lab()
  */
 block_lab()
 	->register_component( new \Block_Lab\Post_Types\Block_Post() )
-	->register_component( new \Block_Lab\Blocks\Loader() )
-	->register_component( new \Block_Lab\Endpoints\Preview() );
+	->register_component( new \Block_Lab\Blocks\Loader() );
 
 /**
  * Sometimes we need to do some things after the plugin is loaded, so call the Plugin_Interface::plugin_loaded().
