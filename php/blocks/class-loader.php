@@ -89,6 +89,7 @@ class Loader extends Component_Abstract {
 		wp_enqueue_style(
 			'block-lab-editor-css',
 			$this->assets['url']['editor_style'],
+			array(),
 			$this->plugin->get_version()
 		);
 	}
