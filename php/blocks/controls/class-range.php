@@ -56,28 +56,28 @@ class Range extends Control_Abstract {
 			'label'    => __( 'Minimum Value', 'block-lab' ),
 			'type'     => 'number',
 			'default'  => '',
-			'sanitize' => array( $this, 'sanitise_number' ),
+			'sanitize' => array( $this, 'sanitize_number' ),
 		) );
 		$this->settings[] = new Control_Setting( array(
 			'name'     => 'max',
 			'label'    => __( 'Maximum Value', 'block-lab' ),
 			'type'     => 'number',
 			'default'  => '',
-			'sanitize' => array( $this, 'sanitise_number' ),
+			'sanitize' => array( $this, 'sanitize_number' ),
 		) );
 		$this->settings[] = new Control_Setting( array(
 			'name'     => 'step',
 			'label'    => __( 'Step Size', 'block-lab' ),
 			'type'     => 'number',
 			'default'  => 1,
-			'sanitize' => array( $this, 'sanitise_number' ),
+			'sanitize' => array( $this, 'sanitize_number' ),
 		) );
 		$this->settings[] = new Control_Setting( array(
 			'name'     => 'default',
 			'label'    => __( 'Default Value', 'block-lab' ),
 			'type'     => 'number',
 			'default'  => '',
-			'sanitize' => array( $this, 'sanitise_number' ),
+			'sanitize' => array( $this, 'sanitize_number' ),
 		) );
 	}
 }

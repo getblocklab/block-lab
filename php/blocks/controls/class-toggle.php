@@ -56,7 +56,7 @@ class Toggle extends Control_Abstract {
 			'label'    => __( 'Default Value', 'block-lab' ),
 			'type'     => 'checkbox',
 			'default'  => '0',
-			'sanitize' => array( $this, 'sanitise_checkbox' ),
+			'sanitize' => array( $this, 'sanitize_checkbox' ),
 		) );
 	}
 }

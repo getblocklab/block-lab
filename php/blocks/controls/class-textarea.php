@@ -70,7 +70,7 @@ class Textarea extends Control_Abstract {
 				'label'    => __( 'Character Limit', 'block-lab' ),
 				'type'     => 'number',
 				'default'  => '',
-				'sanitize' => array( $this, 'sanitise_number' ),
+				'sanitize' => array( $this, 'sanitize_number' ),
 			)
 		);
 	}

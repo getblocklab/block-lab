@@ -244,7 +244,7 @@ abstract class Control_Abstract {
 	 *
 	 * @return int
 	 */
-	public function sanitise_number( $value ) {
+	public function sanitize_number( $value ) {
 		if ( empty( $value ) || '0' === $value ) {
 			return null;
 		}
@@ -258,7 +258,7 @@ abstract class Control_Abstract {
 	 *
 	 * @return array
 	 */
-	public function sanitise_textarea_assoc_array( $value ) {
+	public function sanitize_textarea_assoc_array( $value ) {
 		$rows    = preg_split( '/\r\n|[\r\n]/', $value );
 		$options = array();
 
@@ -291,7 +291,7 @@ abstract class Control_Abstract {
 	 *
 	 * @return array
 	 */
-	public function sanitise_textarea_array( $value ) {
+	public function sanitize_textarea_array( $value ) {
 		$rows    = preg_split( '/\r\n|[\r\n]/', $value );
 		$options = array();
 
