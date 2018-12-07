@@ -877,6 +877,11 @@ class Block_Post extends Component_Abstract {
 							$value = $_POST['block-fields-settings'][ $key ][ $setting->name ]; // Sanitization okay.
 						}
 
+						// Sanitize the field options according to their type.
+						if ( is_callable( $setting->sanitize ) ) {
+							$value = call_user_func( $setting->sanitize, $value );
+						}
+
 						// Validate the field options according to their type.
 						if ( is_callable( $setting->validate ) ) {
 							$value = call_user_func(
@@ -884,11 +889,6 @@ class Block_Post extends Component_Abstract {
 								$value,
 								$field_config['settings']
 							);
-						}
-
-						// Sanitize the field options according to their type.
-						if ( is_callable( $setting->sanitize ) ) {
-							$value = call_user_func( $setting->sanitize, $value );
 						}
 
 						$field_config['settings'][ $setting->name ] = $value;

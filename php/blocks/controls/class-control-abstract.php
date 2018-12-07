@@ -319,23 +319,43 @@ abstract class Control_Abstract {
 	 * Validate that the value is contained within a list of options,
 	 * and if not, return the first option.
 	 *
-	 * @param string $value
+	 * @param mixed $value    The value to be validated.
 	 * @param array $settings The field settings.
 	 *
-	 * @return string
+	 * @return mixed
 	 */
 	public function validate_options( $value, $settings ) {
 		if ( ! array_key_exists( 'options', $settings ) ) {
 			return $value;
 		}
 
-		foreach ( $settings['options'] as $option ) {
-			if ( $value === $option['value'] ) {
+		$options = array();
+
+		// Reindex the options into a more workable format.
+		array_walk( $settings['options'], function( $option ) use ( &$options ) {
+			$options[] = $option['value'];
+		} );
+
+		if ( is_array( $value ) ) {
+			// Filter out invalid options where multiple options can be chosen.
+			foreach ( $value as $key => $option ) {
+				if ( ! in_array( $option, $options, true ) ) {
+					unset( $value[ $key ] );
+				}
+			}
+			if ( ! empty( $value ) ) {
+				return $value;
+			}
+		} else {
+			// Return the value if it is contained in the set of options.
+			if ( ! in_array( $value, $options, true ) ) {
 				return $value;
 			}
 		}
 
-		$first = array_shift( $settings['options'] );
-		return $first['value'];
+		// If we've made it this far, just use the very first available option.
+		$value = array_shift( $options );
+
+		return $value;
 	}
 }

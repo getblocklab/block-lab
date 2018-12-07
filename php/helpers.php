@@ -17,7 +17,7 @@
  */
 function block_field( $name, $echo = true ) {
 	/*
-	 * Defined in Block_Lab\Blocks\Loader->render_block_template()
+	 * Defined in Block_Lab\Blocks\Loader->render_block_template().
 	 *
 	 * @var array
 	 */
@@ -33,7 +33,7 @@ function block_field( $name, $echo = true ) {
 
 	$value = $block_lab_attributes[ $name ];
 
-	// Cast block value as correct type
+	// Cast block value as correct type.
 	if ( isset( $block_lab_config['fields'][ $name ]['type'] ) ) {
 		switch ( $block_lab_config['fields'][ $name ]['type'] ) {
 			case 'boolean':
