@@ -230,11 +230,11 @@ abstract class Control_Abstract {
 	 *
 	 * @return string
 	 */
-	public function sanitise_checkbox( $value ) {
+	public function sanitize_checkbox( $value ) {
 		if ( '1' === $value ) {
-			return true;
+			return '1';
 		}
-		return false;
+		return '0';
 	}
 
 	/**
@@ -313,5 +313,29 @@ abstract class Control_Abstract {
 		$options = array_values( $options );
 
 		return $options;
+	}
+
+	/**
+	 * Validate that the value is contained within a list of options,
+	 * and if not, return the first option.
+	 *
+	 * @param string $value
+	 * @param array $settings The field settings.
+	 *
+	 * @return string
+	 */
+	public function validate_options( $value, $settings ) {
+		if ( ! array_key_exists( 'options', $settings ) ) {
+			return $value;
+		}
+
+		foreach ( $settings['options'] as $option ) {
+			if ( $value === $option['value'] ) {
+				return $value;
+			}
+		}
+
+		$first = array_shift( $settings['options'] );
+		return $first['value'];
 	}
 }

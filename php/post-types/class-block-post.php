@@ -871,15 +871,27 @@ class Block_Post extends Component_Abstract {
 				if ( isset( $field_config['control'] ) && isset( $this->controls[ $field_config['control'] ] ) ) {
 					$control = $this->controls[ $field_config['control'] ];
 					foreach ( $control->settings as $setting ) {
+						$value = false; // This is a good default, it allows us to pick up on unchecked checkboxes.
+
 						if ( isset( $_POST['block-fields-settings'][ $key ][ $setting->name ] ) ) {
-							// Sanitize the field options according to their type.
-							if ( is_callable( $setting->sanitize ) ) {
-								$field_config['settings'][ $setting->name ] = call_user_func(
-									$setting->sanitize,
-									$_POST['block-fields-settings'][ $key ][ $setting->name ] // Sanitization okay.
-								);
-							}
+							$value = $_POST['block-fields-settings'][ $key ][ $setting->name ]; // Sanitization okay.
 						}
+
+						// Validate the field options according to their type.
+						if ( is_callable( $setting->validate ) ) {
+							$value = call_user_func(
+								$setting->validate,
+								$value,
+								$field_config['settings']
+							);
+						}
+
+						// Sanitize the field options according to their type.
+						if ( is_callable( $setting->sanitize ) ) {
+							$value = call_user_func( $setting->sanitize, $value );
+						}
+
+						$field_config['settings'][ $setting->name ] = $value;
 					}
 				}
 

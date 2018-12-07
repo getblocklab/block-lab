@@ -22,6 +22,13 @@ class Number extends Control_Abstract {
 	public $name = 'number';
 
 	/**
+	 * Field variable type.
+	 *
+	 * @var string
+	 */
+	public $type = 'integer';
+
+	/**
 	 * Text constructor.
 	 *
 	 * @return void

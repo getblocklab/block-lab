@@ -71,7 +71,8 @@ class Multiselect extends Control_Abstract {
 			'type'     => 'textarea_array',
 			'default'  => '',
 			'help'     => __( 'Enter each default value on a new line.', 'block-lab' ),
-			'sanitize' => array( $this, 'sanitise_textarea_array' ),
+			'sanitize' => array( $this, 'sanitize_textarea_array' ),
+			'validate' => array( $this, 'validate_options' ),
 		) );
 	}
 }
