@@ -230,11 +230,11 @@ abstract class Control_Abstract {
 	 *
 	 * @return string
 	 */
-	public function sanitise_checkbox( $value ) {
+	public function sanitize_checkbox( $value ) {
 		if ( '1' === $value ) {
-			return true;
+			return '1';
 		}
-		return false;
+		return '0';
 	}
 
 	/**
@@ -244,7 +244,7 @@ abstract class Control_Abstract {
 	 *
 	 * @return int
 	 */
-	public function sanitise_number( $value ) {
+	public function sanitize_number( $value ) {
 		if ( empty( $value ) || '0' === $value ) {
 			return null;
 		}
@@ -258,7 +258,7 @@ abstract class Control_Abstract {
 	 *
 	 * @return array
 	 */
-	public function sanitise_textarea_assoc_array( $value ) {
+	public function sanitize_textarea_assoc_array( $value ) {
 		$rows    = preg_split( '/\r\n|[\r\n]/', $value );
 		$options = array();
 
@@ -291,7 +291,7 @@ abstract class Control_Abstract {
 	 *
 	 * @return array
 	 */
-	public function sanitise_textarea_array( $value ) {
+	public function sanitize_textarea_array( $value ) {
 		$rows    = preg_split( '/\r\n|[\r\n]/', $value );
 		$options = array();
 
@@ -313,5 +313,49 @@ abstract class Control_Abstract {
 		$options = array_values( $options );
 
 		return $options;
+	}
+
+	/**
+	 * Validate that the value is contained within a list of options,
+	 * and if not, return the first option.
+	 *
+	 * @param mixed $value    The value to be validated.
+	 * @param array $settings The field settings.
+	 *
+	 * @return mixed
+	 */
+	public function validate_options( $value, $settings ) {
+		if ( ! array_key_exists( 'options', $settings ) ) {
+			return $value;
+		}
+
+		$options = array();
+
+		// Reindex the options into a more workable format.
+		array_walk( $settings['options'], function( $option ) use ( &$options ) {
+			$options[] = $option['value'];
+		} );
+
+		if ( is_array( $value ) ) {
+			// Filter out invalid options where multiple options can be chosen.
+			foreach ( $value as $key => $option ) {
+				if ( ! in_array( $option, $options, true ) ) {
+					unset( $value[ $key ] );
+				}
+			}
+			if ( ! empty( $value ) ) {
+				return $value;
+			}
+		} else {
+			// Return the value if it is contained in the set of options.
+			if ( ! in_array( $value, $options, true ) ) {
+				return $value;
+			}
+		}
+
+		// If we've made it this far, just use the very first available option.
+		$value = array_shift( $options );
+
+		return $value;
 	}
 }
