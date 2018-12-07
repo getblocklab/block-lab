@@ -64,6 +64,7 @@ class Radio extends Control_Abstract {
 			'type'     => 'text',
 			'default'  => '',
 			'sanitize' => 'sanitize_text_field',
+			'validate' => array( $this, 'validate_options' ),
 		) );
 	}
 }

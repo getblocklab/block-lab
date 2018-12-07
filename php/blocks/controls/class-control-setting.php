@@ -57,6 +57,13 @@ class Control_Setting {
 	public $sanitize = '';
 
 	/**
+	 * Validating function.
+	 *
+	 * @var mixed
+	 */
+	public $validate = '';
+
+	/**
 	 * Current value. Null for unset.
 	 *
 	 * @var mixed
@@ -88,6 +95,9 @@ class Control_Setting {
 		}
 		if ( isset( $args['sanitize'] ) ) {
 			$this->sanitize = $args['sanitize'];
+		}
+		if ( isset( $args['validate'] ) ) {
+			$this->validate = $args['validate'];
 		}
 		if ( isset( $args['value'] ) ) {
 			$this->value = $args['value'];
