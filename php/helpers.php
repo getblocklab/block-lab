@@ -17,11 +17,11 @@
  */
 function block_field( $name, $echo = true ) {
 	/*
-	 * Defined in Block_Lab\Blocks\Loader->render_block_template()
+	 * Defined in Block_Lab\Blocks\Loader->render_block_template().
 	 *
 	 * @var array
 	 */
-	global $block_lab_attributes;
+	global $block_lab_attributes, $block_lab_config;
 
 	if (
 		! isset( $block_lab_attributes ) ||
@@ -32,6 +32,21 @@ function block_field( $name, $echo = true ) {
 	}
 
 	$value = $block_lab_attributes[ $name ];
+
+	// Cast block value as correct type.
+	if ( isset( $block_lab_config['fields'][ $name ]['type'] ) ) {
+		switch ( $block_lab_config['fields'][ $name ]['type'] ) {
+			case 'boolean':
+				$value = '1' === $value ? true : false;
+				break;
+			case 'integer':
+				$value = intval( $value );
+				break;
+			case 'array':
+				$value = (array) $value;
+				break;
+		}
+	}
 
 	if ( $echo ) {
 		if ( is_array( $value ) ) {

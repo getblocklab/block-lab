@@ -63,7 +63,7 @@ class Multiselect extends Control_Abstract {
 				_x( 'foo : Foo', 'Format for the menu values. option_value : Option Name', 'block-lab' ),
 				_x( 'bar : Bar', 'Format for the menu values. option_value : Option Name', 'block-lab' )
 			),
-			'sanitize' => array( $this, 'sanitise_textarea_assoc_array' ),
+			'sanitize' => array( $this, 'sanitize_textarea_assoc_array' ),
 		) );
 		$this->settings[] = new Control_Setting( array(
 			'name'     => 'default',
@@ -71,7 +71,8 @@ class Multiselect extends Control_Abstract {
 			'type'     => 'textarea_array',
 			'default'  => '',
 			'help'     => __( 'Enter each default value on a new line.', 'block-lab' ),
-			'sanitize' => array( $this, 'sanitise_textarea_array' ),
+			'sanitize' => array( $this, 'sanitize_textarea_array' ),
+			'validate' => array( $this, 'validate_options' ),
 		) );
 	}
 }

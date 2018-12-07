@@ -4,7 +4,7 @@ import { simplifiedFields } from "./fields";
 import icons from '../../../assets/icons.json';
 
 const { __ } = wp.i18n;
-const { RichText } = wp.editor;
+const { ServerSideRender } = wp.editor;
 
 const formControls = ( props, block ) => {
 
@@ -32,32 +32,9 @@ const formControls = ( props, block ) => {
 	)
 }
 
-const previewData = ( props, block ) => {
-	let params = new URLSearchParams();
-
-	for ( let attribute in props.attributes ) {
-
-		if ( ! props.attributes.hasOwnProperty( attribute ) ) continue;
-
-		if ( 'block_template' === attribute || 'block_preview' === attribute ) {
-			continue;
-		}
-
-		params.append( attribute, props.attributes[ attribute ] );
-	}
-
-	wp.apiFetch( { path: '/block-lab/v1/block-preview?slug=' + block.name + '&' + params.toString() } ).then(
-		data => {
-			props.setAttributes( { block_template: data, block_preview: data } );
-		}
-	);
-}
-
-
 const editComponent = ( props, block ) => {
 	const { className, isSelected } = props;
 
-	previewData( props, block )
 	if ( 'undefined' === typeof icons[block.icon] ) {
 		icons[block.icon] = ''
 	}
@@ -74,12 +51,9 @@ const editComponent = ( props, block ) => {
 						</div>
 					</div>
 				) : (
-					<RichText
-						value={props.attributes.block_preview || __( 'Loading preview...', 'block-lab' )}
-						onChange={e => {
-							e.preventDefault;
-						}}
-						format="string"
+					<ServerSideRender
+						block={'block-lab/' + block.name}
+						attributes={props.attributes}
 					/>
 				)}
 			</div>
