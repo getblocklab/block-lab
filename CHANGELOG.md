@@ -1,6 +1,6 @@
 ## Changelog #
  
-### 1.1 - 2018-12-07 ###
+### 1.1.0 - 2018-12-07 ###
 
 * New: Complete revamp of the in-editor preview
 * New: Email field
