@@ -73,7 +73,7 @@ class Loader extends Component_Abstract {
 		wp_enqueue_script(
 			'block-lab-blocks',
 			$this->assets['url']['entry'],
-			[ 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-api-fetch' ],
+			array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-api-fetch' ),
 			$this->plugin->get_version(),
 			true
 		);
@@ -89,7 +89,6 @@ class Loader extends Component_Abstract {
 		wp_enqueue_style(
 			'block-lab-editor-css',
 			$this->assets['url']['editor_style'],
-			[ 'wp-blocks' ],
 			$this->plugin->get_version()
 		);
 	}
