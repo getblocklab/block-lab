@@ -24,13 +24,15 @@ gulp.task( 'bundle', function () {
 	return gulp.src( [
 		'**/*',
 		'!node_modules/**/*',
+		'!vendor/**/*',
+		'!composer.*',
 		'!js/blocks/**/*',
 		'!js/src/**/*',
 		'!js/tests/**/*',
 		'!js/coverage/**/*',
 		'!package/**/*',
 	] )
-		.pipe( gulp.dest( 'package/prepare' ) );
+	.pipe( gulp.dest( 'package/prepare' ) );
 } );
 
 gulp.task( 'remove:bundle', function () {
@@ -75,6 +77,7 @@ gulp.task( 'clean:bundle', function () {
 		'package/trunk/js/blocks',
 		'package/trunk/js/src',
 		'package/trunk/node_modules',
+		'package/trunk/vendor',
 		'package/trunk/tests',
 		'package/trunk/trunk',
 		'package/trunk/gulpfile.js',
