@@ -1,5 +1,18 @@
 ## Changelog #
  
+### 1.1 - 2018-12-07 ###
+
+* New: Complete revamp of the in-editor preview
+* New: Email field
+* New: URL field
+* New: Number field
+* New: `block_config()` and `block_field_config` helper functions, to retrieve your block's configuration
+* Fix: filemtime errors
+* Fix: HTML tags were being merged together when previewed in the editor
+* Fix: Problems with quotes and dashes in a block's title or field parameters
+* Fix: `field_value()` sometimes returned the wrong value
+* Fix: Incorrect values shown in the editor preview
+ 
 ### 1.0.1 - 2018-11-16 ###
 
 * New: Added "Save Draft" button, so you can save Blocks-in-Progress
