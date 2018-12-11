@@ -57,3 +57,9 @@ div[class^="wp-block-block-lab-"] {
     box-shadow: 0 0 0 1px #d94f4f;
   }
 }
+
+.block-lab-color-picker__picker.components-popover:not(.is-mobile) {
+  .components-popover__content {
+    min-width: 320px;
+  }
+}
