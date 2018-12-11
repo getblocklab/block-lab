@@ -26,7 +26,6 @@ const BlockLabEmailControl = ( props, field, block ) => {
 			placeholder={field.placeholder || ''}
 			help={field.help}
 			defaultValue={field.default}
-			className='fool'
 			value={attr[ field.name ]}
 			onChange={emailControl => {
 				attr[ field.name ] = emailControl
