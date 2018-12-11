@@ -9,6 +9,7 @@ import BlockLabRangeControl from './range'
 import BlockLabSelectControl from './select'
 import BlockLabMultiselectControl from './multiselect'
 import BlockLabToggleControl from './toggle'
+import BlockLabColorPickerControl from './color-picker'
 
 export default {
 	text: BlockLabTextControl,
@@ -22,4 +23,5 @@ export default {
 	select: BlockLabSelectControl,
 	multiselect: BlockLabMultiselectControl,
 	toggle: BlockLabToggleControl,
+	'color-picker': BlockLabColorPickerControl,
 }

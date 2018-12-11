@@ -75,18 +75,20 @@ class Block_Post extends Component_Abstract {
 	 */
 	public function register_controls() {
 		$this->controls = apply_filters(
-			'block_lab_controls', array(
-				'text'        => new Controls\Text(),
-				'textarea'    => new Controls\Textarea(),
-				'url'         => new Controls\URL(),
-				'email'       => new Controls\Email(),
-				'number'      => new Controls\Number(),
-				'select'      => new Controls\Select(),
-				'multiselect' => new Controls\Multiselect(),
-				'toggle'      => new Controls\Toggle(),
-				'range'       => new Controls\Range(),
-				'checkbox'    => new Controls\Checkbox(),
-				'radio'       => new Controls\Radio(),
+			'block_lab_controls',
+			array(
+				'text'         => new Controls\Text(),
+				'textarea'     => new Controls\Textarea(),
+				'url'          => new Controls\URL(),
+				'email'        => new Controls\Email(),
+				'number'       => new Controls\Number(),
+				'select'       => new Controls\Select(),
+				'multiselect'  => new Controls\Multiselect(),
+				'toggle'       => new Controls\Toggle(),
+				'range'        => new Controls\Range(),
+				'checkbox'     => new Controls\Checkbox(),
+				'radio'        => new Controls\Radio(),
+				'color-picker' => new Controls\Color_Picker(),
 			)
 		);
 	}
