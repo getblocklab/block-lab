@@ -875,6 +875,7 @@ class Block_Post extends Component_Abstract {
 
 						if ( isset( $_POST['block-fields-settings'][ $key ][ $setting->name ] ) ) {
 							$value = $_POST['block-fields-settings'][ $key ][ $setting->name ]; // Sanitization okay.
+							$value = wp_unslash( $value );
 						}
 
 						// Sanitize the field options according to their type.
