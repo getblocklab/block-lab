@@ -118,13 +118,14 @@ class Loader extends Component_Abstract {
 			}
 
 			register_block_type(
-				$block_name, [
+				$block_name,
+				array(
 					'attributes'      => $attributes,
 					// @see https://github.com/WordPress/gutenberg/issues/4671
 					'render_callback' => function ( $attributes ) use ( $block ) {
 						return $this->render_block_template( $block, $attributes );
 					},
-				]
+				)
 			);
 		}
 	}
