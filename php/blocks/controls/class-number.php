@@ -59,7 +59,9 @@ class Number extends Control_Abstract {
 				'label'    => __( 'Default Value', 'block-lab' ),
 				'type'     => 'number',
 				'default'  => '',
-				'sanitize' => 'intval',
+				'sanitize' => function ( $value ) {
+					return filter_var( $value, FILTER_SANITIZE_NUMBER_INT );
+				},
 			)
 		);
 		$this->settings[] = new Control_Setting(
