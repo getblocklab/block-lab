@@ -52,7 +52,7 @@ class Multiselect extends Control_Abstract {
 			'sanitize' => 'sanitize_textarea_field',
 		) );
 		$this->settings[] = new Control_Setting( array(
-			'name'     => 'options',
+			'name'     => 'items',
 			'label'    => __( 'Choices', 'block-lab' ),
 			'type'     => 'textarea_array',
 			'default'  => '',

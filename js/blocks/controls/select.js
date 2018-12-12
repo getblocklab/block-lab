@@ -9,7 +9,7 @@ const BlockLabSelectControl = ( props, field, block ) => {
 			label={field.label}
 			help={field.help}
 			value={attr[ field.name ] || field.default}
-			options={field.options}
+			options={field.items}
 			onChange={selectControl => {
 				attr[ field.name ] = selectControl
 				setAttributes( attr )

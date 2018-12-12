@@ -10,7 +10,7 @@ const BlockLabMultiselectControl = ( props, field, block ) => {
 			label={field.label}
 			help={field.help}
 			value={attr[ field.name ] || field.default}
-			options={field.options}
+			options={field.items}
 			onChange={multiselectControl => {
 				attr[ field.name ] = multiselectControl
 				setAttributes( attr )

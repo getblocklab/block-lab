@@ -8,7 +8,7 @@ const BlockLabRadioControl = ( props, field, block ) => {
 			label={field.label}
 			help={field.help}
 			selected={attr[ field.name ] || field.default}
-			options={field.options}
+			options={field.items}
 			onChange={radioControl => {
 				attr[ field.name ] = radioControl
 				setAttributes( attr )
