@@ -1,6 +1,7 @@
 {
     "name": "block-lab/block-lab",
     "type": "project",
+    "description": "Block Lab WordPress Plugin",
     "authors": [
         {
             "name": "Justin Kopepasah",
@@ -15,5 +16,8 @@
     "require-dev": {
         "wp-coding-standards/wpcs": "^1.2",
         "wimg/php-compatibility": "^9.0"
+    },
+    "scripts": {
+        "lint": "phpcs . --standard=phpcs.ruleset.xml"
     }
 }
