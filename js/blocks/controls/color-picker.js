@@ -8,8 +8,8 @@ const BlockLabColorPickerControl = ( props, field, block ) => {
 	const attr = { ...props.attributes };
 	const customColorPickerLabel = __( 'Custom color picker' );
 
-	// Set a default color of White, if nothing is set.
-	attr[ field.name ] = attr[ field.name ] ? attr[ field.name ] : '#fff';
+	// Set the default color, if nothing is choosen.
+	attr[ field.name ] = attr[ field.name ] ? attr[ field.name ] : field.default;
 
 	const currentColor = {
 		display: 'inline-block',

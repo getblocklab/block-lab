@@ -39,6 +39,15 @@ class Color_Picker extends Control_Abstract {
 	public function register_settings() {
 		$this->settings[] = new Control_Setting(
 			array(
+				'name'     => 'default',
+				'label'    => __( 'Default Color', 'block-lab' ),
+				'type'     => 'text',
+				'default'  => '#ffffff',
+				'sanitize' => 'sanitize_text_field',
+			)
+		);
+		$this->settings[] = new Control_Setting(
+			array(
 				'name'     => 'help',
 				'label'    => __( 'Field instructions', 'block-lab' ),
 				'type'     => 'textarea',
