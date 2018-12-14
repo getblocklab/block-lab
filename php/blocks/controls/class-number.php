@@ -47,10 +47,10 @@ class Number extends Control_Abstract {
 		$this->settings[] = new Control_Setting(
 			array(
 				'name'     => 'help',
-				'label'    => __( 'Field instructions', 'block-lab' ),
-				'type'     => 'textarea',
+				'label'    => __( 'Help Text', 'block-lab' ),
+				'type'     => 'text',
 				'default'  => '',
-				'sanitize' => 'sanitize_textarea_field',
+				'sanitize' => 'sanitize_text_field',
 			)
 		);
 		$this->settings[] = new Control_Setting(
