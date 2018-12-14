@@ -1,5 +1,12 @@
 ## Changelog #
  
+### 1.1.1 - 2018-12-14 ###
+
+* Fix: "Field instructions" is now a single line text, and renamed to "Help Text"
+* Fix: Slashes being added to field options
+* Fix: Allow empty value for select and number fields
+* Fix: Allow empty default values
+ 
 ### 1.1.0 - 2018-12-07 ###
 
 * New: Complete revamp of the in-editor preview
