@@ -28,7 +28,7 @@ const BlockLabNumberControl = ( props, field, block ) => {
 			defaultValue={field.default}
 			value={attr[ field.name ]}
 			onChange={numberControl => {
-				attr[ field.name ] = numberControl
+				attr[ field.name ] = Number( numberControl )
 				setAttributes( attr )
 			}}
 			onFocus={ event => {
