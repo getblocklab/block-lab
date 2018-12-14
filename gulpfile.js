@@ -55,7 +55,7 @@ gulp.task( 'wporg:readme', function ( cb ) {
 
 	var readme = fs.readFileSync( './README.md' )
 		.toString()
-		.concat( changelog )
+		.concat( '\n' + changelog )
 		.replace( new RegExp( /Stable tag:\s*(.*)/, 'g' ), "Stable tag: " + config.version )
 		.replace( new RegExp( '###', 'g'), '=' )
 		.replace( new RegExp( '##', 'g'), '==' )
