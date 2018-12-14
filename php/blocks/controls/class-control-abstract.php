@@ -329,12 +329,20 @@ abstract class Control_Abstract {
 			return $value;
 		}
 
+		// Allow an empty value.
+		if ( '' === $value ) {
+			return $value;
+		}
+
 		$options = array();
 
 		// Reindex the options into a more workable format.
-		array_walk( $settings['options'], function( $option ) use ( &$options ) {
-			$options[] = $option['value'];
-		} );
+		array_walk(
+			$settings['options'],
+			function( $option ) use ( &$options ) {
+				$options[] = $option['value'];
+			}
+		);
 
 		if ( is_array( $value ) ) {
 			// Filter out invalid options where multiple options can be chosen.
@@ -343,18 +351,12 @@ abstract class Control_Abstract {
 					unset( $value[ $key ] );
 				}
 			}
-			if ( ! empty( $value ) ) {
-				return $value;
-			}
 		} else {
-			// Return the value if it is contained in the set of options.
+			// If the value is not in the set of options, return an empty string.
 			if ( ! in_array( $value, $options, true ) ) {
-				return $value;
+				$value = '';
 			}
 		}
-
-		// If we've made it this far, just use the very first available option.
-		$value = array_shift( $options );
 
 		return $value;
 	}
