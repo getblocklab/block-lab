@@ -80,9 +80,9 @@ class Loader extends Component_Abstract {
 
 		// Add dynamic Gutenberg blocks.
 		wp_add_inline_script(
-			'block-lab-blocks', '
-				const blockLabBlocks = ' . $this->blocks . ' 
-			', 'before'
+			'block-lab-blocks',
+			'const blockLabBlocks = ' . $this->blocks,
+			'before'
 		);
 
 		// Enqueue optional editor only styles.
@@ -180,16 +180,22 @@ class Loader extends Component_Abstract {
 	/**
 	 * Renders the block provided a template is provided.
 	 *
-	 * @param array        $block      The block to render.
-	 * @param array        $attributes Attributes to render.
-	 * @param string|array $type       The type of template to render.
+	 * @param array $block      The block to render.
+	 * @param array $attributes Attributes to render.
 	 *
 	 * @return mixed
 	 */
-	public function render_block_template( $block, $attributes, $type = 'block' ) {
+	public function render_block_template( $block, $attributes ) {
 		global $block_lab_attributes, $block_lab_config;
 		$block_lab_attributes = $attributes;
 		$block_lab_config     = $block;
+
+		$type = 'block';
+
+		// This is hacky, but the editor doesn't send the original request along.
+		if ( isset( $_GET['context'] ) && 'edit' === $_GET['context'] ) { // phpcs: nonce okay.
+			$type = 'preview';
+		}
 
 		ob_start();
 		block_lab_template_part( $block['name'], $type );

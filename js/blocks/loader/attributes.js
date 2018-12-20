@@ -2,16 +2,6 @@ const getBlockAttributes = block => {
 
 	let attributes = {}
 
-	attributes[ 'block_template' ] = {
-		type: 'string',
-		source: 'children'
-	};
-
-	attributes[ 'block_preview' ] = {
-		type: 'string',
-		source: 'children'
-	};
-
 	for ( let fieldName in block.fields ) {
 
 		if ( !block.fields.hasOwnProperty( fieldName ) ) continue;
