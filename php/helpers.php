@@ -25,19 +25,23 @@ function block_field( $name, $echo = true ) {
 
 	if (
 		! isset( $block_lab_attributes ) ||
-		! is_array( $block_lab_attributes ) ||
-		! array_key_exists( $name, $block_lab_attributes )
+		! is_array( $block_lab_attributes )
 	) {
 		return null;
 	}
 
-	$value = $block_lab_attributes[ $name ];
+	$value = false; // This is a good default, it allows us to pick up on unchecked checkboxes.
+	if ( array_key_exists( $name, $block_lab_attributes ) ) {
+		$value = $block_lab_attributes[ $name ];
+	}
 
 	// Cast block value as correct type.
 	if ( isset( $block_lab_config['fields'][ $name ]['type'] ) ) {
 		switch ( $block_lab_config['fields'][ $name ]['type'] ) {
 			case 'boolean':
-				$value = '1' === $value ? true : false;
+				if ( 1 === $value ) {
+					$value = true;
+				}
 				break;
 			case 'integer':
 				$value = intval( $value );
