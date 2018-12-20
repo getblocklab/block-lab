@@ -198,7 +198,7 @@ class Loader extends Component_Abstract {
 
 		// This is hacky, but the editor doesn't send the original request along.
 		if ( isset( $_GET['context'] ) && 'edit' === $_GET['context'] ) { // phpcs: nonce okay.
-			$type = 'preview';
+			$type = array( 'preview', 'block' );
 		}
 
 		ob_start();
