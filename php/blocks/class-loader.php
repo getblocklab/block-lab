@@ -153,6 +153,10 @@ class Loader extends Component_Abstract {
 				$attributes[ $field_name ]['type'] = 'string';
 			}
 
+			if ( 'array' === $field['type'] ) {
+				$attributes[ $field_name ]['items'] = array( 'type' => 'string' );
+			}
+
 			if ( ! empty( $field['default'] ) ) {
 				$attributes[ $field_name ]['default'] = $field['default'];
 			}

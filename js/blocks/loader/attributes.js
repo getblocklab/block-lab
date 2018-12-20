@@ -12,8 +12,6 @@ const getBlockAttributes = block => {
 
 		if ( field.type ) {
 			attributes[ fieldName ].type = field.type
-			attributes[ 'block_template' ].type = field.type
-			attributes[ 'block_preview' ].type = field.type
 		}
 
 		if ( field.source ) {
