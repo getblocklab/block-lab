@@ -1,5 +1,15 @@
 ## Changelog #
  
+### 1.1.1 - 2018-12-14 ###
+
+* Fix: Undefined index error for multiselect and select fields
+* Fix: Correct values now returned for boolean fields like checkbox and toggle
+* Fix: Editor preview templates are back! Use the filename `preview-{blog slug}.php`
+* Fix: "Field instructions" is now a single line text, and renamed to "Help Text"
+* Fix: Slashes being added to field options
+* Fix: Allow empty value for select and number fields
+* Fix: Allow empty default values
+ 
 ### 1.1.0 - 2018-12-07 ###
 
 * New: Complete revamp of the in-editor preview
