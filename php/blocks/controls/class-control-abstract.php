@@ -232,9 +232,9 @@ abstract class Control_Abstract {
 	 */
 	public function sanitize_checkbox( $value ) {
 		if ( '1' === $value ) {
-			return '1';
+			return 1;
 		}
-		return '0';
+		return 0;
 	}
 
 	/**
