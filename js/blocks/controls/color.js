@@ -11,9 +11,6 @@ const ColorPopover = withState( {
 		if ( value.rgb.a < 1 ) {
 			color = 'rgba(' + value.rgb.r + ', ' + value.rgb.g + ', ' + value.rgb.b + ', ' + value.rgb.a + ')'
 		}
-		if ( 'hsl' === value.source ) {
-			color = 'hsla(' + value.hsl.h + ', ' + value.hsl.s + ', ' + value.hsl.l + ', ' + value.hsl.a + ')'
-		}
 		setState( () => ( { color: color } ) );
 		onUpdate( color )
 	};
