@@ -5,7 +5,6 @@ $light: rgba(140, 140, 151, 0.1);
 .entry-content div[class^="wp-block-block-lab-"],
 div[class^="wp-block-block-lab-"] {
 
-
   margin: 0;
   padding: 5px;
 
@@ -55,6 +54,34 @@ div[class^="wp-block-block-lab-"] {
   .text-control__error {
     border-color: #d94f4f;
     box-shadow: 0 0 0 1px #d94f4f;
+  }
+
+  .block-lab-color-control {
+
+    .components-base-control {
+      width: 33%;
+      display: inline-block;
+      float: left;
+
+      .components-base-control__field {
+        margin-top: 0;
+      }
+    }
+
+    .component-color-indicator {
+      width: 28px;
+      height: 28px;
+      border: none;
+      border-radius: 50%;
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+      transition: 100ms transform ease;
+      cursor: pointer;
+      margin: 2px 1em;
+
+      :hover {
+        transform: scale(1.2)
+      }
+    }
   }
 }
 

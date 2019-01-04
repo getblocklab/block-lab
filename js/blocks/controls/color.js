@@ -1,5 +1,4 @@
-const { Popover, ColorIndicator, ColorPicker } = wp.components;
-const { Fragment } = wp.element;
+const { BaseControl, TextControl, Popover, ColorIndicator, ColorPicker } = wp.components;
 const { withState } = wp.compose;
 
 const ColorPopover = withState( {
@@ -10,7 +9,10 @@ const ColorPopover = withState( {
 	const colorChange = ( value ) => {
 		let color = value.hex
 		if ( value.rgb.a < 1 ) {
-			color = 'rgba(' + value.rgb.r + ',' + value.rgb.g + ',' + value.rgb.b + ',' + value.rgb.a + ')'
+			color = 'rgba(' + value.rgb.r + ', ' + value.rgb.g + ', ' + value.rgb.b + ', ' + value.rgb.a + ')'
+		}
+		if ( 'hsl' === value.source ) {
+			color = 'hsla(' + value.hsl.h + ', ' + value.hsl.s + ', ' + value.hsl.l + ', ' + value.hsl.a + ')'
 		}
 		setState( () => ( { color: color } ) );
 		onUpdate( color )
@@ -55,8 +57,15 @@ const BlockLabColorControl = ( props, field, block ) => {
 	const attr = { ...props.attributes };
 
 	return (
-		<Fragment>
-			{field.label}
+		<BaseControl label={field.label} className="block-lab-color-control" help={field.help}>
+			<TextControl
+				readonly={true}
+				defaultValue={field.default}
+				value={attr[ field.name ]}
+				onClick={(event) => {
+					event.target.setSelectionRange(0, event.target.value.length)
+				}}
+			/>
 			<ColorPopover
 				isVisible={false}
 				color={attr[ field.name ]}
@@ -65,7 +74,7 @@ const BlockLabColorControl = ( props, field, block ) => {
 					setAttributes( attr )
 				}}
 			/>
-		</Fragment>
+		</BaseControl>
 	)
 }
 
