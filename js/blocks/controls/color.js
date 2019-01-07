@@ -16,7 +16,7 @@ const BlockLabColorPopover = withState( {
 	};
 
 	return (
-		<div className="block-lab-color-popover">
+		<BaseControl className="block-lab-color-popover">
 			<ColorIndicator
 				colorValue={color}
 				onMouseDown={event => {
@@ -47,7 +47,7 @@ const BlockLabColorPopover = withState( {
 					</Popover>
 				)}
 			</ColorIndicator>
-		</div>
+		</BaseControl>
 	);
 } );
 
