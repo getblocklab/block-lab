@@ -1,7 +1,7 @@
 const { BaseControl, TextControl, Popover, ColorIndicator, ColorPicker } = wp.components;
 const { withState } = wp.compose;
 
-const ColorPopover = withState( {
+const BlockLabColorPopover = withState( {
 } )( ( { isVisible, color, onUpdate, setState } ) => {
 	const toggleVisible = () => {
 		setState( ( state ) => ( { isVisible: ! state.isVisible } ) );
@@ -16,36 +16,38 @@ const ColorPopover = withState( {
 	};
 
 	return (
-		<ColorIndicator
-			colorValue={color}
-			onMouseDown={(event) => {
-				event.preventDefault() // Prevent the popover blur.
-			}}
-			onClick={toggleVisible}
-		>
-			{isVisible && (
-				<Popover
-					onClick={(event) => {
-						event.stopPropagation()
-					}}
-					onBlur={(event) => {
-						if ( null === event.relatedTarget ) {
-							return
-						}
-						if ( event.relatedTarget.classList.contains( 'wp-block' ) ) {
-							toggleVisible()
-						}
-					}}
-				>
-					<ColorPicker
-						color={color}
-						onChangeComplete={ value => {
-							colorChange( value )
+		<div className="block-lab-color-popover">
+			<ColorIndicator
+				colorValue={color}
+				onMouseDown={(event) => {
+					event.preventDefault() // Prevent the popover blur.
+				}}
+				onClick={toggleVisible}
+			>
+				{isVisible && (
+					<Popover
+						onClick={(event) => {
+							event.stopPropagation()
 						}}
-					/>
-				</Popover>
-			)}
-		</ColorIndicator>
+						onBlur={(event) => {
+							if ( null === event.relatedTarget ) {
+								return
+							}
+							if ( event.relatedTarget.classList.contains( 'wp-block' ) ) {
+								toggleVisible()
+							}
+						}}
+					>
+						<ColorPicker
+							color={color}
+							onChangeComplete={ value => {
+								colorChange( value )
+							}}
+						/>
+					</Popover>
+				)}
+			</ColorIndicator>
+		</div>
 	);
 } );
 
@@ -63,7 +65,7 @@ const BlockLabColorControl = ( props, field, block ) => {
 					event.target.setSelectionRange(0, event.target.value.length)
 				}}
 			/>
-			<ColorPopover
+			<BlockLabColorPopover
 				isVisible={false}
 				color={attr[ field.name ]}
 				onUpdate={(color) => {
