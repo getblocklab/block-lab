@@ -19,17 +19,17 @@ const BlockLabColorPopover = withState( {
 		<div className="block-lab-color-popover">
 			<ColorIndicator
 				colorValue={color}
-				onMouseDown={(event) => {
+				onMouseDown={event => {
 					event.preventDefault() // Prevent the popover blur.
 				}}
 				onClick={toggleVisible}
 			>
 				{isVisible && (
 					<Popover
-						onClick={(event) => {
+						onClick={event => {
 							event.stopPropagation()
 						}}
-						onBlur={(event) => {
+						onBlur={event => {
 							if ( null === event.relatedTarget ) {
 								return
 							}
@@ -40,7 +40,7 @@ const BlockLabColorPopover = withState( {
 					>
 						<ColorPicker
 							color={color}
-							onChangeComplete={ value => {
+							onChangeComplete={value => {
 								colorChange( value )
 							}}
 						/>
@@ -58,17 +58,20 @@ const BlockLabColorControl = ( props, field, block ) => {
 	return (
 		<BaseControl label={field.label} className="block-lab-color-control" help={field.help}>
 			<TextControl
-				readonly={true}
 				defaultValue={field.default}
 				value={attr[ field.name ]}
 				onClick={(event) => {
 					event.target.setSelectionRange(0, event.target.value.length)
 				}}
+				onChange={colorControl => {
+					attr[ field.name ] = colorControl
+					setAttributes( attr )
+				}}
 			/>
 			<BlockLabColorPopover
 				isVisible={false}
 				color={attr[ field.name ]}
-				onUpdate={(color) => {
+				onUpdate={color => {
 					attr[ field.name ] = color
 					setAttributes( attr )
 				}}
