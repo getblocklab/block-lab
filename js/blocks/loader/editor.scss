@@ -2,16 +2,13 @@ $black: #222;
 $dark: rgba(0, 0, 0, 0.39);
 $light: rgba(140, 140, 151, 0.1);
 
-.entry-content div[class^="wp-block-block-lab-"],
+/* Block form in editor */
 div[class^="wp-block-block-lab-"] {
-
   margin: 0;
   padding: 5px;
 
   .block-form {
     border: 5px solid $dark;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-
     background: $light;
     padding: 1rem;
     font-size: 0.8125rem;
@@ -32,10 +29,6 @@ div[class^="wp-block-block-lab-"] {
       font-size: 1rem;
     }
 
-    :required:invalid {
-      border-color: #C00000;
-    }
-
     .components-base-control__field {
       margin: 1em 0 0;
 
@@ -50,53 +43,70 @@ div[class^="wp-block-block-lab-"] {
       color: rgba(0, 0, 0, 0.8);
     }
   }
+}
+
+/* Block form in editor */
+.edit-post-settings-sidebar__panel-block .components-panel__body {
+}
+
+/* Block form in editor & sidebar */
+div[class^="wp-block-block-lab-"],
+.edit-post-settings-sidebar__panel-block .components-panel__body {
+
+  :required:invalid {
+    border-color: #C00000;
+  }
 
   .text-control__error {
     border-color: #d94f4f;
     box-shadow: 0 0 0 1px #d94f4f;
   }
+}
 
-  .block-lab-color-control {
+/* Color Control Component */
+.block-lab-color-control {
 
-    .components-base-control {
-      width: 33%;
-      display: inline-block;
-      float: left;
-
-      .components-base-control__field {
-        margin-top: 0;
-      }
-    }
-  }
-
-  .block-lab-color-popover {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    margin: 2px 1em;
-    background-image: linear-gradient(45deg, #ddd 25%, transparent 25%), linear-gradient(-45deg, #ddd 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #ddd 75%), linear-gradient(-45deg, transparent 75%, #ddd 75%);
-    background-size: 10px 10px;
-    background-position: 0 0, 0 5px, 5px -5px, -5px 0;
+  .components-base-control {
     display: inline-block;
-    border: none;
-    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
-    transition: 100ms transform ease;
-    cursor: pointer;
+    margin-bottom: 0 !important;
 
-    &:hover {
-      transform: scale(1.2)
-    }
-
-    .component-color-indicator {
+    .components-base-control__field {
+      margin: 0 !important;
       width: 100%;
       height: 100%;
-      margin: 0;
-      border: none;
+    }
+
+    &.block-lab-color-popover {
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
+      margin: 1px 1em !important;
+      background-image: linear-gradient(45deg, #ddd 25%, transparent 25%), linear-gradient(-45deg, #ddd 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #ddd 75%), linear-gradient(-45deg, transparent 75%, #ddd 75%);
+      background-size: 10px 10px;
+      background-position: 0 0, 0 5px, 5px -5px, -5px 0;
+      display: inline-block;
+      vertical-align: top;
+      border: none;
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+      transition: 100ms transform ease;
+      cursor: pointer;
+
+      &:hover {
+        transform: scale(1.2)
+      }
+
+      .component-color-indicator {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        border: none;
+        border-radius: 50%;
+      }
     }
   }
 }
 
+/* Miscellaneous global styles */
 .edit-post-layout {
   .components-popover:not(.is-mobile) .components-popover__content {
     min-width: 340px;
