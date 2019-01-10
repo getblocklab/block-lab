@@ -38,6 +38,9 @@ function block_field( $name, $echo = true ) {
 	// Cast block value as correct type.
 	if ( isset( $block_lab_config['fields'][ $name ]['type'] ) ) {
 		switch ( $block_lab_config['fields'][ $name ]['type'] ) {
+			case 'string':
+				$value = strval( $value );
+				break;
 			case 'boolean':
 				if ( 1 === $value ) {
 					$value = true;
