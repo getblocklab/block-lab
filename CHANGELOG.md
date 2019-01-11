@@ -1,5 +1,10 @@
 ## Changelog #
  
+### 1.1.2 - 2019-01-11 ###
+
+* New: Color field
+* Fix: Incorrect output for empty fields
+ 
 ### 1.1.1 - 2018-12-14 ###
 
 * Fix: Undefined index error for multiselect and select fields
