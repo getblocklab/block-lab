@@ -16,18 +16,18 @@ const BlockLabImageControl = ( props, field, block ) => {
 		setAttributes( attr )
 	};
 
-	const onSelect = (media) => {
-		if ( ! media.hasOwnProperty( 'url' ) ) {
+	const onSelect = (image) => {
+		if ( ! image.hasOwnProperty( 'url' ) ) {
 			return
 		}
-		if ( 'blob' === media.url.substr( 0, 4 ) ) {
+		if ( 'blob' === image.url.substr( 0, 4 ) ) {
 			// Still uploading…
 			return
 		}
 
 		uploadComplete();
 
-		attr[ field.name ] = media.url
+		attr[ field.name ] = image.url
 		setAttributes( attr )
 	};
 
@@ -58,8 +58,8 @@ const BlockLabImageControl = ( props, field, block ) => {
 						mediaUpload( {
 							allowedTypes: [ 'image' ],
 							filesList: files,
-							onFileChange: ( media ) => {
-								onSelect(media[0])
+							onFileChange: ( image ) => {
+								onSelect(image[0])
 							}
 						} );
 					}}
@@ -75,14 +75,16 @@ const BlockLabImageControl = ( props, field, block ) => {
 					allowedTypes={ [ 'image' ] }
 					value={ attr[ field.name ] }
 					render={ ( { open } ) => (
-						<Button
-							isLarge
-							disabled={!!attr.isUploading}
-							className="editor-media-placeholder__button"
-							onClick={ open }
-						>
-							{ __( 'Media Library' ) }
-						</Button>
+						<div className='components-media-library-button'>
+							<Button
+								isLarge
+								disabled={!!attr.isUploading}
+								className="editor-media-placeholder__button"
+								onClick={ open }
+							>
+								{ __( 'Media Library' ) }
+							</Button>
+						</div>
 					) }
 				/>
 			</MediaUploadCheck>
