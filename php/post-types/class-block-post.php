@@ -82,7 +82,7 @@ class Block_Post extends Component_Abstract {
 				'email'       => new Controls\Email(),
 				'number'      => new Controls\Number(),
 				'color'       => new Controls\Color(),
-				'video'       => new Controls\Video(),
+				'image'       => new Controls\Image(),
 				'select'      => new Controls\Select(),
 				'multiselect' => new Controls\Multiselect(),
 				'toggle'      => new Controls\Toggle(),
