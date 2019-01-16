@@ -1,6 +1,6 @@
 <?php
 /**
- * Media control.
+ * Video control.
  *
  * @package   Block_Lab
  * @copyright Copyright(c) 2018, Block Lab
@@ -10,16 +10,16 @@
 namespace Block_Lab\Blocks\Controls;
 
 /**
- * Class Media
+ * Class Video
  */
-class Media extends Control_Abstract {
+class Video extends Control_Abstract {
 
 	/**
 	 * Control name.
 	 *
 	 * @var string
 	 */
-	public $name = 'media';
+	public $name = 'video';
 
 	/**
 	 * Text constructor.
@@ -28,7 +28,7 @@ class Media extends Control_Abstract {
 	 */
 	public function __construct() {
 		parent::__construct();
-		$this->label = __( 'Media', 'block-lab' );
+		$this->label = __( 'Video', 'block-lab' );
 	}
 
 	/**
