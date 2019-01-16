@@ -1,6 +1,6 @@
 <?php
 /**
- * Video control.
+ * Image control.
  *
  * @package   Block_Lab
  * @copyright Copyright(c) 2018, Block Lab
@@ -10,16 +10,16 @@
 namespace Block_Lab\Blocks\Controls;
 
 /**
- * Class Video
+ * Class Image
  */
-class Video extends Control_Abstract {
+class Image extends Control_Abstract {
 
 	/**
 	 * Control name.
 	 *
 	 * @var string
 	 */
-	public $name = 'video';
+	public $name = 'image';
 
 	/**
 	 * Text constructor.
@@ -28,7 +28,7 @@ class Video extends Control_Abstract {
 	 */
 	public function __construct() {
 		parent::__construct();
-		$this->label = __( 'Video', 'block-lab' );
+		$this->label = __( 'Image', 'block-lab' );
 	}
 
 	/**
@@ -50,9 +50,10 @@ class Video extends Control_Abstract {
 			array(
 				'name'     => 'default',
 				'label'    => __( 'Default Value', 'block-lab' ),
-				'type'     => 'text',
+				'type'     => 'url',
 				'default'  => '',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'esc_url_raw',
+				'help'     => __( 'An image URL.' ),
 			)
 		);
 	}

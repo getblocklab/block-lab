@@ -1,10 +1,20 @@
-const { BaseControl, TextControl, FormFileUpload, Button } = wp.components;
+const { BaseControl, TextControl, FormFileUpload, Button, Spinner } = wp.components;
 const { MediaUploadCheck, MediaUpload, mediaUpload } = wp.editor;
 const { __ } = wp.i18n;
 
-const BlockLabVideoControl = ( props, field, block ) => {
+const BlockLabImageControl = ( props, field, block ) => {
 	const { setAttributes } = props;
-	const attr = { ...props.attributes };
+	const attr = { isUploading: false, ...props.attributes };
+
+	const uploadStart = () => {
+		attr.isUploading = true
+		setAttributes( attr )
+	};
+
+	const uploadComplete = () => {
+		attr.isUploading = false
+		setAttributes( attr )
+	};
 
 	const onSelect = (media) => {
 		if ( ! media.hasOwnProperty( 'url' ) ) {
@@ -14,6 +24,9 @@ const BlockLabVideoControl = ( props, field, block ) => {
 			// Still uploading…
 			return
 		}
+
+		uploadComplete();
+
 		attr[ field.name ] = media.url
 		setAttributes( attr )
 	};
@@ -23,27 +36,34 @@ const BlockLabVideoControl = ( props, field, block ) => {
 			<TextControl
 				defaultValue={field.default}
 				value={attr[ field.name ]}
+				disabled={!!attr.isUploading}
 				onClick={(event) => {
 					event.target.setSelectionRange(0, event.target.value.length)
 				}}
-				onChange={colorControl => {
-					attr[ field.name ] = colorControl
+				onChange={image => {
+					attr[ field.name ] = image
 					setAttributes( attr )
 				}}
 			/>
 			<MediaUploadCheck>
+				{attr.isUploading && (
+					<Spinner />
+				)}
 				<FormFileUpload
 					isLarge
-					className=''
+					disabled={!!attr.isUploading}
 					onChange={(event) => {
 						let files = event.target.files;
+						uploadStart();
 						mediaUpload( {
-							allowedTypes: [ 'video' ],
+							allowedTypes: [ 'image' ],
 							filesList: files,
-							onFileChange: ( media ) => onSelect( media[0] ),
+							onFileChange: ( media ) => {
+								onSelect(media[0])
+							}
 						} );
 					}}
-					accept='video/mp4,video/x-m4v,video/*'
+					accept='image/*'
 					multiple={ false }
 				>
 					{ __( 'Upload' ) }
@@ -52,11 +72,12 @@ const BlockLabVideoControl = ( props, field, block ) => {
 					gallery={ false }
 					multiple={ false }
 					onSelect={ onSelect }
-					allowedTypes={ [ 'video' ] }
+					allowedTypes={ [ 'image' ] }
 					value={ attr[ field.name ] }
 					render={ ( { open } ) => (
 						<Button
 							isLarge
+							disabled={!!attr.isUploading}
 							className="editor-media-placeholder__button"
 							onClick={ open }
 						>
@@ -69,4 +90,4 @@ const BlockLabVideoControl = ( props, field, block ) => {
 	)
 }
 
-export default BlockLabVideoControl
+export default BlockLabImageControl
