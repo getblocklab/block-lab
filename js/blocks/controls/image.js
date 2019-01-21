@@ -5,7 +5,7 @@ const { __ } = wp.i18n;
 const BlockLabImageControl = ( props, field, block ) => {
 	const { setAttributes } = props;
 	const attr = { ...props.attributes };
-	const isUploading = 'Uploading' === attr[ field.name ].substr( 0, 9 );
+	const isUploading = 'undefined' !== typeof attr[field.name] && 'Uploading' === attr[field.name].substr( 0, 9 );
 
 	const uploadStart = (filename) => {
 		attr[ field.name ] = __( 'Uploading' ) + ' ' + filename;
