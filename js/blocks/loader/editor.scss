@@ -61,6 +61,14 @@ div[class^="wp-block-block-lab-"],
     border-color: #d94f4f;
     box-shadow: 0 0 0 1px #d94f4f;
   }
+
+  .block-lab-rich-text-control {
+    .input-control {
+      background: #fff;
+      line-height: 1.4em;
+      min-height: 7em;
+    }
+  }
 }
 
 /* Color Control Component */

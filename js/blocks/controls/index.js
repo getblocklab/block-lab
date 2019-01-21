@@ -1,5 +1,6 @@
 import BlockLabTextControl from './text'
 import BlockLabTextareaControl from './textarea'
+import BlockLabRichTextControl from './rich-text'
 import BlockLabURLControl from './url'
 import BlockLabEmailControl from './email'
 import BlockLabNumberControl from './number'
@@ -14,6 +15,7 @@ import BlockLabToggleControl from './toggle'
 export default {
 	text: BlockLabTextControl,
 	textarea: BlockLabTextareaControl,
+	rich_text: BlockLabRichTextControl,
 	url: BlockLabURLControl,
 	email: BlockLabEmailControl,
 	number: BlockLabNumberControl,
