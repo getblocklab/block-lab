@@ -4,6 +4,7 @@ import BlockLabURLControl from './url'
 import BlockLabEmailControl from './email'
 import BlockLabNumberControl from './number'
 import BlockLabColorControl from './color'
+import BlockLabImageControl from './image'
 import BlockLabCheckboxControl from './checkbox'
 import BlockLabRadioControl from './radio'
 import BlockLabRangeControl from './range'
@@ -18,6 +19,7 @@ export default {
 	email: BlockLabEmailControl,
 	number: BlockLabNumberControl,
 	color: BlockLabColorControl,
+	image: BlockLabImageControl,
 	checkbox: BlockLabCheckboxControl,
 	radio: BlockLabRadioControl,
 	range: BlockLabRangeControl,
