@@ -67,6 +67,7 @@ div[class^="wp-block-block-lab-"] {
 
       .components-spinner {
         margin-right: 0;
+        margin-top: 6px;
       }
 
       .components-form-file-upload {
@@ -89,6 +90,10 @@ div[class^="wp-block-block-lab-"] {
   .block-lab-media-control {
     .components-base-control {
       margin-bottom: 0 !important;
+    }
+
+    .components-spinner {
+      margin-top: 5px;
     }
 
     .components-form-file-upload {
