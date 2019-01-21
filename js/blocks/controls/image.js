@@ -4,15 +4,16 @@ const { __ } = wp.i18n;
 
 const BlockLabImageControl = ( props, field, block ) => {
 	const { setAttributes } = props;
-	const attr = { isUploading: false, ...props.attributes };
+	const attr = { ...props.attributes };
+	const isUploading = 'Uploading' === attr[ field.name ].substr( 0, 9 );
 
-	const uploadStart = () => {
-		attr.isUploading = true
+	const uploadStart = (filename) => {
+		attr[ field.name ] = __( 'Uploading' ) + ' ' + filename;
 		setAttributes( attr )
 	};
 
-	const uploadComplete = () => {
-		attr.isUploading = false
+	const uploadComplete = (url) => {
+		attr[ field.name ] = url;
 		setAttributes( attr )
 	};
 
@@ -25,10 +26,7 @@ const BlockLabImageControl = ( props, field, block ) => {
 			return
 		}
 
-		uploadComplete();
-
-		attr[ field.name ] = image.url
-		setAttributes( attr )
+		uploadComplete( image.url );
 	};
 
 	return (
@@ -36,7 +34,7 @@ const BlockLabImageControl = ( props, field, block ) => {
 			<TextControl
 				defaultValue={field.default}
 				value={attr[ field.name ]}
-				disabled={!!attr.isUploading}
+				disabled={!!isUploading}
 				onClick={(event) => {
 					event.target.setSelectionRange(0, event.target.value.length)
 				}}
@@ -46,15 +44,15 @@ const BlockLabImageControl = ( props, field, block ) => {
 				}}
 			/>
 			<MediaUploadCheck>
-				{attr.isUploading && (
+				{isUploading && (
 					<Spinner />
 				)}
 				<FormFileUpload
 					isLarge
-					disabled={!!attr.isUploading}
+					disabled={!!isUploading}
 					onChange={(event) => {
 						let files = event.target.files;
-						uploadStart();
+						uploadStart(files[0].name);
 						mediaUpload( {
 							allowedTypes: [ 'image' ],
 							filesList: files,
@@ -78,7 +76,7 @@ const BlockLabImageControl = ( props, field, block ) => {
 						<div className='components-media-library-button'>
 							<Button
 								isLarge
-								disabled={!!attr.isUploading}
+								disabled={!!isUploading}
 								className="editor-media-placeholder__button"
 								onClick={ open }
 							>
