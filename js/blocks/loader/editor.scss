@@ -43,10 +43,74 @@ div[class^="wp-block-block-lab-"] {
       color: rgba(0, 0, 0, 0.8);
     }
   }
+
+  /* Media Upload Component */
+  .block-lab-media-control {
+    >.components-base-control__field {
+      display: flex;
+      flex-wrap: wrap;
+
+      >.components-base-control__label {
+        flex: 3 3 100%;
+      }
+
+      >.components-base-control {
+        flex: 3 1 auto;
+        margin-bottom: 0 !important;
+
+        .components-base-control__field {
+          margin: 0 !important;
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      .components-spinner {
+        margin-right: 0;
+        margin-top: 6px;
+      }
+
+      .components-form-file-upload {
+        flex: 1;
+        line-height: 2.5;
+        margin-left: 1em;
+      }
+
+      .components-media-library-button {
+        flex: 1;
+        margin-left: 1em;
+      }
+    }
+  }
 }
 
-/* Block form in editor */
+/* Block form in sidebar */
 .edit-post-settings-sidebar__panel-block .components-panel__body {
+  /* Media Upload Component */
+  .block-lab-media-control {
+    .components-base-control {
+      margin-bottom: 0 !important;
+    }
+
+    .components-spinner {
+      margin-top: 5px;
+    }
+
+    .components-form-file-upload {
+       display: inline-block;
+       margin-right: 1em;
+     }
+
+    .components-media-library-button {
+      display: inline-block;
+      vertical-align: top;
+
+      button {
+        display: block;
+        margin: 0;
+      }
+    }
+  }
 }
 
 /* Block form in editor & sidebar */
@@ -62,6 +126,7 @@ div[class^="wp-block-block-lab-"],
     box-shadow: 0 0 0 1px #d94f4f;
   }
 
+  /* Rich Text Control Component */
   .block-lab-rich-text-control {
     .input-control {
       background: #fff;
@@ -69,46 +134,46 @@ div[class^="wp-block-block-lab-"],
       min-height: 7em;
     }
   }
-}
 
-/* Color Control Component */
-.block-lab-color-control {
+  /* Color Control Component */
+  .block-lab-color-control {
 
-  .components-base-control {
-    display: inline-block;
-    margin-bottom: 0 !important;
-
-    .components-base-control__field {
-      margin: 0 !important;
-      width: 100%;
-      height: 100%;
-    }
-
-    &.block-lab-color-popover {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      margin: 4px 1em !important;
-      background-image: linear-gradient(45deg, #ddd 25%, transparent 25%), linear-gradient(-45deg, #ddd 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #ddd 75%), linear-gradient(-45deg, transparent 75%, #ddd 75%);
-      background-size: 10px 10px;
-      background-position: 0 0, 0 5px, 5px -5px, -5px 0;
+    .components-base-control {
       display: inline-block;
-      vertical-align: top;
-      border: none;
-      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
-      transition: 100ms transform ease;
-      cursor: pointer;
+      margin-bottom: 0 !important;
 
-      &:hover {
-        transform: scale(1.2)
-      }
-
-      .component-color-indicator {
+      .components-base-control__field {
+        margin: 0 !important;
         width: 100%;
         height: 100%;
-        margin: 0;
-        border: none;
+      }
+
+      &.block-lab-color-popover {
+        width: 28px;
+        height: 28px;
         border-radius: 50%;
+        margin: 1px 1em !important;
+        background-image: linear-gradient(45deg, #ddd 25%, transparent 25%), linear-gradient(-45deg, #ddd 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #ddd 75%), linear-gradient(-45deg, transparent 75%, #ddd 75%);
+        background-size: 10px 10px;
+        background-position: 0 0, 0 5px, 5px -5px, -5px 0;
+        display: inline-block;
+        vertical-align: top;
+        border: none;
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+        transition: 100ms transform ease;
+        cursor: pointer;
+
+        &:hover {
+          transform: scale(1.2)
+        }
+
+        .component-color-indicator {
+          width: 100%;
+          height: 100%;
+          margin: 0;
+          border: none;
+          border-radius: 50%;
+        }
       }
     }
   }

@@ -1,12 +1,8 @@
 import { simplifiedFields } from "./fields";
 import controls from "../controls";
 
-const {
-	InspectorControls,
-} = wp.editor;
-const {
-	PanelBody,
-} = wp.components;
+const { InspectorControls } = wp.editor;
+const { PanelBody } = wp.components;
 
 
 const inspectorControls = ( props, block ) => {

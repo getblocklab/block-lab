@@ -1,6 +1,6 @@
 <?php
 /**
- * Rich Text control.
+ * Image control.
  *
  * @package   Block_Lab
  * @copyright Copyright(c) 2018, Block Lab
@@ -10,25 +10,25 @@
 namespace Block_Lab\Blocks\Controls;
 
 /**
- * Class RichText
+ * Class Image
  */
-class Rich_Text extends Control_Abstract {
+class Image extends Control_Abstract {
 
 	/**
 	 * Control name.
 	 *
 	 * @var string
 	 */
-	public $name = 'rich_text';
+	public $name = 'image';
 
 	/**
-	 * Textarea constructor.
+	 * Text constructor.
 	 *
 	 * @return void
 	 */
 	public function __construct() {
 		parent::__construct();
-		$this->label = __( 'Rich Text', 'block-lab' );
+		$this->label = __( 'Image', 'block-lab' );
 	}
 
 	/**
@@ -48,30 +48,12 @@ class Rich_Text extends Control_Abstract {
 		);
 		$this->settings[] = new Control_Setting(
 			array(
-				'name'     => 'multiline',
-				'label'    => __( 'Use Paragraphs', 'block-lab' ),
-				'help'     => __( 'New lines create paragraph tags.', 'block-lab' ),
-				'type'     => 'checkbox',
-				'default'  => '0',
-				'sanitize' => array( $this, 'sanitize_checkbox' ),
-			)
-		);
-		$this->settings[] = new Control_Setting(
-			array(
 				'name'     => 'default',
 				'label'    => __( 'Default Value', 'block-lab' ),
-				'type'     => 'text',
+				'type'     => 'url',
 				'default'  => '',
-				'sanitize' => 'sanitize_text_field',
-			)
-		);
-		$this->settings[] = new Control_Setting(
-			array(
-				'name'     => 'placeholder',
-				'label'    => __( 'Placeholder Text', 'block-lab' ),
-				'type'     => 'text',
-				'default'  => '',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'esc_url_raw',
+				'help'     => __( 'An image URL.' ),
 			)
 		);
 	}
