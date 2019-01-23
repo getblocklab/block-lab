@@ -35,9 +35,6 @@ const BlockLabImageControl = ( props, field, block ) => {
 				defaultValue={field.default}
 				value={attr[ field.name ]}
 				disabled={!!isUploading}
-				onClick={(event) => {
-					event.target.setSelectionRange(0, event.target.value.length)
-				}}
 				onChange={image => {
 					attr[ field.name ] = image
 					setAttributes( attr )
