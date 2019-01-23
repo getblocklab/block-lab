@@ -60,9 +60,6 @@ const BlockLabColorControl = ( props, field, block ) => {
 			<TextControl
 				defaultValue={field.default}
 				value={attr[ field.name ]}
-				onClick={(event) => {
-					event.target.setSelectionRange(0, event.target.value.length)
-				}}
 				onChange={colorControl => {
 					attr[ field.name ] = colorControl
 					setAttributes( attr )
