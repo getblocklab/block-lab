@@ -1,5 +1,9 @@
 ## Changelog #
  
+### 1.1.3 - 2019-01-25 ###
+
+* New: Image field
+ 
 ### 1.1.2 - 2019-01-11 ###
 
 * New: Color field
