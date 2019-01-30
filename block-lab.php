@@ -120,6 +120,7 @@ block_lab()
  * Register plugin components.
  */
 block_lab()
+	->register_component( new \Block_Lab\Admin() )
 	->register_component( new \Block_Lab\Post_Types\Block_Post() )
 	->register_component( new \Block_Lab\Blocks\Loader() );
 
