@@ -34,6 +34,7 @@ class Settings extends Component_Abstract {
 		add_action( 'admin_menu', array( $this, 'add_submenu_pages' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'admin_notices', array( $this, 'show_notices' ) );
 	}
 
 	/**
@@ -97,7 +98,9 @@ class Settings extends Component_Abstract {
 		echo '<div class="wrap block-lab-settings">' . $html . '</div>'; // phpcs: XSS okay.
 	}
 
-	/** Render the Settings page header */
+	/**
+	 * Render the Settings page header.
+	 */
 	public function render_settings_page_header() {
 		?>
 		<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
@@ -113,5 +116,33 @@ class Settings extends Component_Abstract {
 			</a>
 		</h2>
 		<?php
+	}
+
+	/**
+	 * Prepare notices to be displayed after saving the settings.
+	 *
+	 * @param string $notice The notice text to display.
+	 */
+	public function prepare_notice( $notice ) {
+		$notices   = get_option( 'block_lab_notices', array() );
+		$notices[] = $notice;
+		update_option( 'block_lab_notices', $notices );
+	}
+
+	/**
+	 * Show any admin notices after saving the settings.
+	 */
+	public function show_notices() {
+		$notices = get_option( 'block_lab_notices', array() );
+
+		if ( empty( $notices ) || ! is_array( $notices ) ) {
+			return;
+		}
+
+		foreach ( $notices as $notice ) {
+			echo wp_kses_post( $notice );
+		}
+
+		delete_option( 'block_lab_notices' );
 	}
 }

@@ -21,12 +21,29 @@ class Admin extends Component_Abstract {
 	public $show_pro;
 
 	/**
+	 * Plugin settings.
+	 *
+	 * @var Settings
+	 */
+	public $settings;
+
+	/**
+	 * Plugin license.
+	 *
+	 * @var License
+	 */
+	public $license;
+
+	/**
 	 * Initialise the Admin component.
 	 */
 	public function init() {
 		$this->show_pro = apply_filters( 'block_lab_show_pro', false );
 		if ( $this->show_pro ) {
-			block_lab()->register_component( new Settings() );
+			$this->settings = new Settings();
+			$this->license  = new License();
+			block_lab()->register_component( $this->settings );
+			block_lab()->register_component( $this->license );
 		}
 	}
 
