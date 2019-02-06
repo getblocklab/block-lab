@@ -20,10 +20,10 @@
 			</th>
 			<td>
 				<?php
-				if ( block_lab()->admin->license->is_valid() ) {
+				if ( block_lab()->is_pro() ) {
 					$license = block_lab()->admin->license->get_license();
 
-					$limit = __( 'unlimited', 'block_lab' );
+					$limit = __( 'unlimited', 'block-lab' );
 					if ( isset( $license['license_limit'] ) && intval( $license['license_limit'] ) > 0 ) {
 						$limit = $license['license_limit'];
 					}
@@ -43,14 +43,14 @@
 							'<p>%1$s %2$s</p>',
 							sprintf(
 								// translators: A number, wrapped in <strong> tags.
-								__( 'Your license includes %1$s%2$s%3$s site installs.', 'block_lab' ),
+								__( 'Your license includes %1$s%2$s%3$s site installs.', 'block-lab' ),
 								'<strong>',
 								$limit,
 								'</strong>'
 							),
 							sprintf(
 								// translators: A number, wrapped in <strong> tags.
-								__( '%1$s%2$s%3$s of them are in use.', 'block_lab' ),
+								__( '%1$s%2$s%3$s of them are in use.', 'block-lab' ),
 								'<strong>',
 								$count,
 								'</strong>'
@@ -63,14 +63,14 @@
 							'<p>%1$s %2$s</p>',
 							sprintf(
 								// translators: A date.
-								__( 'Your license will be automatically renewed on %2$s.', 'block_lab' ),
+								__( 'Your license will be automatically renewed on %2$s.', 'block-lab' ),
 								'<strong>',
 								$expiry,
 								'</strong>'
 							),
 							sprintf(
 								// translators: An opening and closing anchor tag.
-								__( '%1$sManage Licenses%2$s', 'block_lab' ),
+								__( '%1$sManage Licenses%2$s', 'block-lab' ),
 								'<a href="https://getblocklab.com/checkout/purchase-history/" target="_blank">',
 								'</a>'
 							)
@@ -80,10 +80,10 @@
 					echo wp_kses_post(
 						sprintf(
 							'<p>%1$s %2$s</p>',
-							__( 'No Pro license was found for this installation.', 'block_lab' ),
+							__( 'No Pro license was found for this installation.', 'block-lab' ),
 							sprintf(
 								// translators: Opening and closing anchor and emphasis tags.
-								__( '%1$s%2$sPurchase Block Lab Pro now!%3$s%4$s', 'block_lab' ),
+								__( '%1$s%2$sPurchase Block Lab Pro now!%3$s%4$s', 'block-lab' ),
 								'<a href="' . add_query_arg( array( 'page' => 'block-lab-pro' ) ) . '">',
 								'<em>',
 								'</em>',
