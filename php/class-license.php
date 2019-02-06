@@ -140,7 +140,7 @@ class License extends Component_Abstract {
 	 * @return string
 	 */
 	public function license_success_message() {
-		$message = __( 'Block Lab plugin success!', 'block-lab' );
+		$message = __( 'Your Block Lab license was successfully activated!', 'block-lab' );
 		return sprintf( '<div class="notice notice-success"><p>%s</p></div>', esc_html( $message ) );
 	}
 
@@ -150,7 +150,7 @@ class License extends Component_Abstract {
 	 * @return string
 	 */
 	public function license_error_message() {
-		$message = __( 'Block Lab plugin error.', 'block-lab' );
+		$message = __( 'There was a problem activating your Block Lab license.', 'block-lab' );
 		return sprintf( '<div class="notice notice-error"><p>%s</p></div>', esc_html( $message ) );
 	}
 }
