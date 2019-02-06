@@ -75,22 +75,44 @@ class Admin extends Component_Abstract {
 	 * Add submenu pages to the Block Lab menu.
 	 */
 	public function add_submenu_pages() {
-		add_submenu_page(
-			'edit.php?post_type=block_lab',
-			__( 'Block Lab Pro', 'block_lab' ),
-			__( 'Go Pro', 'block_lab' ),
-			'manage_options',
-			'block-lab-pro',
-			array( $this, 'render_pro_page' )
-		);
+		if ( ! block_lab()->is_pro() ) {
+			add_submenu_page(
+				'edit.php?post_type=block_lab',
+				__( 'Block Lab Pro', 'block-lab' ),
+				__( 'Go Pro', 'block-lab' ),
+				'manage_options',
+				'block-lab-pro',
+				array( $this, 'render_page_pro' )
+			);
+		} else {
+			add_submenu_page(
+				'edit.php?post_type=block_lab',
+				__( 'Import', 'block-lab' ),
+				__( 'Import', 'block-lab' ),
+				'manage_options',
+				'block-lab-import',
+				array( $this, 'render_page_import' )
+			);
+		}
 	}
 
 	/**
 	 * Render the Pro upgrade page.
 	 */
-	public function render_pro_page() {
+	public function render_page_pro() {
 		?>
 		<div class="wrap block-lab-pro">
+			<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Render the Import page.
+	 */
+	public function render_page_import() {
+		?>
+		<div class="wrap block-lab-import">
 			<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
 		</div>
 		<?php
