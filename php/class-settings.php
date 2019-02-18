@@ -66,7 +66,7 @@ class Settings extends Component_Abstract {
 			__( 'Settings', 'block-lab' ),
 			'manage_options',
 			$this->slug,
-			array( $this, 'render_settings_page' )
+			array( $this, 'render_page' )
 		);
 	}
 
@@ -80,12 +80,12 @@ class Settings extends Component_Abstract {
 	/**
 	 * Render the Settings page.
 	 */
-	public function render_settings_page() {
+	public function render_page() {
 		$tab = filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_STRING );
 
 		ob_start();
 
-		$this->render_settings_page_header();
+		$this->render_page_header();
 
 		switch ( $tab ) {
 			case 'license':
@@ -101,7 +101,7 @@ class Settings extends Component_Abstract {
 	/**
 	 * Render the Settings page header.
 	 */
-	public function render_settings_page_header() {
+	public function render_page_header() {
 		?>
 		<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
 		<h2 class="nav-tab-wrapper">
