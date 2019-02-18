@@ -10,7 +10,7 @@
 namespace Block_Lab;
 
 /**
- * Class Settings
+ * Class Upgrade
  */
 class Upgrade extends Component_Abstract {
 
@@ -22,7 +22,7 @@ class Upgrade extends Component_Abstract {
 	public $slug = 'block-lab-pro';
 
 	/**
-	 * Initialise the Settings component.
+	 * Initialise the Upgrade component.
 	 */
 	public function init() {
 	}
@@ -36,7 +36,7 @@ class Upgrade extends Component_Abstract {
 	}
 
 	/**
-	 * Enqueue scripts and styles used by the Settings screen.
+	 * Enqueue scripts and styles used by the Upgrade screen.
 	 *
 	 * @return void
 	 */
@@ -69,7 +69,7 @@ class Upgrade extends Component_Abstract {
 	}
 
 	/**
-	 * Render the Settings page.
+	 * Render the Upgrade page.
 	 */
 	public function render_page() {
 		?>
