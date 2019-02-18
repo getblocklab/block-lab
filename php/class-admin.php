@@ -35,6 +35,13 @@ class Admin extends Component_Abstract {
 	public $license;
 
 	/**
+	 * Plugin upgrade.
+	 *
+	 * @var Upgrade
+	 */
+	public $upgrade;
+
+	/**
 	 * Initialise the Admin component.
 	 */
 	public function init() {
@@ -44,6 +51,11 @@ class Admin extends Component_Abstract {
 			$this->license  = new License();
 			block_lab()->register_component( $this->settings );
 			block_lab()->register_component( $this->license );
+
+			if ( ! block_lab()->is_pro() ) {
+				$this->upgrade = new Upgrade();
+				block_lab()->register_component( $this->upgrade );
+			}
 		}
 	}
 
@@ -51,10 +63,8 @@ class Admin extends Component_Abstract {
 	 * Register any hooks that this component needs.
 	 */
 	public function register_hooks() {
-		if ( $this->show_pro ) {
-			add_action( 'admin_menu', array( $this, 'add_submenu_pages' ) );
-			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-		}
+		add_action( 'admin_menu', array( $this, 'add_submenu_pages' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 	}
 
 	/**
@@ -75,16 +85,7 @@ class Admin extends Component_Abstract {
 	 * Add submenu pages to the Block Lab menu.
 	 */
 	public function add_submenu_pages() {
-		if ( ! block_lab()->is_pro() ) {
-			add_submenu_page(
-				'edit.php?post_type=block_lab',
-				__( 'Block Lab Pro', 'block-lab' ),
-				__( 'Go Pro', 'block-lab' ),
-				'manage_options',
-				'block-lab-pro',
-				array( $this, 'render_page_pro' )
-			);
-		} else {
+		if ( $this->show_pro && block_lab()->is_pro() ) {
 			add_submenu_page(
 				'edit.php?post_type=block_lab',
 				__( 'Import', 'block-lab' ),
@@ -94,17 +95,6 @@ class Admin extends Component_Abstract {
 				array( $this, 'render_page_import' )
 			);
 		}
-	}
-
-	/**
-	 * Render the Pro upgrade page.
-	 */
-	public function render_page_pro() {
-		?>
-		<div class="wrap block-lab-pro">
-			<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
-		</div>
-		<?php
 	}
 
 	/**
