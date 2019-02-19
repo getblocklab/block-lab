@@ -170,7 +170,7 @@ abstract class Control_Abstract {
 	}
 
 	/**
-	 * Render number settings
+	 * Render number settings.
 	 *
 	 * @param Control_Setting $setting The Control_Setting being rendered.
 	 * @param string          $name    The name attribute of the option.
@@ -179,13 +179,41 @@ abstract class Control_Abstract {
 	 * @return void
 	 */
 	public function render_settings_number( $setting, $name, $id ) {
+		$this->render_number( $setting, $name, $id );
+	}
+
+	/**
+	 * Render the number settings, forcing the number in the <input> to be non-negative.
+	 * This could be 0, 1, 2, etc, but not -1.
+	 *
+	 * @param Control_Setting $setting The Control_Setting being rendered.
+	 * @param string          $name    The name attribute of the option.
+	 * @param string          $id      The id attribute of the option.
+	 *
+	 * @return void
+	 */
+	public function render_settings_number_non_negative( $setting, $name, $id ) {
+		$this->render_number( $setting, $name, $id, true );
+	}
+
+	/**
+	 * Render the number settings, optionally outputting a min="0" attribute to enforce a non-negative value.
+	 *
+	 * @param Control_Setting $setting      The Control_Setting being rendered.
+	 * @param string          $name         The name attribute of the option.
+	 * @param string          $id           The id attribute of the option.
+	 * @param bool            $non_negative Whether to force the number to be non-negative via a min="0" attribute.
+	 *
+	 * @return void
+	 */
+	public function render_number( $setting, $name, $id, $non_negative = false ) {
 		?>
 		<input
 			name="<?php echo esc_attr( $name ); ?>"
 			type="number"
 			id="<?php echo esc_attr( $id ); ?>"
 			class="regular-text"
-			min="0"
+			<?php echo $non_negative ? 'min="0"' : ''; ?>
 			value="<?php echo esc_attr( $setting->get_value() ); ?>" />
 		<?php
 	}
