@@ -42,19 +42,32 @@ class Admin extends Component_Abstract {
 	public $upgrade;
 
 	/**
+	 * JSON import.
+	 *
+	 * @var Import
+	 */
+	public $import;
+
+	/**
 	 * Initialise the Admin component.
 	 */
 	public function init() {
 		$this->show_pro = apply_filters( 'block_lab_show_pro', false );
 		if ( $this->show_pro ) {
 			$this->settings = new Settings();
-			$this->license  = new License();
 			block_lab()->register_component( $this->settings );
+
+			$this->license = new License();
 			block_lab()->register_component( $this->license );
 
 			if ( ! block_lab()->is_pro() ) {
 				$this->upgrade = new Upgrade();
 				block_lab()->register_component( $this->upgrade );
+			}
+
+			if ( defined( 'WP_LOAD_IMPORTERS' ) && WP_LOAD_IMPORTERS ) {
+				$this->import = new Import();
+				block_lab()->register_component( $this->import );
 			}
 		}
 	}
@@ -63,7 +76,6 @@ class Admin extends Component_Abstract {
 	 * Register any hooks that this component needs.
 	 */
 	public function register_hooks() {
-		add_action( 'admin_menu', array( $this, 'add_submenu_pages' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 	}
 
@@ -79,32 +91,5 @@ class Admin extends Component_Abstract {
 			array(),
 			$this->plugin->get_version()
 		);
-	}
-
-	/**
-	 * Add submenu pages to the Block Lab menu.
-	 */
-	public function add_submenu_pages() {
-		if ( $this->show_pro && block_lab()->is_pro() ) {
-			add_submenu_page(
-				'edit.php?post_type=block_lab',
-				__( 'Import', 'block-lab' ),
-				__( 'Import', 'block-lab' ),
-				'manage_options',
-				'block-lab-import',
-				array( $this, 'render_page_import' )
-			);
-		}
-	}
-
-	/**
-	 * Render the Import page.
-	 */
-	public function render_page_import() {
-		?>
-		<div class="wrap block-lab-import">
-			<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
-		</div>
-		<?php
 	}
 }
