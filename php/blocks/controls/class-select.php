@@ -37,34 +37,40 @@ class Select extends Control_Abstract {
 	 * @return void
 	 */
 	public function register_settings() {
-		$this->settings[] = new Control_Setting( array(
-			'name'     => 'help',
-			'label'    => __( 'Help Text', 'block-lab' ),
-			'type'     => 'text',
-			'default'  => '',
-			'sanitize' => 'sanitize_text_field',
-		) );
-		$this->settings[] = new Control_Setting( array(
-			'name'     => 'options',
-			'label'    => __( 'Choices', 'block-lab' ),
-			'type'     => 'textarea_array',
-			'default'  => '',
-			'help'     => sprintf(
-				'%s %s<br />%s<br />%s',
-				__( 'Enter each choice on a new line.', 'block-lab' ),
-				__( 'To specify the value and label separately, use this format:', 'block-lab' ),
-				_x( 'foo : Foo', 'Format for the menu values. option_value : Option Name', 'block-lab' ),
-				_x( 'bar : Bar', 'Format for the menu values. option_value : Option Name', 'block-lab' )
-			),
-			'sanitize' => array( $this, 'sanitize_textarea_assoc_array' ),
-		) );
-		$this->settings[] = new Control_Setting( array(
-			'name'     => 'default',
-			'label'    => __( 'Default Value', 'block-lab' ),
-			'type'     => 'text',
-			'default'  => '',
-			'sanitize' => 'sanitize_text_field',
-			'validate' => array( $this, 'validate_options' ),
-		) );
+		$this->settings[] = new Control_Setting(
+			array(
+				'name'     => 'help',
+				'label'    => __( 'Help Text', 'block-lab' ),
+				'type'     => 'text',
+				'default'  => '',
+				'sanitize' => 'sanitize_text_field',
+			)
+		);
+		$this->settings[] = new Control_Setting(
+			array(
+				'name'     => 'options',
+				'label'    => __( 'Choices', 'block-lab' ),
+				'type'     => 'textarea_array',
+				'default'  => '',
+				'help'     => sprintf(
+					'%s %s<br />%s<br />%s',
+					__( 'Enter each choice on a new line.', 'block-lab' ),
+					__( 'To specify the value and label separately, use this format:', 'block-lab' ),
+					_x( 'foo : Foo', 'Format for the menu values. option_value : Option Name', 'block-lab' ),
+					_x( 'bar : Bar', 'Format for the menu values. option_value : Option Name', 'block-lab' )
+				),
+				'sanitize' => array( $this, 'sanitize_textarea_assoc_array' ),
+			)
+		);
+		$this->settings[] = new Control_Setting(
+			array(
+				'name'     => 'default',
+				'label'    => __( 'Default Value', 'block-lab' ),
+				'type'     => 'text',
+				'default'  => '',
+				'sanitize' => 'sanitize_text_field',
+				'validate' => array( $this, 'validate_options' ),
+			)
+		);
 	}
 }
