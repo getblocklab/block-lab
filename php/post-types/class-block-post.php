@@ -1020,24 +1020,26 @@ class Block_Post extends Component_Abstract {
 		}
 
 		// Add the Export link.
-		$export = array(
-			'export' => sprintf(
-				'<a href="%1$s" aria-label="%2$s">%3$s</a>',
-				add_query_arg( array( 'export' => $post->ID ) ),
-				sprintf(
-					// translators: Placeholder is a post title.
-					__( 'Export %1$s', 'block-lab' ),
-					get_the_title( $post->ID )
+		if ( block_lab()->is_pro() ) {
+			$export = array(
+				'export' => sprintf(
+					'<a href="%1$s" aria-label="%2$s">%3$s</a>',
+					add_query_arg( array( 'export' => $post->ID ) ),
+					sprintf(
+						// translators: Placeholder is a post title.
+						__( 'Export %1$s', 'block-lab' ),
+						get_the_title( $post->ID )
+					),
+					__( 'Export', 'block-lab' )
 				),
-				__( 'Export', 'block-lab' )
-			),
-		);
+			);
 
-		$actions = array_merge(
-			array_slice( $actions, 0, 1 ),
-			$export,
-			array_slice( $actions, 1 )
-		);
+			$actions = array_merge(
+				array_slice( $actions, 0, 1 ),
+				$export,
+				array_slice( $actions, 1 )
+			);
+		}
 
 		// Return the set of links without Quick Edit.
 		return $actions;
@@ -1053,7 +1055,9 @@ class Block_Post extends Component_Abstract {
 	public function bulk_actions( $actions ) {
 		unset( $actions['edit'] );
 
-		$actions['export'] = __( 'Export', 'block-lab' );
+		if ( block_lab()->is_pro() ) {
+			$actions['export'] = __( 'Export', 'block-lab' );
+		}
 
 		return $actions;
 	}
@@ -1062,6 +1066,10 @@ class Block_Post extends Component_Abstract {
 	 * Handle the Export of a single block.
 	 */
 	public function row_export() {
+		if ( ! block_lab()->is_pro() ) {
+			return;
+		}
+
 		$post_id = filter_input( INPUT_GET, 'export', FILTER_SANITIZE_NUMBER_INT );
 
 		// Check if the export has been requested, and the user has permission.
@@ -1082,6 +1090,10 @@ class Block_Post extends Component_Abstract {
 	 * @return string
 	 */
 	public function bulk_export( $redirect, $action, $post_ids ) {
+		if ( ! block_lab()->is_pro() ) {
+			return $redirect;
+		}
+
 		if ( 'export' !== $action ) {
 			return $redirect;
 		}
@@ -1108,13 +1120,13 @@ class Block_Post extends Component_Abstract {
 			}
 
 			// Check that the post content is valid JSON.
-			$block = json_decode( $post->post_content );
+			$block = json_decode( $post->post_content, true );
 
 			if ( JSON_ERROR_NONE !== json_last_error() ) {
 				break;
 			}
 
-			$blocks[] = $block;
+			$blocks = array_merge( $blocks, $block );
 		}
 
 		// If only one block is being exported, use the block's slug as the filename.
