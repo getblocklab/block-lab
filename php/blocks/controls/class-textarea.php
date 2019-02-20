@@ -73,5 +73,14 @@ class Textarea extends Control_Abstract {
 				'sanitize' => array( $this, 'sanitize_number' ),
 			)
 		);
+		$this->settings[] = new Control_Setting(
+			array(
+				'name'     => 'number_rows',
+				'label'    => __( 'Number of Rows', 'block-lab' ),
+				'type'     => 'number_non_negative',
+				'default'  => 4,
+				'sanitize' => array( $this, 'sanitize_number' ),
+			)
+		);
 	}
 }
