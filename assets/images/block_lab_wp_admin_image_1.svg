@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 600 300" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <g transform="matrix(1,0,0,1.00334,0,0)">
+        <rect x="0" y="0" width="600" height="299" style="fill:rgb(125,93,236);"/>
+    </g>
+    <g transform="matrix(6.16326,0,0,6.16326,-372.504,-948)">
+        <clipPath id="_clip1">
+            <rect x="60.439" y="153.815" width="97.351" height="48.676"/>
+        </clipPath>
+        <g clip-path="url(#_clip1)">
+            <g transform="matrix(-1.00228,1.22743e-16,-1.22743e-16,-1.00228,278.214,384.334)">
+                <path d="M138.898,147L177.781,169.449L177.781,214.347L138.898,236.796L100.015,214.347L100.015,169.449L138.898,147Z" style="fill:none;stroke:rgb(106,75,214);stroke-width:8.98px;"/>
+            </g>
+            <g transform="matrix(-1,1.22465e-16,-1.22465e-16,-1,278,384)">
+                <path d="M139,147L139,192" style="fill:none;stroke:rgb(106,75,214);stroke-width:9px;"/>
+            </g>
+            <g transform="matrix(-1,1.22465e-16,-1.22465e-16,-1,278,384)">
+                <path d="M100.029,214.5L139,192L177.971,214.5" style="fill:none;stroke:rgb(106,75,214);stroke-width:9px;"/>
+            </g>
+        </g>
+    </g>
+    <g transform="matrix(5.81915,0,0,5.81915,-921.395,-744.858)">
+        <text x="180.487px" y="158.098px" style="font-family:'Raleway-Black', 'Raleway', sans-serif;font-weight:900;font-size:12px;fill:white;">Pro Fields</text>
+    </g>
+</svg>
