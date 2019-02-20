@@ -8,6 +8,7 @@ const BlockLabTextareaControl = ( props, field, block ) => {
 			label={field.label}
 			placeholder={field.placeholder || ''}
 			maxLength={field.maxlength}
+			rows={field.number_rows}
 			help={field.help}
 			defaultValue={field.default}
 			value={attr[ field.name ]}
