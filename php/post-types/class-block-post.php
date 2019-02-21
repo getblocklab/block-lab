@@ -75,7 +75,8 @@ class Block_Post extends Component_Abstract {
 	 */
 	public function register_controls() {
 		$this->controls = apply_filters(
-			'block_lab_controls', array(
+			'block_lab_controls',
+			array(
 				'text'        => new Controls\Text(),
 				'textarea'    => new Controls\Textarea(),
 				'url'         => new Controls\URL(),

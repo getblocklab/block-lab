@@ -197,7 +197,8 @@ class Loader extends Component_Abstract {
 		$type = 'block';
 
 		// This is hacky, but the editor doesn't send the original request along.
-		if ( isset( $_GET['context'] ) && 'edit' === $_GET['context'] ) { // phpcs: nonce okay.
+		$context = filter_input( INPUT_GET, 'context', FILTER_SANITIZE_STRING );
+		if ( 'edit' === $context ) {
 			$type = array( 'preview', 'block' );
 		}
 
