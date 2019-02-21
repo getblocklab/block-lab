@@ -91,8 +91,5 @@
                 <!--End mc_embed_signup-->
             </div>
         </div>
-        <div class="bl_section_heading">
-            <h2>Block Lab Pro Features</h2>
-        </div>
     </section>
 </div>

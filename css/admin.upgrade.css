@@ -35,7 +35,7 @@
 
 .bl_tile_footer {
     border-top: 2px solid #F7F9FC;
-    padding: 20px 40px 20px;
+    padding: 30px 40px 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -44,9 +44,10 @@
     background-color: #F7F9FC;
 }
 .bl_tile_icon {
-    max-width: 200px;
+    width: 180px;
     display: block;
     margin: auto;
+    max-width: 100%;
 }
 .bl_button {
     display: inline-block;
