@@ -38,7 +38,7 @@
         <!-- Dashboard Tile -->
         <div class="bl_tile bl_tile_2">
             <div class="bl_tile_header">
-                <img class="bl_tile_icon" src="<?php echo esc_attr( block_lab()->get_assets_url( 'images/block_lab_wpadmin_icon_support.svg' ) ); ?>" alt="">
+                <img class="bl_tile_icon" src="<?php echo esc_attr( block_lab()->get_assets_url( 'images/block_lab_wpadmin_icon_features.svg' ) ); ?>" alt="">
             </div>
             <div class="bl_tile_body">
                 <h4 class="bl_align_center">Pro Features</h4>
