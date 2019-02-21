@@ -122,7 +122,6 @@
     background-position: center;
     color: #fff;
     padding: 32px;
-    overflow: hidden;
 }
 .bl_dashboard_welcome span {
     font-weight: 700;
@@ -148,7 +147,7 @@
 }
 .bl_early_access_pass {
     width: 400px;
-    margin-top: -51px;
+    margin-top: -105px;
     margin-bottom: -40px;
     display: block;
     margin-left: auto;
