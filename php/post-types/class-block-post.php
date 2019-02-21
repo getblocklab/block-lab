@@ -89,6 +89,7 @@ class Block_Post extends Component_Abstract {
 				'range'       => new Controls\Range(),
 				'checkbox'    => new Controls\Checkbox(),
 				'radio'       => new Controls\Radio(),
+				'user'        => new Controls\User(),
 			)
 		);
 	}
