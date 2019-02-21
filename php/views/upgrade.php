@@ -21,7 +21,7 @@
                     <a class="bl_button bl_button--white-stroke" href="">Enter Your License Key</a>
                 </div>
                 <div>
-                    <img class="bl_early_access_pass" src="<?php echo esc_attr( block_lab()->get_assets_url( 'images/block_lab_early_access_pass.svg' ) ); ?>" alt="">
+                    <img class="bl_early_access_pass" src="<?php echo esc_attr( block_lab()->get_assets_url( 'images/block_lab_early_access_pass.png' ) ); ?>" alt="">
                 </div>
             </div>
         </div>
@@ -31,24 +31,24 @@
                 <img class="bl_tile_icon" src="<?php echo esc_attr( block_lab()->get_assets_url( 'images/block_lab_wpadmin_icon_newfields.svg' ) ); ?>" alt="">
             </div>
             <div class="bl_tile_body"> 
-                <h4 class="bl_align_center">New Fields</h4>
+                <h4 class="bl_align_center">Pro Fields</h4>
                 <p class="bl_align_center">More fields including repeater, post object, and more to help you build the custom blocks you need for yourself and your clients.</p>
             </div>
         </div>
         <!-- Dashboard Tile -->
         <div class="bl_tile bl_tile_2">
             <div class="bl_tile_header">
-                <img class="bl_tile_icon" src="<?php echo esc_attr( block_lab()->get_assets_url( 'images/block_lab_wpadmin_icon_newfields.svg' ) ); ?>" alt="">
+                <img class="bl_tile_icon" src="<?php echo esc_attr( block_lab()->get_assets_url( 'images/block_lab_wpadmin_icon_support.svg' ) ); ?>" alt="">
             </div>
             <div class="bl_tile_body">
-                <h4 class="bl_align_center">New Features</h4>
+                <h4 class="bl_align_center">Pro Features</h4>
                 <p class="bl_align_center">Features including conditional logic, custom validation, and white-labeling, to help you extend Block Lab and leverage the best of Gutenberg.</p>
             </div>
         </div>
         <!-- Dashboard Tile -->
         <div class="bl_tile bl_tile_2">
             <div class="bl_tile_header">
-                <img class="bl_tile_icon" src="<?php echo esc_attr( block_lab()->get_assets_url( 'images/block_lab_wpadmin_icon_newfields.svg' ) ); ?>" alt="">
+            <img class="bl_tile_icon" src="<?php echo esc_attr( block_lab()->get_assets_url( 'images/block_lab_wpadmin_icon_support.svg' ) ); ?>" alt="">
             </div>
             <div class="bl_tile_body">
                 <h4 class="bl_align_center">Support & Updates</h4>
