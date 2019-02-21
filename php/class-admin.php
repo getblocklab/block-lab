@@ -13,12 +13,6 @@ namespace Block_Lab;
  * Class Admin
  */
 class Admin extends Component_Abstract {
-	/**
-	 * Display Pro version messaging
-	 *
-	 * @var bool
-	 */
-	public $show_pro;
 
 	/**
 	 * Plugin settings.
@@ -52,19 +46,19 @@ class Admin extends Component_Abstract {
 	 * Initialise the Admin component.
 	 */
 	public function init() {
-		$this->show_pro = apply_filters( 'block_lab_show_pro', false );
-		if ( $this->show_pro ) {
-			$this->settings = new Settings();
-			block_lab()->register_component( $this->settings );
+		$this->settings = new Settings();
+		block_lab()->register_component( $this->settings );
 
-			$this->license = new License();
-			block_lab()->register_component( $this->license );
+		$this->license = new License();
+		block_lab()->register_component( $this->license );
 
-			if ( ! block_lab()->is_pro() ) {
-				$this->upgrade = new Upgrade();
-				block_lab()->register_component( $this->upgrade );
-			}
+		$show_pro_nag = apply_filters( 'block_lab_show_pro_nag', true );
+		if ( $show_pro_nag && ! block_lab()->is_pro() ) {
+			$this->upgrade = new Upgrade();
+			block_lab()->register_component( $this->upgrade );
+		}
 
+		if ( block_lab()->is_pro() ) {
 			if ( defined( 'WP_LOAD_IMPORTERS' ) && WP_LOAD_IMPORTERS ) {
 				$this->import = new Import();
 				block_lab()->register_component( $this->import );
