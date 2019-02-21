@@ -17,7 +17,8 @@
                     <h1>Early Access Pass</h1>
                     <p>Lock in a lifetime discount and help kickstart Block Lab Pro.</p>
                     <a target="_blank" class="bl_button bl_button--white" href="https://getblocklab.com/pro">Check out Early Access</a>
-                    <a class="bl_button bl_button--white-stroke" href="">Enter Your License Key</a>
+                    <!-- <a class="bl_button bl_button--white-stroke" href="">Enter Your License Key</a> -->
+                    <input class="bl_input_text" placeholder="License key" type="text">
                 </div>
                 <div>
                     <img class="bl_early_access_pass" src="<?php echo esc_attr( block_lab()->get_assets_url( 'images/block_lab_early_access_pass.svg' ) ); ?>" alt="">
@@ -85,7 +86,7 @@
                         
                     <div class="mc-field-group">
                         <label class="bl_input_label" for="mce-EMAIL">Email Address </label>
-                        <input class="bl_input_text" type="email" value="" placeholder="Email Address" name="EMAIL" class="required email" id="mce-EMAIL">
+                        <input class="bl_input" type="email" value="" placeholder="Email Address" name="EMAIL" class="required email" id="mce-EMAIL">
                     </div>
                         <div id="mce-responses" class="clear">
                             <div class="response" id="mce-error-response" style="display:none"></div>

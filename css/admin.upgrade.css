@@ -195,7 +195,7 @@
 #mc_embed_signup #mc_embed_signup_scroll {
     display: flex;
 }
-input[type=email].bl_input_text {
+input[type=email].bl_input {
     background-color: rgba(21,8,89,0.1);
     box-shadow: none;
     border-radius: 3px;
