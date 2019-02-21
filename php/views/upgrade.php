@@ -17,8 +17,8 @@
                     <h1>Early Access Pass</h1>
                     <p>Lock in a lifetime discount and help kickstart Block Lab Pro.</p>
                     <a target="_blank" class="bl_button bl_button--white" href="https://getblocklab.com/pro">Check out Early Access</a>
-                    <!-- <a class="bl_button bl_button--white-stroke" href="">Enter Your License Key</a> -->
                     <input class="bl_input_text" placeholder="License key" type="text">
+                    <a class="bl_button bl_button--white-stroke" href="">Enter Your License Key</a>
                 </div>
                 <div>
                     <img class="bl_early_access_pass" src="<?php echo esc_attr( block_lab()->get_assets_url( 'images/block_lab_early_access_pass.svg' ) ); ?>" alt="">
@@ -62,7 +62,7 @@
                 <p>If Block Lab has helped you make the most of Gutenberg and custom blocks for your site, leave us a review on WordPress.org.</p>
             </div>
             <div class="bl_tile_footer">
-                <a class="bl_button" target="_blank" href="https://wordpress.org/plugins/block-lab/#reviews">★ Leave Review</a>
+                <a class="bl_button" target="_blank" href="https://wordpress.org/plugins/block-lab/#reviews">★ Leave Review ★</a>
             </div>
         </div>
         <!-- Dashboard Tile -->
@@ -72,14 +72,6 @@
                 <p>Subscribe to our newsletter for news, updates, and tutorials on working with Gutenberg.</p>
             </div>
             <div class="bl_tile_footer">
-                <!-- <a class="bl_button" target="_blank" href="http://eepurl.com/dO6l8n">Subscribe</a> -->
-                <!-- Begin Mailchimp Signup Form -->
-                <link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
-                <style type="text/css">
-                    #mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
-                    /* Add your own Mailchimp form style overrides in your site stylesheet or in this style block.
-                    We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
-                </style>
                 <div id="mc_embed_signup">
                     <form action="https://getblocklab.us19.list-manage.com/subscribe/post?u=f8e0c6b0ab32fc57ded52ab4a&amp;id=f05b221414" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
                         <div id="mc_embed_signup_scroll">
