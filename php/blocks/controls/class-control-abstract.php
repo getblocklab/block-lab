@@ -252,6 +252,39 @@ abstract class Control_Abstract {
 	}
 
 	/**
+	 * Render the select for the User control to determine how the name is displayed.
+	 * This is similar to the "Display name publicly as" <select> in /wp-admin > Users > Profile.
+	 *
+	 * @param Control_Setting $setting The Control_Setting being rendered.
+	 * @param string          $name    The name attribute of the option.
+	 * @param string          $id      The id attribute of the option.
+	 *
+	 * @return void
+	 */
+	public function render_settings_user_select( $setting, $name, $id ) {
+		$possible_names = array(
+			'username'       => __( 'Username', 'block-lab' ),
+			'nickname'       => __( 'Nickname', 'block-lab' ),
+			'first'          => __( 'First Name', 'block-lab' ),
+			'last'           => __( 'Last Name', 'block-lab' ),
+			'first_and_last' => __( 'First and Last Name', 'block-lab' ),
+			'last_and_first' => __( 'Last and First Name', 'block-lab' ),
+		);
+
+		?>
+		<select
+			name="<?php echo esc_attr( $name ); ?>"
+			id="<?php echo esc_attr( $id ); ?>"
+			class="regular-text"
+			value="<?php echo esc_attr( $setting->get_value() ); ?>" >
+			<?php foreach ( $possible_names as $value => $name ) : ?>
+				<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $setting->get_value(), $value ); ?>><?php echo esc_html( $name ); ?></option>
+			<?php endforeach; ?>
+		</select>
+		<?php
+	}
+
+	/**
 	 * Sanitize checkbox.
 	 *
 	 * @param string $value The value to sanitize.
