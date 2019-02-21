@@ -25,12 +25,14 @@
 }
 .bl_tile_header span {
     font-size: 16px;
+    line-height: 16px;
 }
 .bl_tile_body {
     padding: 0 40px 20px;
 }
 .bl_tile_body h4 {
     font-size: 24px;
+    line-height: 24px;
 }
 
 .bl_tile_footer {
@@ -136,6 +138,7 @@
     color: #fff;
     font-weight: 700;
     font-size: 52px;
+    line-height: 52px;
     margin-top: 10px;
 }
 .bl_dashboard_welcome .bl_tile_body {
@@ -210,4 +213,23 @@ label.bl_input_label {
 .mc-field-group {
     flex-grow: 1;
     padding-right: 10px
+}
+@media (max-width: 720px) {
+    .bl_container {
+        display: block;
+    }
+    .bl_tile {
+        margin-bottom: 20px;
+    }
+    .bl_dashboard_welcome {
+        display: block;
+    }
+    .bl_tile_body {
+        padding-top: 40px;
+    }
+}
+@media (max-width: 960px) {
+    .bl_early_access_pass {
+        display: none;
+    }
 }
