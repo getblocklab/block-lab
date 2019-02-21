@@ -60,8 +60,6 @@
         <div class="bl_tile_body">
                 <h4>★★ Loving Block Lab? ★★</h4>
                 <p>If Block Lab has helped you make the most of Gutenberg and custom blocks for your site, leave us a review on WordPress.org.</p>
-            </div>
-            <div class="bl_tile_footer">
                 <a class="bl_button" target="_blank" href="https://wordpress.org/plugins/block-lab/#reviews">★ Leave Review ★</a>
             </div>
         </div>
@@ -71,7 +69,7 @@
                 <h4>Get more out of Block Lab</h4>
                 <p>Subscribe to our newsletter for news, updates, and tutorials on working with Gutenberg.</p>
             </div>
-            <div class="bl_tile_footer">
+            <div class="bl_tile_footer bl_tile_footer_email">
                 <div id="mc_embed_signup">
                     <form action="https://getblocklab.us19.list-manage.com/subscribe/post?u=f8e0c6b0ab32fc57ded52ab4a&amp;id=f05b221414" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
                         <div id="mc_embed_signup_scroll">
