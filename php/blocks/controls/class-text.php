@@ -68,7 +68,7 @@ class Text extends Control_Abstract {
 			array(
 				'name'     => 'maxlength',
 				'label'    => __( 'Character Limit', 'block-lab' ),
-				'type'     => 'number',
+				'type'     => 'number_non_negative',
 				'default'  => '',
 				'sanitize' => array( $this, 'sanitize_number' ),
 			)

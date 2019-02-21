@@ -75,7 +75,7 @@ class Range extends Control_Abstract {
 			array(
 				'name'     => 'step',
 				'label'    => __( 'Step Size', 'block-lab' ),
-				'type'     => 'number',
+				'type'     => 'number_non_negative',
 				'default'  => 1,
 				'sanitize' => array( $this, 'sanitize_number' ),
 			)
