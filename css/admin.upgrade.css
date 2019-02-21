@@ -1,7 +1,5 @@
 .bl_admin {
     padding-top: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
 }
 .bl_container {
     display:grid;
@@ -14,9 +12,12 @@
     border-radius: 3px;
     background-color: #fff;
 }
+.bl_tile p {
+    font-size: 16px;
+}
 .bl_tile_header {
-    border-bottom: 2px solid #F7F9FC;
-    padding: 20px;
+    /* border-bottom: 2px solid #F7F9FC; */
+    padding: 40px 40px 0;
     font-weight: 600;
     display: flex;
     justify-content: space-between;
@@ -26,14 +27,23 @@
     font-size: 16px;
 }
 .bl_tile_body {
-    padding: 20px;
+    padding: 0 40px 40px;
 }
+.bl_tile_body h4 {
+    font-size: 24px;
+}
+
 .bl_tile_footer {
     border-top: 2px solid #F7F9FC;
-    padding: 20px;
+    padding: 20px 40px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+.bl_tile_icon {
+    max-width: 200px;
+    display: block;
+    margin: auto;
 }
 .bl_button {
     display: inline-block;
@@ -104,16 +114,6 @@
     grid-column-start: 1;
     grid-column-end: 7;
 }
-.bl_notification_bar {
-    grid-column-start: 1;
-    grid-column-end: 7;
-    border-left: 4px solid #7D5DEC;
-}
-.bl_notification_bar .bl_tile_body{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
 .bl_dashboard_welcome {
     grid-column-start: 1;
     grid-column-end: 7;
@@ -122,6 +122,7 @@
     background-position: center;
     color: #fff;
     padding: 32px;
+    overflow: hidden;
 }
 .bl_dashboard_welcome span {
     font-weight: 700;
@@ -132,14 +133,26 @@
 .bl_dashboard_welcome h1 {
     color: #fff;
     font-weight: 700;
+    font-size: 52px;
+    margin-top: 10px;
 }
-.bl_dashboard_welcome h1 {
-    font-size: 32px;
+.bl_dashboard_welcome .bl_tile_body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .bl_dashboard_welcome p {
     font-size: 18px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     max-width: 680px;
+}
+.bl_early_access_pass {
+    width: 400px;
+    margin-top: -51px;
+    margin-bottom: -40px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 /* Tile sizng */
 .bl_tile_2 {
@@ -171,4 +184,7 @@
     border-radius: 3px;
     box-shadow: 0px 0px 0px 4px rgba(121,110,255,0.1);
     font-weight: 600;
+}
+.bl_align_center {
+    text-align: center;
 }
