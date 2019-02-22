@@ -16,7 +16,7 @@ class Plugin extends Plugin_Abstract {
 	/**
 	 * WP Admin resources.
 	 *
-	 * @var Admin
+	 * @var Admin\Admin
 	 */
 	public $admin;
 
@@ -24,7 +24,7 @@ class Plugin extends Plugin_Abstract {
 	 * Execute this once plugins are loaded. (not the best place for all hooks)
 	 */
 	public function plugin_loaded() {
-		$this->admin = new Admin();
+		$this->admin = new Admin\Admin();
 		$this->register_component( $this->admin );
 	}
 

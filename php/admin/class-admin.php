@@ -7,7 +7,9 @@
  * @license   http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace Block_Lab;
+namespace Block_Lab\Admin;
+
+use Block_Lab\Component_Abstract;
 
 /**
  * Class Admin
