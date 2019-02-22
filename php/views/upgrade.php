@@ -16,9 +16,15 @@
 					<span><?php esc_html_e( 'Block Lab Pro', 'block-lab' ); ?></span>
 					<h1><?php esc_html_e( 'Early Access Pass', 'block-lab' ); ?></h1>
 					<p><?php esc_html_e( 'Lock in a lifetime discount and help kickstart Block Lab Pro.', 'block-lab' ); ?></p>
+					<form method="post" action="options.php">
+						<?php
+						register_setting( 'block-lab-license-key', 'block_lab_license_key' );
+						settings_fields( 'block-lab-license-key' );
+						?>
+						<input class="bl_input_text" placeholder="License key" name="block_lab_license_key" type="text" />
+						<input class="bl_button bl_button--white-stroke" type="submit" value="<?php esc_html_e( 'Enter Your License Key', 'block-lab' ); ?>" />
+					</form>
 					<a target="_blank" class="bl_button bl_button--white" href="https://getblocklab.com/pro"><?php esc_html_e( 'Check out Early Access', 'block-lab' ); ?></a>
-					<input class="bl_input_text" placeholder="License key" type="text" />
-					<a class="bl_button bl_button--white-stroke" href=""><?php esc_html_e( 'Enter Your License Key', 'block-lab' ); ?></a>
 				</div>
 				<div>
 					<img class="bl_early_access_pass" src="<?php echo esc_attr( block_lab()->get_assets_url( 'images/block_lab_early_access_pass.png' ) ); ?>" alt="" />

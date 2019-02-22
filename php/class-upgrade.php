@@ -33,6 +33,7 @@ class Upgrade extends Component_Abstract {
 	public function register_hooks() {
 		add_action( 'admin_menu', array( $this, 'add_submenu_pages' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'update_option_block_lab_license_key', array( $this, 'settings_redirect' ) );
 	}
 
 	/**
@@ -52,6 +53,23 @@ class Upgrade extends Component_Abstract {
 				$this->plugin->get_version()
 			);
 		}
+	}
+
+	/**
+	 * Redirect to the Settings screen if the license is being saved.
+	 */
+	public function settings_redirect() {
+		wp_safe_redirect(
+			add_query_arg(
+				array(
+					'post_type' => 'block_lab',
+					'page'      => 'block-lab-settings',
+					'tab'       => 'license',
+				),
+				admin_url( 'edit.php' )
+			)
+		);
+		die();
 	}
 
 	/**
