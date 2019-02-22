@@ -86,7 +86,7 @@ class Settings extends Component_Abstract {
 		switch ( $tab ) {
 			case 'license':
 			default:
-				include 'views/license.php';
+				include block_lab()->get_path() . 'php/views/license.php';
 				break;
 		}
 
