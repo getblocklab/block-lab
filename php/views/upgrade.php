@@ -10,7 +10,7 @@
 ?>
 <div class="bl_admin">
 	<section class="bl_container">
-		<div class="bl_dashboard_welcome bl_tile" style="background-image: url('<?php echo esc_attr( block_lab()->get_assets_url( 'images/Block-Lab-Pro-Hero-Background-1.svg' ) ); ?>');">
+		<div class="bl_dashboard_welcome bl_tile" style="background-image: url('https://getblocklab.com/wp-content/uploads/2019/02/Block-Lab-Pro-Hero-Background-1.svg');">
 			<div class="bl_tile_body">
 				<div>
 					<span><?php esc_html_e( 'Block Lab Pro', 'block-lab' ); ?></span>
@@ -30,14 +30,14 @@
 					</div>
 				</div>
 				<div>
-					<img class="bl_early_access_pass" src="<?php echo esc_attr( block_lab()->get_assets_url( 'images/block_lab_early_access_pass.png' ) ); ?>" alt="" />
+					<img class="bl_early_access_pass" src="https://getblocklab.com/wp-content/uploads/2019/02/block_lab_early_access_pass.png" alt="" />
 				</div>
 			</div>
 		</div>
 		<!-- Dashboard Tile -->
 		<div class="bl_tile bl_tile_2">
 			<div class="bl_tile_header">
-				<img class="bl_tile_icon" src="<?php echo esc_attr( block_lab()->get_assets_url( 'images/block_lab_admin_icon_new_fields.svg' ) ); ?>" alt="" />
+				<div class="bl_tile_icon_wrapper" style="background-image: url('https://getblocklab.com/wp-content/uploads/2019/02/block_lab_admin_icon_new_fields.svg');"></div>
 			</div>
 			<div class="bl_tile_body">
 				<h4 class="bl_align_center"><?php esc_html_e( 'Pro Fields', 'block-lab' ); ?></h4>
@@ -47,7 +47,7 @@
 		<!-- Dashboard Tile -->
 		<div class="bl_tile bl_tile_2">
 			<div class="bl_tile_header">
-				<img class="bl_tile_icon" src="<?php echo esc_attr( block_lab()->get_assets_url( 'images/block_lab_admin_icon_features.svg' ) ); ?>" alt="" />
+				<div class="bl_tile_icon_wrapper" style="background-image: url('https://getblocklab.com/wp-content/uploads/2019/02/block_lab_admin_icon_features.svg');"></div>
 			</div>
 			<div class="bl_tile_body">
 				<h4 class="bl_align_center"><?php esc_html_e( 'Pro Features', 'block-lab' ); ?></h4>
@@ -57,7 +57,7 @@
 		<!-- Dashboard Tile -->
 		<div class="bl_tile bl_tile_2">
 			<div class="bl_tile_header">
-			<img class="bl_tile_icon" src="<?php echo esc_attr( block_lab()->get_assets_url( 'images/block_lab_admin_icon_support.svg' ) ); ?>" alt="" />
+				<div class="bl_tile_icon_wrapper" style="background-image: url('https://getblocklab.com/wp-content/uploads/2019/02/block_lab_admin_icon_support.svg');"></div>
 			</div>
 			<div class="bl_tile_body">
 				<h4 class="bl_align_center"><?php esc_html_e( 'Support & Updates', 'block-lab' ); ?></h4>
