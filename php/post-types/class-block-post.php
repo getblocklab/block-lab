@@ -41,6 +41,7 @@ class Block_Post extends Component_Abstract {
 	public function register_hooks() {
 		add_action( 'init', array( $this, 'register_post_type' ) );
 		add_action( 'admin_init', array( $this, 'add_caps' ) );
+		add_action( 'admin_init', array( $this, 'row_export' ) );
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 		add_action( 'add_meta_boxes', array( $this, 'remove_meta_boxes' ) );
 		add_action( 'post_submitbox_start', array( $this, 'save_draft_button' ) );
@@ -50,8 +51,9 @@ class Block_Post extends Component_Abstract {
 
 		// Clean up the list table.
 		add_filter( 'disable_months_dropdown', '__return_true', 10, $this->slug );
-		add_filter( 'post_row_actions', array( $this, 'post_row_actions' ) );
+		add_filter( 'page_row_actions', array( $this, 'page_row_actions' ), 10, 1 );
 		add_filter( 'bulk_actions-edit-' . $this->slug, array( $this, 'bulk_actions' ) );
+		add_filter( 'handle_bulk_actions-edit-' . $this->slug, array( $this, 'bulk_export' ), 10, 3 );
 		add_filter( 'manage_edit-' . $this->slug . '_columns', array( $this, 'list_table_columns' ) );
 		add_action( 'manage_' . $this->slug . '_posts_custom_column', array( $this, 'list_table_content' ), 10, 2 );
 
@@ -1004,7 +1006,7 @@ class Block_Post extends Component_Abstract {
 	 *
 	 * @return array
 	 */
-	public function post_row_actions( $actions = array() ) {
+	public function page_row_actions( $actions = array() ) {
 		global $post;
 
 		// Abort if the post type is incorrect.
@@ -1015,6 +1017,28 @@ class Block_Post extends Component_Abstract {
 		// Remove the Quick Edit link.
 		if ( isset( $actions['inline hide-if-no-js'] ) ) {
 			unset( $actions['inline hide-if-no-js'] );
+		}
+
+		// Add the Export link.
+		if ( block_lab()->is_pro() ) {
+			$export = array(
+				'export' => sprintf(
+					'<a href="%1$s" aria-label="%2$s">%3$s</a>',
+					add_query_arg( array( 'export' => $post->ID ) ),
+					sprintf(
+						// translators: Placeholder is a post title.
+						__( 'Export %1$s', 'block-lab' ),
+						get_the_title( $post->ID )
+					),
+					__( 'Export', 'block-lab' )
+				),
+			);
+
+			$actions = array_merge(
+				array_slice( $actions, 0, 1 ),
+				$export,
+				array_slice( $actions, 1 )
+			);
 		}
 
 		// Return the set of links without Quick Edit.
@@ -1030,6 +1054,92 @@ class Block_Post extends Component_Abstract {
 	 */
 	public function bulk_actions( $actions ) {
 		unset( $actions['edit'] );
+
+		if ( block_lab()->is_pro() ) {
+			$actions['export'] = __( 'Export', 'block-lab' );
+		}
+
 		return $actions;
+	}
+
+	/**
+	 * Handle the Export of a single block.
+	 */
+	public function row_export() {
+		if ( ! block_lab()->is_pro() ) {
+			return;
+		}
+
+		$post_id = filter_input( INPUT_GET, 'export', FILTER_SANITIZE_NUMBER_INT );
+
+		// Check if the export has been requested, and the user has permission.
+		if ( $post_id <= 0 || ! current_user_can( 'block_lab_read_block', $post_id ) ) {
+			return;
+		}
+
+		$this->export( array( $post_id ) );
+	}
+
+	/**
+	 * Handle Exporting blocks via Bulk Actions
+	 *
+	 * @param string $redirect Location to redirect to after the bulk action is completed.
+	 * @param string $action The action to handle.
+	 * @param array  $post_ids The IDs to handle.
+	 *
+	 * @return string
+	 */
+	public function bulk_export( $redirect, $action, $post_ids ) {
+		if ( ! block_lab()->is_pro() ) {
+			return $redirect;
+		}
+
+		if ( 'export' !== $action ) {
+			return $redirect;
+		}
+
+		$this->export( $post_ids );
+
+		$redirect = add_query_arg( 'bulk_export', count( $post_ids ), $redirect );
+		return $redirect;
+	}
+
+	/**
+	 * Export Blocks
+	 *
+	 * @param int[] $post_ids The post IDs to export.
+	 */
+	private function export( $post_ids ) {
+		$blocks = array();
+
+		foreach ( $post_ids as $post_id ) {
+			$post = get_post( $post_id );
+
+			if ( ! $post ) {
+				break;
+			}
+
+			// Check that the post content is valid JSON.
+			$block = json_decode( $post->post_content, true );
+
+			if ( JSON_ERROR_NONE !== json_last_error() ) {
+				break;
+			}
+
+			$blocks = array_merge( $blocks, $block );
+		}
+
+		// If only one block is being exported, use the block's slug as the filename.
+		$filename = 'blocks.json';
+		if ( 1 === count( $post_ids ) ) {
+			$post     = get_post( $post_ids[0] );
+			$filename = $post->post_name . '.json';
+		}
+
+		// Output the JSON file.
+		header( 'Content-disposition: attachment; filename=' . $filename );
+		header( 'Content-type:application/json;charset=utf-8' );
+		echo wp_json_encode( $blocks ); // phpcs: XSS okay.
+		die();
 	}
 }
