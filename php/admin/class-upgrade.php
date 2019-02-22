@@ -94,7 +94,6 @@ class Upgrade extends Component_Abstract {
 	public function render_page() {
 		?>
 		<div class="wrap block-lab-pro">
-			<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
 			<?php include block_lab()->get_path() . 'php/views/upgrade.php'; ?>
 		</div>
 		<?php
