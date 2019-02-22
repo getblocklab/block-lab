@@ -75,14 +75,14 @@
 						<div id="mc_embed_signup_scroll">
 							<div class="mc-field-group">
 								<label class="bl_input_label" for="mce-EMAIL">Email Address </label>
-								<input class="bl_input required email" type="email" value="" placeholder="Email Address" name="EMAIL" id="mce-EMAIL" />
+								<input class="bl_input" type="email" value="" placeholder="Email Address" name="EMAIL" id="mce-EMAIL" />
 							</div>
 							<div id="mce-responses" class="clear">
 								<div class="response" id="mce-error-response" style="display:none"></div>
 								<div class="response" id="mce-success-response" style="display:none"></div>
 							</div>
 							<div class="clear">
-								<input class="bl_button button" type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" />
+								<input class="bl_button" type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" />
 							</div>
 						</div>
 					</form>
