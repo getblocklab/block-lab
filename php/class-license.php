@@ -129,7 +129,7 @@ class License extends Component_Abstract {
 		}
 
 		$license    = json_decode( wp_remote_retrieve_body( $response ), true );
-		$expiration = 24 * 12 * 12; // 24 hours in seconds.
+		$expiration = DAY_IN_SECONDS;
 
 		set_transient( 'block_lab_license', $license, $expiration );
 	}
