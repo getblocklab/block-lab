@@ -43,17 +43,13 @@
 							'<p>%1$s %2$s</p>',
 							sprintf(
 								// translators: A number, wrapped in <strong> tags.
-								__( 'Your license includes %1$s%2$s%3$s site installs.', 'block-lab' ),
-								'<strong>',
-								$limit,
-								'</strong>'
+								__( 'Your license includes %1$s site installs.', 'block-lab' ),
+								'<strong>' . $limit . '</strong>'
 							),
 							sprintf(
 								// translators: A number, wrapped in <strong> tags.
-								__( '%1$s%2$s%3$s of them are in use.', 'block-lab' ),
-								'<strong>',
-								$count,
-								'</strong>'
+								__( '%1$s of them are in use.', 'block-lab' ),
+								'<strong>' . $count . '</strong>'
 							)
 						)
 					);
@@ -63,10 +59,8 @@
 							'<p>%1$s %2$s</p>',
 							sprintf(
 								// translators: A date.
-								__( 'Your license will be automatically renewed on %2$s.', 'block-lab' ),
-								'<strong>',
-								$expiry,
-								'</strong>'
+								__( 'Your license will be automatically renewed on %1$s.', 'block-lab' ),
+								'<strong>' . $expiry . '</strong>'
 							),
 							sprintf(
 								// translators: An opening and closing anchor tag.
@@ -83,11 +77,9 @@
 							__( 'No Pro license was found for this installation.', 'block-lab' ),
 							sprintf(
 								// translators: Opening and closing anchor and emphasis tags.
-								__( '%1$s%2$sPurchase Block Lab Pro now!%3$s%4$s', 'block-lab' ),
-								'<a href="' . add_query_arg( array( 'page' => 'block-lab-pro' ) ) . '">',
-								'<em>',
-								'</em>',
-								'</a>'
+								__( '%1$sGet Block Lab Pro!%2$s', 'block-lab' ),
+								'<a href="' . add_query_arg( array( 'page' => 'block-lab-pro' ) ) . '"><em>',
+								'</em></a>'
 							)
 						)
 					);
