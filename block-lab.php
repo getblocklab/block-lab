@@ -93,7 +93,7 @@ require_once __DIR__ . '/php/helpers.php';
 /**
  * Get the plugin object.
  *
- * @return \Block_Lab\Plugin_Abstract
+ * @return \Block_Lab\Plugin
  */
 function block_lab() {
 	static $instance;
