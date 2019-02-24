@@ -44,19 +44,23 @@ class Checkbox extends Control_Abstract {
 	 * @return void
 	 */
 	public function register_settings() {
-		$this->settings[] = new Control_Setting( array(
-			'name'     => 'help',
-			'label'    => __( 'Help Text', 'block-lab' ),
-			'type'     => 'text',
-			'default'  => '',
-			'sanitize' => 'sanitize_text_field',
-		) );
-		$this->settings[] = new Control_Setting( array(
-			'name'     => 'default',
-			'label'    => __( 'Default Value', 'block-lab' ),
-			'type'     => 'checkbox',
-			'default'  => '0',
-			'sanitize' => array( $this, 'sanitize_checkbox' ),
-		) );
+		$this->settings[] = new Control_Setting(
+			array(
+				'name'     => 'help',
+				'label'    => __( 'Help Text', 'block-lab' ),
+				'type'     => 'text',
+				'default'  => '',
+				'sanitize' => 'sanitize_text_field',
+			)
+		);
+		$this->settings[] = new Control_Setting(
+			array(
+				'name'     => 'default',
+				'label'    => __( 'Default Value', 'block-lab' ),
+				'type'     => 'checkbox',
+				'default'  => '0',
+				'sanitize' => array( $this, 'sanitize_checkbox' ),
+			)
+		);
 	}
 }

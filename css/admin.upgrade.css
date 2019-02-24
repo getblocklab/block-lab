@@ -1,0 +1,287 @@
+.block-lab-pro {
+	padding-top: 20px;
+	margin: 0 auto;
+	max-width: 1280px;
+}
+.block-lab-pro .container {
+	margin-top: 20px;
+	display:grid;
+	grid-template-columns: repeat( 6, 1fr );
+	grid-gap: 20px;
+}
+.block-lab-pro .tile {
+	box-shadow: 10px 10px 20px 0px rgba( 121, 110, 255, 0.05 );
+	border-radius: 3px;
+	background-color: #fff;
+}
+.block-lab-pro .tile p {
+	font-size: 16px;
+}
+.block-lab-pro .tile_header {
+	padding: 40px 40px 0;
+	font-weight: 600;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.block-lab-pro .tile_header span {
+	font-size: 16px;
+	line-height: 16px;
+}
+.block-lab-pro .tile_body {
+	padding: 0 40px 20px;
+}
+.block-lab-pro .tile_body h4 {
+	font-size: 24px;
+	line-height: 24px;
+}
+.block-lab-pro .tile_footer {
+	border-top: 2px solid #F7F9FC;
+	padding: 30px 40px 30px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.block-lab-pro .tile_footer.tile_footer_email {
+	background-color: #F7F9FC;
+}
+.block-lab-pro .tile_icon {
+	width: 180px;
+	display: block;
+	margin: auto;
+	max-width: 100%;
+}
+.block-lab-pro .tile_icon_wrapper {
+	width: 180px;
+	height: 180px;
+	display: block;
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+	margin: auto;
+}
+.block-lab-pro .button {
+	display: inline-block;
+	position: relative;
+	background-color: #7D5DEC;
+	padding: 10px 12px;
+	height: auto;
+	border-radius: 4px;
+	border: 2px solid #7D5DEC;
+	color: #fff;
+	font-size: 13px;
+	text-decoration: none;
+	line-height: 13px;
+	cursor: pointer;
+	box-shadow: none;
+}
+.block-lab-pro .button:active,
+.block-lab-pro .button:focus,
+.block-lab-pro .button:visited {
+	color: #fff;
+}
+.block-lab-pro .button:hover {
+	color: #fff;
+	background-color: #6444d3;
+	border-color: #6444d3;
+}
+.block-lab-pro .button:nth-of-type( 2 ) {
+	margin-left: 10px;
+}
+.block-lab-pro .button--white {
+	background-color: #fff;
+	border-color: #fff;
+	color: #7D5DEC;
+}
+.block-lab-pro .button--white:active,
+.block-lab-pro .button--white:focus,
+.block-lab-pro .button--white:visited {
+	color: #7D5DEC;
+}
+.block-lab-pro .button--white:hover {
+	color: #7D5DEC;
+	background-color: #f4f4f4;
+	border-color: #f4f4f4;
+}
+.block-lab-pro .button--white-stroke {
+	border-color: #fff;
+	background-color: transparent;
+}
+.block-lab-pro .button--white-stroke:active,
+.block-lab-pro .button--white-stroke:focus,
+.block-lab-pro .button--white-stroke:visited {
+	color: #fff;
+}
+.block-lab-pro .button--white-stroke:hover {
+	color: #7D5DEC;
+	background-color: #fff;
+	border-color: #fff;
+}
+.block-lab-pro .button_close {
+	background-color: rgba( 0, 0, 0, 0.1 );
+	border-radius: 50%;
+	line-height: 1.6em;
+	display: flex;
+	justify-content: center;
+	border: none;
+	color: red;
+	font-weight: 700;
+}
+.block-lab-pro .section_heading {
+	grid-column-start: 1;
+	grid-column-end: 7;
+}
+.block-lab-pro .dashboard_welcome {
+	grid-column-start: 1;
+	grid-column-end: 7;
+	background-color: #7D5DEC;
+	background-size: cover;
+	background-position: center;
+	color: #fff;
+	padding: 32px;
+}
+.block-lab-pro .dashboard_welcome .notice p {
+	color: #444;
+	font-size: 13px;
+	margin: 0.5em 0;
+	padding: 2px;
+}
+.block-lab-pro .dashboard_welcome span {
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	color: rgba( 250, 250, 250, 0.7 );
+}
+.block-lab-pro .dashboard_welcome h1 {
+	color: #fff;
+	font-weight: 700;
+	font-size: 52px;
+	line-height: 52px;
+	margin-top: 10px;
+}
+.block-lab-pro .dashboard_welcome .tile_body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.block-lab-pro .dashboard_welcome p {
+	font-size: 18px;
+	margin-bottom: 30px;
+	max-width: 680px;
+}
+.block-lab-pro .early_access_pass {
+	width: 320px;
+	margin-top: -260px;
+	margin-bottom: -40px;
+	display: block;
+	margin-left: 60px;
+}
+/* Tile sizing */
+.block-lab-pro .tile_2 {
+	grid-column: span 2;
+}
+.block-lab-pro .tile_3 {
+	grid-column: span 3;
+}
+.block-lab-pro .tile_4 {
+	grid-column: span 4;
+}
+.block-lab-pro .tile_5 {
+	grid-column: span 5;
+}
+.block-lab-pro .tile_6 {
+	grid-column: span 6;
+}
+.block-lab-pro .ul_pills {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+}
+.block-lab-pro .ul_pills li {
+	display: block;
+	padding: 3px 6px;
+	margin-right: 16px;
+	margin-bottom: 16px;
+	border-radius: 3px;
+	box-shadow: 0 0 0 4px rgba( 121, 110, 255, 0.1 );
+	font-weight: 600;
+}
+.block-lab-pro .align_center {
+	text-align: center;
+}
+/* Mailchimp Styling */
+#mc_embed_signup {
+	width: 100%;
+}
+#mc_embed_signup #mc_embed_signup_scroll {
+	display: flex;
+}
+.block-lab-pro input[type=email].input {
+	background-color: rgba( 21, 8, 89, 0.1 );
+	box-shadow: none;
+	border-radius: 3px;
+	padding: 11px 10px 10px;
+	width: 100%;
+	border: none;
+}
+.block-lab-pro label.input_label {
+	display: none;
+}
+.mc-field-group {
+	flex-grow: 1;
+	padding-right: 10px
+}
+.block-lab-pro .cta_license_form_wrapper {
+	display: flex;
+	align-items: center;
+}
+.block-lab-pro .button_cta {
+	padding: 16px 15px 15px;
+	box-shadow: 10px 10px 20px 0 rgba( 0, 0, 0, 0.2 );
+}
+.block-lab-pro .license_key_form {
+	display: flex;
+	background-color: rgba( 255, 255, 255, 0.1 );
+	border-radius: 3px;
+	padding: 4px;
+}
+.block-lab-pro .license_key_text {
+	font-size: 14px !important;
+	font-style: italic !important;
+	margin-bottom: 14px !important;
+	margin-right: 10px;
+	margin-left: 10px;
+}
+.block-lab-pro input[type="text"].input_text {
+	border-radius: 3px;
+	padding: 11px 10px 10px;
+	width: 100%;
+	box-shadow: none;
+	border: none;
+	background-color: rgba( 255, 255, 255, 0.9 );
+	margin-right: 4px;
+}
+@media ( max-width: 1200px ) {
+	.block-lab-pro .cta_license_form_wrapper {
+		display: block;
+	}
+}
+@media ( max-width: 720px ) {
+	.block-lab-pro .container {
+		display: block;
+	}
+	.block-lab-pro .tile {
+		margin-bottom: 20px;
+	}
+	.block-lab-pro .dashboard_welcome {
+		display: block;
+	}
+	.block-lab-pro .tile_body {
+		padding-top: 40px;
+	}
+}
+@media ( max-width: 960px ) {
+	.block-lab-pro .early_access_pass {
+		display: none;
+	}
+}
