@@ -1,5 +1,4 @@
 import UserInput from './user-input';
-const { URLInput } = wp.editor;
 
 const BlockLabUserControl = ( props, field, block ) => {
 	const { setAttributes, className } = props;
