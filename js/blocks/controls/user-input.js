@@ -79,7 +79,7 @@ class UserInput extends Component {
 	updateSuggestions( value ) {
 		// Show the suggestions after typing at least 2 characters
 		// and also for URLs
-		if ( value.length < 2 || /^https?:/.test( value ) ) {
+		if ( value.length < 2 ) {
 			this.setState( {
 				showSuggestions: false,
 				selectedSuggestion: null,
