@@ -51,10 +51,10 @@ class Test_User extends \WP_UnitTestCase {
 		}
 
 		$rows_setting = reset( $this->instance->settings );
-		$this->assertEquals( 'help', $rows_setting->name );
-		$this->assertEquals( 'Help Text', $rows_setting->label );
+		$this->assertEquals( 'placeholder', $rows_setting->name );
+		$this->assertEquals( 'Placeholder Text', $rows_setting->label );
 		$this->assertEquals( 'text', $rows_setting->type );
-		$this->assertEquals( '', $rows_setting->default );
+		$this->assertEquals( 'Enter a username', $rows_setting->default );
 		$this->assertEquals( 'sanitize_text_field', $rows_setting->sanitize );
 	}
 }
