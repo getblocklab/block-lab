@@ -37,10 +37,10 @@ class User extends Control_Abstract {
 	public function register_settings() {
 		$this->settings[] = new Control_Setting(
 			array(
-				'name'     => 'help',
-				'label'    => __( 'Help Text', 'block-lab' ),
+				'name'     => 'placeholder',
+				'label'    => __( 'Placeholder Text', 'block-lab' ),
 				'type'     => 'text',
-				'default'  => '',
+				'default'  => __( 'Enter a username', 'block-lab' ),
 				'sanitize' => 'sanitize_text_field',
 			)
 		);
