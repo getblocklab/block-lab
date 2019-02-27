@@ -5,7 +5,7 @@
  * But there are changes throughout this class.
  * For example, URLInput stores the URL and post, where this only stores the user slug.
  *
- * @see https://github.com/WordPress/gutenberg/blob/0ede174e6ff482085ee51b6a99bea0801c11d609/packages/editor/src/components/url-input/index.js#L1
+ * @see https://github.com/WordPress/gutenberg/blob/0ede174e6ff482085ee51b6a99bea0801c11d609/packages/editor/src/components/url-input/index.js
  */
 
 /**
@@ -240,7 +240,7 @@ class UserInput extends Component {
 		const { showSuggestions, users, selectedSuggestion, loading } = this.state;
 		/* eslint-disable jsx-a11y/no-autofocus */
 		return (
-			<div className={ classnames( 'bl-user-input', className ) }>
+			<div className={ classnames( 'editor-url-input', className ) }>
 				<input
 					autoFocus={ autoFocus }
 					type="text"
@@ -254,8 +254,8 @@ class UserInput extends Component {
 					role="combobox"
 					aria-expanded={ showSuggestions }
 					aria-autocomplete="list"
-					aria-owns={ `bl-user-input-suggestions-${ instanceId }` }
-					aria-activedescendant={ selectedSuggestion !== null ? `bl-user-input-suggestion-${ instanceId }-${ selectedSuggestion }` : undefined }
+					aria-owns={ `editor-url-input-suggestions-${ instanceId }` }
+					aria-activedescendant={ selectedSuggestion !== null ? `editor-url-input-suggestion-${ instanceId }-${ selectedSuggestion }` : undefined }
 					ref={ this.inputRef }
 				/>
 
@@ -264,8 +264,8 @@ class UserInput extends Component {
 				{ showSuggestions && !! users.length &&
 					<Popover position="bottom" noArrow focusOnMount={ false }>
 						<div
-							className="bl-user-input__suggestions"
-							id={ `bl-user-input-suggestions-${ instanceId }` }
+							className="editor-url-input__suggestions"
+							id={ `editor-url-input-suggestions-${ instanceId }` }
 							ref={ this.autocompleteRef }
 							role="listbox"
 						>
@@ -274,9 +274,9 @@ class UserInput extends Component {
 									key={ user.id }
 									role="option"
 									tabIndex="-1"
-									id={ `bl-user-input-suggestion-${ instanceId }-${ index }` }
+									id={ `editor-url-input-suggestion-${ instanceId }-${ index }` }
 									ref={ this.bindSuggestionNode( index ) }
-									className={ classnames( 'bl-user-input__suggestion', {
+									className={ classnames( 'editor-url-input__suggestion', {
 										'is-selected': index === selectedSuggestion,
 									} ) }
 									onClick={ () => this.handleOnClick( user ) }
