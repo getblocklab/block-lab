@@ -74,6 +74,8 @@ function block_field( $name, $echo = true ) {
 		 * and then output the field with a more suitable escaping function.
 		 */
 		echo wp_kses_post( $value );
+	} elseif ( isset( $block_lab_config['fields'][ $name ]['control'] ) && 'user' === $block_lab_config['fields'][ $name ]['control'] ) {
+		$value = get_user_by( 'slug', $value ); // Get a WP_User object.
 	}
 
 	return $value;
