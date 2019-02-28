@@ -20,10 +20,12 @@ class Test_Helpers extends \WP_UnitTestCase {
 	public function test_block_field() {
 		global $block_lab_attributes, $block_lab_config;
 
-		$mock_name        = 'test-user';
-		$mock_slug        = 'mock-user-slug';
-		$expected_wp_user = $this->factory()->user->create_and_get( array(
-			'user_login' => $mock_slug,
+		$mock_name         = 'test-user';
+		$mock_slug         = 'mock-user-slug';
+		$mock_display_name = 'mock-display-name';
+		$expected_wp_user  = $this->factory()->user->create_and_get( array(
+			'user_login'   => $mock_slug,
+			'display_name' => $mock_display_name,
 		) );
 
 		$user_login                                          = $expected_wp_user->get( 'user_login' );
@@ -41,6 +43,6 @@ class Test_Helpers extends \WP_UnitTestCase {
 		$actual_user_login = ob_get_clean();
 
 		// Because block_field() did not have a second argument, this should echo the user_login (slug).
-		$this->assertEquals( $expected_wp_user->get( 'user_login' ), $actual_user_login );
+		$this->assertEquals( $expected_wp_user->get( 'display_name' ), $actual_user_login );
 	}
 }
