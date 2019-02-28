@@ -3,7 +3,7 @@
  *
  * It would be ideal to extend that component instead of forking it.
  * But there are changes throughout this class.
- * For example, URLInput stores the URL and post, where this only stores the user slug.
+ * For example, URLInput stores the URL and post, and this only stores the user slug.
  * This still depends on styling from URLInput, including the class editor-url-input__suggestion.
  *
  * @see https://github.com/WordPress/gutenberg/blob/0ede174e6ff482085ee51b6a99bea0801c11d609/packages/editor/src/components/url-input/index.js

@@ -5,8 +5,6 @@
  * @package Block_Lab
  */
 
-namespace Block_Lab;
-
 /**
  * Tests for helpers.php.
  */
