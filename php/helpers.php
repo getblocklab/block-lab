@@ -74,7 +74,7 @@ function block_field( $name, $echo = true ) {
 		 */
 		if ( isset( $block_lab_config['fields'][ $name ]['control'] ) && 'user' === $block_lab_config['fields'][ $name ]['control'] ) {
 			$wp_user = get_user_by( 'slug', $value );
-			$value   =  $wp_user ? $wp_user->get( 'display_name' ) : '';
+			$value   = $wp_user ? $wp_user->get( 'display_name' ) : '';
 		}
 
 		/**
