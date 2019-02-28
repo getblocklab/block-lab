@@ -1,7 +1,7 @@
 /**
  * The UserInput component, forked from the URLInput component in Gutenberg.
  *
- * It would be ideal if there were a way to extend that component instead of fork the code.
+ * It would be ideal to extend that component instead of forking it.
  * But there are changes throughout this class.
  * For example, URLInput stores the URL and post, where this only stores the user slug.
  * This still depends on styling from URLInput, including the class editor-url-input__suggestion.
@@ -208,7 +208,7 @@ class UserInput extends Component {
 				if ( this.state.selectedSuggestion !== null ) {
 					this.selectLink( user );
 					// Announce a link has been selected when tabbing away from the input field.
-					this.props.speak( __( 'Link selected.', 'block-lab' ) );
+					this.props.speak( __( 'User selected.', 'block-lab' ) );
 				}
 				break;
 			}
@@ -245,7 +245,7 @@ class UserInput extends Component {
 				<input
 					autoFocus={ autoFocus }
 					type="text"
-					aria-label={ __( 'User login', 'block-lab' ) }
+					aria-label={ __( 'Username', 'block-lab' ) }
 					required
 					value={ value }
 					placeholder={ placeholder }

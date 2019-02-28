@@ -6,7 +6,7 @@ const BlockLabUserControl = ( props, field, block ) => {
 
 	return (
 		<UserInput
-			placeholder={ field.placeholder }
+			placeholder={field.placeholder}
 			value={attr[ field.name ]}
 			onChange={username => {
 				attr[ field.name ] = username
