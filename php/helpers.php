@@ -68,6 +68,15 @@ function block_field( $name, $echo = true ) {
 			$value = __( 'No', 'block-lab' );
 		}
 
+		/*
+		 * The user value is stored as the slug (user_login), which cannot change.
+		 * But it's echoed as the display_name, which can change via a setting in /wp-admin/user-edit.php.
+		 */
+		if ( isset( $block_lab_config['fields'][ $name ]['control'] ) && 'user' === $block_lab_config['fields'][ $name ]['control'] ) {
+			$wp_user = get_user_by( 'slug', $value );
+			$value   =  $wp_user ? $wp_user->get( 'display_name' ) : '';
+		}
+
 		/**
 		 * Escaping this value may cause it to break in some use cases.
 		 * If this happens, retrieve the field's value using block_value(),
