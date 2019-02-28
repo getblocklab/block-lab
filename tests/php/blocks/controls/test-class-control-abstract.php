@@ -104,18 +104,4 @@ class Test_Control_Abstract extends \WP_UnitTestCase {
 		// This should  have a min="0" attribute, as the 4th argument is true.
 		$this->assertContains( $min_attribute, $output );
 	}
-
-	/**
-	 * Test render_settings_user_select().
-	 *
-	 * @covers render_settings_user_select.
-	 */
-	public function test_render_settings_user_select() {
-		ob_start();
-		$this->instance->render_settings_user_select( $this->setting, self::NAME, self::ID );
-		$output = ob_get_clean();
-
-		// This should have a min="0" attribute.
-		$this->assertContains( '<select', $output );
-	}
 }

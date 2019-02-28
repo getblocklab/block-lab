@@ -44,14 +44,5 @@ class User extends Control_Abstract {
 				'sanitize' => 'sanitize_text_field',
 			)
 		);
-		$this->settings[] = new Control_Setting(
-			array(
-				'name'     => 'name_to_display',
-				'label'    => __( 'Display name as', 'block-lab' ),
-				'type'     => 'user_select',
-				'default'  => '',
-				'sanitize' => 'sanitize_text_field',
-			)
-		);
 	}
 }
