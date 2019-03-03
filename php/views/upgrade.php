@@ -25,7 +25,7 @@
 						<input class="button" type="submit" value="<?php esc_html_e( 'Activate', 'block-lab' ); ?>" />
 					</form>
 					<p class="license_key_text">or</p>
-					<a target="_blank" class="button button--white button_cta" href="https://getblocklab.com/pro"><?php esc_html_e( 'Check out Early Access', 'block-lab' ); ?></a>
+					<a target="_blank" class="button button--white button_cta" href="https://getblocklab.com/block-lab-pro"><?php esc_html_e( 'Check out Early Access', 'block-lab' ); ?></a>
 				</div>
 			</div>
 			<div>
