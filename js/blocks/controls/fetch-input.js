@@ -1,5 +1,5 @@
 /**
- * The UserInput component, forked from the URLInput component in Gutenberg.
+ * The FetchInput component, forked from the URLInput component in Gutenberg.
  *
  * It would be ideal to extend that component instead of forking it.
  * But there are changes throughout this class.
@@ -27,12 +27,12 @@ const { withInstanceId } = wp.compose;
 const apiFetch = wp.apiFetch;
 const { addQueryArgs } = wp.url;
 
-// Since UserInput is rendered in the context of other inputs, but should be
+// Since FetchInput is rendered in the context of other inputs, but should be
 // considered a separate modal node, prevent keyboard events from propagating
 // as being considered from the input.
 const stopEventPropagation = ( event ) => event.stopPropagation();
 
-class UserInput extends Component {
+class FetchInput extends Component {
 	constructor( { autocompleteRef } ) {
 		super( ...arguments );
 
@@ -45,7 +45,7 @@ class UserInput extends Component {
 		this.suggestionNodes = [];
 
 		this.state = {
-			users: [],
+			results: [],
 			showSuggestions: false,
 			selectedSuggestion: null,
 		};
@@ -97,13 +97,13 @@ class UserInput extends Component {
 		} );
 
 		const request = apiFetch( {
-			path: addQueryArgs( '/wp/v2/users', {
+			path: addQueryArgs( '/wp/v2/' + this.props.apiSlug, {
 				search: value,
 				per_page: 20,
 			} ),
 		} );
 
-		request.then( ( users ) => {
+		request.then( ( results ) => {
 			// A fetch Promise doesn't have an abort option. It's mimicked by
 			// comparing the request reference in on the instance, which is
 			// reset or deleted on subsequent requests or unmounting.
@@ -112,17 +112,17 @@ class UserInput extends Component {
 			}
 
 			this.setState( {
-				users,
+				results,
 				loading: false,
 			} );
 
-			if ( !! users.length ) {
+			if ( !! results.length ) {
 				this.props.debouncedSpeak( sprintf( _n(
 					'%d result found, use up and down arrow keys to navigate.',
 					'%d results found, use up and down arrow keys to navigate.',
-					users.length,
+					results.length,
 					'block-lab'
-				), users.length ), 'assertive' );
+				), results.length ), 'assertive' );
 			} else {
 				this.props.debouncedSpeak( __( 'No results.', 'block-lab' ), 'assertive' );
 			}
@@ -144,10 +144,10 @@ class UserInput extends Component {
 	}
 
 	onKeyDown( event ) {
-		const { showSuggestions, selectedSuggestion, users, loading } = this.state;
+		const { showSuggestions, selectedSuggestion, results, loading } = this.state;
 		// If the suggestions are not shown or loading, we shouldn't handle the arrow keys
 		// We shouldn't preventDefault to allow block arrow keys navigation.
-		if ( ! showSuggestions || ! users.length || loading ) {
+		if ( ! showSuggestions || ! results.length || loading ) {
 			// In the Windows version of Firefox the up and down arrows don't move the caret
 			// within an input field like they do for Mac Firefox/Chrome/Safari. This causes
 			// a form of focus trapping that is disruptive to the user experience. This disruption
@@ -183,13 +183,13 @@ class UserInput extends Component {
 			return;
 		}
 
-		const user = this.state.users[ this.state.selectedSuggestion ];
+		const user = this.state.results[ this.state.selectedSuggestion ];
 
 		switch ( event.keyCode ) {
 			case UP: {
 				event.stopPropagation();
 				event.preventDefault();
-				const previousIndex = ! selectedSuggestion ? users.length - 1 : selectedSuggestion - 1;
+				const previousIndex = ! selectedSuggestion ? results.length - 1 : selectedSuggestion - 1;
 				this.setState( {
 					selectedSuggestion: previousIndex,
 				} );
@@ -198,7 +198,7 @@ class UserInput extends Component {
 			case DOWN: {
 				event.stopPropagation();
 				event.preventDefault();
-				const nextIndex = selectedSuggestion === null || ( selectedSuggestion === users.length - 1 ) ? 0 : selectedSuggestion + 1;
+				const nextIndex = selectedSuggestion === null || ( selectedSuggestion === results.length - 1 ) ? 0 : selectedSuggestion + 1;
 				this.setState( {
 					selectedSuggestion: nextIndex,
 				} );
@@ -223,7 +223,7 @@ class UserInput extends Component {
 	}
 
 	selectLink( user ) {
-		this.props.onChange( user.slug );
+		this.props.onChange( user[ this.props.resultKey ] );
 		this.setState( {
 			selectedSuggestion: null,
 			showSuggestions: false,
@@ -237,8 +237,8 @@ class UserInput extends Component {
 	}
 
 	render() {
-		const { value = '', autoFocus = true, instanceId, className, placeholder, field } = this.props;
-		const { showSuggestions, users, selectedSuggestion, loading } = this.state;
+		const { value = '', autoFocus = true, instanceId, className, placeholder, field, resultKey } = this.props;
+		const { showSuggestions, results, selectedSuggestion, loading } = this.state;
 		/* eslint-disable jsx-a11y/no-autofocus */
 		return (
 			<BaseControl label={ field.label } className={ classnames( 'editor-url-input', className ) } help={ field.help }>
@@ -262,7 +262,7 @@ class UserInput extends Component {
 
 				{ ( loading ) && <Spinner /> }
 
-				{ showSuggestions && !! users.length &&
+				{ showSuggestions && !! results.length &&
 					<Popover position="bottom left" noArrow focusOnMount={ false }>
 						<div
 							className="editor-url-input__suggestions"
@@ -270,7 +270,7 @@ class UserInput extends Component {
 							ref={ this.autocompleteRef }
 							role="listbox"
 						>
-							{ users.map( ( user, index ) => (
+							{ results.map( ( user, index ) => (
 								<button
 									key={ user.id }
 									role="option"
@@ -283,7 +283,7 @@ class UserInput extends Component {
 									onClick={ () => this.handleOnClick( user ) }
 									aria-selected={ index === selectedSuggestion }
 								>
-									{ decodeEntities( user.slug ) || __( '(no username)', 'block-lab' ) }
+									{ decodeEntities( user[ resultKey ] ) || __( '(no username)', 'block-lab' ) }
 								</button>
 							) ) }
 						</div>
@@ -295,4 +295,4 @@ class UserInput extends Component {
 	}
 }
 
-export default withSpokenMessages( withInstanceId( UserInput ) );
+export default withSpokenMessages( withInstanceId( FetchInput ) );
