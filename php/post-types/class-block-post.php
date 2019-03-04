@@ -48,6 +48,7 @@ class Block_Post extends Component_Abstract {
 		add_filter( 'enter_title_here', array( $this, 'post_title_placeholder' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'wp_insert_post_data', array( $this, 'save_block' ), 10, 2 );
+		add_action( 'admin_init', array( $this, 'register_controls' ) );
 
 		// Clean up the list table.
 		add_filter( 'disable_months_dropdown', '__return_true', 10, $this->slug );
@@ -62,38 +63,39 @@ class Block_Post extends Component_Abstract {
 	}
 
 	/**
-	 * Initialise Block posts.
-	 *
-	 * @return void
-	 */
-	public function init() {
-		$this->register_controls();
-	}
-
-	/**
 	 * Register the controls.
 	 *
 	 * @return void
 	 */
 	public function register_controls() {
+		$controls = array(
+			'text'        => new Controls\Text(),
+			'textarea'    => new Controls\Textarea(),
+			'url'         => new Controls\URL(),
+			'email'       => new Controls\Email(),
+			'number'      => new Controls\Number(),
+			'color'       => new Controls\Color(),
+			'image'       => new Controls\Image(),
+			'select'      => new Controls\Select(),
+			'multiselect' => new Controls\Multiselect(),
+			'toggle'      => new Controls\Toggle(),
+			'range'       => new Controls\Range(),
+			'checkbox'    => new Controls\Checkbox(),
+			'radio'       => new Controls\Radio(),
+		);
+
+		if ( block_lab()->is_pro() ) {
+			$controls = array_merge(
+				$controls,
+				array(
+					'user' => new Controls\User(),
+				)
+			);
+		}
+
 		$this->controls = apply_filters(
 			'block_lab_controls',
-			array(
-				'text'        => new Controls\Text(),
-				'textarea'    => new Controls\Textarea(),
-				'url'         => new Controls\URL(),
-				'email'       => new Controls\Email(),
-				'number'      => new Controls\Number(),
-				'color'       => new Controls\Color(),
-				'image'       => new Controls\Image(),
-				'select'      => new Controls\Select(),
-				'multiselect' => new Controls\Multiselect(),
-				'toggle'      => new Controls\Toggle(),
-				'range'       => new Controls\Range(),
-				'checkbox'    => new Controls\Checkbox(),
-				'radio'       => new Controls\Radio(),
-				'user'        => new Controls\User(),
-			)
+			$controls
 		);
 	}
 
