@@ -22,7 +22,7 @@ const { __, sprintf, _n } = wp.i18n;
 const { Component, createRef } = wp.element;
 const { decodeEntities } = wp.htmlEntities;
 const { UP, DOWN, ENTER, TAB } = wp.keycodes;
-const { Spinner, withSpokenMessages, Popover } = wp.components;
+const { BaseControl, Spinner, withSpokenMessages, Popover } = wp.components;
 const { withInstanceId } = wp.compose;
 const apiFetch = wp.apiFetch;
 const { addQueryArgs } = wp.url;
@@ -237,11 +237,11 @@ class UserInput extends Component {
 	}
 
 	render() {
-		const { value = '', autoFocus = true, instanceId, className, placeholder } = this.props;
+		const { value = '', autoFocus = true, instanceId, className, placeholder, field } = this.props;
 		const { showSuggestions, users, selectedSuggestion, loading } = this.state;
 		/* eslint-disable jsx-a11y/no-autofocus */
 		return (
-			<div className={ classnames( 'editor-url-input', className ) }>
+			<BaseControl label={ field.label } className={ classnames( 'editor-url-input', className ) } help={ field.help }>
 				<input
 					autoFocus={ autoFocus }
 					type="text"
@@ -289,7 +289,7 @@ class UserInput extends Component {
 						</div>
 					</Popover>
 				}
-			</div>
+			</BaseControl>
 		);
 		/* eslint-enable jsx-a11y/no-autofocus */
 	}

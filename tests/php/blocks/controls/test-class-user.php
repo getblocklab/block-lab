@@ -50,11 +50,18 @@ class Test_User extends \WP_UnitTestCase {
 			$this->assertEquals( 'Block_Lab\Blocks\Controls\Control_Setting', get_class( $setting ) );
 		}
 
-		$rows_setting = reset( $this->instance->settings );
-		$this->assertEquals( 'placeholder', $rows_setting->name );
-		$this->assertEquals( 'Placeholder Text', $rows_setting->label );
-		$this->assertEquals( 'text', $rows_setting->type );
-		$this->assertEquals( 'Enter a username', $rows_setting->default );
-		$this->assertEquals( 'sanitize_text_field', $rows_setting->sanitize );
+		$help_setting = reset( $this->instance->settings );
+		$this->assertEquals( 'help', $help_setting->name );
+		$this->assertEquals( 'Help Text', $help_setting->label );
+		$this->assertEquals( 'text', $help_setting->type );
+		$this->assertEquals( '', $help_setting->default );
+		$this->assertEquals( 'sanitize_text_field', $help_setting->sanitize );
+
+		$placeholder_setting = end( $this->instance->settings );
+		$this->assertEquals( 'placeholder', $placeholder_setting->name );
+		$this->assertEquals( 'Placeholder Text', $placeholder_setting->label );
+		$this->assertEquals( 'text', $placeholder_setting->type );
+		$this->assertEquals( 'Enter a username', $placeholder_setting->default );
+		$this->assertEquals( 'sanitize_text_field', $placeholder_setting->sanitize );
 	}
 }
