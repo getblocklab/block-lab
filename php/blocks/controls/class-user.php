@@ -49,7 +49,7 @@ class User extends Control_Abstract {
 				'name'     => 'placeholder',
 				'label'    => __( 'Placeholder Text', 'block-lab' ),
 				'type'     => 'text',
-				'default'  => __( 'Enter a username', 'block-lab' ),
+				'default'  => '',
 				'sanitize' => 'sanitize_text_field',
 			)
 		);
