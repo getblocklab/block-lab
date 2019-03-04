@@ -53,8 +53,8 @@ class UserInput extends Component {
 
 	componentDidUpdate() {
 		const { showSuggestions, selectedSuggestion } = this.state;
-		// only have to worry about scrolling selected suggestion into view
-		// when already expanded
+		// Only have to worry about scrolling selected suggestion into view
+		// when already expanded.
 		if ( showSuggestions && selectedSuggestion !== null && ! this.scrollingIntoView ) {
 			this.scrollingIntoView = true;
 			scrollIntoView( this.suggestionNodes[ selectedSuggestion ], this.autocompleteRef.current, {
@@ -79,7 +79,7 @@ class UserInput extends Component {
 
 	updateSuggestions( value ) {
 		// Show the suggestions after typing at least 2 characters
-		// and also for URLs
+		// and also for URLs.
 		if ( value.length < 2 ) {
 			this.setState( {
 				showSuggestions: false,
@@ -146,7 +146,7 @@ class UserInput extends Component {
 	onKeyDown( event ) {
 		const { showSuggestions, selectedSuggestion, users, loading } = this.state;
 		// If the suggestions are not shown or loading, we shouldn't handle the arrow keys
-		// We shouldn't preventDefault to allow block arrow keys navigation
+		// We shouldn't preventDefault to allow block arrow keys navigation.
 		if ( ! showSuggestions || ! users.length || loading ) {
 			// In the Windows version of Firefox the up and down arrows don't move the caret
 			// within an input field like they do for Mac Firefox/Chrome/Safari. This causes
@@ -161,7 +161,7 @@ class UserInput extends Component {
 						event.stopPropagation();
 						event.preventDefault();
 
-						// Set the input caret to position 0
+						// Set the input caret to position 0.
 						event.target.setSelectionRange( 0, 0 );
 					}
 					break;
@@ -173,7 +173,7 @@ class UserInput extends Component {
 						event.stopPropagation();
 						event.preventDefault();
 
-						// Set the input caret to the last position
+						// Set the input caret to the last position.
 						event.target.setSelectionRange( this.props.value.length, this.props.value.length );
 					}
 					break;
