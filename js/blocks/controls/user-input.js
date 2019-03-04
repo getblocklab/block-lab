@@ -263,7 +263,7 @@ class UserInput extends Component {
 				{ ( loading ) && <Spinner /> }
 
 				{ showSuggestions && !! users.length &&
-					<Popover position="bottom" noArrow focusOnMount={ false }>
+					<Popover position="bottom left" noArrow focusOnMount={ false }>
 						<div
 							className="editor-url-input__suggestions"
 							id={ `editor-url-input-suggestions-${ instanceId }` }
