@@ -150,7 +150,7 @@ class FetchInput extends Component {
 		if ( ! showSuggestions || ! results.length || loading ) {
 			// In the Windows version of Firefox the up and down arrows don't move the caret
 			// within an input field like they do for Mac Firefox/Chrome/Safari. This causes
-			// a form of focus trapping that is disruptive to the user experience. This disruption
+			// a form of focus trapping that is disruptive to the result experience. This disruption
 			// only happens if the caret is not in the first or last position in the text input.
 			// See: https://github.com/WordPress/gutenberg/issues/5693#issuecomment-436684747
 			switch ( event.keyCode ) {
@@ -183,7 +183,7 @@ class FetchInput extends Component {
 			return;
 		}
 
-		const user = this.state.results[ this.state.selectedSuggestion ];
+		const result = this.state.results[ this.state.selectedSuggestion ];
 
 		switch ( event.keyCode ) {
 			case UP: {
@@ -206,46 +206,47 @@ class FetchInput extends Component {
 			}
 			case TAB: {
 				if ( this.state.selectedSuggestion !== null ) {
-					this.selectLink( user );
+					this.selectLink( result );
 					// Announce a link has been selected when tabbing away from the input field.
-					this.props.speak( __( 'User selected.', 'block-lab' ) );
+					this.props.speak( __( 'Value selected.', 'block-lab' ) );
 				}
 				break;
 			}
 			case ENTER: {
 				if ( this.state.selectedSuggestion !== null ) {
 					event.stopPropagation();
-					this.selectLink( user );
+					this.selectLink( result );
 				}
 				break;
 			}
 		}
 	}
 
-	selectLink( user ) {
-		this.props.onChange( user[ this.props.resultKey ] );
+	selectLink( result ) {
+		this.props.onChange( result );
 		this.setState( {
 			selectedSuggestion: null,
 			showSuggestions: false,
 		} );
 	}
 
-	handleOnClick( user ) {
-		this.selectLink( user );
+	handleOnClick( result ) {
+		this.selectLink( result );
 		// Move focus to the input field when a link suggestion is clicked.
 		this.inputRef.current.focus();
 	}
 
 	render() {
-		const { value = '', autoFocus = true, instanceId, className, placeholder, field, resultKey } = this.props;
+		const { value = '', autoFocus = true, instanceId, className, placeholder, field, getValueFromAPI } = this.props;
 		const { showSuggestions, results, selectedSuggestion, loading } = this.state;
+
 		/* eslint-disable jsx-a11y/no-autofocus */
 		return (
 			<BaseControl label={ field.label } className={ classnames( 'editor-url-input', className ) } help={ field.help }>
 				<input
 					autoFocus={ autoFocus }
 					type="text"
-					aria-label={ __( 'Username', 'block-lab' ) }
+					aria-label={ field.label }
 					required
 					value={ value }
 					placeholder={ placeholder }
@@ -270,9 +271,9 @@ class FetchInput extends Component {
 							ref={ this.autocompleteRef }
 							role="listbox"
 						>
-							{ results.map( ( user, index ) => (
+							{ results.map( ( result, index ) => (
 								<button
-									key={ user.id }
+									key={ result.id }
 									role="option"
 									tabIndex="-1"
 									id={ `editor-url-input-suggestion-${ instanceId }-${ index }` }
@@ -280,10 +281,10 @@ class FetchInput extends Component {
 									className={ classnames( 'editor-url-input__suggestion', {
 										'is-selected': index === selectedSuggestion,
 									} ) }
-									onClick={ () => this.handleOnClick( user ) }
+									onClick={ () => this.handleOnClick( result ) }
 									aria-selected={ index === selectedSuggestion }
 								>
-									{ decodeEntities( user[ resultKey ] ) || __( '(no username)', 'block-lab' ) }
+									{ decodeEntities( getValueFromAPI( result ) ) || __( '(no result)', 'block-lab' ) }
 								</button>
 							) ) }
 						</div>
