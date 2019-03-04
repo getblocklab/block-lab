@@ -72,7 +72,7 @@ function block_field( $name, $echo = true ) {
 		 * The user value is stored as the slug (user_login), which cannot change.
 		 * But it's echoed as the display_name, which can change via a setting in /wp-admin/user-edit.php.
 		 */
-		if ( isset( $block_lab_config['fields'][ $name ]['control'] ) && 'user' === $block_lab_config['fields'][ $name ]['control'] ) {
+		if ( has_user_control_type( $block_lab_config['fields'][ $name ] ) ) {
 			$wp_user = get_user_by( 'slug', $value );
 			$value   = $wp_user ? $wp_user->get( 'display_name' ) : '';
 		}
@@ -83,11 +83,21 @@ function block_field( $name, $echo = true ) {
 		 * and then output the field with a more suitable escaping function.
 		 */
 		echo wp_kses_post( $value );
-	} elseif ( isset( $block_lab_config['fields'][ $name ]['control'] ) && 'user' === $block_lab_config['fields'][ $name ]['control'] ) {
+	} elseif ( has_user_control_type( $block_lab_config['fields'][ $name ] ) ) {
 		$value = get_user_by( 'slug', $value ); // Get a WP_User object.
 	}
 
 	return $value;
+}
+
+/**
+ * Whether a field has the control type of 'user'.
+ *
+ * @param array $field The field to examine.
+ * @return bool
+ */
+function has_user_control_type( $field ) {
+	return isset( $field['control'] ) && 'user' === $field['control'];
 }
 
 /**

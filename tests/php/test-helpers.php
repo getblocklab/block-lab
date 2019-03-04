@@ -43,4 +43,19 @@ class Test_Helpers extends \WP_UnitTestCase {
 		// Because block_field() did not have a second argument, this should echo the user_login (slug).
 		$this->assertEquals( $expected_wp_user->get( 'display_name' ), $actual_user_login );
 	}
+
+	/**
+	 * Test has_user_control_type().
+	 *
+	 * @covers has_user_control_type.
+	 */
+	public function test_has_user_control() {
+		$this->assertFalse( has_user_control_type( array() ) );
+
+		$wrong_field = array( 'control' => 'non-existent' );
+		$this->assertFalse( has_user_control_type( $wrong_field ) );
+
+		$correct_field = array( 'control' => 'user' );
+		$this->assertTrue( has_user_control_type( $correct_field ) );
+	}
 }
