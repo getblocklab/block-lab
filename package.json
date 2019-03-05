@@ -22,7 +22,6 @@
     "cross-env": "^5.1.5",
     "css-loader": "^0.28.11",
     "del": "^3.0.0",
-    "dom-scroll-into-view": "^1.2.1",
     "eslint": "^4.19.1",
     "extract-text-webpack-plugin": "^3.0.2",
     "gulp": "^4.0.0",
