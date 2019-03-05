@@ -4,7 +4,7 @@
  * It would be ideal to extend that component instead of forking it.
  * But there are changes throughout this class.
  * For example, URLInput stores the URL and post, and this only stores the user slug.
- * This still depends on styling from URLInput, including the class editor-url-input__suggestion.
+ * Also, this FetchInput component can be reused for posts and taxonomies.
  *
  * @see https://github.com/WordPress/gutenberg/blob/0ede174e6ff482085ee51b6a99bea0801c11d609/packages/editor/src/components/url-input/index.js
  */
@@ -242,7 +242,7 @@ class FetchInput extends Component {
 
 		/* eslint-disable jsx-a11y/no-autofocus */
 		return (
-			<BaseControl label={ field.label } className={ classnames( 'editor-url-input', className ) } help={ field.help }>
+			<BaseControl label={ field.label } className={ classnames( 'bl-fetch--input', className ) } help={ field.help }>
 				<input
 					autoFocus={ autoFocus }
 					type="text"
@@ -256,7 +256,7 @@ class FetchInput extends Component {
 					role="combobox"
 					aria-expanded={ showSuggestions }
 					aria-autocomplete="list"
-					aria-owns={ `editor-url-input-suggestions-${ instanceId }` }
+					aria-owns={ `bl-fetch-input-suggestions-${ instanceId }` }
 					aria-activedescendant={ selectedSuggestion !== null ? `editor-url-input-suggestion-${ instanceId }-${ selectedSuggestion }` : undefined }
 					ref={ this.inputRef }
 				/>
@@ -266,8 +266,8 @@ class FetchInput extends Component {
 				{ showSuggestions && !! results.length &&
 					<Popover position="bottom left" noArrow focusOnMount={ false }>
 						<div
-							className="editor-url-input__suggestions"
-							id={ `editor-url-input-suggestions-${ instanceId }` }
+							className="bl-fetch-input__suggestions"
+							id={ `bl-fetch-input-suggestions-${ instanceId }` }
 							ref={ this.autocompleteRef }
 							role="listbox"
 						>
@@ -276,9 +276,9 @@ class FetchInput extends Component {
 									key={ result.id }
 									role="option"
 									tabIndex="-1"
-									id={ `editor-url-input-suggestion-${ instanceId }-${ index }` }
+									id={ `bl-fetch-input-suggestion-${ instanceId }-${ index }` }
 									ref={ this.bindSuggestionNode( index ) }
-									className={ classnames( 'editor-url-input__suggestion', {
+									className={ classnames( 'bl-fetch-input__suggestion', {
 										'is-selected': index === selectedSuggestion,
 									} ) }
 									onClick={ () => this.handleOnClick( result ) }
