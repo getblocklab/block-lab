@@ -13,7 +13,6 @@
  * External dependencies
  */
 import classnames from 'classnames';
-import scrollIntoView from 'dom-scroll-into-view';
 
 /**
  * WordPress dependencies
@@ -49,22 +48,6 @@ class FetchInput extends Component {
 			showSuggestions: false,
 			selectedSuggestion: null,
 		};
-	}
-
-	componentDidUpdate() {
-		const { showSuggestions, selectedSuggestion } = this.state;
-		// Only have to worry about scrolling selected suggestion into view
-		// when already expanded.
-		if ( showSuggestions && selectedSuggestion !== null && ! this.scrollingIntoView ) {
-			this.scrollingIntoView = true;
-			scrollIntoView( this.suggestionNodes[ selectedSuggestion ], this.autocompleteRef.current, {
-				onlyScrollIfNeeded: true,
-			} );
-
-			setTimeout( () => {
-				this.scrollingIntoView = false;
-			}, 100 );
-		}
 	}
 
 	componentWillUnmount() {
