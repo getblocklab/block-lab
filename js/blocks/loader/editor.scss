@@ -244,3 +244,7 @@ div[class^="wp-block-block-lab-"],
     outline: none;
   }
 }
+
+.edit-post-layout .components-popover.bl-fetch-input-popover:not(.is-mobile) .components-popover__content {
+  min-width: $input-size + 10;
+}
