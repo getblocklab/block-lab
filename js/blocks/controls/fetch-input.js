@@ -230,7 +230,6 @@ class FetchInput extends Component {
 					autoFocus={ autoFocus }
 					type="text"
 					aria-label={ field.label }
-					required
 					value={ value }
 					placeholder={ placeholder }
 					onChange={ this.onChange }
