@@ -221,7 +221,7 @@ div[class^="wp-block-block-lab-"],
   overflow-y: auto;
 }
 
-.edit-post-layout .components-popover.url-fetch__popover:not(.is-mobile) .components-popover__content {
+.edit-post-layout .bl-fetch__popover.inspector:not(.is-mobile) .components-popover__content {
   min-width: 280px;
   margin-right: -125px;
 }

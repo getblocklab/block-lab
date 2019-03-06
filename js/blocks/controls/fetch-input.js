@@ -246,7 +246,7 @@ class FetchInput extends Component {
 				{ ( loading ) && <Spinner /> }
 
 				{ showSuggestions && !! results.length &&
-					<Popover position="bottom left" noArrow focusOnMount={ false } className="url-fetch__popover">
+					<Popover position="bottom left" noArrow focusOnMount={ false } className={ classnames( 'bl-fetch__popover', field.location ) }>
 						<div
 							className="bl-fetch-input__suggestions"
 							id={ `bl-fetch-input-suggestions-${ instanceId }` }
