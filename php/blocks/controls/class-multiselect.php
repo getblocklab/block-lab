@@ -69,9 +69,14 @@ class Multiselect extends Control_Abstract {
 				'sanitize' => array( $this, 'sanitize_textarea_assoc_array' ),
 			)
 		);
+		/**
+		 * This Setting is intentionally not named default, like other Settings. This is to allow empty array values.
+		 * By not providing a default setting, empty arrays aren't auto-corrected by the prepare_attributes_for_render
+		 * method of WP_Block_Type.
+		 */
 		$this->settings[] = new Control_Setting(
 			array(
-				'name'     => 'default',
+				'name'     => 'default_options',
 				'label'    => __( 'Default Value', 'block-lab' ),
 				'type'     => 'textarea_array',
 				'default'  => '',
