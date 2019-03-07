@@ -6,7 +6,7 @@ const BlockLabMultiselectControl = ( props, field, block ) => {
 
 	return (
 		<SelectControl
-			multiple="true"
+			multiple="multiple"
 			label={field.label}
 			help={field.help}
 			value={attr[ field.name ] || field.default}
