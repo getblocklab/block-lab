@@ -35,6 +35,7 @@ class FetchInput extends Component {
 	constructor( { autocompleteRef } ) {
 		super( ...arguments );
 
+		this.onBlur = this.onBlur.bind( this );
 		this.onChange = this.onChange.bind( this );
 		this.onKeyDown = this.onKeyDown.bind( this );
 		this.autocompleteRef = autocompleteRef || createRef();
@@ -118,6 +119,27 @@ class FetchInput extends Component {
 		} );
 
 		this.suggestionsRequest = request;
+	}
+
+	/**
+	 * On clicking the block outside the <input>, hide the Popover.
+	 * Mainly taken from the color control onBlur handler.
+	 */
+	onBlur( event ) {
+		console.log( event.relatedTarget.classList );
+		if (
+			event.relatedTarget
+			&&
+			(
+				event.relatedTarget.classList.contains( 'wp-block' ) // The block editor.
+				||
+				event.relatedTarget.classList.contains( 'edit-post-sidebar' ) // The inspector.
+			)
+		) {
+			this.setState( {
+				showSuggestions: false,
+			} );
+		}
 	}
 
 	onChange( event ) {
@@ -232,6 +254,7 @@ class FetchInput extends Component {
 					aria-label={ field.label }
 					value={ value }
 					placeholder={ placeholder }
+					onBlur={ this.onBlur }
 					onChange={ this.onChange }
 					onInput={ stopEventPropagation }
 					onKeyDown={ this.onKeyDown }
