@@ -50,7 +50,11 @@ function block_field( $name, $echo = true ) {
 				$value = intval( $value );
 				break;
 			case 'array':
-				$value = (array) $value;
+				if ( ! $value ) {
+					$value = array();
+				} else {
+					$value = (array) $value;
+				}
 				break;
 		}
 	}
