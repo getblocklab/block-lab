@@ -69,6 +69,7 @@ class Multiselect extends Control_Abstract {
 				'sanitize' => array( $this, 'sanitize_textarea_assoc_array' ),
 			)
 		);
+
 		$this->settings[] = new Control_Setting(
 			array(
 				'name'     => 'default',
