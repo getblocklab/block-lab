@@ -126,7 +126,6 @@ class FetchInput extends Component {
 	 * Mainly taken from the color control onBlur handler.
 	 */
 	onBlur( event ) {
-		console.log( event.relatedTarget.classList );
 		if (
 			event.relatedTarget
 			&&
