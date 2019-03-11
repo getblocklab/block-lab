@@ -93,10 +93,7 @@ class Block_Post extends Component_Abstract {
 			);
 		}
 
-		$this->controls = apply_filters(
-			'block_lab_controls',
-			$controls
-		);
+		$this->controls = apply_filters( 'block_lab_controls', $controls );
 	}
 
 	/**
