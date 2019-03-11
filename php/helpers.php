@@ -7,6 +7,8 @@
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
+use Block_Lab\Blocks;
+
 /**
  * Echos out the value of a block field.
  *
@@ -33,6 +35,12 @@ function block_field( $name, $echo = true ) {
 	$value = false; // This is a good default, it allows us to pick up on unchecked checkboxes.
 	if ( array_key_exists( $name, $block_lab_attributes ) ) {
 		$value = $block_lab_attributes[ $name ];
+	}
+
+	if ( array_key_exists( $name, $block_lab_config['fields'] ) ) {
+		$field = new Blocks\Field( $block_lab_config['fields'][ $name ] );
+	} else {
+		$field = new Blocks\Field();
 	}
 
 	// Cast block value as correct type.
@@ -72,7 +80,7 @@ function block_field( $name, $echo = true ) {
 		 * The user value is stored as the slug (user_login), which cannot change.
 		 * But it's echoed as the display_name, which can change via a setting in /wp-admin/user-edit.php.
 		 */
-		if ( has_user_control_type( $block_lab_config['fields'][ $name ] ) ) {
+		if ( 'user' === $field->control ) {
 			$wp_user = get_user_by( 'slug', $value );
 			$value   = $wp_user ? $wp_user->get( 'display_name' ) : '';
 		}
@@ -83,21 +91,11 @@ function block_field( $name, $echo = true ) {
 		 * and then output the field with a more suitable escaping function.
 		 */
 		echo wp_kses_post( $value );
-	} elseif ( has_user_control_type( $block_lab_config['fields'][ $name ] ) ) {
+	} elseif ( 'user' === $field->control ) {
 		$value = get_user_by( 'slug', $value ); // Get a WP_User object.
 	}
 
 	return $value;
-}
-
-/**
- * Whether a field has the control type of 'user'.
- *
- * @param array $field The field to examine.
- * @return bool
- */
-function has_user_control_type( $field ) {
-	return isset( $field['control'] ) && 'user' === $field['control'];
 }
 
 /**
