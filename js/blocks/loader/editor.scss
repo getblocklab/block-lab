@@ -2,7 +2,7 @@ $black: #222;
 $dark: rgba(0, 0, 0, 0.39);
 $light: rgba(140, 140, 151, 0.1);
 $input-padding: 8px;
-$input-size: 300px;
+$input-width: 300px;
 
 /* The variables and mixins below are taken from Gutenberg's URLInput component styling in url-input/style.scss. */
 $dark-gray-300: #6c7781; // Lightest gray that can be used for AA text contrast.
@@ -104,9 +104,9 @@ div[class^="wp-block-block-lab-"] {
     }
   }
 
-  /* The FetchInput component */
-  .bl-fetch--input input[type="text"] {
-    width: $input-size;
+  /* FetchInput component */
+  .bl-fetch-input {
+    max-width: $input-width;
   }
 }
 
@@ -203,7 +203,7 @@ div[class^="wp-block-block-lab-"],
 
 /* Miscellaneous global styles */
 .edit-post-layout {
-  .components-popover:not(.is-mobile) .components-popover__content {
+  .components-popover:not(.is-mobile):not(.bl-fetch__popover) .components-popover__content {
     min-width: 340px;
   }
 }
@@ -214,16 +214,23 @@ div[class^="wp-block-block-lab-"],
  * So this doesn't work inside the "Block form in editor" section above.
  * @see https://github.com/WordPress/gutenberg/blob/fd2468d6c486220f7f1fa5bfa2366c510b46af27/packages/editor/src/components/url-input/style.scss#L42
  */
+.bl-fetch__input {
+  width: 100%;
+}
+
+.bl-fetch__popover.editor:not(.is-mobile) .components-popover__content {
+  width: $input-width;
+}
+
+.bl-fetch__popover.inspector:not(.is-mobile) .components-popover__content {
+  min-width: 247px;
+}
+
 .bl-fetch-input__suggestions {
   max-height: 200px;
   transition: all 0.15s ease-in-out;
   padding: 4px 0;
   overflow-y: auto;
-}
-
-.edit-post-layout .bl-fetch__popover.inspector:not(.is-mobile) .components-popover__content {
-  min-width: 280px;
-  margin-right: -125px;
 }
 
 // Hide suggestions on mobile until we @todo find a better way to show them.

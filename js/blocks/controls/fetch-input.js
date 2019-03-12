@@ -245,9 +245,10 @@ class FetchInput extends Component {
 
 		/* eslint-disable jsx-a11y/no-autofocus */
 		return (
-			<BaseControl label={ field.label } className={ classnames( 'bl-fetch--input', className ) } help={ field.help }>
+			<BaseControl label={ field.label } className={ classnames( 'bl-fetch-input', className ) } help={ field.help }>
 				<input
 					autoFocus={ autoFocus }
+					className="bl-fetch__input"
 					type="text"
 					aria-label={ field.label }
 					value={ value }
@@ -267,7 +268,12 @@ class FetchInput extends Component {
 				{ ( loading ) && <Spinner /> }
 
 				{ showSuggestions && !! results.length &&
-					<Popover position="bottom left" noArrow focusOnMount={ false } className={ classnames( 'bl-fetch__popover', field.location ) }>
+					<Popover
+						position="bottom center"
+						noArrow
+						focusOnMount={ false }
+						className={ classnames( 'bl-fetch__popover', field.location ) }
+					>
 						<div
 							className="bl-fetch-input__suggestions"
 							id={ `bl-fetch-input-suggestions-${ instanceId }` }
