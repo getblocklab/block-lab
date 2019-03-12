@@ -41,6 +41,7 @@ class FetchInput extends Component {
 		this.autocompleteRef = autocompleteRef || createRef();
 		this.inputRef = createRef();
 		this.updateSuggestions = this.updateSuggestions.bind( this );
+		this.setInputValidity = this.setInputValidity.bind( this );
 
 		this.suggestionNodes = [];
 
@@ -122,6 +123,28 @@ class FetchInput extends Component {
 	}
 
 	/**
+	 * Sets the validity message and state of the <input>.
+	 *
+	 * On entering an invalid value, like the wrong username, this will display a message.
+	 * This uses the DOM API of setCustomValidity() and reportValidity().
+	 *
+	 * @param {boolean} isValid Whether the value in the <input> is valid.
+	 */
+	setInputValidity( isValid ) {
+		if ( ! this.inputRef.current || ! this.inputRef.current.setCustomValidity ) {
+			return
+		}
+
+		if ( ! isValid ) {
+			this.inputRef.current.setCustomValidity( sprintf( __( 'Invalid %s', 'block-lab' ), this.props.field.control ) );
+			this.inputRef.current.reportValidity();
+		} else {
+			this.inputRef.current.setCustomValidity( '' );
+		}
+	}
+
+
+	/**
 	 * On clicking outside the <input>, hide the Popover.
 	 *
 	 * Mainly taken from the color control onBlur handler.
@@ -129,11 +152,7 @@ class FetchInput extends Component {
 	 * That has its own handler, which will eventually hide the Popover.
 	 */
 	onBlur( event ) {
-		if (
-			event.relatedTarget
-			&&
-			! event.relatedTarget.classList.contains( 'bl-fetch-input__suggestion' )
-		) {
+		if ( event.relatedTarget && ! event.relatedTarget.classList.contains( 'bl-fetch-input__suggestion' ) ) {
 			this.setState( {
 				showSuggestions: false,
 			} );
@@ -210,8 +229,8 @@ class FetchInput extends Component {
 			case TAB: {
 				if ( this.state.selectedSuggestion !== null ) {
 					this.selectLink( result );
-					// Announce a link has been selected when tabbing away from the input field.
-					this.props.speak( __( 'Value selected.', 'block-lab' ) );
+					// Announce a value has been selected when tabbing away from the input field.
+					this.props.speak( sprintf( __( '%s selected', 'block-lab' ), this.props.field.control ) );
 				}
 				break;
 			}
@@ -235,13 +254,14 @@ class FetchInput extends Component {
 
 	handleOnClick( result ) {
 		this.selectLink( result );
-		// Move focus to the input field when a link suggestion is clicked.
+		// Move focus to the input field when a suggestion is clicked.
 		this.inputRef.current.focus();
 	}
 
 	render() {
 		const { value = '', autoFocus = true, instanceId, className, placeholder, field, getValueFromAPI } = this.props;
 		const { showSuggestions, results, selectedSuggestion, loading } = this.state;
+		const displayPopover = showSuggestions && !! results.length;
 
 		/* eslint-disable jsx-a11y/no-autofocus */
 		return (
@@ -266,8 +286,9 @@ class FetchInput extends Component {
 				/>
 
 				{ ( loading ) && <Spinner /> }
+				{ displayPopover && this.setInputValidity( true ) }
 
-				{ showSuggestions && !! results.length &&
+				{ displayPopover &&
 					<Popover
 						position="bottom center"
 						noArrow
@@ -299,6 +320,7 @@ class FetchInput extends Component {
 						</div>
 					</Popover>
 				}
+				{ ! showSuggestions || ! results.length && this.setInputValidity( false ) }
 			</BaseControl>
 		);
 		/* eslint-enable jsx-a11y/no-autofocus */
