@@ -122,18 +122,17 @@ class FetchInput extends Component {
 	}
 
 	/**
-	 * On clicking the block outside the <input>, hide the Popover.
+	 * On clicking outside the <input>, hide the Popover.
+	 *
 	 * Mainly taken from the color control onBlur handler.
+	 * The only exception is when selecting an item by clicking a .bl-fetch-input__suggestion.
+	 * That has its own handler, which will eventually hide the Popover.
 	 */
 	onBlur( event ) {
 		if (
 			event.relatedTarget
 			&&
-			(
-				event.relatedTarget.classList.contains( 'wp-block' ) // The block editor.
-				||
-				event.relatedTarget.classList.contains( 'edit-post-sidebar' ) // The inspector.
-			)
+			! event.relatedTarget.classList.contains( 'bl-fetch-input__suggestion' )
 		) {
 			this.setState( {
 				showSuggestions: false,
