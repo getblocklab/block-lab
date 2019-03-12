@@ -253,6 +253,7 @@ div[class^="wp-block-block-lab-"],
 
   &:focus,
   &.is-selected {
+    background: rgb(0, 113, 158);
     color: $white;
     outline: none;
   }
