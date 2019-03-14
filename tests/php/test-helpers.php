@@ -5,6 +5,8 @@
  * @package Block_Lab
  */
 
+use Block_Lab\Blocks\Controls;
+
 /**
  * Tests for helpers.php.
  */

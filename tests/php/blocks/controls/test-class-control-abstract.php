@@ -12,14 +12,14 @@ use Block_Lab\Blocks\Controls;
  */
 class Test_Control_Abstract extends \WP_UnitTestCase {
 
-	/*
+	/**
 	 * A mock name of the control.
 	 *
 	 * @var string
 	 */
 	const NAME = 'block-fields-settings[5c6c6bcf03d2c][default]';
 
-	/*
+	/**
 	 * A mock ID of the control.
 	 *
 	 * @var string
@@ -52,9 +52,9 @@ class Test_Control_Abstract extends \WP_UnitTestCase {
 	}
 
 	/**
-	 * Test render_settings_number().
+	 * Test render_settings_number.
 	 *
-	 * @covers render_settings_number.
+	 * @covers render_settings_number()
 	 */
 	public function test_render_settings_number() {
 		ob_start();
@@ -68,9 +68,9 @@ class Test_Control_Abstract extends \WP_UnitTestCase {
 	}
 
 	/**
-	 * Test render_settings_number_non_negative().
+	 * Test render_settings_number_non_negative.
 	 *
-	 * @covers render_settings_number_non_negative.
+	 * @covers render_settings_number_non_negative()
 	 */
 	public function test_render_settings_number_non_negative() {
 		ob_start();
@@ -84,9 +84,9 @@ class Test_Control_Abstract extends \WP_UnitTestCase {
 	}
 
 	/**
-	 * Test render_number().
+	 * Test render_number.
 	 *
-	 * @covers Plugin::render_number().
+	 * @covers Plugin::render_number()
 	 */
 	public function test_render_number() {
 		$min_attribute = 'min="0"';
