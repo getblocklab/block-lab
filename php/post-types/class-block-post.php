@@ -48,7 +48,8 @@ class Block_Post extends Component_Abstract {
 		add_filter( 'enter_title_here', array( $this, 'post_title_placeholder' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'wp_insert_post_data', array( $this, 'save_block' ), 10, 2 );
-		add_action( 'admin_init', array( $this, 'register_controls' ) );
+		add_action( 'init', array( $this, 'register_controls' ) );
+		add_filter( 'block_lab_output_value', array( $this, 'get_output_value' ), 10, 3 );
 
 		// Clean up the list table.
 		add_filter( 'disable_months_dropdown', '__return_true', 10, $this->slug );
@@ -94,6 +95,27 @@ class Block_Post extends Component_Abstract {
 		}
 
 		$this->controls = apply_filters( 'block_lab_controls', $controls );
+	}
+
+	/**
+	 * Gets the value to be made available or echoed on the front-end template.
+	 *
+	 * Gets the value based on the control type.
+	 * For example, a 'user' control can return a WP_User, a string, or false.
+	 * The $echo parameter is whether the value will be echoed on the front-end template,
+	 * or simply made available.
+	 *
+	 * @param mixed  $value The output value.
+	 * @param string $control The type of the control, like 'user'.
+	 * @param bool   $echo Whether or not this value will be echoed.
+	 * @return mixed $value The filtered output value.
+	 */
+	public function get_output_value( $value, $control, $echo ) {
+		if ( isset( $this->controls[ $control ] ) && method_exists( $this->controls[ $control ], 'output' ) ) {
+			return call_user_func( array( $this->controls[ $control ], 'output' ), $value, $echo );
+		}
+
+		return $value;
 	}
 
 	/**
