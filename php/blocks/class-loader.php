@@ -63,11 +63,6 @@ class Loader extends Component_Abstract {
 		 * PHP block loading.
 		 */
 		add_action( 'plugins_loaded', array( $this, 'dynamic_block_loader' ) );
-
-		/**
-		 * Filters the value output to the front-end template.
-		 */
-		add_action( 'block_lab_output_value', array( $this, 'get_output_value' ), 10, 3 );
 	}
 
 
@@ -279,33 +274,5 @@ class Loader extends Component_Abstract {
 		}
 
 		$this->blocks = wp_json_encode( $blocks );
-	}
-
-	/**
-	 * Gets the value to be made available or echoed on the front-end template.
-	 *
-	 * Gets the value based on the control type.
-	 * For example, a 'user' control can return a WP_User, a string, or false.
-	 * The $echo parameter is whether the value will be echoed on the front-end template,
-	 * or simply made available.
-	 *
-	 * @param mixed  $value The output value.
-	 * @param string $control The type of the control, like 'user'.
-	 * @param bool   $echo Whether or not this value will be echoed.
-	 * @return mixed $value The filtered output value.
-	 */
-	public function get_output_value( $value, $control, $echo ) {
-		switch ( $control ) {
-			case 'user':
-				$wp_user = get_user_by( 'login', $value );
-				if ( $echo ) {
-					return $wp_user ? $wp_user->get( 'display_name' ) : '';
-				} else {
-					return $wp_user ? $wp_user : false;
-				}
-				break;
-		}
-
-		return $value;
 	}
 }

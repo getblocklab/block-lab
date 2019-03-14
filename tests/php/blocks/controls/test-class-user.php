@@ -68,4 +68,20 @@ class Test_User extends \WP_UnitTestCase {
 		$this->assertEquals( '', $user_setting->default );
 		$this->assertEquals( 'sanitize_text_field', $user_setting->sanitize );
 	}
+
+	/**
+	 * Test output.
+	 *
+	 * @covers output()
+	 */
+	public function test_output() {
+		$invalid_login    = 'notvalie';
+		$valid_login      = 'Jonas Doe';
+		$expected_wp_user = $this->factory()->user->create_and_get( array( 'user_login' => $valid_login ) );
+
+		$this->assertEquals( false, $this->instance->output( $invalid_login, false ) );
+		$this->assertEquals( $expected_wp_user, $this->instance->output( $valid_login, false ) );
+		$this->assertEquals( '', $this->instance->output( $invalid_login, true ) );
+		$this->assertEquals( $expected_wp_user->get( 'display_name' ), $this->instance->output( $valid_login, true ) );
+	}
 }

@@ -5,6 +5,7 @@
  * @package Block_Lab
  */
 
+use Block_Lab\Post_Types;
 use Block_Lab\Blocks\Controls;
 
 /**
@@ -20,29 +21,24 @@ class Test_Helpers extends \WP_UnitTestCase {
 	public function test_block_field() {
 		global $block_lab_attributes, $block_lab_config;
 
-		$mock_name         = 'test-user';
-		$mock_slug         = 'mock-user-slug';
-		$mock_display_name = 'mock-display-name';
-		$expected_wp_user  = $this->factory()->user->create_and_get( array(
-			'user_login'   => $mock_slug,
-			'display_name' => $mock_display_name,
-		) );
+		$field_name                                           = 'test-user';
+		$mock_login                                           = 'mock-user-login';
+		$block_lab_attributes[ $field_name ]                  = $mock_login;
+		$block_lab_config['fields'][ $field_name ]['control'] = 'user';
 
-		$user_login                                          = $expected_wp_user->get( 'user_login' );
-		$block_lab_attributes[ $mock_name ]                  = $user_login;
-		$mock_name                                           = 'test-user';
-		$block_lab_config['fields'][ $mock_name ]['control'] = 'user';
-		$actual_wp_user                                      = block_field( $mock_name, false );
-
-		// Because block_field() had the second argument of false, this should return a WP_User.
-		$this->assertEquals( 'WP_User', get_class( $actual_wp_user ) );
-		$this->assertEquals( $expected_wp_user, $actual_wp_user );
+		// Because block_field() had the second argument of false, this should return the value stored in the field, not echo it.
+		ob_start();
+		$return_value = block_field( $field_name, false );
+		$echoed = ob_get_clean();
+		$this->assertEquals( $mock_login, $return_value );
+		$this->assertEmpty( $echoed );
 
 		ob_start();
-		block_field( $mock_name );
+		$return_value = block_field( $field_name, true );
 		$actual_user_login = ob_get_clean();
 
-		// Because block_field() did not have a second argument, this should echo the user_login (slug).
-		$this->assertEquals( $expected_wp_user->get( 'display_name' ), $actual_user_login );
+		// Because block_field() did not have a second argument, this should echo the user login and return it.
+		$this->assertEquals( $mock_login, $actual_user_login );
+		$this->assertEquals( $return_value, $actual_user_login);
 	}
 }
