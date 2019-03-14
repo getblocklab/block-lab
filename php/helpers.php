@@ -37,12 +37,6 @@ function block_field( $name, $echo = true ) {
 		$value = $block_lab_attributes[ $name ];
 	}
 
-	if ( array_key_exists( $name, $block_lab_config['fields'] ) ) {
-		$field = new Blocks\Field( $block_lab_config['fields'][ $name ] );
-	} else {
-		$field = new Blocks\Field();
-	}
-
 	// Cast block value as correct type.
 	if ( isset( $block_lab_config['fields'][ $name ]['type'] ) ) {
 		switch ( $block_lab_config['fields'][ $name ]['type'] ) {
@@ -63,6 +57,17 @@ function block_field( $name, $echo = true ) {
 		}
 	}
 
+	$control = isset( $block_lab_config['fields'][ $name ]['control'] ) ? $block_lab_config['fields'][ $name ]['control'] : null;
+
+	/**
+	 * Filters the value to be made available or echoed on the front-end template.
+	 *
+	 * @param mixed  $value The output value.
+	 * @param string $control The type of the control, like 'user'.
+	 * @param bool   $echo Whether or not this value will be echoed.
+	 */
+	$value = apply_filters( 'block_lab_output_value', $value, $control, $echo );
+
 	if ( $echo ) {
 		if ( is_array( $value ) ) {
 			$value = implode( ', ', $value );
@@ -76,23 +81,12 @@ function block_field( $name, $echo = true ) {
 			$value = __( 'No', 'block-lab' );
 		}
 
-		/*
-		 * The user value is stored as the slug (user_login), which cannot change.
-		 * But it's echoed as the display_name, which can change via a setting in /wp-admin/user-edit.php.
-		 */
-		if ( 'user' === $field->control ) {
-			$wp_user = get_user_by( 'slug', $value );
-			$value   = $wp_user ? $wp_user->get( 'display_name' ) : '';
-		}
-
 		/**
 		 * Escaping this value may cause it to break in some use cases.
 		 * If this happens, retrieve the field's value using block_value(),
 		 * and then output the field with a more suitable escaping function.
 		 */
 		echo wp_kses_post( $value );
-	} elseif ( 'user' === $field->control ) {
-		$value = get_user_by( 'slug', $value ); // Get a WP_User object.
 	}
 
 	return $value;

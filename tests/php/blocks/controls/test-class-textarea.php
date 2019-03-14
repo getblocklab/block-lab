@@ -30,9 +30,9 @@ class Test_Textarea extends \WP_UnitTestCase {
 	}
 
 	/**
-	 * Test __construct().
+	 * Test __construct.
 	 *
-	 * @covers __construct.
+	 * @covers __construct()
 	 */
 	public function test_construct() {
 		$this->assertEquals( 'Textarea', $this->instance->label );
@@ -40,9 +40,9 @@ class Test_Textarea extends \WP_UnitTestCase {
 	}
 
 	/**
-	 * Test register_settings().
+	 * Test register_settings.
 	 *
-	 * @covers Textarea::register_settings().
+	 * @covers Textarea::register_settings()
 	 */
 	public function test_register_settings() {
 		$this->instance->register_settings();

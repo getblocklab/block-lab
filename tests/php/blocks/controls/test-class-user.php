@@ -13,11 +13,18 @@ use Block_Lab\Blocks\Controls;
 class Test_User extends \WP_UnitTestCase {
 
 	/**
-	 * Instance of User.
+	 * Instance of the extending class Number.
 	 *
-	 * @var Controls\User
+	 * @var Controls\Number
 	 */
 	public $instance;
+
+	/**
+	 * Instance of the setting.
+	 *
+	 * @var Controls\Control_setting
+	 */
+	public $setting;
 
 	/**
 	 * Setup.
@@ -27,41 +34,38 @@ class Test_User extends \WP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->instance = new Controls\User();
+		$this->setting  = new Controls\Control_Setting();
 	}
-
 	/**
-	 * Test __construct().
+	 * Test __construct.
 	 *
-	 * @covers __construct.
+	 * @covers __construct()
 	 */
 	public function test_construct() {
-		$this->assertEquals( 'User', $this->instance->label );
 		$this->assertEquals( 'user', $this->instance->name );
+		$this->assertEquals( 'User', $this->instance->label );
 	}
 
 	/**
-	 * Test register_settings().
+	 * Test register_settings.
 	 *
-	 * @covers User::register_settings().
+	 * @covers User::register_settings()
 	 */
 	public function test_register_settings() {
 		$this->instance->register_settings();
-		foreach ( $this->instance->settings as $setting ) {
-			$this->assertEquals( 'Block_Lab\Blocks\Controls\Control_Setting', get_class( $setting ) );
-		}
 
-		$help_setting = reset( $this->instance->settings );
-		$this->assertEquals( 'help', $help_setting->name );
-		$this->assertEquals( 'Help Text', $help_setting->label );
-		$this->assertEquals( 'text', $help_setting->type );
-		$this->assertEquals( '', $help_setting->default );
-		$this->assertEquals( 'sanitize_text_field', $help_setting->sanitize );
+		$first_setting = reset( $this->instance->settings );
+		$this->assertEquals( 'help', $first_setting->name );
+		$this->assertEquals( 'Help Text', $first_setting->label );
+		$this->assertEquals( 'text', $first_setting->type );
+		$this->assertEquals( '', $first_setting->default );
+		$this->assertEquals( 'sanitize_text_field', $first_setting->sanitize );
 
-		$placeholder_setting = end( $this->instance->settings );
-		$this->assertEquals( 'placeholder', $placeholder_setting->name );
-		$this->assertEquals( 'Placeholder Text', $placeholder_setting->label );
-		$this->assertEquals( 'text', $placeholder_setting->type );
-		$this->assertEquals( '', $placeholder_setting->default );
-		$this->assertEquals( 'sanitize_text_field', $placeholder_setting->sanitize );
+		$user_setting = end( $this->instance->settings );
+		$this->assertEquals( 'placeholder', $user_setting->name );
+		$this->assertEquals( 'Placeholder Text', $user_setting->label );
+		$this->assertEquals( 'text', $user_setting->type );
+		$this->assertEquals( '', $user_setting->default );
+		$this->assertEquals( 'sanitize_text_field', $user_setting->sanitize );
 	}
 }
