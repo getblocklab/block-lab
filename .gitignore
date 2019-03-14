@@ -100,6 +100,9 @@ package-lock.json
 # Ansible
 *.retry
 
+# ack
+.ackrc
+
 # Composer
 composer.lock
 vendor
