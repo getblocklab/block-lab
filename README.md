@@ -37,13 +37,16 @@ Simple to use functions, ready to render and work with the values stored through
 
 ## Installation ##
 ### From Within WordPress ###
-* Visit ‘Plugins > Add New’
-* Search for ‘Block Lab’
+* Visit Plugins > Add New
+* Search for "Block Lab"
 * Activate Block Lab from your Plugins page.
 
 ### Manually ###
-* Upload the block-lab folder to the /wp-content/plugins/ directory
-* Activate the Block Lab plugin through the ‘Plugins’ menu in WordPress
+* Clone Block Lab into a working directory with `https://github.com/getblocklab/block-lab.git`
+* `cd` into the `block-lab` directory, and run `npm install`
+* Next, build the scripts and styles with `npm build`
+* Move the `block-lab` folder to your `/wp-content/plugins/` directory
+* Activate the Block Lab plugin through the Plugins menu in WordPress
 
 ## Frequently Asked Questions ###
 **Q: Do I need to write code to use this plugin?**
