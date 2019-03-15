@@ -5,8 +5,7 @@
  * @package Block_Lab
  */
 
-namespace Block_Lab\Post_Types;
-
+use Block_Lab\Post_Types;
 use Block_Lab\Blocks\Controls;
 
 /**
@@ -28,7 +27,7 @@ class Test_Block_Post extends \WP_UnitTestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
-		$this->instance = new Block_Post();
+		$this->instance = new Post_Types\Block_Post();
 		$this->instance->register_controls();
 		$this->instance->controls['user'] = new Controls\User();
 	}
@@ -36,7 +35,7 @@ class Test_Block_Post extends \WP_UnitTestCase {
 	/**
 	 * Test register_hooks().
 	 *
-	 * @covers Block_Post::register_hooks().
+	 * @covers Block_Lab\Post_Types\Block_Post::register_hooks()
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -64,9 +63,9 @@ class Test_Block_Post extends \WP_UnitTestCase {
 	}
 
 	/**
-	 * Test register_controls().
+	 * Test register_controls.
 	 *
-	 * @covers Block_Post::register_controls.
+	 * @covers Block_Lab\Post_Types\Block_Post::register_controls()
 	 */
 	public function test_register_controls() {
 		$this->instance->register_controls();
@@ -86,22 +85,9 @@ class Test_Block_Post extends \WP_UnitTestCase {
 	}
 
 	/**
-	 * Sets a valid license.
-	 */
-	public function set_valid_license() {
-		set_transient(
-			'block_lab_license',
-			array(
-				'license' => 'valid',
-				'expires' => date( '+1 month' ),
-			)
-		);
-	}
-
-	/**
-	 * Test get_field_value.
+	 * Test get_field_value
 	 *
-	 * @covers get_field_value()
+	 * @covers Block_Lab\Post_Types\Block_Post::get_field_value()
 	 */
 	public function test_get_field_value() {
 		$invalid_login    = 'asdfg';
@@ -126,5 +112,18 @@ class Test_Block_Post extends \WP_UnitTestCase {
 		$this->assertEquals( $string_value, $this->instance->get_field_value( $string_value, 'non-user-control', true ) );
 		$this->assertEquals( $array_value, $this->instance->get_field_value( $array_value, 'some-control', false ) );
 		$this->assertEquals( $boolean_value, $this->instance->get_field_value( $boolean_value, 'not-a-user-control', true ) );
+	}
+
+	/**
+	 * Sets a valid license.
+	 */
+	public function set_valid_license() {
+		set_transient(
+			'block_lab_license',
+			array(
+				'license' => 'valid',
+				'expires' => date( '+1 month' ),
+			)
+		);
 	}
 }

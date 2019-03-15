@@ -39,7 +39,7 @@ class Test_User extends \WP_UnitTestCase {
 	/**
 	 * Test __construct.
 	 *
-	 * @covers __construct()
+	 * @covers Block_Lab\Blocks\Controls\User::__construct()
 	 */
 	public function test_construct() {
 		$this->assertEquals( 'user', $this->instance->name );
@@ -49,7 +49,7 @@ class Test_User extends \WP_UnitTestCase {
 	/**
 	 * Test register_settings.
 	 *
-	 * @covers User::register_settings()
+	 * @covers Block_Lab\Blocks\Controls\User::register_settings()
 	 */
 	public function test_register_settings() {
 		$this->instance->register_settings();
@@ -72,7 +72,7 @@ class Test_User extends \WP_UnitTestCase {
 	/**
 	 * Test validate.
 	 *
-	 * @covers validate()
+	 * @covers Block_Lab\Blocks\Controls\User::validate()
 	 */
 	public function test_validate() {
 		$invalid_login    = 'notvalid';

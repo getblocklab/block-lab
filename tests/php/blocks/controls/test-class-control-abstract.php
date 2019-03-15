@@ -54,7 +54,7 @@ class Test_Control_Abstract extends \WP_UnitTestCase {
 	/**
 	 * Test render_settings_number.
 	 *
-	 * @covers render_settings_number()
+	 * @covers Block_Lab\Blocks\Controls\Control_Abstract::render_settings_number()
 	 */
 	public function test_render_settings_number() {
 		ob_start();
@@ -70,7 +70,7 @@ class Test_Control_Abstract extends \WP_UnitTestCase {
 	/**
 	 * Test render_settings_number_non_negative.
 	 *
-	 * @covers render_settings_number_non_negative()
+	 * @covers Block_Lab\Blocks\Controls\Control_Abstract::render_settings_number_non_negative()
 	 */
 	public function test_render_settings_number_non_negative() {
 		ob_start();
@@ -86,7 +86,7 @@ class Test_Control_Abstract extends \WP_UnitTestCase {
 	/**
 	 * Test render_number.
 	 *
-	 * @covers Plugin::render_number()
+	 * @covers Block_Lab\Blocks\Controls\Control_Abstract::render_number()
 	 */
 	public function test_render_number() {
 		$min_attribute = 'min="0"';

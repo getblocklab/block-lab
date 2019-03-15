@@ -5,18 +5,15 @@
  * @package Block_Lab
  */
 
-use Block_Lab\Post_Types;
-use Block_Lab\Blocks\Controls;
-
 /**
  * Tests for helpers.php.
  */
 class Test_Helpers extends \WP_UnitTestCase {
 
 	/**
-	 * Test block_field().
+	 * Test block_field.
 	 *
-	 * @covers block_field.
+	 * @covers \block_field()
 	 */
 	public function test_block_field() {
 		global $block_lab_attributes, $block_lab_config;
