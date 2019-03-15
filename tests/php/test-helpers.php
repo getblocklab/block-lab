@@ -13,7 +13,7 @@ class Test_Helpers extends \WP_UnitTestCase {
 	/**
 	 * Test block_field.
 	 *
-	 * @covers \block_field()
+	 * @covers ::block_field()
 	 */
 	public function test_block_field() {
 		global $block_lab_attributes, $block_lab_config;

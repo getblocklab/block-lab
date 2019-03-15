@@ -35,7 +35,7 @@ class Test_Block_Post extends \WP_UnitTestCase {
 	/**
 	 * Test register_hooks().
 	 *
-	 * @covers Block_Lab\Post_Types\Block_Post::register_hooks()
+	 * @covers \Block_Lab\Post_Types\Block_Post::register_hooks()
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -65,7 +65,7 @@ class Test_Block_Post extends \WP_UnitTestCase {
 	/**
 	 * Test register_controls.
 	 *
-	 * @covers Block_Lab\Post_Types\Block_Post::register_controls()
+	 * @covers \Block_Lab\Post_Types\Block_Post::register_controls()
 	 */
 	public function test_register_controls() {
 		$this->instance->register_controls();
@@ -87,7 +87,7 @@ class Test_Block_Post extends \WP_UnitTestCase {
 	/**
 	 * Test get_field_value
 	 *
-	 * @covers Block_Lab\Post_Types\Block_Post::get_field_value()
+	 * @covers \Block_Lab\Post_Types\Block_Post::get_field_value()
 	 */
 	public function test_get_field_value() {
 		$invalid_login    = 'asdfg';

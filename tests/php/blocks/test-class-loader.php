@@ -25,7 +25,7 @@ class Test_Loader extends \WP_UnitTestCase {
 	/**
 	 * Test register_hooks.
 	 *
-	 * @covers Block_Lab\Blocks\Loader::register_hooks()
+	 * @covers \Block_Lab\Blocks\Loader::register_hooks()
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
