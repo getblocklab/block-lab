@@ -56,13 +56,13 @@ class User extends Control_Abstract {
 	}
 
 	/**
-	 * Gets the output value for the front-end template.
+	 * Validates the value to be made available to the front-end template.
 	 *
-	 * @param mixed $value The value to either make available or echo on the front-end template.
+	 * @param mixed $value The value to either make available as a variable or echoed on the front-end template.
 	 * @param bool  $echo Whether this will be echoed.
 	 * @return mixed $value The value to be made available or echoed on the front-end template.
 	 */
-	public function output( $value, $echo ) {
+	public function validate( $value, $echo ) {
 		$wp_user = get_user_by( 'login', $value );
 		if ( $echo ) {
 			return $wp_user ? $wp_user->get( 'display_name' ) : '';

@@ -66,11 +66,11 @@ function block_field( $name, $echo = true ) {
 	/**
 	 * Filters the value to be made available or echoed on the front-end template.
 	 *
-	 * @param mixed  $value The output value.
+	 * @param mixed  $value The value.
 	 * @param string $control The type of the control, like 'user'.
 	 * @param bool   $echo Whether or not this value will be echoed.
 	 */
-	$value = apply_filters( 'block_lab_output_value', $value, $control, $echo );
+	$value = apply_filters( 'block_lab_field_value', $value, $control, $echo );
 
 	if ( $echo ) {
 		if ( is_array( $value ) ) {
