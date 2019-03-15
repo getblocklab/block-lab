@@ -286,7 +286,7 @@ class FetchInput extends Component {
 				/>
 
 				{ ( loading ) && <Spinner /> }
-				{ displayPopover && ! loading && this.setInputValidity( true ) }
+				{ displayPopover && this.setInputValidity( true ) }
 
 				{ displayPopover &&
 					<Popover
