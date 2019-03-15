@@ -49,7 +49,7 @@ class Block_Post extends Component_Abstract {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'wp_insert_post_data', array( $this, 'save_block' ), 10, 2 );
 		add_action( 'init', array( $this, 'register_controls' ) );
-		add_filter( 'block_lab_output_value', array( $this, 'get_output_value' ), 10, 3 );
+		add_filter( 'block_lab_field_value', array( $this, 'get_field_value' ), 10, 3 );
 
 		// Clean up the list table.
 		add_filter( 'disable_months_dropdown', '__return_true', 10, $this->slug );
@@ -98,21 +98,21 @@ class Block_Post extends Component_Abstract {
 	}
 
 	/**
-	 * Gets the value to be made available or echoed on the front-end template.
+	 * Gets the field value to be made available or echoed on the front-end template.
 	 *
 	 * Gets the value based on the control type.
 	 * For example, a 'user' control can return a WP_User, a string, or false.
 	 * The $echo parameter is whether the value will be echoed on the front-end template,
 	 * or simply made available.
 	 *
-	 * @param mixed  $value The output value.
+	 * @param mixed  $value The field value.
 	 * @param string $control The type of the control, like 'user'.
 	 * @param bool   $echo Whether or not this value will be echoed.
-	 * @return mixed $value The filtered output value.
+	 * @return mixed $value The filtered field value.
 	 */
-	public function get_output_value( $value, $control, $echo ) {
-		if ( isset( $this->controls[ $control ] ) && method_exists( $this->controls[ $control ], 'output' ) ) {
-			return call_user_func( array( $this->controls[ $control ], 'output' ), $value, $echo );
+	public function get_field_value( $value, $control, $echo ) {
+		if ( isset( $this->controls[ $control ] ) && method_exists( $this->controls[ $control ], 'validate' ) ) {
+			return call_user_func( array( $this->controls[ $control ], 'validate' ), $value, $echo );
 		}
 
 		return $value;

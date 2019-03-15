@@ -51,7 +51,7 @@ class Test_Block_Post extends \WP_UnitTestCase {
 		$this->assertEquals( 10, has_action( 'admin_enqueue_scripts',  array( $this->instance, 'enqueue_scripts' )  ) );
 		$this->assertEquals( 10, has_action( 'wp_insert_post_data',  array( $this->instance, 'save_block' )  ) );
 		$this->assertEquals( 10, has_action( 'init',  array( $this->instance, 'register_controls' )  ) );
-		$this->assertEquals( 10, has_action( 'block_lab_output_value', array( $this->instance, 'get_output_value' ) ) );
+		$this->assertEquals( 10, has_action( 'block_lab_field_value', array( $this->instance, 'get_field_value' ) ) );
 
 		$this->assertEquals( 10, has_action( 'disable_months_dropdown', '__return_true' ) );
 		$this->assertEquals( 10, has_action( 'page_row_actions',  array( $this->instance, 'page_row_actions' )  ) );
@@ -99,32 +99,32 @@ class Test_Block_Post extends \WP_UnitTestCase {
 	}
 
 	/**
-	 * Test get_output_value.
+	 * Test get_field_value.
 	 *
-	 * @covers get_output_value()
+	 * @covers get_field_value()
 	 */
-	public function test_get_output_value() {
+	public function test_get_field_value() {
 		$invalid_login    = 'asdfg';
 		$valid_login      = 'John Doe';
 		$expected_wp_user = $this->factory()->user->create_and_get( array( 'user_login' => $valid_login ) );
 		$control          = 'user';
 
 		// The 'user' control.
-		$this->assertEquals( false, $this->instance->get_output_value( $invalid_login, $control, false ) );
-		$this->assertEquals( $expected_wp_user, $this->instance->get_output_value( $valid_login, $control, false ) );
-		$this->assertEquals( '', $this->instance->get_output_value( $invalid_login, $control, true ) );
-		$this->assertEquals( $expected_wp_user->get( 'display_name' ), $this->instance->get_output_value( $valid_login, $control, true ) );
+		$this->assertEquals( false, $this->instance->get_field_value( $invalid_login, $control, false ) );
+		$this->assertEquals( $expected_wp_user, $this->instance->get_field_value( $valid_login, $control, false ) );
+		$this->assertEquals( '', $this->instance->get_field_value( $invalid_login, $control, true ) );
+		$this->assertEquals( $expected_wp_user->get( 'display_name' ), $this->instance->get_field_value( $valid_login, $control, true ) );
 
 		// Any value for the 2nd argument other than 'user' should return the passed $value unchanged.
-		$this->assertEquals( $invalid_login, $this->instance->get_output_value( $invalid_login, 'different-control', false ) );
-		$this->assertEquals( $valid_login, $this->instance->get_output_value( $valid_login, 'random-control', false ) );
-		$this->assertEquals( $invalid_login, $this->instance->get_output_value( $invalid_login, 'some-other-control', true ) );
+		$this->assertEquals( $invalid_login, $this->instance->get_field_value( $invalid_login, 'different-control', false ) );
+		$this->assertEquals( $valid_login, $this->instance->get_field_value( $valid_login, 'random-control', false ) );
+		$this->assertEquals( $invalid_login, $this->instance->get_field_value( $invalid_login, 'some-other-control', true ) );
 
 		$string_value  = 'Example string';
 		$array_value   = array( 'first value', 'second value' );
 		$boolean_value = true;
-		$this->assertEquals( $string_value, $this->instance->get_output_value( $string_value, 'non-user-control', true ) );
-		$this->assertEquals( $array_value, $this->instance->get_output_value( $array_value, 'some-control', false ) );
-		$this->assertEquals( $boolean_value, $this->instance->get_output_value( $boolean_value, 'not-a-user-control', true ) );
+		$this->assertEquals( $string_value, $this->instance->get_field_value( $string_value, 'non-user-control', true ) );
+		$this->assertEquals( $array_value, $this->instance->get_field_value( $array_value, 'some-control', false ) );
+		$this->assertEquals( $boolean_value, $this->instance->get_field_value( $boolean_value, 'not-a-user-control', true ) );
 	}
 }
