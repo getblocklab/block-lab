@@ -196,7 +196,7 @@ function block_lab_enqueue_styles( $name, $type = 'block' ) {
 	}
 
 	$stylesheet_path = block_lab_locate_template( $locations, '', true );
-	$stylesheet_url  = '/' . str_replace( ABSPATH, '', $stylesheet_path );
+	$stylesheet_url  = str_replace( untrailingslashit( ABSPATH ), '', $stylesheet_path );
 
 	/**
 	 * Enqueue the stylesheet, if it exists. The wp_enqueue_style function handles duplicates, so we don't need
