@@ -195,7 +195,7 @@ function block_lab_enqueue_styles( $name, $type = 'block' ) {
 		);
 	}
 
-	$stylesheet_path = block_lab_locate_template( $locations, '', true );
+	$stylesheet_path = block_lab_locate_template( $locations );
 	$stylesheet_url  = str_replace( untrailingslashit( ABSPATH ), '', $stylesheet_path );
 
 	/**
