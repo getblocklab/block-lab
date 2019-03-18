@@ -19,8 +19,6 @@ require_once $_tests_dir . '/includes/functions.php';
  * Manually load the plugin being tested.
  */
 function _manually_load_plugin() {
-	$_tests_plugin = getenv( 'WP_PLUGIN_FILE' );
-	// require dirname( dirname( __FILE__ ) ) . '/' . $_tests_plugin;.
 	require dirname( dirname( __FILE__ ) ) . '/block-lab.php';
 }
 tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
