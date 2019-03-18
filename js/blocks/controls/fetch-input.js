@@ -12,7 +12,7 @@
 /**
  * External dependencies
  */
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 /**
  * WordPress dependencies
@@ -35,13 +35,14 @@ class FetchInput extends Component {
 	constructor( { autocompleteRef } ) {
 		super( ...arguments );
 
-		this.onBlur = this.onBlur.bind( this );
-		this.onChange = this.onChange.bind( this );
-		this.onKeyDown = this.onKeyDown.bind( this );
-		this.autocompleteRef = autocompleteRef || createRef();
-		this.inputRef = createRef();
+		this.onBlur            = this.onBlur.bind( this );
+		this.onFocus           = this.onFocus.bind( this );
+		this.onChange          = this.onChange.bind( this );
+		this.onKeyDown         = this.onKeyDown.bind( this );
+		this.autocompleteRef   = autocompleteRef || createRef();
+		this.inputRef          = createRef();
 		this.updateSuggestions = this.updateSuggestions.bind( this );
-		this.setInputValidity = this.setInputValidity.bind( this );
+		this.setInputValidity  = this.setInputValidity.bind( this );
 
 		this.suggestionNodes = [];
 
@@ -63,28 +64,14 @@ class FetchInput extends Component {
 	}
 
 	updateSuggestions( value ) {
-		// Show the suggestions after typing at least 2 characters
-		// and also for URLs.
-		if ( value.length < 2 ) {
-			this.setState( {
-				showSuggestions: false,
-				selectedSuggestion: null,
-				loading: false,
-			} );
-
-			return;
-		}
-
 		this.setState( {
-			showSuggestions: true,
-			selectedSuggestion: null,
 			loading: true,
 		} );
 
 		const request = apiFetch( {
 			path: addQueryArgs( '/wp/v2/' + this.props.apiSlug, {
 				search: value,
-				per_page: 20,
+				per_page: 5,
 			} ),
 		} );
 
@@ -98,6 +85,7 @@ class FetchInput extends Component {
 
 			this.setState( {
 				results,
+				showSuggestions: true,
 				loading: false,
 			} );
 
@@ -108,6 +96,13 @@ class FetchInput extends Component {
 					results.length,
 					'block-lab'
 				), results.length ), 'assertive' );
+
+
+				if ( null === this.state.selectedSuggestion && '' !== this.props.value ) {
+					this.setState( {
+						selectedSuggestion: 0
+					})
+				}
 			} else {
 				this.props.debouncedSpeak( __( 'No results.', 'block-lab' ), 'assertive' );
 			}
@@ -141,8 +136,11 @@ class FetchInput extends Component {
 		} else {
 			this.inputRef.current.setCustomValidity( '' );
 		}
-	}
 
+		this.inputRef.current.className = classNames( 'bl-fetch__input', {
+			'text-control__error': ! isValid
+		} );
+	}
 
 	/**
 	 * On clicking outside the <input>, hide the Popover.
@@ -152,11 +150,32 @@ class FetchInput extends Component {
 	 * That has its own handler, which will eventually hide the Popover.
 	 */
 	onBlur( event ) {
-		if ( event.relatedTarget && ! event.relatedTarget.classList.contains( 'bl-fetch-input__suggestion' ) ) {
+		if (
+			event.relatedTarget &&
+			! event.relatedTarget.classList.contains( 'components-popover__content' ) &&
+			! event.relatedTarget.classList.contains( 'bl-fetch-input__suggestion' )
+		) {
 			this.setState( {
 				showSuggestions: false,
 			} );
+
+			if ( '' === this.props.value ) {
+				return;
+			}
+
+			const matchingResults = this.state.results.filter(
+				suggestions => ( suggestions.slug === this.props.value )
+			);
+
+			if ( ! matchingResults.length ) {
+				this.selectLink( this.state.results[ this.state.selectedSuggestion ] );
+			}
 		}
+	}
+
+	onFocus() {
+		const inputValue = this.props.value;
+		this.updateSuggestions( inputValue );
 	}
 
 	onChange( event ) {
@@ -238,6 +257,7 @@ class FetchInput extends Component {
 				if ( this.state.selectedSuggestion !== null ) {
 					event.stopPropagation();
 					this.selectLink( result );
+					this.inputRef.current.blur();
 				}
 				break;
 			}
@@ -245,27 +265,25 @@ class FetchInput extends Component {
 	}
 
 	selectLink( result ) {
-		this.props.onChange( result );
 		this.setState( {
 			selectedSuggestion: null,
 			showSuggestions: false,
 		} );
+		this.props.onChange( result );
 	}
 
 	handleOnClick( result ) {
 		this.selectLink( result );
-		// Move focus to the input field when a suggestion is clicked.
-		this.inputRef.current.focus();
 	}
 
 	render() {
-		const { value = '', autoFocus = true, instanceId, className, placeholder, field, getValueFromAPI } = this.props;
+		const { value = '', autoFocus = false, instanceId, className, placeholder, field, getValueFromAPI } = this.props;
 		const { showSuggestions, results, selectedSuggestion, loading } = this.state;
 		const displayPopover = showSuggestions && !! results.length;
 
 		/* eslint-disable jsx-a11y/no-autofocus */
 		return (
-			<BaseControl label={ field.label } className={ classnames( 'bl-fetch-input', className ) } help={ field.help }>
+			<BaseControl label={ field.label } className={ classNames( 'bl-fetch-input', className ) } help={ field.help }>
 				<input
 					autoFocus={ autoFocus }
 					className="bl-fetch__input"
@@ -274,6 +292,7 @@ class FetchInput extends Component {
 					value={ value }
 					placeholder={ placeholder }
 					onBlur={ this.onBlur }
+					onFocus={ this.onFocus }
 					onChange={ this.onChange }
 					onInput={ stopEventPropagation }
 					onKeyDown={ this.onKeyDown }
@@ -283,6 +302,10 @@ class FetchInput extends Component {
 					aria-owns={ `bl-fetch-input-suggestions-${ instanceId }` }
 					aria-activedescendant={ selectedSuggestion !== null ? `editor-url-input-suggestion-${ instanceId }-${ selectedSuggestion }` : undefined }
 					ref={ this.inputRef }
+					autoComplete="off"
+					autoCorrect="off"
+					autoCapitalize="off"
+					spellCheck="false"
 				/>
 
 				{ ( loading ) && <Spinner /> }
@@ -293,7 +316,7 @@ class FetchInput extends Component {
 						position="bottom center"
 						noArrow
 						focusOnMount={ false }
-						className={ classnames( 'bl-fetch__popover', field.location ) }
+						className={ classNames( 'bl-fetch__popover', field.location ) }
 					>
 						<div
 							className="bl-fetch-input__suggestions"
@@ -308,7 +331,7 @@ class FetchInput extends Component {
 									tabIndex="-1"
 									id={ `bl-fetch-input-suggestion-${ instanceId }-${ index }` }
 									ref={ this.bindSuggestionNode( index ) }
-									className={ classnames( 'bl-fetch-input__suggestion', {
+									className={ classNames( 'bl-fetch-input__suggestion', {
 										'is-selected': index === selectedSuggestion,
 									} ) }
 									onClick={ () => this.handleOnClick( result ) }
@@ -320,7 +343,7 @@ class FetchInput extends Component {
 						</div>
 					</Popover>
 				}
-				{ ! showSuggestions || ! results.length && this.setInputValidity( false ) }
+				{ ! showSuggestions || '' === this.props.value || ! results.length && this.setInputValidity( false ) }
 			</BaseControl>
 		);
 		/* eslint-enable jsx-a11y/no-autofocus */
