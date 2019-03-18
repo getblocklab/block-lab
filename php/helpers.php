@@ -124,8 +124,8 @@ function block_field_config( $name ) {
 /**
  * Loads a template part to render the block.
  *
- * @param string $name The name of the block (slug as defined in UI).
- * @param string $type The type of template to load. Only 'block' supported at this stage.
+ * @param string       $name The name of the block (slug as defined in UI).
+ * @param string|array $type The type of template to load.
  */
 function block_lab_template_part( $name, $type = 'block' ) {
 	// Loading async it might not come from a query, this breaks load_template().
@@ -171,6 +171,43 @@ function block_lab_template_part( $name, $type = 'block' ) {
 				// Translators: Placeholder is a file path.
 				sprintf( __( 'Template file %s not found.' ), '<code>' . esc_html( $template_file ) . '</code>' )
 			)
+		);
+	}
+}
+
+/**
+ * Enqueues styles for the block.
+ *
+ * @param string       $name The name of the block (slug as defined in UI).
+ * @param string|array $type The type of template to load.
+ */
+function block_lab_enqueue_styles( $name, $type = 'block' ) {
+	$locations = array();
+	$types     = (array) $type;
+
+	foreach ( $types as $type ) {
+		$locations = array_merge(
+			$locations,
+			array(
+				"blocks/css/{$type}-{$name}.css",
+				"blocks/{$type}-{$name}.css",
+			)
+		);
+	}
+
+	$stylesheet_path = block_lab_locate_template( $locations, '', true );
+	$stylesheet_url  = '/' . str_replace( ABSPATH, '', $stylesheet_path );
+
+	/**
+	 * Enqueue the stylesheet, if it exists. The wp_enqueue_style function handles duplicates, so we don't need
+	 * to worry about the same block loading its stylesheets more than once.
+	 */
+	if ( ! empty( $stylesheet_url ) ) {
+		wp_enqueue_style(
+			"block-lab__block-{$name}",
+			$stylesheet_url,
+			array(),
+			wp_get_theme()->get( 'Version' )
 		);
 	}
 }

@@ -92,6 +92,14 @@ class Loader extends Component_Abstract {
 			array(),
 			$this->plugin->get_version()
 		);
+
+		$blocks = json_decode( $this->blocks, true );
+
+		if ( ! empty( $blocks ) ) {
+			foreach ( $blocks as $block_name => $block ) {
+				block_lab_enqueue_styles( $block['name'], array( 'preview', 'block' ) );
+			}
+		}
 	}
 
 	/**
@@ -207,10 +215,10 @@ class Loader extends Component_Abstract {
 			$type = array( 'preview', 'block' );
 		}
 
-		if ( 'edit' !== $context ) {
+		if ( ! is_admin() ) {
 			/**
 			 * The block has been added, but its values weren't saved (not even the defaults). This is a phenomenon
-			 * unique to frontend output, as the editor fetches is attributes from the form fields themselves.
+			 * unique to frontend output, as the editor fetches its attributes from the form fields themselves.
 			 */
 			$missing_schema_attributes = array_diff_key( $block['fields'], $attributes );
 			foreach ( $missing_schema_attributes as $attribute_name => $schema ) {
@@ -218,6 +226,8 @@ class Loader extends Component_Abstract {
 					$attributes[ $attribute_name ] = $schema['default'];
 				}
 			}
+
+			block_lab_enqueue_styles( $block['name'], 'block' );
 		}
 
 		$block_lab_attributes = $attributes;
