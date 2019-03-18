@@ -48,6 +48,8 @@ class Block_Post extends Component_Abstract {
 		add_filter( 'enter_title_here', array( $this, 'post_title_placeholder' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'wp_insert_post_data', array( $this, 'save_block' ), 10, 2 );
+		add_action( 'init', array( $this, 'register_controls' ) );
+		add_filter( 'block_lab_field_value', array( $this, 'get_field_value' ), 10, 3 );
 
 		// Clean up the list table.
 		add_filter( 'disable_months_dropdown', '__return_true', 10, $this->slug );
@@ -62,38 +64,58 @@ class Block_Post extends Component_Abstract {
 	}
 
 	/**
-	 * Initialise Block posts.
-	 *
-	 * @return void
-	 */
-	public function init() {
-		$this->register_controls();
-	}
-
-	/**
 	 * Register the controls.
 	 *
 	 * @return void
 	 */
 	public function register_controls() {
-		$this->controls = apply_filters(
-			'block_lab_controls',
-			array(
-				'text'        => new Controls\Text(),
-				'textarea'    => new Controls\Textarea(),
-				'url'         => new Controls\URL(),
-				'email'       => new Controls\Email(),
-				'number'      => new Controls\Number(),
-				'color'       => new Controls\Color(),
-				'image'       => new Controls\Image(),
-				'select'      => new Controls\Select(),
-				'multiselect' => new Controls\Multiselect(),
-				'toggle'      => new Controls\Toggle(),
-				'range'       => new Controls\Range(),
-				'checkbox'    => new Controls\Checkbox(),
-				'radio'       => new Controls\Radio(),
-			)
+		$controls = array(
+			'text'        => new Controls\Text(),
+			'textarea'    => new Controls\Textarea(),
+			'url'         => new Controls\URL(),
+			'email'       => new Controls\Email(),
+			'number'      => new Controls\Number(),
+			'color'       => new Controls\Color(),
+			'image'       => new Controls\Image(),
+			'select'      => new Controls\Select(),
+			'multiselect' => new Controls\Multiselect(),
+			'toggle'      => new Controls\Toggle(),
+			'range'       => new Controls\Range(),
+			'checkbox'    => new Controls\Checkbox(),
+			'radio'       => new Controls\Radio(),
 		);
+
+		if ( block_lab()->is_pro() ) {
+			$controls = array_merge(
+				$controls,
+				array(
+					'user' => new Controls\User(),
+				)
+			);
+		}
+
+		$this->controls = apply_filters( 'block_lab_controls', $controls );
+	}
+
+	/**
+	 * Gets the field value to be made available or echoed on the front-end template.
+	 *
+	 * Gets the value based on the control type.
+	 * For example, a 'user' control can return a WP_User, a string, or false.
+	 * The $echo parameter is whether the value will be echoed on the front-end template,
+	 * or simply made available.
+	 *
+	 * @param mixed  $value The field value.
+	 * @param string $control The type of the control, like 'user'.
+	 * @param bool   $echo Whether or not this value will be echoed.
+	 * @return mixed $value The filtered field value.
+	 */
+	public function get_field_value( $value, $control, $echo ) {
+		if ( isset( $this->controls[ $control ] ) && method_exists( $this->controls[ $control ], 'validate' ) ) {
+			return call_user_func( array( $this->controls[ $control ], 'validate' ), $value, $echo );
+		}
+
+		return $value;
 	}
 
 	/**

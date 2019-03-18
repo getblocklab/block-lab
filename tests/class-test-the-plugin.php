@@ -16,7 +16,7 @@ class Test_The_Plugin extends \WP_UnitTestCase {
 	/**
 	 * Test block_lab_php_version_error().
 	 *
-	 * @see block_lab_php_version_error()
+	 * @covers ::block_lab_php_version_error()
 	 */
 	public function testblock_lab_php_version_error() {
 		ob_start();
@@ -28,7 +28,7 @@ class Test_The_Plugin extends \WP_UnitTestCase {
 	/**
 	 * Test block_lab_php_version_text().
 	 *
-	 * @see block_lab_php_version_text()
+	 * @covers ::block_lab_php_version_text()
 	 */
 	public function testblock_lab_php_version_text() {
 		$this->assertContains( 'Block Lab plugin error:', block_lab_php_version_text() );
