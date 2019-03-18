@@ -242,6 +242,24 @@ div[class^="wp-block-block-lab-"],
   }
 }
 
+.bl-fetch-input {
+  >.components-base-control__field {
+    display: flex;
+    flex-wrap: wrap;
+
+    > .components-base-control__label {
+      flex: 3 3 100%;
+    }
+
+    > .bl-fetch__input {
+      flex: 1 1 0;
+    }
+    > .components-spinner {
+      flex: 0 0 auto;
+    }
+  }
+}
+
 .bl-fetch-input__suggestion {
   padding: 4px $input-padding;
   color: $dark-gray-300; // Lightest we can use for contrast.
