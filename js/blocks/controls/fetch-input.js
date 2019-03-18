@@ -97,7 +97,6 @@ class FetchInput extends Component {
 					'block-lab'
 				), results.length ), 'assertive' );
 
-
 				if ( null === this.state.selectedSuggestion && '' !== this.props.value ) {
 					this.setState( {
 						selectedSuggestion: 0
