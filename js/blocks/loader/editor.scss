@@ -67,15 +67,15 @@ div[class^="wp-block-block-lab-"] {
 
   /* Media Upload Component */
   .block-lab-media-control {
-    >.components-base-control__field {
+    > .components-base-control__field {
       display: flex;
       flex-wrap: wrap;
 
-      >.components-base-control__label {
+      > .components-base-control__label {
         flex: 3 3 100%;
       }
 
-      >.components-base-control {
+      > .components-base-control {
         flex: 3 1 auto;
         margin-bottom: 0 !important;
 
@@ -243,7 +243,7 @@ div[class^="wp-block-block-lab-"],
 }
 
 .bl-fetch-input {
-  >.components-base-control__field {
+  > .components-base-control__field {
     display: flex;
     flex-wrap: wrap;
 
