@@ -153,12 +153,18 @@ class Loader extends Component_Abstract {
 				$attributes[ $field_name ]['type'] = 'string';
 			}
 
-			if ( 'array' === $field['type'] ) {
-				$attributes[ $field_name ]['items'] = array( 'type' => 'string' );
-			}
-
 			if ( ! empty( $field['default'] ) ) {
 				$attributes[ $field_name ]['default'] = $field['default'];
+			}
+
+			if ( 'array' === $field['type'] ) {
+				/**
+				 * This is a workaround to allow empty array values. We unset the default value before registering the
+				 * block so that the default isn't used to auto-correct empty arrays. This allows the default to be
+				 * used only when creating the form.
+				 */
+				unset( $attributes[ $field_name ]['default'] );
+				$attributes[ $field_name ]['items'] = array( 'type' => 'string' );
 			}
 
 			if ( ! empty( $field['source'] ) ) {
@@ -191,15 +197,31 @@ class Loader extends Component_Abstract {
 	 */
 	public function render_block_template( $block, $attributes ) {
 		global $block_lab_attributes, $block_lab_config;
-		$block_lab_attributes = $attributes;
-		$block_lab_config     = $block;
 
 		$type = 'block';
 
 		// This is hacky, but the editor doesn't send the original request along.
-		if ( isset( $_GET['context'] ) && 'edit' === $_GET['context'] ) { // phpcs: nonce okay.
+		$context = filter_input( INPUT_GET, 'context', FILTER_SANITIZE_STRING );
+
+		if ( 'edit' === $context ) {
 			$type = array( 'preview', 'block' );
 		}
+
+		if ( 'edit' !== $context ) {
+			/**
+			 * The block has been added, but its values weren't saved (not even the defaults). This is a phenomenon
+			 * unique to frontend output, as the editor fetches is attributes from the form fields themselves.
+			 */
+			$missing_schema_attributes = array_diff_key( $block['fields'], $attributes );
+			foreach ( $missing_schema_attributes as $attribute_name => $schema ) {
+				if ( isset( $schema['default'] ) ) {
+					$attributes[ $attribute_name ] = $schema['default'];
+				}
+			}
+		}
+
+		$block_lab_attributes = $attributes;
+		$block_lab_config     = $block;
 
 		ob_start();
 		block_lab_template_part( $block['name'], $type );

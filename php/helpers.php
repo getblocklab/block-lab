@@ -7,6 +7,8 @@
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
+use Block_Lab\Blocks;
+
 /**
  * Echos out the value of a block field.
  *
@@ -50,10 +52,25 @@ function block_field( $name, $echo = true ) {
 				$value = intval( $value );
 				break;
 			case 'array':
-				$value = (array) $value;
+				if ( ! $value ) {
+					$value = array();
+				} else {
+					$value = (array) $value;
+				}
 				break;
 		}
 	}
+
+	$control = isset( $block_lab_config['fields'][ $name ]['control'] ) ? $block_lab_config['fields'][ $name ]['control'] : null;
+
+	/**
+	 * Filters the value to be made available or echoed on the front-end template.
+	 *
+	 * @param mixed  $value The value.
+	 * @param string $control The type of the control, like 'user'.
+	 * @param bool   $echo Whether or not this value will be echoed.
+	 */
+	$value = apply_filters( 'block_lab_field_value', $value, $control, $echo );
 
 	if ( $echo ) {
 		if ( is_array( $value ) ) {
