@@ -9,7 +9,7 @@
  * Plugin Name: Block Lab
  * Plugin URI: https://github.com/getblocklab/block-lab
  * Description: Create custom blocks effortlessly. No Gutenberg development know-how required.
- * Version: 1.1.2
+ * Version: 1.2.0
  * Author: Block Lab
  * Author URI: https://getblocklab.com
  * License: GPL2
@@ -93,7 +93,7 @@ require_once __DIR__ . '/php/helpers.php';
 /**
  * Get the plugin object.
  *
- * @return \Block_Lab\Plugin_Abstract
+ * @return \Block_Lab\Plugin
  */
 function block_lab() {
 	static $instance;

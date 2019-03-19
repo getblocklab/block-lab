@@ -12,6 +12,7 @@ import BlockLabRangeControl from './range'
 import BlockLabSelectControl from './select'
 import BlockLabMultiselectControl from './multiselect'
 import BlockLabToggleControl from './toggle'
+import BlockLabUserControl from './user'
 
 export default {
 	text: BlockLabTextControl,
@@ -28,4 +29,5 @@ export default {
 	select: BlockLabSelectControl,
 	multiselect: BlockLabMultiselectControl,
 	toggle: BlockLabToggleControl,
+	user: BlockLabUserControl,
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Text control.
+ * User control.
  *
  * @package   Block_Lab
  * @copyright Copyright(c) 2018, Block Lab
@@ -10,25 +10,23 @@
 namespace Block_Lab\Blocks\Controls;
 
 /**
- * Class Text
+ * Class User
  */
-class Text extends Control_Abstract {
+class User extends Control_Abstract {
 
 	/**
 	 * Control name.
 	 *
 	 * @var string
 	 */
-	public $name = 'text';
+	public $name = 'user';
 
 	/**
-	 * Text constructor.
-	 *
-	 * @return void
+	 * User constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
-		$this->label = __( 'Text', 'block-lab' );
+		$this->label = __( 'User', 'block-lab' );
 	}
 
 	/**
@@ -48,15 +46,6 @@ class Text extends Control_Abstract {
 		);
 		$this->settings[] = new Control_Setting(
 			array(
-				'name'     => 'default',
-				'label'    => __( 'Default Value', 'block-lab' ),
-				'type'     => 'text',
-				'default'  => '',
-				'sanitize' => 'sanitize_text_field',
-			)
-		);
-		$this->settings[] = new Control_Setting(
-			array(
 				'name'     => 'placeholder',
 				'label'    => __( 'Placeholder Text', 'block-lab' ),
 				'type'     => 'text',
@@ -64,14 +53,21 @@ class Text extends Control_Abstract {
 				'sanitize' => 'sanitize_text_field',
 			)
 		);
-		$this->settings[] = new Control_Setting(
-			array(
-				'name'     => 'maxlength',
-				'label'    => __( 'Character Limit', 'block-lab' ),
-				'type'     => 'number_non_negative',
-				'default'  => '',
-				'sanitize' => array( $this, 'sanitize_number' ),
-			)
-		);
+	}
+
+	/**
+	 * Validates the value to be made available to the front-end template.
+	 *
+	 * @param mixed $value The value to either make available as a variable or echoed on the front-end template.
+	 * @param bool  $echo Whether this will be echoed.
+	 * @return mixed $value The value to be made available or echoed on the front-end template.
+	 */
+	public function validate( $value, $echo ) {
+		$wp_user = get_user_by( 'login', $value );
+		if ( $echo ) {
+			return $wp_user ? $wp_user->get( 'display_name' ) : '';
+		} else {
+			return $wp_user ? $wp_user : false;
+		}
 	}
 }

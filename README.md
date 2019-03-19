@@ -1,9 +1,9 @@
 # Block Lab #
 
-Contributors: lukecarbis, rheinardkorf, Stino11
+Contributors: lukecarbis, ryankienstra, Stino11, rheinardkorf
 Tags: Gutenberg, Blocks
-Requires at least: 4.9
-Tested up to: 4.9
+Requires at least: 5.0
+Tested up to: 5.1
 Requires PHP: 5.4
 Stable tag: trunk
 License: GPLv2 or later
@@ -37,13 +37,16 @@ Simple to use functions, ready to render and work with the values stored through
 
 ## Installation ##
 ### From Within WordPress ###
-* Visit ‘Plugins > Add New’
-* Search for ‘Block Lab’
+* Visit Plugins > Add New
+* Search for "Block Lab"
 * Activate Block Lab from your Plugins page.
 
 ### Manually ###
-* Upload the block-lab folder to the /wp-content/plugins/ directory
-* Activate the Block Lab plugin through the ‘Plugins’ menu in WordPress
+* Clone Block Lab into a working directory with `https://github.com/getblocklab/block-lab.git`
+* `cd` into the `block-lab` directory, and run `npm install`
+* Next, build the scripts and styles with `npm build`
+* Move the `block-lab` folder to your `/wp-content/plugins/` directory
+* Activate the Block Lab plugin through the Plugins menu in WordPress
 
 ## Frequently Asked Questions ###
 **Q: Do I need to write code to use this plugin?**

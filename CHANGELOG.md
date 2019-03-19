@@ -1,5 +1,15 @@
 ## Changelog #
  
+### 1.2.0 - 2019-02-27 ###
+
+* New: Introducing Block Lab Pro!
+* New: A setting for the number of rows to display in a Textarea control
+* Fix: Allow negative numbers in Number and Range controls
+ 
+### 1.1.3 - 2019-01-25 ###
+
+* New: Image field
+ 
 ### 1.1.2 - 2019-01-11 ###
 
 * New: Color field
