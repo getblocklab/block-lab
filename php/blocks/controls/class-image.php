@@ -57,4 +57,20 @@ class Image extends Control_Abstract {
 			)
 		);
 	}
+
+	/**
+	 * Validates the value to be made available to the front-end template.
+	 *
+	 * @param mixed $value The value to either make available as a variable or echoed on the front-end template.
+	 * @param bool  $echo Whether this value will be echoed.
+	 * @return mixed $value The value to be made available or echoed on the front-end template.
+	 */
+	public function validate( $value, $echo ) {
+		$attachment = get_post( $value );
+		if ( $echo ) {
+			return $attachment ? wp_get_attachment_image_url( $attachment->ID ) : '';
+		} else {
+			return $attachment ? $attachment : false;
+		}
+	}
 }
