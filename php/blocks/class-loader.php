@@ -97,7 +97,7 @@ class Loader extends Component_Abstract {
 
 		if ( ! empty( $blocks ) ) {
 			foreach ( $blocks as $block_name => $block ) {
-				block_lab_enqueue_styles( $block['name'], array( 'preview', 'block' ) );
+				$this->enqueue_block_styles( $block['name'], array( 'preview', 'block' ) );
 			}
 		}
 	}
