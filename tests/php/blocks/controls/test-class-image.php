@@ -87,8 +87,26 @@ class Test_Image extends \WP_UnitTestCase {
 		$invalid_id             = 2000000;
 
 		$this->assertEquals( false, $this->instance->validate( $invalid_id, false ) );
-		$this->assertEquals( get_post( $expected_attachment_id ), $this->instance->validate( $valid_id, false ) );
+		$this->assertEquals( $expected_attachment_id, $this->instance->validate( $valid_id, false ) );
 		$this->assertEquals( '', $this->instance->validate( $invalid_id, true ) );
 		$this->assertContains( $expected_url, $this->instance->validate( $valid_id, true ) );
+
+		$expected_url     = 'bar/baz.mp4';
+		$invalid_video_id = $this->factory()->attachment->create_object(
+			$expected_url,
+			0,
+			array(
+				'post_mime_type' => 'video/mp4',
+			)
+		);
+
+		// When the mime_type is that of a video, this should not return a URL or an id.
+		$this->assertEquals( false, $this->instance->validate( $invalid_video_id, false ) );
+		$this->assertEquals( '', $this->instance->validate( $invalid_video_id, true ) );
+
+		// When this passes a WP_Post to validate(), it should also not return a URL or an id.
+		$video_attachment_post = get_post( $invalid_video_id );
+		$this->assertEquals( false, $this->instance->validate( $video_attachment_post, false ) );
+		$this->assertEquals( '', $this->instance->validate( $video_attachment_post, true ) );
 	}
 }
