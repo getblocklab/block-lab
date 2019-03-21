@@ -1,5 +1,11 @@
 ## Changelog #
  
+### 1.2.1 - 2019-03-21 ###
+
+* New: Automatic stylesheet enqueuing. Now you can create custom stylesheets for individual blocks! [Read more here](https://github.com/getblocklab/block-lab/wiki/5.-Styling-Custom-Blocks).
+* New: A User control type (for Block Lab Pro users)
+* Fix: Various multiselect bug fixes, allowing for empty values in the multiselect control
+ 
 ### 1.2.0 - 2019-02-27 ###
 
 * New: Introducing Block Lab Pro!
