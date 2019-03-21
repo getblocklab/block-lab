@@ -90,6 +90,7 @@ class Block_Post extends Component_Abstract {
 				$controls,
 				array(
 					'user' => new Controls\User(),
+					'post' => new Controls\Post(),
 				)
 			);
 		}
