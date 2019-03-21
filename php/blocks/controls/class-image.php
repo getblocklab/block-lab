@@ -66,11 +66,11 @@ class Image extends Control_Abstract {
 	 * @return mixed $value The value to be made available or echoed on the front-end template.
 	 */
 	public function validate( $value, $echo ) {
-		$attachment = get_post( $value );
+		$is_image = wp_attachment_is( 'image', $value ) && is_numeric( $value );
 		if ( $echo ) {
-			return $attachment ? wp_get_attachment_image_url( $attachment->ID ) : '';
+			return $is_image ? wp_get_attachment_image_url( $value ) : '';
 		} else {
-			return $attachment ? $attachment : false;
+			return $is_image ? intval( $value ) : false;
 		}
 	}
 }
