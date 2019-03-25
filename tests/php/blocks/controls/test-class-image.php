@@ -109,4 +109,36 @@ class Test_Image extends \WP_UnitTestCase {
 		$this->assertEquals( false, $this->instance->validate( $video_attachment_post, false ) );
 		$this->assertEquals( '', $this->instance->validate( $video_attachment_post, true ) );
 	}
+
+	/**
+	 * Test get_attachment_id_from_url.
+	 *
+	 * @covers \Block_Lab\Blocks\Controls\Image::get_attachment_id_from_url()
+	 */
+	public function test_get_attachment_id_from_url() {
+		$upload_dir  = wp_get_upload_dir();
+		$image_file  = 'example.jpeg';
+		$expected_id = $this->factory()->attachment->create_object(
+			$image_file,
+			0,
+			array(
+				'post_mime_type' => 'image/jpeg',
+			)
+		);
+
+		// This is needed because attachments seem to usually have this kind of metadata.
+		wp_update_attachment_metadata(
+			$expected_id,
+			array(
+				'file' => $image_file,
+				'sizes' => array(
+					'medium' => array( 'file' => 'example-300-300.jpeg'),
+					'full'   => array( 'file' => 'example-600-600.jpeg'),
+				),
+			)
+		);
+		$attachment_url = wp_get_attachment_url( $expected_id );
+
+		$this->assertEquals( $expected_id, $this->instance->get_attachment_id_from_url( $attachment_url ) );
+	}
 }
