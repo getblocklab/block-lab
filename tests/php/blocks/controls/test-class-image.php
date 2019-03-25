@@ -75,50 +75,8 @@ class Test_Image extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Controls\Image::validate()
 	 */
 	public function test_validate() {
-		$expected_url           = 'foo/bar.jpeg';
+		$image_file             = 'bar.jpeg';
 		$expected_attachment_id = $this->factory()->attachment->create_object(
-			$expected_url,
-			0,
-			array(
-				'post_mime_type' => 'image/jpeg',
-			)
-		);
-		$valid_id               = $expected_attachment_id;
-		$invalid_id             = 2000000;
-
-		$this->assertEquals( false, $this->instance->validate( $invalid_id, false ) );
-		$this->assertEquals( $expected_attachment_id, $this->instance->validate( $valid_id, false ) );
-		$this->assertEquals( '', $this->instance->validate( $invalid_id, true ) );
-		$this->assertContains( $expected_url, $this->instance->validate( $valid_id, true ) );
-
-		$expected_url     = 'bar/baz.mp4';
-		$invalid_video_id = $this->factory()->attachment->create_object(
-			$expected_url,
-			0,
-			array(
-				'post_mime_type' => 'video/mp4',
-			)
-		);
-
-		// When the mime_type is that of a video, this should not return a URL or an id.
-		$this->assertEquals( false, $this->instance->validate( $invalid_video_id, false ) );
-		$this->assertEquals( '', $this->instance->validate( $invalid_video_id, true ) );
-
-		// When this passes a WP_Post to validate(), it should also not return a URL or an id.
-		$video_attachment_post = get_post( $invalid_video_id );
-		$this->assertEquals( false, $this->instance->validate( $video_attachment_post, false ) );
-		$this->assertEquals( '', $this->instance->validate( $video_attachment_post, true ) );
-	}
-
-	/**
-	 * Test get_attachment_id_from_url.
-	 *
-	 * @covers \Block_Lab\Blocks\Controls\Image::get_attachment_id_from_url()
-	 */
-	public function test_get_attachment_id_from_url() {
-		$upload_dir  = wp_get_upload_dir();
-		$image_file  = 'example.jpeg';
-		$expected_id = $this->factory()->attachment->create_object(
 			$image_file,
 			0,
 			array(
@@ -127,18 +85,13 @@ class Test_Image extends \WP_UnitTestCase {
 		);
 
 		// This is needed because attachments seem to usually have this kind of metadata.
-		wp_update_attachment_metadata(
-			$expected_id,
-			array(
-				'file' => $image_file,
-				'sizes' => array(
-					'medium' => array( 'file' => 'example-300-300.jpeg'),
-					'full'   => array( 'file' => 'example-600-600.jpeg'),
-				),
-			)
-		);
-		$attachment_url = wp_get_attachment_url( $expected_id );
+		wp_update_attachment_metadata( $expected_attachment_id, array( 'file' => $image_file ) );
+		$valid_attachment_url   = wp_get_attachment_url( $expected_attachment_id );
+		$wp_upload              = wp_get_upload_dir();
+		$invalid_attachment_url = $wp_upload['url'] . '/invalid.jpeg';
 
-		$this->assertEquals( $expected_id, $this->instance->get_attachment_id_from_url( $attachment_url ) );
+		$this->assertFalse( false, $this->instance->validate( $invalid_attachment_url, false ) );
+		$this->assertEquals( $expected_attachment_id, $this->instance->validate( $valid_attachment_url, false ) );
+		$this->assertContains( $valid_attachment_url, $this->instance->validate( $valid_attachment_url, true ) );
 	}
 }
