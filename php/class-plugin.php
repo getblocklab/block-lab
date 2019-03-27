@@ -21,6 +21,39 @@ class Plugin extends Plugin_Abstract {
 	public $admin;
 
 	/**
+	 * Block Post Type.
+	 *
+	 * @var Post_Types\Block_Post
+	 */
+	public $block_post;
+
+	/**
+	 * Initiate the loading of new blocks.
+	 *
+	 * @var Blocks\Loader
+	 */
+	public $loader;
+
+	/**
+	 * Execute this as early as possible.
+	 */
+	public function init() {
+		$this->block_post = new Post_Types\Block_Post();
+		$this->register_component( $this->block_post );
+
+		$this->loader = new Blocks\Loader();
+		$this->register_component( $this->loader );
+
+		register_activation_hook(
+			$this->get_file(),
+			function() {
+				$onboarding = new Admin\Onboarding();
+				$onboarding->plugin_activation();
+			}
+		);
+	}
+
+	/**
 	 * Execute this once plugins are loaded. (not the best place for all hooks)
 	 */
 	public function plugin_loaded() {
