@@ -252,8 +252,8 @@ class Block_Post extends Component_Abstract {
 			__( 'Block Properties', 'block-lab' ),
 			array( $this, 'render_properties_meta_box' ),
 			$this->slug,
-			'normal',
-			'high'
+			'side',
+			'default'
 		);
 
 		add_meta_box(
@@ -319,100 +319,92 @@ class Block_Post extends Component_Abstract {
 	public function render_properties_meta_box() {
 		global $post;
 		$block = new Block( $post->ID );
+		$icons = block_lab_get_icons();
+
+		if ( ! $block->icon ) {
+			$block->icon = 'block_lab';
+		}
 		?>
-		<table class="form-table">
-			<tr>
-				<th scope="row">
-					<label for="block-properties-slug">
-						<?php esc_html_e( 'Slug', 'block-lab' ); ?>
-					</label>
-					<p class="description" id="block-properties-slug-description">
-						<?php
-						esc_html_e(
-							'Used to determine the location of the template file. Lowercase letters, numbers, and hyphens.',
-							'block-lab'
-						);
-						?>
-					</p>
-				</th>
-				<td>
-					<p>
-						<input
-							name="post_name"
-							type="text"
-							id="block-properties-slug"
-							value="<?php echo esc_attr( $post->post_name ); ?>"
-							class="regular-text">
-					</p>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row">
-					<label for="block-properties-icon">
-						<?php esc_html_e( 'Icon', 'block-lab' ); ?>
-					</label>
-				</th>
-				<td>
-					<input
-							name="block-properties-icon"
-							type="hidden"
-							id="block-properties-icon"
-							value="<?php echo esc_attr( $block->icon ); ?>">
-					<div class="block-properties-icons">
-						<?php
-						foreach ( block_lab_get_icons() as $icon => $svg ) {
-							$selected = $icon === $block->icon ? 'selected' : '';
-							printf(
-								'<span class="icon %1$s" data-value="%2$s">%3$s</span>',
-								esc_attr( $selected ),
-								esc_attr( $icon ),
-								wp_kses( $svg, block_lab_allowed_svg_tags() )
-							);
-						}
-						?>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row">
-					<label for="block-properties-category">
-						<?php esc_html_e( 'Category', 'block-lab' ); ?>
-					</label>
-				</th>
-				<td>
-					<p>
-						<select name="block-properties-category" id="block-properties-category">
-						</select>
-						<input type="hidden" id="block-properties-category-saved" value="<?php echo esc_attr( $block->category ); ?>" />
-					</p>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row">
-					<label for="block-properties-keywords">
-						<?php esc_html_e( 'Keywords', 'block-lab' ); ?>
-					</label>
-					<p class="description" id="block-properties-keywords-description">
-						<?php
-						esc_html_e(
-							'A comma separated list of keywords, used when searching. Maximum of 3 keywords.',
-							'block-lab'
-						);
-						?>
-					</p>
-				</th>
-				<td>
-					<p>
-						<input
-							name="block-properties-keywords"
-							type="text"
-							id="block-properties-keywords"
-							value="<?php echo esc_attr( implode( ', ', $block->keywords ) ); ?>"
-							class="regular-text">
-					</p>
-				</td>
-			</tr>
-		</table>
+		<p>
+			<label for="block-properties-slug">
+				<?php esc_html_e( 'Slug:', 'block-lab' ); ?>
+			</label>
+			<input
+				name="post_name"
+				type="text"
+				id="block-properties-slug"
+				value="<?php echo esc_attr( $post->post_name ); ?>" />
+		</p>
+		<p class="description" id="block-properties-slug-description">
+			<?php
+			esc_html_e(
+				'Used to determine the location of the template file.',
+				'block-lab'
+			);
+			?>
+		</p>
+		<p>
+			<label for="block-properties-icon">
+				<?php esc_html_e( 'Icon:', 'block-lab' ); ?>
+			</label>
+			<input
+				name="block-properties-icon"
+				type="hidden"
+				id="block-properties-icon"
+				value="<?php echo esc_attr( $block->icon ); ?>" />
+			<span id="block-properties-icon-current">
+				<?php
+				if ( array_key_exists( $block->icon, $icons ) ) {
+					echo wp_kses( $icons[ $block->icon ], block_lab_allowed_svg_tags() );
+				}
+				?>
+			</span>
+			<a class="button block-properties-icon-button" id="block-properties-icon-choose" href="#block-properties-icon-choose">
+				<?php esc_attr_e( 'Choose', 'block-lab' ); ?>
+			</a>
+			<a class="button block-properties-icon-button" id="block-properties-icon-close" href="#">
+				<?php esc_attr_e( 'Close', 'block-lab' ); ?>
+			</a>
+			<span class="block-properties-icon-select" id="block-properties-icon-select">
+				<?php
+				foreach ( $icons as $icon => $svg ) {
+					$selected = $icon === $block->icon ? 'selected' : '';
+					printf(
+						'<span class="icon %1$s" data-value="%2$s">%3$s</span>',
+						esc_attr( $selected ),
+						esc_attr( $icon ),
+						wp_kses( $svg, block_lab_allowed_svg_tags() )
+					);
+				}
+				?>
+			</span>
+		</p>
+		<p>
+			<label for="block-properties-category">
+				<?php esc_html_e( 'Category:', 'block-lab' ); ?>
+			</label>
+			<select name="block-properties-category" id="block-properties-category">
+			</select>
+			<input type="hidden" id="block-properties-category-saved" value="<?php echo esc_attr( $block->category ); ?>" />
+		</p>
+		<p>
+			<label for="block-properties-keywords">
+				<?php esc_html_e( 'Keywords:', 'block-lab' ); ?>
+			</label>
+			<input
+				name="block-properties-keywords"
+				type="text"
+				id="block-properties-keywords"
+				value="<?php echo esc_attr( implode( ', ', $block->keywords ) ); ?>" />
+		</p>
+		<p class="description" id="block-properties-keywords-description">
+			<?php
+			esc_html_e(
+				'A comma separated list of keywords, used when searching. Maximum of 3.',
+				'block-lab'
+			);
+			?>
+		</p>
 		<?php
 		wp_nonce_field( 'block_lab_save_properties', 'block_lab_properties_nonce' );
 	}

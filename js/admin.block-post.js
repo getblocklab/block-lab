@@ -26,10 +26,13 @@
 			field.find( '.block-fields-edit-label input' ).select();
 		});
 
-		$( '#block_properties .block-properties-icons span' ).on( 'click', function() {
-			$( '#block_properties .block-properties-icons span.selected' ).removeClass( 'selected' );
+		$( '#block_properties .block-properties-icon-select span' ).on( 'click', function() {
+			let svg = $( 'svg', this ).clone();
+			console.log(svg);
+			$( '#block_properties .block-properties-icon-select span.selected' ).removeClass( 'selected' );
 			$( this ).addClass( 'selected' );
 			$( '#block-properties-icon' ).val( $( this ).data( 'value' ) );
+			$( '#block-properties-icon-current' ).html( svg );
 		});
 
 		$( '.block-fields-rows' )
@@ -142,7 +145,7 @@
 	};
 
 	let blockIconInit = function() {
-		let iconsContainer = $( '.block-properties-icons' ),
+		let iconsContainer = $( '.block-properties-icon-select' ),
 			selectedIcon   = $( '.selected', iconsContainer );
 		if ( 0 !== iconsContainer.length && 0 !== selectedIcon.length ) {
 			iconsContainer.scrollTop( selectedIcon.position().top );
