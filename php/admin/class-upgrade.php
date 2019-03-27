@@ -64,7 +64,7 @@ class Upgrade extends Component_Abstract {
 		wp_safe_redirect(
 			add_query_arg(
 				array(
-					'post_type' => 'block_lab',
+					'post_type' => block_lab()->block_post->slug,
 					'page'      => 'block-lab-settings',
 					'tab'       => 'license',
 				),

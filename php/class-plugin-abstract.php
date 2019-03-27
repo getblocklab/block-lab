@@ -273,6 +273,13 @@ abstract class Plugin_Abstract implements Plugin_Interface {
 	}
 
 	/**
+	 * Runs as early as possible.
+	 *
+	 * @return void Nothing to return.
+	 */
+	abstract public function init();
+
+	/**
 	 * Runs once 'plugins_loaded' hook fires.
 	 *
 	 * @return void Nothing to return.
