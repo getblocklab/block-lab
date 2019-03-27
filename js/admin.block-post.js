@@ -28,7 +28,6 @@
 
 		$( '#block_properties .block-properties-icon-select span' ).on( 'click', function() {
 			let svg = $( 'svg', this ).clone();
-			console.log(svg);
 			$( '#block_properties .block-properties-icon-select span.selected' ).removeClass( 'selected' );
 			$( this ).addClass( 'selected' );
 			$( '#block-properties-icon' ).val( $( this ).data( 'value' ) );
@@ -45,9 +44,28 @@
 			.on( 'click', '.block-fields-actions-edit, a.row-title', function() {
 				let currentRow = $( this ).closest( '.block-fields-row' );
 
-				// If we're expanding this row, first collapse all other rows.
+				// If we're expanding this row, first collapse all other rows and scroll this row into view.
 				if ( ! currentRow.hasClass( 'block-fields-row-active' ) ) {
-					$( '.block-fields-rows .block-fields-edit' ).slideUp();
+					let fieldRows = $( '.block-fields-rows' ),
+						scrollTop = 0,
+						editRow   = $( '.block-fields-rows .block-fields-edit' );
+
+					$( '.block-fields-row', fieldRows ).each( function() {
+						// Add the height of all previous rows to the target scrollTop position.
+						if ( $( this ).is( currentRow ) ) {
+							return false;
+						}
+
+						let height = $( this ).children().first().outerHeight();
+						scrollTop += height;
+					});
+
+					fieldRows.animate({
+						scrollTop: scrollTop
+					});
+
+					editRow.slideUp();
+
 					$( '.block-fields-rows .block-fields-row-active' ).removeClass( 'block-fields-row-active' );
 				}
 
