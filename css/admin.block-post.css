@@ -3,6 +3,11 @@
 #misc-publishing-actions .curtime {
 	display: none;
 }
+#block_fields a,
+#block_fields a:focus {
+	outline: none;
+	box-shadow: none;
+}
 #block_fields .handlediv,
 #block_fields .hndle {
 	display: none;
@@ -16,13 +21,22 @@
 }
 #block_fields .block-fields-list td {
 	padding: 0;
+	line-height: 0;
 }
 #block_fields .block-fields-list thead th {
 	font-weight: 600;
-	width: 24%
+	width: 24%;
 }
 #block_fields .block-fields-list thead th.block-fields-sort {
 	width: 4%
+}
+#block_fields .block-fields-rows {
+	max-height: 600px;
+	width: 100%;
+	display: inline-block;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	line-height: 1.5em;
 }
 #block_fields .block-fields-rows .block-no-fields {
 	display: none;
@@ -106,6 +120,14 @@
 	border: 2px solid #e1e1e1;
 	border-top-color: #444;
 	animation: spinner .6s linear infinite;
+}
+@media only screen and (max-width: 850px) {
+	#block_fields .block-fields-rows {
+		max-height: none;
+		overflow-x: auto;
+		overflow-y: auto;
+		line-height: 1.5em;
+	}
 }
 #block_properties input,
 #block_properties select,

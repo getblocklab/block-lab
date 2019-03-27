@@ -439,26 +439,28 @@ class Block_Post extends Component_Abstract {
 				</thead>
 				<tbody>
 					<tr>
-						<td colspan="5" class="block-fields-rows">
-							<p class="block-no-fields">
+						<td colspan="5">
+							<div class="block-fields-rows">
+								<p class="block-no-fields">
+									<?php
+									echo wp_kses_post(
+										sprintf(
+											// Translators: Placeholders are for <strong> HTML tags.
+											__( 'Click the %1$s+ Add Field%2$s button below to add your first field.' ),
+											'<strong>',
+											'</strong>'
+										)
+									);
+									?>
+								</p>
 								<?php
-								echo wp_kses_post(
-									sprintf(
-										// Translators: Placeholders are for <strong> HTML tags.
-										__( 'Click the %1$s+ Add Field%2$s button below to add your first field.' ),
-										'<strong>',
-										'</strong>'
-									)
-								);
-								?>
-							</p>
-							<?php
-							if ( count( $block->fields ) > 0 ) {
-								foreach ( $block->fields as $field ) {
-									$this->render_fields_meta_box_row( $field, uniqid() );
+								if ( count( $block->fields ) > 0 ) {
+									foreach ( $block->fields as $field ) {
+										$this->render_fields_meta_box_row( $field, uniqid() );
+									}
 								}
-							}
-							?>
+								?>
+							</div>
 						</td>
 					</tr>
 				</tbody>
