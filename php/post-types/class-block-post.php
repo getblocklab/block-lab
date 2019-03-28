@@ -44,6 +44,7 @@ class Block_Post extends Component_Abstract {
 		add_action( 'admin_init', array( $this, 'row_export' ) );
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 		add_action( 'add_meta_boxes', array( $this, 'remove_meta_boxes' ) );
+		add_action( 'edit_form_before_permalink', array( $this, 'template_location' ) );
 		add_action( 'post_submitbox_start', array( $this, 'save_draft_button' ) );
 		add_filter( 'enter_title_here', array( $this, 'post_title_placeholder' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
@@ -247,6 +248,8 @@ class Block_Post extends Component_Abstract {
 	 * @return void
 	 */
 	public function add_meta_boxes() {
+		global $post;
+
 		add_meta_box(
 			'block_properties',
 			__( 'Block Properties', 'block-lab' ),
@@ -262,17 +265,23 @@ class Block_Post extends Component_Abstract {
 			array( $this, 'render_fields_meta_box' ),
 			$this->slug,
 			'normal',
-			'high'
-		);
-
-		add_meta_box(
-			'block_template',
-			__( 'Template', 'block-lab' ),
-			array( $this, 'render_template_meta_box' ),
-			$this->slug,
-			'side',
 			'default'
 		);
+
+		if ( isset( $post->post_name ) && ! empty( $post->post_name ) ) {
+			$template = block_lab_locate_template( 'blocks/block-' . $post->post_name . '.php', '', true );
+
+			if ( ! $template ) {
+				add_meta_box(
+					'block_template',
+					__( 'Template', 'block-lab' ),
+					array( $this, 'render_template_meta_box' ),
+					$this->slug,
+					'normal',
+					'high'
+				);
+			}
+		}
 	}
 
 	/**
@@ -291,7 +300,7 @@ class Block_Post extends Component_Abstract {
 	}
 
 	/**
-	 * Adds a "Save Draft" button next to the "Publish" button
+	 * Adds a "Save Draft" button next to the "Publish" button.
 	 *
 	 * @return void
 	 */
@@ -653,72 +662,88 @@ class Block_Post extends Component_Abstract {
 	 */
 	public function render_template_meta_box() {
 		global $post;
+		?>
+		<div class="template-notice">
+			<h3><span class="dashicons dashicons-yes"></span><?php esc_html_e( 'Next step: Create a block template.', 'block-lab' ); ?></h3>
+			<p>
+				<?php esc_html_e( 'To display this block, Block Lab will look for this template file in your theme:', 'block-lab' ); ?>
+			</p>
+			<?php
+			// Formatting to make the template paths easier to understand.
+			$template        = get_stylesheet_directory() . '/blocks/block-' . $post->post_name . '.php';
+			$template_short  = str_replace( WP_CONTENT_DIR, basename( WP_CONTENT_DIR ), $template );
+			$template_parts  = explode( '/', $template_short );
+			$filename        = array_pop( $template_parts );
+			$template_breaks = '/' . trailingslashit( implode( '/<wbr>', $template_parts ) );
+			?>
+			<p class="template-location">
+				<span class="path"><?php echo wp_kses( $template_breaks, array( 'wbr' => array() ) ); ?></span>
+				<a class="filename" href="#"><?php echo esc_html( $filename ); ?></a>
+				<input type="text" class="filename" value="<?php echo esc_html( $filename ); ?>" />
+			</p>
+			<p>
+				<strong><?php esc_html_e( 'Learn more:', 'block-lab' ); ?></strong>
+				<?php
+				echo wp_kses_post(
+					sprintf(
+						'<a href="%1$s" target="_blank">%2$s</a> | ',
+						'https://github.com/getblocklab/block-lab/wiki/3.-Displaying-custom-blocks',
+						esc_html__( 'Block Templates', 'block-lab' )
+					)
+				);
+				echo wp_kses_post(
+					sprintf(
+						'<a href="%1$s" target="_blank">%2$s</a>',
+						'https://github.com/getblocklab/block-lab/wiki/4.-Template-Functions',
+						esc_html__( 'Template Functions', 'block-lab' )
+					)
+				);
+				?>
+			</p>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Display the template location below the title.
+	 */
+	public function template_location() {
+		global $post;
+
+		$screen = get_current_screen();
+
+		if ( ! is_object( $screen ) || $this->slug !== $screen->post_type ) {
+			return;
+		}
 
 		if ( ! isset( $post->post_name ) || empty( $post->post_name ) ) {
-			?>
-			<div class="template-notice template-warning">
-				<p>
-					<?php esc_html_e( 'The template path will be available after publishing this block.', 'block-lab' ); ?>
-				</p>
-			</div>
-			<?php
 			return;
 		}
 
 		$template = block_lab_locate_template( 'blocks/block-' . $post->post_name . '.php', '', true );
 
 		if ( ! $template ) {
-			?>
-			<div class="template-notice template-warning">
-				<p>
-					<strong><?php esc_html_e( 'Template not found.', 'block-lab' ); ?></strong>
-				</p>
-				<p>
-					<?php esc_html_e( 'To display this block, Block Lab will look for one of these templates:', 'block-lab' ); ?>
-				</p>
-				<?php
-				// Formatting to make the template paths easier to understand.
-				$child_template        = get_stylesheet_directory() . '/blocks/block-' . $post->post_name . '.php';
-				$child_template_short  = str_replace( WP_CONTENT_DIR, '', $child_template );
-				$child_template_parts  = explode( '/', $child_template_short );
-				$child_template_breaks = implode( '/<wbr>', $child_template_parts );
-
-				$parent_template        = get_template_directory() . '/blocks/block-' . $post->post_name . '.php';
-				$parent_template_short  = str_replace( WP_CONTENT_DIR, '', $parent_template );
-				$parent_template_parts  = explode( '/', $parent_template_short );
-				$parent_template_breaks = implode( '/<wbr>', $parent_template_parts );
-
-				if ( $child_template !== $parent_template ) {
-					?>
-					<p><code><?php echo wp_kses( $child_template_breaks, array( 'wbr' => array() ) ); ?></code></p>
-					<?php
-				}
-				?>
-				<p><code><?php echo wp_kses( $parent_template_breaks, array( 'wbr' => array() ) ); ?></code></p>
-			</div>
-			<?php
 			return;
 		}
 
-		// Formatting to make the template path easier to understand.
-		$template_short       = str_replace( WP_CONTENT_DIR, '', $template );
-		$template_parts       = explode( '/', $template_short );
-		$template_with_breaks = implode( '/<wbr>', $template_parts );
-		?>
-		<div class="template-notice template-success">
-			<p>
-				<strong><?php esc_html_e( 'Template found.', 'block-lab' ); ?></strong>
-			</p>
-			<p>
-				<?php esc_html_e( 'This block uses the following template:', 'block-lab' ); ?>
-			</p>
-			<p><code><?php echo wp_kses( $template_with_breaks, array( 'wbr' => array() ) ); ?></code></p>
-		</div>
-		<?php
+		// Formatting to make the template paths easier to understand.
+		$template_short  = str_replace( WP_CONTENT_DIR, basename( WP_CONTENT_DIR ), $template );
+		$template_parts  = explode( '/', $template_short );
+		$filename        = array_pop( $template_parts );
+		$template_breaks = '/' . trailingslashit( implode( '/', $template_parts ) );
+
+		if ( $template ) {
+			?>
+			<div id="edit-slug-box">
+				<strong><?php esc_html_e( 'Template:', 'block-lab' ); ?></strong>
+				<?php echo esc_html( $template_breaks ); ?><strong><?php echo esc_html( $filename ); ?></strong>
+			</div>
+			<?php
+		}
 	}
 
 	/**
-	 * Render the Block Template meta box.
+	 * Render the settings for a given field.
 	 *
 	 * @param Field  $field The Field containing the options to render.
 	 * @param string $uid   A unique ID to used to unify the HTML name, for, and id attributes.
@@ -993,9 +1018,9 @@ class Block_Post extends Component_Abstract {
 				esc_html_e( 'No template found.', 'block-lab' );
 			} else {
 				// Formatting to make the template path easier to understand.
-				$template_short  = str_replace( WP_CONTENT_DIR, '', $template );
+				$template_short  = str_replace( WP_CONTENT_DIR . '/themes/', '', $template );
 				$template_parts  = explode( '/', $template_short );
-				$template_breaks = implode( '/<wbr>', $template_parts );
+				$template_breaks = implode( '/', $template_parts );
 				echo wp_kses(
 					'<code>' . $template_breaks . '</code>',
 					array(

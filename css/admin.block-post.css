@@ -212,6 +212,9 @@
 #block_properties .block-properties-icon-select .icon svg {
 	vertical-align: top;
 }
+#block_template > h2 {
+	display: none;
+}
 #block_template .inside {
 	padding: 0;
 	margin: 0;
@@ -220,17 +223,42 @@
 	background: #fff;
 	border-left: 4px solid #ffffff;
 	padding: 1px 12px;
+	border-left-color: #00a0d2;
 }
-#block_template .template-warning {
-	border-left-color: #ffb900;
+#block_template .template-notice .dashicons {
+	font-size: 1.8em;
+	width: auto;
+	height: auto;
+	line-height: 20px;
+	padding-right: 4px;
+	margin-left: -5px;
 }
 #block_template .template-success {
 	border-left-color: #46b450;
 }
-#block_template code {
-	display: block;
+#block_template .template-location {
+	margin: 0 0 6px;
+	padding: 5px 8px;
+	background: rgba(0, 0, 0, 0.07);
+	display: inline-block;
+	font-size: 0;
 }
-
+#block_template .template-location .path,
+#block_template .template-location .filename {
+	font-size: 12px;
+	line-height: 23px;
+}
+#block_template .template-location a.filename {
+	font-weight: bold;
+	color: #444;
+	text-decoration: none;
+}
+#block_template .template-location input.filename {
+	color: #444;
+	display: none;
+	margin: 0;
+	line-height: 15px;
+}
 @keyframes spinner {
 	to {
 		transform: rotate( 360deg );
