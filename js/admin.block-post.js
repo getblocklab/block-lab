@@ -34,6 +34,18 @@
 			$( '#block-properties-icon-current' ).html( svg );
 		});
 
+		$( '#block_template .template-location a.filename' ).on( 'click', function( e ) {
+			event.preventDefault();
+			let width = $( this ).width();
+			$( '#block_template .template-location input.filename' ).outerWidth( width ).show().select();
+			$( this ).hide();
+		});
+
+		$( '#block_template .template-location input.filename' ).on( 'blur', function( e ) {
+			$( '#block_template .template-location a.filename' ).show();
+			$( this ).hide();
+		});
+
 		$( '.block-fields-rows' )
 			.on( 'click', '.block-fields-actions-delete', function() {
 				$( this ).closest( '.block-fields-row' ).remove();
