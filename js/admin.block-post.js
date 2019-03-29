@@ -36,8 +36,13 @@
 
 		$( '#block_template .template-location a.filename' ).on( 'click', function( e ) {
 			event.preventDefault();
-			let width = $( this ).width();
-			$( '#block_template .template-location input.filename' ).outerWidth( width ).show().select();
+
+			let input = $( '#block_template .template-location input.filename' ),
+				width = $( this ).width() + parseInt( input.css( 'padding-left' ) ) + parseInt( input.css( 'padding-right' ) ) + parseInt( input.css( 'border-left' ) )  + parseInt( input.css( 'border-right' ) );
+
+			input.outerWidth( width ).show().focus().select();
+			document.execCommand( 'copy' );
+
 			$( this ).hide();
 		});
 
