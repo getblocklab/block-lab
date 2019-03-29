@@ -678,8 +678,8 @@ class Block_Post extends Component_Abstract {
 			?>
 			<p class="template-location">
 				<span class="path"><?php echo wp_kses( $template_breaks, array( 'wbr' => array() ) ); ?></span>
-				<a class="filename" href="#"><?php echo esc_html( $filename ); ?></a>
-				<input type="text" class="filename" value="<?php echo esc_html( $filename ); ?>" />
+				<a class="filename" data-tooltip="<?php esc_attr_e( 'Click to copy.', 'block-lab' ); ?>" href="#"><?php echo esc_html( $filename ); ?></a>
+				<input type="text" readonly="readonly" class="filename" value="<?php echo esc_html( $filename ); ?>" />
 			</p>
 			<p>
 				<strong><?php esc_html_e( 'Learn more:', 'block-lab' ); ?></strong>
