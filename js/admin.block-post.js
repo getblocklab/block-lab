@@ -34,21 +34,30 @@
 			$( '#block-properties-icon-current' ).html( svg );
 		});
 
-		$( '#block_template .template-location a.filename' ).on( 'click', function( e ) {
+		$( '#block_template .template-location a.filename' ).on( 'click', function( event ) {
 			event.preventDefault();
 
-			let input = $( '#block_template .template-location input.filename' ),
-				width = $( this ).width() + parseInt( input.css( 'padding-left' ) ) + parseInt( input.css( 'padding-right' ) ) + parseInt( input.css( 'border-left' ) )  + parseInt( input.css( 'border-right' ) );
+			let copy  = $( '#block_template .template-location .click-to-copy' ),
+				input = $( 'input', copy ),
+				width = $( this ).width() + input.outerWidth( false ) - input.width();
 
-			input.outerWidth( width ).show().focus().select();
-			document.execCommand( 'copy' );
+			copy.show();
+			input.outerWidth( width ).focus().select();
+
+			let copied = document.execCommand('copy');
+
+			if ( copied ) {
+				copy.attr( 'data-tooltip', blockLab.copySuccessMessage );
+			} else {
+				copy.attr( 'data-tooltip', blockLab.copyFailMessage );
+			}
 
 			$( this ).hide();
 		});
 
-		$( '#block_template .template-location input.filename' ).on( 'blur', function( e ) {
+		$( '#block_template .template-location .click-to-copy input' ).on( 'blur', function( e ) {
 			$( '#block_template .template-location a.filename' ).show();
-			$( this ).hide();
+			$( this ).parent().hide();
 		});
 
 		$( '.block-fields-rows' )
