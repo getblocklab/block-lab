@@ -198,8 +198,7 @@ class Block_Post extends Component_Abstract {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		global $post;
-
+		$post   = get_post();
 		$screen = get_current_screen();
 
 		if ( ! is_object( $screen ) ) {
@@ -258,7 +257,7 @@ class Block_Post extends Component_Abstract {
 	 * @return void
 	 */
 	public function add_meta_boxes() {
-		global $post;
+		$post = get_post();
 
 		add_meta_box(
 			'block_properties',
@@ -315,8 +314,7 @@ class Block_Post extends Component_Abstract {
 	 * @return void
 	 */
 	public function save_draft_button() {
-		global $post;
-
+		$post   = get_post();
 		$screen = get_current_screen();
 
 		if ( ! is_object( $screen ) || $this->slug !== $screen->post_type ) {
@@ -336,7 +334,7 @@ class Block_Post extends Component_Abstract {
 	 * @return void
 	 */
 	public function render_properties_meta_box() {
-		global $post;
+		$post  = get_post();
 		$block = new Block( $post->ID );
 		$icons = block_lab_get_icons();
 
@@ -434,7 +432,7 @@ class Block_Post extends Component_Abstract {
 	 * @return void
 	 */
 	public function render_fields_meta_box() {
-		global $post;
+		$post  = get_post();
 		$block = new Block( $post->ID );
 		?>
 		<div class="block-fields-list">
@@ -671,7 +669,7 @@ class Block_Post extends Component_Abstract {
 	 * @return void
 	 */
 	public function render_template_meta_box() {
-		global $post;
+		$post = get_post();
 		?>
 		<div class="template-notice">
 			<h3><span class="dashicons dashicons-yes"></span><?php esc_html_e( 'Next step: Create a block template.', 'block-lab' ); ?></h3>
@@ -720,8 +718,7 @@ class Block_Post extends Component_Abstract {
 	 * Display the template location below the title.
 	 */
 	public function template_location() {
-		global $post;
-
+		$post   = get_post();
 		$screen = get_current_screen();
 
 		if ( ! is_object( $screen ) || $this->slug !== $screen->post_type ) {
@@ -1060,7 +1057,7 @@ class Block_Post extends Component_Abstract {
 	 * @return array
 	 */
 	public function page_row_actions( $actions = array() ) {
-		global $post;
+		$post = get_post();
 
 		// Abort if the post type is incorrect.
 		if ( $post->post_type !== $this->slug ) {
