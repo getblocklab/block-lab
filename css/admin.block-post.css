@@ -189,7 +189,7 @@
 #block_properties .block-properties-icon-select .icon {
 	display: inline-block;
 	padding: 4px;
-	margin: 4px;
+	margin: 1px;
 	border: 1px solid transparent;
 	border-radius: 4px;
 	cursor: pointer;
