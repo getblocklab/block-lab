@@ -214,9 +214,11 @@ class Block_Post extends Component_Abstract {
 				array(),
 				$this->plugin->get_version()
 			);
+
 			if ( ! in_array( $post->post_status, array( 'publish', 'future', 'pending' ), true ) ) {
 				wp_add_inline_style( 'block-post', '#delete-action { display: none; }' );
 			}
+
 			wp_enqueue_script(
 				'block-post',
 				$this->plugin->get_url( 'js/admin.block-post.js' ),
@@ -224,14 +226,22 @@ class Block_Post extends Component_Abstract {
 				$this->plugin->get_version(),
 				false
 			);
+
 			wp_localize_script(
 				'block-post',
 				'blockLab',
 				array(
 					'fieldSettingsNonce' => wp_create_nonce( 'block_lab_field_settings_nonce' ),
+					'copySuccessMessage' => __( 'Copied to clipboard.', 'block-lab' ),
+					'copyFailMessage'    => sprintf(
+						// translators: Placeholder is a shortcut key combination.
+						__( '%1$s to copy.', 'block-lab' ),
+						strpos( getenv( 'HTTP_USER_AGENT' ), 'Mac' ) ? 'Cmd+C' : 'Ctrl+C'
+					),
 				)
 			);
 		}
+
 		if ( $this->slug === $screen->post_type && 'edit' === $screen->base ) {
 			wp_enqueue_style(
 				'block-edit',
@@ -679,7 +689,9 @@ class Block_Post extends Component_Abstract {
 			<p class="template-location">
 				<span class="path"><?php echo wp_kses( $template_breaks, array( 'wbr' => array() ) ); ?></span>
 				<a class="filename" data-tooltip="<?php esc_attr_e( 'Click to copy.', 'block-lab' ); ?>" href="#"><?php echo esc_html( $filename ); ?></a>
-				<input type="text" readonly="readonly" class="filename" value="<?php echo esc_html( $filename ); ?>" />
+				<span class="click-to-copy">
+					<input type="text" readonly="readonly" value="<?php echo esc_html( $filename ); ?>" />
+				</span>
 			</p>
 			<p>
 				<strong><?php esc_html_e( 'Learn more:', 'block-lab' ); ?></strong>

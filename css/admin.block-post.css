@@ -243,8 +243,7 @@
 	display: inline-block;
 	font-size: 0;
 }
-#block_template .template-location .path,
-#block_template .template-location .filename {
+#block_template .template-location * {
 	font-size: 12px;
 	line-height: 23px;
 }
@@ -257,10 +256,13 @@
 	outline: none;
 	box-shadow: none;
 }
-#block_template .template-location input.filename {
-	color: #444;
+#block_template .template-location .click-to-copy {
 	display: none;
+}
+#block_template .template-location .click-to-copy input {
+	color: #444;
 	margin: 0;
+	font-size: 12px;
 	line-height: 15px;
 }
 
