@@ -55,7 +55,7 @@
 			$( this ).hide();
 		});
 
-		$( '#block_template .template-location .click-to-copy input' ).on( 'blur', function( e ) {
+		$( '#block_template .template-location .click-to-copy input' ).on( 'blur', function() {
 			$( '#block_template .template-location a.filename' ).show();
 			$( this ).parent().hide();
 		});
