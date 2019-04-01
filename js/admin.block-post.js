@@ -26,10 +26,38 @@
 			field.find( '.block-fields-edit-label input' ).select();
 		});
 
-		$( '#block_properties .block-properties-icons span' ).on( 'click', function() {
-			$( '#block_properties .block-properties-icons span.selected' ).removeClass( 'selected' );
+		$( '#block_properties .block-properties-icon-select span' ).on( 'click', function() {
+			let svg = $( 'svg', this ).clone();
+			$( '#block_properties .block-properties-icon-select span.selected' ).removeClass( 'selected' );
 			$( this ).addClass( 'selected' );
 			$( '#block-properties-icon' ).val( $( this ).data( 'value' ) );
+			$( '#block-properties-icon-current' ).html( svg );
+		});
+
+		$( '#block_template .template-location a.filename' ).on( 'click', function( event ) {
+			event.preventDefault();
+
+			let copy  = $( '#block_template .template-location .click-to-copy' ),
+				input = $( 'input', copy ),
+				width = $( this ).width() + input.outerWidth( false ) - input.width();
+
+			copy.show();
+			input.outerWidth( width ).focus().select();
+
+			let copied = document.execCommand('copy');
+
+			if ( copied ) {
+				copy.attr( 'data-tooltip', blockLab.copySuccessMessage );
+			} else {
+				copy.attr( 'data-tooltip', blockLab.copyFailMessage );
+			}
+
+			$( this ).hide();
+		});
+
+		$( '#block_template .template-location .click-to-copy input' ).on( 'blur', function() {
+			$( '#block_template .template-location a.filename' ).show();
+			$( this ).parent().hide();
 		});
 
 		$( '.block-fields-rows' )
@@ -42,9 +70,28 @@
 			.on( 'click', '.block-fields-actions-edit, a.row-title', function() {
 				let currentRow = $( this ).closest( '.block-fields-row' );
 
-				// If we're expanding this row, first collapse all other rows.
+				// If we're expanding this row, first collapse all other rows and scroll this row into view.
 				if ( ! currentRow.hasClass( 'block-fields-row-active' ) ) {
-					$( '.block-fields-rows .block-fields-edit' ).slideUp();
+					let fieldRows = $( '.block-fields-rows' ),
+						scrollTop = 0,
+						editRow   = $( '.block-fields-rows .block-fields-edit' );
+
+					$( '.block-fields-row', fieldRows ).each( function() {
+						// Add the height of all previous rows to the target scrollTop position.
+						if ( $( this ).is( currentRow ) ) {
+							return false;
+						}
+
+						let height = $( this ).children().first().outerHeight();
+						scrollTop += height;
+					});
+
+					fieldRows.animate({
+						scrollTop: scrollTop
+					});
+
+					editRow.slideUp();
+
 					$( '.block-fields-rows .block-fields-row-active' ).removeClass( 'block-fields-row-active' );
 				}
 
@@ -142,7 +189,7 @@
 	};
 
 	let blockIconInit = function() {
-		let iconsContainer = $( '.block-properties-icons' ),
+		let iconsContainer = $( '.block-properties-icon-select' ),
 			selectedIcon   = $( '.selected', iconsContainer );
 		if ( 0 !== iconsContainer.length && 0 !== selectedIcon.length ) {
 			iconsContainer.scrollTop( selectedIcon.position().top );
