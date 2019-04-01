@@ -355,7 +355,7 @@ class Block_Post extends Component_Abstract {
 		<p class="description" id="block-properties-slug-description">
 			<?php
 			esc_html_e(
-				'Used to determine the location of the template file.',
+				'Used to determine the name of the template file.',
 				'block-lab'
 			);
 			?>
