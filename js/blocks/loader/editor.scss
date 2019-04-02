@@ -199,6 +199,11 @@ div[class^="wp-block-block-lab-"],
       }
     }
   }
+
+  // Image control
+  .bl-image__img {
+    max-height: 10rem;
+  }
 }
 
 /* Miscellaneous global styles */

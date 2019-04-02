@@ -60,13 +60,6 @@ class Test_Image extends \WP_UnitTestCase {
 		$this->assertEquals( 'text', $first_setting->type );
 		$this->assertEquals( '', $first_setting->default );
 		$this->assertEquals( 'sanitize_text_field', $first_setting->sanitize );
-
-		$second_setting = end( $this->instance->settings );
-		$this->assertEquals( 'default', $second_setting->name );
-		$this->assertEquals( 'Default Value', $second_setting->label );
-		$this->assertEquals( 'url', $second_setting->type );
-		$this->assertEquals( '', $second_setting->default );
-		$this->assertEquals( 'esc_url_raw', $second_setting->sanitize );
 	}
 
 	/**
