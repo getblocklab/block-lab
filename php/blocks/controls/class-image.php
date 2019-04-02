@@ -22,6 +22,13 @@ class Image extends Control_Abstract {
 	public $name = 'image';
 
 	/**
+	 * Field variable type.
+	 *
+	 * @var string
+	 */
+	public $type = 'integer';
+
+	/**
 	 * Text constructor.
 	 *
 	 * @return void
@@ -46,16 +53,6 @@ class Image extends Control_Abstract {
 				'sanitize' => 'sanitize_text_field',
 			)
 		);
-		$this->settings[] = new Control_Setting(
-			array(
-				'name'     => 'default',
-				'label'    => __( 'Default Value', 'block-lab' ),
-				'type'     => 'url',
-				'default'  => '',
-				'sanitize' => 'esc_url_raw',
-				'help'     => __( 'An image URL.' ),
-			)
-		);
 	}
 
 	/**
@@ -66,11 +63,16 @@ class Image extends Control_Abstract {
 	 * @return string|int|false $value The value to be made available or echoed on the front-end template.
 	 */
 	public function validate( $value, $echo ) {
+		// Backwards compatibility, as the value used to be the image's URL instead of its post ID.
+		if ( empty( intval( $value ) ) ) {
+			$value = attachment_url_to_postid( $value );
+		}
+
 		if ( $echo ) {
-			return $value;
+			$image = wp_get_attachment_image_src( $value );
+			return ! empty( $image[0] ) ? $image[0] : '';
 		} else {
-			$id = attachment_url_to_postid( $value );
-			return $id ? $id : false;
+			return $value ? $value : false;
 		}
 	}
 }
