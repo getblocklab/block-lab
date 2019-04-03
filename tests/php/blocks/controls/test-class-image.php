@@ -86,5 +86,10 @@ class Test_Image extends \WP_UnitTestCase {
 		$this->assertFalse( false, $this->instance->validate( $invalid_attachment_url, false ) );
 		$this->assertEquals( $expected_attachment_id, $this->instance->validate( $valid_attachment_url, false ) );
 		$this->assertContains( $valid_attachment_url, $this->instance->validate( $valid_attachment_url, true ) );
+
+		// This should still return an external URL, though the ID will be 0.
+		$external_url = 'https://example.com/baz.jpeg';
+		$this->assertEquals( 0, $this->instance->validate( $external_url, false ) );
+		$this->assertContains( $external_url, $this->instance->validate( $external_url, true ) );
 	}
 }
