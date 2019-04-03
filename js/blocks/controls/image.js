@@ -60,11 +60,21 @@ const BlockLabImageControl = ( props, field, block ) => {
 			uploadComplete( image );
 		};
 
+		const removeImage = () => {
+			attr[ field.name ] = null;
+			setAttributes( attr )
+		}
+
 		return (
 			<BaseControl className="block-lab-media-controls" label={ field.label } help={ field.help }>
 				<Fragment>
-					{ ! isUploading && (
+					{ ! isUploading && imageSrc && (
 						<img className="bl-image__img" src={ imageSrc } alt={ imageAlt } />
+					) }
+					{ ! isUploading && ! imageSrc && (
+						<div>
+							{ __( 'Please select an image', 'block-lab' ) }
+						</div>
 					) }
 				</Fragment>
 				<MediaUploadCheck>
@@ -110,6 +120,16 @@ const BlockLabImageControl = ( props, field, block ) => {
 								</div>
 							) }
 						/>
+						{ imageSrc && (
+							<Button
+								isLarge
+								disabled={!!isUploading}
+								className="bl-image__remove"
+								onClick={removeImage}
+							>
+								{ __( 'Remove', 'block-lab' ) }
+							</Button>
+						) }
 					</div>
 				</MediaUploadCheck>
 			</BaseControl>
