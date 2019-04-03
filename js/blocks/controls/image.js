@@ -73,7 +73,7 @@ const BlockLabImageControl = ( props, field, block ) => {
 					) }
 					{ ! isUploading && ! imageSrc && (
 						<div>
-							{ __( 'Please select an image', 'block-lab' ) }
+							{ __( '(No image selected)', 'block-lab' ) }
 						</div>
 					) }
 				</Fragment>
