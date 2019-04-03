@@ -16,6 +16,7 @@ const BlockLabImageControl = ( props, field, block ) => {
 			media = select( 'core' ).getMedia( fieldValue );
 			imageSrc = ( media && media.source_url ) ? media.source_url : '';
 		} else if ( 'string' === typeof fieldValue )  {
+			// Backwards-compatibility: this used to save the URL as the fieldValue, not the ID as it does now.
 			imageSrc = fieldValue;
 		}
 
