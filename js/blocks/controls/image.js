@@ -1,4 +1,5 @@
 const { BaseControl, FormFileUpload, Button, Spinner } = wp.components;
+const { withState } = wp.compose;
 const { withSelect } = wp.data;
 const { MediaUploadCheck, MediaUpload, mediaUpload } = wp.editor;
 const { Fragment } = wp.element;
@@ -7,10 +8,14 @@ const { __ } = wp.i18n;
 const BlockLabImageControl = ( props, field, block ) => {
 	const ImageControl = withSelect( ( select, ownProps ) => {
 		const { attributes } = ownProps;
-		const media = select( 'core' ).getMedia( attributes[ field.name ] );
-		let imageAlt;
+		const fieldValue = attributes[ field.name ];
+		let media, imageAlt;
 
-		// Taken from the Gutenberg Image block's edit.js file.
+		if ( parseInt( fieldValue ) ) {
+			media = select( 'core' ).getMedia( fieldValue );
+		}
+
+		// This alt logic is taken from the Gutenberg Image block's edit.js file.
 		if ( media && media.alt ) {
 			imageAlt = media.alt;
 		} else if ( media && media.source_url ) {
@@ -20,23 +25,22 @@ const BlockLabImageControl = ( props, field, block ) => {
 		}
 
 		return {
-			imageSrc: media ? media.source_url : '',
+			imageSrc: ( media && media.source_url ) ? media.source_url : '',
 			imageAlt,
 		 };
 
-	} )( ( ownProps) => {
-		const { imageAlt, imageSrc, setAttributes } = ownProps;
+	} )( withState( {} )( ownProps => {
+		const { imageAlt, imageSrc, isUploading, setAttributes, setState } = ownProps;
 		const attr = { ...ownProps.attributes };
-		const isUploading = 'undefined' !== typeof attr[ field.name ] && 'string' === typeof attr[ field.name ] && 'Uploading' === attr[ field.name ].substr( 0, 9 );
 
-		const uploadStart = (filename) => {
-			attr[ field.name ] = __( 'Uploading', 'block-lab' ) + ' ' + filename;
-			setAttributes( attr )
+		const uploadStart = () => {
+			setState( { isUploading: true } )
 		};
 
 		const uploadComplete = ( image ) => {
-			attr[field.name] = parseInt( image.id );
+			attr[ field.name ] = parseInt( image.id );
 			setAttributes( attr )
+			setState( { isUploading: false } )
 		};
 
 		const onSelect = ( image ) => {
@@ -54,12 +58,14 @@ const BlockLabImageControl = ( props, field, block ) => {
 		return (
 			<BaseControl className="block-lab-media-controls" label={ field.label } help={ field.help }>
 				<Fragment>
-					<img class="bl-image__img" src={ imageSrc } alt={ imageAlt } />
+					{ ! isUploading && (
+						<img className="bl-image__img" src={ imageSrc } alt={ imageAlt } />
+					) }
 				</Fragment>
 				<MediaUploadCheck>
-					{isUploading && (
+					{ isUploading && (
 						<Spinner />
-					)}
+					) }
 					<FormFileUpload
 						isLarge
 						disabled={!!isUploading}
@@ -101,7 +107,7 @@ const BlockLabImageControl = ( props, field, block ) => {
 				</MediaUploadCheck>
 			</BaseControl>
 		);
-	} );
+	} ) );
 
 	return (
 		<ImageControl { ...props } />
