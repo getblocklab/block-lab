@@ -60,19 +60,23 @@ class Image extends Control_Abstract {
 	 *
 	 * @param string $value The value to either make available as a variable or echoed on the front-end template.
 	 * @param bool   $echo Whether this value will be echoed.
-	 * @return string|int|false $value The value to be made available or echoed on the front-end template.
+	 * @return string|int $value The value to be made available or echoed on the front-end template, possibly 0 if none found.
 	 */
 	public function validate( $value, $echo ) {
 		// Backwards compatibility, as the value used to be the image's URL instead of its post ID.
-		if ( empty( intval( $value ) ) ) {
-			$value = attachment_url_to_postid( $value );
+		if ( empty( intval( $value ) ) && is_string( $value ) ) {
+			$legacy_src = $value;
+			$legacy_id  = attachment_url_to_postid( $value );
 		}
 
 		if ( $echo ) {
-			$image = wp_get_attachment_image_src( $value );
+			if ( isset( $legacy_src ) ) {
+				return $legacy_src;
+			}
+			$image = wp_get_attachment_image_src( $value, 'full' );
 			return ! empty( $image[0] ) ? $image[0] : '';
 		} else {
-			return $value ? $value : false;
+			return isset( $legacy_id ) ? $legacy_id : $value;
 		}
 	}
 }
