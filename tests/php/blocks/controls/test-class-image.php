@@ -83,7 +83,7 @@ class Test_Image extends \WP_UnitTestCase {
 		$wp_upload              = wp_get_upload_dir();
 		$invalid_attachment_url = $wp_upload['url'] . '/invalid.jpeg';
 
-		$this->assertFalse( false, $this->instance->validate( $invalid_attachment_url, false ) );
+		$this->assertEquals( 0, $this->instance->validate( $invalid_attachment_url, false ) );
 		$this->assertEquals( $expected_attachment_id, $this->instance->validate( $valid_attachment_url, false ) );
 		$this->assertContains( $valid_attachment_url, $this->instance->validate( $valid_attachment_url, true ) );
 
