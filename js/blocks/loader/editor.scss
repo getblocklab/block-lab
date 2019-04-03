@@ -200,9 +200,18 @@ div[class^="wp-block-block-lab-"],
     }
   }
 
-  // Image control
+  /* Image Control Component */
   .bl-image__img {
     max-height: 10rem;
+  }
+
+  .bl-image__buttons {
+    .components-form-file-upload,
+    .components-media-library-button {
+      display: inline-block;
+      vertical-align: top;
+      margin-right: 0.6rem;
+    }
   }
 }
 

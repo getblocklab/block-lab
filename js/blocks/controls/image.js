@@ -66,44 +66,46 @@ const BlockLabImageControl = ( props, field, block ) => {
 					{ isUploading && (
 						<Spinner />
 					) }
-					<FormFileUpload
-						isLarge
-						disabled={!!isUploading}
-						onChange={(event) => {
-							let files = event.target.files;
-							uploadStart(files[0].name);
-							mediaUpload( {
-								allowedTypes: [ 'image' ],
-								filesList: files,
-								onFileChange: ( image ) => {
-									onSelect(image[0])
-								}
-							} );
-						}}
-						accept='image/*'
-						multiple={ false }
-					>
-						{ __( 'Upload', 'block-lab' ) }
-					</FormFileUpload>
-					<MediaUpload
-						gallery={ false }
-						multiple={ false }
-						onSelect={ onSelect }
-						allowedTypes={ [ 'image' ] }
-						value={ attr[ field.name ] }
-						render={ ( { open } ) => (
-							<div className='components-media-library-button'>
-								<Button
-									isLarge
-									disabled={!!isUploading}
-									className="editor-media-placeholder__button"
-									onClick={ open }
-								>
-									{ __( 'Media Library', 'block-lab' ) }
-								</Button>
-							</div>
-						) }
-					/>
+					<div className="bl-image__buttons">
+						<FormFileUpload
+							isLarge
+							disabled={!!isUploading}
+							onChange={(event) => {
+								let files = event.target.files;
+								uploadStart(files[0].name);
+								mediaUpload( {
+									allowedTypes: [ 'image' ],
+									filesList: files,
+									onFileChange: ( image ) => {
+										onSelect(image[0])
+									}
+								} );
+							}}
+							accept='image/*'
+							multiple={ false }
+						>
+							{ __( 'Upload', 'block-lab' ) }
+						</FormFileUpload>
+						<MediaUpload
+							gallery={ false }
+							multiple={ false }
+							onSelect={ onSelect }
+							allowedTypes={ [ 'image' ] }
+							value={ attr[ field.name ] }
+							render={ ( { open } ) => (
+								<div className='components-media-library-button'>
+									<Button
+										isLarge
+										disabled={!!isUploading}
+										className="editor-media-placeholder__button"
+										onClick={ open }
+									>
+										{ __( 'Media Library', 'block-lab' ) }
+									</Button>
+								</div>
+							) }
+						/>
+					</div>
 				</MediaUploadCheck>
 			</BaseControl>
 		);
