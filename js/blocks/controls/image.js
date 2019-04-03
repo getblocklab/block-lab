@@ -9,10 +9,14 @@ const BlockLabImageControl = ( props, field, block ) => {
 	const ImageControl = withSelect( ( select, ownProps ) => {
 		const { attributes } = ownProps;
 		const fieldValue = attributes[ field.name ];
-		let media, imageAlt;
+		let media, imageAlt,
+			imageSrc = '';
 
 		if ( parseInt( fieldValue ) ) {
 			media = select( 'core' ).getMedia( fieldValue );
+			imageSrc = ( media && media.source_url ) ? media.source_url : '';
+		} else if ( 'string' === typeof fieldValue )  {
+			imageSrc = fieldValue;
 		}
 
 		// This alt logic is taken from the Gutenberg Image block's edit.js file.
@@ -25,8 +29,8 @@ const BlockLabImageControl = ( props, field, block ) => {
 		}
 
 		return {
-			imageSrc: ( media && media.source_url ) ? media.source_url : '',
 			imageAlt,
+			imageSrc,
 		 };
 
 	} )( withState( {} )( ownProps => {
