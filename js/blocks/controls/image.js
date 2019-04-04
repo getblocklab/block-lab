@@ -75,8 +75,8 @@ const BlockLabImageControl = ( props, field, block ) => {
 						<img className="bl-image__img" src={ imageSrc } alt={ imageAlt } />
 					) }
 					{ ! isUploading && ! imageSrc && (
-						<div className="bl-image__description">
-							{ __( 'Upload an image or select a file from your media library.', 'block-lab' ) }
+						<div className="bl-image__placeholder">
+							<span class="dashicons dashicons-format-image" />
 						</div>
 					) }
 				</Fragment>

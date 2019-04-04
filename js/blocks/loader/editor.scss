@@ -82,11 +82,20 @@ div[class^="wp-block-block-lab-"],
   /* Media Upload Component */
   .block-lab-media-controls {
     .bl-image__img {
+      border: 1px solid #e2e4e7;
       max-height: 10rem;
+      display: block;
     }
+    .bl-image__placeholder {
+      height: 10rem;
+      line-height: 10rem;
+      width: 15rem;
+      border: 1px solid #e2e4e7;
+      text-align: center;
 
-    .bl-image__description {
-      font-size: 13px;
+      .dashicons {
+        line-height: 10rem;
+      }
     }
 
     .bl-image__buttons {
@@ -154,14 +163,11 @@ div[class^="wp-block-block-lab-"] {
 .edit-post-settings-sidebar__panel-block .components-panel__body {
   /* Media Upload Component */
   .block-lab-media-controls {
-    .bl-image__description {
-      font-size: 12px;
-      font-style: italic;
-      margin-top: 1em;
-    }
-
     .components-spinner {
       float: none;
+    }
+    .bl-image__placeholder {
+      width: 100%;
     }
   }
 
