@@ -5,6 +5,8 @@ const { MediaUploadCheck, MediaUpload, mediaUpload } = wp.editor;
 const { Fragment } = wp.element;
 const { __ } = wp.i18n;
 
+const DEFAULT_IMG_ID = 0;
+
 const BlockLabImageControl = ( props, field, block ) => {
 	const ImageControl = withSelect( ( select, ownProps ) => {
 		const { attributes } = ownProps;
@@ -61,8 +63,9 @@ const BlockLabImageControl = ( props, field, block ) => {
 		};
 
 		const removeImage = () => {
-			attr[ field.name ] = null;
-			setAttributes( attr )
+			// The attribute should be an int, so set it to 0 on removing an image.
+			attr[ field.name ] = DEFAULT_IMG_ID;
+			setAttributes( attr );
 		}
 
 		return (
