@@ -276,9 +276,10 @@ class FetchInput extends Component {
 	}
 
 	render() {
-		const { value = '', autoFocus = false, instanceId, className, placeholder, field, getValueFromAPI } = this.props;
+		const { value = '', getDisplayValue, autoFocus = false, instanceId, className, placeholder, field, getValueFromAPI } = this.props;
 		const { showSuggestions, results, selectedSuggestion, loading } = this.state;
 		const displayPopover = showSuggestions && !! results.length;
+		const displayValue = getDisplayValue ? getDisplayValue( value ) : null;
 
 		/* eslint-disable jsx-a11y/no-autofocus */
 		return (
@@ -288,7 +289,7 @@ class FetchInput extends Component {
 					className="bl-fetch__input"
 					type="text"
 					aria-label={ field.label }
-					value={ value }
+					value={ displayValue ? displayValue : value }
 					placeholder={ placeholder }
 					onBlur={ this.onBlur }
 					onFocus={ this.onFocus }

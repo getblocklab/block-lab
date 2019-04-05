@@ -1,7 +1,7 @@
 import FetchInput from './fetch-input';
 
 const BlockLabUserControl = ( props, field, block ) => {
-	const { setAttributes, className } = props;
+	const { setAttributes } = props;
 	const attr = { ...props.attributes };
 	const getValueFromAPI = apiResponse => apiResponse.slug ? apiResponse.slug : apiResponse;
 
