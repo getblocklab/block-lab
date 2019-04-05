@@ -95,7 +95,13 @@ div[class^="wp-block-block-lab-"],
 
       .dashicons {
         line-height: 10rem;
+        position: absolute;
       }
+    }
+    .components-drop-zone {
+      width: 100%;
+      height: 100%;
+      position: static;
     }
 
     .bl-image__buttons {

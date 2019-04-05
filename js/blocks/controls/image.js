@@ -1,10 +1,11 @@
-const { BaseControl, FormFileUpload, Button, Spinner } = wp.components;
+const { BaseControl, Button, DropZone, FormFileUpload, Spinner } = wp.components;
 const { withState } = wp.compose;
 const { withSelect } = wp.data;
-const { MediaUploadCheck, MediaUpload, mediaUpload } = wp.editor;
+const { mediaUpload, MediaUpload, MediaUploadCheck } = wp.editor;
 const { Fragment } = wp.element;
 const { __ } = wp.i18n;
 
+const ALLOWED_TYPES = [ 'image' ];
 const DEFAULT_IMG_ID = 0;
 
 const BlockLabImageControl = ( props, field, block ) => {
@@ -45,8 +46,10 @@ const BlockLabImageControl = ( props, field, block ) => {
 		};
 
 		const uploadComplete = ( image ) => {
-			attr[ field.name ] = parseInt( image.id );
-			setAttributes( attr )
+			if ( image.hasOwnProperty( 'id' ) ) {
+				attr[ field.name ] = parseInt( image.id );
+				setAttributes( attr )
+			}
 			setState( { isUploading: false } )
 		};
 
@@ -68,15 +71,35 @@ const BlockLabImageControl = ( props, field, block ) => {
 			setAttributes( attr );
 		}
 
+		const uploadFiles = ( files ) => {
+				mediaUpload( {
+				allowedTypes: ALLOWED_TYPES,
+				filesList: files,
+				onFileChange: ( image ) => {
+					onSelect( image[0] )
+				}
+			} );
+		}
+
 		return (
 			<BaseControl className="block-lab-media-controls" label={ field.label } help={ field.help }>
 				<Fragment>
 					{ ! isUploading && imageSrc && (
 						<img className="bl-image__img" src={ imageSrc } alt={ imageAlt } />
 					) }
-					{ ! isUploading && ! imageSrc && (
+					{ ! imageSrc && (
 						<div className="bl-image__placeholder">
 							<span class="dashicons dashicons-format-image" />
+							<MediaUploadCheck>
+								<DropZone
+									onFilesDrop={ ( files ) => {
+										if ( files.length ) {
+											uploadStart(files[0].name);
+											uploadFiles( files );
+										}
+									} }
+								></DropZone>
+							</MediaUploadCheck>
 						</div>
 					) }
 				</Fragment>
@@ -91,13 +114,7 @@ const BlockLabImageControl = ( props, field, block ) => {
 							onChange={(event) => {
 								let files = event.target.files;
 								uploadStart(files[0].name);
-								mediaUpload( {
-									allowedTypes: [ 'image' ],
-									filesList: files,
-									onFileChange: ( image ) => {
-										onSelect(image[0])
-									}
-								} );
+								uploadFiles( files );
 							}}
 							accept='image/*'
 							multiple={ false }
@@ -108,7 +125,7 @@ const BlockLabImageControl = ( props, field, block ) => {
 							gallery={ false }
 							multiple={ false }
 							onSelect={ onSelect }
-							allowedTypes={ [ 'image' ] }
+							allowedTypes={ ALLOWED_TYPES }
 							value={ attr[ field.name ] }
 							render={ ( { open } ) => (
 								<div className='components-media-library-button'>
