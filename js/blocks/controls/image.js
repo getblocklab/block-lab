@@ -94,7 +94,7 @@ const BlockLabImageControl = ( props, field, block ) => {
 								<DropZone
 									onFilesDrop={ ( files ) => {
 										if ( files.length ) {
-											uploadStart(files[0].name);
+											uploadStart();
 											uploadFiles( files );
 										}
 									} }
