@@ -105,12 +105,15 @@ div[class^="wp-block-block-lab-"],
     }
 
     .bl-image__buttons {
+      padding-top: 1rem;
+      padding-bottom: 0.6rem;
+
       .components-form-file-upload,
       .components-media-library-button,
       .bl-image__remove {
         display: inline-block;
         vertical-align: top;
-        margin: 1rem 0.6rem 0.6rem 0;
+        margin-right: 0.6rem;
       }
     }
   }
