@@ -22,6 +22,13 @@ class Post extends Control_Abstract {
 	public $name = 'post';
 
 	/**
+	 * Field variable type.
+	 *
+	 * @var string
+	 */
+	public $type = 'integer';
+
+	/**
 	 * Post constructor.
 	 */
 	public function __construct() {
