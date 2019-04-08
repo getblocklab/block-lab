@@ -82,39 +82,27 @@ div[class^="wp-block-block-lab-"],
   /* Media Upload Component */
   .block-lab-media-controls {
     .bl-image__img {
-      border: 1px solid #e2e4e7;
-      max-height: 10rem;
+      max-height: 200px;
       display: block;
-    }
-    .bl-image__placeholder {
-      height: 10rem;
-      line-height: 10rem;
-      width: 15rem;
-      border: 3px dashed #e2e4e7;
-      text-align: center;
-
-      .dashicons {
-        position: absolute;
-        left: 8.5rem;
-        line-height: 10rem;
-      }
-    }
-    .components-drop-zone {
-      width: 100%;
-      height: 100%;
-      position: static;
+      margin-bottom: 8px;
     }
 
-    .bl-image__buttons {
-      padding-top: 1rem;
-      padding-bottom: 0.6rem;
+    .components-placeholder {
+      position: relative;
+    }
 
-      .components-form-file-upload,
-      .components-media-library-button,
-      .bl-image__remove {
-        display: inline-block;
-        vertical-align: top;
-        margin-right: 0.6rem;
+    .components-form-file-upload,
+    .components-media-library-button,
+    .bl-image__remove {
+      margin: 0 4px 4px 0;
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    .components-base-control__field {
+      .components-base-control__help {
+        margin-bottom: 4px;
+        margin-top: 0;
       }
     }
   }
@@ -174,9 +162,6 @@ div[class^="wp-block-block-lab-"] {
   .block-lab-media-controls {
     .components-spinner {
       float: none;
-    }
-    .bl-image__placeholder {
-      width: 100%;
     }
   }
 
