@@ -13,9 +13,9 @@ use Block_Lab\Blocks\Controls;
 class Test_User extends \WP_UnitTestCase {
 
 	/**
-	 * Instance of the extending class Number.
+	 * Instance of the extending class User.
 	 *
-	 * @var Controls\Number
+	 * @var Controls\User
 	 */
 	public $instance;
 

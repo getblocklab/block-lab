@@ -22,6 +22,13 @@ class Image extends Control_Abstract {
 	public $name = 'image';
 
 	/**
+	 * Field variable type.
+	 *
+	 * @var string
+	 */
+	public $type = 'integer';
+
+	/**
 	 * Text constructor.
 	 *
 	 * @return void
@@ -46,15 +53,32 @@ class Image extends Control_Abstract {
 				'sanitize' => 'sanitize_text_field',
 			)
 		);
-		$this->settings[] = new Control_Setting(
-			array(
-				'name'     => 'default',
-				'label'    => __( 'Default Value', 'block-lab' ),
-				'type'     => 'url',
-				'default'  => '',
-				'sanitize' => 'esc_url_raw',
-				'help'     => __( 'An image URL.' ),
-			)
-		);
+	}
+
+	/**
+	 * Validates the value to be made available to the front-end template.
+	 *
+	 * @param string $value The value to either make available as a variable or echoed on the front-end template.
+	 * @param bool   $echo Whether this value will be echoed.
+	 * @return string|int $value The value to be made available or echoed on the front-end template, possibly 0 if none found.
+	 */
+	public function validate( $value, $echo ) {
+		$image_id = intval( $value );
+
+		// Backwards compatibility, as the value used to be the image's URL instead of its post ID.
+		if ( empty( $image_id ) && is_string( $value ) ) {
+			$legacy_src = $value;
+			$legacy_id  = attachment_url_to_postid( $value );
+		}
+
+		if ( $echo ) {
+			if ( isset( $legacy_src ) ) {
+				return $legacy_src;
+			}
+			$image = wp_get_attachment_image_src( $image_id, 'full' );
+			return ! empty( $image[0] ) ? $image[0] : '';
+		} else {
+			return isset( $legacy_id ) ? $legacy_id : $image_id;
+		}
 	}
 }
