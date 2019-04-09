@@ -73,7 +73,7 @@ class Import extends Component_Abstract {
 		}
 
 		$html = ob_get_clean();
-		echo '<div class="wrap block-lab-import">' . $html . '</div>'; // phpcs: XSS okay.
+		echo '<div class="wrap block-lab-import">' . $html . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	/**
