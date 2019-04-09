@@ -63,8 +63,10 @@ class Image extends Control_Abstract {
 	 * @return string|int $value The value to be made available or echoed on the front-end template, possibly 0 if none found.
 	 */
 	public function validate( $value, $echo ) {
+		$image_id = intval( $value );
+
 		// Backwards compatibility, as the value used to be the image's URL instead of its post ID.
-		if ( empty( intval( $value ) ) && is_string( $value ) ) {
+		if ( empty( $image_id ) && is_string( $value ) ) {
 			$legacy_src = $value;
 			$legacy_id  = attachment_url_to_postid( $value );
 		}
@@ -73,10 +75,10 @@ class Image extends Control_Abstract {
 			if ( isset( $legacy_src ) ) {
 				return $legacy_src;
 			}
-			$image = wp_get_attachment_image_src( $value, 'full' );
+			$image = wp_get_attachment_image_src( $image_id, 'full' );
 			return ! empty( $image[0] ) ? $image[0] : '';
 		} else {
-			return isset( $legacy_id ) ? $legacy_id : $value;
+			return isset( $legacy_id ) ? $legacy_id : $image_id;
 		}
 	}
 }
