@@ -9,7 +9,7 @@ $_tests_dir = getenv( 'WP_TESTS_DIR' );
 
 // Travis CI & Vagrant SSH tests directory, these blocks taken from wp-dev-lib.
 if ( empty( $_tests_dir ) ) {
-	$_tests_dir = '/tmp/wordpress';
+	$_tests_dir = '/tmp/wordpress-tests-lib';
 }
 
 // Relative path to Core tests directory.
