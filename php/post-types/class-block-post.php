@@ -888,7 +888,7 @@ class Block_Post extends Component_Abstract {
 			$order = 0;
 
 			// We loop through this array and sanitize its content according to the content type.
-			$fields = wp_unslash( $_POST['block-fields-name'] ); // Sanitization okay.
+			$fields = wp_unslash( $_POST['block-fields-name'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			foreach ( $fields as $key => $name ) {
 				// Field name and order.
 				$field_config = array(
@@ -929,7 +929,7 @@ class Block_Post extends Component_Abstract {
 						$value = false; // This is a good default, it allows us to pick up on unchecked checkboxes.
 
 						if ( isset( $_POST['block-fields-settings'][ $key ][ $setting->name ] ) ) {
-							$value = $_POST['block-fields-settings'][ $key ][ $setting->name ]; // Sanitization okay.
+							$value = $_POST['block-fields-settings'][ $key ][ $setting->name ]; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 							$value = wp_unslash( $value );
 						}
 
@@ -1189,7 +1189,7 @@ class Block_Post extends Component_Abstract {
 		// Output the JSON file.
 		header( 'Content-disposition: attachment; filename=' . $filename );
 		header( 'Content-type:application/json;charset=utf-8' );
-		echo wp_json_encode( $blocks ); // phpcs: XSS okay.
+		echo wp_json_encode( $blocks ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		die();
 	}
 }
