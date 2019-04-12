@@ -6,6 +6,10 @@
 
     <config name="testVersion" value="5.4-"/>
 
+    <arg value="s"/>
+    <arg name="extensions" value="php"/>
+
+    <file>.</file>
     <exclude-pattern>*/node_modules/*</exclude-pattern>
     <exclude-pattern>*/vendor/*</exclude-pattern>
     <exclude-pattern>*/tests/*</exclude-pattern>
