@@ -92,6 +92,14 @@ class Loader extends Component_Abstract {
 			array(),
 			$this->plugin->get_version()
 		);
+
+		$blocks = json_decode( $this->blocks, true );
+
+		if ( ! empty( $blocks ) ) {
+			foreach ( $blocks as $block_name => $block ) {
+				$this->enqueue_block_styles( $block['name'], array( 'preview', 'block' ) );
+			}
+		}
 	}
 
 	/**
@@ -210,10 +218,10 @@ class Loader extends Component_Abstract {
 			$type = array( 'preview', 'block' );
 		}
 
-		if ( 'edit' !== $context ) {
+		if ( ! is_admin() ) {
 			/**
 			 * The block has been added, but its values weren't saved (not even the defaults). This is a phenomenon
-			 * unique to frontend output, as the editor fetches is attributes from the form fields themselves.
+			 * unique to frontend output, as the editor fetches its attributes from the form fields themselves.
 			 */
 			$missing_schema_attributes = array_diff_key( $block['fields'], $attributes );
 			foreach ( $missing_schema_attributes as $attribute_name => $schema ) {
@@ -221,16 +229,109 @@ class Loader extends Component_Abstract {
 					$attributes[ $attribute_name ] = $schema['default'];
 				}
 			}
+
+			$this->enqueue_block_styles( $block['name'], 'block' );
 		}
 
 		$block_lab_attributes = $attributes;
 		$block_lab_config     = $block;
 
 		ob_start();
-		block_lab_template_part( $block['name'], $type );
+		$this->block_template( $block['name'], $type );
 		$output = ob_get_clean();
 
 		return $output;
+	}
+
+	/**
+	 * Enqueues styles for the block.
+	 *
+	 * @param string       $name The name of the block (slug as defined in UI).
+	 * @param string|array $type The type of template to load.
+	 */
+	public function enqueue_block_styles( $name, $type = 'block' ) {
+		$locations = array();
+		$types     = (array) $type;
+
+		foreach ( $types as $type ) {
+			$locations = array_merge(
+				$locations,
+				array(
+					"blocks/css/{$type}-{$name}.css",
+					"blocks/{$type}-{$name}.css",
+				)
+			);
+		}
+
+		$stylesheet_path = block_lab_locate_template( $locations );
+		$stylesheet_url  = str_replace( untrailingslashit( ABSPATH ), '', $stylesheet_path );
+
+		/**
+		 * Enqueue the stylesheet, if it exists. The wp_enqueue_style function handles duplicates, so we don't need
+		 * to worry about the same block loading its stylesheets more than once.
+		 */
+		if ( ! empty( $stylesheet_url ) ) {
+			wp_enqueue_style(
+				"block-lab__block-{$name}",
+				$stylesheet_url,
+				array(),
+				wp_get_theme()->get( 'Version' )
+			);
+		}
+	}
+
+	/**
+	 * Loads a block template to render the block.
+	 *
+	 * @param string       $name The name of the block (slug as defined in UI).
+	 * @param string|array $type The type of template to load.
+	 */
+	public function block_template( $name, $type = 'block' ) {
+		// Loading async it might not come from a query, this breaks load_template().
+		global $wp_query;
+
+		// So lets fix it.
+		if ( empty( $wp_query ) ) {
+			$wp_query = new \WP_Query(); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+		}
+
+		$types         = (array) $type;
+		$located       = '';
+		$template_file = '';
+
+		foreach ( $types as $type ) {
+
+			if ( ! empty( $located ) ) {
+				continue;
+			}
+
+			$template_file = "blocks/{$type}-{$name}.php";
+			$generic_file  = "blocks/{$type}.php";
+			$templates     = [
+				$generic_file,
+				$template_file,
+			];
+
+			$located = block_lab_locate_template( $templates );
+		}
+
+		if ( ! empty( $located ) ) {
+			$theme_template = apply_filters( 'block_lab_override_theme_template', $located );
+
+			// This is not a load once template, so require_once is false.
+			load_template( $theme_template, false );
+		} else {
+			if ( ! current_user_can( 'edit_posts' ) ) {
+				return;
+			}
+			printf(
+				'<div class="notice notice-warning">%s</div>',
+				wp_kses_post(
+					// Translators: Placeholder is a file path.
+					sprintf( __( 'Template file %s not found.' ), '<code>' . esc_html( $template_file ) . '</code>' )
+				)
+			);
+		}
 	}
 
 	/**
@@ -251,7 +352,7 @@ class Loader extends Component_Abstract {
 			$block_data = json_decode( $json, true );
 
 			// Merge if no json_decode error occurred.
-			if ( json_last_error() == JSON_ERROR_NONE ) { // Loose comparison okay.
+			if ( json_last_error() == JSON_ERROR_NONE ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
 				$blocks = array_merge( $blocks, $block_data );
 			}
 		}
@@ -270,7 +371,7 @@ class Loader extends Component_Abstract {
 				$block_data = json_decode( $post->post_content, true );
 
 				// Merge if no json_decode error occurred.
-				if ( json_last_error() == JSON_ERROR_NONE ) { // Loose comparison okay.
+				if ( json_last_error() == JSON_ERROR_NONE ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
 					$blocks = array_merge( $blocks, $block_data );
 				}
 			}
