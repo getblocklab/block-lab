@@ -33,6 +33,9 @@ const getBlockAttributes = block => {
 		if ( field.query ) {
 			attributes[ fieldName ].query = field.query
 		}
+
+		// Some blocks store a different value than they display, eg. the Post control saves the ID and displays the title.
+		attributes[ fieldName + '-displayValue' ] = { 'type': 'string' };
 	}
 
 	return attributes

@@ -50,7 +50,6 @@ class FetchInput extends Component {
 			results: [],
 			showSuggestions: false,
 			selectedSuggestion: null,
-			displayValue: '',
 		};
 	}
 
@@ -115,41 +114,6 @@ class FetchInput extends Component {
 		} );
 
 		this.suggestionsRequest = request;
-	}
-
-	fetchDisplayValue() {
-		this.setState( {
-			loading: true,
-		} );
-
-		const request = apiFetch( {
-			path: addQueryArgs( '/wp/v2/' + this.props.apiSlug + '/' + this.props.value, {
-				per_page: 1,
-			} ),
-		} );
-
-		request.then( ( results ) => {
-			if ( this.displayRequest !== request ) {
-				return;
-			}
-
-			if ( !! results ) {
-				this.setState( {
-					displayValue: this.props.getDisplayValue( results ),
-					loading: false,
-				} );
-			} else {
-				this.props.debouncedSpeak( __( 'No results.', 'block-lab' ), 'assertive' );
-			}
-		} ).catch( () => {
-			if ( this.displayRequest === request ) {
-				this.setState( {
-					loading: false,
-				} );
-			}
-		} );
-
-		this.displayRequest = request;
 	}
 
 	/**
@@ -303,24 +267,17 @@ class FetchInput extends Component {
 		this.setState( {
 			selectedSuggestion: null,
 			showSuggestions: false,
-			displayValue: this.props.getDisplayValue( result ),
 		} );
-		this.props.onChange( this.props.getValueFromAPI( result ) );
+		this.props.onChange( result );
 	}
 
 	handleOnClick( result ) {
 		this.selectLink( result );
 	}
 
-	componentDidMount() {
-		if ( ! this.state.displayValue ) {
-			this.fetchDisplayValue();
-		}
-	}
-
 	render() {
-		const { value = '', getDisplayValue, autoFocus = false, instanceId, className, placeholder, field, getValueFromAPI } = this.props;
-		const { displayValue = '', showSuggestions, results, selectedSuggestion, loading } = this.state;
+		const { displayValue = '', getDisplayValue, autoFocus = false, instanceId, className, placeholder, field } = this.props;
+		const { showSuggestions, results, selectedSuggestion, loading } = this.state;
 		const displayPopover = showSuggestions && !! results.length;
 
 		/* eslint-disable jsx-a11y/no-autofocus */
