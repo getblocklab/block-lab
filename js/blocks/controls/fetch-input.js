@@ -1,11 +1,6 @@
 /**
  * The FetchInput component, forked from the URLInput component in Gutenberg.
  *
- * It would be ideal to extend that component instead of forking it.
- * But there are changes throughout this class.
- * For example, URLInput stores the URL and post, and this only stores the user slug.
- * Also, this FetchInput component can be reused for posts and taxonomies.
- *
  * @see https://github.com/WordPress/gutenberg/blob/0ede174e6ff482085ee51b6a99bea0801c11d609/packages/editor/src/components/url-input/index.js
  */
 
@@ -32,6 +27,10 @@ const { addQueryArgs } = wp.url;
 const stopEventPropagation = ( event ) => event.stopPropagation();
 
 class FetchInput extends Component {
+
+	/**
+	 * Constructs the component class.
+	 */
 	constructor( { autocompleteRef } ) {
 		super( ...arguments );
 
@@ -53,16 +52,30 @@ class FetchInput extends Component {
 		};
 	}
 
+	/**
+	 * Deletes the request for suggestions in the Popover before this component unmounts.
+	 */
 	componentWillUnmount() {
 		delete this.suggestionsRequest;
 	}
 
+	/**
+	 * Binds the suggestion node to the ref of the button.
+	 *
+	 * @param {Number} index The index of the suggestion.
+	 * @return {Function}
+	 */
 	bindSuggestionNode( index ) {
 		return ( ref ) => {
 			this.suggestionNodes[ index ] = ref;
 		};
 	}
 
+	/**
+	 * Updates the suggested items in the Popover.
+	 *
+	 * @param {String} value The <input> value.
+	 */
 	updateSuggestions( value ) {
 		this.setState( {
 			loading: true,
@@ -172,16 +185,29 @@ class FetchInput extends Component {
 		}
 	}
 
+	/**
+	 * On focusing, updates the suggestions.
+	 */
 	onFocus() {
 		this.updateSuggestions( this.getInputValue() );
 	}
 
+	/**
+	 * Handles a change event by calling the component's onChange property and updating suggestions.
+	 *
+	 * @param {Object} event The DOM change event.
+	 */
 	onChange( event ) {
 		const inputValue = event.target.value;
 		this.props.onChange( inputValue );
 		this.updateSuggestions( inputValue );
 	}
 
+	/**
+	 * Handles a DOM keydown event.
+	 *
+	 * @param {Object} event The DOM keydown event.
+	 */
 	onKeyDown( event ) {
 		const { showSuggestions, selectedSuggestion, results, loading } = this.state;
 		const inputValue = this.getInputValue();
@@ -263,6 +289,11 @@ class FetchInput extends Component {
 		}
 	}
 
+	/**
+	 * Handles the user selecting a link in the Popover, either by clicking or using certain keys.
+	 *
+	 * @param {Object} result The result associated with the selected link.
+	 */
 	selectLink( result ) {
 		this.setState( {
 			selectedSuggestion: null,
@@ -271,6 +302,11 @@ class FetchInput extends Component {
 		this.props.onChange( result );
 	}
 
+	/**
+	 * Handles clicking a user clicking a link in the Popover.
+	 *
+	 * @param {Object} result The result associated with the link.
+	 */
 	handleOnClick( result ) {
 		this.selectLink( result );
 	}
