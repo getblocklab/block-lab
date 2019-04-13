@@ -97,7 +97,7 @@ class FetchInput extends Component {
 					'block-lab'
 				), results.length ), 'assertive' );
 
-				if ( null === this.state.selectedSuggestion && '' !== this.props.value ) {
+				if ( null === this.state.selectedSuggestion && '' !== this.getInputValue() ) {
 					this.setState( {
 						selectedSuggestion: 0
 					})
@@ -158,12 +158,12 @@ class FetchInput extends Component {
 				showSuggestions: false,
 			} );
 
-			if ( '' === this.props.value ) {
+			if ( '' === this.getInputValue() ) {
 				return;
 			}
 
 			const matchingResults = this.state.results.filter(
-				suggestions => ( suggestions.slug === this.props.value )
+				suggestions => ( suggestions.slug === this.getInputValue() )
 			);
 
 			if ( ! matchingResults.length ) {
@@ -173,8 +173,7 @@ class FetchInput extends Component {
 	}
 
 	onFocus() {
-		const inputValue = this.props.value;
-		this.updateSuggestions( inputValue );
+		this.updateSuggestions( this.getInputValue() );
 	}
 
 	onChange( event ) {
@@ -185,6 +184,7 @@ class FetchInput extends Component {
 
 	onKeyDown( event ) {
 		const { showSuggestions, selectedSuggestion, results, loading } = this.state;
+		const inputValue = this.getInputValue();
 		// If the suggestions are not shown or loading, we shouldn't handle the arrow keys
 		// We shouldn't preventDefault to allow block arrow keys navigation.
 		if ( ! showSuggestions || ! results.length || loading ) {
@@ -209,12 +209,12 @@ class FetchInput extends Component {
 				// When DOWN is pressed, if the caret is not at the end of the text, move it to the
 				// last position.
 				case DOWN: {
-					if ( this.props.value.length !== event.target.selectionStart ) {
+					if ( inputValue.length !== event.target.selectionStart ) {
 						event.stopPropagation();
 						event.preventDefault();
 
 						// Set the input caret to the last position.
-						event.target.setSelectionRange( this.props.value.length, this.props.value.length );
+						event.target.setSelectionRange( inputValue.length, inputValue.length );
 					}
 					break;
 				}
@@ -275,10 +275,24 @@ class FetchInput extends Component {
 		this.selectLink( result );
 	}
 
+	/**
+	 * Gets the value to be used in the <input>.
+	 *
+	 * This isn't simply this.props.value because sometimes this needs to also save an ID.
+	 * For example, the Post control needs to save the post ID, and display the post title in the <input>.
+	 *
+	 * @return {String} The value of the <input>
+	 */
+	getInputValue() {
+		return this.props.hasOwnProperty( 'displayValue' ) ? this.props.displayValue : this.props.value;
+	}
+
 	render() {
-		const { displayValue = '', getDisplayValue, autoFocus = false, instanceId, className, placeholder, field } = this.props;
+		const { autoFocus = false, className, getDisplayValue, getValueFromAPI, field, instanceId, placeholder } = this.props;
 		const { showSuggestions, results, selectedSuggestion, loading } = this.state;
-		const displayPopover = showSuggestions && !! results.length;
+		const shouldDisplayPopover = showSuggestions && !! results.length;
+		const inputValue = this.getInputValue();
+		const getButtonValue = getDisplayValue ? getDisplayValue : getValueFromAPI;
 
 		/* eslint-disable jsx-a11y/no-autofocus */
 		return (
@@ -288,7 +302,7 @@ class FetchInput extends Component {
 					className="bl-fetch__input"
 					type="text"
 					aria-label={ field.label }
-					value={ displayValue }
+					value={ inputValue }
 					placeholder={ placeholder }
 					onBlur={ this.onBlur }
 					onFocus={ this.onFocus }
@@ -308,9 +322,9 @@ class FetchInput extends Component {
 				/>
 
 				{ ( loading ) && <Spinner /> }
-				{ displayPopover && ! loading && this.setInputValidity( true ) }
+				{ shouldDisplayPopover && ! loading && this.setInputValidity( true ) }
 
-				{ displayPopover &&
+				{ shouldDisplayPopover &&
 					<Popover
 						position="bottom center"
 						noArrow
@@ -336,13 +350,13 @@ class FetchInput extends Component {
 									onClick={ () => this.handleOnClick( result ) }
 									aria-selected={ index === selectedSuggestion }
 								>
-									{ decodeEntities( getDisplayValue( result ) ) || __( '(no result)', 'block-lab' ) }
+									{ decodeEntities( getButtonValue( result ) ) || __( '(no result)', 'block-lab' ) }
 								</button>
 							) ) }
 						</div>
 					</Popover>
 				}
-				{ ! showSuggestions || '' === this.props.value || ! results.length && this.setInputValidity( false ) }
+				{ ! showSuggestions || '' === inputValue || ! results.length && this.setInputValidity( false ) }
 			</BaseControl>
 		);
 		/* eslint-enable jsx-a11y/no-autofocus */
