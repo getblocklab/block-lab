@@ -39,15 +39,15 @@ const BlockLabPostControl = ( props, field, block ) => {
 			displayValue={attr[ displayValueKey ]}
 			apiSlug="posts"
 			getValueFromAPI={getIdfromAPI}
-			getDisplayValue={getTitleFromAPI}
+			getDisplayValueFromAPI={getTitleFromAPI}
 			onChange={value => {
 				if ( 'string' === typeof value ) {
 					// The value was probably from the user typing into the <input>.
-					attr[displayValueKey] = value;
+					attr[ displayValueKey ] = value;
 				} else {
-					// The value is probably an Object, from the user selecting a in the popover.
-					attr[field.name] = getIdfromAPI( value );
-					attr[displayValueKey] = getTitleFromAPI( value );
+					// The value is probably an Object, from the user selecting a link in the popover.
+					attr[ field.name ] = getIdfromAPI( value );
+					attr[ displayValueKey ] = getTitleFromAPI( value );
 				}
 				setAttributes( attr );
 			}}

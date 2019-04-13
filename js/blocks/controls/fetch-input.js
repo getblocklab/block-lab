@@ -324,11 +324,11 @@ class FetchInput extends Component {
 	}
 
 	render() {
-		const { autoFocus = false, className, getDisplayValue, getValueFromAPI, field, instanceId, placeholder } = this.props;
+		const { autoFocus = false, className, getDisplayValueFromAPI, getValueFromAPI, field, instanceId, placeholder } = this.props;
 		const { showSuggestions, results, selectedSuggestion, loading } = this.state;
 		const shouldDisplayPopover = showSuggestions && !! results.length;
 		const inputValue = this.getInputValue();
-		const getButtonValue = getDisplayValue ? getDisplayValue : getValueFromAPI;
+		const getButtonValue = getDisplayValueFromAPI ? getDisplayValueFromAPI : getValueFromAPI;
 
 		/* eslint-disable jsx-a11y/no-autofocus */
 		return (
