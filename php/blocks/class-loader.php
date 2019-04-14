@@ -79,7 +79,6 @@ class Loader extends Component_Abstract {
 		}
 	}
 
-
 	/**
 	 * Launch the blocks inside Gutenberg.
 	 */
