@@ -65,7 +65,7 @@ class Loader extends Component_Abstract {
 		add_action( 'plugins_loaded', array( $this, 'dynamic_block_loader' ) );
 
 		/**
-		 * Workaround for users with different Site Address and WordPress URL settings.
+		 * Workaround for users with different settings for Site Address and WordPress Address.
 		 *
 		 * @see https://github.com/WordPress/gutenberg/issues/1761
 		 */
