@@ -63,6 +63,20 @@ class Loader extends Component_Abstract {
 		 * PHP block loading.
 		 */
 		add_action( 'plugins_loaded', array( $this, 'dynamic_block_loader' ) );
+
+		/**
+		 * Workaround for users with different Site Address and WordPress URL settings.
+		 *
+		 * @see https://github.com/WordPress/gutenberg/issues/1761
+		 */
+		if ( is_admin() && home_url() !== site_url() ) {
+			add_filter(
+				'rest_url',
+				function( $url ) {
+					return str_replace( home_url(), site_url(), $url );
+				}
+			);
+		}
 	}
 
 
