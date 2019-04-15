@@ -3,7 +3,8 @@ import FetchInput from './fetch-input';
 const BlockLabPostControl = ( props, field, block ) => {
 	const { setAttributes } = props;
 	const attr = { ...props.attributes };
-	const displayValueKey = field.name + '-displayValue';
+	const DEFAULT_TITLE = '';
+	const DEFAULT_ID = 0;
 
 	/**
 	* Gets the post title from an API response.
@@ -15,7 +16,7 @@ const BlockLabPostControl = ( props, field, block ) => {
 		if ( apiResponse && apiResponse.title && apiResponse.title.rendered ) {
 			return apiResponse.title.rendered;
 		}
-		return '';
+		return DEFAULT_TITLE;
 	}
 
 	/**
@@ -28,27 +29,32 @@ const BlockLabPostControl = ( props, field, block ) => {
 		if ( value && value.id ) {
 			return parseInt( value.id );
 		}
-		return 0;
+		return DEFAULT_ID;
 	}
+
+	attr[ field.name ] = Object.assign( {}, { id: DEFAULT_ID, 'title': DEFAULT_TITLE }, attr[ field.name ] );
+	const postAttribute = attr[ field.name ];
 
 	return (
 		<FetchInput
 			field={field}
 			placeholder={field.placeholder}
-			value={attr[ field.name ]}
-			displayValue={attr[ displayValueKey ]}
 			apiSlug="posts"
+			value={postAttribute['id'] }
+			displayValue={postAttribute['title']}
 			getValueFromAPI={getIdfromAPI}
 			getDisplayValueFromAPI={getTitleFromAPI}
 			onChange={value => {
 				if ( 'string' === typeof value ) {
 					// The value was probably from the user typing into the <input>.
-					attr[ displayValueKey ] = value;
+					postAttribute['title'] = value;
+					postAttribute['id'] = DEFAULT_ID;
 				} else {
-					// The value is probably an Object, from the user selecting a link in the popover.
-					attr[ field.name ] = getIdfromAPI( value );
-					attr[ displayValueKey ] = getTitleFromAPI( value );
+					// The value is probably an Object, from the user selecting a link in the Popover.
+					postAttribute['id'] = getIdfromAPI( value );
+					postAttribute['title'] = getTitleFromAPI( value );
 				}
+				attr[ field.name ] = postAttribute;
 				setAttributes( attr );
 			}}
 		/>
