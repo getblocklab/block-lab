@@ -32,7 +32,7 @@ const BlockLabPostControl = ( props, field, block ) => {
 		return DEFAULT_ID;
 	}
 
-	attr[ field.name ] = Object.assign( {}, { id: DEFAULT_ID, 'title': DEFAULT_TITLE }, attr[ field.name ] );
+	attr[ field.name ] = Object.assign( { id: DEFAULT_ID, title: DEFAULT_TITLE }, attr[ field.name ] );
 	const postAttribute = attr[ field.name ];
 
 	return (
