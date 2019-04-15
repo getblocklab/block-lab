@@ -26,7 +26,7 @@ class Post extends Control_Abstract {
 	 *
 	 * @var string
 	 */
-	public $type = 'integer';
+	public $type = 'object';
 
 	/**
 	 * Post constructor.

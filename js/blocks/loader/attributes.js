@@ -34,8 +34,6 @@ const getBlockAttributes = block => {
 			attributes[ fieldName ].query = field.query
 		}
 
-		// Some controls also need to display a more readable value, eg. the Post control displays the post title in addition to saving the ID.
-		attributes[ fieldName + '-displayValue' ] = { 'type': 'string' };
 	}
 
 	return attributes

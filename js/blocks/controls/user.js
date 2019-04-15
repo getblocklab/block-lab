@@ -9,8 +9,8 @@ const BlockLabUserControl = ( props, field, block ) => {
 		<FetchInput
 			field={field}
 			placeholder={field.placeholder}
-			value={attr[ field.name ]}
 			apiSlug="users"
+			value={attr[ field.name ]}
 			getValueFromAPI={getValueFromAPI}
 			onChange={value => {
 				attr[ field.name ] = getValueFromAPI( value )
