@@ -78,10 +78,14 @@ class Test_Post extends \WP_UnitTestCase {
 		$expected_wp_post = $this->factory()->post->create_and_get();
 		$valid_id         = $expected_wp_post->ID;
 		$invalid_id       = 10000000;
+		$post_title       = $expected_wp_post->post_title;
 
-		$this->assertEquals( false, $this->instance->validate( $invalid_id, false ) );
-		$this->assertEquals( $expected_wp_post, $this->instance->validate( $valid_id, false ) );
-		$this->assertEquals( '', $this->instance->validate( $invalid_id, true ) );
-		$this->assertEquals( get_the_title( $expected_wp_post), $this->instance->validate( $valid_id, true ) );
+		// When there's an invalid post ID, this should return null.
+		$this->assertEquals( null, $this->instance->validate( array( 'id' => $invalid_id ), false ) );
+		$this->assertEquals( $expected_wp_post, $this->instance->validate( array( 'id' => $valid_id ), false ) );
+
+		// If the 'title' is empty, this should return the same empty string.
+		$this->assertEquals( '', $this->instance->validate( array( 'title' => '' ), true ) );
+		$this->assertEquals( $post_title, $this->instance->validate( array( 'title' => $post_title ), true ) );
 	}
 }

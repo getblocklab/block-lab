@@ -67,14 +67,14 @@ class Post extends Control_Abstract {
 	 *
 	 * @param mixed $value The value to either make available as a variable or echoed on the front-end template.
 	 * @param bool  $echo Whether this will be echoed.
-	 * @return mixed $value The value to be made available or echoed on the front-end template.
+	 * @return string|WP_Post|null $value The value to be made available or echoed on the front-end template.
 	 */
 	public function validate( $value, $echo ) {
-		$wp_post = get_post( $value );
 		if ( $echo ) {
-			return get_the_title( $value );
+			return isset( $value['title'] ) ? $value['title'] : '';
 		} else {
-			return $wp_post ? $wp_post : false;
+			$post_id = isset( $value['id'] ) ? $value['id'] : 0;
+			return get_post( $post_id );
 		}
 	}
 }
