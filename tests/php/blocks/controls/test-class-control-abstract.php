@@ -132,7 +132,7 @@ class Test_Control_Abstract extends \WP_UnitTestCase {
 	 */
 	public function test_sanitize_post_type() {
 		$invalid_post_type = 'foo_invalid_type';
-		$valid_post_type   = 'post';
+		$valid_post_type   = 'posts';
 		$this->assertEmpty( $this->instance->sanitize_post_type( $invalid_post_type ) );
 		$this->assertEquals( $valid_post_type, $this->instance->sanitize_post_type( $valid_post_type ) );
 	}
