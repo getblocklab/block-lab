@@ -9,8 +9,8 @@ const BlockLabPostControl = ( props, field, block ) => {
 	/**
 	* Gets the post title from an API response.
 	*
-	* @param {Object} value The value in which to look for the post title.
-	* @return {String} The title from the value, or ''.
+	* @param {Object} apiResponse The API response in which to look for the post title.
+	* @return {String} The post title from the response, or the default.
 	*/
 	const getTitleFromAPI = apiResponse => {
 		if ( apiResponse && apiResponse.title && apiResponse.title.rendered ) {
@@ -25,9 +25,9 @@ const BlockLabPostControl = ( props, field, block ) => {
 	 * @param {Object} value The value in which to look for the ID.
 	 * @return {Number} The ID from the value, or 0.
 	 */
-	const getIdfromAPI = value => {
-		if ( value && value.id ) {
-			return parseInt( value.id );
+	const getIdfromAPI = apiResponse => {
+		if ( apiResponse && apiResponse.id ) {
+			return parseInt( apiResponse.id );
 		}
 		return DEFAULT_ID;
 	}
@@ -46,7 +46,7 @@ const BlockLabPostControl = ( props, field, block ) => {
 			getDisplayValueFromAPI={getTitleFromAPI}
 			onChange={value => {
 				if ( 'string' === typeof value ) {
-					// The value was probably from the user typing into the <input>.
+					// The value is probably from the user typing into the <input>.
 					postAttribute['title'] = value;
 					postAttribute['id'] = DEFAULT_ID;
 				} else {

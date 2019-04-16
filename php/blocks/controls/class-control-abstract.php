@@ -252,7 +252,7 @@ abstract class Control_Abstract {
 	}
 
 	/**
-	 * Render a <select> of post types.
+	 * Render a <select> of public post types.
 	 *
 	 * @param Control_Setting $setting The Control_Setting being rendered.
 	 * @param string          $name    The name attribute of the option.
@@ -269,11 +269,11 @@ abstract class Control_Abstract {
 				if ( ! $post_type_object || empty( $post_type_object->show_in_rest ) ) {
 					continue;
 				}
-				$rest_base      = $post_type_object->rest_base;
+				$rest_slug      = ! empty( $post_type_object->rest_base ) ? $post_type_object->rest_base : $post_type;
 				$labels         = get_post_type_labels( $post_type_object );
 				$post_type_name = isset( $labels->name ) ? $labels->name : $post_type;
 				?>
-				<option value="<?php echo esc_attr( $rest_base ); ?>" <?php selected( $rest_base, $setting->get_value() ); ?>>
+				<option value="<?php echo esc_attr( $rest_slug ); ?>" <?php selected( $rest_slug, $setting->get_value() ); ?>>
 					<?php echo esc_html( $post_type_name ); ?>
 				</option>
 			<?php endforeach; ?>
@@ -422,8 +422,8 @@ abstract class Control_Abstract {
 	/**
 	 * Sanitize the post type, to ensure that it's a public post type.
 	 *
-	 * This expects the rest_base of the post type, as it's easier to pass that to apiFetch in the Control
-	 * So this iterate through the public post types, to find if one has the rest_base of the $value.
+	 * This expects the rest_base of the post type, as it's easier to pass that to apiFetch in the Post control.
+	 * So this iterates through the public post types, to find if one has the rest_base equal to $value.
 	 *
 	 * @param string $value The rest_base of the post type to sanitize.
 	 * @return string|null The sanitized rest_base of the post type, or null.
@@ -432,7 +432,11 @@ abstract class Control_Abstract {
 		$public_post_types = get_post_types( array( 'public' => true ) );
 		foreach ( $public_post_types as $post_type ) {
 			$post_type_object = get_post_type_object( $post_type );
-			if ( $post_type_object && ( $value === $post_type_object->rest_base ) ) {
+			if (
+				( $post_type_object && ( $value === $post_type_object->rest_base ) )
+				||
+				$post_type === $value
+			) {
 				return $value;
 			}
 		}
