@@ -135,5 +135,20 @@ class Test_Control_Abstract extends \WP_UnitTestCase {
 		$valid_post_type   = 'posts';
 		$this->assertEmpty( $this->instance->sanitize_post_type( $invalid_post_type ) );
 		$this->assertEquals( $valid_post_type, $this->instance->sanitize_post_type( $valid_post_type ) );
+
+		$testimonial_post_type_slug = 'testimonials';
+		$rest_base                  = 'testimonial';
+		register_post_type(
+			$testimonial_post_type_slug,
+			array(
+				'public'       => true,
+				'show_in_rest' => true,
+				'label'        => 'Testimonials',
+				'rest_base'    => $rest_base,
+			)
+		);
+
+		// This should recognize the rest_base of the testimonial post type, even though it's different from its slug.
+		$this->assertEquals( $rest_base, $this->instance->sanitize_post_type( $rest_base ) );
 	}
 }
