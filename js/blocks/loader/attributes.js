@@ -33,7 +33,6 @@ const getBlockAttributes = block => {
 		if ( field.query ) {
 			attributes[ fieldName ].query = field.query
 		}
-
 	}
 
 	return attributes
