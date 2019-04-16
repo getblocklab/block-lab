@@ -252,6 +252,31 @@ abstract class Control_Abstract {
 	}
 
 	/**
+	 * Render a <select> of post types.
+	 *
+	 * @param Control_Setting $setting The Control_Setting being rendered.
+	 * @param string          $name    The name attribute of the option.
+	 * @param string          $id      The id attribute of the option.
+	 *
+	 * @return void
+	 */
+	public function render_settings_post_type( $setting, $name, $id ) {
+		?>
+		<select name="<?php echo esc_attr( $name ); ?>" id="<?php echo esc_attr( $id ); ?>">
+			<?php
+			foreach ( get_post_types( array( 'public' => true ) ) as $post_type ) :
+				$labels         = get_post_type_labels( get_post_type_object( $post_type ) );
+				$post_type_name = isset( $labels->name ) ? $labels->name : $post_type;
+				?>
+				<option value="<?php echo esc_attr( $post_type ); ?>" <?php selected( $post_type, $setting->get_value() ); ?>>
+					<?php echo esc_html( $post_type_name ); ?>
+				</option>
+			<?php endforeach; ?>
+		</select>
+		<?php
+	}
+
+	/**
 	 * Sanitize checkbox.
 	 *
 	 * @param string $value The value to sanitize.
@@ -387,5 +412,18 @@ abstract class Control_Abstract {
 		}
 
 		return $value;
+	}
+
+	/**
+	 * Sanitize the post type, to ensure that it's a public post type.
+	 *
+	 * @param string $value The value to sanitize.
+	 * @return string|null The post type, or null.
+	 */
+	public function sanitize_post_type( $value ) {
+		$post_type_object = get_post_type_object( $value );
+		if ( ( $post_type_object && ! empty( $post_type_object->public ) ) ) {
+			return $value;
+		}
 	}
 }
