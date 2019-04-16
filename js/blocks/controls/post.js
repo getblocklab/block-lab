@@ -39,7 +39,7 @@ const BlockLabPostControl = ( props, field, block ) => {
 		<FetchInput
 			field={field}
 			placeholder={field.placeholder}
-			apiSlug="posts"
+			apiSlug={field.post_type}
 			value={postAttribute['id'] }
 			displayValue={postAttribute['title']}
 			getValueFromAPI={getIdfromAPI}

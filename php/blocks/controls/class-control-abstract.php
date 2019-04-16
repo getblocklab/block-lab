@@ -422,13 +422,19 @@ abstract class Control_Abstract {
 	/**
 	 * Sanitize the post type, to ensure that it's a public post type.
 	 *
-	 * @param string $value The value to sanitize.
-	 * @return string|null The post type, or null.
+	 * This expects the rest_base of the post type, as it's easier to pass that to apiFetch in the Control
+	 * So this iterate through the public post types, to find if one has the rest_base of the $value.
+	 *
+	 * @param string $value The rest_base of the post type to sanitize.
+	 * @return string|null The sanitized rest_base of the post type, or null.
 	 */
 	public function sanitize_post_type( $value ) {
-		$post_type_object = get_post_type_object( $value );
-		if ( ( $post_type_object && ! empty( $post_type_object->public ) ) ) {
-			return $value;
+		$public_post_types = get_post_types( array( 'public' => true ) );
+		foreach ( $public_post_types as $post_type ) {
+			$post_type_object = get_post_type_object( $post_type );
+			if ( $post_type_object && ( $value === $post_type_object->rest_base ) ) {
+				return $value;
+			}
 		}
 	}
 }
