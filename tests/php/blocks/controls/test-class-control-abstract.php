@@ -120,7 +120,8 @@ class Test_Control_Abstract extends \WP_UnitTestCase {
 		$this->assertContains( $name, $output );
 		$this->assertContains( $id, $output );
 		foreach( get_post_types( array( 'public' => true ) ) as $post_type ) {
-			$this->assertContains( $post_type, $output );
+			$post_type_object = get_post_type_object( $post_type );
+			$this->assertContains( $post_type_object->rest_base, $output );
 		}
 	}
 

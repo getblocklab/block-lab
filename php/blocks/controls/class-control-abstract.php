@@ -265,10 +265,15 @@ abstract class Control_Abstract {
 		<select name="<?php echo esc_attr( $name ); ?>" id="<?php echo esc_attr( $id ); ?>">
 			<?php
 			foreach ( get_post_types( array( 'public' => true ) ) as $post_type ) :
-				$labels         = get_post_type_labels( get_post_type_object( $post_type ) );
+				$post_type_object = get_post_type_object( $post_type );
+				if ( ! $post_type_object || empty( $post_type_object->show_in_rest ) ) {
+					continue;
+				}
+				$rest_base      = $post_type_object->rest_base;
+				$labels         = get_post_type_labels( $post_type_object );
 				$post_type_name = isset( $labels->name ) ? $labels->name : $post_type;
 				?>
-				<option value="<?php echo esc_attr( $post_type ); ?>" <?php selected( $post_type, $setting->get_value() ); ?>>
+				<option value="<?php echo esc_attr( $rest_base ); ?>" <?php selected( $rest_base, $setting->get_value() ); ?>>
 					<?php echo esc_html( $post_type_name ); ?>
 				</option>
 			<?php endforeach; ?>
