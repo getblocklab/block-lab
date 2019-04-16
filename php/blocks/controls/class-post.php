@@ -60,6 +60,15 @@ class Post extends Control_Abstract {
 				'sanitize' => 'sanitize_text_field',
 			)
 		);
+		$this->settings[] = new Control_Setting(
+			array(
+				'name'     => 'post_type',
+				'label'    => __( 'Post Type', 'block-lab' ),
+				'type'     => 'post_type',
+				'default'  => 'post',
+				'sanitize' => array( $this, 'sanitize_post_type' ),
+			)
+		);
 	}
 
 	/**
