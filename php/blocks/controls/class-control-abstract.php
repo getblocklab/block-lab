@@ -260,7 +260,7 @@ abstract class Control_Abstract {
 	 *
 	 * @return void
 	 */
-	public function render_settings_post_type( $setting, $name, $id ) {
+	public function render_settings_post_type_rest_slug( $setting, $name, $id ) {
 		?>
 		<select name="<?php echo esc_attr( $name ); ?>" id="<?php echo esc_attr( $id ); ?>">
 			<?php
@@ -420,7 +420,7 @@ abstract class Control_Abstract {
 	}
 
 	/**
-	 * Sanitize the post type, to ensure that it's a public post type.
+	 * Sanitize the post type REST slug, to ensure that it's a public post type.
 	 *
 	 * This expects the rest_base of the post type, as it's easier to pass that to apiFetch in the Post control.
 	 * So this iterates through the public post types, to find if one has the rest_base equal to $value.
@@ -428,7 +428,7 @@ abstract class Control_Abstract {
 	 * @param string $value The rest_base of the post type to sanitize.
 	 * @return string|null The sanitized rest_base of the post type, or null.
 	 */
-	public function sanitize_post_type( $value ) {
+	public function sanitize_post_type_rest_slug( $value ) {
 		$public_post_types = get_post_types( array( 'public' => true ) );
 		foreach ( $public_post_types as $post_type ) {
 			$post_type_object = get_post_type_object( $post_type );

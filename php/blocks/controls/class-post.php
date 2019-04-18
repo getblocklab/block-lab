@@ -62,11 +62,11 @@ class Post extends Control_Abstract {
 		);
 		$this->settings[] = new Control_Setting(
 			array(
-				'name'     => 'post_type',
+				'name'     => 'post_type_rest_slug',
 				'label'    => __( 'Post Type', 'block-lab' ),
-				'type'     => 'post_type',
-				'default'  => 'post',
-				'sanitize' => array( $this, 'sanitize_post_type' ),
+				'type'     => 'post_type_rest_slug',
+				'default'  => 'posts',
+				'sanitize' => array( $this, 'sanitize_post_type_rest_slug' ),
 			)
 		);
 	}

@@ -106,16 +106,16 @@ class Test_Control_Abstract extends \WP_UnitTestCase {
 	}
 
 	/**
-	 * Test render_settings_post_type.
+	 * Test render_settings_post_type_rest_slug.
 	 *
-	 * @covers \Block_Lab\Blocks\Controls\Control_Abstract::render_settings_post_type()
+	 * @covers \Block_Lab\Blocks\Controls\Control_Abstract::render_settings_post_type_rest_slug()
 	 */
-	public function test_render_settings_post_type() {
+	public function test_render_settings_post_type_rest_slug() {
 		$name = 'post_type';
 		$id   = 'bl_post_type';
 
 		ob_start();
-		$this->instance->render_settings_post_type( $this->setting, $name, $id );
+		$this->instance->render_settings_post_type_rest_slug( $this->setting, $name, $id );
 		$output = ob_get_clean();
 		$this->assertContains( $name, $output );
 		$this->assertContains( $id, $output );
@@ -126,15 +126,15 @@ class Test_Control_Abstract extends \WP_UnitTestCase {
 	}
 
 	/**
-	 * Test sanitize_post_type.
+	 * Test sanitize_post_type_rest_slug.
 	 *
-	 * @covers \Block_Lab\Blocks\Controls\Control_Abstract::sanitize_post_type()
+	 * @covers \Block_Lab\Blocks\Controls\Control_Abstract::sanitize_post_type_rest_slug()
 	 */
-	public function test_sanitize_post_type() {
+	public function test_sanitize_post_type_rest_slug() {
 		$invalid_post_type = 'foo_invalid_type';
 		$valid_post_type   = 'posts';
-		$this->assertEmpty( $this->instance->sanitize_post_type( $invalid_post_type ) );
-		$this->assertEquals( $valid_post_type, $this->instance->sanitize_post_type( $valid_post_type ) );
+		$this->assertEmpty( $this->instance->sanitize_post_type_rest_slug( $invalid_post_type ) );
+		$this->assertEquals( $valid_post_type, $this->instance->sanitize_post_type_rest_slug( $valid_post_type ) );
 
 		$testimonial_post_type_slug = 'testimonials';
 		$rest_base                  = 'testimonial';
@@ -149,6 +149,6 @@ class Test_Control_Abstract extends \WP_UnitTestCase {
 		);
 
 		// This should recognize the rest_base of the testimonial post type, even though it's different from its slug.
-		$this->assertEquals( $rest_base, $this->instance->sanitize_post_type( $rest_base ) );
+		$this->assertEquals( $rest_base, $this->instance->sanitize_post_type_rest_slug( $rest_base ) );
 	}
 }
