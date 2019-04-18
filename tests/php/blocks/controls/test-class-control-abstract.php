@@ -119,10 +119,25 @@ class Test_Control_Abstract extends \WP_UnitTestCase {
 		$output = ob_get_clean();
 		$this->assertContains( $name, $output );
 		$this->assertContains( $id, $output );
-		foreach( get_post_types( array( 'public' => true ) ) as $post_type ) {
+		foreach( array( 'post', 'page' ) as $post_type ) {
 			$post_type_object = get_post_type_object( $post_type );
 			$this->assertContains( $post_type_object->rest_base, $output );
 		}
+	}
+
+	/**
+	 * Test get_post_type_rest_slugs.
+	 *
+	 * @covers \Block_Lab\Blocks\Controls\Control_Abstract::get_post_type_rest_slugs()
+	 */
+	public function test_get_post_type_rest_slugs() {
+		$this->assertEquals(
+			array(
+				'posts' => 'Posts',
+				'pages' => 'Pages',
+			),
+			$this->instance->get_post_type_rest_slugs()
+		);
 	}
 
 	/**
@@ -135,6 +150,9 @@ class Test_Control_Abstract extends \WP_UnitTestCase {
 		$valid_post_type   = 'posts';
 		$this->assertEmpty( $this->instance->sanitize_post_type_rest_slug( $invalid_post_type ) );
 		$this->assertEquals( $valid_post_type, $this->instance->sanitize_post_type_rest_slug( $valid_post_type ) );
+
+		// When passed 'media' for the 'attachment' post type, this should not return anything.
+		$this->assertNull( $this->instance->sanitize_post_type_rest_slug( 'media' ) );
 
 		$testimonial_post_type_slug = 'testimonials';
 		$rest_base                  = 'testimonial';
