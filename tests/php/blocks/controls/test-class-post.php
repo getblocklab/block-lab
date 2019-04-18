@@ -62,11 +62,11 @@ class Test_Post extends \WP_UnitTestCase {
 		$this->assertEquals( 'sanitize_text_field', $first_setting->sanitize );
 
 		$post_setting = end( $this->instance->settings );
-		$this->assertEquals( 'post_type', $post_setting->name );
+		$this->assertEquals( 'post_type_rest_slug', $post_setting->name );
 		$this->assertEquals( 'Post Type', $post_setting->label );
-		$this->assertEquals( 'post_type', $post_setting->type );
-		$this->assertEquals( 'post', $post_setting->default );
-		$this->assertEquals( array( $this->instance, 'sanitize_post_type' ), $post_setting->sanitize );
+		$this->assertEquals( 'post_type_rest_slug', $post_setting->type );
+		$this->assertEquals( 'posts', $post_setting->default );
+		$this->assertEquals( array( $this->instance, 'sanitize_post_type_rest_slug' ), $post_setting->sanitize );
 	}
 
 	/**
