@@ -357,22 +357,26 @@ class FetchInput extends Component {
 							ref={ this.autocompleteRef }
 							role="listbox"
 						>
-							{ results.map( ( result, index ) => (
-								<button
-									key={ result.id }
-									role="option"
-									tabIndex="-1"
-									id={ `bl-fetch-input-suggestion-${ instanceId }-${ index }` }
-									ref={ this.bindSuggestionNode( index ) }
-									className={ classNames( 'bl-fetch-input__suggestion', {
-										'is-selected': index === selectedSuggestion,
-									} ) }
-									onClick={ () => this.handlePopoverButton( result ) }
-									aria-selected={ index === selectedSuggestion }
-								>
-									{ decodeEntities( getButtonValue( result ) ) || __( '(no result)', 'block-lab' ) }
-								</button>
-							) ) }
+							{ results.map( ( result, index ) => {
+								const buttonValue = getButtonValue( result );
+
+								return !! buttonValue && (
+									<button
+										key={ result.id }
+										role="option"
+										tabIndex="-1"
+										id={ `bl-fetch-input-suggestion-${ instanceId }-${ index }` }
+										ref={ this.bindSuggestionNode( index ) }
+										className={ classNames( 'bl-fetch-input__suggestion', {
+											'is-selected': index === selectedSuggestion,
+										} ) }
+										onClick={ () => this.handlePopoverButton( result ) }
+										aria-selected={ index === selectedSuggestion }
+									>
+										{ decodeEntities( buttonValue ) }
+									</button>
+								);
+							} ) }
 						</div>
 					</Popover>
 				}
