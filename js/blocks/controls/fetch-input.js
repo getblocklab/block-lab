@@ -15,7 +15,7 @@ import classNames from 'classnames';
 const { __, sprintf, _n } = wp.i18n;
 const { Component, createRef } = wp.element;
 const { decodeEntities } = wp.htmlEntities;
-const { UP, DOWN, ENTER, TAB } = wp.keycodes;
+const { UP, DOWN, ENTER } = wp.keycodes;
 const { BaseControl, Spinner, withSpokenMessages, Popover } = wp.components;
 const { withInstanceId } = wp.compose;
 const apiFetch = wp.apiFetch;
@@ -180,7 +180,7 @@ class FetchInput extends Component {
 			);
 
 			if ( ! matchingResults.length ) {
-				this.selectLink( this.state.results[ this.state.selectedSuggestion ] );
+				this.handlePopoverButton( '' );
 			}
 		}
 	}
@@ -270,18 +270,10 @@ class FetchInput extends Component {
 				} );
 				break;
 			}
-			case TAB: {
-				if ( this.state.selectedSuggestion !== null ) {
-					this.selectLink( result );
-					// Announce a value has been selected when tabbing away from the input field.
-					this.props.speak( sprintf( __( '%s selected', 'block-lab' ), this.props.field.control ) );
-				}
-				break;
-			}
 			case ENTER: {
 				if ( this.state.selectedSuggestion !== null ) {
 					event.stopPropagation();
-					this.selectLink( result );
+					this.handlePopoverButton( result );
 					this.inputRef.current.blur();
 				}
 				break;
@@ -290,25 +282,19 @@ class FetchInput extends Component {
 	}
 
 	/**
-	 * Handles the user selecting a link in the Popover, either by clicking or using certain keys.
+	 * Handles actions associated with the Popover button.
 	 *
-	 * @param {Object} result The result associated with the selected link.
+	 * Including the user selecting a link in the Popover, either by clicking or using certain keys.
+	 * Or the user tabbing away or blurring, which passes a '' argument and clears the <input>.
+	 *
+	 * @param {Object|String} result The result associated with the selected link, or '' to clear the <input>.
 	 */
-	selectLink( result ) {
+	handlePopoverButton( result ) {
 		this.setState( {
 			selectedSuggestion: null,
 			showSuggestions: false,
 		} );
 		this.props.onChange( result );
-	}
-
-	/**
-	 * Handles clicking a user clicking a link in the Popover.
-	 *
-	 * @param {Object} result The result associated with the link.
-	 */
-	handleOnClick( result ) {
-		this.selectLink( result );
 	}
 
 	/**
@@ -383,7 +369,7 @@ class FetchInput extends Component {
 									className={ classNames( 'bl-fetch-input__suggestion', {
 										'is-selected': index === selectedSuggestion,
 									} ) }
-									onClick={ () => this.handleOnClick( result ) }
+									onClick={ () => this.handlePopoverButton( result ) }
 									aria-selected={ index === selectedSuggestion }
 								>
 									{ decodeEntities( getButtonValue( result ) ) || __( '(no result)', 'block-lab' ) }
