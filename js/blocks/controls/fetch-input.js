@@ -15,7 +15,7 @@ import classNames from 'classnames';
 const { __, sprintf, _n } = wp.i18n;
 const { Component, createRef } = wp.element;
 const { decodeEntities } = wp.htmlEntities;
-const { UP, DOWN, ENTER, TAB } = wp.keycodes;
+const { UP, DOWN, ENTER } = wp.keycodes;
 const { BaseControl, Spinner, withSpokenMessages, Popover } = wp.components;
 const { withInstanceId } = wp.compose;
 const apiFetch = wp.apiFetch;
@@ -266,14 +266,6 @@ class FetchInput extends Component {
 				this.setState( {
 					selectedSuggestion: nextIndex,
 				} );
-				break;
-			}
-			case TAB: {
-				if ( this.state.selectedSuggestion !== null ) {
-					this.selectLink( result );
-					// Announce a value has been selected when tabbing away from the input field.
-					this.props.speak( sprintf( __( '%s selected', 'block-lab' ), this.props.field.control ) );
-				}
 				break;
 			}
 			case ENTER: {
