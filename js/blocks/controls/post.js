@@ -32,7 +32,7 @@ const BlockLabPostControl = ( props, field, block ) => {
 		return DEFAULT_ID;
 	}
 
-	attr[ field.name ] = Object.assign( { id: DEFAULT_ID, title: DEFAULT_TITLE }, attr[ field.name ] );
+	attr[ field.name ] = Object.assign( { id: DEFAULT_ID, name: DEFAULT_TITLE }, attr[ field.name ] );
 	const postAttribute = attr[ field.name ];
 
 	return (
@@ -41,18 +41,18 @@ const BlockLabPostControl = ( props, field, block ) => {
 			placeholder={field.placeholder}
 			apiSlug={field.post_type_rest_slug}
 			value={postAttribute['id'] }
-			displayValue={postAttribute['title']}
+			displayValue={postAttribute['name']}
 			getValueFromAPI={getIdfromAPI}
 			getDisplayValueFromAPI={getTitleFromAPI}
 			onChange={value => {
 				if ( 'string' === typeof value ) {
 					// The value is probably from the user typing into the <input>.
-					postAttribute['title'] = value;
+					postAttribute['name'] = value;
 					postAttribute['id'] = DEFAULT_ID;
 				} else {
 					// The value is probably an Object, from the user selecting a link in the Popover.
+					postAttribute['name'] = getTitleFromAPI( value );
 					postAttribute['id'] = getIdfromAPI( value );
-					postAttribute['title'] = getTitleFromAPI( value );
 				}
 				attr[ field.name ] = postAttribute;
 				setAttributes( attr );
