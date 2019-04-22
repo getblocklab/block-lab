@@ -289,7 +289,10 @@ abstract class Control_Abstract {
 		$post_type_rest_slugs = array();
 		foreach ( get_post_types( array( 'public' => true ) ) as $post_type ) {
 			$post_type_object = get_post_type_object( $post_type );
-			if ( ! $post_type_object || empty( $post_type_object->show_in_rest ) || 'attachment' === $post_type ) {
+			if ( ! $post_type_object || empty( $post_type_object->show_in_rest ) ) {
+				continue;
+			}
+			if ( 'attachment' === $post_type ) {
 				continue;
 			}
 			$rest_slug                          = ! empty( $post_type_object->rest_base ) ? $post_type_object->rest_base : $post_type;
