@@ -92,19 +92,19 @@ class Test_Block_Post extends \WP_UnitTestCase {
 	 */
 	public function test_get_field_value() {
 		$invalid_login    = 'asdfg';
-		$valid_login      = 'John Doe';
-		$expected_wp_user = $this->factory()->user->create_and_get( array( 'user_login' => $valid_login ) );
+		$expected_wp_user = $this->factory()->user->create_and_get();
+		$valid_id         = $expected_wp_user->ID;
 		$control          = 'user';
 
 		// The 'user' control.
 		$this->assertEquals( false, $this->instance->get_field_value( $invalid_login, $control, false ) );
-		$this->assertEquals( $expected_wp_user, $this->instance->get_field_value( $valid_login, $control, false ) );
+		$this->assertEquals( $expected_wp_user, $this->instance->get_field_value( array( 'id' => $valid_id ), $control, false ) );
 		$this->assertEquals( '', $this->instance->get_field_value( $invalid_login, $control, true ) );
-		$this->assertEquals( $expected_wp_user->get( 'display_name' ), $this->instance->get_field_value( $valid_login, $control, true ) );
+		$this->assertEquals( $expected_wp_user->get( 'display_name' ), $this->instance->get_field_value( array( 'id' => $valid_id ), $control, true ) );
 
 		// Any value for the 2nd argument other than 'user' should return the passed $value unchanged.
 		$this->assertEquals( $invalid_login, $this->instance->get_field_value( $invalid_login, 'different-control', false ) );
-		$this->assertEquals( $valid_login, $this->instance->get_field_value( $valid_login, 'random-control', false ) );
+		$this->assertEquals( $valid_id, $this->instance->get_field_value( $valid_id, 'random-control', false ) );
 		$this->assertEquals( $invalid_login, $this->instance->get_field_value( $invalid_login, 'some-other-control', true ) );
 
 		$string_value  = 'Example string';
