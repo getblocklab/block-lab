@@ -7,7 +7,8 @@ const BlockLabUserControl = ( props, field, block ) => {
 	const getIdFromAPI = apiResponse => ( apiResponse && apiResponse.id ) ? apiResponse.id : DEFAULT_ID;
 	const getNameFromAPI = apiResponse => ( apiResponse && apiResponse.name ) ? apiResponse.name : '';
 
-	attr[ field.name ] = Object.assign( { id: DEFAULT_ID, userName: '' }, attr[ field.name ] );
+	const initialValue = ( 'object' === typeof attr[ field.name ] ) ? attr[ field.name ] : {};
+	attr[ field.name ] = Object.assign( { id: DEFAULT_ID, userName: '' }, initialValue );
 	const userAttribute = attr[ field.name ];
 
 	return (
