@@ -253,3 +253,17 @@ div[class^="wp-block-block-lab-"] {
     outline: none;
   }
 }
+
+.bl-inspector-notice {
+  width: auto;
+  margin: 0 -16px 1em;
+  padding: 8px 36px 0 16px;
+
+  > div {
+    margin: 0;
+    > p {
+      margin: 0;
+      padding-bottom: 8px;
+    }
+  }
+}

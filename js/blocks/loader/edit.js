@@ -4,9 +4,10 @@ import { simplifiedFields } from "./fields";
 import icons from '../../../assets/icons.json';
 
 const { applyFilters } = wp.hooks;
+const { Notice } = wp.components;
 
 const { __ } = wp.i18n;
-const { ServerSideRender } = wp.editor;
+const { ServerSideRender, InspectorAdvancedControls } = wp.editor;
 
 const formControls = ( props, block ) => {
 
@@ -16,7 +17,7 @@ const formControls = ( props, block ) => {
 		if ( !field.location || !field.location.includes( 'editor' ) ) {
 			return null
 		}
-		
+
 		const loadedControls = applyFilters( 'block_lab_controls', controls );
 		const controlFunction = field.controlFunction || loadedControls[ field.control ];
 		const control = typeof controlFunction !== 'undefined' ? controlFunction( props, field, block ) : null;
@@ -61,6 +62,12 @@ const editComponent = ( props, block ) => {
 				)}
 			</div>
 		),
+		<InspectorAdvancedControls>
+			<Notice className="bl-inspector-notice">
+				<p><strong>Note:</strong> The Additional CSS Class can be used in a block template using the field <code>className</code>.</p>
+				<p><a href="#">Read More</a></p>
+			</Notice>
+		</InspectorAdvancedControls>
 	]
 }
 
