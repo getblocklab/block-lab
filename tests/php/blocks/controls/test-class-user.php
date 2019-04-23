@@ -75,13 +75,13 @@ class Test_User extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Controls\User::validate()
 	 */
 	public function test_validate() {
-		$invalid_login    = 'notvalid';
-		$valid_login      = 'Jonas Doe';
-		$expected_wp_user = $this->factory()->user->create_and_get( array( 'user_login' => $valid_login ) );
+		$expected_wp_user = $this->factory()->user->create_and_get();
+		$valid_user_id    = $expected_wp_user->ID;
+		$invalid_user_id  = 11111111;
 
-		$this->assertEquals( false, $this->instance->validate( $invalid_login, false ) );
-		$this->assertEquals( $expected_wp_user, $this->instance->validate( $valid_login, false ) );
-		$this->assertEquals( '', $this->instance->validate( $invalid_login, true ) );
-		$this->assertEquals( $expected_wp_user->get( 'display_name' ), $this->instance->validate( $valid_login, true ) );
+		$this->assertEquals( false, $this->instance->validate( array( 'id' => $invalid_user_id ), false ) );
+		$this->assertEquals( $expected_wp_user, $this->instance->validate( array( 'id' => $valid_user_id ), false ) );
+		$this->assertEquals( '', $this->instance->validate( array( 'id' => $invalid_user_id ), true ) );
+		$this->assertEquals( $expected_wp_user->get( 'display_name' ), $this->instance->validate( array( 'id' => $valid_user_id ), true ) );
 	}
 }
