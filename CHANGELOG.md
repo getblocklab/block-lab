@@ -2,7 +2,7 @@
 
 ### 1.2.3 - 2019-04-23 ###
 
-**Important**: This update includes a backwards compatibility breaking change, affecting the Image field.
+**Important**: This update includes a backwards compatibility break related to the Image field.
 If you are using the `block_value()` function with an image field and externally hosted images, this update may effect you.
 
 [Read more here](https://getblocklab.com/backwards-compatability-break-for-the-image-field/)
