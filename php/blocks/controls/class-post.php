@@ -53,15 +53,6 @@ class Post extends Control_Abstract {
 		);
 		$this->settings[] = new Control_Setting(
 			array(
-				'name'     => 'placeholder',
-				'label'    => __( 'Placeholder Text', 'block-lab' ),
-				'type'     => 'text',
-				'default'  => '',
-				'sanitize' => 'sanitize_text_field',
-			)
-		);
-		$this->settings[] = new Control_Setting(
-			array(
 				'name'     => 'post_type_rest_slug',
 				'label'    => __( 'Post Type', 'block-lab' ),
 				'type'     => 'post_type_rest_slug',
