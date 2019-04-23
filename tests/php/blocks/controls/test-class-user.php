@@ -79,9 +79,13 @@ class Test_User extends \WP_UnitTestCase {
 		$valid_user_id    = $expected_wp_user->ID;
 		$invalid_user_id  = 11111111;
 
-		$this->assertEquals( false, $this->instance->validate( array( 'id' => $invalid_user_id ), false ) );
+		$this->assertFalse( $this->instance->validate( array( 'id' => $invalid_user_id ), false ) );
 		$this->assertEquals( $expected_wp_user, $this->instance->validate( array( 'id' => $valid_user_id ), false ) );
 		$this->assertEquals( '', $this->instance->validate( array( 'id' => $invalid_user_id ), true ) );
 		$this->assertEquals( $expected_wp_user->get( 'display_name' ), $this->instance->validate( array( 'id' => $valid_user_id ), true ) );
+
+		// If the value is a string, instead of the expected object, assert the proper values.
+		$this->assertFalse( $this->instance->validate( 'Example username', false ) );
+		$this->assertEquals( '', $this->instance->validate( 'Baz username', true ) );
 	}
 }
