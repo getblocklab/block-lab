@@ -1,4 +1,4 @@
-import Content from './content';
+import ContentControl from './content';
 
 const BlockLabTaxonomyControl = ( props, field, block ) => {
 	/**
@@ -9,7 +9,7 @@ const BlockLabTaxonomyControl = ( props, field, block ) => {
 	*/
 	const getNameFromAPI = apiResponse => ( apiResponse && apiResponse.name ) ? apiResponse.name : '';
 
-	return Content( props, field, getNameFromAPI );
+	return ContentControl( props, field, getNameFromAPI );
 }
 
 export default BlockLabTaxonomyControl

@@ -1,4 +1,4 @@
-import Content from './content';
+import ContentControl from './content';
 
 const BlockLabPostControl = ( props, field, block ) => {
 	/**
@@ -9,7 +9,7 @@ const BlockLabPostControl = ( props, field, block ) => {
 	*/
 	const getTitleFromAPI = apiResponse => ( apiResponse && apiResponse.title && apiResponse.title.rendered ) ? apiResponse.title.rendered : '';
 
-	return Content( props, field, getTitleFromAPI );
+	return ContentControl( props, field, getTitleFromAPI );
 }
 
 export default BlockLabPostControl
