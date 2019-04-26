@@ -14,7 +14,6 @@ const BlockLabUserControl = ( props, field, block ) => {
 	return (
 		<FetchInput
 			field={field}
-			placeholder={field.placeholder}
 			apiSlug="users"
 			value={userAttribute['id']}
 			displayValue={userAttribute['userName']}
