@@ -81,8 +81,9 @@ class Test_Block_Post extends \WP_UnitTestCase {
 		$this->instance->register_controls();
 
 		// The pro license is active, so the 'user' and 'post' controls should be registered.
-		$this->assertEquals( 'Block_Lab\Blocks\Controls\User', get_class( $this->instance->controls['user'] ) );
 		$this->assertEquals( 'Block_Lab\Blocks\Controls\Post', get_class( $this->instance->controls['post'] ) );
+		$this->assertEquals( 'Block_Lab\Blocks\Controls\Taxonomy', get_class( $this->instance->controls['taxonomy'] ) );
+		$this->assertEquals( 'Block_Lab\Blocks\Controls\User', get_class( $this->instance->controls['user'] ) );
 	}
 
 	/**

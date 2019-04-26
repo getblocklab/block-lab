@@ -11,6 +11,7 @@ import BlockLabRangeControl from './range'
 import BlockLabSelectControl from './select'
 import BlockLabMultiselectControl from './multiselect'
 import BlockLabPostControl from './post'
+import BlockLabTaxonomyControl from './taxonomy'
 import BlockLabToggleControl from './toggle'
 import BlockLabUserControl from './user'
 
@@ -28,6 +29,7 @@ export default {
 	select: BlockLabSelectControl,
 	multiselect: BlockLabMultiselectControl,
 	post: BlockLabPostControl,
+	taxonomy: BlockLabTaxonomyControl,
 	toggle: BlockLabToggleControl,
 	user: BlockLabUserControl,
 }
