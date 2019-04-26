@@ -25,7 +25,7 @@ export default ( props, field, getNameFromAPI ) => {
 	return (
 		<FetchInput
 			field={field}
-			apiSlug={field.rest_slug}
+			apiSlug={field.post_type_rest_slug}
 			value={valueAttribute['id']}
 			displayValue={valueAttribute['name']}
 			getValueFromAPI={getIdfromAPI}

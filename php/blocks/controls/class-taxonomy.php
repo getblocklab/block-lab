@@ -53,7 +53,7 @@ class Taxonomy extends Control_Abstract {
 		);
 		$this->settings[] = new Control_Setting(
 			array(
-				'name'     => 'rest_slug',
+				'name'     => 'post_type_rest_slug',
 				'label'    => __( 'Taxonomy Type', 'block-lab' ),
 				'type'     => 'taxonomy_type_rest_slug',
 				'default'  => 'posts',
