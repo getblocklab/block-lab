@@ -8,6 +8,7 @@ const BlockLabPostControl = ( props, field, block ) => {
 	* @return {String} The post title from the response, or the default.
 	*/
 	const getTitleFromAPI = apiResponse => ( apiResponse && apiResponse.title && apiResponse.title.rendered ) ? apiResponse.title.rendered : '';
+
 	return Content( props, field, getTitleFromAPI );
 }
 
