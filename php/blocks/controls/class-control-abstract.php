@@ -357,8 +357,9 @@ abstract class Control_Abstract {
 	public function get_taxonomy_type_rest_slugs() {
 		$taxonomy_rest_slugs = array();
 		foreach ( get_taxonomies( array( 'show_in_rest' => true ) ) as $taxonomy_slug ) {
-			$taxonomy_object                                    = get_taxonomy( $taxonomy_slug );
-			$taxonomy_rest_slugs[ $taxonomy_object->rest_base ] = $taxonomy_object->label;
+			$taxonomy_object                   = get_taxonomy( $taxonomy_slug );
+			$rest_slug                         = ! empty( $taxonomy_object->rest_base ) ? $taxonomy_object->rest_base : $taxonomy_slug;
+			$taxonomy_rest_slugs[ $rest_slug ] = $taxonomy_object->label;
 		}
 		return $taxonomy_rest_slugs;
 	}

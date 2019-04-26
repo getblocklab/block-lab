@@ -168,10 +168,38 @@ class Test_Control_Abstract extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Controls\Control_Abstract::get_taxonomy_rest_slugs()
 	 */
 	public function test_get_taxonomy_rest_slugs() {
+		$new_tax_slug  = 'foo-new-tax';
+		$new_tax_label = 'New Taxonomy';
+		$rest_base     = 'foo-new-taxonomies';
+
+		register_taxonomy(
+			$new_tax_slug,
+			'post',
+			array(
+				'show_in_rest' => true,
+				'label'        => $new_tax_label,
+				'rest_base'    => $rest_base,
+			)
+		);
+
+		// If a registered taxonomy doesn't have a rest_base, this should use the slug instead.
+		$new_tax_slug_without_rest_base  = 'baz-new-tax';
+		$new_tax_label_without_rest_base = 'Baz New Taxonomy';
+		register_taxonomy(
+			$new_tax_slug_without_rest_base,
+			'page',
+			array(
+				'show_in_rest' => true,
+				'label'        => $new_tax_label_without_rest_base,
+			)
+		);
+
 		$this->assertEquals(
 			array(
-				'categories' => 'Categories',
-				'tags'       => 'Tags',
+				'categories'                     => 'Categories',
+				'tags'                           => 'Tags',
+				$rest_base                       => $new_tax_label,
+				$new_tax_slug_without_rest_base  => $new_tax_label_without_rest_base,
 			),
 			$this->instance->get_taxonomy_type_rest_slugs()
 		);
