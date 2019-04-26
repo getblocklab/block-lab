@@ -53,15 +53,6 @@ class Taxonomy extends Control_Abstract {
 		);
 		$this->settings[] = new Control_Setting(
 			array(
-				'name'     => 'placeholder',
-				'label'    => __( 'Placeholder Text', 'block-lab' ),
-				'type'     => 'text',
-				'default'  => '',
-				'sanitize' => 'sanitize_text_field',
-			)
-		);
-		$this->settings[] = new Control_Setting(
-			array(
 				'name'     => 'rest_slug',
 				'label'    => __( 'Taxonomy Type', 'block-lab' ),
 				'type'     => 'taxonomy_type_rest_slug',

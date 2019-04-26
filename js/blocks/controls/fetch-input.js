@@ -323,7 +323,6 @@ class FetchInput extends Component {
 					type="text"
 					aria-label={ field.label }
 					value={ inputValue }
-					placeholder={ field.placeholder }
 					onBlur={ this.onBlur }
 					onFocus={ this.onFocus }
 					onChange={ this.onChange }
