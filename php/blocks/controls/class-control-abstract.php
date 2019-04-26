@@ -311,7 +311,7 @@ abstract class Control_Abstract {
 	 * Renders a <select> of the passed values.
 	 *
 	 * @param array $args {
-	 *     The arugments to render a <select> element.
+	 *     The arguments to render a <select> element.
 	 *
 	 *     @type Control_Setting $setting The Control_Setting being rendered.
 	 *     @type string          $name    The name attribute of the option.
