@@ -311,13 +311,13 @@ abstract class Control_Abstract {
 	 * Renders a <select> of the passed values.
 	 *
 	 * @param array $args {
-	 *     An associative array of the post type REST slugs.
+	 *     The arugments to render a <select> element.
 	 *
 	 *     @type Control_Setting $setting The Control_Setting being rendered.
 	 *     @type string          $name    The name attribute of the option.
 	 *     @type string          $id      The id attribute of the option.
 	 *     @type array           $values {
-	 *         An associative array of the values for the <select>.
+	 *         An associative array of the post type REST slugs.
 	 *
 	 *         @type string $rest_slug The rest slug, like 'tags' for the 'post_tag' taxonomy.
 	 *         @type string $label     The label to display inside the <option>.
@@ -351,7 +351,7 @@ abstract class Control_Abstract {
 	 *     An associative array of the post type REST slugs.
 	 *
 	 *     @type string $rest_slug The REST slug of the post type.
-	 *     @type string $name The name of the post type.n
+	 *     @type string $name The name of the post type.
 	 * }
 	 */
 	public function get_taxonomy_type_rest_slugs() {
