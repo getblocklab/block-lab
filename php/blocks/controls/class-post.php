@@ -3,7 +3,7 @@
  * Post control.
  *
  * @package   Block_Lab
- * @copyright Copyright(c) 2018, Block Lab
+ * @copyright Copyright(c) 2019, Block Lab
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
@@ -53,7 +53,7 @@ class Post extends Control_Abstract {
 		);
 		$this->settings[] = new Control_Setting(
 			array(
-				'name'     => 'post_type_rest_slug',
+				'name'     => 'rest_slug',
 				'label'    => __( 'Post Type', 'block-lab' ),
 				'type'     => 'post_type_rest_slug',
 				'default'  => 'posts',
