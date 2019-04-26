@@ -72,7 +72,7 @@ class Post extends Control_Abstract {
 	public function validate( $value, $echo ) {
 		$post = isset( $value['id'] ) ? get_post( $value['id'] ) : null;
 		if ( $echo ) {
-			return $post ? $post->post_title : '';
+			return $post ? get_the_title( $post ) : '';
 		} else {
 			return $post;
 		}
