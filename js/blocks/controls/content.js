@@ -19,7 +19,7 @@ export default ( props, field, getNameFromAPI ) => {
 	 */
 	const getIdfromAPI = apiResponse => ( apiResponse && apiResponse.id ) ? parseInt( apiResponse.id ) : DEFAULT_ID;
 
-	attr[ field.name ] = Object.assign( { id: DEFAULT_ID, title: DEFAULT_NAME }, attr[ field.name ] );
+	attr[ field.name ] = Object.assign( { id: DEFAULT_ID, name: DEFAULT_NAME }, attr[ field.name ] );
 	const valueAttribute = attr[ field.name ];
 
 	return (
@@ -27,17 +27,17 @@ export default ( props, field, getNameFromAPI ) => {
 			field={field}
 			apiSlug={field.rest_slug}
 			value={valueAttribute['id']}
-			displayValue={valueAttribute['title']}
+			displayValue={valueAttribute['name']}
 			getValueFromAPI={getIdfromAPI}
 			getDisplayValueFromAPI={getNameFromAPI}
 			onChange={value => {
 				if ( 'string' === typeof value ) {
 					// The value is probably from the user typing into the <input>.
-					valueAttribute['title'] = value;
+					valueAttribute['name'] = value;
 					valueAttribute['id'] = DEFAULT_ID;
 				} else {
 					// The value is probably an Object, from the user selecting a link in the Popover.
-					valueAttribute['title'] = getNameFromAPI( value );
+					valueAttribute['name'] = getNameFromAPI( value );
 					valueAttribute['id'] = getIdfromAPI( value );
 				}
 				attr[ field.name ] = valueAttribute;
