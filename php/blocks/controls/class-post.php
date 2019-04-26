@@ -70,11 +70,11 @@ class Post extends Control_Abstract {
 	 * @return string|WP_Post|null $value The value to be made available or echoed on the front-end template.
 	 */
 	public function validate( $value, $echo ) {
+		$post = isset( $value['id'] ) ? get_post( $value['id'] ) : null;
 		if ( $echo ) {
-			return isset( $value['title'] ) ? $value['title'] : '';
+			return $post ? $post->post_title : '';
 		} else {
-			$post_id = isset( $value['id'] ) ? $value['id'] : 0;
-			return get_post( $post_id );
+			return $post;
 		}
 	}
 }

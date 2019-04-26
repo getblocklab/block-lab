@@ -75,17 +75,25 @@ class Test_Post extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Controls\Post::validate()
 	 */
 	public function test_validate() {
-		$expected_wp_post = $this->factory()->post->create_and_get();
+		$post_title       = 'Example Post';
+		$expected_wp_post = $this->factory()->post->create_and_get( array( 'post_title' => $post_title ) );
 		$valid_id         = $expected_wp_post->ID;
 		$invalid_id       = 10000000;
-		$post_title       = $expected_wp_post->post_title;
 
-		// When there's an invalid post ID, this should return null.
+		// When there's an invalid post ID and the second argument is false, this should return null.
 		$this->assertEquals( null, $this->instance->validate( array( 'id' => $invalid_id ), false ) );
 		$this->assertEquals( $expected_wp_post, $this->instance->validate( array( 'id' => $valid_id ), false ) );
 
-		// If the 'title' is empty, this should return the same empty string.
-		$this->assertEquals( '', $this->instance->validate( array( 'title' => '' ), true ) );
-		$this->assertEquals( $post_title, $this->instance->validate( array( 'title' => $post_title ), true ) );
+		// If the post ID is invalid and the second argument is true (echo), this should return an empty string.
+		$this->assertEquals( '', $this->instance->validate( array( 'id' => $invalid_id ), true ) );
+		$this->assertEquals( $post_title, $this->instance->validate( array( 'id' => $valid_id ), true ) );
+
+		// If the 'post_title' is later changed, this block should output the new post title for block_field().
+		$updated_title = 'New Example Title';
+		wp_update_post( array(
+			'ID'         => $valid_id,
+			'post_title' => $updated_title,
+		) );
+		$this->assertEquals( $updated_title, $this->instance->validate( array( 'id' => $valid_id ), true ) );
 	}
 }
