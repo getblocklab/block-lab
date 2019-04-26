@@ -62,7 +62,7 @@ class Test_Taxonomy extends \WP_UnitTestCase {
 		$this->assertEquals( 'sanitize_text_field', $first_setting->sanitize );
 
 		$post_setting = end( $this->instance->settings );
-		$this->assertEquals( 'rest_slug', $post_setting->name );
+		$this->assertEquals( 'post_type_rest_slug', $post_setting->name );
 		$this->assertEquals( 'Taxonomy Type', $post_setting->label );
 		$this->assertEquals( 'taxonomy_type_rest_slug', $post_setting->type );
 		$this->assertEquals( 'posts', $post_setting->default );
