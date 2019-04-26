@@ -70,18 +70,12 @@ class Taxonomy extends Control_Abstract {
 	 * @return string|WP_Term|null $value The value to be made available or echoed on the front-end template.
 	 */
 	public function validate( $value, $echo ) {
-		$value = wp_parse_args(
-			$value,
-			array(
-				'title' => '',
-				'id'    => 0,
-			)
-		);
+		$term = isset( $value['id'] ) ? get_term( $value['id'] ) : null;
 
 		if ( $echo ) {
-			return $value['title'];
+			return $term ? $term->name : '';
 		} else {
-			return get_term( $value['id'] );
+			return $term;
 		}
 	}
 }

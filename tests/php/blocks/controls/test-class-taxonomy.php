@@ -75,17 +75,17 @@ class Test_Taxonomy extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Controls\Taxonomy::validate()
 	 */
 	public function test_validate() {
-		$expected_term    = $this->factory()->tag->create_and_get();
-		$valid_id         = $expected_term->term_id;
-		$invalid_id       = 10000000;
-		$term_name        = $expected_term->name;
+		$expected_term = $this->factory()->tag->create_and_get();
+		$valid_id      = $expected_term->term_id;
+		$invalid_id    = 10000000;
+		$term_name     = $expected_term->name;
 
 		// When there's an invalid term ID, this should return null.
 		$this->assertEquals( null, $this->instance->validate( array( 'id' => $invalid_id ), false ) );
 		$this->assertEquals( $expected_term, $this->instance->validate( array( 'id' => $valid_id ), false ) );
 
-		// If the 'title' is empty, this should return the same empty string.
-		$this->assertEquals( '', $this->instance->validate( array( 'title' => '' ), true ) );
-		$this->assertEquals( $term_name, $this->instance->validate( array( 'title' => $term_name ), true ) );
+		// If the ID is invalid, this should return ''.
+		$this->assertEquals( '', $this->instance->validate( array( 'id' => $invalid_id ), true ) );
+		$this->assertEquals( $term_name, $this->instance->validate( array( 'id' => $valid_id ), true ) );
 	}
 }
