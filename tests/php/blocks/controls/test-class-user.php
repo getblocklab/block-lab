@@ -60,13 +60,6 @@ class Test_User extends \WP_UnitTestCase {
 		$this->assertEquals( 'text', $first_setting->type );
 		$this->assertEquals( '', $first_setting->default );
 		$this->assertEquals( 'sanitize_text_field', $first_setting->sanitize );
-
-		$user_setting = end( $this->instance->settings );
-		$this->assertEquals( 'placeholder', $user_setting->name );
-		$this->assertEquals( 'Placeholder Text', $user_setting->label );
-		$this->assertEquals( 'text', $user_setting->type );
-		$this->assertEquals( '', $user_setting->default );
-		$this->assertEquals( 'sanitize_text_field', $user_setting->sanitize );
 	}
 
 	/**

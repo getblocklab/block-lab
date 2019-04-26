@@ -51,15 +51,6 @@ class User extends Control_Abstract {
 				'sanitize' => 'sanitize_text_field',
 			)
 		);
-		$this->settings[] = new Control_Setting(
-			array(
-				'name'     => 'placeholder',
-				'label'    => __( 'Placeholder Text', 'block-lab' ),
-				'type'     => 'text',
-				'default'  => '',
-				'sanitize' => 'sanitize_text_field',
-			)
-		);
 	}
 
 	/**
