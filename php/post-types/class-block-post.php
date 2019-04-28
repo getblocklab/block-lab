@@ -90,8 +90,9 @@ class Block_Post extends Component_Abstract {
 			$controls = array_merge(
 				$controls,
 				array(
-					'user' => new Controls\User(),
-					'post' => new Controls\Post(),
+					'post'     => new Controls\Post(),
+					'taxonomy' => new Controls\Taxonomy(),
+					'user'     => new Controls\User(),
 				)
 			);
 		}

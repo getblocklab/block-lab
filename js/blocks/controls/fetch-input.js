@@ -308,7 +308,7 @@ class FetchInput extends Component {
 	}
 
 	render() {
-		const { autoFocus = false, className, getDisplayValueFromAPI, getValueFromAPI, field, instanceId, placeholder } = this.props;
+		const { autoFocus = false, className, getDisplayValueFromAPI, getValueFromAPI, field, instanceId } = this.props;
 		const { showSuggestions, results, selectedSuggestion, loading } = this.state;
 		const shouldDisplayPopover = showSuggestions && !! results.length;
 		const inputValue = this.getInputValue();
@@ -323,7 +323,6 @@ class FetchInput extends Component {
 					type="text"
 					aria-label={ field.label }
 					value={ inputValue }
-					placeholder={ placeholder }
 					onBlur={ this.onBlur }
 					onFocus={ this.onFocus }
 					onChange={ this.onChange }
