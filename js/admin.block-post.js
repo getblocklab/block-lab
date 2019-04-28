@@ -26,6 +26,15 @@
 			field.find( '.block-fields-edit-label input' ).select();
 		});
 
+		$( '#block-add-child-field' ).on( 'click', function() {
+			let template = wp.template( 'field-repeater' ),
+				data     = { uid: new Date().getTime() },
+				field    = $( template( data ) );
+			$( this ). closest( '.block-fields-child-rows-actions' ).before( field );
+			field.find( '.block-fields-actions-edit' ).trigger( 'click' );
+			field.find( '.block-fields-edit-label input' ).select();
+		});
+
 		$( '#block_properties .block-properties-icon-select span' ).on( 'click', function() {
 			let svg = $( 'svg', this ).clone();
 			$( '#block_properties .block-properties-icon-select span.selected' ).removeClass( 'selected' );
