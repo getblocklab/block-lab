@@ -31,7 +31,6 @@
 	width: 4%
 }
 #block_fields .block-fields-rows {
-	max-height: 600px;
 	width: 100%;
 	display: inline-block;
 	overflow-x: hidden;

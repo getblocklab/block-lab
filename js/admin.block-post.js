@@ -72,24 +72,9 @@
 
 				// If we're expanding this row, first collapse all other rows and scroll this row into view.
 				if ( ! currentRow.hasClass( 'block-fields-row-active' ) ) {
-					let fieldRows = $( '.block-fields-rows' ),
-						scrollTop = 0,
-						editRow   = $( '.block-fields-rows .block-fields-edit' );
+					let editRow   = $( '.block-fields-rows .block-fields-edit' );
 
-					$( '.block-fields-row', fieldRows ).each( function() {
-						// Add the height of all previous rows to the target scrollTop position.
-						if ( $( this ).is( currentRow ) ) {
-							return false;
-						}
-
-						let height = $( this ).children().first().outerHeight();
-						scrollTop += height;
-					});
-
-					fieldRows.animate({
-						scrollTop: scrollTop
-					});
-
+					scrollRowIntoView( currentRow );
 					editRow.slideUp();
 
 					$( '.block-fields-rows .block-fields-row-active' ).removeClass( 'block-fields-row-active' );
@@ -226,6 +211,8 @@
 				}
 				let settingsRows = $( data.html );
 				$( '.block-fields-edit-location', fieldRow ).after( settingsRows );
+
+				scrollRowIntoView( fieldRow );
 			},
 			error: function() {
 				$( '.block-fields-edit-loading', fieldRow ).remove();
@@ -235,6 +222,24 @@
 				uid:     fieldRow.data( 'uid' ),
 				nonce:   blockLab.fieldSettingsNonce
 			}
+		});
+	};
+
+	let scrollRowIntoView = function( row ) {
+		let scrollTop = 0;
+
+		$( '.block-fields-rows .block-fields-row' ).each( function() {
+			// Add the height of all previous rows to the target scrollTop position.
+			if ( $( this ).is( row ) ) {
+				return false;
+			}
+
+			let height = $( this ).children().first().outerHeight();
+			scrollTop += height;
+		});
+
+		$( 'body' ).animate({
+			scrollTop: scrollTop
 		});
 	};
 
