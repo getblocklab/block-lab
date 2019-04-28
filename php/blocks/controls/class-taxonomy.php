@@ -1,6 +1,6 @@
 <?php
 /**
- * Post control.
+ * Taxonomy control.
  *
  * @package   Block_Lab
  * @copyright Copyright(c) 2019, Block Lab
@@ -10,16 +10,16 @@
 namespace Block_Lab\Blocks\Controls;
 
 /**
- * Class Post
+ * Class Taxonomy
  */
-class Post extends Control_Abstract {
+class Taxonomy extends Control_Abstract {
 
 	/**
 	 * Control name.
 	 *
 	 * @var string
 	 */
-	public $name = 'post';
+	public $name = 'taxonomy';
 
 	/**
 	 * Field variable type.
@@ -29,11 +29,11 @@ class Post extends Control_Abstract {
 	public $type = 'object';
 
 	/**
-	 * Post constructor.
+	 * Taxonomy constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
-		$this->label = __( 'Post', 'block-lab' );
+		$this->label = __( 'Taxonomy', 'block-lab' );
 	}
 
 	/**
@@ -54,10 +54,10 @@ class Post extends Control_Abstract {
 		$this->settings[] = new Control_Setting(
 			array(
 				'name'     => 'post_type_rest_slug',
-				'label'    => __( 'Post Type', 'block-lab' ),
-				'type'     => 'post_type_rest_slug',
+				'label'    => __( 'Taxonomy Type', 'block-lab' ),
+				'type'     => 'taxonomy_type_rest_slug',
 				'default'  => 'posts',
-				'sanitize' => array( $this, 'sanitize_post_type_rest_slug' ),
+				'sanitize' => array( $this, 'sanitize_taxonomy_type_rest_slug' ),
 			)
 		);
 	}
@@ -67,14 +67,15 @@ class Post extends Control_Abstract {
 	 *
 	 * @param mixed $value The value to either make available as a variable or echoed on the front-end template.
 	 * @param bool  $echo Whether this will be echoed.
-	 * @return string|WP_Post|null $value The value to be made available or echoed on the front-end template.
+	 * @return string|WP_Term|null $value The value to be made available or echoed on the front-end template.
 	 */
 	public function validate( $value, $echo ) {
-		$post = isset( $value['id'] ) ? get_post( $value['id'] ) : null;
+		$term = isset( $value['id'] ) ? get_term( $value['id'] ) : null;
+
 		if ( $echo ) {
-			return $post ? get_the_title( $post ) : '';
+			return $term ? $term->name : '';
 		} else {
-			return $post;
+			return $term;
 		}
 	}
 }
