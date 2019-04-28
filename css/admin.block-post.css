@@ -130,14 +130,19 @@
 }
 #block_fields .block-fields-rows .block-fields-row .block-fields-child-rows {
 	grid-column: 1 / span 5;
-	padding-top: 0;
+	padding: 0;
+	margin: 8px 10px;
+	border: 1px solid #e1e1e1;
+	border-radius: 4px;
+	overflow: hidden;
 }
 #block_fields .block-fields-rows .block-fields-row .block-fields-child-rows .block-fields-child-rows-actions {
 	width: 100%;
 	min-height: 50px;
 	padding: 0;
-	border: 1px solid #e1e1e1;
 	text-align: center;
+	border-top: 1px solid #e1e1e1;
+	margin-top: -1px;
 }
 #block_fields .block-fields-rows .block-fields-row .block-fields-child-rows .block-fields-child-rows-actions input {
 	margin: 10px;
