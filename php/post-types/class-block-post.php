@@ -90,6 +90,7 @@ class Block_Post extends Component_Abstract {
 			$controls = array_merge(
 				$controls,
 				array(
+					'repeater' => new Controls\Repeater(),
 					'post'     => new Controls\Post(),
 					'taxonomy' => new Controls\Taxonomy(),
 					'user'     => new Controls\User(),
@@ -502,6 +503,9 @@ class Block_Post extends Component_Abstract {
 				$this->render_fields_meta_box_row( new Field( $args ) );
 				?>
 			</script>
+			<script type="text/html" id="tmpl-child-field-rows">
+				<?php $this->render_fields_child_rows(); ?>
+			</script>
 		</div>
 		<?php
 		wp_nonce_field( 'block_lab_save_fields', 'block_lab_fields_nonce' );
@@ -660,6 +664,34 @@ class Block_Post extends Component_Abstract {
 						</td>
 					</tr>
 				</table>
+			</div>
+			<?php
+			if ( 'repeater' === $field->control ) {
+				$rows = array();
+				$this->render_fields_child_rows( $rows );
+			}
+			?>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Render the actions row when adding a Repeater field.
+	 *
+	 * @param array $rows The child rows to render.
+	 *
+	 * @return void
+	 */
+	public function render_fields_child_rows( $rows = array() ) {
+		?>
+		<div class="block-fields-child-rows">
+			<div class="block-fields-child-rows-actions">
+				<input
+					name="add-child-field"
+					type="button"
+					class="button button-large"
+					id="block-add-child-field"
+					value="<?php esc_attr_e( '+ Add Sub-Field', 'block-lab' ); ?>" />
 			</div>
 		</div>
 		<?php
