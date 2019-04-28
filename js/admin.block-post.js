@@ -82,6 +82,7 @@
 
 				currentRow.toggleClass( 'block-fields-row-active' );
 				currentRow.find( '.block-fields-edit' ).slideToggle();
+				currentRow.find( '.block-fields-child-rows' ).slideToggle();
 
 				// Fetch field settings if field is active and there are no settings.
 				if ( $( this ).closest( '.block-fields-row' ).hasClass( 'block-fields-row-active' ) ) {
@@ -93,8 +94,10 @@
 				}
 			})
 			.on( 'click', '.block-fields-edit-actions-close a.button', function() {
-				$( this ).closest( '.block-fields-row' ).removeClass( 'block-fields-row-active' );
-				$( this ).closest( '.block-fields-edit' ).slideUp();
+				let fieldRow = $( this ).closest( '.block-fields-row' );
+				fieldRow.removeClass( 'block-fields-row-active' );
+				$( '.block-fields-edit', fieldRow ).slideUp();
+				$( '.block-fields-child-rows', fieldRow ).slideDown();
 			})
 			.on( 'change keyup', '.block-fields-edit input', function() {
 				let sync = $( this ).data( 'sync' );
@@ -108,6 +111,14 @@
 			.on( 'change', '.block-fields-edit-control select', function() {
 				let fieldRow = $( this ).closest( '.block-fields-row' );
 				fetchFieldSettings( fieldRow, $( this ).val() );
+
+				if ( 'repeater' === $( this ).val() ) {
+					let childRows = wp.template( 'child-field-rows' );
+					fieldRow.append( childRows );
+					$( '.block-fields-child-rows', fieldRow ).hide();
+				} else {
+					$( '.block-fields-child-rows', fieldRow ).remove();
+				}
 			})
 			.on( 'change keyup', '.block-fields-edit-label input', function() {
 				let slug = slugify( $( this ).val() );

@@ -128,6 +128,21 @@
 		line-height: 1.5em;
 	}
 }
+#block_fields .block-fields-rows .block-fields-row .block-fields-child-rows {
+	grid-column: 1 / span 5;
+	padding-top: 0;
+}
+#block_fields .block-fields-rows .block-fields-row .block-fields-child-rows .block-fields-child-rows-actions {
+	width: 100%;
+	min-height: 50px;
+	padding: 0;
+	border: 1px solid #e1e1e1;
+	text-align: center;
+}
+#block_fields .block-fields-rows .block-fields-row .block-fields-child-rows .block-fields-child-rows-actions input {
+	margin: 10px;
+}
+
 #block_properties input,
 #block_properties select,
 #block_properties label {
