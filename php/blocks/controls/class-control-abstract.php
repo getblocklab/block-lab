@@ -261,8 +261,14 @@ abstract class Control_Abstract {
 	 * @return void
 	 */
 	public function render_settings_post_type_rest_slug( $setting, $name, $id ) {
-		$values = $this->get_post_type_rest_slugs();
-		$this->render_select( compact( 'setting', 'name', 'id', 'values' ) );
+		$this->render_select(
+			array(
+				'setting' => $setting,
+				'name'    => $name,
+				'id'      => $id,
+				'values'  => $this->get_post_type_rest_slugs(),
+			)
+		);
 	}
 
 	/**
@@ -303,8 +309,14 @@ abstract class Control_Abstract {
 	 * @return void
 	 */
 	public function render_settings_taxonomy_type_rest_slug( $setting, $name, $id ) {
-		$values = $this->get_taxonomy_type_rest_slugs();
-		$this->render_select( compact( 'setting', 'name', 'id', 'values' ) );
+		$this->render_select(
+			array(
+				'setting' => $setting,
+				'name'    => $name,
+				'id'      => $id,
+				'values'  => $this->get_taxonomy_type_rest_slugs(),
+			)
+		);
 	}
 
 	/**
