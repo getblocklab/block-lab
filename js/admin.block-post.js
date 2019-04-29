@@ -26,7 +26,7 @@
 			field.find( '.block-fields-edit-label input' ).select();
 		});
 
-		$( '#block-add-child-field' ).on( 'click', function() {
+		$( '#block_fields' ).on( 'click', '#block-add-child-field', function() {
 			let template = wp.template( 'field-repeater' ),
 				data     = { uid: new Date().getTime() },
 				field    = $( template( data ) );
