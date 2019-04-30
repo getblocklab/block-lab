@@ -1,5 +1,15 @@
 ## Changelog #
 
+### 1.3.0 - 2019-04-30 ###
+
+**Important**: This update includes a backwards compatibility break related to the User field.
+
+[Read more here](https://github.com/getblocklab/block-lab/pull/294#issue-272649668)
+
+* New: A Taxonomy control type, for selecting a Category / Tag / or custom term from a dropdown menu (for Block Lab Pro users)
+* Fix: Bug with the Post control when outputting data with block_field()
+* Tweak: Update the User control to store data as an object, matching the Post control
+
 ### 1.2.3 - 2019-04-23 ###
 
 **Important**: This update includes a backwards compatibility break related to the Image field.
