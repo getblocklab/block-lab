@@ -686,6 +686,18 @@ class Block_Post extends Component_Abstract {
 		?>
 		<div class="block-fields-child-rows">
 			<div class="block-fields-child-rows-actions">
+				<p class="repeater-no-fields">
+					<?php
+					echo wp_kses_post(
+						sprintf(
+							// Translators: Placeholders are for <strong> HTML tags.
+							__( 'Click the %1$s+ Add Sub-Field%2$s button to add your first sub-field.', 'block-lab' ),
+							'<strong>',
+							'</strong>'
+						)
+					);
+					?>
+				</p>
 				<input
 					name="add-child-field"
 					type="button"

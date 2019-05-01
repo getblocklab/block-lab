@@ -146,13 +146,16 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	flex-direction: row-reverse;
 }
 #block_fields .block-fields-rows .block-fields-row .block-fields-child-rows .block-fields-child-rows-actions input {
 	margin: 10px;
+	order: 1;
 }
 #block_fields .block-fields-rows .block-fields-row .block-fields-child-rows .block-fields-child-rows-actions p {
 	padding: 10px 16px;
 	margin: 0;
+	order: 2;
 }
 
 #block_properties input,
