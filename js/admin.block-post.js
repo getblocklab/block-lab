@@ -90,8 +90,7 @@
 				}
 
 				currentRow.toggleClass( 'block-fields-row-active' );
-				currentRow.find( '.block-fields-edit' ).slideToggle();
-				currentRow.find( '.block-fields-child-rows' ).slideToggle();
+				currentRow.find( '.block-fields-edit' ).first().slideToggle();
 
 				// Fetch field settings if field is active and there are no settings.
 				if ( $( this ).closest( '.block-fields-row' ).hasClass( 'block-fields-row-active' ) ) {
@@ -106,7 +105,6 @@
 				let fieldRow = $( this ).closest( '.block-fields-row' );
 				fieldRow.removeClass( 'block-fields-row-active' );
 				$( '.block-fields-edit', fieldRow ).slideUp();
-				$( '.block-fields-child-rows', fieldRow ).slideDown();
 			})
 			.on( 'change keyup', '.block-fields-edit input', function() {
 				let sync = $( this ).data( 'sync' );
