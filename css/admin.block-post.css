@@ -33,8 +33,6 @@
 #block_fields .block-fields-rows {
 	width: 100%;
 	display: inline-block;
-	overflow-x: hidden;
-	overflow-y: scroll;
 	line-height: 1.5em;
 }
 #block_fields .block-fields-rows .block-no-fields {
@@ -49,7 +47,7 @@
 #block_fields .block-fields-rows .block-fields-row > div {
 	padding: 8px 10px;
 }
-#block_fields .block-fields-rows .block-fields-row:nth-child(odd) {
+#block_fields .block-fields-rows > .block-fields-row:nth-child(odd) {
 	background: #f9f9f9;
 }
 #block_fields .block-fields-sort-handle:before {
@@ -81,7 +79,7 @@
 	line-height: 12px;
 	visibility: hidden;
 }
-#block_fields .block-fields-row:hover .block-fields-actions {
+#block_fields .block-fields-row:hover > .block-fields-label .block-fields-actions {
 	visibility: visible;
 }
 #block_fields .block-fields-rows .block-fields-row .block-fields-edit {
@@ -131,21 +129,30 @@
 #block_fields .block-fields-rows .block-fields-row .block-fields-child-rows {
 	grid-column: 1 / span 5;
 	padding: 0;
-	margin: 8px 10px;
-	border: 1px solid #e1e1e1;
-	border-radius: 4px;
+	margin: 8px 10px 10px 42px;
+	border: 1px solid #e5e5e5;
 	overflow: hidden;
+	box-shadow: 0 1px 1px rgba(0,0,0,.04);
+}
+#block_fields .block-fields-rows .block-fields-row .block-fields-child-rows > .block-fields-row {
+	border-bottom: 1px solid #ecebeb;
 }
 #block_fields .block-fields-rows .block-fields-row .block-fields-child-rows .block-fields-child-rows-actions {
 	width: 100%;
 	min-height: 50px;
 	padding: 0;
-	text-align: center;
-	border-top: 1px solid #e1e1e1;
-	margin-top: -1px;
+	text-align: right;
+	background: #fff;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 #block_fields .block-fields-rows .block-fields-row .block-fields-child-rows .block-fields-child-rows-actions input {
 	margin: 10px;
+}
+#block_fields .block-fields-rows .block-fields-row .block-fields-child-rows .block-fields-child-rows-actions p {
+	padding: 10px 16px;
+	margin: 0;
 }
 
 #block_properties input,
