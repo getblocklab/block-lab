@@ -29,8 +29,10 @@
 		$( '#block_fields' ).on( 'click', '#block-add-child-field', function() {
 			let template = wp.template( 'field-repeater' ),
 				data     = { uid: new Date().getTime() },
-				field    = $( template( data ) );
-			$( this ). closest( '.block-fields-child-rows-actions' ).before( field );
+				field    = $( template( data ) ),
+				row      = $( this ).closest( '.block-fields-row');
+			$( '.block-fields-child-rows-actions', row ).before( field );
+			$( '.repeater-no-fields', row ).hide();
 			field.find( '.block-fields-actions-edit' ).trigger( 'click' );
 			field.find( '.block-fields-edit-label input' ).select();
 		});
@@ -71,9 +73,13 @@
 
 		$( '.block-fields-rows' )
 			.on( 'click', '.block-fields-actions-delete', function() {
+				let childRows = $( this ).closest( '.block-fields-child-rows' );
 				$( this ).closest( '.block-fields-row' ).remove();
 				if ( 0 === $( '.block-fields-rows' ).children( '.block-fields-row' ).length ) {
 					$( '.block-no-fields' ).show();
+				}
+				if ( 0 !== childRows.length && 0 === $( '.block-fields-row', childRows ).length ) {
+					$( '.repeater-no-fields' ).show();
 				}
 			})
 			.on( 'click', '.block-fields-actions-edit, a.row-title', function() {
@@ -122,7 +128,6 @@
 				if ( 'repeater' === $( this ).val() ) {
 					let childRows = wp.template( 'child-field-rows' );
 					fieldRow.append( childRows );
-					$( '.block-fields-child-rows', fieldRow ).hide();
 				} else {
 					$( '.block-fields-child-rows', fieldRow ).remove();
 				}
@@ -140,7 +145,7 @@
 				cursor: 'grabbing',
 				handle: '.block-fields-sort-handle',
 				containment: 'parent',
-				tolerance: 'pointer'
+				tolerance: 'pointer',
 			});
 	});
 
