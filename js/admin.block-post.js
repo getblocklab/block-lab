@@ -32,7 +32,6 @@
 				field    = $( template( data ) ),
 				row      = $( this ).closest( '.block-fields-row');
 			$( '.block-fields-child-rows-actions', row ).before( field );
-			$( '.repeater-no-fields', row ).hide();
 			field.find( '.block-fields-actions-edit' ).trigger( 'click' );
 			field.find( '.block-fields-edit-label input' ).select();
 		});
@@ -73,13 +72,9 @@
 
 		$( '.block-fields-rows' )
 			.on( 'click', '.block-fields-actions-delete', function() {
-				let childRows = $( this ).closest( '.block-fields-child-rows' );
 				$( this ).closest( '.block-fields-row' ).remove();
 				if ( 0 === $( '.block-fields-rows' ).children( '.block-fields-row' ).length ) {
 					$( '.block-no-fields' ).show();
-				}
-				if ( 0 !== childRows.length && 0 === $( '.block-fields-row', childRows ).length ) {
-					$( '.repeater-no-fields' ).show();
 				}
 			})
 			.on( 'click', '.block-fields-actions-edit, a.row-title', function() {
