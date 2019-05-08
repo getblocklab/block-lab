@@ -50,11 +50,18 @@ class Test_Textarea extends \WP_UnitTestCase {
 			$this->assertEquals( 'Block_Lab\Blocks\Controls\Control_Setting', get_class( $setting ) );
 		}
 
+		$rows_setting = reset( $this->instance->settings );
+		$this->assertEquals( 'help', $rows_setting->name );
+		$this->assertEquals( 'Help Text', $rows_setting->label );
+		$this->assertEquals( 'text', $rows_setting->type );
+		$this->assertEquals( '', $rows_setting->default );
+		$this->assertEquals( 'sanitize_text_field', $rows_setting->sanitize );
+
 		$rows_setting = end( $this->instance->settings );
-		$this->assertEquals( 'number_rows', $rows_setting->name );
-		$this->assertEquals( 'Number of Rows', $rows_setting->label );
-		$this->assertEquals( 'number_non_negative', $rows_setting->type );
-		$this->assertEquals( 4, $rows_setting->default );
-		$this->assertEquals( array( $this->instance, 'sanitize_number' ), $rows_setting->sanitize );
+		$this->assertEquals( 'should_autop', $rows_setting->name );
+		$this->assertEquals( 'Convert newlines to p tags', $rows_setting->label );
+		$this->assertEquals( 'checkbox', $rows_setting->type );
+		$this->assertEquals( 0, $rows_setting->default );
+		$this->assertEquals( array( $this->instance, 'sanitize_checkbox' ), $rows_setting->sanitize );
 	}
 }

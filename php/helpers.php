@@ -43,6 +43,12 @@ function block_field( $name, $echo = true ) {
 			case 'string':
 				$value = strval( $value );
 				break;
+			case 'textarea':
+				$value = strval( $value );
+				if ( ! empty( $block_lab_config['fields'][ $name ]['should_autop'] ) ) {
+					$value = wpautop( $value );
+				}
+				break;
 			case 'boolean':
 				if ( 1 === $value ) {
 					$value = true;

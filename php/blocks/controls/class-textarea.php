@@ -22,6 +22,13 @@ class Textarea extends Control_Abstract {
 	public $name = 'textarea';
 
 	/**
+	 * Control type.
+	 *
+	 * @var string
+	 */
+	public $type = 'textarea';
+
+	/**
 	 * Textarea constructor.
 	 *
 	 * @return void
@@ -80,6 +87,15 @@ class Textarea extends Control_Abstract {
 				'type'     => 'number_non_negative',
 				'default'  => 4,
 				'sanitize' => array( $this, 'sanitize_number' ),
+			)
+		);
+		$this->settings[] = new Control_Setting(
+			array(
+				'name'     => 'should_autop',
+				'label'    => __( 'Convert newlines to p tags', 'block-lab' ),
+				'type'     => 'checkbox',
+				'default'  => '0',
+				'sanitize' => array( $this, 'sanitize_checkbox' ),
 			)
 		);
 	}
