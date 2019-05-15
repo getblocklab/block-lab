@@ -45,8 +45,13 @@ function block_field( $name, $echo = true ) {
 				break;
 			case 'textarea':
 				$value = strval( $value );
-				if ( ! empty( $block_lab_config['fields'][ $name ]['should_autop'] ) ) {
-					$value = wpautop( $value );
+				if ( isset( $block_lab_config['fields'][ $name ]['new_lines'] ) ) {
+					if ( 'autop' === $block_lab_config['fields'][ $name ]['new_lines'] ) {
+						$value = wpautop( $value );
+					}
+					if ( 'autobr' === $block_lab_config['fields'][ $name ]['new_lines'] ) {
+						$value = nl2br( $value );
+					}
 				}
 				break;
 			case 'boolean':
