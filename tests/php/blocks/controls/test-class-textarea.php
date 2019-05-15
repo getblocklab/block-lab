@@ -20,6 +20,13 @@ class Test_Textarea extends \WP_UnitTestCase {
 	public $instance;
 
 	/**
+	 * Instance of the setting.
+	 *
+	 * @var Controls\Control_setting
+	 */
+	public $setting;
+
+	/**
 	 * Setup.
 	 *
 	 * @inheritdoc
@@ -27,6 +34,7 @@ class Test_Textarea extends \WP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->instance = new Controls\Textarea();
+		$this->setting  = new Controls\Control_Setting();
 	}
 
 	/**
