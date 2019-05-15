@@ -27,7 +27,7 @@ const advancedControls = () => {
 				id="bl-inspector-notice"
 				className="bl-inspector-notice"
 			>
-				<p>{sprintf( __( 'Include the Additional CSS Class in a block template by using this field:', 'block-lab' ), '' )}<br /><code>className</code></p>
+				<p>{__( 'Include the Additional CSS Class in a block template by using this field:', 'block-lab' )}<br /><code>className</code></p>
 				<p><a href="https://github.com/getblocklab/block-lab/wiki/7.-FAQ" target="_blank">{__( 'Read more', 'block-lab' )}</a></p>
 			</Notice>
 		)
