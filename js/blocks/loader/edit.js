@@ -1,13 +1,11 @@
 import inspectorControls from './inspector'
+import advancedControls from './advanced';
 import controls from '../controls';
 import { simplifiedFields } from "./fields";
 import icons from '../../../assets/icons.json';
 
 const { applyFilters } = wp.hooks;
-const { Notice } = wp.components;
-
-const { __ } = wp.i18n;
-const { ServerSideRender, InspectorAdvancedControls } = wp.editor;
+const { ServerSideRender } = wp.editor;
 
 const formControls = ( props, block ) => {
 
@@ -62,12 +60,7 @@ const editComponent = ( props, block ) => {
 				)}
 			</div>
 		),
-		<InspectorAdvancedControls>
-			<Notice className="bl-inspector-notice">
-				<p><strong>Note:</strong> The Additional CSS Class can be used in a block template using the field <code>className</code>.</p>
-				<p><a href="#">Read More</a></p>
-			</Notice>
-		</InspectorAdvancedControls>
+		advancedControls()
 	]
 }
 

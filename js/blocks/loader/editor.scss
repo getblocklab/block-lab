@@ -254,7 +254,7 @@ div[class^="wp-block-block-lab-"] {
   }
 }
 
-.bl-inspector-notice {
+.components-notice.bl-inspector-notice {
   width: auto;
   margin: 0 -16px 1em;
   padding: 8px 36px 0 16px;
@@ -265,5 +265,9 @@ div[class^="wp-block-block-lab-"] {
       margin: 0;
       padding-bottom: 8px;
     }
+  }
+
+  >.components-notice__dismiss {
+    margin-top: 0;
   }
 }
