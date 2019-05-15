@@ -24,6 +24,13 @@ class Admin extends Component_Abstract {
 	public $settings;
 
 	/**
+	 * User notices.
+	 *
+	 * @var Notices
+	 */
+	public $notices;
+
+	/**
 	 * Plugin license.
 	 *
 	 * @var License
@@ -50,6 +57,9 @@ class Admin extends Component_Abstract {
 	public function init() {
 		$this->settings = new Settings();
 		block_lab()->register_component( $this->settings );
+
+		$this->notices = new Notices();
+		block_lab()->register_component( $this->notices );
 
 		$this->license = new License();
 		block_lab()->register_component( $this->license );
