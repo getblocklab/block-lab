@@ -143,7 +143,7 @@ class Notices extends Component_Abstract {
 		}
 
 		$notices[ $notice_id ] = $status;
-return $user_id;
+
 		return update_user_meta( $user_id, $this->meta_key, $notices );
 	}
 }
