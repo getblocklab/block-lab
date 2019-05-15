@@ -72,6 +72,9 @@ class Test_Textarea extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Controls\Control_Abstract::render_select()
 	 */
 	public function test_render_settings_new_line_format() {
+		$name = 'textarea';
+		$id   = 'bl_textarea';
+
 		ob_start();
 		$this->instance->render_settings_new_line_format( $this->setting, $name, $id );
 		$output = ob_get_clean();
@@ -87,7 +90,6 @@ class Test_Textarea extends \WP_UnitTestCase {
 	 */
 	public function test_get_new_line_formats() {
 		$formats = $this->instance->get_new_line_formats();
-		$this->assertIsArray( $formats );
 		$this->assertArrayHasKey( 'autop', $formats );
 		$this->assertArrayHasKey( 'autobr', $formats );
 		$this->assertArrayHasKey( 'none', $formats );
