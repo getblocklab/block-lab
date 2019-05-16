@@ -171,6 +171,9 @@ class Loader extends Component_Abstract {
 			return $attributes;
 		}
 
+		// Default Editor attributes (applied to all blocks).
+		$attributes['className'] = array( 'type' => 'string' );
+
 		foreach ( $block['fields'] as $field_name => $field ) {
 			$attributes[ $field_name ] = [];
 
