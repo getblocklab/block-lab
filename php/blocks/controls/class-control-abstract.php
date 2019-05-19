@@ -252,128 +252,32 @@ abstract class Control_Abstract {
 	}
 
 	/**
-	 * Render a <select> of public post types.
-	 *
-	 * @param Control_Setting $setting The Control_Setting being rendered.
-	 * @param string          $name    The name attribute of the option.
-	 * @param string          $id      The id attribute of the option.
-	 *
-	 * @return void
-	 */
-	public function render_settings_post_type_rest_slug( $setting, $name, $id ) {
-		$this->render_select(
-			array(
-				'setting' => $setting,
-				'name'    => $name,
-				'id'      => $id,
-				'values'  => $this->get_post_type_rest_slugs(),
-			)
-		);
-	}
-
-	/**
-	 * Gets the REST slugs of public post types, other than 'attachment'.
-	 *
-	 * @return array {
-	 *     An associative array of the post type REST slugs.
-	 *
-	 *     @type string $rest_slug The REST slug of the post type.
-	 *     @type string $name The name of the post type.n
-	 * }
-	 */
-	public function get_post_type_rest_slugs() {
-		$post_type_rest_slugs = array();
-		foreach ( get_post_types( array( 'public' => true ) ) as $post_type ) {
-			$post_type_object = get_post_type_object( $post_type );
-			if ( ! $post_type_object || empty( $post_type_object->show_in_rest ) ) {
-				continue;
-			}
-			if ( 'attachment' === $post_type ) {
-				continue;
-			}
-			$rest_slug                          = ! empty( $post_type_object->rest_base ) ? $post_type_object->rest_base : $post_type;
-			$labels                             = get_post_type_labels( $post_type_object );
-			$post_type_name                     = isset( $labels->name ) ? $labels->name : $post_type;
-			$post_type_rest_slugs[ $rest_slug ] = $post_type_name;
-		}
-		return $post_type_rest_slugs;
-	}
-
-	/**
-	 * Renders a <select> of public taxonomy types.
-	 *
-	 * @param Control_Setting $setting The Control_Setting being rendered.
-	 * @param string          $name    The name attribute of the option.
-	 * @param string          $id      The id attribute of the option.
-	 *
-	 * @return void
-	 */
-	public function render_settings_taxonomy_type_rest_slug( $setting, $name, $id ) {
-		$this->render_select(
-			array(
-				'setting' => $setting,
-				'name'    => $name,
-				'id'      => $id,
-				'values'  => $this->get_taxonomy_type_rest_slugs(),
-			)
-		);
-	}
-
-	/**
 	 * Renders a <select> of the passed values.
 	 *
-	 * @param array $args {
-	 *     The arguments to render a <select> element.
+	 * @param Control_Setting $setting The Control_Setting being rendered.
+	 * @param string          $name    The name attribute of the option.
+	 * @param string          $id      The id attribute of the option.
+	 * @param array           $values {
+	 *     An associative array of the post type REST slugs.
 	 *
-	 *     @type Control_Setting $setting The Control_Setting being rendered.
-	 *     @type string          $name    The name attribute of the option.
-	 *     @type string          $id      The id attribute of the option.
-	 *     @type array           $values {
-	 *         An associative array of the post type REST slugs.
-	 *
-	 *         @type string $rest_slug The rest slug, like 'tags' for the 'post_tag' taxonomy.
-	 *         @type string $label     The label to display inside the <option>.
-	 *     }
+	 *     @type string $rest_slug The rest slug, like 'tags' for the 'post_tag' taxonomy.
+	 *     @type string $label     The label to display inside the <option>.
 	 * }
 	 *
 	 * @return void
 	 */
-	public function render_select( $args ) {
-		if ( ! isset( $args['setting'], $args['name'], $args['id'], $args['values'] ) ) {
-			return;
-		}
-
+	public function render_select( $setting, $name, $id, $values ) {
 		?>
-		<select name="<?php echo esc_attr( $args['name'] ); ?>" id="<?php echo esc_attr( $args['id'] ); ?>">
+		<select name="<?php echo esc_attr( $name ); ?>" id="<?php echo esc_attr( $id ); ?>">
 			<?php
-			foreach ( $args['values'] as $rest_slug => $label ) :
+			foreach ( $values as $value => $label ) :
 				?>
-				<option value="<?php echo esc_attr( $rest_slug ); ?>" <?php selected( $rest_slug, $args['setting']->get_value() ); ?>>
+				<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $value, $setting->get_value() ); ?>>
 					<?php echo esc_html( $label ); ?>
 				</option>
 			<?php endforeach; ?>
 		</select>
 		<?php
-	}
-
-	/**
-	 * Gets the REST slugs of public taxonomy types.
-	 *
-	 * @return array {
-	 *     An associative array of the post type REST slugs.
-	 *
-	 *     @type string $rest_slug The REST slug of the post type.
-	 *     @type string $name The name of the post type.
-	 * }
-	 */
-	public function get_taxonomy_type_rest_slugs() {
-		$taxonomy_rest_slugs = array();
-		foreach ( get_taxonomies( array( 'show_in_rest' => true ) ) as $taxonomy_slug ) {
-			$taxonomy_object                   = get_taxonomy( $taxonomy_slug );
-			$rest_slug                         = ! empty( $taxonomy_object->rest_base ) ? $taxonomy_object->rest_base : $taxonomy_slug;
-			$taxonomy_rest_slugs[ $rest_slug ] = $taxonomy_object->label;
-		}
-		return $taxonomy_rest_slugs;
 	}
 
 	/**
@@ -513,34 +417,4 @@ abstract class Control_Abstract {
 
 		return $value;
 	}
-
-	/**
-	 * Sanitize the post type REST slug, to ensure that it's a public post type.
-	 *
-	 * This expects the rest_base of the post type, as it's easier to pass that to apiFetch in the Post control.
-	 * So this iterates through the public post types, to find if one has the rest_base equal to $value.
-	 *
-	 * @param string $value The rest_base of the post type to sanitize.
-	 * @return string|null The sanitized rest_base of the post type, or null.
-	 */
-	public function sanitize_post_type_rest_slug( $value ) {
-		if ( array_key_exists( $value, $this->get_post_type_rest_slugs() ) ) {
-			return $value;
-		}
-		return null;
-	}
-
-	/**
-	 * Sanitize the taxonomy type REST slug, to ensure that it's registered and public.
-	 *
-	 * @param string $value The rest_base of the post type to sanitize.
-	 * @return string|null The sanitized rest_base of the post type, or null.
-	 */
-	public function sanitize_taxonomy_type_rest_slug( $value ) {
-		if ( array_key_exists( $value, $this->get_taxonomy_type_rest_slugs() ) ) {
-			return $value;
-		}
-		return null;
-	}
-
 }
