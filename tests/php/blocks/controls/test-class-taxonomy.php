@@ -75,7 +75,7 @@ class Test_Taxonomy extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Controls\Taxonomy::render_settings_taxonomy_type_rest_slug()
 	 * @covers \Block_Lab\Blocks\Controls\Control_Abstract::render_select()
 	 */
-	public function render_settings_taxonomy_type_rest_slug() {
+	public function test_render_settings_taxonomy_type_rest_slug() {
 		$name = 'post_type';
 		$id   = 'bl_post_type';
 
@@ -84,9 +84,11 @@ class Test_Taxonomy extends \WP_UnitTestCase {
 		$output = ob_get_clean();
 		$this->assertContains( $name, $output );
 		$this->assertContains( $id, $output );
+
 		foreach( array( 'post_tag', 'category' ) as $post_type ) {
-			$post_type_object = get_post_type_object( $post_type );
-			$this->assertContains( $post_type_object->rest_base, $output );
+			$taxonomy = get_taxonomy( $post_type );
+			$this->assertContains( $taxonomy->rest_base, $output );
+			$this->assertContains( $taxonomy->label, $output );
 		}
 	}
 
