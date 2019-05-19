@@ -1,11 +1,10 @@
 import inspectorControls from './inspector'
+import inspectorAdvancedControls from './advanced'
 import controls from '../controls';
 import { simplifiedFields } from "./fields";
 import icons from '../../../assets/icons.json';
 
 const { applyFilters } = wp.hooks;
-
-const { __ } = wp.i18n;
 const { ServerSideRender } = wp.editor;
 
 const formControls = ( props, block ) => {
@@ -16,7 +15,7 @@ const formControls = ( props, block ) => {
 		if ( !field.location || !field.location.includes( 'editor' ) ) {
 			return null
 		}
-		
+
 		const loadedControls = applyFilters( 'block_lab_controls', controls );
 		const controlFunction = field.controlFunction || loadedControls[ field.control ];
 		const control = typeof controlFunction !== 'undefined' ? controlFunction( props, field, block ) : null;
@@ -44,6 +43,7 @@ const editComponent = ( props, block ) => {
 
 	return [
 		inspectorControls( props, block ),
+		inspectorAdvancedControls( props, block ),
 		(
 			<div className={className} key={"form-controls-" + block.name}>
 				{isSelected ? (
