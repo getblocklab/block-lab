@@ -548,7 +548,7 @@ class Block_Post extends Component_Abstract {
 					echo esc_html( $this->controls[ $field->control ]->label );
 				else :
 					?>
-					<div class="notice notice-info inline notice-alt">
+					<div class="notice notice-warning inline notice-alt">
 						<?php
 						/* translators: %1$s is the field type, %2$s is the URL for the Pro license */
 						printf(
