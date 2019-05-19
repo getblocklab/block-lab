@@ -543,7 +543,30 @@ class Block_Post extends Component_Abstract {
 				<code id="block-fields-name-code_<?php echo esc_attr( $uid ); ?>"><?php echo esc_html( $field->name ); ?></code>
 			</div>
 			<div class="block-fields-control" id="block-fields-control_<?php echo esc_attr( $uid ); ?>">
-				<?php echo esc_html( $this->controls[ $field->control ]->label ); ?>
+				<?php
+				if ( isset( $this->controls[ $field->control ] ) ) :
+					echo esc_html( $this->controls[ $field->control ]->label );
+				else :
+					?>
+					<div class="notice notice-info inline notice-alt">
+						<?php
+						/* translators: %1$s is the field type, %2$s is the URL for the Pro license */
+						printf(
+							wp_kses_post( 'This <code>%1$s</code> field type is not available. Maybe your <a href="%2$s">pro license</a> expired.', 'block-lab' ),
+							esc_html( $field->control ),
+							esc_url(
+								add_query_arg(
+									array(
+										'post_type' => 'block_lab',
+										'page'      => 'block-lab-pro',
+									),
+									admin_url( 'edit.php' )
+								)
+							)
+						);
+						?>
+					</div>
+				<?php endif; ?>
 			</div>
 			<div class="block-fields-location" id="block-fields-location_<?php echo esc_attr( $uid ); ?>">
 				<?php
