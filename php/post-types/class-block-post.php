@@ -548,11 +548,12 @@ class Block_Post extends Component_Abstract {
 					echo esc_html( $this->controls[ $field->control ]->label );
 				else :
 					?>
-					<div class="notice notice-warning inline notice-alt">
+					<span class="dashicons dashicons-warning"></span>
+					<span>
 						<?php
 						/* translators: %1$s is the field type, %2$s is the URL for the Pro license */
 						printf(
-							wp_kses_post( 'This <code>%1$s</code> field type is not available. Maybe your <a href="%2$s">pro license</a> expired.', 'block-lab' ),
+							wp_kses_post( 'This <code>%1$s</code> field requires an active <a href="%2$s">pro license</a>.', 'block-lab' ),
 							esc_html( $field->control ),
 							esc_url(
 								add_query_arg(
@@ -565,7 +566,7 @@ class Block_Post extends Component_Abstract {
 							)
 						);
 						?>
-					</div>
+					</span>
 				<?php endif; ?>
 			</div>
 			<div class="block-fields-location" id="block-fields-location_<?php echo esc_attr( $uid ); ?>">
