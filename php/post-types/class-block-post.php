@@ -133,6 +133,11 @@ class Block_Post extends Component_Abstract {
 	public function get_field_value( $value, $control, $echo ) {
 		if ( isset( $this->controls[ $control ] ) && method_exists( $this->controls[ $control ], 'validate' ) ) {
 			return call_user_func( array( $this->controls[ $control ], 'validate' ), $value, $echo );
+		} elseif ( in_array( $control, $this->pro_controls, true ) && ! block_lab()->is_pro() ) {
+			$pro_control = $this->instantiate_pro_control( $control );
+			if ( method_exists( $pro_control, 'validate' ) ) {
+				return call_user_func( array( $pro_control, 'validate' ), $value, $echo );
+			}
 		}
 
 		return $value;
