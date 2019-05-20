@@ -76,7 +76,7 @@ class Test_Block_Post extends \WP_UnitTestCase {
 		// Because the pro license isn't active, the 'user' control should not display.
 		$this->assertFalse( isset( $this->instance->controls['user'] ) );
 
-		$this->set_valid_license();
+		$this->set_license_validity( true );
 		block_lab()->admin->init();
 		$this->instance->register_controls();
 
@@ -110,13 +110,7 @@ class Test_Block_Post extends \WP_UnitTestCase {
 		$control          = 'user';
 
 		// Simulate the pro license being active.
-		set_transient(
-			'block_lab_license',
-			array(
-				'license' => 'valid',
-				'expires' => date( '+1 month' ),
-			)
-		);
+		$this->set_license_validity( true );
 		block_lab()->admin->init();
 		$this->instance->register_controls();
 
@@ -127,12 +121,7 @@ class Test_Block_Post extends \WP_UnitTestCase {
 		$this->assertEquals( $expected_wp_user->get( 'display_name' ), $this->instance->get_field_value( array( 'id' => $valid_id ), $control, true ) );
 
 		// If the pro license is inactive, this should still render the pro field the same as if it's active.
-		set_transient(
-			'block_lab_license',
-			array(
-				'license' => 'expired',
-			)
-		);
+		$this->set_license_validity( false );
 		block_lab()->admin->init();
 		$this->instance->register_controls();
 
@@ -231,16 +220,23 @@ class Test_Block_Post extends \WP_UnitTestCase {
 	}
 
 	/**
-	 * Sets a valid license.
+	 * Sets whether the license is valid or not.
+	 *
+	 * @param bool $is_valid Whether the license is valid.
 	 */
-	public function set_valid_license() {
-		set_transient(
-			'block_lab_license',
-			array(
+	public function set_license_validity( $is_valid ) {
+		if ( $is_valid ) {
+			$transient_value = array(
 				'license' => 'valid',
 				'expires' => date( '+1 month' ),
-			)
-		);
+			);
+		} else {
+			$transient_value = array(
+				'license' => 'expired',
+			);
+		}
+
+		set_transient( 'block_lab_license', $transient_value );
 	}
 
 	/**
