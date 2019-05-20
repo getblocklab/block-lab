@@ -627,7 +627,8 @@ class Block_Post extends Component_Abstract {
 								class="regular-text"
 								value="<?php echo esc_attr( $field->label ); ?>"
 								data-sync="block-fields-label_<?php echo esc_attr( $uid ); ?>"
-								<?php echo $is_field_disabled ? 'readonly="readonly"' : ''; ?> />
+								<?php echo $is_field_disabled ? 'readonly="readonly"' : ''; ?>
+							/>
 							<?php if ( $is_field_disabled ) : ?>
 								<input
 									name="block-is-disabled-pro-field[<?php echo esc_attr( $uid ); ?>]"
