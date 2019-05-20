@@ -567,7 +567,7 @@ class Block_Post extends Component_Abstract {
 				else :
 					?>
 					<span class="dashicons dashicons-warning"></span>
-					<span>
+					<span class="pro-required">
 						<?php
 						/* translators: %1$s is the field type, %2$s is the URL for the Pro license */
 						printf(
