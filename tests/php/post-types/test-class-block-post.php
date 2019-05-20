@@ -109,7 +109,33 @@ class Test_Block_Post extends \WP_UnitTestCase {
 		$valid_id         = $expected_wp_user->ID;
 		$control          = 'user';
 
+		// Simulate the pro license being active.
+		set_transient(
+			'block_lab_license',
+			array(
+				'license' => 'valid',
+				'expires' => date( '+1 month' ),
+			)
+		);
+		block_lab()->admin->init();
+		$this->instance->register_controls();
+
 		// The 'user' control.
+		$this->assertEquals( false, $this->instance->get_field_value( $invalid_login, $control, false ) );
+		$this->assertEquals( $expected_wp_user, $this->instance->get_field_value( array( 'id' => $valid_id ), $control, false ) );
+		$this->assertEquals( '', $this->instance->get_field_value( $invalid_login, $control, true ) );
+		$this->assertEquals( $expected_wp_user->get( 'display_name' ), $this->instance->get_field_value( array( 'id' => $valid_id ), $control, true ) );
+
+		// If the pro license is inactive, this should still render the pro field the same as if it's active.
+		set_transient(
+			'block_lab_license',
+			array(
+				'license' => 'expired',
+			)
+		);
+		block_lab()->admin->init();
+		$this->instance->register_controls();
+
 		$this->assertEquals( false, $this->instance->get_field_value( $invalid_login, $control, false ) );
 		$this->assertEquals( $expected_wp_user, $this->instance->get_field_value( array( 'id' => $valid_id ), $control, false ) );
 		$this->assertEquals( '', $this->instance->get_field_value( $invalid_login, $control, true ) );
