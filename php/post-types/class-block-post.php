@@ -34,6 +34,17 @@ class Block_Post extends Component_Abstract {
 	public $controls = array();
 
 	/**
+	 * The pro controls.
+	 *
+	 * @var array
+	 */
+	public $pro_controls = array(
+		'post',
+		'taxonomy',
+		'user',
+	);
+
+	/**
 	 * Register any hooks that this component needs.
 	 *
 	 * @return void
@@ -87,17 +98,22 @@ class Block_Post extends Component_Abstract {
 		);
 
 		if ( block_lab()->is_pro() ) {
-			$controls = array_merge(
-				$controls,
-				array(
-					'post'     => new Controls\Post(),
-					'taxonomy' => new Controls\Taxonomy(),
-					'user'     => new Controls\User(),
-				)
-			);
+			foreach ( $this->pro_controls as $pro_control ) {
+				$controls[ $pro_control ] = $this->instantiate_pro_control( $pro_control );
+			}
 		}
 
 		$this->controls = apply_filters( 'block_lab_controls', $controls );
+	}
+
+	/**
+	 * Gets an instantiated pro control.
+	 *
+	 * @return object The instantiated pro control.
+	 */
+	public function instantiate_pro_control( $control_name ) {
+		$control_class = 'Block_Lab\\Blocks\\Controls\\' . ucwords( $control_name );
+		return new $control_class();
 	}
 
 	/**
@@ -520,6 +536,8 @@ class Block_Post extends Component_Abstract {
 		if ( ! $uid ) {
 			$uid = '{{ data.uid }}';
 		}
+		$is_field_disabled = ( ! isset( $this->controls[ $field->control ] ) && in_array( $field->control, $this->pro_controls, true ) );
+
 		?>
 		<div class="block-fields-row" data-uid="<?php echo esc_attr( $uid ); ?>">
 			<div class="block-fields-sort">
@@ -544,7 +562,7 @@ class Block_Post extends Component_Abstract {
 			</div>
 			<div class="block-fields-control" id="block-fields-control_<?php echo esc_attr( $uid ); ?>">
 				<?php
-				if ( isset( $this->controls[ $field->control ] ) ) :
+				if ( ! $is_field_disabled ) :
 					echo esc_html( $this->controls[ $field->control ]->label );
 				else :
 					?>
@@ -602,7 +620,15 @@ class Block_Post extends Component_Abstract {
 								id="block-fields-edit-label-input_<?php echo esc_attr( $uid ); ?>"
 								class="regular-text"
 								value="<?php echo esc_attr( $field->label ); ?>"
-								data-sync="block-fields-label_<?php echo esc_attr( $uid ); ?>" />
+								data-sync="block-fields-label_<?php echo esc_attr( $uid ); ?>"
+								<?php echo $is_field_disabled ? 'readonly="readonly"' : ''; ?> />
+							<?php if ( $is_field_disabled ) : ?>
+								<input
+									name="block-is-disabled-pro-field[<?php echo esc_attr( $uid ); ?>]"
+									type="hidden"
+									value="true"
+								/>
+							<?php endif; ?>
 						</td>
 					</tr>
 					<tr class="block-fields-edit-name">
@@ -622,7 +648,8 @@ class Block_Post extends Component_Abstract {
 								id="block-fields-edit-name-input_<?php echo esc_attr( $uid ); ?>"
 								class="regular-text"
 								value="<?php echo esc_attr( $field->name ); ?>"
-								data-sync="block-fields-name-code_<?php echo esc_attr( $uid ); ?>" />
+								data-sync="block-fields-name-code_<?php echo esc_attr( $uid ); ?>"
+								<?php echo $is_field_disabled ? 'readonly="readonly"' : ''; ?> />
 						</td>
 					</tr>
 					<tr class="block-fields-edit-control">
@@ -636,8 +663,16 @@ class Block_Post extends Component_Abstract {
 							<select
 								name="block-fields-control[<?php echo esc_attr( $uid ); ?>]"
 								id="block-fields-edit-control-input_<?php echo esc_attr( $uid ); ?>"
-								data-sync="block-fields-control_<?php echo esc_attr( $uid ); ?>" >
-								<?php foreach ( $this->controls as $control ) : ?>
+								data-sync="block-fields-control_<?php echo esc_attr( $uid ); ?>"
+								<?php disabled( $is_field_disabled ); ?> >
+								<?php
+								$fields_for_select = $this->controls;
+								// If this field is disabled, it was probably added when there was a valid pro license, so still display it.
+								if ( $is_field_disabled && in_array( $field->control, $this->pro_controls, true ) ) {
+									$fields_for_select[ $field->control ] = $this->instantiate_pro_control( $field->control );
+								}
+								foreach ( $fields_for_select as $control ) :
+									?>
 									<option
 										value="<?php echo esc_attr( $control->name ); ?>"
 										<?php selected( $field->control, $control->name ); ?>>
@@ -658,7 +693,8 @@ class Block_Post extends Component_Abstract {
 							<select
 								name="block-fields-location[<?php echo esc_attr( $uid ); ?>]"
 								id="block-fields-edit-location-input_<?php echo esc_attr( $uid ); ?>"
-								data-sync="block-fields-location_<?php echo esc_attr( $uid ); ?>" >
+								data-sync="block-fields-location_<?php echo esc_attr( $uid ); ?>"
+								<?php disabled( $is_field_disabled ); ?> >
 									<option
 										value="editor"
 										<?php selected( $field->location, 'editor' ); ?>>
@@ -948,8 +984,20 @@ class Block_Post extends Component_Abstract {
 					);
 				}
 
-				// Field settings.
-				if ( isset( $field_config['control'] ) && isset( $this->controls[ $field_config['control'] ] ) ) {
+				/*
+				 * Field settings.
+				 * If the field is a pro field that's no longer available, re-save the previous value of that field.
+				 * This allows saving other new fields, while retaining the previous pro field value in case the user reactivates the license.
+				 */
+				if ( ! empty( $_POST['block-is-disabled-pro-field'][ $key ] ) ) {
+					$previous_block = new Block( $post_id );
+					foreach ( $previous_block->fields as $previous_field ) {
+						if ( $name === $previous_field->name ) {
+							$field = $previous_field;
+							break;
+						}
+					}
+				} elseif ( isset( $field_config['control'] ) && isset( $this->controls[ $field_config['control'] ] ) ) {
 					$control = $this->controls[ $field_config['control'] ];
 					foreach ( $control->settings as $setting ) {
 						$value = false; // This is a good default, it allows us to pick up on unchecked checkboxes.
@@ -974,10 +1022,11 @@ class Block_Post extends Component_Abstract {
 						}
 
 						$field_config['settings'][ $setting->name ] = $value;
+						$field                                      = new Field( $field_config );
 					}
+				} else {
+					$field = new Field( $field_config );
 				}
-
-				$field = new Field( $field_config );
 
 				$block->fields[ $name ] = $field;
 				$order++;
