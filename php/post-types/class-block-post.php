@@ -109,6 +109,7 @@ class Block_Post extends Component_Abstract {
 	/**
 	 * Gets an instantiated pro control.
 	 *
+	 * @param string $control_name The name of the pro control.
 	 * @return object The instantiated pro control.
 	 */
 	public function instantiate_pro_control( $control_name ) {
