@@ -110,6 +110,16 @@
 #block_fields .block-fields-rows .block-fields-edit th label {
 	font-weight: 600;
 }
+#block_fields .block-fields-rows .block-fields-control {
+	display: flex;
+}
+#block_fields .block-fields-rows .block-fields-control span.pro-required {
+	margin-left: 0.5rem;
+}
+#block_fields .block-fields-rows input[readonly="readonly"],
+#block_fields .block-fields-rows textarea[readonly="readonly"] {
+    color: #999;
+}
 #block_fields .block-fields-rows .block-fields-edit-loading .loading:before {
 	content: '';
 	box-sizing: border-box;
