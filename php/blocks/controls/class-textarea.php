@@ -140,7 +140,7 @@ class Textarea extends Control_Abstract {
 	 * @return string|null The sanitized rest_base of the post type, or null.
 	 */
 	public function sanitize_new_line_format( $value ) {
-		if ( array_key_exists( $value, $this->get_new_line_formats() ) ) {
+		if ( is_string( $value ) && array_key_exists( $value, $this->get_new_line_formats() ) ) {
 			return $value;
 		}
 		return null;
