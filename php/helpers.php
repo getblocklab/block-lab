@@ -37,6 +37,11 @@ function block_field( $name, $echo = true ) {
 		$value = $block_lab_attributes[ $name ];
 	}
 
+	// Cast default Editor attributes appropriately.
+	if ( 'className' === $name ) {
+		$value = strval( $value );
+	}
+
 	// Cast block value as correct type.
 	if ( isset( $block_lab_config['fields'][ $name ]['type'] ) ) {
 		switch ( $block_lab_config['fields'][ $name ]['type'] ) {
