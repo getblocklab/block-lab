@@ -81,40 +81,57 @@ class Block_Post extends Component_Abstract {
 	 * @return void
 	 */
 	public function register_controls() {
-		$controls = array(
-			'text'        => new Controls\Text(),
-			'textarea'    => new Controls\Textarea(),
-			'url'         => new Controls\URL(),
-			'email'       => new Controls\Email(),
-			'number'      => new Controls\Number(),
-			'color'       => new Controls\Color(),
-			'image'       => new Controls\Image(),
-			'select'      => new Controls\Select(),
-			'multiselect' => new Controls\Multiselect(),
-			'toggle'      => new Controls\Toggle(),
-			'range'       => new Controls\Range(),
-			'checkbox'    => new Controls\Checkbox(),
-			'radio'       => new Controls\Radio(),
+		$control_names = array(
+			'text',
+			'textarea',
+			'url',
+			'email',
+			'number',
+			'color',
+			'image',
+			'select',
+			'multiselect',
+			'toggle',
+			'range',
+			'checkbox',
+			'radio',
 		);
 
 		if ( block_lab()->is_pro() ) {
-			foreach ( $this->pro_controls as $pro_control ) {
-				$controls[ $pro_control ] = $this->instantiate_pro_control( $pro_control );
-			}
+			$control_names = array_merge( $control_names, $this->pro_controls );
+		}
+		foreach ( $control_names as $control_name ) {
+			$controls[ $control_name ] = $this->get_control( $control_name );
 		}
 
+		/**
+		 * Filters the available controls.
+		 *
+		 * @param array $controls {
+		 *     An associative array of the available controls.
+		 *
+		 *     @type string $control_name The name of the control, like 'user'.
+		 *     @type object $control The control opbject, extending Controls\Control_Abstract.
+		 * }
+		 */
 		$this->controls = apply_filters( 'block_lab_controls', $controls );
 	}
 
 	/**
-	 * Gets an instantiated pro control.
+	 * Gets an instantiated control.
 	 *
 	 * @param string $control_name The name of the pro control.
-	 * @return object The instantiated pro control.
+	 * @return object|null The instantiated pro control.
 	 */
-	public function instantiate_pro_control( $control_name ) {
+	public function get_control( $control_name ) {
+		if ( isset( $this->controls[ $control_name ] ) ) {
+			return $this->controls[ $control_name ];
+		}
+
 		$control_class = 'Block_Lab\\Blocks\\Controls\\' . ucwords( $control_name );
-		return new $control_class();
+		if ( class_exists( $control_class ) ) {
+			return new $control_class();
+		}
 	}
 
 	/**
@@ -134,7 +151,7 @@ class Block_Post extends Component_Abstract {
 		if ( isset( $this->controls[ $control ] ) && method_exists( $this->controls[ $control ], 'validate' ) ) {
 			return call_user_func( array( $this->controls[ $control ], 'validate' ), $value, $echo );
 		} elseif ( in_array( $control, $this->pro_controls, true ) && ! block_lab()->is_pro() ) {
-			$pro_control = $this->instantiate_pro_control( $control );
+			$pro_control = $this->get_control( $control );
 			if ( method_exists( $pro_control, 'validate' ) ) {
 				return call_user_func( array( $pro_control, 'validate' ), $value, $echo );
 			}
@@ -676,7 +693,7 @@ class Block_Post extends Component_Abstract {
 								$fields_for_select = $this->controls;
 								// If this field is disabled, it was probably added when there was a valid pro license, so still display it.
 								if ( $is_field_disabled && in_array( $field->control, $this->pro_controls, true ) ) {
-									$fields_for_select[ $field->control ] = $this->instantiate_pro_control( $field->control );
+									$fields_for_select[ $field->control ] = $this->get_control( $field->control );
 								}
 								foreach ( $fields_for_select as $control ) :
 									?>
