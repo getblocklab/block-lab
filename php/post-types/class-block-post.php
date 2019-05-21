@@ -120,8 +120,8 @@ class Block_Post extends Component_Abstract {
 	/**
 	 * Gets an instantiated control.
 	 *
-	 * @param string $control_name The name of the pro control.
-	 * @return object|null The instantiated pro control.
+	 * @param string $control_name The name of the control.
+	 * @return object|null The instantiated control, or null.
 	 */
 	public function get_control( $control_name ) {
 		if ( isset( $this->controls[ $control_name ] ) ) {
