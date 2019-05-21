@@ -113,5 +113,8 @@ class Test_Textarea extends \WP_UnitTestCase {
 		$this->assertEquals( 'autop', $this->instance->sanitize_new_line_format( 'autop' ) );
 		$this->assertEquals( 'autobr', $this->instance->sanitize_new_line_format( 'autobr' ) );
 		$this->assertEquals( 'none', $this->instance->sanitize_new_line_format( 'none' ) );
+
+		// If a non-string value is passed, this should return null.
+		$this->assertEquals( null, $this->instance->sanitize_new_line_format( false ) );
 	}
 }
