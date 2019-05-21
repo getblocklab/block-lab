@@ -87,15 +87,18 @@ class Test_Block_Post extends \WP_UnitTestCase {
 	}
 
 	/**
-	 * Test instantiate_pro_control.
+	 * Test get_control.
 	 *
-	 * @covers \Block_Lab\Post_Types\Block_Post::instantiate_pro_control()
+	 * @covers \Block_Lab\Post_Types\Block_Post::get_control()
 	 */
-	public function test_instantiate_pro_control() {
+	public function test_get_control() {
 		$namespace = 'Block_Lab\Blocks\Controls\\';
-		$this->assertEquals( $namespace . 'Post', get_class( $this->instance->instantiate_pro_control( 'post' ) ) );
-		$this->assertEquals( $namespace . 'Taxonomy', get_class( $this->instance->instantiate_pro_control( 'taxonomy' ) ) );
-		$this->assertEquals( $namespace . 'User', get_class( $this->instance->instantiate_pro_control( 'user' ) ) );
+		$this->assertEquals( $namespace . 'Post', get_class( $this->instance->get_control( 'post' ) ) );
+		$this->assertEquals( $namespace . 'Taxonomy', get_class( $this->instance->get_control( 'taxonomy' ) ) );
+		$this->assertEquals( $namespace . 'User', get_class( $this->instance->get_control( 'user' ) ) );
+
+		// If the control doesn't exist, this should return null.
+		$this->assertEquals( null, $this->instance->get_control( 'non-existant-control' ) );
 	}
 
 	/**
