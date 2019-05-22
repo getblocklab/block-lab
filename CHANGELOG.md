@@ -4,7 +4,7 @@
 
 * New: Support for Gutenberg's built-in Additional CSS Class in your block template, by using the field `className`. [Read more](https://github.com/getblocklab/block-lab/wiki/7.-FAQ)
 * New: The Textarea field now has an option to automatically add paragraph tags and line-breaks
-* Fix: Bug effecting blocks containing Pro fields when there's no active Pro license
+* Fix: Bug affecting blocks containing Pro fields when there's no active Pro license
 
 ### 1.3.0 - 2019-04-30 ###
 
