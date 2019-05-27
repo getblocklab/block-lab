@@ -22,7 +22,7 @@ class Test_Post extends \WP_UnitTestCase {
 	/**
 	 * Instance of the setting.
 	 *
-	 * @var Controls\Control_setting
+	 * @var Controls\Control_Setting
 	 */
 	public $setting;
 
