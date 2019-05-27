@@ -1,6 +1,6 @@
 <?php
 /**
- * URL control.
+ * Email control.
  *
  * @package   Block_Lab
  * @copyright Copyright(c) 2018, Block Lab

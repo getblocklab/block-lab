@@ -104,4 +104,27 @@ class Test_Control_Abstract extends \WP_UnitTestCase {
 		// This should  have a min="0" attribute, as the 4th argument is true.
 		$this->assertContains( $min_attribute, $output );
 	}
+
+	/**
+	 * Test render_select.
+	 *
+	 * @covers \Block_Lab\Blocks\Controls\Control_Abstract::render_select()
+	 */
+	public function test_render_select() {
+		$options = array(
+			'foo' => 'One',
+			'bar' => 'Two',
+			'baz' => 'Three'
+		);
+		ob_start();
+		$this->instance->render_select( $this->setting, self::NAME, self::ID, $options );
+		$output = ob_get_clean();
+
+		$this->assertContains( 'value="foo"', $output );
+		$this->assertContains( 'value="bar"', $output );
+		$this->assertContains( 'value="baz"', $output );
+		$this->assertContains( 'One', $output );
+		$this->assertContains( 'Two', $output );
+		$this->assertContains( 'Three', $output );
+	}
 }

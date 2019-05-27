@@ -22,6 +22,13 @@ class Textarea extends Control_Abstract {
 	public $name = 'textarea';
 
 	/**
+	 * Control type.
+	 *
+	 * @var string
+	 */
+	public $type = 'textarea';
+
+	/**
 	 * Textarea constructor.
 	 *
 	 * @return void
@@ -82,5 +89,60 @@ class Textarea extends Control_Abstract {
 				'sanitize' => array( $this, 'sanitize_number' ),
 			)
 		);
+		$this->settings[] = new Control_Setting(
+			array(
+				'name'     => 'new_lines',
+				'label'    => __( 'New Lines', 'block-lab' ),
+				'type'     => 'new_line_format',
+				'default'  => 'autop',
+				'sanitize' => array( $this, 'sanitize_new_line_format' ),
+			)
+		);
+	}
+
+	/**
+	 * Renders a <select> of new line rendering formats.
+	 *
+	 * @param Control_Setting $setting The Control_Setting being rendered.
+	 * @param string          $name    The name attribute of the option.
+	 * @param string          $id      The id attribute of the option.
+	 *
+	 * @return void
+	 */
+	public function render_settings_new_line_format( $setting, $name, $id ) {
+		$formats = $this->get_new_line_formats();
+		$this->render_select( $setting, $name, $id, $formats );
+	}
+
+	/**
+	 * Gets the new line formats.
+	 *
+	 * @return array {
+	 *     An associative array of new line formats.
+	 *
+	 *     @type string $key    The option value to save.
+	 *     @type string $label  The label.
+	 * }
+	 */
+	public function get_new_line_formats() {
+		$formats = array(
+			'autop'  => __( 'Automatically add paragraphs', 'block-lab' ),
+			'autobr' => __( 'Automatically add line breaks', 'block-lab' ),
+			'none'   => __( 'No formatting', 'block-lab' ),
+		);
+		return $formats;
+	}
+
+	/**
+	 * Sanitize the new line format, to ensure that it's valid.
+	 *
+	 * @param string $value The format to sanitize.
+	 * @return string|null The sanitized rest_base of the post type, or null.
+	 */
+	public function sanitize_new_line_format( $value ) {
+		if ( is_string( $value ) && array_key_exists( $value, $this->get_new_line_formats() ) ) {
+			return $value;
+		}
+		return null;
 	}
 }

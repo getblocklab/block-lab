@@ -252,6 +252,35 @@ abstract class Control_Abstract {
 	}
 
 	/**
+	 * Renders a <select> of the passed values.
+	 *
+	 * @param Control_Setting $setting The Control_Setting being rendered.
+	 * @param string          $name    The name attribute of the option.
+	 * @param string          $id      The id attribute of the option.
+	 * @param array           $values {
+	 *     An associative array of the post type REST slugs.
+	 *
+	 *     @type string $rest_slug The rest slug, like 'tags' for the 'post_tag' taxonomy.
+	 *     @type string $label     The label to display inside the <option>.
+	 * }
+	 *
+	 * @return void
+	 */
+	public function render_select( $setting, $name, $id, $values ) {
+		?>
+		<select name="<?php echo esc_attr( $name ); ?>" id="<?php echo esc_attr( $id ); ?>">
+			<?php
+			foreach ( $values as $value => $label ) :
+				?>
+				<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $value, $setting->get_value() ); ?>>
+					<?php echo esc_html( $label ); ?>
+				</option>
+			<?php endforeach; ?>
+		</select>
+		<?php
+	}
+
+	/**
 	 * Sanitize checkbox.
 	 *
 	 * @param string $value The value to sanitize.

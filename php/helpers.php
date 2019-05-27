@@ -37,11 +37,27 @@ function block_field( $name, $echo = true ) {
 		$value = $block_lab_attributes[ $name ];
 	}
 
+	// Cast default Editor attributes appropriately.
+	if ( 'className' === $name ) {
+		$value = strval( $value );
+	}
+
 	// Cast block value as correct type.
 	if ( isset( $block_lab_config['fields'][ $name ]['type'] ) ) {
 		switch ( $block_lab_config['fields'][ $name ]['type'] ) {
 			case 'string':
 				$value = strval( $value );
+				break;
+			case 'textarea':
+				$value = strval( $value );
+				if ( isset( $block_lab_config['fields'][ $name ]['new_lines'] ) ) {
+					if ( 'autop' === $block_lab_config['fields'][ $name ]['new_lines'] ) {
+						$value = wpautop( $value );
+					}
+					if ( 'autobr' === $block_lab_config['fields'][ $name ]['new_lines'] ) {
+						$value = nl2br( $value );
+					}
+				}
 				break;
 			case 'boolean':
 				if ( 1 === $value ) {
@@ -132,60 +148,6 @@ function block_field_config( $name ) {
 		return null;
 	}
 	return $block_lab_config['fields'][ $name ];
-}
-
-/**
- * Loads a template part to render the block.
- *
- * @param string $name The name of the block (slug as defined in UI).
- * @param string $type The type of template to load. Only 'block' supported at this stage.
- */
-function block_lab_template_part( $name, $type = 'block' ) {
-	// Loading async it might not come from a query, this breaks load_template().
-	global $wp_query;
-
-	// So lets fix it.
-	if ( empty( $wp_query ) ) {
-		$wp_query = new WP_Query(); // Override okay.
-	}
-
-	$types         = (array) $type;
-	$located       = '';
-	$template_file = '';
-
-	foreach ( $types as $type ) {
-
-		if ( ! empty( $located ) ) {
-			continue;
-		}
-
-		$template_file = "blocks/{$type}-{$name}.php";
-		$generic_file  = "blocks/{$type}.php";
-		$templates     = [
-			$generic_file,
-			$template_file,
-		];
-
-		$located = block_lab_locate_template( $templates );
-	}
-
-	if ( ! empty( $located ) ) {
-		$theme_template = apply_filters( 'block_lab_override_theme_template', $located );
-
-		// This is not a load once template, so require_once is false.
-		load_template( $theme_template, false );
-	} else {
-		if ( ! current_user_can( 'edit_posts' ) ) {
-			return;
-		}
-		printf(
-			'<div class="notice notice-warning">%s</div>',
-			wp_kses_post(
-				// Translators: Placeholder is a file path.
-				sprintf( __( 'Template file %s not found.' ), '<code>' . esc_html( $template_file ) . '</code>' )
-			)
-		);
-	}
 }
 
 /**
