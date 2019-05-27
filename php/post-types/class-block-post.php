@@ -95,14 +95,18 @@ class Block_Post extends Component_Abstract {
 			'range',
 			'checkbox',
 			'radio',
-			'rich-text',
+			'rich_text',
 		);
 
 		if ( block_lab()->is_pro() ) {
 			$control_names = array_merge( $control_names, $this->pro_controls );
 		}
+
 		foreach ( $control_names as $control_name ) {
-			$controls[ $control_name ] = $this->get_control( $control_name );
+			$control = $this->get_control( $control_name );
+			if ( $control ) {
+				$controls[ $control->name ] = $control;
+			}
 		}
 
 		/**
@@ -129,7 +133,7 @@ class Block_Post extends Component_Abstract {
 			return $this->controls[ $control_name ];
 		}
 
-		$class_name    = str_replace( '-', '_', ucwords( $control_name, '-' ) );
+		$class_name    = ucwords( $control_name, '_' );
 		$control_class = 'Block_Lab\\Blocks\\Controls\\' . $class_name;
 		if ( class_exists( $control_class ) ) {
 			return new $control_class();
