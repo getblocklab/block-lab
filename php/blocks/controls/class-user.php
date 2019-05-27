@@ -3,7 +3,7 @@
  * User control.
  *
  * @package   Block_Lab
- * @copyright Copyright(c) 2018, Block Lab
+ * @copyright Copyright(c) 2019, Block Lab
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
@@ -20,6 +20,13 @@ class User extends Control_Abstract {
 	 * @var string
 	 */
 	public $name = 'user';
+
+	/**
+	 * Field variable type.
+	 *
+	 * @var string
+	 */
+	public $type = 'object';
 
 	/**
 	 * User constructor.
@@ -44,15 +51,6 @@ class User extends Control_Abstract {
 				'sanitize' => 'sanitize_text_field',
 			)
 		);
-		$this->settings[] = new Control_Setting(
-			array(
-				'name'     => 'placeholder',
-				'label'    => __( 'Placeholder Text', 'block-lab' ),
-				'type'     => 'text',
-				'default'  => '',
-				'sanitize' => 'sanitize_text_field',
-			)
-		);
 	}
 
 	/**
@@ -63,7 +61,8 @@ class User extends Control_Abstract {
 	 * @return mixed $value The value to be made available or echoed on the front-end template.
 	 */
 	public function validate( $value, $echo ) {
-		$wp_user = get_user_by( 'login', $value );
+		$wp_user = isset( $value['id'] ) ? get_user_by( 'id', $value['id'] ) : null;
+
 		if ( $echo ) {
 			return $wp_user ? $wp_user->get( 'display_name' ) : '';
 		} else {

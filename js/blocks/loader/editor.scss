@@ -23,127 +23,6 @@ $break-small: 600px;
   box-shadow: none;
 }
 
-/* Block form in editor */
-div[class^="wp-block-block-lab-"] {
-  margin: 0;
-  padding: 5px;
-
-  .block-form {
-    border: 5px solid $dark;
-    background: $light;
-    padding: 1rem;
-    font-size: 0.8125rem;
-
-    h3 {
-      color: $black;
-      font-size: 1rem;
-      margin: 0;
-
-      svg {
-        position: relative;
-        top: 6px;
-        margin-right: 4px;
-      }
-    }
-
-    p {
-      font-size: 1rem;
-    }
-
-    .components-base-control__field {
-      margin: 1em 0 0;
-
-      .components-base-control__label {
-        font-weight: 600;
-      }
-    }
-
-    .components-base-control__help {
-      margin: 0 0 1em 0.5em;
-      font-size: 1em;
-      color: rgba(0, 0, 0, 0.8);
-    }
-  }
-
-  /* Media Upload Component */
-  .block-lab-media-control {
-    > .components-base-control__field {
-      display: flex;
-      flex-wrap: wrap;
-
-      > .components-base-control__label {
-        flex: 3 3 100%;
-      }
-
-      > .components-base-control {
-        flex: 3 1 auto;
-        margin-bottom: 0 !important;
-
-        .components-base-control__field {
-          margin: 0 !important;
-          width: 100%;
-          height: 100%;
-        }
-      }
-
-      .components-spinner {
-        margin-right: 0;
-        margin-top: 6px;
-      }
-
-      .components-form-file-upload {
-        flex: 1;
-        line-height: 2.5;
-        margin-left: 1em;
-      }
-
-      .components-media-library-button {
-        flex: 1;
-        margin-left: 1em;
-      }
-    }
-  }
-
-  /* FetchInput component */
-  .bl-fetch-input {
-    max-width: $input-width;
-  }
-}
-
-/* Block form in sidebar */
-.edit-post-settings-sidebar__panel-block .components-panel__body {
-  /* Media Upload Component */
-  .block-lab-media-control {
-    .components-base-control {
-      margin-bottom: 0 !important;
-    }
-
-    .components-spinner {
-      margin-top: 5px;
-    }
-
-    .components-form-file-upload {
-       display: inline-block;
-       margin-right: 1em;
-     }
-
-    .components-media-library-button {
-      display: inline-block;
-      vertical-align: top;
-
-      button {
-        display: block;
-        margin: 0;
-      }
-    }
-  }
-
-  /* The FetchInput component */
-  .bl-fetch--input input[type="text"] {
-    width: 100%;
-  }
-}
-
 /* Block form in editor & sidebar */
 div[class^="wp-block-block-lab-"],
 .edit-post-settings-sidebar__panel-block .components-panel__body {
@@ -155,15 +34,6 @@ div[class^="wp-block-block-lab-"],
   .text-control__error {
     border-color: #d94f4f;
     box-shadow: 0 0 0 1px #d94f4f;
-  }
-
-  /* Rich Text Control Component */
-  .block-lab-rich-text-control {
-    .input-control {
-      background: #fff;
-      line-height: 1.4em;
-      min-height: 7em;
-    }
   }
 
   /* Color Control Component */
@@ -207,6 +77,106 @@ div[class^="wp-block-block-lab-"],
         }
       }
     }
+  }
+
+  /* Media Upload Component */
+  .block-lab-media-controls {
+    .bl-image__img {
+      max-height: 200px;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .components-placeholder {
+      position: relative;
+    }
+
+    .components-form-file-upload,
+    .components-media-library-button,
+    .bl-image__remove {
+      margin: 0 4px 4px 0;
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    .components-base-control__field {
+      .components-base-control__help {
+        margin-bottom: 4px;
+        margin-top: 0;
+      }
+    }
+  }
+
+  /* Rich Text Control Component */
+  .block-lab-rich-text-control {
+    .input-control {
+      background: #fff;
+      line-height: 1.4em;
+      min-height: 7em;
+    }
+  }
+}
+
+/* Block form in editor */
+div[class^="wp-block-block-lab-"] {
+  margin: 0;
+  padding: 5px;
+
+  .block-form {
+    border: 5px solid $dark;
+    background: $light;
+    padding: 1rem;
+    font-size: 0.8125rem;
+
+    h3 {
+      color: $black;
+      font-size: 1rem;
+      margin: 0;
+
+      svg {
+        position: relative;
+        top: 6px;
+        margin-right: 4px;
+      }
+    }
+
+    p {
+      font-size: 1rem;
+    }
+
+    .components-base-control__field {
+      margin: 1em 0 0;
+
+      .components-base-control__label {
+        font-weight: 600;
+      }
+    }
+
+    .components-base-control__help {
+      margin: 0 0 1em 0.5em;
+      font-size: 1em;
+      color: rgba(0, 0, 0, 0.8);
+    }
+  }
+
+  /* FetchInput component */
+  .bl-fetch-input {
+    max-width: $input-width;
+  }
+}
+
+/* Block form in sidebar */
+.edit-post-settings-sidebar__panel-block .components-panel__body {
+  /* Media Upload Component */
+  .block-lab-media-controls {
+    .components-spinner {
+      float: none;
+    }
+  }
+
+  /* The FetchInput component */
+  .bl-fetch--input input[type="text"] {
+    width: 100%;
   }
 }
 
@@ -291,4 +261,10 @@ div[class^="wp-block-block-lab-"],
     color: $white;
     outline: none;
   }
+}
+
+.bl-dot-tip.read-more {
+  float: left;
+  margin: 0;
+  padding-right: 1em;
 }

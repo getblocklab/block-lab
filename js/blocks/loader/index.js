@@ -24,9 +24,7 @@ const registerBlocks = () => {
 		let icon = '';
 		if ( 'undefined' !== typeof icons[ block.icon ] ) {
 			icon = (
-				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-				     dangerouslySetInnerHTML={{ __html: icons[ block.icon ] }}
-				/>
+				<span dangerouslySetInnerHTML={{ __html: icons[ block.icon ] }} />
 			);
 		}
 
