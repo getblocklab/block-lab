@@ -52,6 +52,55 @@ class Test_Control_Abstract extends \WP_UnitTestCase {
 	}
 
 	/**
+	 * Test create_settings_config.
+	 *
+	 * @covers \Block_Lab\Blocks\Controls\Control_Abstract::create_settings_config()
+	 */
+	public function test_create_settings_config() {
+		$this->assertArraySubset(
+			array(
+				'location'    => array(
+					'name'     => 'location',
+					'label'    => __( 'Location', 'block-lab' ),
+					'type'     => 'location',
+					'default'  => 'editor',
+					'sanitize' => array( $this->instance, 'sanitize_location' ),
+				),
+				'help'        => array(
+					'name'     => 'help',
+					'label'    => __( 'Help Text', 'block-lab' ),
+					'type'     => 'text',
+					'default'  => '',
+					'sanitize' => 'sanitize_text_field',
+				),
+				'default'     => array(
+					'name'     => 'default',
+					'label'    => __( 'Default Value', 'block-lab' ),
+					'type'     => 'text',
+					'default'  => '',
+					'sanitize' => 'sanitize_text_field',
+				),
+				'placeholder' => array(
+					'name'     => 'placeholder',
+					'label'    => __( 'Placeholder Text', 'block-lab' ),
+					'type'     => 'text',
+					'default'  => '',
+					'sanitize' => 'sanitize_text_field',
+				),
+			),
+			$this->instance->settings_config
+		);
+
+		$this->assertArraySubset(
+			array(
+				'editor'    => __( 'Editor', 'block-lab' ),
+				'inspector' => __( 'Inspector', 'block-lab' ),
+			),
+			$this->instance->locations
+		);
+	}
+
+	/**
 	 * Test render_settings_number.
 	 *
 	 * @covers \Block_Lab\Blocks\Controls\Control_Abstract::render_settings_number()
