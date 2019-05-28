@@ -39,6 +39,15 @@ class Rich_Text extends Control_Abstract {
 	public function register_settings() {
 		$this->settings[] = new Control_Setting(
 			array(
+				'name'     => 'location',
+				'label'    => __( 'Another location', 'block-lab' ),
+				'type'     => 'location',
+				'default'  => 'editor',
+				'sanitize' => array( $this, 'sanitize_location' ),
+			)
+		);
+		$this->settings[] = new Control_Setting(
+			array(
 				'name'     => 'help',
 				'label'    => __( 'Help Text', 'block-lab' ),
 				'type'     => 'text',

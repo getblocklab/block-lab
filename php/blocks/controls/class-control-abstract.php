@@ -45,12 +45,24 @@ abstract class Control_Abstract {
 	public $settings = array();
 
 	/**
+	 * The possible editor locations, either in the main block editor, or the inspector controls.
+	 *
+	 * @var array
+	 */
+	public $locations = array();
+
+	/**
 	 * Control constructor.
 	 *
 	 * @return void
 	 */
 	public function __construct() {
 		$this->register_settings();
+
+		$this->locations = array(
+			'editor'    => __( 'Editor', 'block-lab' ),
+			'inspector' => __( 'Inspector', 'block-lab' ),
+		);
 	}
 
 	/**
@@ -252,6 +264,19 @@ abstract class Control_Abstract {
 	}
 
 	/**
+	 * Renders a <select> of locations.
+	 *
+	 * @param Control_Setting $setting The Control_Setting being rendered.
+	 * @param string          $name    The name attribute of the option.
+	 * @param string          $id      The id attribute of the option.
+	 *
+	 * @return void
+	 */
+	public function render_settings_location( $setting, $name, $id ) {
+		$this->render_select( $setting, $name, $id, $this->locations );
+	}
+
+	/**
 	 * Renders a <select> of the passed values.
 	 *
 	 * @param Control_Setting $setting The Control_Setting being rendered.
@@ -370,6 +395,19 @@ abstract class Control_Abstract {
 		$options = array_values( $options );
 
 		return $options;
+	}
+
+	/**
+	 * Sanitize a location value.
+	 *
+	 * @param string $value The value to sanitize.
+	 *
+	 * @return array
+	 */
+	public function sanitize_location( $value ) {
+		if ( is_string( $value ) && array_key_exists( $value, $this->locations ) ) {
+			return $value;
+		}
 	}
 
 	/**
