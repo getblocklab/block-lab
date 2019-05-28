@@ -9,18 +9,18 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl
 
-A WordPress Admin interface and a simple templating system for building custom Gutenberg blocks.
+The easy way to build custom blocks for Gutenberg.
 
 ## Description ##
 
-With the Gutenberg update, WordPress users will increasingly look for the development of custom blocks to meet their unique needs. Block Lab reduces the development burden of building custom blocks through a simple and familiar WordPress Admin interface and an easy to learn templating system.
+Gutenberg, the new WordPress editor, opens up a whole new world for the way we build pages, posts, and websites with WordPress. Block Lab makes it easy to harness Gutenberg and build custom blocks the way you want them to be built. Whether you want to implement a custom design, deliver unique functionality, or even remove your dependance on other plugins, Block Lab equips you with the tools you need to hit “Publish” sooner.
 
 ## Features ##
 
 ### A Familiar Experience ###
 Work within the WordPress admin with an interface you already know.
 
-### Custom Fields ###
+### Block Fields ###
 Add from a growing list of available fields to your custom blocks.
 
 ### Simple Templating ###
@@ -29,11 +29,18 @@ Let the plugin do the heavy lifting so you can use familiar WordPress developmen
 ### Developer Friendly Functions ###
 Simple to use functions, ready to render and work with the values stored through your custom block fields.
 
+### Connect with Community ###
+Join The Lab, our free Block Lab Community on Slack. The Lab is our real-time home for sharing resources, learning, and making connections. [Learn more.](https://getblocklab.com/welcome-to-the-lab/)
+
+### Go Pro ###
+Block Lab Pro is coming mid 2019 with power features to take your block building to the next level. [Learn more.](https://getblocklab.com/block-lab-pro)
+
 ## Links ##
 * [WordPress.org](https://wordpress.org/plugins/block-lab)
 * [Github](https://github.com/getblocklab/block-lab)
 * [Documentation](https://github.com/getblocklab/block-lab/wiki)
 * [Support](https://wordpress.org/support/plugin/block-lab)
+* [Block Lab Pro](https://getblocklab.com/block-lab-pro)
 
 ## Installation ##
 ### From Within WordPress ###
