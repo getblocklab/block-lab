@@ -55,11 +55,11 @@ class Test_Image extends \WP_UnitTestCase {
 		$this->instance->register_settings();
 
 		$first_setting = reset( $this->instance->settings );
-		$this->assertEquals( 'help', $first_setting->name );
-		$this->assertEquals( 'Help Text', $first_setting->label );
-		$this->assertEquals( 'text', $first_setting->type );
-		$this->assertEquals( '', $first_setting->default );
-		$this->assertEquals( 'sanitize_text_field', $first_setting->sanitize );
+		$this->assertEquals( 'location', $first_setting->name );
+		$this->assertEquals( 'Location', $first_setting->label );
+		$this->assertEquals( 'location', $first_setting->type );
+		$this->assertEquals( 'editor', $first_setting->default );
+		$this->assertEquals( array( $this->instance, 'sanitize_location' ), $first_setting->sanitize );
 	}
 
 	/**

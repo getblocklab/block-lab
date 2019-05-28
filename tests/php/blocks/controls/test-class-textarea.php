@@ -59,11 +59,11 @@ class Test_Textarea extends \WP_UnitTestCase {
 		}
 
 		$rows_setting = reset( $this->instance->settings );
-		$this->assertEquals( 'help', $rows_setting->name );
-		$this->assertEquals( 'Help Text', $rows_setting->label );
-		$this->assertEquals( 'text', $rows_setting->type );
-		$this->assertEquals( '', $rows_setting->default );
-		$this->assertEquals( 'sanitize_text_field', $rows_setting->sanitize );
+		$this->assertEquals( 'location', $rows_setting->name );
+		$this->assertEquals( 'Location', $rows_setting->label );
+		$this->assertEquals( 'location', $rows_setting->type );
+		$this->assertEquals( 'editor', $rows_setting->default );
+		$this->assertEquals( array( $this->instance, 'sanitize_location' ), $rows_setting->sanitize );
 
 		$rows_setting = end( $this->instance->settings );
 		$this->assertEquals( 'new_lines', $rows_setting->name );
