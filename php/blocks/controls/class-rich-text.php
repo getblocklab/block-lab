@@ -48,16 +48,6 @@ class Rich_Text extends Control_Abstract {
 		);
 		$this->settings[] = new Control_Setting(
 			array(
-				'name'     => 'multiline',
-				'label'    => __( 'Use Paragraphs', 'block-lab' ),
-				'help'     => __( 'New lines create paragraph tags.', 'block-lab' ),
-				'type'     => 'checkbox',
-				'default'  => '0',
-				'sanitize' => array( $this, 'sanitize_checkbox' ),
-			)
-		);
-		$this->settings[] = new Control_Setting(
-			array(
 				'name'     => 'default',
 				'label'    => __( 'Default Value', 'block-lab' ),
 				'type'     => 'text',
