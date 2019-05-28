@@ -130,7 +130,7 @@ const BlockLabRichTextControl = ( props, field, block ) => {
 				defaultValue={field.default}
 				value={attr[ field.name ]}
 				className='input-control'
-				multiline={!!field.multiline}
+				multiline="true"
 				inlineToolbar={true}
 				formattingControls={formattingControls}
 				onChange={richTextControl => {
