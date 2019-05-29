@@ -1,6 +1,6 @@
 const { BaseControl, Fill } = wp.components;
 const { RichText } = wp.editor;
-const { applyFormat, registerFormatType, removeFormat } = wp.richText;
+const { applyFormat, registerFormatType, toggleFormat } = wp.richText;
 const { __ } = wp.i18n;
 const { AlignmentToolbar } = wp.editor;
 const ALIGNMENTS = [ 'left', 'center', 'right' ];
@@ -36,6 +36,59 @@ const getAlignmentFromProps = ( alignmentProps ) => {
 	return matchedAlignments.length ? matchedAlignments[ 0 ] : null;
 };
 
+/**
+ * Handler for the AlignmentToolbar value changing.
+ *
+ * @param {String} newAlignment The new alignment, like 'left' or 'center'.
+ * @param {Object} props The properties of the AlignmentToolbar component.
+  */
+const onChangeAlign = ( newAlignment, props ) => {
+	const { text } = props.value;
+	const pattern = /[\r\n]+/;
+	const value = getAlignmentFromProps( props );
+	let { start, end } = props.value;
+
+	// If there's no text selection, only a cursor placement, align the entire string on the line where the cursor is.
+	if ( start === end ) {
+		while ( text.charAt( start - 1 ) && ! text.charAt( start - 1 ).match( pattern ) ) {
+			start--;
+		}
+		while ( text.charAt( end + 1 ) && ! text.charAt( end ).match( pattern ) ) {
+			end++;
+		}
+	}
+
+	if ( newAlignment ) {
+		props.onChange(
+			applyFormat(
+				props.value,
+				{
+					type: ALIGNMENT_CONTROL_NAME,
+					attributes: {
+						align: getAlignmentStyle( newAlignment ),
+					}
+				},
+				start,
+				end
+			)
+		);
+	} else {
+		props.onChange(
+			toggleFormat(
+				props.value,
+				{
+					type: ALIGNMENT_CONTROL_NAME,
+					attributes: {
+						align: getAlignmentStyle( value ),
+					}
+				},
+				start,
+				end
+			)
+		);
+	}
+};
+
 registerFormatType(
 	ALIGNMENT_CONTROL_NAME,
 	{
@@ -54,32 +107,8 @@ registerFormatType(
 					<AlignmentToolbar
 						value={ value }
 						onChange={ ( newAlignment ) => {
-							if ( newAlignment ) {
-								props.onChange(
-									applyFormat(
-										props.value,
-										{
-											type: ALIGNMENT_CONTROL_NAME,
-											attributes: {
-												align: getAlignmentStyle( newAlignment ),
-											}
-										},
-									)
-								);
-							} else {
-								props.onChange(
-									removeFormat(
-										props.value,
-										{
-											type: ALIGNMENT_CONTROL_NAME,
-											attributes: {
-												align: getAlignmentStyle( value ),
-											}
-										},
-									)
-								);
-							}
-						}}
+							onChangeAlign( newAlignment, props );
+						} }
 					/>
 				</Fill>
 			);
