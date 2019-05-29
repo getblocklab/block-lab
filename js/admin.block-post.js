@@ -26,12 +26,12 @@
 			field.find( '.block-fields-edit-label input' ).select();
 		});
 
-		$( '#block_fields' ).on( 'click', '#block-add-child-field', function() {
+		$( '#block_fields' ).on( 'click', '#block-add-sub-field', function() {
 			let template = wp.template( 'field-repeater' ),
 				data     = { uid: new Date().getTime() },
 				field    = $( template( data ) ),
 				row      = $( this ).closest( '.block-fields-row');
-			$( '.block-fields-child-rows', row ).append( field );
+			$( '.block-fields-sub-rows', row ).append( field );
 			$( '.repeater-no-fields', row ).hide();
 			$( '.repeater-has-fields', row ).show();
 			field.find( '.block-fields-actions-edit' ).trigger( 'click' );
@@ -74,12 +74,12 @@
 
 		$( '.block-fields-rows' )
 			.on( 'click', '.block-fields-actions-delete', function() {
-				let childRows = $( this ).closest( '.block-fields-child-rows' );
+				let subRows = $( this ).closest( '.block-fields-sub-rows' );
 				$( this ).closest( '.block-fields-row' ).remove();
 				if ( 0 === $( '.block-fields-rows' ).children( '.block-fields-row' ).length ) {
 					$( '.block-no-fields' ).show();
 				}
-				if ( 0 !== childRows.length && 0 === $( '.block-fields-row', childRows ).length ) {
+				if ( 0 !== subRows.length && 0 === $( '.block-fields-row', subRows ).length ) {
 					$( '.repeater-no-fields' ).show();
 					$( '.repeater-has-fields' ).hide();
 				}
@@ -128,11 +128,11 @@
 				fetchFieldSettings( fieldRow, $( this ).val() );
 
 				if ( 'repeater' === $( this ).val() ) {
-					let childRows = wp.template( 'child-field-rows' );
-					fieldRow.append( childRows );
-					blockFieldChildRowsInit( $( '.block-fields-child-rows', fieldRow ) );
+					let subRows = wp.template( 'sub-field-rows' );
+					fieldRow.append( subRows );
+					blockFieldSubRowsInit( $( '.block-fields-sub-rows', fieldRow ) );
 				} else {
-					$( '.block-fields-child-rows,.block-fields-child-rows-actions', fieldRow ).remove();
+					$( '.block-fields-sub-rows,.block-fields-sub-rows-actions', fieldRow ).remove();
 				}
 			})
 			.on( 'change keyup', '.block-fields-edit-label input', function() {
@@ -143,7 +143,7 @@
 					.val( slug )
 					.trigger( 'change' );
 			})
-			.on( 'mouseenter', '.block-fields-row div:not(.block-fields-edit,.block-fields-child-rows,.block-fields-child-rows-actions)', function() {
+			.on( 'mouseenter', '.block-fields-row div:not(.block-fields-edit,.block-fields-sub-rows,.block-fields-sub-rows-actions)', function() {
 				$( this ).parent().addClass('hover');
 			})
 			.on( 'mouseleave', '.block-fields-row div', function() {
@@ -219,8 +219,8 @@
 		}
 	};
 
-	let blockFieldChildRowsInit = function( childRows ) {
-		childRows.sortable({
+	let blockFieldSubRowsInit = function( subRows ) {
+		subRows.sortable({
 			axis: 'y',
 			cursor: 'grabbing',
 			handle: '> .block-fields-row-columns .block-fields-sort-handle',
