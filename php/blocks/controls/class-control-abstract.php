@@ -76,8 +76,8 @@ abstract class Control_Abstract {
 	/**
 	 * Creates the setting configuration.
 	 *
-	 * This sets the values for common settings, to some controls more DRY.
-	 * They can simply use the values here.
+	 * This sets the values for common settings, to make adding settings more DRY.
+	 * Then, controls can simply use the values here.
 	 *
 	 * @return void
 	 */
