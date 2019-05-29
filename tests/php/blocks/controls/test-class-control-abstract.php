@@ -176,4 +176,37 @@ class Test_Control_Abstract extends \WP_UnitTestCase {
 		$this->assertContains( 'Two', $output );
 		$this->assertContains( 'Three', $output );
 	}
+
+	/**
+	 * Test render_settings_location.
+	 *
+	 * @covers \Block_Lab\Blocks\Controls\Control_Abstract::render_settings_location()
+	 */
+	public function test_render_settings_location() {
+		ob_start();
+		$this->instance->render_select( $this->setting, self::NAME, self::ID, $this->instance->locations );
+		$output = ob_get_clean();
+
+		$this->assertContains( 'value="editor"', $output );
+		$this->assertContains( 'value="inspector"', $output );
+		$this->assertContains( 'Editor', $output );
+		$this->assertContains( 'Inspector', $output );
+	}
+
+	/**
+	 * Test sanitize_location.
+	 *
+	 * @covers \Block_Lab\Blocks\Controls\Control_Abstract::sanitize_location()
+	 */
+	public function test_sanitize_location() {
+		$wrong_locations = array( 'incorrect', 'classic-editor', 'foo-baz', false, null );
+		foreach ( $wrong_locations as $wrong_location ) {
+			$this->assertEquals( null, $this->instance->sanitize_location( $wrong_location ) );
+		}
+
+		$correct_locations = array( 'editor', 'inspector' );
+		foreach ( $correct_locations as $correct_location ) {
+			$this->assertEquals( $correct_location, $this->instance->sanitize_location( $correct_location ) );
+		}
+	}
 }
