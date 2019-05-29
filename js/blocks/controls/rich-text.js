@@ -3,8 +3,9 @@ const { RichText } = wp.editor;
 const { applyFormat, registerFormatType } = wp.richText;
 const { __ } = wp.i18n;
 const { AlignmentToolbar } = wp.editor;
-const centerAlignmentControl = 'block-lab/center-alignment';
-const formattingControls = [ centerAlignmentControl, 'bold', 'italic', 'strikethrough', 'link' ];
+const ALIGNMENTS = [ 'left', 'center', 'right' ];
+const ALIGNMENT_CONTROL_NAME = 'block-lab/rich-text-alignment';
+const FORMATTING_CONTROLS = [ ALIGNMENT_CONTROL_NAME, 'bold', 'italic', 'strikethrough', 'link' ];
 
 /**
  * Gets the styling for a given alignment.
@@ -16,13 +17,19 @@ const getAlignmentStyle = ( alignment ) => {
 	return `text-align: ${ alignment };`
 }
 
+/**
+ * Gets the alignment type from the properties.
+ *
+ * @param {Object} alignmentProps The properties for the alignment.
+ * @return {String|null} The alignment, either 'left', 'center', or 'right'.
+ */
 const getAlignmentFromProps = ( alignmentProps ) => {
 	if ( ! alignmentProps.activeAttributes || ! alignmentProps.activeAttributes.align ) {
 		return;
 	}
 
 	const alignmentStyle = alignmentProps.activeAttributes.align;
-	const matchedAlignments = [ 'left', 'center', 'right' ].filter( ( possibleAlignment ) => {
+	const matchedAlignments = ALIGNMENTS.filter( ( possibleAlignment ) => {
 		return getAlignmentStyle( possibleAlignment ) === alignmentStyle;
 	} );
 
@@ -30,7 +37,7 @@ const getAlignmentFromProps = ( alignmentProps ) => {
 };
 
 registerFormatType(
-	centerAlignmentControl,
+	ALIGNMENT_CONTROL_NAME,
 	{
 		title: __( 'Align Center', 'block-lab' ),
 		tagName: 'div',
@@ -39,18 +46,19 @@ registerFormatType(
 			align: 'style',
 		},
 		edit: ( props ) => {
-			const fillName = `RichText.ToolbarControls.${ centerAlignmentControl }`;
+			const fillName = `RichText.ToolbarControls.${ ALIGNMENT_CONTROL_NAME }`;
+
 			return (
 				<Fill name={ fillName }>
 					<AlignmentToolbar
-						value={ getAlignmentFromProps( props ) || '' }
+						value={ getAlignmentFromProps( props ) }
 						onChange={ ( newAlignment ) => {
 							if ( newAlignment ) {
 								props.onChange(
 									applyFormat(
 										props.value,
 										{
-											type: centerAlignmentControl,
+											type: ALIGNMENT_CONTROL_NAME,
 											attributes: {
 												align: getAlignmentStyle( newAlignment ),
 											}
@@ -86,7 +94,7 @@ const BlockLabRichTextControl = ( props, field, block ) => {
 				className='input-control'
 				multiline={false}
 				inlineToolbar={true}
-				formattingControls={formattingControls}
+				formattingControls={ FORMATTING_CONTROLS }
 				onChange={richTextControl => {
 					attr[field.name] = richTextControl
 					setAttributes(attr)
