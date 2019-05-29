@@ -13,7 +13,7 @@ const formControls = ( props, block ) => {
 
 		// If its not meant for the editor then continue (return null).
 		if ( !field.location || !field.location.includes( 'editor' ) ) {
-			return null
+			// return null @todo: this is only a workaround
 		}
 
 		const loadedControls = applyFilters( 'block_lab_controls', controls );
