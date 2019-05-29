@@ -1,6 +1,6 @@
 const { BaseControl, Fill } = wp.components;
 const { RichText } = wp.editor;
-const { applyFormat, registerFormatType } = wp.richText;
+const { applyFormat, registerFormatType, removeFormat } = wp.richText;
 const { __ } = wp.i18n;
 const { AlignmentToolbar } = wp.editor;
 const ALIGNMENTS = [ 'left', 'center', 'right' ];
@@ -39,7 +39,7 @@ const getAlignmentFromProps = ( alignmentProps ) => {
 registerFormatType(
 	ALIGNMENT_CONTROL_NAME,
 	{
-		title: __( 'Align Center', 'block-lab' ),
+		title: __( 'Alignment Controls', 'block-lab' ),
 		tagName: 'div',
 		className: 'bl-aligned',
 		attributes: {
@@ -47,11 +47,12 @@ registerFormatType(
 		},
 		edit: ( props ) => {
 			const fillName = `RichText.ToolbarControls.${ ALIGNMENT_CONTROL_NAME }`;
+			const value = getAlignmentFromProps( props );
 
 			return (
 				<Fill name={ fillName }>
 					<AlignmentToolbar
-						value={ getAlignmentFromProps( props ) }
+						value={ value }
 						onChange={ ( newAlignment ) => {
 							if ( newAlignment ) {
 								props.onChange(
@@ -61,6 +62,18 @@ registerFormatType(
 											type: ALIGNMENT_CONTROL_NAME,
 											attributes: {
 												align: getAlignmentStyle( newAlignment ),
+											}
+										},
+									)
+								);
+							} else {
+								props.onChange(
+									removeFormat(
+										props.value,
+										{
+											type: ALIGNMENT_CONTROL_NAME,
+											attributes: {
+												align: getAlignmentStyle( value ),
 											}
 										},
 									)
