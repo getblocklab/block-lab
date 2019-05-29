@@ -12,8 +12,8 @@ const formControls = ( props, block ) => {
 	const fields = simplifiedFields( block.fields ).map( (field, index) => {
 
 		// If its not meant for the editor then continue (return null).
-		if ( !field.location || !field.location.includes( 'editor' ) ) {
-			// return null @todo: this is only a workaround
+		if ( field.location && !field.location.includes( 'editor' ) ) {
+			return null
 		}
 
 		const loadedControls = applyFilters( 'block_lab_controls', controls );
