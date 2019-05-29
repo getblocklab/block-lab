@@ -41,4 +41,16 @@ class Rich_Text extends Control_Abstract {
 			$this->settings[] = new Control_Setting( $this->settings_config[ $setting ] );
 		}
 	}
+
+	/**
+	 * Validates the value to be made available to the front-end template.
+	 *
+	 * @param mixed $value The value to either make available as a variable or echoed on the front-end template.
+	 * @param bool  $echo Whether this will be echoed.
+	 * @return mixed $value The value to be made available or echoed on the front-end template.
+	 */
+	public function validate( $value, $echo ) {
+		unset( $echo );
+		return wpautop( $value );
+	}
 }
