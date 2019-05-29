@@ -42,15 +42,9 @@ class User extends Control_Abstract {
 	 * @return void
 	 */
 	public function register_settings() {
-		$this->settings[] = new Control_Setting(
-			array(
-				'name'     => 'help',
-				'label'    => __( 'Help Text', 'block-lab' ),
-				'type'     => 'text',
-				'default'  => '',
-				'sanitize' => 'sanitize_text_field',
-			)
-		);
+		foreach ( array( 'location', 'help' ) as $setting ) {
+			$this->settings[] = new Control_Setting( $this->settings_config[ $setting ] );
+		}
 	}
 
 	/**
