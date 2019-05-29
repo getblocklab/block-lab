@@ -31,7 +31,9 @@
 				data     = { uid: new Date().getTime() },
 				field    = $( template( data ) ),
 				row      = $( this ).closest( '.block-fields-row');
-			$( '.block-fields-child-rows-actions', row ).before( field );
+			$( '.block-fields-child-rows', row ).append( field );
+			$( '.repeater-no-fields', row ).hide();
+			$( '.repeater-has-fields', row ).show();
 			field.find( '.block-fields-actions-edit' ).trigger( 'click' );
 			field.find( '.block-fields-edit-label input' ).select();
 		});
@@ -72,9 +74,14 @@
 
 		$( '.block-fields-rows' )
 			.on( 'click', '.block-fields-actions-delete', function() {
+				let childRows = $( this ).closest( '.block-fields-child-rows' );
 				$( this ).closest( '.block-fields-row' ).remove();
 				if ( 0 === $( '.block-fields-rows' ).children( '.block-fields-row' ).length ) {
 					$( '.block-no-fields' ).show();
+				}
+				if ( 0 !== childRows.length && 0 === $( '.block-fields-row', childRows ).length ) {
+					$( '.repeater-no-fields' ).show();
+					$( '.repeater-has-fields' ).hide();
 				}
 			})
 			.on( 'click', '.block-fields-actions-edit, a.row-title', function() {
@@ -123,6 +130,7 @@
 				if ( 'repeater' === $( this ).val() ) {
 					let childRows = wp.template( 'child-field-rows' );
 					fieldRow.append( childRows );
+					blockFieldChildRowsInit( $( '.block-fields-child-rows', fieldRow ) );
 				} else {
 					$( '.block-fields-child-rows', fieldRow ).remove();
 				}
@@ -135,10 +143,16 @@
 					.val( slug )
 					.trigger( 'change' );
 			})
+			.on( 'mouseenter', '.block-fields-row div:not(.block-fields-edit,.block-fields-child-rows,.block-fields-child-rows-actions)', function() {
+				$( this ).parent().addClass('hover');
+			})
+			.on( 'mouseleave', '.block-fields-row div', function() {
+				$( this ).parent().removeClass('hover');
+			})
 			.sortable({
 				axis: 'y',
 				cursor: 'grabbing',
-				handle: '.block-fields-sort-handle',
+				handle: '> .block-fields-row-columns .block-fields-sort-handle',
 				containment: 'parent',
 				tolerance: 'pointer',
 			});
@@ -204,6 +218,16 @@
 			$( '.block-no-fields' ).show();
 		}
 	};
+
+	let blockFieldChildRowsInit = function( childRows ) {
+		childRows.sortable({
+			axis: 'y',
+			cursor: 'grabbing',
+			handle: '> .block-fields-row-columns .block-fields-sort-handle',
+			containment: 'parent',
+			tolerance: 'pointer',
+		});
+	}
 
 	let fetchFieldSettings = function( fieldRow, fieldControl ) {
 		if ( ! blockLab.hasOwnProperty( 'fieldSettingsNonce' ) ) {
