@@ -132,7 +132,7 @@
 					fieldRow.append( childRows );
 					blockFieldChildRowsInit( $( '.block-fields-child-rows', fieldRow ) );
 				} else {
-					$( '.block-fields-child-rows', fieldRow ).remove();
+					$( '.block-fields-child-rows,.block-fields-child-rows-actions', fieldRow ).remove();
 				}
 			})
 			.on( 'change keyup', '.block-fields-edit-label input', function() {
