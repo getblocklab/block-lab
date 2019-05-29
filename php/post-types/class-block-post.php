@@ -545,8 +545,8 @@ class Block_Post extends Component_Abstract {
 				$this->render_fields_meta_box_row( new Field( $args ) );
 				?>
 			</script>
-			<script type="text/html" id="tmpl-child-field-rows">
-				<?php $this->render_fields_child_rows(); ?>
+			<script type="text/html" id="tmpl-sub-field-rows">
+				<?php $this->render_fields_sub_rows(); ?>
 			</script>
 		</div>
 		<?php
@@ -731,7 +731,7 @@ class Block_Post extends Component_Abstract {
 			<?php
 			if ( 'repeater' === $field->control ) {
 				$rows = array();
-				$this->render_fields_child_rows( $rows );
+				$this->render_fields_sub_rows( $rows );
 			}
 			?>
 		</div>
@@ -741,23 +741,23 @@ class Block_Post extends Component_Abstract {
 	/**
 	 * Render the actions row when adding a Repeater field.
 	 *
-	 * @param array $rows The child rows to render.
+	 * @param array $rows The sub rows to render.
 	 *
 	 * @return void
 	 */
-	public function render_fields_child_rows( $rows = array() ) {
+	public function render_fields_sub_rows( $rows = array() ) {
 		?>
-		<div class="block-fields-child-rows">
+		<div class="block-fields-sub-rows">
 		</div>
-		<div class="block-fields-child-rows-actions">
+		<div class="block-fields-sub-rows-actions">
 			<p class="repeater-no-fields <?php echo esc_attr( empty( $rows ) ? '' : 'hidden' ); ?>">
-				<button type="button" aria-label="Add Sub-Field" id="block-add-child-field">
+				<button type="button" aria-label="Add Sub-Field" id="block-add-sub-field">
 					<span class="dashicons dashicons-plus"></span>
 					<?php esc_attr_e( 'Add your first Sub-Field', 'block-lab' ); ?>
 				</button>
 			</p>
 			<p class="repeater-has-fields <?php echo esc_attr( empty( $rows ) ? 'hidden' : '' ); ?>">
-				<button type="button" aria-label="Add Sub-Field" id="block-add-child-field">
+				<button type="button" aria-label="Add Sub-Field" id="block-add-sub-field">
 					<span class="dashicons dashicons-plus"></span>
 					<?php esc_attr_e( 'Add Sub-Field', 'block-lab' ); ?>
 				</button>
