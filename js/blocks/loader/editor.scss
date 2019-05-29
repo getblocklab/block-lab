@@ -154,6 +154,16 @@ div[class^="wp-block-block-lab-"] {
   .bl-fetch-input {
     max-width: $input-width;
   }
+
+  /* Rich Text Control Component */
+  .block-lab-rich-text-control {
+    .input-control {
+      background: #fff;
+      min-height: 7em;
+      line-height: 1.4rem;
+      font-size: 1rem;
+    }
+  }
 }
 
 /* Block form in sidebar */
