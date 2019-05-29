@@ -1,112 +1,66 @@
-const { BaseControl } = wp.components;
-const { RichText, RichTextToolbarButton } = wp.editor;
-const { registerFormatType, removeFormat, toggleFormat } = wp.richText;
+const { BaseControl, Fill } = wp.components;
+const { RichText } = wp.editor;
+const { applyFormat, registerFormatType } = wp.richText;
 const { __ } = wp.i18n;
-const leftAlignmentControl = 'block-lab/left-alignment';
+const { AlignmentToolbar } = wp.editor;
 const centerAlignmentControl = 'block-lab/center-alignment';
-const rightAlignmentControl = 'block-lab/right-alignment';
-const formattingControls = [ leftAlignmentControl, centerAlignmentControl, rightAlignmentControl, 'bold', 'italic', 'strikethrough', 'link' ];
+const formattingControls = [ centerAlignmentControl, 'bold', 'italic', 'strikethrough', 'link' ];
 
-registerFormatType(
-	leftAlignmentControl,
-	{
-		title: __( 'Align Left', 'block-lab' ),
-		tagName: 'p',
-		className: 'bl-align-left',
-		attributes: {
-			align: 'style',
-		},
-		edit: ( props ) => {
-			return (
-				<RichTextToolbarButton
-					title={ __( 'Align Left', 'block-lab' ) }
-					name={ leftAlignmentControl }
-					icon="editor-alignleft"
-					isActive={ props.isActive }
-					onClick={ () => {
-						props.onChange(
-							toggleFormat(
-								props.value,
-								{
-									type: leftAlignmentControl,
-									attributes: {
-										align: 'text-align: left;',
-									}
-								},
-							)
-						);
-					} }
-				/>
-			);
-		}
+/**
+ * Gets the styling for a given alignment.
+ *
+ * @pram {String} alignment The alignment, like 'left' or 'right'.
+ * @return {String} The alignment style, like text-align: left;.
+ */
+const getAlignmentStyle = ( alignment ) => {
+	return `text-align: ${ alignment };`
+}
+
+const getAlignmentFromProps = ( alignmentProps ) => {
+	if ( ! alignmentProps.activeAttributes || ! alignmentProps.activeAttributes.align ) {
+		return;
 	}
-);
+
+	const alignmentStyle = alignmentProps.activeAttributes.align;
+	const matchedAlignments = [ 'left', 'center', 'right' ].filter( ( possibleAlignment ) => {
+		return getAlignmentStyle( possibleAlignment ) === alignmentStyle;
+	} );
+
+	return matchedAlignments.length ? matchedAlignments[ 0 ] : null;
+};
 
 registerFormatType(
 	centerAlignmentControl,
 	{
 		title: __( 'Align Center', 'block-lab' ),
-		tagName: 'p',
-		className: 'bl-align-center',
+		tagName: 'div',
+		className: 'bl-aligned',
 		attributes: {
 			align: 'style',
 		},
 		edit: ( props ) => {
+			const fillName = `RichText.ToolbarControls.${ centerAlignmentControl }`;
 			return (
-				<RichTextToolbarButton
-					title={ __( 'Align Center', 'block-lab' ) }
-					name={ centerAlignmentControl }
-					icon="editor-aligncenter"
-					isActive={ props.isActive }
-					onClick={ () => {
-						props.onChange(
-							toggleFormat(
-								props.value,
-								{
-									type: centerAlignmentControl,
-									attributes: {
-										align: 'text-align: center;',
-									}
-								},
-							)
-						);
-					} }
-				/>
-			);
-		}
-	}
-);
-
-registerFormatType(
-	rightAlignmentControl,
-	{
-		title: __( 'Align Right', 'block-lab' ),
-		tagName: 'p',
-		className: 'bl-align-right',
-		attributes: {
-			align: 'style',
-		},
-		edit: ( props ) => {
-			return (
-				<RichTextToolbarButton
-					title={ __( 'Align Right', 'block-lab' ) }
-					name={ rightAlignmentControl }
-					icon="editor-alignright"
-					isActive={ props.isActive }
-					onClick={ () => {
-						props.onChange(
-							toggleFormat(
-								props.value,
-								{
-									type: rightAlignmentControl,
-									attributes: {
-										align: 'text-align: right;',
-									}
-								},
-							)
-						);
-					} }
-				/>
+				<Fill name={ fillName }>
+					<AlignmentToolbar
+						value={ getAlignmentFromProps( props ) || '' }
+						onChange={ ( newAlignment ) => {
+							if ( newAlignment ) {
+								props.onChange(
+									applyFormat(
+										props.value,
+										{
+											type: centerAlignmentControl,
+											attributes: {
+												align: getAlignmentStyle( newAlignment ),
+											}
+										},
+									)
+								);
+							}
+						}}
+					/>
+				</Fill>
 			);
 		}
 	}
@@ -130,7 +84,7 @@ const BlockLabRichTextControl = ( props, field, block ) => {
 				defaultValue={field.default}
 				value={attr[ field.name ]}
 				className='input-control'
-				multiline="true"
+				multiline={false}
 				inlineToolbar={true}
 				formattingControls={formattingControls}
 				onChange={richTextControl => {
