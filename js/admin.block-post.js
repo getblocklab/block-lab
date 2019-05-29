@@ -31,6 +31,10 @@
 				data     = { uid: new Date().getTime() },
 				field    = $( template( data ) ),
 				row      = $( this ).closest( '.block-fields-row');
+
+			// Prevents adding a repeater, in a repeater, in a repeater…
+			field.find( '.block-fields-edit-control option[value="repeater"]' ).remove();
+
 			$( '.block-fields-sub-rows', row ).append( field );
 			$( '.repeater-no-fields', row ).hide();
 			$( '.repeater-has-fields', row ).show();
