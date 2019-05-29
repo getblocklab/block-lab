@@ -466,7 +466,7 @@ class Block_Post extends Component_Abstract {
 									echo wp_kses_post(
 										sprintf(
 											// Translators: Placeholders are for <strong> HTML tags.
-											__( 'Click the %1$s+ Add Field%2$s button below to add your first field.' ),
+											__( 'Click %1$sAdd Field%2$s below to add your first field.' ),
 											'<strong>',
 											'</strong>'
 										)
@@ -487,13 +487,10 @@ class Block_Post extends Component_Abstract {
 			</table>
 		</div>
 		<div class="block-fields-actions-add-field">
-			<input
-				name="add-field"
-				type="button"
-				class="button button-primary button-large"
-				id="block-add-field"
-				value="<?php esc_attr_e( '+ Add Field', 'block-lab' ); ?>" />
-
+			<button type="button" aria-label="Add Field" class="block-fields-action" id="block-add-field">
+				<span class="dashicons dashicons-plus"></span>
+				<?php esc_attr_e( 'Add Field', 'block-lab' ); ?>
+			</button>
 			<script type="text/html" id="tmpl-field-repeater">
 				<?php
 				$args = array(
@@ -526,37 +523,39 @@ class Block_Post extends Component_Abstract {
 		}
 		?>
 		<div class="block-fields-row" data-uid="<?php echo esc_attr( $uid ); ?>">
-			<div class="block-fields-sort">
-				<span class="block-fields-sort-handle"></span>
-			</div>
-			<div class="block-fields-label">
-				<a class="row-title" href="javascript:" id="block-fields-label_<?php echo esc_attr( $uid ); ?>">
-					<?php echo esc_html( $field->label ); ?>
-				</a>
-				<div class="block-fields-actions">
-					<a class="block-fields-actions-edit" href="javascript:">
-						<?php esc_html_e( 'Edit', 'block-lab' ); ?>
-					</a>
-					&nbsp;|&nbsp;
-					<a class="block-fields-actions-delete" href="javascript:">
-						<?php esc_html_e( 'Delete', 'block-lab' ); ?>
-					</a>
+			<div class="block-fields-row-columns">
+				<div class="block-fields-sort">
+					<span class="block-fields-sort-handle"></span>
 				</div>
-			</div>
-			<div class="block-fields-name" id="block-fields-name_<?php echo esc_attr( $uid ); ?>">
-				<code id="block-fields-name-code_<?php echo esc_attr( $uid ); ?>"><?php echo esc_html( $field->name ); ?></code>
-			</div>
-			<div class="block-fields-control" id="block-fields-control_<?php echo esc_attr( $uid ); ?>">
-				<?php echo esc_html( $this->controls[ $field->control ]->label ); ?>
-			</div>
-			<div class="block-fields-location" id="block-fields-location_<?php echo esc_attr( $uid ); ?>">
-				<?php
-				if ( 'editor' === $field->location ) {
-					esc_html_e( 'Editor', 'block-lab' );
-				} elseif ( 'inspector' === $field->location ) {
-					esc_html_e( 'Inspector', 'block-lab' );
-				}
-				?>
+				<div class="block-fields-label">
+					<a class="row-title" href="javascript:" id="block-fields-label_<?php echo esc_attr( $uid ); ?>">
+						<?php echo esc_html( $field->label ); ?>
+					</a>
+					<div class="block-fields-actions">
+						<a class="block-fields-actions-edit" href="javascript:">
+							<?php esc_html_e( 'Edit', 'block-lab' ); ?>
+						</a>
+						&nbsp;|&nbsp;
+						<a class="block-fields-actions-delete" href="javascript:">
+							<?php esc_html_e( 'Delete', 'block-lab' ); ?>
+						</a>
+					</div>
+				</div>
+				<div class="block-fields-name" id="block-fields-name_<?php echo esc_attr( $uid ); ?>">
+					<code id="block-fields-name-code_<?php echo esc_attr( $uid ); ?>"><?php echo esc_html( $field->name ); ?></code>
+				</div>
+				<div class="block-fields-control" id="block-fields-control_<?php echo esc_attr( $uid ); ?>">
+					<?php echo esc_html( $this->controls[ $field->control ]->label ); ?>
+				</div>
+				<div class="block-fields-location" id="block-fields-location_<?php echo esc_attr( $uid ); ?>">
+					<?php
+					if ( 'editor' === $field->location ) {
+						esc_html_e( 'Editor', 'block-lab' );
+					} elseif ( 'inspector' === $field->location ) {
+						esc_html_e( 'Inspector', 'block-lab' );
+					}
+					?>
+				</div>
 			</div>
 			<div class="block-fields-edit">
 				<table class="widefat">
@@ -685,14 +684,20 @@ class Block_Post extends Component_Abstract {
 	public function render_fields_child_rows( $rows = array() ) {
 		?>
 		<div class="block-fields-child-rows">
-			<div class="block-fields-child-rows-actions">
-				<input
-					name="add-child-field"
-					type="button"
-					class="button button-large"
-					id="block-add-child-field"
-					value="<?php esc_attr_e( '+ Add Sub-Field', 'block-lab' ); ?>" />
-			</div>
+		</div>
+		<div class="block-fields-child-rows-actions">
+			<p class="repeater-no-fields <?php echo esc_attr( empty( $rows ) ? '' : 'hidden' ); ?>">
+				<button type="button" aria-label="Add Sub-Field" id="block-add-child-field">
+					<span class="dashicons dashicons-plus"></span>
+					<?php esc_attr_e( 'Add your first Sub-Field', 'block-lab' ); ?>
+				</button>
+			</p>
+			<p class="repeater-has-fields <?php echo esc_attr( empty( $rows ) ? 'hidden' : '' ); ?>">
+				<button type="button" aria-label="Add Sub-Field" id="block-add-child-field">
+					<span class="dashicons dashicons-plus"></span>
+					<?php esc_attr_e( 'Add Sub-Field', 'block-lab' ); ?>
+				</button>
+			</p>
 		</div>
 		<?php
 	}
