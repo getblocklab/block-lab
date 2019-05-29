@@ -3,14 +3,14 @@
  * Rich Text control.
  *
  * @package   Block_Lab
- * @copyright Copyright(c) 2018, Block Lab
+ * @copyright Copyright(c) 2019, Block Lab
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
 namespace Block_Lab\Blocks\Controls;
 
 /**
- * Class RichText
+ * Class Rich_Text
  */
 class Rich_Text extends Control_Abstract {
 
