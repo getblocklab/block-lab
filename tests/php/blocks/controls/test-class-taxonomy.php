@@ -70,6 +70,99 @@ class Test_Taxonomy extends \WP_UnitTestCase {
 	}
 
 	/**
+	 * Test render_settings_taxonomy_type_rest_slug.
+	 *
+	 * @covers \Block_Lab\Blocks\Controls\Taxonomy::render_settings_taxonomy_type_rest_slug()
+	 * @covers \Block_Lab\Blocks\Controls\Control_Abstract::render_select()
+	 */
+	public function test_render_settings_taxonomy_type_rest_slug() {
+		$name = 'post_type';
+		$id   = 'bl_post_type';
+
+		ob_start();
+		$this->instance->render_settings_taxonomy_type_rest_slug( $this->setting, $name, $id );
+		$output = ob_get_clean();
+		$this->assertContains( $name, $output );
+		$this->assertContains( $id, $output );
+
+		foreach( array( 'post_tag', 'category' ) as $post_type ) {
+			$taxonomy = get_taxonomy( $post_type );
+			$this->assertContains( $taxonomy->rest_base, $output );
+			$this->assertContains( $taxonomy->label, $output );
+		}
+	}
+
+	/**
+	 * Test get_taxonomy_rest_slugs.
+	 *
+	 * @covers \Block_Lab\Blocks\Controls\Taxonomy::get_taxonomy_rest_slugs()
+	 */
+	public function test_get_taxonomy_rest_slugs() {
+		$new_tax_slug  = 'foo-new-tax';
+		$new_tax_label = 'New Taxonomy';
+		$rest_base     = 'foo-new-taxonomies';
+
+		register_taxonomy(
+			$new_tax_slug,
+			'post',
+			array(
+				'show_in_rest' => true,
+				'label'        => $new_tax_label,
+				'rest_base'    => $rest_base,
+			)
+		);
+
+		// If a registered taxonomy doesn't have a rest_base, this should use the slug instead.
+		$new_tax_slug_without_rest_base  = 'baz-new-tax';
+		$new_tax_label_without_rest_base = 'Baz New Taxonomy';
+		register_taxonomy(
+			$new_tax_slug_without_rest_base,
+			'page',
+			array(
+				'show_in_rest' => true,
+				'label'        => $new_tax_label_without_rest_base,
+			)
+		);
+
+		$this->assertEquals(
+			array(
+				'categories'                     => 'Categories',
+				'tags'                           => 'Tags',
+				$rest_base                       => $new_tax_label,
+				$new_tax_slug_without_rest_base  => $new_tax_label_without_rest_base,
+			),
+			$this->instance->get_taxonomy_type_rest_slugs()
+		);
+	}
+
+	/**
+	 * Test sanitize_taxonomy_type_rest_slug.
+	 *
+	 * @covers \Block_Lab\Blocks\Controls\Taxonomy::sanitize_taxonomy_type_rest_slug()
+	 */
+	public function test_sanitize_taxonomy_type_rest_slug() {
+		$invalid_taxonomy_type = 'baz_invalid_taxonomy';
+		$valid_taxonomy_type   = 'categories';
+		$this->assertEmpty( $this->instance->sanitize_taxonomy_type_rest_slug( $invalid_taxonomy_type ) );
+		$this->assertEquals( $valid_taxonomy_type, $this->instance->sanitize_taxonomy_type_rest_slug( $valid_taxonomy_type ) );
+
+		$location_taxonomy_type_slug = 'location';
+		$rest_base                   = 'locations';
+		register_taxonomy(
+			$location_taxonomy_type_slug,
+			'post',
+			array(
+				'public'       => true,
+				'show_in_rest' => true,
+				'rest_base'    => $rest_base,
+			)
+		);
+
+		// This should recognize the rest_base of the testimonial taxonomy type, even though it's different from its slug.
+		$this->assertEquals( $rest_base, $this->instance->sanitize_taxonomy_type_rest_slug( $rest_base ) );
+	}
+
+	/**
 	 * Test validate.
 	 *
 	 * @covers \Block_Lab\Blocks\Controls\Taxonomy::validate()

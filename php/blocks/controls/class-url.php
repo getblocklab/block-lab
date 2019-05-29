@@ -1,6 +1,6 @@
 <?php
 /**
- * URL control.
+ * Url control.
  *
  * @package   Block_Lab
  * @copyright Copyright(c) 2018, Block Lab
@@ -12,7 +12,7 @@ namespace Block_Lab\Blocks\Controls;
 /**
  * Class Text
  */
-class URL extends Control_Abstract {
+class Url extends Control_Abstract {
 
 	/**
 	 * Control name.

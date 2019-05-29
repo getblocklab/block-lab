@@ -100,6 +100,20 @@ class Loader extends Component_Abstract {
 				$this->enqueue_block_styles( $block['name'], array( 'preview', 'block' ) );
 			}
 		}
+
+		// Used to conditionally show notices for blocks belonging to an author.
+		$author_blocks = get_posts(
+			array(
+				'author'         => get_current_user_id(),
+				'post_type'      => 'block_lab',
+				// We could use -1 here, but that could be dangerous. 99 is more than enough.
+				'posts_per_page' => 99,
+			)
+		);
+
+		$author_block_slugs = wp_list_pluck( $author_blocks, 'post_name' );
+
+		wp_localize_script( 'block-lab-blocks', 'blockLab', array( 'authorBlocks' => $author_block_slugs ) );
 	}
 
 	/**
@@ -151,6 +165,9 @@ class Loader extends Component_Abstract {
 		if ( ! isset( $block['fields'] ) ) {
 			return $attributes;
 		}
+
+		// Default Editor attributes (applied to all blocks).
+		$attributes['className'] = array( 'type' => 'string' );
 
 		foreach ( $block['fields'] as $field_name => $field ) {
 			$attributes[ $field_name ] = [];
