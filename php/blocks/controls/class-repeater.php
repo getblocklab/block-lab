@@ -53,14 +53,5 @@ class Repeater extends Control_Abstract {
 				'sanitize' => 'sanitize_text_field',
 			)
 		);
-		$this->settings[] = new Control_Setting(
-			array(
-				'name'     => 'default',
-				'label'    => __( 'Default Value', 'block-lab' ),
-				'type'     => 'checkbox',
-				'default'  => '0',
-				'sanitize' => array( $this, 'sanitize_checkbox' ),
-			)
-		);
 	}
 }
