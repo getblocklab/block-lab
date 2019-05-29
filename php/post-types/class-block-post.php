@@ -40,6 +40,7 @@ class Block_Post extends Component_Abstract {
 	 */
 	public $pro_controls = array(
 		'post',
+		'rich_text',
 		'taxonomy',
 		'user',
 	);
@@ -95,7 +96,6 @@ class Block_Post extends Component_Abstract {
 			'range',
 			'checkbox',
 			'radio',
-			'rich_text',
 		);
 
 		if ( block_lab()->is_pro() ) {
