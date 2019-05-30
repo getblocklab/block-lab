@@ -162,6 +162,16 @@ div[class^="wp-block-block-lab-"] {
       min-height: 7em;
       line-height: 1.4rem;
       font-size: 1rem;
+
+      p {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      p:first-child,
+      p:first-child > p {
+        margin-top: 0;
+      }
     }
   }
 }
