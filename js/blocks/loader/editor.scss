@@ -173,6 +173,12 @@ div[class^="wp-block-block-lab-"] {
         margin-top: 0;
       }
     }
+
+    /* Override native styling that created a double border */
+    .editor-rich-text__inline-toolbar .components-toolbar > .components-toolbar {
+      border: none;
+      border-right: 1px solid #e2e4e7;
+    }
   }
 }
 
