@@ -6,6 +6,7 @@ const { AlignmentToolbar } = wp.editor;
 const ALIGNMENTS = [ 'left', 'center', 'right' ];
 const ALIGNMENT_CONTROL_NAME = 'block-lab/rich-text-alignment';
 const FORMATTING_CONTROLS = [ ALIGNMENT_CONTROL_NAME, 'bold', 'italic', 'strikethrough', 'link' ];
+const LINE_SEPARATOR_PATTERN = /\u2028/;
 
 /**
  * Gets the styling for a given alignment.
@@ -44,16 +45,15 @@ const getAlignmentFromProps = ( alignmentProps ) => {
   */
 const onChangeAlign = ( newAlignment, props ) => {
 	const { text } = props.value;
-	const pattern = /[\r\n]+/;
 	const value = getAlignmentFromProps( props );
 	let { start, end } = props.value;
 
 	// If there's no text selection, only a cursor placement, align the entire string on the line where the cursor is.
 	if ( start === end ) {
-		while ( text.charAt( start - 1 ) && ! text.charAt( start - 1 ).match( pattern ) ) {
+		while ( text.charAt( start - 1 ) && ! text.charAt( start - 1 ).match( LINE_SEPARATOR_PATTERN ) ) {
 			start--;
 		}
-		while ( text.charAt( end ) && ! text.charAt( end ).match( pattern ) ) {
+		while ( text.charAt( end ) && ! text.charAt( end ).match( LINE_SEPARATOR_PATTERN ) ) {
 			end++;
 		}
 	}
@@ -93,7 +93,7 @@ registerFormatType(
 	ALIGNMENT_CONTROL_NAME,
 	{
 		title: __( 'Alignment Controls', 'block-lab' ),
-		tagName: 'div',
+		tagName: 'p',
 		className: 'bl-aligned',
 		attributes: {
 			align: 'style',
@@ -129,12 +129,13 @@ const BlockLabRichTextControl = ( props, field, block ) => {
 			*/
 			}
 			<RichText
+				key={ `block-lab-${ field.name }` }
 				placeholder={field.placeholder || ''}
 				keepPlaceholderOnFocus={true}
 				defaultValue={field.default}
 				value={attr[ field.name ]}
 				className='input-control'
-				multiline={false}
+				multiline={true}
 				inlineToolbar={true}
 				formattingControls={ FORMATTING_CONTROLS }
 				onChange={richTextControl => {
