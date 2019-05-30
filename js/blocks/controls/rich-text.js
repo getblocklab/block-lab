@@ -53,7 +53,7 @@ const onChangeAlign = ( newAlignment, props ) => {
 		while ( text.charAt( start - 1 ) && ! text.charAt( start - 1 ).match( pattern ) ) {
 			start--;
 		}
-		while ( text.charAt( end + 1 ) && ! text.charAt( end ).match( pattern ) ) {
+		while ( text.charAt( end ) && ! text.charAt( end ).match( pattern ) ) {
 			end++;
 		}
 	}
