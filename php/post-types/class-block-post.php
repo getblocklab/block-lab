@@ -682,7 +682,8 @@ class Block_Post extends Component_Abstract {
 								class="regular-text"
 								value="<?php echo esc_attr( $field->name ); ?>"
 								data-sync="block-fields-name-code_<?php echo esc_attr( $uid ); ?>"
-								<?php echo $is_field_disabled ? 'readonly="readonly"' : ''; ?> />
+								<?php echo $is_field_disabled ? 'readonly="readonly"' : ''; ?>
+							/>
 						</td>
 					</tr>
 					<tr class="block-fields-edit-control">
@@ -730,8 +731,19 @@ class Block_Post extends Component_Abstract {
 			</div>
 			<?php
 			if ( 'repeater' === $field->control ) {
-				$rows = array();
-				$this->render_fields_sub_rows( $rows );
+				if ( ! isset( $field->settings['sub-fields'] ) ) {
+					$field->settings['sub-fields'] = array();
+				}
+				$this->render_fields_sub_rows( $field->settings['sub-fields'] );
+			}
+			if ( isset( $field->settings['parent'] ) ) {
+				?>
+				<input
+					type="hidden"
+					name="block-fields-parent[<?php echo esc_attr( $uid ); ?>]"
+					value="<?php echo esc_attr( $field->settings['parent'] ); ?>"
+				/>
+				<?php
 			}
 			?>
 		</div>
@@ -741,22 +753,29 @@ class Block_Post extends Component_Abstract {
 	/**
 	 * Render the actions row when adding a Repeater field.
 	 *
-	 * @param array $rows The sub rows to render.
+	 * @param Field[] $fields The sub fields to render.
 	 *
 	 * @return void
 	 */
-	public function render_fields_sub_rows( $rows = array() ) {
+	public function render_fields_sub_rows( $fields = array() ) {
 		?>
 		<div class="block-fields-sub-rows">
+			<?php
+			if ( ! empty( $fields ) ) {
+				foreach ( $fields as $field ) {
+					$this->render_fields_meta_box_row( $field, uniqid() );
+				}
+			}
+			?>
 		</div>
 		<div class="block-fields-sub-rows-actions">
-			<p class="repeater-no-fields <?php echo esc_attr( empty( $rows ) ? '' : 'hidden' ); ?>">
+			<p class="repeater-no-fields <?php echo esc_attr( empty( $fields ) ? '' : 'hidden' ); ?>">
 				<button type="button" aria-label="Add Sub-Field" id="block-add-sub-field">
 					<span class="dashicons dashicons-plus"></span>
 					<?php esc_attr_e( 'Add your first Sub-Field', 'block-lab' ); ?>
 				</button>
 			</p>
-			<p class="repeater-has-fields <?php echo esc_attr( empty( $rows ) ? 'hidden' : '' ); ?>">
+			<p class="repeater-has-fields <?php echo esc_attr( empty( $fields ) ? 'hidden' : '' ); ?>">
 				<button type="button" aria-label="Add Sub-Field" id="block-add-sub-field">
 					<span class="dashicons dashicons-plus"></span>
 					<?php esc_attr_e( 'Add Sub-Field', 'block-lab' ); ?>
@@ -988,16 +1007,11 @@ class Block_Post extends Component_Abstract {
 
 		// Block fields.
 		if ( isset( $_POST['block-fields-name'] ) && is_array( $_POST['block-fields-name'] ) ) {
-			$order = 0;
-
 			// We loop through this array and sanitize its content according to the content type.
 			$fields = wp_unslash( $_POST['block-fields-name'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			foreach ( $fields as $key => $name ) {
 				// Field name and order.
-				$field_config = array(
-					'name'  => sanitize_key( $name ),
-					'order' => $order,
-				);
+				$field_config = array( 'name' => sanitize_key( $name ) );
 
 				// Field label.
 				if ( isset( $_POST['block-fields-label'][ $key ] ) ) {
@@ -1063,14 +1077,40 @@ class Block_Post extends Component_Abstract {
 						}
 
 						$field_config['settings'][ $setting->name ] = $value;
-						$field                                      = new Field( $field_config );
+
+						$field = new Field( $field_config );
 					}
 				} else {
 					$field = new Field( $field_config );
 				}
 
-				$block->fields[ $name ] = $field;
-				$order++;
+				/**
+				 * Sub-Fields
+				 * If there's a "block-fields-parent" input, include the current field in a "sub-fields" field setting
+				 * for the specified parent.
+				 */
+				if ( isset( $_POST['block-fields-parent'][ $key ] ) ) {
+					$parent = sanitize_key( $_POST['block-fields-parent'][ $key ] );
+
+					// The parent field should be set by now. We expect it to always preceed the child field.
+					if ( ! isset( $block->fields[ $parent ] ) ) {
+						continue;
+					}
+					if ( ! isset( $block->fields[ $parent ]->settings['sub-fields'] ) ) {
+						$block->fields[ $parent ]->settings['sub-fields'] = array();
+					}
+
+					$field->settings['parent'] = $parent;
+					$field->order              = count(
+						$block->fields[ $parent ]->settings['sub-fields']
+					);
+
+					$block->fields[ $parent ]->settings['sub-fields'][ $name ] = $field;
+				} else {
+					$field->order = count( $block->fields );
+
+					$block->fields[ $name ] = $field;
+				}
 			}
 		}
 

@@ -30,10 +30,18 @@
 			let template = wp.template( 'field-repeater' ),
 				data     = { uid: new Date().getTime() },
 				field    = $( template( data ) ),
-				row      = $( this ).closest( '.block-fields-row');
+				row      = $( this ).closest( '.block-fields-row' );
 
 			// Prevents adding a repeater, in a repeater, in a repeater…
 			field.find( '.block-fields-edit-control option[value="repeater"]' ).remove();
+
+			// Add parent UID as a hidden input
+			let parentInput = $( '<input>' ).attr({
+				'type': 'hidden',
+				'name': 'block-fields-parent[' + data.uid + ']',
+				'value': row.find( 'input[name^="block-fields-name"]' ).val()
+			});
+			field.append( parentInput );
 
 			$( '.block-fields-sub-rows', row ).append( field );
 			$( '.repeater-no-fields', row ).hide();
