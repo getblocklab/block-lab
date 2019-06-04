@@ -497,14 +497,11 @@ class Block_Post extends Component_Abstract {
 						<th class="block-fields-control">
 							<?php esc_html_e( 'Field Type', 'block-lab' ); ?>
 						</th>
-						<th class="block-fields-location">
-							<?php esc_html_e( 'Field Location', 'block-lab' ); ?>
-						</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td colspan="5">
+						<td colspan="4">
 							<div class="block-fields-rows">
 								<p class="block-no-fields">
 									<?php
@@ -617,15 +614,6 @@ class Block_Post extends Component_Abstract {
 							?>
 						</span>
 					<?php endif; ?>
-				</div>
-				<div class="block-fields-location" id="block-fields-location_<?php echo esc_attr( $uid ); ?>">
-					<?php
-					if ( empty( $field->settings->location ) || 'editor' === $field->settings->location ) {
-						esc_html_e( 'Editor', 'block-lab' );
-					} elseif ( 'inspector' === $field->settings->location ) {
-						esc_html_e( 'Inspector', 'block-lab' );
-					}
-					?>
 				</div>
 			</div>
 			<div class="block-fields-edit">
