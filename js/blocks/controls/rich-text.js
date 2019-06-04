@@ -1,5 +1,6 @@
+import BlockLabRichText from './components/rich-text';
+
 const { BaseControl, Fill } = wp.components;
-const { RichText } = wp.editor;
 const { applyFormat, registerFormatType, toggleFormat } = wp.richText;
 const { __ } = wp.i18n;
 const { AlignmentToolbar } = wp.editor;
@@ -128,7 +129,7 @@ const BlockLabRichTextControl = ( props, field, block ) => {
 			* @see: https://github.com/WordPress/gutenberg/issues/7463
 			*/
 			}
-			<RichText
+			<BlockLabRichText
 				key={ `block-lab-${ field.name }` }
 				placeholder={field.placeholder || ''}
 				keepPlaceholderOnFocus={true}
