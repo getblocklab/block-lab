@@ -54,6 +54,7 @@ const onChangeAlign = ( newAlignment, props ) => {
 		while ( text.charAt( start - 1 ) && ! text.charAt( start - 1 ).match( LINE_SEPARATOR_PATTERN ) ) {
 			start--;
 		}
+
 		while ( text.charAt( end ) && ! text.charAt( end ).match( LINE_SEPARATOR_PATTERN ) ) {
 			end++;
 		}
@@ -74,17 +75,17 @@ const onChangeAlign = ( newAlignment, props ) => {
 			)
 		);
 	} else {
+		// toggleFormat doesn't accept 4 arguments like applyFormat, so pass the new start and end in the value.
+		const ownValue = Object.assign( props.value, { start, end } );
 		props.onChange(
 			toggleFormat(
-				props.value,
+				ownValue,
 				{
 					type: ALIGNMENT_CONTROL_NAME,
 					attributes: {
 						align: getAlignmentStyle( value ),
 					}
-				},
-				start,
-				end
+				}
 			)
 		);
 	}

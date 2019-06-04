@@ -2,6 +2,9 @@ const { RichText } = wp.editor;
 
 class BlockLabRichText extends RichText {
 
+	/**
+	 * Constructs the component class.
+	 */
 	constructor() {
 		super( ...arguments );
 		this.onSelectionChange = this.onSelectionChange.bind( this );
