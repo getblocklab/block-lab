@@ -229,6 +229,9 @@
 		if ( 0 === $( '.block-fields-rows' ).children( '.block-fields-row' ).length ) {
 			$( '.block-no-fields' ).show();
 		}
+		$( '.block-fields-sub-rows' ).each( function() {
+			blockFieldSubRowsInit( $( this ) );
+		});
 	};
 
 	let blockFieldSubRowsInit = function( subRows ) {
