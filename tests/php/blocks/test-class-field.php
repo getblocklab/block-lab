@@ -17,7 +17,7 @@ class Test_Field extends \WP_UnitTestCase {
 	 *
 	 * @var array
 	 */
-	const CONFIG = array(
+	public $config = array(
 		'name'     => 'foo',
 		'label'    => 'Foo',
 		'control'  => 'number',
@@ -69,7 +69,7 @@ class Test_Field extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Field::from_array()
 	 */
 	public function test_from_array() {
-		$this->instance->from_array( self::CONFIG );
+		$this->instance->from_array( $this->config );
 
 		$this->assertEquals( 'foo', $this->instance->name );
 		$this->assertEquals( 'Foo', $this->instance->label );
@@ -92,7 +92,7 @@ class Test_Field extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Field::to_array()
 	 */
 	public function test_to_array() {
-		$this->instance->from_array( self::CONFIG );
+		$this->instance->from_array( $this->config );
 		$config = $this->instance->to_array();
 
 		$this->assertEquals( 'foo', $config['name'] );
