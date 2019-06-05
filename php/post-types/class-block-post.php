@@ -1101,6 +1101,7 @@ class Block_Post extends Component_Abstract {
 			'title'    => $columns['title'],
 			'icon'     => __( 'Icon', 'block-lab' ),
 			'template' => __( 'Template', 'block-lab' ),
+			'category' => __( 'Category', 'block-lab' ),
 			'keywords' => __( 'Keywords', 'block-lab' ),
 		);
 		return $new_columns;
@@ -1151,9 +1152,14 @@ class Block_Post extends Component_Abstract {
 			$block = new Block( $post_id );
 			echo esc_html( implode( ', ', $block->keywords ) );
 		}
-		if ( 'fields' === $column ) {
-			$block = new Block( $post_id );
-			echo esc_html( count( $block->fields ) );
+		if ( 'category' === $column ) {
+			global $post;
+
+			$block      = new Block( $post_id );
+			$categories = get_block_categories( $post );
+			$categories = wp_list_pluck( $categories, 'title', 'slug' );
+
+			echo esc_html( $categories[ $block->category ] );
 		}
 	}
 
