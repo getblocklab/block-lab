@@ -442,8 +442,17 @@ class Block_Post extends Component_Abstract {
 				<?php esc_html_e( 'Category:', 'block-lab' ); ?>
 			</label>
 			<select name="block-properties-category" id="block-properties-category">
+				<?php
+				$categories = get_block_categories( $post );
+				foreach ( $categories as $category ) {
+					?>
+					<option value="<?php echo esc_attr( $category['slug'] ); ?>" <?php selected( $category['slug'], $block->category ); ?>>
+						<?php echo esc_html( $category['title'] ); ?>
+					</option>
+					<?php
+				}
+				?>
 			</select>
-			<input type="hidden" id="block-properties-category-saved" value="<?php echo esc_attr( $block->category ); ?>" />
 		</p>
 		<p>
 			<label for="block-properties-keywords">
