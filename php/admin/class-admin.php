@@ -58,6 +58,11 @@ class Admin extends Component_Abstract {
 		if ( $show_pro_nag && ! block_lab()->is_pro() ) {
 			$this->upgrade = new Upgrade();
 			block_lab()->register_component( $this->upgrade );
+		} else {
+			$page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
+			if ( 'block-lab-pro' === $page ) {
+				$this->settings_redirect();
+			}
 		}
 
 		if ( block_lab()->is_pro() ) {
@@ -87,5 +92,22 @@ class Admin extends Component_Abstract {
 			array(),
 			$this->plugin->get_version()
 		);
+	}
+
+	/**
+	 * Redirect to the Settings screen if the license is being saved.
+	 */
+	public function settings_redirect() {
+		wp_safe_redirect(
+			add_query_arg(
+				array(
+					'post_type' => 'block_lab',
+					'page'      => 'block-lab-settings',
+					'tab'       => 'license',
+				),
+				admin_url( 'edit.php' )
+			)
+		);
+		die();
 	}
 }
