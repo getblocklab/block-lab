@@ -12,7 +12,6 @@
 
 	$(function() {
 		blockTitleInit();
-		blockCategoryInit();
 		blockIconInit();
 		blockFieldInit();
 
@@ -162,29 +161,6 @@
 					autoSlug = false;
 				}
 			});
-		}
-	};
-
-	let blockCategoryInit = function() {
-		let categories       = wp.blocks.getCategories(),
-			categoriesLength = categories.length,
-			category         = $( '#block-properties-category-saved' );
-
-		for (let i = 0; i < categoriesLength; i++) {
-			if ( 'reusable' === categories[i].slug ) {
-				continue;
-			}
-			$( '<option/>', {
-				value: categories[i].slug,
-				text: categories[i].title,
-			} ).appendTo( '#block-properties-category' );
-		}
-
-		if ( category.val() !== '' ) {
-			let option = $( '#block-properties-category option[value="' + category.val() + '"]' );
-			if ( option.length > 0 ) {
-				$( '#block-properties-category' ).prop( 'selectedIndex', option.index() );
-			}
 		}
 	};
 
