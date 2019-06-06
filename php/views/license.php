@@ -59,7 +59,7 @@
 							'<p>%1$s %2$s</p>',
 							sprintf(
 								// translators: A date.
-								__( 'Your license will be automatically renewed on %1$s.', 'block-lab' ),
+								__( 'Your license expires on %1$s.', 'block-lab' ),
 								'<strong>' . $expiry . '</strong>'
 							),
 							sprintf(
