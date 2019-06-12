@@ -1,7 +1,5 @@
 const { BaseControl } = wp.components;
 const { RichText } = wp.blockEditor;
-const ALIGNMENT_CONTROL_NAME = 'block-lab/rich-text-alignment';
-const FORMATTING_CONTROLS = [ ALIGNMENT_CONTROL_NAME, 'bold', 'italic', 'strikethrough', 'link' ];
 
 const BlockLabRichTextControl = ( props, field, block ) => {
 	const { setAttributes } = props
@@ -16,7 +14,7 @@ const BlockLabRichTextControl = ( props, field, block ) => {
 			*/
 			}
 			<RichText
-				key={ `block-lab-${ field.name }` }
+				key={`block-lab-${field.name}`} 
 				placeholder={field.placeholder || ''}
 				keepPlaceholderOnFocus={true}
 				defaultValue={field.default}
@@ -24,7 +22,6 @@ const BlockLabRichTextControl = ( props, field, block ) => {
 				className='input-control'
 				multiline={true}
 				inlineToolbar={true}
-				formattingControls={ FORMATTING_CONTROLS }
 				onChange={richTextControl => {
 					attr[field.name] = richTextControl
 					setAttributes(attr)
