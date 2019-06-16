@@ -250,6 +250,17 @@ class Loader extends Component_Abstract {
 		$block_lab_attributes = $attributes;
 		$block_lab_config     = $block;
 
+		/**
+		 * Runs in the 'render_callback' of the block.
+		 *
+		 * If a block needs an asset like a JavaScript file,
+		 * this is a good place to call wp_enqueue_script(), with the 5th $in_footer argument as true.
+		 *
+		 * @param array $block The block that is rendered.
+		 * @param array $attributes The block attributes.
+		 */
+		do_action( 'block_lab_render_block_template', $block, $attributes );
+
 		ob_start();
 		$this->block_template( $block['name'], $type );
 		$output = ob_get_clean();
