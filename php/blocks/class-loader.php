@@ -253,8 +253,9 @@ class Loader extends Component_Abstract {
 		/**
 		 * Runs in the 'render_callback' of the block.
 		 *
-		 * If a block needs an asset like a JavaScript file,
-		 * this is a good place to call wp_enqueue_script(), with the 5th $in_footer argument as true.
+		 * For example, if a block depends on a JavaScript file,
+		 * this is a good place to call wp_enqueue_script().
+		 * In that case, pass true as the 5th argument ($in_footer) to wp_enqueue_script().
 		 *
 		 * @param array $block The block that is rendered.
 		 * @param array $attributes The block attributes.
