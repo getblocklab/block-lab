@@ -253,9 +253,12 @@ class Loader extends Component_Abstract {
 		/**
 		 * Runs in the 'render_callback' of the block.
 		 *
-		 * For example, if a block depends on a JavaScript file,
-		 * this is a good place to call wp_enqueue_script().
+		 * The block's name (slug) is in $block['name'].
+		 * If a block depends on a JavaScript file,
+		 * this action is a good place to call wp_enqueue_script().
 		 * In that case, pass true as the 5th argument ($in_footer) to wp_enqueue_script().
+		 * To only enqueue scripts on the front-end, you might consider wrapping wp_enqueue_script() in a conditional, like:
+		 * if ( 'foo-block' === $block['name'] && ! is_admin() && ! defined('REST_REQUEST') && ! wp_doing_ajax() )
 		 *
 		 * @param array $block The block that is rendered.
 		 * @param array $attributes The block attributes.
