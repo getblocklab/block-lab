@@ -48,7 +48,7 @@ class Test_Loader extends \WP_UnitTestCase {
 		);
 
 		// Test that the do_action() call with this action runs, and that it allows enqueuing a script.
-		add_action( 'block_lab_render_block_template', function( $block ) use ( $block_name, $slug, $script_url) {
+		add_action( 'block_lab_render_template', function( $block ) use ( $block_name, $slug, $script_url) {
 			if ( $block_name === $block['name'] ) {
 				wp_enqueue_script( $slug, $script_url, array(), '0.1', true );
 			}
@@ -63,11 +63,11 @@ class Test_Loader extends \WP_UnitTestCase {
 		$this->assertEquals( $script_url, $script->src );
 
 
-		// Test that the do_action() call with the dynamic name runs, like 'block_lab_render_block_template_bl-dynamic-testing-slug'.
+		// Test that the do_action() call with the dynamic name runs, like 'block_lab_render_template_bl-dynamic-testing-slug'.
 		$slug       = 'bl-dynamic-testing-slug';
 		$script_url = 'https://example.com/another-script.js';
 
-		add_action( "block_lab_render_block_template_{$block_name}", function( $block ) use ( $block_name, $slug, $script_url) {
+		add_action( "block_lab_render_template_{$block_name}", function( $block ) use ( $block_name, $slug, $script_url) {
 			wp_enqueue_script( $slug, $script_url, array(), '0.1', true );
 		} );
 

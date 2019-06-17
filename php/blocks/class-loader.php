@@ -263,7 +263,7 @@ class Loader extends Component_Abstract {
 			 * @param array $block The block that is rendered.
 			 * @param array $attributes The block attributes.
 			 */
-			do_action( 'block_lab_render_block_template', $block, $attributes );
+			do_action( 'block_lab_render_template', $block, $attributes );
 
 			/**
 			 * Runs in a block's 'render_callback', and only on the front-end.
@@ -273,7 +273,7 @@ class Loader extends Component_Abstract {
 			 * @param array $block The block that is rendered.
 			 * @param array $attributes The block attributes.
 			 */
-			do_action( "block_lab_render_block_template_{$block['name']}", $block, $attributes );
+			do_action( "block_lab_render_template_{$block['name']}", $block, $attributes );
 		}
 
 		ob_start();
