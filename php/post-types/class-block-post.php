@@ -476,7 +476,10 @@ class Block_Post extends Component_Abstract {
 			<button class="block-properties-category-create-button button button-default">
 				<?php esc_html_e( 'Create Category', 'block-lab' ); ?>
 			</button>
-			<div style="display: block">
+			<div style="display: none" id="block-properties-category-create-wrapper">
+				<button class="block-properties-category-remove-button button button-default">
+					<?php esc_html_e( 'Close Custom Category', 'block-lab' ); ?>
+				</button><br /><br />
 				<input
 					type="text"
 					value="" name="block-properties-category-name"

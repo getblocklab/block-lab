@@ -54,6 +54,18 @@
 			$( this ).hide();
 		});
 
+		$( '.block-properties-category-create-button' ).on( 'click', function( e ) {
+			e.preventDefault();
+			$( this ).hide();
+			$( '#block-properties-category-create-wrapper' ).show();
+		});
+
+		$( '.block-properties-category-remove-button' ).on( 'click', function( e ) {
+			e.preventDefault();
+			$( this ).parent().hide();
+			$( '.block-properties-category-create-button' ).show();
+		});
+
 		$( '#block_template .template-location .click-to-copy input' ).on( 'blur', function() {
 			$( '#block_template .template-location a.filename' ).show();
 			$( this ).parent().hide();
