@@ -86,13 +86,12 @@
 			let categoryVal = $.trim( $( '#block-properties-category-name' ).val() );
 			let icon = $( '.block-properties-custom-select .selected' ).data( 'value' );
 			if ( '' === categoryVal ) {
-				alert( 'You must fill out a category' );
+				alert( blockLab.emptyCategory );
 				return;
 			}
 			$( this ).html( blockLab.saving ).attr( 'disabled', 'disabled' );
 			wp.ajax.send( 'save_custom_category', {
 				success: function( data ) {
-					console.log( data );
 					alert( 'category saved' );
 				},
 				error: function() {
@@ -100,7 +99,7 @@
 				},
 				data: {
 					category_name: $('#block-properties-category-name' ).val(),
-					icon: $('.block-properties-custom-select .selected' ).data( 'value' ),
+					icon: $('#block-properties-dashicon-name' ).val(),
 					nonce:   blockLab.fieldSettingsNonce
 				}
 			});

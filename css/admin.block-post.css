@@ -230,6 +230,14 @@
 	color: rgba(0, 160, 210, 1);
 	fill: rgba(0, 160, 210, 1);
 }
+#block-properties-category-create-wrapper label {
+	font-weight: 700;
+}
+#block-properties-category-create-wrapper label input {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-weight: 400;
+}
 #block_properties .block-properties-icon-select .icon svg,
 #block_properties .block-properties-custom-select .icon svg {
 	vertical-align: top;

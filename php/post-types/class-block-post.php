@@ -62,6 +62,7 @@ class Block_Post extends Component_Abstract {
 		add_action( 'wp_insert_post_data', array( $this, 'save_block' ), 10, 2 );
 		add_action( 'init', array( $this, 'register_controls' ) );
 		add_filter( 'block_lab_field_value', array( $this, 'get_field_value' ), 10, 3 );
+		add_filter( 'block_categories', array( $this, 'maybe_update_block_categories'  ), 10, 2 );
 
 		// Clean up the list table.
 		add_filter( 'disable_months_dropdown', '__return_true', 10, $this->slug );
@@ -117,6 +118,25 @@ class Block_Post extends Component_Abstract {
 		 * }
 		 */
 		$this->controls = apply_filters( 'block_lab_controls', $controls );
+	}
+
+	/**
+	 * Adds custom categories to the block defaults.
+	 *
+	 * @param array  $category_defaults Array of block category defaults.
+	 * @param object $post              Post object.
+	 * @return array The updated categories.
+	 */
+	public function maybe_update_block_categories( $category_defaults, $post ) {
+		$maybe_categories = get_site_option( 'block_lab_custom_categories', array() );
+		foreach ( $maybe_categories as $category ) {
+			$category_defaults[] = array(
+				'slug'  => sanitize_title( $category['category'] ),
+				'title' => esc_html( $category['category'] ),
+				'icon'  => wp_kses( $category['icon'], block_lab_allowed_svg_tags() ),
+			);
+		}
+		return $category_defaults;
 	}
 
 	/**
@@ -282,6 +302,7 @@ class Block_Post extends Component_Abstract {
 					),
 					'saving'             => __( 'Saving...', 'block-lab' ),
 					'saveCategory'       => __( 'Save Category.', 'block-lab' ),
+					'emptyCategory'      => __( 'The category cannot be empty!', 'block-lab' ),
 				)
 			);
 		}
@@ -480,17 +501,24 @@ class Block_Post extends Component_Abstract {
 				<?php esc_html_e( 'Create Category', 'block-lab' ); ?>
 			</button>
 			<div style="display: none" id="block-properties-category-create-wrapper">
-				<button class="block-properties-category-remove-button button button-default">
-					<?php esc_html_e( 'Close Custom Category', 'block-lab' ); ?>
-				</button><br /><br />
-				<input
-					id="block-properties-category-name"
+				<label>
+					<?php esc_html_e( 'Custom Category Name', 'block-lab' ); ?>
+					<input
+						id="block-properties-category-name"
+						type="text"
+						value="" name="block-properties-category-name"
+						placeholder="<?php esc_html_e( 'Enter the category name here...', 'block-lab' ); ?>"
+					/>
+				</label>
+				<label>
+					<?php esc_html_e( 'Custom Category Dashicon', 'block-lab' ); ?>
+					<input
+					id="block-properties-dashicon-name"
 					type="text"
-					value="" name="block-properties-category-name"
-					placeholder="<?php esc_html_e( 'Enter the category name here...', 'block-lab' ); ?>"
-				/>
-				<?php $this->get_icons( 'custom', $block->icon ); ?>
-				<br />
+					value="wordpress" name="block-properties-dashicon-name"
+					placeholder="<?php esc_html_e( 'Enter your dashicon here...', 'block-lab' ); ?>"
+					/>
+				</label>
 				<button class="block-properties-category-save-button button button-primary">
 					<?php esc_html_e( 'Save Category', 'block-lab' ); ?>
 				</button>
@@ -946,7 +974,7 @@ class Block_Post extends Component_Abstract {
 
 		// Get category options.
 		$category_name = sanitize_text_field( wp_unslash( $_POST['category_name'] ) );
-		$icon          = sanitize_text_field( wp_unslash( $_POST['icon'] ) );
+		$icon          = sanitize_text_field( $_POST['icon'] );
 
 		// Check to see if category exists.
 		$existing_categories = maybe_unserialize( get_site_option( 'block_lab_custom_categories', array() ) );
