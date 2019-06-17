@@ -250,7 +250,7 @@ class Loader extends Component_Abstract {
 		$block_lab_attributes = $attributes;
 		$block_lab_config     = $block;
 
-		if ( ! is_admin() && ! defined( 'REST_REQUEST' ) && ! wp_doing_ajax() ) {
+		if ( ! is_admin() && ( ! defined( 'REST_REQUEST' ) || ! REST_REQUEST ) && ! wp_doing_ajax() ) {
 
 			/**
 			 * Runs in the 'render_callback' of the block, and only on the front-end, not in the editor.
