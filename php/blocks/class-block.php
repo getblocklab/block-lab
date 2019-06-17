@@ -79,7 +79,7 @@ class Block {
 	}
 
 	/**
-	 * Construct the Block from a JSON blob
+	 * Construct the Block from a JSON blob.
 	 *
 	 * @param string $json JSON blob.
 	 *
@@ -93,6 +93,21 @@ class Block {
 		}
 
 		$config = $json[ 'block-lab/' . $this->name ];
+
+		$this->from_array( $config );
+	}
+
+	/**
+	 * Construct the Block from a config array.
+	 *
+	 * @param array $config An array containing field parameters.
+	 *
+	 * @return void
+	 */
+	public function from_array( $config ) {
+		if ( isset( $config['name'] ) ) {
+			$this->name = $config['name'];
+		}
 
 		if ( isset( $config['title'] ) ) {
 			$this->title = $config['title'];
@@ -111,19 +126,14 @@ class Block {
 		}
 
 		if ( isset( $config['fields'] ) ) {
-			foreach ( $config['fields'] as $field ) {
-				$field_defaults = array( 'name', 'label', 'control', 'type', 'location', 'order' );
-				$field_settings = array_diff( array_keys( $field ), $field_defaults );
-				foreach ( $field_settings as $setting ) {
-					$field['settings'][ $setting ] = $field[ $setting ];
-				}
-				$this->fields[] = new Field( $field );
+			foreach ( $config['fields'] as $key => $field ) {
+				$this->fields[ $key ] = new Field( $field );
 			}
 		}
 	}
 
 	/**
-	 * Get the Block as a JSON blob
+	 * Get the Block as a JSON blob.
 	 *
 	 * @return string
 	 */
@@ -136,16 +146,7 @@ class Block {
 
 		$config['fields'] = array();
 		foreach ( $this->fields as $key => $field ) {
-			$config['fields'][ $key ]['name']     = $field->name;
-			$config['fields'][ $key ]['label']    = $field->label;
-			$config['fields'][ $key ]['control']  = $field->control;
-			$config['fields'][ $key ]['type']     = $field->type;
-			$config['fields'][ $key ]['location'] = $field->location;
-			$config['fields'][ $key ]['order']    = $field->order;
-
-			foreach ( $field->settings as $setting => $value ) {
-				$config['fields'][ $key ][ $setting ] = $value;
-			}
+			$config['fields'][ $key ] = $field->to_array();
 		}
 
 		return wp_json_encode( array( 'block-lab/' . $this->name => $config ), JSON_UNESCAPED_UNICODE );
