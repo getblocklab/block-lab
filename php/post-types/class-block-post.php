@@ -62,7 +62,7 @@ class Block_Post extends Component_Abstract {
 		add_action( 'wp_insert_post_data', array( $this, 'save_block' ), 10, 2 );
 		add_action( 'init', array( $this, 'register_controls' ) );
 		add_filter( 'block_lab_field_value', array( $this, 'get_field_value' ), 10, 3 );
-		add_filter( 'block_categories', array( $this, 'maybe_update_block_categories'  ), 10, 2 );
+		add_filter( 'block_categories', array( $this, 'maybe_update_block_categories' ), 10, 2 );
 
 		// Clean up the list table.
 		add_filter( 'disable_months_dropdown', '__return_true', 10, $this->slug );
@@ -974,7 +974,7 @@ class Block_Post extends Component_Abstract {
 
 		// Get category options.
 		$category_name = sanitize_text_field( wp_unslash( $_POST['category_name'] ) );
-		$icon          = sanitize_text_field( $_POST['icon'] );
+		$icon          = sanitize_text_field( wp_unslash( $_POST['icon'] ) );
 
 		// Check to see if category exists.
 		$existing_categories = maybe_unserialize( get_site_option( 'block_lab_custom_categories', array() ) );
