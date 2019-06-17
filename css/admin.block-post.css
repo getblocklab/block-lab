@@ -145,7 +145,8 @@
 	width: 100%;
 	display: block;
 }
-#block_properties #block-properties-icon-current {
+#block_properties #block-properties-icon-current,
+#block_properties #block-properties-custom-current {
 	background: #ffffff;
 	border: 1px solid #cccccc;
 	border-right: 0;
@@ -157,11 +158,13 @@
 	display: inline-block;
 	box-shadow: 0 1px 0 #cccccc;
 }
-#block_properties #block-properties-icon-current svg {
+#block_properties #block-properties-icon-current svg,
+#block_properties #block-properties-custom-current svg {
 	color: #23282d;
 	fill: #23282d;
 }
-#block_properties .block-properties-icon-button {
+#block_properties .block-properties-icon-button,
+#block_properties .block-properties-custom-button {
 	width: auto;
 	display: inline-block;
 	vertical-align: top;
@@ -171,11 +174,13 @@
 	line-height: 28px;
 	padding: 0 10px 1px;
 }
-#block_properties .block-properties-icon-button:active {
+#block_properties .block-properties-icon-button:active,
+#block_properties .block-properties-custom-button:active {
 	transform: translateY(0);
 	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 ), 0 1px 0 #cccccc;
 }
 #block_properties #block-properties-icon-select,
+#block_properties #block-properties-custom-select,
 #block_properties #block-properties-icon-close,
 #block_properties #block-properties-icon-choose:target {
 	display: none;
@@ -183,10 +188,12 @@
 #block-properties-icon-choose:target + #block-properties-icon-close {
 	display: inline-block;
 }
-#block-properties-icon-choose:target ~ #block-properties-icon-select {
+#block-properties-icon-choose:target ~ #block-properties-icon-select,
+#block-properties-custom-choose:target ~ #block-properties-custom-select{
 	display: block;
 }
-#block_properties .block-properties-icon-select {
+#block_properties .block-properties-icon-select,
+#block_properties .block-properties-custom-select {
 	background: #f9f9f9;
 	overflow-x: hidden;
 	overflow-y: scroll;
@@ -196,7 +203,8 @@
 	border: 1px solid #cccccc;
 	border-radius: 3px;
 }
-#block_properties .block-properties-icon-select .icon {
+#block_properties .block-properties-icon-select .icon,
+#block_properties .block-properties-custom-select .icon {
 	display: inline-block;
 	padding: 4px;
 	margin: 1px;
@@ -208,18 +216,22 @@
 	width: 1em;
 	height: 1em;
 }
-#block_properties .block-properties-icon-select .icon:hover {
+#block_properties .block-properties-icon-select .icon:hover,
+#block_properties .block-properties-custom-select .icon:hover {
 	background: #fff;
 	border: 1px solid #aaa;
 	color: #444;
 }
 #block_properties .block-properties-icon-select .icon.selected,
-#block_properties .block-properties-icon-select .icon.selected:hover {
+#block_properties .block-properties-icon-select .icon.selected:hover,
+#block_properties .block-properties-custom-select .icon.selected,
+#block_properties .block-properties-custom-select .icon.selected:hover {
 	border: 1px solid rgba(0, 160, 210, 1);
 	color: rgba(0, 160, 210, 1);
 	fill: rgba(0, 160, 210, 1);
 }
-#block_properties .block-properties-icon-select .icon svg {
+#block_properties .block-properties-icon-select .icon svg,
+#block_properties .block-properties-custom-select .icon svg {
 	vertical-align: top;
 }
 #block_template > h2 {

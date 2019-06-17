@@ -13,6 +13,7 @@
 	$(function() {
 		blockTitleInit();
 		blockIconInit();
+		blockCustomCategoryIconInit();
 		blockFieldInit();
 
 		$( '#block-add-field' ).on( 'click', function() {
@@ -31,6 +32,14 @@
 			$( this ).addClass( 'selected' );
 			$( '#block-properties-icon' ).val( $( this ).data( 'value' ) );
 			$( '#block-properties-icon-current' ).html( svg );
+		});
+
+		$( '#block_properties .block-properties-custom-select span' ).on( 'click', function() {
+			let svg = $( 'svg', this ).clone();
+			$( '#block_properties .block-properties-custom-select span.selected' ).removeClass( 'selected' );
+			$( this ).addClass( 'selected' );
+			$( '#block-properties-custom' ).val( $( this ).data( 'value' ) );
+			$( '#block-properties-custom-current' ).html( svg );
 		});
 
 		$( '#block_template .template-location a.filename' ).on( 'click', function( event ) {
@@ -181,6 +190,14 @@
 					slug.data( 'autoslug', 'false' );
 				}
 			});
+		}
+	};
+
+	let blockCustomCategoryIconInit = function() {
+		let iconsContainer = $( '.block-properties-icon-select' ),
+			selectedIcon   = $( '.selected', iconsContainer );
+		if ( 0 !== iconsContainer.length && 0 !== selectedIcon.length ) {
+			iconsContainer.scrollTop( selectedIcon.position().top );
 		}
 	};
 

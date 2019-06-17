@@ -401,7 +401,7 @@ class Block_Post extends Component_Abstract {
 			<a class="button block-properties-<?php echo esc_attr( $classname ); ?>-button" id="block-properties-icon-close" href="#">
 				<?php esc_attr_e( 'Close', 'block-lab' ); ?>
 			</a>
-			<span class="block-properties-<?php echo esc_attr( $classname ); ?>-select" id="block-properties-icon-select">
+			<span class="block-properties-<?php echo esc_attr( $classname ); ?>-select" id="block-properties-<?php echo esc_attr( $classname ); ?>-select">
 				<?php
 				foreach ( $icons as $icon_slug => $svg ) {
 					$selected = $icon_slug === $icon ? 'selected' : '';
@@ -425,7 +425,6 @@ class Block_Post extends Component_Abstract {
 	public function render_properties_meta_box() {
 		$post  = get_post();
 		$block = new Block( $post->ID );
-
 
 		if ( ! $block->icon ) {
 			$block->icon = 'block_lab';
@@ -486,6 +485,10 @@ class Block_Post extends Component_Abstract {
 					placeholder="<?php esc_html_e( 'Enter the category name here...', 'block-lab' ); ?>"
 				/>
 				<?php $this->get_icons( 'custom', $block->icon ); ?>
+				<br />
+				<button class="block-properties-category-save-button button button-primary">
+					<?php esc_html_e( 'Save Category', 'block-lab' ); ?>
+				</button>
 			</div>
 		</p>
 
