@@ -66,7 +66,7 @@
 		$( '.block-properties-category-create-button' ).on( 'click', function( e ) {
 			e.preventDefault();
 			$( this ).hide();
-			$( '#block-properties-category-create-wrapper' ).show().find( 'input[type="text"]').focus();
+			$( '#block-properties-category-create-wrapper' ).show().find( 'input[type="text"]:first').focus();
 		});
 
 		$( '.block-properties-category-remove-button' ).on( 'click', function( e ) {
@@ -84,21 +84,33 @@
 		$( '.block-properties-category-save-button' ).on( 'click', function( e ) {
 			e.preventDefault();
 			let categoryVal = $.trim( $( '#block-properties-category-name' ).val() );
-			let icon = $( '.block-properties-custom-select .selected' ).data( 'value' );
 			if ( '' === categoryVal ) {
-				alert( blockLab.emptyCategory );
+
+				// Show error message.
+				$( '#block-properties-category-create-status' ).removeClass().addClass( 'error' ).html( blockLab.emptyCategory );
+				$( '#block-properties-category-create-wrapper' ).find( 'input[type="text"]:first').focus();
 				return;
 			}
 			$( this ).html( blockLab.saving ).attr( 'disabled', 'disabled' );
 			wp.ajax.send( 'save_custom_category', {
 				success: function( data ) {
 					$( '#block-properties-category' ).append( '<option value="' + data.slug + '" selected="selected">' + data.category + '</option>' );
-					$( this ).html( blockLab.saveCategory ).removeAttr( 'disabled' );
+					$( '.block-properties-category-save-button' ).html( blockLab.saveCategory ).removeAttr( 'disabled' );
 					$( '.block-properties-category-create-button' ).show();
 					$( '#block-properties-category-create-wrapper' ).hide();
+					$( '#block-properties-category-name' ).val( '' );
+
+					// Show success message.
+					$( '#block-properties-category-create-status' ).html( '' ).removeClass().addClass( 'success' ).html( '<p><strong>' + blockLab.successCategory + '</p></strong>' );
 				},
 				error: function() {
 
+					// Show error message.
+					$( '#block-properties-category-create-status' ).html( '' ).removeClass().addClass( 'error' ).html( '<p><strong>' + blockLab.errorCategory + '</strong></p>' );
+					$( '.block-properties-category-save-button' ).html( blockLab.saveCategory ).removeAttr( 'disabled' );
+					$( '.block-properties-category-create-button' ).show();
+					$( '#block-properties-category-create-wrapper' ).hide();
+					$( '#block-properties-category-name' ).val( '' );
 				},
 				data: {
 					category_name: $('#block-properties-category-name' ).val(),

@@ -47,6 +47,7 @@ if ( ! empty( $_POST ) ) {
 					foreach ( $maybe_categories as $category ) {
 						?>
 						<div>
+							<h3><?php echo esc_html( $category['category'] ); ?></h3>
 							<label>
 								<input
 									type="checkbox"

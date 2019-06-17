@@ -238,6 +238,22 @@
 	margin-bottom: 10px;
 	font-weight: 400;
 }
+#block-properties-category-create-status.success {
+	background: #FFFFFF;
+	border-left: 4px solid #46b450;
+	padding: 10px 12px;
+	font-weight: 700;
+}
+#block-properties-category-create-status.error {
+	background: #FFFFFF;
+	border-left: 4px solid #dc3232;
+	padding: 10px 12px;
+	font-weight: 700;
+}
+#block-properties-category-create-status p {
+	margin: 0.5em 0;
+	padding: 2px;
+}
 #block_properties .block-properties-icon-select .icon svg,
 #block_properties .block-properties-custom-select .icon svg {
 	vertical-align: top;

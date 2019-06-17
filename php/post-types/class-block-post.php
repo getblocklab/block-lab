@@ -303,6 +303,8 @@ class Block_Post extends Component_Abstract {
 					'saving'             => __( 'Saving...', 'block-lab' ),
 					'saveCategory'       => __( 'Save Category.', 'block-lab' ),
 					'emptyCategory'      => __( 'The category cannot be empty!', 'block-lab' ),
+					'errorCategory'      => __( 'There was a problem saving your category.', 'block-lab' ),
+					'successCategory'    => __( 'Category successfully added.', 'block-lab' ),
 				)
 			);
 		}
@@ -500,6 +502,7 @@ class Block_Post extends Component_Abstract {
 			<button class="block-properties-category-create-button button button-default">
 				<?php esc_html_e( 'Create Category', 'block-lab' ); ?>
 			</button>
+			<div id="block-properties-category-create-status"></div>
 			<div style="display: none" id="block-properties-category-create-wrapper">
 				<label>
 					<?php esc_html_e( 'Custom Category Name', 'block-lab' ); ?>
