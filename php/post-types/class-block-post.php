@@ -73,6 +73,8 @@ class Block_Post extends Component_Abstract {
 
 		// AJAX Handlers.
 		add_action( 'wp_ajax_fetch_field_settings', array( $this, 'ajax_field_settings' ) );
+		// AJAX Handlers.
+		add_action( 'wp_ajax_save_custom_category', array( $this, 'ajax_save_custom_category' ) );
 	}
 
 	/**
@@ -279,6 +281,7 @@ class Block_Post extends Component_Abstract {
 						strpos( getenv( 'HTTP_USER_AGENT' ), 'Mac' ) ? 'Cmd+C' : 'Ctrl+C'
 					),
 					'saving'             => __( 'Saving...', 'block-lab' ),
+					'saveCategory'       => __( 'Save Category.', 'block-lab' ),
 				)
 			);
 		}
@@ -481,6 +484,7 @@ class Block_Post extends Component_Abstract {
 					<?php esc_html_e( 'Close Custom Category', 'block-lab' ); ?>
 				</button><br /><br />
 				<input
+					id="block-properties-category-name"
 					type="text"
 					value="" name="block-properties-category-name"
 					placeholder="<?php esc_html_e( 'Enter the category name here...', 'block-lab' ); ?>"
@@ -925,6 +929,45 @@ class Block_Post extends Component_Abstract {
 		}
 
 		wp_send_json_success( $data );
+	}
+
+	/**
+	 * Ajax response for Saving Categories.
+	 *
+	 * @return void
+	 */
+	public function ajax_save_custom_category() {
+		wp_verify_nonce( 'block_lab_field_options_nonce' );
+
+		if ( ! isset( $_POST['category_name'] ) || ! isset( $_POST['icon'] ) ) {
+			wp_send_json_error();
+			return;
+		}
+
+		// Get category options.
+		$category_name = sanitize_text_field( wp_unslash( $_POST['category_name'] ) );
+		$icon          = sanitize_text_field( wp_unslash( $_POST['icon'] ) );
+
+		// Check to see if category exists.
+		$existing_categories = maybe_unserialize( get_site_option( 'block_lab_custom_categories', array() ) );
+		$category_exists     = false;
+		foreach ( $existing_categories as $category ) {
+			if ( $category_name === $category['category'] ) {
+				$category_exists = true;
+			}
+		}
+		if ( $category_exists ) {
+			wp_send_json_error();
+			return;
+		}
+
+		// Save category to options table.
+		$existing_categories[] = array(
+			'category' => $category_name,
+			'icon'     => $icon,
+		);
+		update_site_option( 'block_lab_custom_categories', $existing_categories );
+		wp_send_json_success( $existing_categories );
 	}
 
 	/**
