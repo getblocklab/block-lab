@@ -104,10 +104,10 @@ class Settings extends Component_Abstract {
 		?>
 		<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
 		<h2 class="nav-tab-wrapper">
-			<a href="<?php echo esc_url( add_query_arg( 'tab', 'license' ) ); ?>" title="<?php esc_attr_e( 'License', 'block-lab' ); ?>" class="nav-tab <?php echo ( ! isset( $_GET['tab'] ) || 'license' === $_GET['tab'] ) ? 'nav-tab-active' : ''; ?> dashicons-before dashicons-nametag">
+			<a href="<?php echo esc_url( add_query_arg( 'tab', 'license' ) ); ?>" title="<?php esc_attr_e( 'License', 'block-lab' ); ?>" class="nav-tab <?php echo ( ! isset( $_GET['tab'] ) || 'license' === $_GET['tab'] ) ? 'nav-tab-active' : ''; //phpcs:ignore ?> dashicons-before dashicons-nametag">
 				<?php esc_html_e( 'License', 'block-lab' ); ?>
 			</a>
-			<a href="<?php echo esc_url( add_query_arg( 'tab', 'blockcategories' ) ); ?>" title="<?php esc_attr_e( 'Block Categories', 'block-lab' ); ?>" class="nav-tab <?php echo ( isset( $_GET['tab'] ) && 'blockcategories' === $_GET['tab'] ) ? 'nav-tab-active' : ''; ?> dashicons-before dashicons-tag">
+			<a href="<?php echo esc_url( add_query_arg( 'tab', 'blockcategories' ) ); ?>" title="<?php esc_attr_e( 'Block Categories', 'block-lab' ); ?>" class="nav-tab <?php echo ( isset( $_GET['tab'] ) && 'blockcategories' === $_GET['tab'] ) ? 'nav-tab-active' : ''; //phpcs:ignore ?> dashicons-before dashicons-tag">
 				<?php esc_html_e( 'Block Categories', 'block-lab' ); ?>
 			</a>
 			<a href="https://github.com/getblocklab/block-lab/wiki" target="_blank" class="nav-tab dashicons-before dashicons-info">
