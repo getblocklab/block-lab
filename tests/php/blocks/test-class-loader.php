@@ -61,6 +61,23 @@ class Test_Loader extends \WP_UnitTestCase {
 		$this->assertTrue( in_array( $slug, $scripts->queue ) );
 		$this->assertEquals( $slug, $script->handle );
 		$this->assertEquals( $script_url, $script->src );
+
+
+		// Test that the do_action() call with the dynamic name runs, like 'block_lab_render_block_template_bl-dynamic-testing-slug'.
+		$slug       = 'bl-dynamic-testing-slug';
+		$script_url = 'https://example.com/another-script.js';
+
+		add_action( "block_lab_render_block_template_{$block_name}", function( $block ) use ( $block_name, $slug, $script_url) {
+			wp_enqueue_script( $slug, $script_url, array(), '0.1', true );
+		} );
+
+		$this->instance->render_block_template( $block, array() );
+		$scripts = wp_scripts();
+		$script  = $scripts->registered[ $slug ];
+
+		$this->assertTrue( in_array( $slug, $scripts->queue ) );
+		$this->assertEquals( $slug, $script->handle );
+		$this->assertEquals( $script_url, $script->src );
 	}
 
 	/**
