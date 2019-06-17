@@ -278,6 +278,7 @@ class Block_Post extends Component_Abstract {
 						__( '%1$s to copy.', 'block-lab' ),
 						strpos( getenv( 'HTTP_USER_AGENT' ), 'Mac' ) ? 'Cmd+C' : 'Ctrl+C'
 					),
+					'saving'             => __( 'Saving...', 'block-lab' ),
 				)
 			);
 		}

@@ -66,13 +66,25 @@
 		$( '.block-properties-category-create-button' ).on( 'click', function( e ) {
 			e.preventDefault();
 			$( this ).hide();
-			$( '#block-properties-category-create-wrapper' ).show();
+			$( '#block-properties-category-create-wrapper' ).show().find( 'input[type="text"]').focus();
 		});
 
 		$( '.block-properties-category-remove-button' ).on( 'click', function( e ) {
 			e.preventDefault();
 			$( this ).parent().hide();
 			$( '.block-properties-category-create-button' ).show();
+		});
+
+		$( '.block-properties-category-remove-button' ).on( 'click', function( e ) {
+			e.preventDefault();
+			$( this ).parent().hide();
+			$( '.block-properties-category-create-button' ).show();
+		});
+
+		$( '.block-properties-category-save-button' ).on( 'click', function( e ) {
+			e.preventDefault();
+			$( this ).html( blockLab.saving ).attr( 'disabled', 'disabled' );
+
 		});
 
 		$( '#block_template .template-location .click-to-copy input' ).on( 'blur', function() {
