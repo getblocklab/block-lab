@@ -990,12 +990,14 @@ class Block_Post extends Component_Abstract {
 		}
 
 		// Save category to options table.
-		$existing_categories[] = array(
+		$return                = array(
+			'slug'     => sanitize_title( $category_name ),
 			'category' => $category_name,
 			'icon'     => $icon,
 		);
+		$existing_categories[] = $return;
 		update_site_option( 'block_lab_custom_categories', $existing_categories );
-		wp_send_json_success( $existing_categories );
+		wp_send_json_success( $return );
 	}
 
 	/**

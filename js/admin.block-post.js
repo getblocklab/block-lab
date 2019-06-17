@@ -92,7 +92,10 @@
 			$( this ).html( blockLab.saving ).attr( 'disabled', 'disabled' );
 			wp.ajax.send( 'save_custom_category', {
 				success: function( data ) {
-					alert( 'category saved' );
+					$( '#block-properties-category' ).append( '<option value="' + data.slug + '" selected="selected">' + data.category + '</option>' );
+					$( this ).html( blockLab.saveCategory ).removeAttr( 'disabled' );
+					$( '.block-properties-category-create-button' ).show();
+					$( '#block-properties-category-create-wrapper' ).hide();
 				},
 				error: function() {
 
