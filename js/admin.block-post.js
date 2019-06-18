@@ -71,12 +71,37 @@
 			}
 		} );
 
+		/**
+		 * Fade out timer for category status
+		 */
 		function customCategoryStatusFadeOut() {
 			setInterval( () => {
-				$( '#block-properties-category-create-status' ).fadeOut( function() {
+				$( '#block-properties-category-create-status' ).fadeOut( 'slow', function() {
 					$( this ).removeClass().html( '' );
 				} )
 			}, 4000);
+		}
+
+		/**
+		 * Slugify a string.
+		 *
+		 * @param string string String to slugify
+		 *
+		 * From: https://gist.github.com/hagemann/382adfc57adbd5af078dc93feef01fe1
+		 */
+		function slugify(string) {
+			const a = 'àáäâãåăæçèéëêǵḧìíïîḿńǹñòóöôœøṕŕßśșțùúüûǘẃẍÿź·/_,:;'
+			const b = 'aaaaaaaaceeeeghiiiimnnnooooooprssstuuuuuwxyz------'
+			const p = new RegExp(a.split('').join('|'), 'g')
+
+			return string.toString().toLowerCase()
+				.replace(/\s+/g, '-') // Replace spaces with -
+				.replace(p, c => b.charAt(a.indexOf(c))) // Replace special characters
+				.replace(/&/g, '-and-') // Replace & with 'and'
+				.replace(/[^\w\-]+/g, '') // Remove all non-word characters
+				.replace(/\-\-+/g, '-') // Replace multiple - with single -
+				.replace(/^-+/, '') // Trim - from start of text
+				.replace(/-+$/, '') // Trim - from end of text
 		}
 
 		$( '.block-properties-category-save-button' ).on( 'click', function( e ) {
@@ -90,32 +115,14 @@
 				customCategoryStatusFadeOut();
 
 				return;
+			} else {
+				$( '#block-properties-category' ).append( '<option value="' + slugify( categoryVal ) + '" selected="selected">' + categoryVal + '</option>' );
+				$( '#block-properties-category-custom' ).append( '<input type="hidden" name="block-properties-category-custom[]" value="' + categoryVal + '" />' );
+				$( '.block-properties-category-save-button' ).html( blockLab.saveCategory ).removeAttr( 'disabled' );
+				$( '#block-properties-category-create-wrapper' ).hide();
+				$( '#block-properties-category-name' ).val( '' );
 			}
-			$( this ).html( blockLab.saving ).attr( 'disabled', 'disabled' );
-			wp.ajax.send( 'save_custom_category', {
-				success: function( data ) {
-					$( '#block-properties-category' ).append( '<option value="' + data.slug + '" selected="selected">' + data.category + '</option>' );
-					$( '.block-properties-category-save-button' ).html( blockLab.saveCategory ).removeAttr( 'disabled' );
-					$( '#block-properties-category-create-wrapper' ).hide();
-					$( '#block-properties-category-name' ).val( '' );
 
-					// Show success message.
-					$( '#block-properties-category-create-status' ).html( '' ).removeClass().addClass( 'success' ).html( '<p><strong>' + blockLab.successCategory + '</p></strong>' );
-					customCategoryStatusFadeOut();
-				},
-				error: function() {
-
-					// Show error message.
-					$( '#block-properties-category-create-status' ).html( '' ).removeClass().addClass( 'error' ).html( '<p><strong>' + blockLab.errorCategory + '</strong></p>' );
-					$( '.block-properties-category-save-button' ).html( blockLab.saveCategory ).removeAttr( 'disabled' );
-					$( '#block-properties-category-create-wrapper' ).find( 'input[type="text"]:first').focus();
-					customCategoryStatusFadeOut();
-				},
-				data: {
-					category_name: $('#block-properties-category-name' ).val(),
-					nonce:   blockLab.fieldSettingsNonce
-				}
-			});
 
 		});
 
