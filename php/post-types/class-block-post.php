@@ -126,7 +126,7 @@ class Block_Post extends Component_Abstract {
 	 * @return array The updated categories.
 	 */
 	public function maybe_update_block_categories( $category_defaults, $post ) {
-		$maybe_categories = get_site_option( 'block_lab_custom_categories', array() );
+		$maybe_categories = get_option( 'block_lab_custom_categories', array() );
 		foreach ( $maybe_categories as $category ) {
 			$category_defaults[] = array(
 				'slug'  => sanitize_title( $category['category'] ),
