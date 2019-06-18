@@ -213,7 +213,7 @@
 		if ( 0 === $( '.block-fields-rows' ).children( '.block-fields-row' ).length ) {
 			$( '.block-no-fields' ).show();
 		}
-        $( '.block-fields-edit-name input' ).data( 'autoslug', 'false' );
+		$( '.block-fields-edit-name input' ).data( 'autoslug', 'false' );
 		$( '.block-fields-sub-rows' ).each( function() {
 			blockFieldSubRowsInit( $( this ) );
 		});
