@@ -43,13 +43,6 @@ class Field {
 	public $type = 'string';
 
 	/**
-	 * Field location.
-	 *
-	 * @var string
-	 */
-	public $location = 'editor';
-
-	/**
 	 * Field order.
 	 *
 	 * @var int
@@ -80,9 +73,6 @@ class Field {
 		}
 		if ( isset( $args['type'] ) ) {
 			$this->type = $args['type'];
-		}
-		if ( isset( $args['location'] ) ) {
-			$this->location = $args['location'];
 		}
 		if ( isset( $args['order'] ) ) {
 			$this->order = $args['order'];
