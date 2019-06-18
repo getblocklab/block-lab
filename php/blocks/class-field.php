@@ -72,11 +72,11 @@ class Field {
 	 */
 	public function to_array() {
 		$config = array(
-			'name'     => $this->name,
-			'label'    => $this->label,
-			'control'  => $this->control,
-			'type'     => $this->type,
-			'order'    => $this->order,
+			'name'    => $this->name,
+			'label'   => $this->label,
+			'control' => $this->control,
+			'type'    => $this->type,
+			'order'   => $this->order,
 		);
 
 		$config = array_merge(
