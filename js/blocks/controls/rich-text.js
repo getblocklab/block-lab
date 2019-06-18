@@ -1,91 +1,5 @@
-const { BaseControl, Fill } = wp.components;
-const { RichText } = wp.editor;
-const { applyFormat, registerFormatType, removeFormat } = wp.richText;
-const { __ } = wp.i18n;
-const { AlignmentToolbar } = wp.editor;
-const ALIGNMENTS = [ 'left', 'center', 'right' ];
-const ALIGNMENT_CONTROL_NAME = 'block-lab/rich-text-alignment';
-const FORMATTING_CONTROLS = [ ALIGNMENT_CONTROL_NAME, 'bold', 'italic', 'strikethrough', 'link' ];
-
-/**
- * Gets the styling for a given alignment.
- *
- * @pram {String} alignment The alignment, like 'left' or 'right'.
- * @return {String} The alignment style, like text-align: left;.
- */
-const getAlignmentStyle = ( alignment ) => {
-	return `text-align: ${ alignment };`
-}
-
-/**
- * Gets the alignment type from the properties.
- *
- * @param {Object} alignmentProps The properties for the alignment.
- * @return {String|null} The alignment, either 'left', 'center', or 'right'.
- */
-const getAlignmentFromProps = ( alignmentProps ) => {
-	if ( ! alignmentProps.activeAttributes || ! alignmentProps.activeAttributes.align ) {
-		return;
-	}
-
-	const alignmentStyle = alignmentProps.activeAttributes.align;
-	const matchedAlignments = ALIGNMENTS.filter( ( possibleAlignment ) => {
-		return getAlignmentStyle( possibleAlignment ) === alignmentStyle;
-	} );
-
-	return matchedAlignments.length ? matchedAlignments[ 0 ] : null;
-};
-
-registerFormatType(
-	ALIGNMENT_CONTROL_NAME,
-	{
-		title: __( 'Alignment Controls', 'block-lab' ),
-		tagName: 'div',
-		className: 'bl-aligned',
-		attributes: {
-			align: 'style',
-		},
-		edit: ( props ) => {
-			const fillName = `RichText.ToolbarControls.${ ALIGNMENT_CONTROL_NAME }`;
-			const value = getAlignmentFromProps( props );
-
-			return (
-				<Fill name={ fillName }>
-					<AlignmentToolbar
-						value={ value }
-						onChange={ ( newAlignment ) => {
-							if ( newAlignment ) {
-								props.onChange(
-									applyFormat(
-										props.value,
-										{
-											type: ALIGNMENT_CONTROL_NAME,
-											attributes: {
-												align: getAlignmentStyle( newAlignment ),
-											}
-										},
-									)
-								);
-							} else {
-								props.onChange(
-									removeFormat(
-										props.value,
-										{
-											type: ALIGNMENT_CONTROL_NAME,
-											attributes: {
-												align: getAlignmentStyle( value ),
-											}
-										},
-									)
-								);
-							}
-						}}
-					/>
-				</Fill>
-			);
-		}
-	}
-);
+const { BaseControl } = wp.components;
+const { RichText } = wp.blockEditor;
 
 const BlockLabRichTextControl = ( props, field, block ) => {
 	const { setAttributes } = props
@@ -100,14 +14,14 @@ const BlockLabRichTextControl = ( props, field, block ) => {
 			*/
 			}
 			<RichText
+				key={`block-lab-${field.name}`} 
 				placeholder={field.placeholder || ''}
 				keepPlaceholderOnFocus={true}
 				defaultValue={field.default}
 				value={attr[ field.name ]}
 				className='input-control'
-				multiline={false}
+				multiline={true}
 				inlineToolbar={true}
-				formattingControls={ FORMATTING_CONTROLS }
 				onChange={richTextControl => {
 					attr[field.name] = richTextControl
 					setAttributes(attr)

@@ -41,6 +41,7 @@ class Block_Post extends Component_Abstract {
 	public $pro_controls = array(
 		'repeater',
 		'post',
+		'rich_text',
 		'taxonomy',
 		'user',
 	);
@@ -96,7 +97,6 @@ class Block_Post extends Component_Abstract {
 			'range',
 			'checkbox',
 			'radio',
-			'rich_text',
 		);
 
 		if ( block_lab()->is_pro() ) {
@@ -449,8 +449,17 @@ class Block_Post extends Component_Abstract {
 				<?php esc_html_e( 'Category:', 'block-lab' ); ?>
 			</label>
 			<select name="block-properties-category" id="block-properties-category">
+				<?php
+				$categories = get_block_categories( $post );
+				foreach ( $categories as $category ) {
+					?>
+					<option value="<?php echo esc_attr( $category['slug'] ); ?>" <?php selected( $category['slug'], $block->category ); ?>>
+						<?php echo esc_html( $category['title'] ); ?>
+					</option>
+					<?php
+				}
+				?>
 			</select>
-			<input type="hidden" id="block-properties-category-saved" value="<?php echo esc_attr( $block->category ); ?>" />
 		</p>
 		<p>
 			<label for="block-properties-keywords">
@@ -1137,6 +1146,7 @@ class Block_Post extends Component_Abstract {
 			'title'    => $columns['title'],
 			'icon'     => __( 'Icon', 'block-lab' ),
 			'template' => __( 'Template', 'block-lab' ),
+			'category' => __( 'Category', 'block-lab' ),
 			'keywords' => __( 'Keywords', 'block-lab' ),
 		);
 		return $new_columns;
@@ -1187,9 +1197,12 @@ class Block_Post extends Component_Abstract {
 			$block = new Block( $post_id );
 			echo esc_html( implode( ', ', $block->keywords ) );
 		}
-		if ( 'fields' === $column ) {
-			$block = new Block( $post_id );
-			echo esc_html( count( $block->fields ) );
+		if ( 'category' === $column ) {
+			$block      = new Block( $post_id );
+			$categories = get_block_categories( get_post() );
+			$categories = wp_list_pluck( $categories, 'title', 'slug' );
+
+			echo esc_html( $categories[ $block->category ] );
 		}
 	}
 

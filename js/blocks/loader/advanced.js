@@ -15,7 +15,7 @@ const inspectorControls = ( props, block ) => {
 	);
 
 	return (
-		<InspectorAdvancedControls>
+		<InspectorAdvancedControls key={"inspector-advanced-controls-" + block.name}>
 			<DotTip tipId="block-lab/additional-css-class">
 				<p className="bl-dot-tip" dangerouslySetInnerHTML={{__html: tip}}></p>
 				<p className="bl-dot-tip read-more">
