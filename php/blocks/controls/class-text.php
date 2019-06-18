@@ -37,33 +37,10 @@ class Text extends Control_Abstract {
 	 * @return void
 	 */
 	public function register_settings() {
-		$this->settings[] = new Control_Setting(
-			array(
-				'name'     => 'help',
-				'label'    => __( 'Help Text', 'block-lab' ),
-				'type'     => 'text',
-				'default'  => '',
-				'sanitize' => 'sanitize_text_field',
-			)
-		);
-		$this->settings[] = new Control_Setting(
-			array(
-				'name'     => 'default',
-				'label'    => __( 'Default Value', 'block-lab' ),
-				'type'     => 'text',
-				'default'  => '',
-				'sanitize' => 'sanitize_text_field',
-			)
-		);
-		$this->settings[] = new Control_Setting(
-			array(
-				'name'     => 'placeholder',
-				'label'    => __( 'Placeholder Text', 'block-lab' ),
-				'type'     => 'text',
-				'default'  => '',
-				'sanitize' => 'sanitize_text_field',
-			)
-		);
+		foreach ( array( 'location', 'help', 'default', 'placeholder' ) as $setting ) {
+			$this->settings[] = new Control_Setting( $this->settings_config[ $setting ] );
+		}
+
 		$this->settings[] = new Control_Setting(
 			array(
 				'name'     => 'maxlength',

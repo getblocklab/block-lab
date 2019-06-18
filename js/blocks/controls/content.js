@@ -1,4 +1,4 @@
-import FetchInput from './fetch-input';
+import FetchInput from './components/fetch-input';
 
 /**
  * Gets a content control, eg. a Post or Taxonomy control.
