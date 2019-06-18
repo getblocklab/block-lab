@@ -13,7 +13,6 @@
 	$(function() {
 		blockTitleInit();
 		blockIconInit();
-		blockCustomCategoryIconInit();
 		blockFieldInit();
 
 		$( '#block-add-field' ).on( 'click', function() {
@@ -236,14 +235,6 @@
 					slug.data( 'autoslug', 'false' );
 				}
 			});
-		}
-	};
-
-	let blockCustomCategoryIconInit = function() {
-		let iconsContainer = $( '.block-properties-icon-select' ),
-			selectedIcon   = $( '.selected', iconsContainer );
-		if ( 0 !== iconsContainer.length && 0 !== selectedIcon.length ) {
-			iconsContainer.scrollTop( selectedIcon.position().top );
 		}
 	};
 
