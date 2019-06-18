@@ -396,54 +396,6 @@ class Block_Post extends Component_Abstract {
 	}
 
 	/**
-	 * Returns icon fields based on passed classname and icon.
-	 *
-	 * @param string $classname The classname to use for the icon classes.
-	 * @param string $icon      The icon to use as a default.
-	 *
-	 * @return void
-	 */
-	private function get_icons( $classname = 'icon', $icon = '' ) {
-		$icons = block_lab_get_icons();
-		?>
-		<label for="block-properties-<?php echo esc_attr( $classname ); ?>">
-				<?php esc_html_e( 'Icon:', 'block-lab' ); ?>
-			</label>
-			<input
-				name="block-properties-<?php echo esc_attr( $classname ); ?>"
-				type="hidden"
-				id="block-properties-<?php echo esc_attr( $classname ); ?>"
-				value="<?php echo esc_attr( $icon ); ?>" />
-			<span id="block-properties-<?php echo esc_attr( $classname ); ?>-current">
-				<?php
-				if ( array_key_exists( $icon, $icons ) ) {
-					echo wp_kses( $icons[ $icon ], block_lab_allowed_svg_tags() );
-				}
-				?>
-			</span>
-			<a class="button block-properties-<?php echo esc_attr( $classname ); ?>-button" id="block-properties-<?php echo esc_attr( $classname ); ?>-choose" href="#block-properties-<?php echo esc_attr( $classname ); ?>-choose">
-				<?php esc_attr_e( 'Choose', 'block-lab' ); ?>
-			</a>
-			<a class="button block-properties-<?php echo esc_attr( $classname ); ?>-button" id="block-properties-icon-close" href="#">
-				<?php esc_attr_e( 'Close', 'block-lab' ); ?>
-			</a>
-			<span class="block-properties-<?php echo esc_attr( $classname ); ?>-select" id="block-properties-<?php echo esc_attr( $classname ); ?>-select">
-				<?php
-				foreach ( $icons as $icon_slug => $svg ) {
-					$selected = $icon_slug === $icon ? 'selected' : '';
-					printf(
-						'<span class="icon %1$s" data-value="%2$s">%3$s</span>',
-						esc_attr( $selected ),
-						esc_attr( $icon_slug ),
-						wp_kses( $svg, block_lab_allowed_svg_tags() )
-					);
-				}
-				?>
-			</span>
-		<?php
-	}
-
-	/**
 	 * Render the Block Fields meta box.
 	 *
 	 * @return void
@@ -475,7 +427,43 @@ class Block_Post extends Component_Abstract {
 			?>
 		</p>
 		<p>
-			<?php $this->get_icons( 'icon', $block->icon ); ?>
+			<?php
+			$icons = block_lab_get_icons();
+			?>
+			<label for="block-properties-icon">
+				<?php esc_html_e( 'Icon:', 'block-lab' ); ?>
+			</label>
+			<input
+				name="block-properties-icon"
+				type="hidden"
+				id="block-properties-icon"
+				value="<?php echo esc_attr( $block->icon ); ?>" />
+			<span id="block-properties-icon-current">
+				<?php
+				if ( array_key_exists( $block->icon, $icons ) ) {
+					echo wp_kses( $icons[ $block->icon ], block_lab_allowed_svg_tags() );
+				}
+				?>
+			</span>
+			<a class="button block-properties-icon-button" id="block-properties-icon-choose" href="#block-properties-icon-choose">
+				<?php esc_attr_e( 'Choose', 'block-lab' ); ?>
+			</a>
+			<a class="button block-properties-icon-button" id="block-properties-icon-close" href="#">
+				<?php esc_attr_e( 'Close', 'block-lab' ); ?>
+			</a>
+			<span class="block-properties-icon-select" id="block-properties-icon-select">
+				<?php
+				foreach ( $icons as $icon_slug => $svg ) {
+					$selected = $icon_slug === $block->icon ? 'selected' : '';
+					printf(
+						'<span class="icon %1$s" data-value="%2$s">%3$s</span>',
+						esc_attr( $selected ),
+						esc_attr( $icon_slug ),
+						wp_kses( $svg, block_lab_allowed_svg_tags() )
+					);
+				}
+				?>
+			</span>
 		</p>
 		<p>
 			<label for="block-properties-category">
