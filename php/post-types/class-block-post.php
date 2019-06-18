@@ -642,7 +642,7 @@ class Block_Post extends Component_Abstract {
 							<label for="block-fields-edit-label-input_<?php echo esc_attr( $uid ); ?>">
 								<?php esc_html_e( 'Field Label', 'block-lab' ); ?>
 							</label>
-							<p class="description" id="block-fields-edit-label-description">
+							<p class="description" id="block-fields-edit-label-description-<?php echo esc_attr( $uid ); ?>">
 								<?php
 								esc_html_e(
 									'A label describing your block\'s custom field.',
@@ -676,7 +676,7 @@ class Block_Post extends Component_Abstract {
 							<label for="block-fields-edit-name-input_<?php echo esc_attr( $uid ); ?>">
 								<?php esc_html_e( 'Field Name', 'block-lab' ); ?>
 							</label>
-							<p class="description" id="block-fields-edit-name-description">
+							<p class="description" id="block-fields-edit-name-description-<?php echo esc_attr( $uid ); ?>">
 								<?php esc_html_e( 'Single word, no spaces.', 'block-lab' ); ?>
 							</p>
 						</th>
