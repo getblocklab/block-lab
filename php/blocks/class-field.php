@@ -43,13 +43,6 @@ class Field {
 	public $type = 'string';
 
 	/**
-	 * Field location.
-	 *
-	 * @var string
-	 */
-	public $location = 'editor';
-
-	/**
 	 * Field order.
 	 *
 	 * @var int
@@ -83,7 +76,6 @@ class Field {
 			'label'    => $this->label,
 			'control'  => $this->control,
 			'type'     => $this->type,
-			'location' => $this->location,
 			'order'    => $this->order,
 		);
 
@@ -126,9 +118,6 @@ class Field {
 		if ( isset( $config['type'] ) ) {
 			$this->type = $config['type'];
 		}
-		if ( isset( $config['location'] ) ) {
-			$this->type = $config['location'];
-		}
 		if ( isset( $config['order'] ) ) {
 			$this->order = $config['order'];
 		}
@@ -137,7 +126,7 @@ class Field {
 		}
 
 		// Add any other non-default keys to the settings array.
-		$field_defaults = array( 'name', 'label', 'control', 'type', 'location', 'order', 'settings' );
+		$field_defaults = array( 'name', 'label', 'control', 'type', 'order', 'settings' );
 		$field_settings = array_diff( array_keys( $config ), $field_defaults );
 
 		foreach ( $field_settings as $settings_key ) {
