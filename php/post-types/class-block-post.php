@@ -74,8 +74,6 @@ class Block_Post extends Component_Abstract {
 
 		// AJAX Handlers.
 		add_action( 'wp_ajax_fetch_field_settings', array( $this, 'ajax_field_settings' ) );
-		// AJAX Handlers.
-		add_action( 'wp_ajax_save_custom_category', array( $this, 'ajax_save_custom_category' ) );
 	}
 
 	/**
@@ -490,6 +488,7 @@ class Block_Post extends Component_Abstract {
 		</p>
 		<p>
 			<div id="block-properties-category-create-status"></div>
+			<div id="block-properties-category-custom"></div>
 			<div style="display: none" id="block-properties-category-create-wrapper">
 				<label>
 					<?php esc_html_e( 'Custom Category Name', 'block-lab' ); ?>
@@ -941,42 +940,36 @@ class Block_Post extends Component_Abstract {
 	}
 
 	/**
-	 * Ajax response for Saving Categories.
+	 * Save a custom category to options.
+	 *
+	 * @param string $category The category name to save.
 	 *
 	 * @return void
 	 */
-	public function ajax_save_custom_category() {
-		wp_verify_nonce( 'block_lab_field_options_nonce' );
-
-		if ( ! isset( $_POST['category_name'] ) ) {
-			wp_send_json_error();
-			return;
-		}
+	private function save_custom_category( $category ) {
 
 		// Get category options.
-		$category_name = sanitize_text_field( wp_unslash( $_POST['category_name'] ) );
+		$category_name = sanitize_text_field( $category );
 
 		// Check to see if category exists.
-		$existing_categories = maybe_unserialize( get_site_option( 'block_lab_custom_categories', array() ) );
+		$existing_categories = maybe_unserialize( get_option( 'block_lab_custom_categories', array() ) );
 		$category_exists     = false;
 		foreach ( $existing_categories as $category ) {
-			if ( $category_name === $category['category'] ) {
+			if ( isset( $category['category'] ) && $category_name === $category['category'] ) {
 				$category_exists = true;
 			}
 		}
 		if ( $category_exists ) {
-			wp_send_json_error();
 			return;
 		}
 
 		// Save category to options table.
-		$return                = array(
+		$new_cat               = array(
 			'slug'     => sanitize_title( $category_name ),
 			'category' => $category_name,
 		);
-		$existing_categories[] = $return;
-		update_site_option( 'block_lab_custom_categories', $existing_categories );
-		wp_send_json_success( $return );
+		$existing_categories[] = $new_cat;
+		update_option( 'block_lab_custom_categories', $existing_categories );
 	}
 
 	/**
@@ -1061,6 +1054,14 @@ class Block_Post extends Component_Abstract {
 				$block->category = 'common';
 			} else {
 				$block->category = $category_key;
+			}
+		}
+
+		// Custom Block Categories.
+		if ( isset( $_POST['block-properties-category-custom'] ) && is_array( $_POST['block-properties-category-custom'] ) ) {
+			$custom_categories = array_map( 'sanitize_text_field', wp_unslash( $_POST['block-properties-category-custom'] ) );
+			foreach ( $custom_categories as $category ) {
+				$this->save_custom_category( $category );
 			}
 		}
 
