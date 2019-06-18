@@ -1,6 +1,6 @@
 <?php
 /**
- * User control.
+ * Rich Text control.
  *
  * @package   Block_Lab
  * @copyright Copyright(c) 2019, Block Lab
@@ -10,30 +10,25 @@
 namespace Block_Lab\Blocks\Controls;
 
 /**
- * Class User
+ * Class Rich_Text
  */
-class User extends Control_Abstract {
+class Rich_Text extends Control_Abstract {
 
 	/**
 	 * Control name.
 	 *
 	 * @var string
 	 */
-	public $name = 'user';
+	public $name = 'rich_text';
 
 	/**
-	 * Field variable type.
+	 * Textarea constructor.
 	 *
-	 * @var string
-	 */
-	public $type = 'object';
-
-	/**
-	 * User constructor.
+	 * @return void
 	 */
 	public function __construct() {
 		parent::__construct();
-		$this->label = __( 'User', 'block-lab' );
+		$this->label = __( 'Rich Text', 'block-lab' );
 	}
 
 	/**
@@ -42,7 +37,7 @@ class User extends Control_Abstract {
 	 * @return void
 	 */
 	public function register_settings() {
-		foreach ( array( 'location', 'help' ) as $setting ) {
+		foreach ( array( 'help', 'default', 'placeholder' ) as $setting ) {
 			$this->settings[] = new Control_Setting( $this->settings_config[ $setting ] );
 		}
 	}
@@ -55,12 +50,7 @@ class User extends Control_Abstract {
 	 * @return mixed $value The value to be made available or echoed on the front-end template.
 	 */
 	public function validate( $value, $echo ) {
-		$wp_user = isset( $value['id'] ) ? get_user_by( 'id', $value['id'] ) : null;
-
-		if ( $echo ) {
-			return $wp_user ? $wp_user->get( 'display_name' ) : '';
-		} else {
-			return $wp_user ? $wp_user : false;
-		}
+		unset( $echo );
+		return wpautop( $value );
 	}
 }
