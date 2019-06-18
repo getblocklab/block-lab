@@ -62,23 +62,22 @@
 			$( this ).hide();
 		});
 
-		$( '.block-properties-category-create-button' ).on( 'click', function( e ) {
-			e.preventDefault();
-			$( this ).hide();
-			$( '#block-properties-category-create-wrapper' ).show().find( 'input[type="text"]:first').focus();
-		});
+		$( '#block-properties-category' ).on( 'change', function( e ) {
+			if ( 'custom' === $( this ).find( ':selected' ).val() ) {
+				$( '#block-properties-category-create-wrapper' ).show();
+				$( '#block-properties-category-create-wrapper' ).find( 'input[type="text"]:first').focus();
+			} else {
+				$( '#block-properties-category-create-wrapper' ).hide();
+			}
+		} );
 
-		$( '.block-properties-category-remove-button' ).on( 'click', function( e ) {
-			e.preventDefault();
-			$( this ).parent().hide();
-			$( '.block-properties-category-create-button' ).show();
-		});
-
-		$( '.block-properties-category-remove-button' ).on( 'click', function( e ) {
-			e.preventDefault();
-			$( this ).parent().hide();
-			$( '.block-properties-category-create-button' ).show();
-		});
+		function customCategoryStatusFadeOut() {
+			setInterval( () => {
+				$( '#block-properties-category-create-status' ).fadeOut( function() {
+					$( this ).removeClass().html( '' );
+				} )
+			}, 4000);
+		}
 
 		$( '.block-properties-category-save-button' ).on( 'click', function( e ) {
 			e.preventDefault();
@@ -88,6 +87,8 @@
 				// Show error message.
 				$( '#block-properties-category-create-status' ).removeClass().addClass( 'error' ).html( blockLab.emptyCategory );
 				$( '#block-properties-category-create-wrapper' ).find( 'input[type="text"]:first').focus();
+				customCategoryStatusFadeOut();
+
 				return;
 			}
 			$( this ).html( blockLab.saving ).attr( 'disabled', 'disabled' );
@@ -95,25 +96,23 @@
 				success: function( data ) {
 					$( '#block-properties-category' ).append( '<option value="' + data.slug + '" selected="selected">' + data.category + '</option>' );
 					$( '.block-properties-category-save-button' ).html( blockLab.saveCategory ).removeAttr( 'disabled' );
-					$( '.block-properties-category-create-button' ).show();
 					$( '#block-properties-category-create-wrapper' ).hide();
 					$( '#block-properties-category-name' ).val( '' );
 
 					// Show success message.
 					$( '#block-properties-category-create-status' ).html( '' ).removeClass().addClass( 'success' ).html( '<p><strong>' + blockLab.successCategory + '</p></strong>' );
+					customCategoryStatusFadeOut();
 				},
 				error: function() {
 
 					// Show error message.
 					$( '#block-properties-category-create-status' ).html( '' ).removeClass().addClass( 'error' ).html( '<p><strong>' + blockLab.errorCategory + '</strong></p>' );
 					$( '.block-properties-category-save-button' ).html( blockLab.saveCategory ).removeAttr( 'disabled' );
-					$( '.block-properties-category-create-button' ).show();
-					$( '#block-properties-category-create-wrapper' ).hide();
-					$( '#block-properties-category-name' ).val( '' );
+					$( '#block-properties-category-create-wrapper' ).find( 'input[type="text"]:first').focus();
+					customCategoryStatusFadeOut();
 				},
 				data: {
 					category_name: $('#block-properties-category-name' ).val(),
-					icon: $('#block-properties-dashicon-name' ).val(),
 					nonce:   blockLab.fieldSettingsNonce
 				}
 			});
