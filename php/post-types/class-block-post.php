@@ -133,7 +133,6 @@ class Block_Post extends Component_Abstract {
 			$category_defaults[] = array(
 				'slug'  => sanitize_title( $category['category'] ),
 				'title' => esc_html( $category['category'] ),
-				'icon'  => wp_kses( $category['icon'], block_lab_allowed_svg_tags() ),
 			);
 		}
 		return $category_defaults;
@@ -493,15 +492,15 @@ class Block_Post extends Component_Abstract {
 					<?php
 				}
 				?>
+				<option value="" disabled="disabled">------------------</option>
+				<option value="custom">
+					<?php
+					esc_html_e( 'Custom Category', 'block-lab' );
+					?>
+				</option>
 			</select>
 		</p>
 		<p>
-			<label for="block-properties-category-create">
-				<?php esc_html_e( 'Create a Custom Category:', 'block-lab' ); ?>
-			</label>
-			<button class="block-properties-category-create-button button button-default">
-				<?php esc_html_e( 'Create Category', 'block-lab' ); ?>
-			</button>
 			<div id="block-properties-category-create-status"></div>
 			<div style="display: none" id="block-properties-category-create-wrapper">
 				<label>
@@ -510,19 +509,10 @@ class Block_Post extends Component_Abstract {
 						id="block-properties-category-name"
 						type="text"
 						value="" name="block-properties-category-name"
-						placeholder="<?php esc_html_e( 'Enter the category name here...', 'block-lab' ); ?>"
+						placeholder="<?php esc_html_e( 'Custom category name', 'block-lab' ); ?>"
 					/>
 				</label>
-				<label>
-					<?php esc_html_e( 'Custom Category Dashicon', 'block-lab' ); ?>
-					<input
-					id="block-properties-dashicon-name"
-					type="text"
-					value="wordpress" name="block-properties-dashicon-name"
-					placeholder="<?php esc_html_e( 'Enter your dashicon here...', 'block-lab' ); ?>"
-					/>
-				</label>
-				<button class="block-properties-category-save-button button button-primary">
+				<button class="block-properties-category-save-button button button-secondary">
 					<?php esc_html_e( 'Save Category', 'block-lab' ); ?>
 				</button>
 			</div>
@@ -970,14 +960,13 @@ class Block_Post extends Component_Abstract {
 	public function ajax_save_custom_category() {
 		wp_verify_nonce( 'block_lab_field_options_nonce' );
 
-		if ( ! isset( $_POST['category_name'] ) || ! isset( $_POST['icon'] ) ) {
+		if ( ! isset( $_POST['category_name'] ) ) {
 			wp_send_json_error();
 			return;
 		}
 
 		// Get category options.
 		$category_name = sanitize_text_field( wp_unslash( $_POST['category_name'] ) );
-		$icon          = sanitize_text_field( wp_unslash( $_POST['icon'] ) );
 
 		// Check to see if category exists.
 		$existing_categories = maybe_unserialize( get_site_option( 'block_lab_custom_categories', array() ) );
@@ -996,7 +985,6 @@ class Block_Post extends Component_Abstract {
 		$return                = array(
 			'slug'     => sanitize_title( $category_name ),
 			'category' => $category_name,
-			'icon'     => $icon,
 		);
 		$existing_categories[] = $return;
 		update_site_option( 'block_lab_custom_categories', $existing_categories );
@@ -1078,7 +1066,14 @@ class Block_Post extends Component_Abstract {
 
 		// Block category.
 		if ( isset( $_POST['block-properties-category'] ) ) {
-			$block->category = sanitize_key( $_POST['block-properties-category'] );
+			$category_key = sanitize_key( $_POST['block-properties-category'] );
+
+			// Ensure category type isn't custom. Default to common if selected.
+			if ( 'custom' === $category_key ) {
+				$block->category = 'common';
+			} else {
+				$block->category = $category_key;
+			}
 		}
 
 		// Block keywords.
