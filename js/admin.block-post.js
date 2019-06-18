@@ -12,7 +12,6 @@
 
 	$(function() {
 		blockTitleInit();
-		blockCategoryInit();
 		blockIconInit();
 		blockFieldInit();
 
@@ -148,12 +147,21 @@
 				}
 			})
 			.on( 'change keyup', '.block-fields-edit-label input', function() {
-				let slug = slugify( $( this ).val() );
+				let slug = $( this )
+					.closest( '.block-fields-edit' )
+					.find( '.block-fields-edit-name input' );
+
+				if ( 'false' !== slug.data( 'autoslug' ) ) {
+					slug
+						.val( slugify( $( this ).val() ) )
+						.trigger( 'change' );
+				}
+			})
+			.on( 'blur', '.block-fields-edit-label input', function() {
 				$( this )
 					.closest( '.block-fields-edit' )
 					.find( '.block-fields-edit-name input' )
-					.val( slug )
-					.trigger( 'change' );
+					.data( 'autoslug', 'false' );
 			})
 			.on( 'mouseenter', '.block-fields-row div:not(.block-fields-edit,.block-fields-sub-rows,.block-fields-sub-rows-actions)', function() {
 				$( this ).parent().addClass('hover');
@@ -176,11 +184,10 @@
 
 		// If this is a new block, then enable auto-generated slugs.
 		if( '' === title.val() && '' === slug.val() ) {
-			let autoSlug = true;
 
 			// If auto-generated slugs are enabled, set the slug based on the title.
 			title.on( 'change keyup', function() {
-				if ( autoSlug ) {
+				if ( 'false' !== slug.data( 'autoslug' ) ) {
 					slug.val( slugify( title.val() ) );
 				}
 			});
@@ -188,32 +195,9 @@
 			// Turn auto-generated slugs off once a title has been set.
 			title.on( 'blur', function() {
 				if ( '' !== title.val() ) {
-					autoSlug = false;
+					slug.data( 'autoslug', 'false' );
 				}
 			});
-		}
-	};
-
-	let blockCategoryInit = function() {
-		let categories       = wp.blocks.getCategories(),
-			categoriesLength = categories.length,
-			category         = $( '#block-properties-category-saved' );
-
-		for (let i = 0; i < categoriesLength; i++) {
-			if ( 'reusable' === categories[i].slug ) {
-				continue;
-			}
-			$( '<option/>', {
-				value: categories[i].slug,
-				text: categories[i].title,
-			} ).appendTo( '#block-properties-category' );
-		}
-
-		if ( category.val() !== '' ) {
-			let option = $( '#block-properties-category option[value="' + category.val() + '"]' );
-			if ( option.length > 0 ) {
-				$( '#block-properties-category' ).prop( 'selectedIndex', option.index() );
-			}
 		}
 	};
 
@@ -229,6 +213,7 @@
 		if ( 0 === $( '.block-fields-rows' ).children( '.block-fields-row' ).length ) {
 			$( '.block-no-fields' ).show();
 		}
+        $( '.block-fields-edit-name input' ).data( 'autoslug', 'false' );
 		$( '.block-fields-sub-rows' ).each( function() {
 			blockFieldSubRowsInit( $( this ) );
 		});
