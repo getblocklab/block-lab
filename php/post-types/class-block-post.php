@@ -399,7 +399,7 @@ class Block_Post extends Component_Abstract {
 				id="block-properties-slug"
 				value="<?php echo esc_attr( $post->post_name ); ?>" />
 		</p>
-		<p class="description" id="block-properties-slug-description">
+		<p class="description">
 			<?php
 			esc_html_e(
 				'Used to determine the name of the template file.',
@@ -470,7 +470,7 @@ class Block_Post extends Component_Abstract {
 				id="block-properties-keywords"
 				value="<?php echo esc_attr( implode( ', ', $block->keywords ) ); ?>" />
 		</p>
-		<p class="description" id="block-properties-keywords-description">
+		<p class="description">
 			<?php
 			esc_html_e(
 				'A comma separated list of keywords, used when searching. Maximum of 3.',
@@ -630,7 +630,7 @@ class Block_Post extends Component_Abstract {
 							<label for="block-fields-edit-label-input_<?php echo esc_attr( $uid ); ?>">
 								<?php esc_html_e( 'Field Label', 'block-lab' ); ?>
 							</label>
-							<p class="description" id="block-fields-edit-label-description">
+							<p class="description">
 								<?php
 								esc_html_e(
 									'A label describing your block\'s custom field.',
@@ -664,7 +664,7 @@ class Block_Post extends Component_Abstract {
 							<label for="block-fields-edit-name-input_<?php echo esc_attr( $uid ); ?>">
 								<?php esc_html_e( 'Field Name', 'block-lab' ); ?>
 							</label>
-							<p class="description" id="block-fields-edit-name-description">
+							<p class="description">
 								<?php esc_html_e( 'Single word, no spaces.', 'block-lab' ); ?>
 							</p>
 						</th>
