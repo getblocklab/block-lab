@@ -46,6 +46,7 @@ Block Lab Pro is coming mid 2019 with power features to take your block building
 ### From Within WordPress ###
 * Visit Plugins > Add New
 * Search for "Block Lab"
+* Install the Block Lab plugin
 * Activate Block Lab from your Plugins page.
 
 ### Manually ###
