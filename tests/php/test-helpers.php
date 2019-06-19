@@ -5,6 +5,8 @@
  * @package Block_Lab
  */
 
+use Block_Lab\Blocks;
+
 /**
  * Tests for helpers.php.
  */
@@ -22,7 +24,15 @@ class Test_Helpers extends \WP_UnitTestCase {
 		$mock_text                           = 'Example text';
 		$block_lab_attributes[ $field_name ] = $mock_text;
 
-		$block_lab_config['fields'][ $field_name ]['control'] = 'text';
+		$field_config = array( 'control' => 'text' );
+		$block_config = array(
+			'fields' => array(
+				$field_name => $field_config
+			)
+		);
+
+		$block_lab_config = new Blocks\Block();
+		$block_lab_config->from_array( $block_config );
 
 		// Because block_field() had the second argument of false, this should return the value stored in the field, not echo it.
 		ob_start();

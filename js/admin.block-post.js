@@ -210,7 +210,7 @@
 					return;
 				}
 				let settingsRows = $( data.html );
-				$( '.block-fields-edit-location', fieldRow ).after( settingsRows );
+				$( '.block-fields-edit-control', fieldRow ).after( settingsRows );
 			},
 			error: function() {
 				$( '.block-fields-edit-loading', fieldRow ).remove();
