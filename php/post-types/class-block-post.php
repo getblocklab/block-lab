@@ -505,9 +505,6 @@ class Block_Post extends Component_Abstract {
 						<th class="block-fields-control">
 							<?php esc_html_e( 'Field Type', 'block-lab' ); ?>
 						</th>
-						<th class="block-fields-location">
-							<?php esc_html_e( 'Field Location', 'block-lab' ); ?>
-						</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -624,15 +621,6 @@ class Block_Post extends Component_Abstract {
 						?>
 					</span>
 				<?php endif; ?>
-			</div>
-			<div class="block-fields-location" id="block-fields-location_<?php echo esc_attr( $uid ); ?>">
-				<?php
-				if ( empty( $field->settings->location ) || 'editor' === $field->settings->location ) {
-					esc_html_e( 'Editor', 'block-lab' );
-				} elseif ( 'inspector' === $field->settings->location ) {
-					esc_html_e( 'Inspector', 'block-lab' );
-				}
-				?>
 			</div>
 			<div class="block-fields-edit">
 				<table class="widefat">
@@ -988,13 +976,6 @@ class Block_Post extends Component_Abstract {
 				// Field type.
 				if ( isset( $field_config['control'] ) && isset( $this->controls[ $field_config['control'] ] ) ) {
 					$field_config['type'] = $this->controls[ $field_config['control'] ]->type;
-				}
-
-				// Field location.
-				if ( isset( $_POST['block-fields-location'][ $key ] ) ) {
-					$field_config['location'] = sanitize_text_field(
-						wp_unslash( $_POST['block-fields-location'][ $key ] )
-					);
 				}
 
 				/*
