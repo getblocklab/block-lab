@@ -1117,8 +1117,9 @@ class Block_Post extends Component_Abstract {
 			$block      = new Block( $post_id );
 			$categories = get_block_categories( get_post() );
 			$categories = wp_list_pluck( $categories, 'title', 'slug' );
-
-			echo esc_html( $categories[ $block->category ] );
+			if ( isset( $categories[ $block->category ] ) ) {
+				echo esc_html( $categories[ $block->category ] );
+			}
 		}
 	}
 
