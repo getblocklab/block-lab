@@ -45,12 +45,78 @@ abstract class Control_Abstract {
 	public $settings = array();
 
 	/**
+	 * Configurations for common settings, like 'help' and 'placeholder'.
+	 *
+	 * @var array {
+	 *     An associative array of setting configurations.
+	 *
+	 *     @type string $setting_name   The name of the setting, like 'help'.
+	 *     @type array  $setting_config The default configuration of the setting.
+	 * }
+	 */
+	public $settings_config = array();
+
+	/**
+	 * The possible editor locations, either in the main block editor, or the inspector controls.
+	 *
+	 * @var array
+	 */
+	public $locations = array();
+
+	/**
 	 * Control constructor.
 	 *
 	 * @return void
 	 */
 	public function __construct() {
+		$this->create_settings_config();
 		$this->register_settings();
+	}
+
+	/**
+	 * Creates the setting configuration.
+	 *
+	 * This sets the values for common settings, to make adding settings more DRY.
+	 * Then, controls can simply use the values here.
+	 *
+	 * @return void
+	 */
+	public function create_settings_config() {
+		$this->settings_config = array(
+			'location'    => array(
+				'name'     => 'location',
+				'label'    => __( 'Location', 'block-lab' ),
+				'type'     => 'location',
+				'default'  => 'editor',
+				'sanitize' => array( $this, 'sanitize_location' ),
+			),
+			'help'        => array(
+				'name'     => 'help',
+				'label'    => __( 'Help Text', 'block-lab' ),
+				'type'     => 'text',
+				'default'  => '',
+				'sanitize' => 'sanitize_text_field',
+			),
+			'default'     => array(
+				'name'     => 'default',
+				'label'    => __( 'Default Value', 'block-lab' ),
+				'type'     => 'text',
+				'default'  => '',
+				'sanitize' => 'sanitize_text_field',
+			),
+			'placeholder' => array(
+				'name'     => 'placeholder',
+				'label'    => __( 'Placeholder Text', 'block-lab' ),
+				'type'     => 'text',
+				'default'  => '',
+				'sanitize' => 'sanitize_text_field',
+			),
+		);
+
+		$this->locations = array(
+			'editor'    => __( 'Editor', 'block-lab' ),
+			'inspector' => __( 'Inspector', 'block-lab' ),
+		);
 	}
 
 	/**
@@ -252,6 +318,19 @@ abstract class Control_Abstract {
 	}
 
 	/**
+	 * Renders a <select> of locations.
+	 *
+	 * @param Control_Setting $setting The Control_Setting being rendered.
+	 * @param string          $name    The name attribute of the option.
+	 * @param string          $id      The id attribute of the option.
+	 *
+	 * @return void
+	 */
+	public function render_settings_location( $setting, $name, $id ) {
+		$this->render_select( $setting, $name, $id, $this->locations );
+	}
+
+	/**
 	 * Renders a <select> of the passed values.
 	 *
 	 * @param Control_Setting $setting The Control_Setting being rendered.
@@ -370,6 +449,19 @@ abstract class Control_Abstract {
 		$options = array_values( $options );
 
 		return $options;
+	}
+
+	/**
+	 * Sanitize a location value.
+	 *
+	 * @param string $value The value to sanitize.
+	 *
+	 * @return array
+	 */
+	public function sanitize_location( $value ) {
+		if ( is_string( $value ) && array_key_exists( $value, $this->locations ) ) {
+			return $value;
+		}
 	}
 
 	/**

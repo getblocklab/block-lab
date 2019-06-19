@@ -40,6 +40,7 @@ class Block_Post extends Component_Abstract {
 	 */
 	public $pro_controls = array(
 		'post',
+		'rich_text',
 		'taxonomy',
 		'user',
 	);
@@ -100,8 +101,12 @@ class Block_Post extends Component_Abstract {
 		if ( block_lab()->is_pro() ) {
 			$control_names = array_merge( $control_names, $this->pro_controls );
 		}
+
 		foreach ( $control_names as $control_name ) {
-			$controls[ $control_name ] = $this->get_control( $control_name );
+			$control = $this->get_control( $control_name );
+			if ( $control ) {
+				$controls[ $control->name ] = $control;
+			}
 		}
 
 		/**
@@ -128,7 +133,8 @@ class Block_Post extends Component_Abstract {
 			return $this->controls[ $control_name ];
 		}
 
-		$control_class = 'Block_Lab\\Blocks\\Controls\\' . ucwords( $control_name );
+		$class_name    = ucwords( $control_name, '_' );
+		$control_class = 'Block_Lab\\Blocks\\Controls\\' . $class_name;
 		if ( class_exists( $control_class ) ) {
 			return new $control_class();
 		}
@@ -499,9 +505,6 @@ class Block_Post extends Component_Abstract {
 						<th class="block-fields-control">
 							<?php esc_html_e( 'Field Type', 'block-lab' ); ?>
 						</th>
-						<th class="block-fields-location">
-							<?php esc_html_e( 'Field Location', 'block-lab' ); ?>
-						</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -619,15 +622,6 @@ class Block_Post extends Component_Abstract {
 					</span>
 				<?php endif; ?>
 			</div>
-			<div class="block-fields-location" id="block-fields-location_<?php echo esc_attr( $uid ); ?>">
-				<?php
-				if ( 'editor' === $field->location ) {
-					esc_html_e( 'Editor', 'block-lab' );
-				} elseif ( 'inspector' === $field->location ) {
-					esc_html_e( 'Inspector', 'block-lab' );
-				}
-				?>
-			</div>
 			<div class="block-fields-edit">
 				<table class="widefat">
 					<tr class="block-fields-edit-label">
@@ -699,45 +693,19 @@ class Block_Post extends Component_Abstract {
 								data-sync="block-fields-control_<?php echo esc_attr( $uid ); ?>"
 								<?php disabled( $is_field_disabled ); ?> >
 								<?php
-								$fields_for_select = $this->controls;
+								$controls_for_select = $this->controls;
 								// If this field is disabled, it was probably added when there was a valid pro license, so still display it.
 								if ( $is_field_disabled && in_array( $field->control, $this->pro_controls, true ) ) {
-									$fields_for_select[ $field->control ] = $this->get_control( $field->control );
+									$controls_for_select[ $field->control ] = $this->get_control( $field->control );
 								}
-								foreach ( $fields_for_select as $control ) :
+								foreach ( $controls_for_select as $control_for_select ) :
 									?>
 									<option
-										value="<?php echo esc_attr( $control->name ); ?>"
-										<?php selected( $field->control, $control->name ); ?>>
-										<?php echo esc_html( $control->label ); ?>
+										value="<?php echo esc_attr( $control_for_select->name ); ?>"
+										<?php selected( $field->control, $control_for_select->name ); ?>>
+										<?php echo esc_html( $control_for_select->label ); ?>
 									</option>
 								<?php endforeach; ?>
-							</select>
-						</td>
-					</tr>
-					<tr class="block-fields-edit-location">
-						<td class="spacer"></td>
-						<th scope="row">
-							<label for="block-fields-edit-location-input_<?php echo esc_attr( $uid ); ?>">
-								<?php esc_html_e( 'Field Location', 'block-lab' ); ?>
-							</label>
-						</th>
-						<td>
-							<select
-								name="block-fields-location[<?php echo esc_attr( $uid ); ?>]"
-								id="block-fields-edit-location-input_<?php echo esc_attr( $uid ); ?>"
-								data-sync="block-fields-location_<?php echo esc_attr( $uid ); ?>"
-								<?php disabled( $is_field_disabled ); ?> >
-									<option
-										value="editor"
-										<?php selected( $field->location, 'editor' ); ?>>
-										<?php esc_html_e( 'Editor', 'block-lab' ); ?>
-									</option>
-									<option
-										value="inspector"
-										<?php selected( $field->location, 'inspector' ); ?>>
-										<?php esc_html_e( 'Inspector', 'block-lab' ); ?>
-									</option>
 							</select>
 						</td>
 					</tr>
@@ -1008,13 +976,6 @@ class Block_Post extends Component_Abstract {
 				// Field type.
 				if ( isset( $field_config['control'] ) && isset( $this->controls[ $field_config['control'] ] ) ) {
 					$field_config['type'] = $this->controls[ $field_config['control'] ]->type;
-				}
-
-				// Field location.
-				if ( isset( $_POST['block-fields-location'][ $key ] ) ) {
-					$field_config['location'] = sanitize_text_field(
-						wp_unslash( $_POST['block-fields-location'][ $key ] )
-					);
 				}
 
 				/*
