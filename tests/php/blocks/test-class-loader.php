@@ -42,14 +42,13 @@ class Test_Loader extends \WP_UnitTestCase {
 		$slug       = 'bl-testing-slug';
 		$script_url = 'https://example.com/script.js';
 		$block_name = 'test-image';
-		$block      = array(
-			'name'   => $block_name,
-			'fields' => array(),
-		);
+		$block      = new Blocks\Block();
+
+		$block->from_array( array( 'name' => $block_name ) );
 
 		// Test that the do_action() call with this action runs, and that it allows enqueuing a script.
 		add_action( 'block_lab_render_template', function( $block ) use ( $block_name, $slug, $script_url) {
-			if ( $block_name === $block['name'] ) {
+			if ( $block_name === $block->name ) {
 				wp_enqueue_script( $slug, $script_url, array(), '0.1', true );
 			}
 		} );

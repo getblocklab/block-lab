@@ -93,12 +93,11 @@ class Loader extends Component_Abstract {
 			$this->plugin->get_version()
 		);
 
-		$blocks = json_decode( $this->blocks, true );
+		$blocks      = json_decode( $this->blocks, true );
+		$block_names = wp_list_pluck( $blocks, 'name' );
 
-		if ( ! empty( $blocks ) ) {
-			foreach ( $blocks as $block_name => $block ) {
-				$this->enqueue_block_styles( $block['name'], array( 'preview', 'block' ) );
-			}
+		foreach ( $block_names as $block_name ) {
+			$this->enqueue_block_styles( $block_name, array( 'preview', 'block' ) );
 		}
 
 		// Used to conditionally show notices for blocks belonging to an author.
@@ -234,7 +233,7 @@ class Loader extends Component_Abstract {
 			/**
 			 * Runs in the 'render_callback' of the block, and only on the front-end, not in the editor.
 			 *
-			 * The block's name (slug) is in $block['name'].
+			 * The block's name (slug) is in $block->name.
 			 * If a block depends on a JavaScript file,
 			 * this action is a good place to call wp_enqueue_script().
 			 * In that case, pass true as the 5th argument ($in_footer) to wp_enqueue_script().
@@ -252,7 +251,7 @@ class Loader extends Component_Abstract {
 			 * @param array $block The block that is rendered.
 			 * @param array $attributes The block attributes.
 			 */
-			do_action( "block_lab_render_template_{$block['name']}", $block, $attributes );
+			do_action( "block_lab_render_template_{$block->name}", $block, $attributes );
 		}
 
 		ob_start();
