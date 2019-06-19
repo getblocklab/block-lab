@@ -399,7 +399,7 @@ class Block_Post extends Component_Abstract {
 				id="block-properties-slug"
 				value="<?php echo esc_attr( $post->post_name ); ?>" />
 		</p>
-		<p class="description" id="block-properties-slug-description">
+		<p class="description">
 			<?php
 			esc_html_e(
 				'Used to determine the name of the template file.',
@@ -470,7 +470,7 @@ class Block_Post extends Component_Abstract {
 				id="block-properties-keywords"
 				value="<?php echo esc_attr( implode( ', ', $block->keywords ) ); ?>" />
 		</p>
-		<p class="description" id="block-properties-keywords-description">
+		<p class="description">
 			<?php
 			esc_html_e(
 				'A comma separated list of keywords, used when searching. Maximum of 3.',
@@ -504,9 +504,6 @@ class Block_Post extends Component_Abstract {
 						</th>
 						<th class="block-fields-control">
 							<?php esc_html_e( 'Field Type', 'block-lab' ); ?>
-						</th>
-						<th class="block-fields-location">
-							<?php esc_html_e( 'Field Location', 'block-lab' ); ?>
 						</th>
 					</tr>
 				</thead>
@@ -625,15 +622,6 @@ class Block_Post extends Component_Abstract {
 					</span>
 				<?php endif; ?>
 			</div>
-			<div class="block-fields-location" id="block-fields-location_<?php echo esc_attr( $uid ); ?>">
-				<?php
-				if ( empty( $field->settings->location ) || 'editor' === $field->settings->location ) {
-					esc_html_e( 'Editor', 'block-lab' );
-				} elseif ( 'inspector' === $field->settings->location ) {
-					esc_html_e( 'Inspector', 'block-lab' );
-				}
-				?>
-			</div>
 			<div class="block-fields-edit">
 				<table class="widefat">
 					<tr class="block-fields-edit-label">
@@ -642,7 +630,7 @@ class Block_Post extends Component_Abstract {
 							<label for="block-fields-edit-label-input_<?php echo esc_attr( $uid ); ?>">
 								<?php esc_html_e( 'Field Label', 'block-lab' ); ?>
 							</label>
-							<p class="description" id="block-fields-edit-label-description">
+							<p class="description">
 								<?php
 								esc_html_e(
 									'A label describing your block\'s custom field.',
@@ -676,7 +664,7 @@ class Block_Post extends Component_Abstract {
 							<label for="block-fields-edit-name-input_<?php echo esc_attr( $uid ); ?>">
 								<?php esc_html_e( 'Field Name', 'block-lab' ); ?>
 							</label>
-							<p class="description" id="block-fields-edit-name-description">
+							<p class="description">
 								<?php esc_html_e( 'Single word, no spaces.', 'block-lab' ); ?>
 							</p>
 						</th>
@@ -988,13 +976,6 @@ class Block_Post extends Component_Abstract {
 				// Field type.
 				if ( isset( $field_config['control'] ) && isset( $this->controls[ $field_config['control'] ] ) ) {
 					$field_config['type'] = $this->controls[ $field_config['control'] ]->type;
-				}
-
-				// Field location.
-				if ( isset( $_POST['block-fields-location'][ $key ] ) ) {
-					$field_config['location'] = sanitize_text_field(
-						wp_unslash( $_POST['block-fields-location'][ $key ] )
-					);
 				}
 
 				/*
