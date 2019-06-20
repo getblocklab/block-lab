@@ -238,7 +238,7 @@ class Loader extends Component_Abstract {
 			 * this action is a good place to call wp_enqueue_script().
 			 * In that case, pass true as the 5th argument ($in_footer) to wp_enqueue_script().
 			 *
-			 * @param array $block The block that is rendered.
+			 * @param Block $block The block that is rendered.
 			 * @param array $attributes The block attributes.
 			 */
 			do_action( 'block_lab_render_template', $block, $attributes );
@@ -248,7 +248,7 @@ class Loader extends Component_Abstract {
 			 *
 			 * Same as the action above, but with a dynamic action name that has the block name.
 			 *
-			 * @param array $block The block that is rendered.
+			 * @param Block $block The block that is rendered.
 			 * @param array $attributes The block attributes.
 			 */
 			do_action( "block_lab_render_template_{$block->name}", $block, $attributes );
