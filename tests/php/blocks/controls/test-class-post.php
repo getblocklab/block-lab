@@ -12,6 +12,8 @@ use Block_Lab\Blocks\Controls;
  */
 class Test_Post extends \WP_UnitTestCase {
 
+	use Control_Helper;
+
 	/**
 	 * Instance of the extending class Number.
 	 *
@@ -52,21 +54,40 @@ class Test_Post extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Controls\Post::register_settings()
 	 */
 	public function test_register_settings() {
-		$this->instance->register_settings();
+		$expected_settings = array(
+			array(
+				'name'     => 'location',
+				'label'    => 'Location',
+				'type'     => 'location',
+				'default'  => 'editor',
+				'help'     => '',
+				'sanitize' => array( $this->instance, 'sanitize_location' ),
+				'validate' => '',
+				'value'    => null,
+			),
+			array(
+				'name'     => 'help',
+				'label'    => 'Help Text',
+				'type'     => 'text',
+				'default'  => '',
+				'help'     => '',
+				'sanitize' => 'sanitize_text_field',
+				'validate' => '',
+				'value'    => null,
+			),
+			array(
+				'name'     => 'post_type_rest_slug',
+				'label'    => 'Post Type',
+				'type'     => 'post_type_rest_slug',
+				'default'  => 'posts',
+				'help'     => '',
+				'sanitize' => array( $this->instance, 'sanitize_post_type_rest_slug' ),
+				'validate' => '',
+				'value'    => null,
+			),
+		);
 
-		$first_setting = reset( $this->instance->settings );
-		$this->assertEquals( 'location', $first_setting->name );
-		$this->assertEquals( 'Location', $first_setting->label );
-		$this->assertEquals( 'location', $first_setting->type );
-		$this->assertEquals( 'editor', $first_setting->default );
-		$this->assertEquals( array( $this->instance, 'sanitize_location' ), $first_setting->sanitize );
-
-		$post_setting = end( $this->instance->settings );
-		$this->assertEquals( 'post_type_rest_slug', $post_setting->name );
-		$this->assertEquals( 'Post Type', $post_setting->label );
-		$this->assertEquals( 'post_type_rest_slug', $post_setting->type );
-		$this->assertEquals( 'posts', $post_setting->default );
-		$this->assertEquals( array( $this->instance, 'sanitize_post_type_rest_slug' ), $post_setting->sanitize );
+		$this->assert_correct_settings( $expected_settings, $this->instance->settings );
 	}
 
 	/**
