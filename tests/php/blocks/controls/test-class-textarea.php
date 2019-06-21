@@ -57,10 +57,6 @@ class Test_Textarea extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Controls\Textarea::register_settings()
 	 */
 	public function test_register_settings() {
-		foreach ( $this->instance->settings as $setting ) {
-			$this->assertEquals( 'Block_Lab\Blocks\Controls\Control_Setting', get_class( $setting ) );
-		}
-
 		$expected_settings = array(
 			array(
 				'name'     => 'location',
