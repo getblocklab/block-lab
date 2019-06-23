@@ -38,6 +38,7 @@ class Test_Taxonomy extends \WP_UnitTestCase {
 		$this->instance = new Controls\Taxonomy();
 		$this->setting  = new Controls\Control_Setting();
 	}
+
 	/**
 	 * Test __construct.
 	 *

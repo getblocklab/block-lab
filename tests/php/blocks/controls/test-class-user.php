@@ -22,13 +22,6 @@ class Test_User extends \WP_UnitTestCase {
 	public $instance;
 
 	/**
-	 * Instance of the setting.
-	 *
-	 * @var Controls\Control_Setting
-	 */
-	public $setting;
-
-	/**
 	 * Setup.
 	 *
 	 * @inheritdoc
@@ -36,7 +29,6 @@ class Test_User extends \WP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->instance = new Controls\User();
-		$this->setting  = new Controls\Control_Setting();
 	}
 	/**
 	 * Test __construct.

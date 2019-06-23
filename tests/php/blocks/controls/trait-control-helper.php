@@ -13,6 +13,10 @@ trait Control_Helper {
 	/**
 	 * Assert that the settings are correct.
 	 *
+	 * $actual_settings has objects, and $expected_settings has arrays.
+	 * So this iterates through the $expected_settings for each object,
+	 * ensuring the key and value of the $expected_settings array match a property of the object.
+	 *
 	 * @param array $expected_settings The expected settings, an array of arrays.
 	 * @param array $actual_settings The actual settings, an array of Control_Setting instances.
 	 */
