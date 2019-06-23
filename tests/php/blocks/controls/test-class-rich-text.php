@@ -12,19 +12,14 @@ use Block_Lab\Blocks\Controls;
  */
 class Test_Rich_Text extends \WP_UnitTestCase {
 
+	use Control_Helper;
+
 	/**
 	 * Instance of Rich_Text.
 	 *
 	 * @var Controls\Rich_Text
 	 */
 	public $instance;
-
-	/**
-	 * Instance of the setting.
-	 *
-	 * @var Controls\Control_Setting
-	 */
-	public $setting;
 
 	/**
 	 * Setup.
@@ -34,7 +29,6 @@ class Test_Rich_Text extends \WP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->instance = new Controls\Rich_Text();
-		$this->setting  = new Controls\Control_Setting();
 	}
 
 	/**
@@ -53,24 +47,40 @@ class Test_Rich_Text extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Controls\Rich_Text::register_settings()
 	 */
 	public function test_register_settings() {
-		$this->instance->register_settings();
-		foreach ( $this->instance->settings as $setting ) {
-			$this->assertEquals( 'Block_Lab\Blocks\Controls\Control_Setting', get_class( $setting ) );
-		}
+		$expected_settings = array(
+			array(
+				'name'     => 'help',
+				'label'    => 'Help Text',
+				'type'     => 'text',
+				'default'  => '',
+				'help'     => '',
+				'sanitize' => 'sanitize_text_field',
+				'validate' => '',
+				'value'    => null,
+			),
+			array(
+				'name'     => 'default',
+				'label'    => 'Default Value',
+				'type'     => 'text',
+				'default'  => '',
+				'help'     => '',
+				'sanitize' => 'sanitize_text_field',
+				'validate' => '',
+				'value'    => null,
+			),
+			array(
+				'name'     => 'placeholder',
+				'label'    => 'Placeholder Text',
+				'type'     => 'text',
+				'default'  => '',
+				'help'     => '',
+				'sanitize' => 'sanitize_text_field',
+				'validate' => '',
+				'value'    => null,
+			),
+		);
 
-		$rows_setting = reset( $this->instance->settings );
-		$this->assertEquals( 'help', $rows_setting->name );
-		$this->assertEquals( 'Help Text', $rows_setting->label );
-		$this->assertEquals( 'text', $rows_setting->type );
-		$this->assertEquals( '', $rows_setting->default );
-		$this->assertEquals( 'sanitize_text_field', $rows_setting->sanitize );
-
-		$rows_setting = end( $this->instance->settings );
-		$this->assertEquals( 'placeholder', $rows_setting->name );
-		$this->assertEquals( 'Placeholder Text', $rows_setting->label );
-		$this->assertEquals( 'text', $rows_setting->type );
-		$this->assertEquals( '', $rows_setting->default );
-		$this->assertEquals( 'sanitize_text_field', $rows_setting->sanitize );
+		$this->assert_correct_settings( $expected_settings, $this->instance->settings );
 	}
 
 	/**
