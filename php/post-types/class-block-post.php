@@ -1114,8 +1114,7 @@ class Block_Post extends Component_Abstract {
 			echo esc_html( implode( ', ', $block->keywords ) );
 		}
 		if ( 'category' === $column ) {
-			$block      = new Block( $post_id );
-			
+			$block = new Block( $post_id );
 			if ( ! empty( $block->category ) ) {
 				$categories = get_block_categories( get_post() );
 				$categories = wp_list_pluck( $categories, 'title', 'slug' );
