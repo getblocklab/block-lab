@@ -32,4 +32,24 @@ trait Control_Helper {
 
 		$this->assertEquals( count( $expected_settings ), count( $actual_settings ) );
 	}
+
+	/**
+	 * Sets whether the license is valid or not.
+	 *
+	 * @param bool $is_valid Whether the license is valid.
+	 */
+	public function set_license_validity( $is_valid ) {
+		if ( $is_valid ) {
+			$transient_value = array(
+				'license' => 'valid',
+				'expires' => date( '+1 month' ),
+			);
+		} else {
+			$transient_value = array(
+				'license' => 'expired',
+			);
+		}
+
+		set_transient( 'block_lab_license', $transient_value );
+	}
 }
