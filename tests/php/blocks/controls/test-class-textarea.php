@@ -166,7 +166,7 @@ class Test_Textarea extends \WP_UnitTestCase {
 	/**
 	 * Test test_sanitize_new_line_format.
 	 *
-	 * @covers \Block_Lab\Blocks\Controls\Textarea::test_sanitize_new_line_format()
+	 * @covers \Block_Lab\Blocks\Controls\Textarea::sanitize_new_line_format()
 	 */
 	public function test_sanitize_new_line_format() {
 		$this->assertEmpty( $this->instance->sanitize_new_line_format( 'foo' ) );

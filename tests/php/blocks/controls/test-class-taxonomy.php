@@ -115,11 +115,11 @@ class Test_Taxonomy extends \WP_UnitTestCase {
 	}
 
 	/**
-	 * Test get_taxonomy_rest_slugs.
+	 * Test get_taxonomy_type_rest_slugs.
 	 *
-	 * @covers \Block_Lab\Blocks\Controls\Taxonomy::get_taxonomy_rest_slugs()
+	 * @covers \Block_Lab\Blocks\Controls\Taxonomy::get_taxonomy_type_rest_slugs()
 	 */
-	public function test_get_taxonomy_rest_slugs() {
+	public function test_get_taxonomy_type_rest_slugs() {
 		$new_tax_slug  = 'foo-new-tax';
 		$new_tax_label = 'New Taxonomy';
 		$rest_base     = 'foo-new-taxonomies';
