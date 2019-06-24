@@ -13,6 +13,8 @@ use Block_Lab\Blocks\Controls;
  */
 class Test_Block_Post extends \WP_UnitTestCase {
 
+	use Control_Helper;
+
 	/**
 	 * Instance of Block_Post.
 	 *
@@ -220,26 +222,6 @@ class Test_Block_Post extends \WP_UnitTestCase {
 		$this->assertNotEmpty( $template_meta_box );
 		$this->assertGreaterThan( 0, strpos( $template_meta_box, 'template-notice' ) );
 		$this->assertGreaterThan( 0, strpos( $template_meta_box, 'template-location' ) );
-	}
-
-	/**
-	 * Sets whether the license is valid or not.
-	 *
-	 * @param bool $is_valid Whether the license is valid.
-	 */
-	public function set_license_validity( $is_valid ) {
-		if ( $is_valid ) {
-			$transient_value = array(
-				'license' => 'valid',
-				'expires' => date( '+1 month' ),
-			);
-		} else {
-			$transient_value = array(
-				'license' => 'expired',
-			);
-		}
-
-		set_transient( 'block_lab_license', $transient_value );
 	}
 
 	/**
