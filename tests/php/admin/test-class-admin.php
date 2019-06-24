@@ -64,7 +64,7 @@ class Test_Admin extends \WP_UnitTestCase {
 		$this->assertArrayHasKey( $settings_class, $components_value );
 		$this->assertArrayHasKey( $license_class, $components_value );
 
-		// Because the pro license isn't active, there should be an Upgrade class instantiated.
+		// Because the Pro license isn't active, there should be an Upgrade class instantiated.
 		$upgrade_class = 'Block_Lab\Admin\Upgrade';
 		$this->assertEquals( $upgrade_class, get_class( $this->instance->upgrade ) );
 		$this->assertArrayHasKey( $upgrade_class, $components_value );
@@ -104,7 +104,7 @@ class Test_Admin extends \WP_UnitTestCase {
 		$this->assertContains( 'css/admin.css', $stylesheet->src );
 		$this->assertEquals( array(), $stylesheet->deps );
 		$this->assertEquals( array(), $stylesheet->extra );
-		$this->assertTrue( in_array( $handle, $styles->queue ) );
+		$this->assertTrue( in_array( $handle, $styles->queue, true ) );
 	}
 
 	/**
