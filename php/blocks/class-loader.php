@@ -93,12 +93,11 @@ class Loader extends Component_Abstract {
 			$this->plugin->get_version()
 		);
 
-		$blocks = json_decode( $this->blocks, true );
+		$blocks      = json_decode( $this->blocks, true );
+		$block_names = wp_list_pluck( $blocks, 'name' );
 
-		if ( ! empty( $blocks ) ) {
-			foreach ( $blocks as $block_name => $block ) {
-				$this->enqueue_block_styles( $block['name'], array( 'preview', 'block' ) );
-			}
+		foreach ( $block_names as $block_name ) {
+			$this->enqueue_block_styles( $block_name, array( 'preview', 'block' ) );
 		}
 
 		// Used to conditionally show notices for blocks belonging to an author.
@@ -128,7 +127,10 @@ class Loader extends Component_Abstract {
 		// Get blocks.
 		$blocks = json_decode( $this->blocks, true );
 
-		foreach ( $blocks as $block_name => $block ) {
+		foreach ( $blocks as $block_name => $block_config ) {
+			$block = new Block();
+			$block->from_array( $block_config );
+
 			$attributes = $this->get_block_attributes( $block );
 
 			// sanitize_title() allows underscores, but register_block_type doesn't.
@@ -162,27 +164,19 @@ class Loader extends Component_Abstract {
 	public function get_block_attributes( $block ) {
 		$attributes = [];
 
-		if ( ! isset( $block['fields'] ) ) {
-			return $attributes;
-		}
-
 		// Default Editor attributes (applied to all blocks).
 		$attributes['className'] = array( 'type' => 'string' );
 
-		foreach ( $block['fields'] as $field_name => $field ) {
-			$attributes[ $field_name ] = [];
+		foreach ( $block->fields as $field_name => $field ) {
+			$attributes[ $field_name ] = array(
+				'type' => $field->type,
+			);
 
-			if ( ! empty( $field['type'] ) ) {
-				$attributes[ $field_name ]['type'] = $field['type'];
-			} else {
-				$attributes[ $field_name ]['type'] = 'string';
+			if ( ! empty( $field->settings['default'] ) ) {
+				$attributes[ $field_name ]['default'] = $field->settings['default'];
 			}
 
-			if ( ! empty( $field['default'] ) ) {
-				$attributes[ $field_name ]['default'] = $field['default'];
-			}
-
-			if ( 'array' === $field['type'] ) {
+			if ( 'array' === $field->type ) {
 				/**
 				 * This is a workaround to allow empty array values. We unset the default value before registering the
 				 * block so that the default isn't used to auto-correct empty arrays. This allows the default to be
@@ -190,22 +184,6 @@ class Loader extends Component_Abstract {
 				 */
 				unset( $attributes[ $field_name ]['default'] );
 				$attributes[ $field_name ]['items'] = array( 'type' => 'string' );
-			}
-
-			if ( ! empty( $field['source'] ) ) {
-				$attributes[ $field_name ]['source'] = $field['source'];
-			}
-
-			if ( ! empty( $field['meta'] ) ) {
-				$attributes[ $field_name ]['meta'] = $field['meta'];
-			}
-
-			if ( ! empty( $field['selector'] ) ) {
-				$attributes[ $field_name ]['selector'] = $field['selector'];
-			}
-
-			if ( ! empty( $field['query'] ) ) {
-				$attributes[ $field_name ]['query'] = $field['query'];
 			}
 		}
 
@@ -237,21 +215,47 @@ class Loader extends Component_Abstract {
 			 * The block has been added, but its values weren't saved (not even the defaults). This is a phenomenon
 			 * unique to frontend output, as the editor fetches its attributes from the form fields themselves.
 			 */
-			$missing_schema_attributes = array_diff_key( $block['fields'], $attributes );
+			$missing_schema_attributes = array_diff_key( $block->fields, $attributes );
 			foreach ( $missing_schema_attributes as $attribute_name => $schema ) {
-				if ( isset( $schema['default'] ) ) {
-					$attributes[ $attribute_name ] = $schema['default'];
+				if ( isset( $schema->settings['default'] ) ) {
+					$attributes[ $attribute_name ] = $schema->settings['default'];
 				}
 			}
 
-			$this->enqueue_block_styles( $block['name'], 'block' );
+			$this->enqueue_block_styles( $block->name, 'block' );
 		}
 
 		$block_lab_attributes = $attributes;
 		$block_lab_config     = $block;
 
+		if ( ! is_admin() && ( ! defined( 'REST_REQUEST' ) || ! REST_REQUEST ) && ! wp_doing_ajax() ) {
+
+			/**
+			 * Runs in the 'render_callback' of the block, and only on the front-end, not in the editor.
+			 *
+			 * The block's name (slug) is in $block->name.
+			 * If a block depends on a JavaScript file,
+			 * this action is a good place to call wp_enqueue_script().
+			 * In that case, pass true as the 5th argument ($in_footer) to wp_enqueue_script().
+			 *
+			 * @param Block $block The block that is rendered.
+			 * @param array $attributes The block attributes.
+			 */
+			do_action( 'block_lab_render_template', $block, $attributes );
+
+			/**
+			 * Runs in a block's 'render_callback', and only on the front-end.
+			 *
+			 * Same as the action above, but with a dynamic action name that has the block name.
+			 *
+			 * @param Block $block The block that is rendered.
+			 * @param array $attributes The block attributes.
+			 */
+			do_action( "block_lab_render_template_{$block->name}", $block, $attributes );
+		}
+
 		ob_start();
-		$this->block_template( $block['name'], $type );
+		$this->block_template( $block->name, $type );
 		$output = ob_get_clean();
 
 		return $output;

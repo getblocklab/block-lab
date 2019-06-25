@@ -27,7 +27,8 @@ function block_field( $name, $echo = true ) {
 
 	if (
 		! isset( $block_lab_attributes ) ||
-		! is_array( $block_lab_attributes )
+		! is_array( $block_lab_attributes ) ||
+		! isset( $block_lab_config->fields[ $name ] )
 	) {
 		return null;
 	}
@@ -43,41 +44,39 @@ function block_field( $name, $echo = true ) {
 	}
 
 	// Cast block value as correct type.
-	if ( isset( $block_lab_config['fields'][ $name ]['type'] ) ) {
-		switch ( $block_lab_config['fields'][ $name ]['type'] ) {
-			case 'string':
-				$value = strval( $value );
-				break;
-			case 'textarea':
-				$value = strval( $value );
-				if ( isset( $block_lab_config['fields'][ $name ]['new_lines'] ) ) {
-					if ( 'autop' === $block_lab_config['fields'][ $name ]['new_lines'] ) {
-						$value = wpautop( $value );
-					}
-					if ( 'autobr' === $block_lab_config['fields'][ $name ]['new_lines'] ) {
-						$value = nl2br( $value );
-					}
+	switch ( $block_lab_config->fields[ $name ]->type ) {
+		case 'string':
+			$value = strval( $value );
+			break;
+		case 'textarea':
+			$value = strval( $value );
+			if ( isset( $block_lab_config->fields[ $name ]->settings['new_lines'] ) ) {
+				if ( 'autop' === $block_lab_config->fields[ $name ]->settings['new_lines'] ) {
+					$value = wpautop( $value );
 				}
-				break;
-			case 'boolean':
-				if ( 1 === $value ) {
-					$value = true;
+				if ( 'autobr' === $block_lab_config->fields[ $name ]->settings['new_lines'] ) {
+					$value = nl2br( $value );
 				}
-				break;
-			case 'integer':
-				$value = intval( $value );
-				break;
-			case 'array':
-				if ( ! $value ) {
-					$value = array();
-				} else {
-					$value = (array) $value;
-				}
-				break;
-		}
+			}
+			break;
+		case 'boolean':
+			if ( 1 === $value ) {
+				$value = true;
+			}
+			break;
+		case 'integer':
+			$value = intval( $value );
+			break;
+		case 'array':
+			if ( ! $value ) {
+				$value = array();
+			} else {
+				$value = (array) $value;
+			}
+			break;
 	}
 
-	$control = isset( $block_lab_config['fields'][ $name ]['control'] ) ? $block_lab_config['fields'][ $name ]['control'] : null;
+	$control = $block_lab_config->fields[ $name ]->control;
 
 	/**
 	 * Filters the value to be made available or echoed on the front-end template.
@@ -132,7 +131,7 @@ function block_value( $name ) {
  */
 function block_config() {
 	global $block_lab_config;
-	return $block_lab_config;
+	return (array) $block_lab_config;
 }
 
 /**
@@ -144,10 +143,10 @@ function block_config() {
  */
 function block_field_config( $name ) {
 	global $block_lab_config;
-	if ( ! isset( $block_lab_config['fields'][ $name ] ) ) {
+	if ( ! isset( $block_lab_config->fields[ $name ] ) ) {
 		return null;
 	}
-	return $block_lab_config['fields'][ $name ];
+	return (array) $block_lab_config->fields[ $name ];
 }
 
 /**

@@ -94,6 +94,21 @@ class Block {
 
 		$config = $json[ 'block-lab/' . $this->name ];
 
+		$this->from_array( $config );
+	}
+
+	/**
+	 * Construct the Block from a config array.
+	 *
+	 * @param array $config An array containing field parameters.
+	 *
+	 * @return void
+	 */
+	public function from_array( $config ) {
+		if ( isset( $config['name'] ) ) {
+			$this->name = $config['name'];
+		}
+
 		if ( isset( $config['title'] ) ) {
 			$this->title = $config['title'];
 		}
