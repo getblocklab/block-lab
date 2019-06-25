@@ -6,6 +6,7 @@
  */
 
 use Block_Lab\Admin;
+use Brain\Monkey;
 
 /**
  * Tests for class Admin.
@@ -22,6 +23,13 @@ class Test_Admin extends \WP_UnitTestCase {
 	public $instance;
 
 	/**
+	 * The slug of the Pro page.
+	 *
+	 * @var string
+	 */
+	const BLOCK_LAB_PRO_PAGE = 'block-lab-pro';
+
+	/**
 	 * Setup.
 	 *
 	 * @inheritdoc
@@ -29,6 +37,7 @@ class Test_Admin extends \WP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->instance = new Admin\Admin();
+		Monkey\setUp();
 	}
 
 	/**
@@ -37,7 +46,7 @@ class Test_Admin extends \WP_UnitTestCase {
 	 * @inheritdoc
 	 */
 	public function tearDown() {
-		unset( $GLOBALS['current_screen'] );
+		Monkey\tearDown();
 		parent::tearDown();
 	}
 
@@ -72,8 +81,14 @@ class Test_Admin extends \WP_UnitTestCase {
 
 		// With an active Pro license, this should redirect from the Pro page to the settings page.
 		$this->set_license_validity( true );
-		set_current_screen( 'edit.php' );
-		$_GET['page'] = 'block-lab-pro';
+		Monkey\Functions\expect( 'filter_input' )
+			->once()
+			->with(
+				INPUT_GET,
+				'page',
+				FILTER_SANITIZE_STRING
+			)
+			->andReturn( self::BLOCK_LAB_PRO_PAGE );
 		$this->assertTrue( $this->did_settings_redirect_occur() );
 	}
 
@@ -113,19 +128,28 @@ class Test_Admin extends \WP_UnitTestCase {
 	 * @covers Block_Lab\Admin\Admin::maybe_settings_redirect()
 	 */
 	public function test_maybe_settings_redirect() {
-		// None of the conditional is satisfied, so this should not redirect.
+		Monkey\Functions\expect( 'filter_input' )
+			->once()
+			->with(
+				INPUT_GET,
+				'page',
+				FILTER_SANITIZE_STRING
+			)
+			->andReturn( 'incorrect-page' );
+
+		// This is on the wrong page, so this should not redirect.
 		$this->assertFalse( $this->did_settings_redirect_occur() );
 
-		// Only the first part of the conditional is satisfied, so this should still not redirect.
-		set_current_screen( 'edit.php' );
-		$this->assertFalse( $this->did_settings_redirect_occur() );
+		Monkey\Functions\expect( 'filter_input' )
+			->twice()
+			->with(
+				INPUT_GET,
+				'page',
+				FILTER_SANITIZE_STRING
+			)
+			->andReturn( self::BLOCK_LAB_PRO_PAGE );
 
-		// The 'page' is set, but incorrect.
-		$_GET['page'] = 'incorrect-page';
-		$this->assertFalse( $this->did_settings_redirect_occur() );
-
-		// Now that the 'page' is correct, the entire conditional should be true, and this should redirect.
-		$_GET['page'] = 'block-lab-pro';
+		// Now that this is on the correct page, the conditional should be true, and this should redirect.
 		$this->assertTrue( $this->did_settings_redirect_occur() );
 
 		// Mainly copied from Weston Ruter in the AMP Plugin for WordPress.
@@ -144,19 +168,18 @@ class Test_Admin extends \WP_UnitTestCase {
 			$exception = $e;
 		}
 
-		// Assert that the response was a redirect (302), and that it redirected to the right URL.
-		$this->assertEquals( 302, $exception->getCode() );
-		$this->assertContains(
-			add_query_arg(
-				array(
-					'post_type' => 'block_lab',
-					'page'      => 'block-lab-settings',
-					'tab'       => 'license',
-				),
-				admin_url( 'edit.php' )
+		$expected_url = add_query_arg(
+			array(
+				'post_type' => 'block_lab',
+				'page'      => 'block-lab-settings',
+				'tab'       => 'license',
 			),
-			$exception->getMessage()
+			admin_url( 'edit.php' )
 		);
+
+		// Assert that the response was a redirect (302), and that it redirected to the right URL.
+		$this->assertTrue( isset( $exception ) && 302 === $exception->getCode() );
+		$this->assertTrue( isset( $exception ) && $expected_url === $exception->getMessage() );
 	}
 
 	/**
