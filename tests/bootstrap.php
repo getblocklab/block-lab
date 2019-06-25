@@ -24,6 +24,8 @@ require_once $_tests_dir . '/includes/functions.php';
  * Manually load the plugin being tested.
  */
 function _manually_load_plugin() {
+	require dirname( __DIR__ ) . '/vendor/antecedent/patchwork/Patchwork.php';
+	require dirname( dirname( __FILE__ ) ) . '/vendor/autoload.php';
 	require dirname( dirname( __FILE__ ) ) . '/block-lab.php';
 	require __DIR__ . '/php/trait-helper.php';
 }

@@ -97,7 +97,8 @@ class Admin extends Component_Abstract {
 	 * This runs before get_current_screen() returns a value,
 	 */
 	public function maybe_settings_redirect() {
-		if ( is_admin() && isset( $_GET['page'] ) && 'block-lab-pro' === $_GET['page'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
+		if ( 'block-lab-pro' === $page ) {
 			wp_safe_redirect(
 				add_query_arg(
 					array(
