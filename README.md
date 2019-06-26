@@ -3,7 +3,7 @@
 Contributors: lukecarbis, ryankienstra, Stino11, rheinardkorf
 Tags: Gutenberg, Blocks
 Requires at least: 5.0
-Tested up to: 5.2.1
+Tested up to: 5.2
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPLv2 or later

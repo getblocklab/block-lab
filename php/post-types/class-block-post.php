@@ -1114,11 +1114,15 @@ class Block_Post extends Component_Abstract {
 			echo esc_html( implode( ', ', $block->keywords ) );
 		}
 		if ( 'category' === $column ) {
-			$block      = new Block( $post_id );
-			$categories = get_block_categories( get_post() );
-			$categories = wp_list_pluck( $categories, 'title', 'slug' );
+			$block = new Block( $post_id );
+			if ( ! empty( $block->category ) ) {
+				$categories = get_block_categories( get_post() );
+				$categories = wp_list_pluck( $categories, 'title', 'slug' );
 
-			echo esc_html( $categories[ $block->category ] );
+				if ( isset( $categories[ $block->category ] ) ) {
+					echo esc_html( $categories[ $block->category ] );
+				}
+			}
 		}
 	}
 
