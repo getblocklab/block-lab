@@ -8,7 +8,7 @@
 /**
  * Trait with a helper method.
  */
-trait Control_Helper {
+trait Testing_Helper {
 
 	/**
 	 * Assert that the settings are correct.

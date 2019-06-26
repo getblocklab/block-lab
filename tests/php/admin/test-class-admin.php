@@ -13,7 +13,7 @@ use Brain\Monkey;
  */
 class Test_Admin extends \WP_UnitTestCase {
 
-	use Control_Helper;
+	use Testing_Helper;
 
 	/**
 	 * Instance of Admin.

@@ -13,7 +13,7 @@ use Block_Lab\Blocks\Controls;
  */
 class Test_Block_Post extends \WP_UnitTestCase {
 
-	use Control_Helper;
+	use Testing_Helper;
 
 	/**
 	 * Instance of Block_Post.

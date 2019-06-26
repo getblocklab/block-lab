@@ -12,7 +12,7 @@ use Block_Lab\Blocks\Controls;
  */
 class Test_Color extends \WP_UnitTestCase {
 
-	use Control_Helper;
+	use Testing_Helper;
 
 	/**
 	 * Instance of Color.

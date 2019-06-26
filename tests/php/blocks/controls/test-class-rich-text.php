@@ -12,7 +12,7 @@ use Block_Lab\Blocks\Controls;
  */
 class Test_Rich_Text extends \WP_UnitTestCase {
 
-	use Control_Helper;
+	use Testing_Helper;
 
 	/**
 	 * Instance of Rich_Text.
