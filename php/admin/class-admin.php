@@ -93,8 +93,6 @@ class Admin extends Component_Abstract {
 
 	/**
 	 * Redirect to the Settings screen if the license is being saved.
-	 *
-	 * This runs before get_current_screen() returns a value,
 	 */
 	public function maybe_settings_redirect() {
 		$page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
