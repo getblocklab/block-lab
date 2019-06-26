@@ -1,5 +1,18 @@
 ## Changelog #
 
+### 1.3.2 - 2019-06-21 ###
+
+* New: Rich Text Control (for Block Lab Pro users)!
+* New: Show Block Category in the list table
+* New: We've got a new `block_lab_render_template` hook which fires before rendering a block on the front end. Great for enqueuing JS
+* Tweak: Updated logo
+* Tweak: Prevent block field slugs from changing when you edit the field title
+* Fix: Saving your license key no longer results in an error page
+* Fix: License details screen showing the wrong information
+* Fix: Remove duplicate IDs on the edit block screen
+* Fix: Range sliders can now set a minimum value of zero
+* Fix: A console warning about unique props
+
 ### 1.3.1 - 2019-05-22 ###
 
 * New: Support for Gutenberg's built-in Additional CSS Class in your block template, by using the field `className`. [Read more](https://github.com/getblocklab/block-lab/wiki/7.-FAQ)
