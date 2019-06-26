@@ -98,6 +98,7 @@ class Admin extends Component_Abstract {
 	 */
 	public function maybe_settings_redirect() {
 		$page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
+
 		if ( 'block-lab-pro' === $page ) {
 			wp_safe_redirect(
 				add_query_arg(
