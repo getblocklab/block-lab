@@ -36,8 +36,8 @@ class Test_Admin extends \WP_UnitTestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
-		$this->instance = new Admin\Admin();
 		Monkey\setUp();
+		$this->instance = new Admin\Admin();
 	}
 
 	/**
