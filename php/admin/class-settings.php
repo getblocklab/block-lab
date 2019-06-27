@@ -77,21 +77,14 @@ class Settings extends Component_Abstract {
 	 * Render the Settings page.
 	 */
 	public function render_page() {
-		$tab = filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_STRING );
-
-		ob_start();
-
-		$this->render_page_header();
-
-		switch ( $tab ) {
-			case 'license':
-			default:
-				include block_lab()->get_path() . 'php/views/license.php';
-				break;
-		}
-
-		$html = ob_get_clean();
-		echo '<div class="wrap block-lab-settings">' . $html . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		?>
+		<div class="wrap block-lab-settings">
+			<?php
+			$this->render_page_header();
+			include block_lab()->get_path() . 'php/views/license.php';
+			?>
+		</div>
+		<?php
 	}
 
 	/**
