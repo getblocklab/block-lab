@@ -18,7 +18,7 @@ class Test_Admin extends \WP_UnitTestCase {
 	/**
 	 * Instance of Admin.
 	 *
-	 * @var Controls\Admin
+	 * @var Admin\Admin
 	 */
 	public $instance;
 
