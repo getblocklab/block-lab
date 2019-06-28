@@ -44,6 +44,13 @@ class Test_License extends \WP_UnitTestCase {
 	const LICENSE_KEY_OPTION_NAME = 'block_lab_license_key';
 
 	/**
+	 * The name of a HTTPS filer.
+	 *
+	 * @var string
+	 */
+	const HTTP_FILTER_NAME = 'pre_http_request';
+
+	/**
 	 * Setup.
 	 *
 	 * @inheritdoc
@@ -61,7 +68,7 @@ class Test_License extends \WP_UnitTestCase {
 	 * @inheritdoc
 	 */
 	public function tearDown() {
-		remove_all_filters( 'http_response' );
+		remove_all_filters( self::HTTP_FILTER_NAME );
 		delete_option( self::NOTICES_OPTION_NAME );
 		delete_option( self::LICENSE_KEY_OPTION_NAME );
 		delete_transient( self::LICENSE_TRANSIENT_NAME );
@@ -199,7 +206,7 @@ class Test_License extends \WP_UnitTestCase {
 			'expires' => $expiration_date,
 		);
 
-		add_filter( 'http_response', function( $response ) use ( $expected_license ) {
+		add_filter( self::HTTP_FILTER_NAME, function( $response ) use ( $expected_license ) {
 			unset( $response );
 			return array( 'body' => wp_json_encode( $expected_license ) );
 		} );
@@ -207,10 +214,9 @@ class Test_License extends \WP_UnitTestCase {
 		delete_transient( self::LICENSE_TRANSIENT_NAME );
 		$example_valid_license_key = '5134315';
 		add_option( self::LICENSE_KEY_OPTION_NAME, $example_valid_license_key );
-		$actual_license = $this->instance->get_license();
 
 		// If the license transient is empty, this should look at the option value and make a request to validate that.
-		$this->assertEquals( $expected_license, $actual_license );
+		$this->assertEquals( $expected_license, $this->instance->get_license() );
 	}
 
 	/**
@@ -220,24 +226,23 @@ class Test_License extends \WP_UnitTestCase {
 	 */
 	public function test_activate_license() {
 		$this->instance->init();
-		$license_key      = '6234234';
-		$http_filter_name = 'http_response';
-		add_filter( $http_filter_name, function( $response ) {
+		$license_key = '6234234';
+		add_filter( self::HTTP_FILTER_NAME, function( $response ) {
 			unset( $response );
 			return new WP_Error();
 		} );
 
 		// If the POST request returns a wp_error(), this should return false.
 		$this->assertFalse( $this->instance->activate_license( $license_key ) );
+		$this->assertEmpty( get_transient( self::LICENSE_TRANSIENT_NAME ) );
 
-		remove_all_filters( $http_filter_name );
-
+		remove_all_filters( self::HTTP_FILTER_NAME );
 		$expected_license = array(
 			'license' => 'valid',
 			'expires' => date( 'Y-m-d', time() + DAY_IN_SECONDS ),
 		);
 
-		add_filter( $http_filter_name, function( $response ) use ( $expected_license ) {
+		add_filter( self::HTTP_FILTER_NAME, function( $response ) use ( $expected_license ) {
 			unset( $response );
 			return array( 'body' => wp_json_encode( $expected_license ) );
 		} );
