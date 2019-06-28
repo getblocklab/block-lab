@@ -30,6 +30,13 @@ class Test_Settings extends \WP_UnitTestCase {
 	const NOTICES_OPTION_NAME = 'block_lab_notices';
 
 	/**
+	 * The slug of the parent of the submenu.
+	 *
+	 * @var string
+	 */
+	const SUBMENU_PARENT_SLUG = 'edit.php?post_type=block_lab';
+
+	/**
 	 * Setup.
 	 *
 	 * @inheritdoc
@@ -48,6 +55,9 @@ class Test_Settings extends \WP_UnitTestCase {
 	 * @inheritdoc
 	 */
 	public function tearDown() {
+		global $submenu;
+
+		unset( $submenu[ self::SUBMENU_PARENT_SLUG ] );
 		delete_option( self::NOTICES_OPTION_NAME );
 		Monkey\tearDown();
 		parent::tearDown();
@@ -124,7 +134,6 @@ class Test_Settings extends \WP_UnitTestCase {
 	public function test_add_submenu_pages() {
 		global $submenu;
 
-		$expected_parent_slug      = 'edit.php?post_type=block_lab';
 		$expected_submenu_settings = array(
 			'Settings',
 			'manage_options',
@@ -136,13 +145,13 @@ class Test_Settings extends \WP_UnitTestCase {
 		$this->instance->add_submenu_pages();
 
 		// Because the current user doesn't have 'manage_options' permissions, this shouldn't add the submenu.
-		$this->assertFalse( isset( $submenu ) && array_key_exists( $expected_parent_slug, $submenu ) );
+		$this->assertFalse( isset( $submenu ) && array_key_exists( self::SUBMENU_PARENT_SLUG, $submenu ) );
 
 		wp_set_current_user( $this->factory()->user->create( array( 'role' => 'administrator' ) ) );
 		$this->instance->add_submenu_pages();
 
 		// Now that the user has 'manage_options' permissions, this should add the submenu.
-		$this->assertEquals( array( $expected_submenu_settings ), $submenu[ $expected_parent_slug ] );
+		$this->assertEquals( array( $expected_submenu_settings ), $submenu[ self::SUBMENU_PARENT_SLUG ] );
 	}
 
 	/**
