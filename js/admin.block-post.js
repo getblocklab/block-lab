@@ -34,7 +34,6 @@
 		});
 
 		$( '#block_properties .block-properties-category' ).on( 'change', function() {
-			console.log( $( this ).val() );
 			if ( '__custom' === $( this ).val() ) {
 				$( this ).next( '.block-properties-category-custom' ).css( 'display', 'block' );
 			} else {

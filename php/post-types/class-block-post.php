@@ -609,7 +609,7 @@ class Block_Post extends Component_Abstract {
 			</div>
 			<div class="block-fields-control" id="block-fields-control_<?php echo esc_attr( $uid ); ?>">
 				<?php
-				if ( ! $is_field_disabled ) :
+				if ( ! $is_field_disabled && isset( $this->controls[ $field->control ] ) ) :
 					echo esc_html( $this->controls[ $field->control ]->label );
 				else :
 					?>
@@ -943,7 +943,13 @@ class Block_Post extends Component_Abstract {
 
 		// Block category.
 		if ( isset( $_POST['block-properties-category'] ) ) {
-			$block->category = sanitize_key( $_POST['block-properties-category'] );
+			$category = sanitize_key( $_POST['block-properties-category'] );
+			if ( '__custom' === $category && isset( $_POST['block-properties-category-name'] ) ) {
+				$category = sanitize_text_field(
+					wp_unslash( $_POST['block-properties-category-name'] )
+				);
+			}
+			$block->category = $category;
 		}
 
 		// Block keywords.
