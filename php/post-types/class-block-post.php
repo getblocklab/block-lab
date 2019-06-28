@@ -447,7 +447,7 @@ class Block_Post extends Component_Abstract {
 			<label for="block-properties-category">
 				<?php esc_html_e( 'Category:', 'block-lab' ); ?>
 			</label>
-			<select name="block-properties-category" id="block-properties-category">
+			<select name="block-properties-category" id="block-properties-category" class="block-properties-category">
 				<?php
 				$categories = get_block_categories( $post );
 				foreach ( $categories as $category ) {
@@ -458,7 +458,19 @@ class Block_Post extends Component_Abstract {
 					<?php
 				}
 				?>
+				<option disabled>────────</option>
+				<option value="__custom"><?php esc_html_e( 'Custom Category', 'block-lab' ); ?></option>
 			</select>
+			<span class="block-properties-category-custom">
+				<label for="block-properties-category-name">
+					<?php esc_html_e( 'New Category Name:', 'block-lab' ); ?>
+				</label>
+				<input
+					name="block-properties-category-name"
+					type="text"
+					id="block-properties-category-name"
+					value="" />
+			</span>
 		</p>
 		<p>
 			<label for="block-properties-keywords">
