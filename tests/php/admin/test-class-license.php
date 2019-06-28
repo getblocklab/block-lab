@@ -23,18 +23,18 @@ class Test_License extends \WP_UnitTestCase {
 	public $instance;
 
 	/**
-	 * The option name for the notices.
-	 *
-	 * @var string
-	 */
-	const NOTICES_OPTION_NAME = 'block_lab_notices';
-
-	/**
 	 * The transient name for the license.
 	 *
 	 * @var string
 	 */
 	const LICENSE_TRANSIENT_NAME = 'block_lab_license';
+
+	/**
+	 * The option name for the notices.
+	 *
+	 * @var string
+	 */
+	const NOTICES_OPTION_NAME = 'block_lab_notices';
 
 	/**
 	 * The option name of the Block Lab license key.
