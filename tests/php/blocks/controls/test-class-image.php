@@ -12,19 +12,14 @@ use Block_Lab\Blocks\Controls;
  */
 class Test_Image extends \WP_UnitTestCase {
 
+	use Testing_Helper;
+
 	/**
 	 * Instance of the extending class Image.
 	 *
 	 * @var Controls\Image
 	 */
 	public $instance;
-
-	/**
-	 * Instance of the setting.
-	 *
-	 * @var Controls\Control_Setting
-	 */
-	public $setting;
 
 	/**
 	 * Setup.
@@ -34,7 +29,6 @@ class Test_Image extends \WP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->instance = new Controls\Image();
-		$this->setting  = new Controls\Control_Setting();
 	}
 	/**
 	 * Test __construct.
@@ -52,14 +46,30 @@ class Test_Image extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Controls\Image::register_settings()
 	 */
 	public function test_register_settings() {
-		$this->instance->register_settings();
+		$expected_settings = array(
+			array(
+				'name'     => 'location',
+				'label'    => 'Location',
+				'type'     => 'location',
+				'default'  => 'editor',
+				'help'     => '',
+				'sanitize' => array( $this->instance, 'sanitize_location' ),
+				'validate' => '',
+				'value'    => null,
+			),
+			array(
+				'name'     => 'help',
+				'label'    => 'Help Text',
+				'type'     => 'text',
+				'default'  => '',
+				'help'     => '',
+				'sanitize' => 'sanitize_text_field',
+				'validate' => '',
+				'value'    => null,
+			),
+		);
 
-		$first_setting = reset( $this->instance->settings );
-		$this->assertEquals( 'location', $first_setting->name );
-		$this->assertEquals( 'Location', $first_setting->label );
-		$this->assertEquals( 'location', $first_setting->type );
-		$this->assertEquals( 'editor', $first_setting->default );
-		$this->assertEquals( array( $this->instance, 'sanitize_location' ), $first_setting->sanitize );
+		$this->assert_correct_settings( $expected_settings, $this->instance->settings );
 	}
 
 	/**
