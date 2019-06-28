@@ -200,8 +200,8 @@ class Test_License extends \WP_UnitTestCase {
 		);
 
 		add_filter( 'http_response', function( $response ) use ( $expected_license ) {
-			$response['body'] = wp_json_encode( $expected_license );
-			return $response;
+			unset( $response );
+			return array( 'body' => wp_json_encode( $expected_license ) );
 		} );
 
 		delete_transient( self::LICENSE_TRANSIENT_NAME );
@@ -236,13 +236,14 @@ class Test_License extends \WP_UnitTestCase {
 			'license' => 'valid',
 			'expires' => date( 'Y-m-d', time() + DAY_IN_SECONDS ),
 		);
+
 		add_filter( $http_filter_name, function( $response ) use ( $expected_license ) {
-			$response['body'] = wp_json_encode( $expected_license );
-			return $response;
+			unset( $response );
+			return array( 'body' => wp_json_encode( $expected_license ) );
 		} );
+		$this->instance->activate_license( $license_key );
 
 		// Having simulated a successful license validation with the filter above, this should activate the license.
-		$this->instance->activate_license( $license_key );
 		$this->assertEquals( $expected_license, get_transient( self::LICENSE_TRANSIENT_NAME ) );
 	}
 

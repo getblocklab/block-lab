@@ -212,7 +212,7 @@ class Test_Block_Post extends \WP_UnitTestCase {
 	 *
 	 * @covers \Block_Lab\Post_Types\Block_Post::render_template_meta_box()
 	 */
-	public function render_template_meta_box() {
+	public function test_render_template_meta_box() {
 		$this->load_dummy_block();
 
 		ob_start();
