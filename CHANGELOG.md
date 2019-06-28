@@ -1,5 +1,9 @@
 ## Changelog #
 
+### 1.3.3 - 2019-06-21 ###
+
+* Fix: The previous release broke the `className` field, used for the Additional CSS Class setting. This fixes it.
+
 ### 1.3.2 - 2019-06-21 ###
 
 * New: Rich Text Control (for Block Lab Pro users)!
