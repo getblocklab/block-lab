@@ -13,8 +13,6 @@ use Brain\Monkey;
  */
 class Test_Settings extends \WP_UnitTestCase {
 
-	use Testing_Helper;
-
 	/**
 	 * Instance of Settings.
 	 *
