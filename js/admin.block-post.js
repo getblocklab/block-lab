@@ -33,6 +33,15 @@
 			$( '#block-properties-icon-current' ).html( svg );
 		});
 
+		$( '#block_properties .block-properties-category' ).on( 'change', function() {
+			console.log( $( this ).val() );
+			if ( '__custom' === $( this ).val() ) {
+				$( this ).next( '.block-properties-category-custom' ).css( 'display', 'block' );
+			} else {
+				$( this ).next( '.block-properties-category-custom' ).hide();
+			}
+		});
+
 		$( '#block_template .template-location a.filename' ).on( 'click', function( event ) {
 			event.preventDefault();
 

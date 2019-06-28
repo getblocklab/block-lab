@@ -222,6 +222,10 @@
 #block_properties .block-properties-icon-select .icon svg {
 	vertical-align: top;
 }
+#block_properties .block-properties-category-custom {
+	display: none;
+	margin: 12px 0;
+}
 #block_template > h2 {
 	display: none;
 }
