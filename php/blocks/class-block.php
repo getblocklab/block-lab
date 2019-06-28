@@ -36,7 +36,7 @@ class Block {
 	public $icon = '';
 
 	/**
-	 * Category name.
+	 * Category slug.
 	 *
 	 * @var string
 	 */

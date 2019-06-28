@@ -60,6 +60,11 @@ class Loader extends Component_Abstract {
 		add_action( 'enqueue_block_editor_assets', array( $this, 'editor_assets' ) );
 
 		/**
+		 * Gutenberg custom categories.
+		 */
+		add_filter( 'block_categories', array( $this, 'register_categories' ) );
+
+		/**
 		 * PHP block loading.
 		 */
 		add_action( 'plugins_loaded', array( $this, 'dynamic_block_loader' ) );
@@ -119,39 +124,73 @@ class Loader extends Component_Abstract {
 	 * Loads dynamic blocks via render_callback for each block.
 	 */
 	public function dynamic_block_loader() {
-
 		if ( ! function_exists( 'register_block_type' ) ) {
 			return;
 		}
 
-		// Get blocks.
 		$blocks = json_decode( $this->blocks, true );
 
 		foreach ( $blocks as $block_name => $block_config ) {
 			$block = new Block();
 			$block->from_array( $block_config );
-
-			$attributes = $this->get_block_attributes( $block );
-
-			// sanitize_title() allows underscores, but register_block_type doesn't.
-			$block_name = str_replace( '_', '-', $block_name );
-
-			// register_block_type doesn't allow slugs starting with a number.
-			if ( is_numeric( $block_name[0] ) ) {
-				$block_name = 'block-' . $block_name;
-			}
-
-			register_block_type(
-				$block_name,
-				array(
-					'attributes'      => $attributes,
-					// @see https://github.com/WordPress/gutenberg/issues/4671
-					'render_callback' => function ( $attributes ) use ( $block ) {
-						return $this->render_block_template( $block, $attributes );
-					},
-				)
-			);
+			$this->register_block( $block_name, $block );
 		}
+	}
+
+	/**
+	 * Registers a block.
+	 *
+	 * @param string $block_name The name of the block, including namespace.
+	 * @param Block  $block      The block to register.
+	 */
+	public function register_block( $block_name, $block ) {
+		$attributes = $this->get_block_attributes( $block );
+
+		// sanitize_title() allows underscores, but register_block_type doesn't.
+		$block_name = str_replace( '_', '-', $block_name );
+
+		// register_block_type doesn't allow slugs starting with a number.
+		if ( is_numeric( $block_name[0] ) ) {
+			$block_name = 'block-' . $block_name;
+		}
+
+		register_block_type(
+			$block_name,
+			array(
+				'attributes'      => $attributes,
+				// @see https://github.com/WordPress/gutenberg/issues/4671
+				'render_callback' => function ( $attributes ) use ( $block ) {
+					return $this->render_block_template( $block, $attributes );
+				},
+			)
+		);
+	}
+
+	/**
+	 * Register custom block categories.
+	 *
+	 * @param array $categories Array of block categories.
+	 *
+	 * @return array
+	 */
+	public function register_categories( $categories ) {
+		$blocks         = json_decode( $this->blocks, true );
+		$category_slugs = wp_list_pluck( $categories, 'slug' );
+
+		foreach ( $blocks as $block_config ) {
+			if ( ! isset( $block_config['category'] ) ) {
+				continue;
+			}
+			if ( ! in_array( $block_config['category'], $category_slugs, true ) ) {
+				$categories[] = array(
+					'slug'  => $block_config['category'],
+					'title' => $block_config['category'],
+					'icon'  => null,
+				);
+			}
+		}
+
+		return $categories;
 	}
 
 	/**
