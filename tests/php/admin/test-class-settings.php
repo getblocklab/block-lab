@@ -23,6 +23,13 @@ class Test_Settings extends \WP_UnitTestCase {
 	public $instance;
 
 	/**
+	 * The option name for the notices.
+	 *
+	 * @var string
+	 */
+	const NOTICES_OPTION_NAME = 'block_lab_notices';
+
+	/**
 	 * Setup.
 	 *
 	 * @inheritdoc
@@ -41,6 +48,7 @@ class Test_Settings extends \WP_UnitTestCase {
 	 * @inheritdoc
 	 */
 	public function tearDown() {
+		delete_option( self::NOTICES_OPTION_NAME );
 		Monkey\tearDown();
 		parent::tearDown();
 	}
@@ -186,5 +194,74 @@ class Test_Settings extends \WP_UnitTestCase {
 
 		$this->assertContains( '<h2 class="nav-tab-wrapper">', $output );
 		$this->assertContains( '<a href="https://github.com/getblocklab/block-lab/wiki" target="_blank" class="nav-tab dashicons-before dashicons-info">', $output );
+	}
+
+	/**
+	 * Test prepare_notice.
+	 *
+	 * @covers \Block_Lab\Admin\Settings::prepare_notice()
+	 */
+	public function test_prepare_notice() {
+		$notice      = 'There was a problem activating your Block Lab license.';
+		$this->instance->prepare_notice( $notice );
+
+		$this->assertEquals( array( $notice ), get_option( self::NOTICES_OPTION_NAME ) );
+
+		$existing_notices = array(
+			'first notice',
+			'second notice',
+		);
+
+		update_option( self::NOTICES_OPTION_NAME, $existing_notices );
+		$this->instance->prepare_notice( $notice );
+		$this->assertEquals(
+			array_merge(
+				$existing_notices,
+				array( $notice )
+			),
+			get_option( self::NOTICES_OPTION_NAME )
+		);
+	}
+
+	/**
+	 * Test show_notices.
+	 *
+	 * @covers \Block_Lab\Admin\Settings::show_notices()
+	 */
+	public function test_show_notices() {
+		ob_start();
+		$this->instance->show_notices();
+
+		// Because there are no notices stored in the option, this should not output anything.
+		$this->assertEmpty( ob_get_clean() );
+
+		$non_array_notice = 'This is a notice value';
+		update_option( self::NOTICES_OPTION_NAME, $non_array_notice );
+		ob_start();
+		$this->instance->show_notices();
+		$output = ob_get_clean();
+
+		// Because the notice was not in an array, this should not output anything.
+		$this->assertEmpty( $output );
+
+		// The option should not have been deleted, as this should have exited from the function.
+		$this->assertEquals( $non_array_notice, get_option( self::NOTICES_OPTION_NAME ) );
+
+		$expected_notices = array(
+			'Here is a notice',
+			'This is also a notice',
+		);
+		update_option( self::NOTICES_OPTION_NAME, $expected_notices );
+		ob_start();
+		$this->instance->show_notices();
+		$output = ob_get_clean();
+
+		// The notices are correctly stored in an array, so this method should output them.
+		foreach ( $expected_notices as $expected_notice ) {
+			$this->assertContains( $expected_notice, $output );
+		}
+
+		// The option should have been deleted.
+		$this->assertEmpty( get_option( self::NOTICES_OPTION_NAME ) );
 	}
 }
