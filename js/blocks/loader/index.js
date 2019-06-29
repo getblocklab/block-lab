@@ -27,7 +27,7 @@ const registerBlocks = () => {
 				<span dangerouslySetInnerHTML={{ __html: icons[ block.icon ] }} />
 			);
 		}
-console.log(block.category);
+
 		// Register the block.
 		registerBlockType( blockName, {
 			title: block.title,
