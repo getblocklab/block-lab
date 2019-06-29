@@ -125,7 +125,7 @@ class Test_Upgrade extends \WP_UnitTestCase {
 	/**
 	 * Test add_submenu_pages.
 	 *
-	 * @covers \Block_Lab\Admin\Settings::add_submenu_pages()
+	 * @covers \Block_Lab\Admin\Upgrade::add_submenu_pages()
 	 */
 	public function test_add_submenu_pages() {
 		global $submenu;
@@ -153,7 +153,7 @@ class Test_Upgrade extends \WP_UnitTestCase {
 	/**
 	 * Test render_page.
 	 *
-	 * @covers \Block_Lab\Admin\Settings::render_page()
+	 * @covers \Block_Lab\Admin\Upgrade::render_page()
 	 */
 	public function test_render_page() {
 		ob_start();
