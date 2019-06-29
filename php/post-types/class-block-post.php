@@ -955,9 +955,9 @@ class Block_Post extends Component_Abstract {
 					'icon'  => null,
 				);
 			} else {
-				$category_slugs = wp_list_pluck( 'slug', $categories );
+				$category_slugs = wp_list_pluck( $categories, 'slug' );
 				$category_key   = array_search( $category_slug, $category_slugs, true );
-				$category       = $categories( $category_key );
+				$category       = $categories[ $category_key ];
 			}
 
 			if ( ! $category ) {

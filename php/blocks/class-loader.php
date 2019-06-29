@@ -182,7 +182,7 @@ class Loader extends Component_Abstract {
 			}
 
 			/*
-			 * Backwards compatibility.
+			 * This is a backwards compatibility fix.
 			 *
 			 * Block categories used to be saved as strings, but were always included in
 			 * the default list of categories, so it's safe to skip them.
@@ -202,7 +202,7 @@ class Loader extends Component_Abstract {
 	/**
 	 * Gets block attributes.
 	 *
-	 * @param array $block An array containing block data.
+	 * @param Block $block The block to get attributes from.
 	 *
 	 * @return array
 	 */
