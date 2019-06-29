@@ -36,11 +36,15 @@ class Block {
 	public $icon = '';
 
 	/**
-	 * Category slug.
+	 * Category. An array containing the keys slug, title, and icon.
 	 *
-	 * @var string
+	 * @var array
 	 */
-	public $category = '';
+	public $category = array(
+		'slug'  => '',
+		'title' => '',
+		'icon'  => '',
+	);
 
 	/**
 	 * Block keywords.
@@ -119,6 +123,9 @@ class Block {
 
 		if ( isset( $config['category'] ) ) {
 			$this->category = $config['category'];
+			if ( ! is_array( $this->category ) ) {
+				$this->category = $this->get_registered_category( $this->category );
+			}
 		}
 
 		if ( isset( $config['keywords'] ) ) {
@@ -150,5 +157,32 @@ class Block {
 		}
 
 		return wp_json_encode( array( 'block-lab/' . $this->name => $config ), JSON_UNESCAPED_UNICODE );
+	}
+
+	/**
+	 * This is a backwards compatibility fix.
+	 *
+	 * Block categories used to be saved as strings, but were always included in
+	 * the default list of categories, so we can find them.
+	 *
+	 * @param string $slug The category slug to find.
+	 *
+	 * @return array
+	 */
+	public function get_registered_category( $slug ) {
+		return array(
+			'slug'  => $slug,
+			'title' => $slug,
+			'icon'  => null,
+		);
+		$categories     = get_block_categories( the_post() );
+		$category_slugs = wp_list_pluck( 'slug', $categories );
+		$category_key   = array_search( $slug, $category_slugs, true );
+
+		if ( false !== $category_key ) {
+			return $categories[ $category_key ];
+		}
+
+		return $categories[0];
 	}
 }

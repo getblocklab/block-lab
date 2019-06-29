@@ -174,19 +174,25 @@ class Loader extends Component_Abstract {
 	 * @return array
 	 */
 	public function register_categories( $categories ) {
-		$blocks         = json_decode( $this->blocks, true );
-		$category_slugs = wp_list_pluck( $categories, 'slug' );
+		$blocks = json_decode( $this->blocks, true );
 
 		foreach ( $blocks as $block_config ) {
 			if ( ! isset( $block_config['category'] ) ) {
 				continue;
 			}
-			if ( ! in_array( $block_config['category'], $category_slugs, true ) ) {
-				$categories[] = array(
-					'slug'  => $block_config['category'],
-					'title' => $block_config['category'],
-					'icon'  => null,
-				);
+
+			/*
+			 * Backwards compatibility.
+			 *
+			 * Block categories used to be saved as strings, but were always included in
+			 * the default list of categories, so it's safe to skip them.
+			 */
+			if ( ! is_array( $block_config['category'] ) || empty( $block_config['category'] ) ) {
+				continue;
+			}
+
+			if ( ! in_array( $block_config['category'], $categories, true ) ) {
+				$categories[] = $block_config['category'];
 			}
 		}
 
