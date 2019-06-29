@@ -44,7 +44,7 @@ class Test_License extends \WP_UnitTestCase {
 	const LICENSE_KEY_OPTION_NAME = 'block_lab_license_key';
 
 	/**
-	 * The name of a HTTPS filer.
+	 * The name of a HTTP filter.
 	 *
 	 * @var string
 	 */
