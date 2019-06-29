@@ -13,8 +13,6 @@ use Brain\Monkey;
  */
 class Test_Import extends \WP_UnitTestCase {
 
-	use Testing_Helper;
-
 	/**
 	 * Instance of Import.
 	 *
@@ -44,8 +42,8 @@ class Test_Import extends \WP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 		Monkey\setUp();
-		$this->instance               = new Admin\Import();
-		$this->import_file_valid_json = dirname( dirname( __DIR__ ) ) . '/fixtures/mock-import-valid-format.json';
+		$this->instance                 = new Admin\Import();
+		$this->import_file_valid_json   = dirname( dirname( __DIR__ ) ) . '/fixtures/mock-import-valid-format.json';
 		$this->import_file_invalid_json = dirname( dirname( __DIR__ ) ) . '/fixtures/mock-import-invalid-format.json';
 		$this->instance->set_plugin( block_lab() );
 	}
@@ -194,7 +192,7 @@ class Test_Import extends \WP_UnitTestCase {
 		$this->instance->render_page();
 		$output = ob_get_clean();
 
-		// If filter_input() returns 1, it should not have welcome text, but there should be an 'error uploading' message.
+		// If filter_input() returns 1 and the file does not exist, it should not have welcome text, but there should be an 'error uploading' message.
 		$this->assertContains( $error_uploading_file, $output );
 		$this->assertContains( $page_header_text, $output );
 		$this->assertNotContains( $welcome_text, $output );
@@ -359,8 +357,8 @@ class Test_Import extends \WP_UnitTestCase {
 
 		ob_start();
 		$this->instance->import_blocks( $blocks_to_import );
-		$output          = ob_get_clean();
-		$block_query     = new \WP_Query( array( 'post_type' => 'block_lab' ) );
+		$output      = ob_get_clean();
+		$block_query = new \WP_Query( array( 'post_type' => 'block_lab' ) );
 
 		// When the 'name' isn't passed to the method, it shouldn't import any block, but should still have the 'All Done!' message.
 		$this->assertEmpty( $block_query->found_posts );
