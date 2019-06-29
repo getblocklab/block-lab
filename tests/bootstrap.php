@@ -25,8 +25,8 @@ require_once $_tests_dir . '/includes/functions.php';
  */
 function _manually_load_plugin() {
 	$plugin_root = dirname( __DIR__ );
-	require $plugin_root . '/vendor/antecedent/patchwork/Patchwork.php';
 	require $plugin_root . '/vendor/autoload.php';
+	require $plugin_root . '/vendor/antecedent/patchwork/Patchwork.php';
 	require $plugin_root . '/tests/php/trait-helper.php';
 	require $plugin_root . '/block-lab.php';
 }

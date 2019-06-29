@@ -23,6 +23,20 @@ class Test_Import extends \WP_UnitTestCase {
 	public $instance;
 
 	/**
+	 * The location of the fixture import file with valid JSON.
+	 *
+	 * @var string
+	 */
+	public $import_file_valid_json;
+
+	/**
+	 * The location of the fixture import file with invalid JSON.
+	 *
+	 * @var string
+	 */
+	public $import_file_invalid_json;
+
+	/**
 	 * Setup.
 	 *
 	 * @inheritdoc
@@ -30,7 +44,9 @@ class Test_Import extends \WP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 		Monkey\setUp();
-		$this->instance = new Admin\Import();
+		$this->instance               = new Admin\Import();
+		$this->import_file_valid_json = dirname( dirname( __DIR__ ) ) . '/fixtures/mock-import-valid-format.json';
+		$this->import_file_invalid_json = dirname( dirname( __DIR__ ) ) . '/fixtures/mock-import-invalid-format.json';
 		$this->instance->set_plugin( block_lab() );
 	}
 
@@ -71,5 +87,302 @@ class Test_Import extends \WP_UnitTestCase {
 			),
 			$wp_importers[ $this->instance->slug ]
 		);
+	}
+
+
+	/**
+	 * Test render_page.
+	 *
+	 * @covers \Block_Lab\Admin\Import::render_page()
+	 */
+	public function test_render_page() {
+		$page_header_text = 'Import Block Lab Content Blocks';
+		$welcome_text     = 'Welcome! This importer processes Block Lab JSON files, adding custom blocks to this site.';
+
+		Monkey\Functions\expect( 'filter_input' )
+			->once()
+			->with(
+				INPUT_GET,
+				'step',
+				FILTER_SANITIZE_NUMBER_INT
+			)
+			->andReturn( 0 );
+
+		ob_start();
+		$this->instance->render_page();
+		$output = ob_get_clean();
+
+		// If filter_input() returns 0, it this should output the page header and welcome text.
+		$this->assertContains( $page_header_text, $output );
+		$this->assertContains( $welcome_text, $output );
+
+		Monkey\Functions\expect( 'filter_input' )
+			->once()
+			->with(
+				INPUT_GET,
+				'step',
+				FILTER_SANITIZE_NUMBER_INT
+			)
+			->andReturn( null );
+
+		ob_start();
+		$this->instance->render_page();
+		$output = ob_get_clean();
+
+		// If filter_input() returns null, it should also output the page header and welcome text.
+		$this->assertContains( $page_header_text, $output );
+		$this->assertContains( $welcome_text, $output );
+
+		Monkey\Functions\expect( 'filter_input' )
+			->once()
+			->with(
+				INPUT_GET,
+				'step',
+				FILTER_SANITIZE_NUMBER_INT
+			)
+			->andReturn( 1 );
+
+		$_REQUEST['_wpnonce'] = wp_create_nonce( 'import-upload' );
+		$error_uploading_file = 'Sorry, there was an error uploading the file.';
+		ob_start();
+		$this->instance->render_page();
+		$output = ob_get_clean();
+
+		// If filter_input() returns 1, it should not have welcome text, but there should be an 'error uploading' message.
+		$this->assertContains( $page_header_text, $output );
+		$this->assertNotContains( $welcome_text, $output );
+		$this->assertContains( $error_uploading_file, $output );
+
+		$file             = array( 'file' => 'nonexistent-file.xml' );
+		$tmp_name         = 'tmp/nonexistent-file.xml';
+		$files_import     = array_merge(
+			$file,
+			array(
+				'name'     => 'foo',
+				'tmp_name' => $tmp_name,
+				'size'     => 10000,
+			)
+		);
+		$_FILES['import'] = $files_import;
+		add_filter( 'wp_handle_upload', function( $upload ) use ( $file ) {
+			unset( $upload );
+			return array_merge(
+				$file,
+				array(
+					'url'  => 'https://example.com/foo',
+					'type' => 'text/xml',
+				)
+			);
+		} );
+		add_filter( 'pre_move_uploaded_file', '__return_false' );
+
+		Monkey\Functions\expect( 'filter_input' )
+			->twice()
+			->with(
+				INPUT_GET,
+				'step',
+				FILTER_SANITIZE_NUMBER_INT
+			)
+			->andReturn( 1 );
+
+		Monkey\Functions\expect( 'is_uploaded_file' )
+			->twice()
+			->with( $tmp_name )
+			->andReturn( true );
+
+		ob_start();
+		$this->instance->render_page();
+		$output = ob_get_clean();
+
+		// If filter_input() returns 1, it should not have welcome text, but there should be an 'error uploading' message.
+		$this->assertContains( $error_uploading_file, $output );
+		$this->assertContains( $page_header_text, $output );
+		$this->assertNotContains( $welcome_text, $output );
+
+		// The file is now a real file.
+		$file = array( 'file' => $this->import_file_valid_json );
+		$files_import = array_merge(
+			$file,
+			array(
+				'name'     => 'foo',
+				'tmp_name' => $tmp_name,
+				'size'     => 10000,
+			)
+		);
+		$_FILES['import'] = $files_import;
+
+		remove_all_filters( 'wp_handle_upload' );
+		add_filter( 'wp_handle_upload', function( $upload ) use ( $file ) {
+			unset( $upload );
+			return array_merge(
+				$file,
+				array(
+					'url'  => 'https://example.com/foo',
+					'type' => 'text/xml',
+				)
+			);
+		} );
+
+		ob_start();
+		$this->instance->render_page();
+		$output = ob_get_clean();
+
+		// Now that this has a real file, it should not output the 'error uploading' message.
+		$this->assertNotContains( $error_uploading_file, $output );
+		$this->assertContains( $page_header_text, $output );
+		$this->assertNotContains( $welcome_text, $output );
+	}
+
+	/**
+	 * Test render_page_header.
+	 *
+	 * @covers \Block_Lab\Admin\Import::render_page_header()
+	 */
+	public function test_render_page_header() {
+		ob_start();
+		$this->instance->render_page_header();
+
+		$this->assertContains( '<h2>Import Block Lab Content Blocks</h2>', ob_get_clean() );
+	}
+
+	/**
+	 * Test render_welcome.
+	 *
+	 * @covers \Block_Lab\Admin\Import::render_welcome()
+	 */
+	public function test_render_welcome() {
+		ob_start();
+		$this->instance->render_welcome();
+		$output = ob_get_clean();
+
+		$this->assertContains( '<p>Welcome! This importer processes Block Lab JSON files, adding custom blocks to this site.</p>', $output );
+		$this->assertContains( '<label for="upload">Choose a file from your computer:</label>', $output );
+	}
+
+	/**
+	 * Test render_block_import_success.
+	 *
+	 * @covers \Block_Lab\Admin\Import::render_block_import_success()
+	 */
+	public function test_render_block_import_success() {
+		$title = 'Example Title';
+		ob_start();
+		$this->instance->render_block_import_success( $title );
+		$output = ob_get_clean();
+
+		$this->assertContains( '<p>Successfully imported <strong>', $output );
+		$this->assertContains( $title, $output );
+	}
+
+	/**
+	 * Test render_block_import_error.
+	 *
+	 * @covers \Block_Lab\Admin\Import::render_block_import_error()
+	 */
+	public function test_render_block_import_error() {
+		$title = 'Baz Title';
+		$error = 'Example Error';
+		ob_start();
+		$this->instance->render_block_import_error( $title, $error );
+		$output = ob_get_clean();
+
+		$this->assertContains( 'Error importing', $output );
+		$this->assertContains( $title, $output );
+		$this->assertContains( $error, $output );
+	}
+
+	/**
+	 * Test render_done.
+	 *
+	 * @covers \Block_Lab\Admin\Import::render_done()
+	 */
+	public function test_render_done() {
+		ob_start();
+		$this->instance->render_done();
+		$output = ob_get_clean();
+
+		$this->assertContains( '<p>All done!</p>', $output );
+	}
+
+	/**
+	 * Test validate_upload.
+	 *
+	 * @covers \Block_Lab\Admin\Import::validate_upload()
+	 */
+	public function test_validate_upload() {
+		$error           = 'This is an invalid file';
+		$file_with_error = compact( 'error' );
+
+		ob_start();
+		$this->assertFalse( $this->instance->validate_upload( $file_with_error ) );
+		$output = ob_get_clean();
+
+		// If there's an 'error' value in the argument, this should output it.
+		$this->assertContains( $error, $output );
+		$this->assertContains( 'Sorry, there was an error uploading the file.', $output );
+
+		$nonexistent_file = 'does-not-exist.xml';
+
+		ob_start();
+		$this->assertFalse( $this->instance->validate_upload( array( 'file' => $nonexistent_file) ) );
+		$output = ob_get_clean();
+
+		// If the file doesn't exist, this should have a message that reflects that.
+		$this->assertContains( $nonexistent_file, $output );
+		$this->assertContains( '<p><strong>Sorry, there was an error uploading the file.</strong>', $output );
+
+		ob_start();
+		$this->assertFalse( $this->instance->validate_upload( array( 'file' => $this->import_file_invalid_json ) ) );
+		$output = ob_get_clean();
+
+		// If the file has invalid JSON, the message should reflect that.
+		$this->assertContains( '<p><strong>Sorry, there was an error processing the file.</strong></p><p>Invalid JSON.</p>', $output );
+
+		ob_start();
+		$this->assertTrue( $this->instance->validate_upload( array( 'file' => $this->import_file_valid_json ) ) );
+		$output = ob_get_clean();
+
+		// If the file exists and has valid JSON, it shouldn't output a message.
+		$this->assertEmpty( $output );
+	}
+
+	/**
+	 * Test import_blocks.
+	 *
+	 * @covers \Block_Lab\Admin\Import::import_blocks()
+	 */
+	public function test_import_blocks() {
+		$title            = 'Example Block Title';
+		$name             = 'block-name';
+		$success_message  = '<p>Successfully imported';
+		$blocks_to_import = array( compact( 'title' ) );
+
+		ob_start();
+		$this->instance->import_blocks( $blocks_to_import );
+		$output          = ob_get_clean();
+		$block_query     = new \WP_Query( array( 'post_type' => 'block_lab' ) );
+
+		// When the 'name' isn't passed to the method, it shouldn't import any block, but should still have the 'All Done!' message.
+		$this->assertEmpty( $block_query->found_posts );
+		$this->assertContains( 'All done!', $output );
+		$this->assertNotContains( $success_message, $output );
+
+		$blocks_to_import = array( compact( 'title', 'name' ) );
+		ob_start();
+		$this->instance->import_blocks( $blocks_to_import );
+		$output = ob_get_clean();
+
+		// When the 'name' and 'title are passed to the method, it should import the block and have the 'success' message.
+		$this->assertContains( $success_message, $output );
+		$this->assertContains( $title, $output );
+
+		$block_query     = new \WP_Query( array( 'post_type' => 'block_lab' ) );
+		$block           = reset( $block_query->posts );
+		$decoded_block   = json_decode( $block->post_content );
+		$full_block_name = 'block-lab/' . $name;
+		$block_data      = $decoded_block->$full_block_name;
+
+		$this->assertEquals( $name, $block_data->name );
+		$this->assertEquals( $title, $block_data->title );
 	}
 }
