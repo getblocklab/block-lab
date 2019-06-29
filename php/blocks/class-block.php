@@ -124,7 +124,7 @@ class Block {
 		if ( isset( $config['category'] ) ) {
 			$this->category = $config['category'];
 			if ( ! is_array( $this->category ) ) {
-				$this->category = $this->get_registered_category( $this->category );
+				$this->category = $this->get_category_array_from_slug( $this->category );
 			}
 		}
 
@@ -165,24 +165,18 @@ class Block {
 	 * Block categories used to be saved as strings, but were always included in
 	 * the default list of categories, so we can find them.
 	 *
+	 * It's not possible to use get_block_categories() here, as Block's are
+	 * sometimes instantiated before that function is available.
+	 *
 	 * @param string $slug The category slug to find.
 	 *
 	 * @return array
 	 */
-	public function get_registered_category( $slug ) {
+	public function get_category_array_from_slug( $slug ) {
 		return array(
 			'slug'  => $slug,
-			'title' => $slug,
+			'title' => ucwords( $slug, '-' ),
 			'icon'  => null,
 		);
-		$categories     = get_block_categories( the_post() );
-		$category_slugs = wp_list_pluck( 'slug', $categories );
-		$category_key   = array_search( $slug, $category_slugs, true );
-
-		if ( false !== $category_key ) {
-			return $categories[ $category_key ];
-		}
-
-		return $categories[0];
 	}
 }
