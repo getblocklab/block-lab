@@ -452,7 +452,7 @@ class Block_Post extends Component_Abstract {
 				$categories = get_block_categories( $post );
 				foreach ( $categories as $category ) {
 					?>
-					<option value="<?php echo esc_attr( $category['slug'] ); ?>" <?php selected( $category['slug'], $block->category ); ?>>
+					<option value="<?php echo esc_attr( $category['slug'] ); ?>" <?php selected( $category['slug'], $block->category['slug'] ); ?>>
 						<?php echo esc_html( $category['title'] ); ?>
 					</option>
 					<?php
@@ -943,12 +943,27 @@ class Block_Post extends Component_Abstract {
 
 		// Block category.
 		if ( isset( $_POST['block-properties-category'] ) ) {
-			$category = sanitize_key( $_POST['block-properties-category'] );
-			if ( '__custom' === $category && isset( $_POST['block-properties-category-name'] ) ) {
-				$category = sanitize_text_field(
-					wp_unslash( $_POST['block-properties-category-name'] )
+			$category_slug = sanitize_key( $_POST['block-properties-category'] );
+			$categories    = get_block_categories( the_post() );
+
+			if ( '__custom' === $category_slug && isset( $_POST['block-properties-category-name'] ) ) {
+				$category = array(
+					'slug'  => sanitize_key( $_POST['block-properties-category-name'] ),
+					'title' => sanitize_text_field(
+						wp_unslash( $_POST['block-properties-category-name'] )
+					),
+					'icon'  => null,
 				);
+			} else {
+				$category_slugs = wp_list_pluck( 'slug', $categories );
+				$category_key   = array_search( $category_slug, $category_slugs, true );
+				$category       = $categories( $category_key );
 			}
+
+			if ( ! $category ) {
+				$category = $categories[0];
+			}
+
 			$block->category = $category;
 		}
 
@@ -1133,14 +1148,7 @@ class Block_Post extends Component_Abstract {
 		}
 		if ( 'category' === $column ) {
 			$block = new Block( $post_id );
-			if ( ! empty( $block->category ) ) {
-				$categories = get_block_categories( get_post() );
-				$categories = wp_list_pluck( $categories, 'title', 'slug' );
-
-				if ( isset( $categories[ $block->category ] ) ) {
-					echo esc_html( $categories[ $block->category ] );
-				}
-			}
+			echo esc_html( $block->category['title'] );
 		}
 	}
 
