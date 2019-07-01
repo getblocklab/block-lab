@@ -41,7 +41,7 @@ class License extends Component_Abstract {
 	 * Register any hooks that this component needs.
 	 */
 	public function register_hooks() {
-		add_filter( 'pre_update_option_block_lab_license_key', array( $this, 'save_license_key' ), 10, 1 );
+		add_filter( 'pre_update_option_block_lab_license_key', array( $this, 'save_license_key' ) );
 	}
 
 	/**
