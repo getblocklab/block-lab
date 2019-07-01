@@ -24,12 +24,6 @@ class Upgrade extends Component_Abstract {
 	public $slug = 'block-lab-pro';
 
 	/**
-	 * Initialise the Upgrade component.
-	 */
-	public function init() {
-	}
-
-	/**
 	 * Register any hooks that this component needs.
 	 */
 	public function register_hooks() {
