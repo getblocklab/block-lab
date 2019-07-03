@@ -28,7 +28,7 @@ function block_field( $name, $echo = true ) {
 	if (
 		! isset( $block_lab_attributes ) ||
 		! is_array( $block_lab_attributes ) ||
-		! isset( $block_lab_config->fields[ $name ] )
+		( ! isset( $block_lab_config->fields[ $name ] ) && 'className' !== $name )
 	) {
 		return null;
 	}
@@ -44,46 +44,48 @@ function block_field( $name, $echo = true ) {
 	}
 
 	// Cast block value as correct type.
-	switch ( $block_lab_config->fields[ $name ]->type ) {
-		case 'string':
-			$value = strval( $value );
-			break;
-		case 'textarea':
-			$value = strval( $value );
-			if ( isset( $block_lab_config->fields[ $name ]->settings['new_lines'] ) ) {
-				if ( 'autop' === $block_lab_config->fields[ $name ]->settings['new_lines'] ) {
-					$value = wpautop( $value );
+	if ( isset( $block_lab_config->fields[ $name ]->type ) ) {
+		switch ( $block_lab_config->fields[ $name ]->type ) {
+			case 'string':
+				$value = strval( $value );
+				break;
+			case 'textarea':
+				$value = strval( $value );
+				if ( isset( $block_lab_config->fields[ $name ]->settings['new_lines'] ) ) {
+					if ( 'autop' === $block_lab_config->fields[ $name ]->settings['new_lines'] ) {
+						$value = wpautop( $value );
+					}
+					if ( 'autobr' === $block_lab_config->fields[ $name ]->settings['new_lines'] ) {
+						$value = nl2br( $value );
+					}
 				}
-				if ( 'autobr' === $block_lab_config->fields[ $name ]->settings['new_lines'] ) {
-					$value = nl2br( $value );
+				break;
+			case 'boolean':
+				if ( 1 === $value ) {
+					$value = true;
 				}
-			}
-			break;
-		case 'boolean':
-			if ( 1 === $value ) {
-				$value = true;
-			}
-			break;
-		case 'integer':
-			$value = intval( $value );
-			break;
-		case 'array':
-			if ( ! $value ) {
-				$value = array();
-			} else {
-				$value = (array) $value;
-			}
-			break;
+				break;
+			case 'integer':
+				$value = intval( $value );
+				break;
+			case 'array':
+				if ( ! $value ) {
+					$value = array();
+				} else {
+					$value = (array) $value;
+				}
+				break;
+		}
 	}
 
-	$control = $block_lab_config->fields[ $name ]->control;
+	$control = isset( $block_lab_config->fields[ $name ]->control ) ? $block_lab_config->fields[ $name ]->control : null;
 
 	/**
 	 * Filters the value to be made available or echoed on the front-end template.
 	 *
-	 * @param mixed  $value The value.
-	 * @param string $control The type of the control, like 'user'.
-	 * @param bool   $echo Whether or not this value will be echoed.
+	 * @param mixed       $value The value.
+	 * @param string|null $control The type of the control, like 'user', or null if this is the 'className', which has no control.
+	 * @param bool        $echo Whether or not this value will be echoed.
 	 */
 	$value = apply_filters( 'block_lab_field_value', $value, $control, $echo );
 

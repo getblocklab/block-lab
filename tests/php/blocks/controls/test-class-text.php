@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests for class Rich_Text.
+ * Tests for class Text.
  *
  * @package Block_Lab
  */
@@ -8,16 +8,16 @@
 use Block_Lab\Blocks\Controls;
 
 /**
- * Tests for class Rich_Text.
+ * Tests for class Text.
  */
-class Test_Rich_Text extends \WP_UnitTestCase {
+class Test_Text extends \WP_UnitTestCase {
 
 	use Testing_Helper;
 
 	/**
-	 * Instance of Rich_Text.
+	 * Instance of Text.
 	 *
-	 * @var Controls\Rich_Text
+	 * @var Controls\Text
 	 */
 	public $instance;
 
@@ -28,26 +28,38 @@ class Test_Rich_Text extends \WP_UnitTestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
-		$this->instance = new Controls\Rich_Text();
+		$this->instance = new Controls\Text();
 	}
 
 	/**
 	 * Test __construct.
 	 *
-	 * @covers \Block_Lab\Blocks\Controls\Rich_Text::__construct()
+	 * @covers \Block_Lab\Blocks\Controls\Text::__construct()
 	 */
 	public function test_construct() {
-		$this->assertEquals( 'Rich Text', $this->instance->label );
-		$this->assertEquals( 'rich_text', $this->instance->name );
+		$this->assertEquals( 'Text', $this->instance->label );
+		$this->assertEquals( 'text', $this->instance->name );
 	}
 
 	/**
 	 * Test register_settings.
 	 *
-	 * @covers \Block_Lab\Blocks\Controls\Rich_Text::register_settings()
+	 * The parent constructor calls register_settings(), so there's no need to call it again here.
+	 *
+	 * @covers \Block_Lab\Blocks\Controls\Text::register_settings()
 	 */
 	public function test_register_settings() {
 		$expected_settings = array(
+			array(
+				'name'     => 'location',
+				'label'    => 'Location',
+				'type'     => 'location',
+				'default'  => 'editor',
+				'help'     => '',
+				'sanitize' => array( $this->instance, 'sanitize_location' ),
+				'validate' => '',
+				'value'    => null,
+			),
 			array(
 				'name'     => 'help',
 				'label'    => 'Help Text',
@@ -78,22 +90,18 @@ class Test_Rich_Text extends \WP_UnitTestCase {
 				'validate' => '',
 				'value'    => null,
 			),
+			array(
+				'name'     => 'maxlength',
+				'label'    => 'Character Limit',
+				'type'     => 'number_non_negative',
+				'default'  => '',
+				'help'     => '',
+				'sanitize' => array( $this->instance, 'sanitize_number' ),
+				'validate' => '',
+				'value'    => null,
+			),
 		);
 
 		$this->assert_correct_settings( $expected_settings, $this->instance->settings );
-	}
-
-	/**
-	 * Test validate.
-	 *
-	 * @covers \Block_Lab\Blocks\Controls\Rich_Text::validate()
-	 */
-	public function test_validate() {
-		$markup_with_br_tags         = '<span>First line<br><br></span>';
-		$expected_markup_with_p_tags = "<p><span>First line</p>\n<p></span></p>\n";
-
-		// This should have the same results, whether the second $echo argument is true or false.
-		$this->assertEquals( $expected_markup_with_p_tags, $this->instance->validate( $markup_with_br_tags, true ) );
-		$this->assertEquals( $expected_markup_with_p_tags, $this->instance->validate( $markup_with_br_tags, false ) );
 	}
 }

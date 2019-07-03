@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests for class Rich_Text.
+ * Tests for class Number.
  *
  * @package Block_Lab
  */
@@ -8,18 +8,25 @@
 use Block_Lab\Blocks\Controls;
 
 /**
- * Tests for class Rich_Text.
+ * Tests for class Number.
  */
-class Test_Rich_Text extends \WP_UnitTestCase {
+class Test_Number extends \WP_UnitTestCase {
 
 	use Testing_Helper;
 
 	/**
-	 * Instance of Rich_Text.
+	 * Instance of Number.
 	 *
-	 * @var Controls\Rich_Text
+	 * @var Controls\Number
 	 */
 	public $instance;
+
+	/**
+	 * Instance of the setting.
+	 *
+	 * @var Controls\Control_Setting
+	 */
+	public $setting;
 
 	/**
 	 * Setup.
@@ -28,26 +35,39 @@ class Test_Rich_Text extends \WP_UnitTestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
-		$this->instance = new Controls\Rich_Text();
+		$this->instance = new Controls\Number();
+		$this->setting  = new Controls\Control_Setting();
 	}
 
 	/**
 	 * Test __construct.
 	 *
-	 * @covers \Block_Lab\Blocks\Controls\Rich_Text::__construct()
+	 * @covers \Block_Lab\Blocks\Controls\Number::__construct()
 	 */
 	public function test_construct() {
-		$this->assertEquals( 'Rich Text', $this->instance->label );
-		$this->assertEquals( 'rich_text', $this->instance->name );
+		$this->assertEquals( 'Number', $this->instance->label );
+		$this->assertEquals( 'number', $this->instance->name );
 	}
 
 	/**
 	 * Test register_settings.
 	 *
-	 * @covers \Block_Lab\Blocks\Controls\Rich_Text::register_settings()
+	 * The parent constructor calls register_settings(), so there's no need to call it again here.
+	 *
+	 * @covers \Block_Lab\Blocks\Controls\Number::register_settings()
 	 */
 	public function test_register_settings() {
 		$expected_settings = array(
+			array(
+				'name'     => 'location',
+				'label'    => 'Location',
+				'type'     => 'location',
+				'default'  => 'editor',
+				'help'     => '',
+				'sanitize' => array( $this->instance, 'sanitize_location' ),
+				'validate' => '',
+				'value'    => null,
+			),
 			array(
 				'name'     => 'help',
 				'label'    => 'Help Text',
@@ -61,10 +81,12 @@ class Test_Rich_Text extends \WP_UnitTestCase {
 			array(
 				'name'     => 'default',
 				'label'    => 'Default Value',
-				'type'     => 'text',
+				'type'     => 'number',
 				'default'  => '',
 				'help'     => '',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => function ( $value ) {
+					return filter_var( $value, FILTER_SANITIZE_NUMBER_INT );
+				},
 				'validate' => '',
 				'value'    => null,
 			),
@@ -81,19 +103,5 @@ class Test_Rich_Text extends \WP_UnitTestCase {
 		);
 
 		$this->assert_correct_settings( $expected_settings, $this->instance->settings );
-	}
-
-	/**
-	 * Test validate.
-	 *
-	 * @covers \Block_Lab\Blocks\Controls\Rich_Text::validate()
-	 */
-	public function test_validate() {
-		$markup_with_br_tags         = '<span>First line<br><br></span>';
-		$expected_markup_with_p_tags = "<p><span>First line</p>\n<p></span></p>\n";
-
-		// This should have the same results, whether the second $echo argument is true or false.
-		$this->assertEquals( $expected_markup_with_p_tags, $this->instance->validate( $markup_with_br_tags, true ) );
-		$this->assertEquals( $expected_markup_with_p_tags, $this->instance->validate( $markup_with_br_tags, false ) );
 	}
 }

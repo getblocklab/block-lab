@@ -1,0 +1,6 @@
+{
+    "redefinable-internals": [
+        "filter_input",
+        "is_uploaded_file"
+    ]
+}

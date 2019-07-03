@@ -1,0 +1,15 @@
+{
+    "name": "getblocklab/block-lab",
+    "type": "wordpress-plugin",
+    "description": "The easy way to build custom blocks for Gutenberg.",
+    "homepage": "https://github.com/getblocklab/block-lab",
+    "license": "GPL-2.0",
+    "require": {
+        "php": ">=5.6"
+    },
+    "require-dev": {
+        "php": "^5.6 || ^7",
+        "brain/monkey": "^2",
+        "squizlabs/php_codesniffer": "^3.4"
+    }
+}
