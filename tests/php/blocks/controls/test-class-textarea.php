@@ -12,6 +12,8 @@ use Block_Lab\Blocks\Controls;
  */
 class Test_Textarea extends \WP_UnitTestCase {
 
+	use Testing_Helper;
+
 	/**
 	 * Instance of Textarea.
 	 *
@@ -50,27 +52,85 @@ class Test_Textarea extends \WP_UnitTestCase {
 	/**
 	 * Test register_settings.
 	 *
+	 * The parent constructor calls register_settings(), so there's no need to call it again here.
+	 *
 	 * @covers \Block_Lab\Blocks\Controls\Textarea::register_settings()
 	 */
 	public function test_register_settings() {
-		$this->instance->register_settings();
-		foreach ( $this->instance->settings as $setting ) {
-			$this->assertEquals( 'Block_Lab\Blocks\Controls\Control_Setting', get_class( $setting ) );
-		}
+		$expected_settings = array(
+			array(
+				'name'     => 'location',
+				'label'    => 'Location',
+				'type'     => 'location',
+				'default'  => 'editor',
+				'help'     => '',
+				'sanitize' => array( $this->instance, 'sanitize_location' ),
+				'validate' => '',
+				'value'    => null,
+			),
+			array(
+				'name'     => 'help',
+				'label'    => 'Help Text',
+				'type'     => 'text',
+				'default'  => '',
+				'help'     => '',
+				'sanitize' => 'sanitize_text_field',
+				'validate' => '',
+				'value'    => null,
+			),
+			array(
+				'name'     => 'default',
+				'label'    => 'Default Value',
+				'type'     => 'text',
+				'default'  => '',
+				'help'     => '',
+				'sanitize' => 'sanitize_text_field',
+				'validate' => '',
+				'value'    => null,
+			),
+			array(
+				'name'     => 'placeholder',
+				'label'    => 'Placeholder Text',
+				'type'     => 'text',
+				'default'  => '',
+				'help'     => '',
+				'sanitize' => 'sanitize_text_field',
+				'validate' => '',
+				'value'    => null,
+			),
+			array(
+				'name'     => 'maxlength',
+				'label'    => 'Character Limit',
+				'type'     => 'number_non_negative',
+				'default'  => '',
+				'help'     => '',
+				'sanitize' => array( $this->instance, 'sanitize_number' ),
+				'validate' => '',
+				'value'    => null,
+			),
+			array(
+				'name'     => 'number_rows',
+				'label'    => 'Number of Rows',
+				'type'     => 'number_non_negative',
+				'default'  => 4,
+				'help'     => '',
+				'sanitize' => array( $this->instance, 'sanitize_number' ),
+				'validate' => '',
+				'value'    => null,
+			),
+			array(
+				'name'     => 'new_lines',
+				'label'    => 'New Lines',
+				'type'     => 'new_line_format',
+				'default'  => 'autop',
+				'help'     => '',
+				'sanitize' => array( $this->instance, 'sanitize_new_line_format' ),
+				'validate' => '',
+				'value'    => null,
+			),
+		);
 
-		$rows_setting = reset( $this->instance->settings );
-		$this->assertEquals( 'location', $rows_setting->name );
-		$this->assertEquals( 'Location', $rows_setting->label );
-		$this->assertEquals( 'location', $rows_setting->type );
-		$this->assertEquals( 'editor', $rows_setting->default );
-		$this->assertEquals( array( $this->instance, 'sanitize_location' ), $rows_setting->sanitize );
-
-		$rows_setting = end( $this->instance->settings );
-		$this->assertEquals( 'new_lines', $rows_setting->name );
-		$this->assertEquals( 'New Lines', $rows_setting->label );
-		$this->assertEquals( 'new_line_format', $rows_setting->type );
-		$this->assertEquals( 'autop', $rows_setting->default );
-		$this->assertEquals( array( $this->instance, 'sanitize_new_line_format' ), $rows_setting->sanitize );
+		$this->assert_correct_settings( $expected_settings, $this->instance->settings );
 	}
 
 	/**
@@ -106,7 +166,7 @@ class Test_Textarea extends \WP_UnitTestCase {
 	/**
 	 * Test test_sanitize_new_line_format.
 	 *
-	 * @covers \Block_Lab\Blocks\Controls\Textarea::test_sanitize_new_line_format()
+	 * @covers \Block_Lab\Blocks\Controls\Textarea::sanitize_new_line_format()
 	 */
 	public function test_sanitize_new_line_format() {
 		$this->assertEmpty( $this->instance->sanitize_new_line_format( 'foo' ) );
