@@ -165,7 +165,17 @@ function block_field_config( $name ) {
  * @return string|array
  */
 function block_lab_locate_template( $template_names, $path = '', $single = true ) {
-	$path            = apply_filters( 'block_lab_template_path', $path );
+	/**
+	 * Filters the path where block templates are saved.
+	 *
+	 * Note that template names are prefixed with the blocks directory.
+	 * e.g. `blocks/block-template.php`
+	 *
+	 * @param string       $path           The absolute path to the stylesheet directory.
+	 * @param string|array $template_names Templates to locate.
+	 */
+	$path = apply_filters( 'block_lab_template_path', $path, $template_names );
+
 	$stylesheet_path = get_template_directory();
 	$template_path   = get_stylesheet_directory();
 
@@ -177,22 +187,22 @@ function block_lab_locate_template( $template_names, $path = '', $single = true 
 			continue;
 		}
 
-		if ( ! empty( $path ) && file_exists( $path . '/' . $template_name ) ) {
-			$located[] = $path . '/' . $template_name;
+		if ( ! empty( $path ) && file_exists( trailingslashit( $path ) . $template_name ) ) {
+			$located[] = trailingslashit( $path ) . $template_name;
 			if ( $single ) {
 				break;
 			}
 		}
 
-		if ( file_exists( $stylesheet_path . '/' . $template_name ) ) {
-			$located[] = $stylesheet_path . '/' . $template_name;
+		if ( file_exists( trailingslashit( $stylesheet_path ) . $template_name ) ) {
+			$located[] = trailingslashit( $stylesheet_path ) . $template_name;
 			if ( $single ) {
 				break;
 			}
 		}
 
-		if ( file_exists( $template_path . '/' . $template_name ) ) {
-			$located[] = $template_path . '/' . $template_name;
+		if ( file_exists( trailingslashit( $template_path ) . $template_name ) ) {
+			$located[] = trailingslashit( $template_path ) . $template_name;
 			if ( $single ) {
 				break;
 			}
