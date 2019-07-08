@@ -12,6 +12,8 @@ use Block_Lab\Blocks\Controls;
  */
 class Test_Repeater extends \WP_UnitTestCase {
 
+	use Testing_Helper;
+
 	/**
 	 * Instance of Repeater.
 	 *
@@ -34,7 +36,6 @@ class Test_Repeater extends \WP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->instance = new Controls\Repeater();
-		$this->setting  = new Controls\Control_Setting();
 	}
 
 	/**
@@ -45,6 +46,7 @@ class Test_Repeater extends \WP_UnitTestCase {
 	public function test_construct() {
 		$this->assertEquals( 'Repeater', $this->instance->label );
 		$this->assertEquals( 'repeater', $this->instance->name );
+		$this->assertEquals( 'object', $this->instance->type );
 	}
 
 	/**
@@ -53,16 +55,19 @@ class Test_Repeater extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Controls\Repeater::register_settings()
 	 */
 	public function test_register_settings() {
-		$this->instance->register_settings();
-		foreach ( $this->instance->settings as $setting ) {
-			$this->assertEquals( 'Block_Lab\Blocks\Controls\Control_Setting', get_class( $setting ) );
-		}
+		$expected_settings = array(
+			array(
+				'name'     => 'help',
+				'label'    => 'Help Text',
+				'type'     => 'text',
+				'default'  => '',
+				'help'     => '',
+				'sanitize' => 'sanitize_text_field',
+				'validate' => '',
+				'value'    => null,
+			),
+		);
 
-		$rows_setting = reset( $this->instance->settings );
-		$this->assertEquals( 'help', $rows_setting->name );
-		$this->assertEquals( 'Help Text', $rows_setting->label );
-		$this->assertEquals( 'text', $rows_setting->type );
-		$this->assertEquals( '', $rows_setting->default );
-		$this->assertEquals( 'sanitize_text_field', $rows_setting->sanitize );
+		$this->assert_correct_settings( $expected_settings, $this->instance->settings );
 	}
 }

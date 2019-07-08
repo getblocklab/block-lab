@@ -176,6 +176,10 @@ class Loader extends Component_Abstract {
 				$attributes[ $field_name ]['default'] = $field->settings['default'];
 			}
 
+			if ( ! empty( $field->settings['sub-fields'] ) ) {
+				$attributes['sub-fields'] = array( 'type' => 'object' );
+			}
+
 			if ( 'array' === $field->type ) {
 				/**
 				 * This is a workaround to allow empty array values. We unset the default value before registering the
