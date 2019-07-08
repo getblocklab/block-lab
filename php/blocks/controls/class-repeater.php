@@ -26,7 +26,7 @@ class Repeater extends Control_Abstract {
 	 *
 	 * @var string
 	 */
-	public $type = 'array';
+	public $type = 'object';
 
 	/**
 	 * Repeater constructor.
