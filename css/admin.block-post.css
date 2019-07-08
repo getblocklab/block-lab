@@ -88,11 +88,7 @@
 }
 #block_fields .block-fields-rows .block-fields-row-columns {
 	display: grid;
-<<<<<<< HEAD
 	grid-template-columns: [handle] minmax( 20px, calc(4% - 10px) ) calc(32% + 14px) calc(32% + 14px) calc(32% - 18px);
-=======
-	grid-template-columns: [handle] 4% 32% 32% 32%;
->>>>>>> develop
 }
 #block_fields .block-fields-rows .block-fields-row > div {
 	padding: 8px 10px;
