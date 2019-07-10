@@ -187,7 +187,7 @@ class Loader extends Component_Abstract {
 			}
 		}
 
-		return apply_filters( 'blocklab_get_block_attributes', $attributes );
+		return apply_filters( 'block_lab_get_block_attributes', $attributes );
 	}
 
 	/**
