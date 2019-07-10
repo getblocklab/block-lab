@@ -961,7 +961,7 @@ class Block_Post extends Component_Abstract {
 			}
 
 			if ( ! $category ) {
-				$category = $categories[0];
+				$category = isset( $categories[0] ) ? $categories[0] : '';
 			}
 
 			$block->category = $category;
