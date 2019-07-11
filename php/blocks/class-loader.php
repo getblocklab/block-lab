@@ -194,8 +194,9 @@ class Loader extends Component_Abstract {
 		 * Removing attributes here can cause 'Error loading block...' in the editor.
 		 *
 		 * @param array[] $attributes The attributes for a block.
+		 * @param array   $block      Block data, including its name at $block['name'].
 		 */
-		return apply_filters( 'block_lab_get_block_attributes', $attributes );
+		return apply_filters( 'block_lab_get_block_attributes', $attributes, $block );
 	}
 
 	/**
