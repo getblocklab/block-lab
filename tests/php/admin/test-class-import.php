@@ -152,7 +152,7 @@ class Test_Import extends \WP_UnitTestCase {
 		$this->assertContains( $error_uploading_file, $output );
 
 		$file             = array( 'file' => 'nonexistent-file.xml' );
-		$tmp_name         = 'tmp/nonexistent-file.xml';
+		$tmp_name         = $this->import_file_invalid_json;
 		$files_import     = array_merge(
 			$file,
 			array(
