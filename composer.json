@@ -5,13 +5,10 @@
     "homepage": "https://github.com/getblocklab/block-lab",
     "license": "GPL-2.0",
     "require": {
-        "php": ">=5.6"
+        "php": "^5.6 || ^7"
     },
     "require-dev": {
-        "php": "^5.6 || ^7",
         "brain/monkey": "^2",
-        "antecedent/patchwork": "2.1.8",
-        "mockery/mockery": "1.2.2",
         "squizlabs/php_codesniffer": "^3.4"
     }
 }
