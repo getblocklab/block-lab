@@ -187,6 +187,14 @@ class Loader extends Component_Abstract {
 			}
 		}
 
+		/**
+		 * Filters a given block's attributes.
+		 *
+		 * These are later passed to register_block_type() in $args['attributes'].
+		 * Removing attributes here can cause 'Error loading block...' in the editor.
+		 *
+		 * @param array[] $attributes The attributes for a block.
+		 */
 		return apply_filters( 'block_lab_get_block_attributes', $attributes );
 	}
 
