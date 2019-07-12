@@ -85,15 +85,15 @@ class Field {
 		);
 
 		// Handle the sub-fields setting used by the Repeater.
-		if ( isset( $this->settings['sub-fields'] ) ) {
+		if ( isset( $this->settings['sub_fields'] ) ) {
 			/**
 			 * Recursively loop through sub-fields.
 			 *
 			 * @var string $key   The name of the sub-field's parent.
 			 * @var Field  $field The sub-field.
 			 */
-			foreach ( $this->settings['sub-fields'] as $key => $field ) {
-				$config['sub-fields'][ $key ] = $field->to_array();
+			foreach ( $this->settings['sub_fields'] as $key => $field ) {
+				$config['sub_fields'][ $key ] = $field->to_array();
 			}
 		}
 
@@ -134,12 +134,12 @@ class Field {
 		}
 
 		// Handle the sub-fields setting used by the Repeater.
-		if ( isset( $this->settings['sub-fields'] ) ) {
+		if ( isset( $this->settings['sub_fields'] ) ) {
 			/**
 			 * Recursively loop through sub-fields.
 			 */
-			foreach ( $this->settings['sub-fields'] as $key => $field ) {
-				$this->settings['sub-fields'][ $key ] = new Field( $field );
+			foreach ( $this->settings['sub_fields'] as $key => $field ) {
+				$this->settings['sub_fields'][ $key ] = new Field( $field );
 			}
 		}
 	}

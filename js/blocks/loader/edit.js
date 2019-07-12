@@ -8,7 +8,7 @@ const { applyFilters } = wp.hooks;
 const { ServerSideRender } = wp.editor;
 
 const formControls = ( props, block ) => {
-	const fields = simplifiedFields( block.fields ).map( ( field, index ) => getRenderedControl( block, props, field, index ) );
+	const fields = getRenderedFields( block.fields, props, block );
 
 	return (
 		<div key={ block.name + "-fields" }>
@@ -33,45 +33,12 @@ const getRenderedControl = ( block, props, field, index ) => {
 
 	const controlFunction = getControlFunction( field );
 	const control = controlFunction ? controlFunction( props, field, block ) : null;
-	const renderedSubFields = getRenderedSubFields( block, props, field );
 
 	return (
 		<div key={ field.name + "-" + index }>
 			{ control }
-			{ renderedSubFields }
 		</div>
 	)
-};
-
-/**
- * Gets the rendered control, based on the field values.
- *
- * @param {Object} block The block that has the control.
- * @param {Object} props The block props.
- * @param {Object} field The field to render.
- * @return {array|null} The rendered sub-fields.
- */
-const getRenderedSubFields = ( block, props, field ) => {
-	const renderedSubFields = [];
-	if ( field[ 'sub-fields' ] ) {
-		for ( const subFieldName in field[ 'sub-fields' ] ) {
-			if ( field[ 'sub-fields' ].hasOwnProperty( subFieldName ) ) {
-				const subField = field[ 'sub-fields' ][ subFieldName ];
-				const controlFunction = getControlFunction( subField );
-				if ( controlFunction ) {
-					renderedSubFields.push( controlFunction( props, subField, block ) );
-				}
-			}
-		}
-	} else {
-		return null;
-	}
-
-	return (
-		<div class="block-form">
-			{ renderedSubFields }
-		</div>
-	);
 };
 
 /**
@@ -89,7 +56,19 @@ const getControlFunction = ( field ) => {
 	return loadedControls[ field.control ];
 };
 
-const editComponent = ( props, block ) => {
+/**
+ * Gets the rendered fields, using their control functions.
+ *
+ * @param {Array} fields The fields to render.
+ * @param {Object} props The props to pass to the control function.
+ * @param {Object} block The block where the fields are.
+ * @return {Array} fields The rendered fields.
+ */
+export const getRenderedFields = ( fields, props, block ) => {
+	return simplifiedFields( fields ).map( ( field, index ) => getRenderedControl( block, props, field, index ) );
+}
+
+export const editComponent = ( props, block ) => {
 	const { className, isSelected } = props;
 
 	if ( 'undefined' === typeof icons[block.icon] ) {
@@ -118,5 +97,3 @@ const editComponent = ( props, block ) => {
 		),
 	]
 };
-
-export default editComponent

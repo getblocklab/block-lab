@@ -728,10 +728,10 @@ class Block_Post extends Component_Abstract {
 			</div>
 			<?php
 			if ( 'repeater' === $field->control ) {
-				if ( ! isset( $field->settings['sub-fields'] ) ) {
-					$field->settings['sub-fields'] = array();
+				if ( ! isset( $field->settings['sub_fields'] ) ) {
+					$field->settings['sub_fields'] = array();
 				}
-				$this->render_fields_sub_rows( $field->settings['sub-fields'] );
+				$this->render_fields_sub_rows( $field->settings['sub_fields'] );
 			}
 			if ( isset( $field->settings['parent'] ) ) {
 				?>
@@ -1086,16 +1086,16 @@ class Block_Post extends Component_Abstract {
 					if ( ! isset( $block->fields[ $parent ] ) ) {
 						continue;
 					}
-					if ( ! isset( $block->fields[ $parent ]->settings['sub-fields'] ) ) {
-						$block->fields[ $parent ]->settings['sub-fields'] = array();
+					if ( ! isset( $block->fields[ $parent ]->settings['sub_fields'] ) ) {
+						$block->fields[ $parent ]->settings['sub_fields'] = array();
 					}
 
 					$field->settings['parent'] = $parent;
 					$field->order              = count(
-						$block->fields[ $parent ]->settings['sub-fields']
+						$block->fields[ $parent ]->settings['sub_fields']
 					);
 
-					$block->fields[ $parent ]->settings['sub-fields'][ $name ] = $field;
+					$block->fields[ $parent ]->settings['sub_fields'][ $name ] = $field;
 				} else {
 					$field->order = count( $block->fields );
 

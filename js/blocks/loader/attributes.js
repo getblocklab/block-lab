@@ -1,12 +1,20 @@
-const getBlockAttributes = block => {
+/**
+ * Gets the attributes for a block, based on given fields.
+ *
+ * @param {Object} fields     The fields to get the attributes from.
+ * @return {Array} attributes The attributes for the fields.
+ */
+const getBlockAttributes = ( fields ) => {
 
 	let attributes = {}
 
-	for ( let fieldName in block.fields ) {
+	for ( let fieldName in fields ) {
 
-		if ( !block.fields.hasOwnProperty( fieldName ) ) continue;
+		if ( ! fields.hasOwnProperty( fieldName ) ) {
+			continue;
+		}
 
-		let field = block.fields[ fieldName ];
+		let field = fields[ fieldName ];
 
 		attributes[ fieldName ] = {}
 
@@ -16,6 +24,15 @@ const getBlockAttributes = block => {
 
 		if ( field.default ) {
 			attributes[ fieldName ].default = field.default
+		}
+
+		/*
+		 * Account for 'sub_fields' in the Repeater control
+		 * @todo: there should probably be a recursion limit.
+		 */
+		if ( field.hasOwnProperty( 'sub_fields' ) ) {
+			let subFields = getBlockAttributes( field['sub_fields'] );
+			attributes = Object.assign( {}, attributes, subFields );
 		}
 
 	}

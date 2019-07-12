@@ -11,10 +11,13 @@ const simplifiedFields = ( fields ) => {
 	let fieldList = []
 
 	for ( let fieldName in fields ) {
+		if ( '' === fieldName ) {
+			continue;
+		}
 
-		if ( '' === fieldName ) continue;
-
-		if ( !fields.hasOwnProperty( fieldName ) ) continue;
+		if ( ! fields.hasOwnProperty( fieldName ) ) {
+			continue;
+		}
 
 		let field = fields[ fieldName ];
 
@@ -26,7 +29,7 @@ const simplifiedFields = ( fields ) => {
 		)
 	}
 
-	fieldList.sort( compare )
+	fieldList.sort( compare );
 
 	return fieldList
 }
