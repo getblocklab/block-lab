@@ -242,6 +242,10 @@ class Test_Import extends \WP_UnitTestCase {
 			->once()
 			->andReturn( true );
 
+		Monkey\Functions\expect( 'chmod' )
+			->once()
+			->andReturn( true );
+
 		ob_start();
 		$this->instance->render_page();
 		$output = ob_get_clean();
