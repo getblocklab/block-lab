@@ -43,8 +43,8 @@ class Test_Import extends \WP_UnitTestCase {
 		parent::setUp();
 		Monkey\setUp();
 		$this->instance                 = new Admin\Import();
-		$this->import_file_valid_json   = dirname( dirname( __DIR__ ) ) . '/fixtures/mock-import-valid-format.json';
-		$this->import_file_invalid_json = dirname( dirname( __DIR__ ) ) . '/fixtures/mock-import-invalid-format.json';
+		$this->import_file_valid_json   = dirname( dirname( __DIR__ ) ) . '/fixtures/mock-import-valid-format.txt';
+		$this->import_file_invalid_json = dirname( dirname( __DIR__ ) ) . '/fixtures/mock-import-invalid-format.txt';
 		$this->instance->set_plugin( block_lab() );
 	}
 
@@ -168,11 +168,10 @@ class Test_Import extends \WP_UnitTestCase {
 				$file,
 				array(
 					'url'  => 'https://example.com/foo',
-					'type' => 'text/xml',
+					'type' => 'text/plain',
 				)
 			);
 		} );
-		add_filter( 'pre_move_uploaded_file', '__return_false' );
 
 		Monkey\Functions\expect( 'filter_input' )
 			->twice()
@@ -184,9 +183,21 @@ class Test_Import extends \WP_UnitTestCase {
 			->andReturn( 1 );
 
 		Monkey\Functions\expect( 'is_uploaded_file' )
-			->twice()
+			->once()
 			->with( $tmp_name )
 			->andReturn( true );
+
+		/**
+		 * Overrides the function to handle upload errors.
+		 *
+		 * @param array  $file    The file that was uploaded.
+		 * @param string $message The message.
+		 * @return array The error message.
+		 */
+		function wp_handle_upload_error( $file, $message ) {
+			unset( $file );
+			return array( 'error' => $message );
+		}
 
 		ob_start();
 		$this->instance->render_page();
@@ -198,13 +209,14 @@ class Test_Import extends \WP_UnitTestCase {
 		$this->assertNotContains( $welcome_text, $output );
 
 		// The file is now a real file.
-		$file = array( 'file' => $this->import_file_valid_json );
+		$file         = array( 'file' => $this->import_file_valid_json );
+		$tmp_name     = $this->import_file_valid_json;
 		$files_import = array_merge(
 			$file,
 			array(
-				'name'     => 'foo',
+				'name'     => 'mock-import-valid-format',
 				'tmp_name' => $tmp_name,
-				'size'     => 10000,
+				'size'     => 29,
 			)
 		);
 		$_FILES['import'] = $files_import;
@@ -216,10 +228,19 @@ class Test_Import extends \WP_UnitTestCase {
 				$file,
 				array(
 					'url'  => 'https://example.com/foo',
-					'type' => 'text/xml',
+					'type' => 'text/plain',
 				)
 			);
 		} );
+
+		Monkey\Functions\expect( 'is_uploaded_file' )
+			->once()
+			->with( $tmp_name )
+			->andReturn( true );
+
+		Monkey\Functions\expect( 'move_uploaded_file' )
+			->once()
+			->andReturn( true );
 
 		ob_start();
 		$this->instance->render_page();
