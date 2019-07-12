@@ -63,7 +63,7 @@ class Test_Block extends \WP_UnitTestCase {
 					"type": "array",
 					"order": 0,
 					"help": "",
-					"sub-fields": {
+					"sub_fields": {
 						"child": {
 							"name": "child",
 							"label": "Child",
@@ -134,12 +134,12 @@ class Test_Block extends \WP_UnitTestCase {
 
 		// Check that the repeater works as expected
 		$this->assertAttributeNotEmpty( 'settings', $this->instance->fields['parent'] );
-		$this->assertArrayHasKey( 'sub-fields', $this->instance->fields['parent']->settings );
-		$this->assertArrayHasKey( 'child', $this->instance->fields['parent']->settings['sub-fields'] );
-		$this->assertEquals( 'child', $this->instance->fields['parent']->settings['sub-fields']['child']->name );
-		$this->assertAttributeNotEmpty( 'settings', $this->instance->fields['parent']->settings['sub-fields']['child'] );
-		$this->assertArrayHasKey( 'parent', $this->instance->fields['parent']->settings['sub-fields']['child']->settings );
-		$this->assertEquals( 'parent', $this->instance->fields['parent']->settings['sub-fields']['child']->settings['parent'] );
+		$this->assertArrayHasKey( 'sub_fields', $this->instance->fields['parent']->settings );
+		$this->assertArrayHasKey( 'child', $this->instance->fields['parent']->settings['sub_fields'] );
+		$this->assertEquals( 'child', $this->instance->fields['parent']->settings['sub_fields']['child']->name );
+		$this->assertAttributeNotEmpty( 'settings', $this->instance->fields['parent']->settings['sub_fields']['child'] );
+		$this->assertArrayHasKey( 'parent', $this->instance->fields['parent']->settings['sub_fields']['child']->settings );
+		$this->assertEquals( 'parent', $this->instance->fields['parent']->settings['sub_fields']['child']->settings['parent'] );
 	}
 
 	/**
@@ -170,10 +170,10 @@ class Test_Block extends \WP_UnitTestCase {
 		$this->assertArrayHasKey( 'parent', $block['fields'] );
 
 		// Check that the repeater works as expected
-		$this->assertArrayHasKey( 'sub-fields', $block['fields']['parent'] );
-		$this->assertArrayHasKey( 'child', $block['fields']['parent']['sub-fields'] );
-		$this->assertArrayHasKey( 'name', $block['fields']['parent']['sub-fields']['child'] );
-		$this->assertEquals( 'child', $block['fields']['parent']['sub-fields']['child']['name'] );
-		$this->assertEquals( 'parent', $block['fields']['parent']['sub-fields']['child']['parent'] );
+		$this->assertArrayHasKey( 'sub_fields', $block['fields']['parent'] );
+		$this->assertArrayHasKey( 'child', $block['fields']['parent']['sub_fields'] );
+		$this->assertArrayHasKey( 'name', $block['fields']['parent']['sub_fields']['child'] );
+		$this->assertEquals( 'child', $block['fields']['parent']['sub_fields']['child']['name'] );
+		$this->assertEquals( 'parent', $block['fields']['parent']['sub_fields']['child']['parent'] );
 	}
 }

@@ -25,7 +25,7 @@ class Test_Field extends \WP_UnitTestCase {
 		'order'    => 1,
 		'settings' => array(
 			'custom'     => 'Custom Setting',
-			'sub-fields' => array(
+			'sub_fields' => array(
 				'baz' => array(
 					'name'    => 'baz',
 					'label'   => 'Baz',
@@ -79,11 +79,11 @@ class Test_Field extends \WP_UnitTestCase {
 		$this->assertAttributeNotEmpty( 'settings', $this->instance );
 		$this->assertArrayHasKey( 'custom', $this->instance->settings );
 		$this->assertEquals( 'Custom Setting', $this->instance->settings['custom'] );
-		$this->assertArrayHasKey( 'sub-fields', $this->instance->settings );
-		$this->assertArrayHasKey( 'baz', $this->instance->settings['sub-fields'] );
-		$this->assertEquals( 'baz', $this->instance->settings['sub-fields']['baz']->name );
-		$this->assertEquals( 'Baz', $this->instance->settings['sub-fields']['baz']->label );
-		$this->assertAttributeNotEmpty( 'settings', $this->instance->settings['sub-fields']['baz'] );
+		$this->assertArrayHasKey( 'sub_fields', $this->instance->settings );
+		$this->assertArrayHasKey( 'baz', $this->instance->settings['sub_fields'] );
+		$this->assertEquals( 'baz', $this->instance->settings['sub_fields']['baz']->name );
+		$this->assertEquals( 'Baz', $this->instance->settings['sub_fields']['baz']->label );
+		$this->assertAttributeNotEmpty( 'settings', $this->instance->settings['sub_fields']['baz'] );
 	}
 
 	/**
@@ -103,10 +103,10 @@ class Test_Field extends \WP_UnitTestCase {
 		$this->assertArrayHasKey( 'custom', $config );
 		$this->assertArrayNotHasKey( 'settings', $config );
 		$this->assertEquals( 'Custom Setting', $config['custom'] );
-		$this->assertArrayHasKey( 'sub-fields', $config );
-		$this->assertArrayHasKey( 'baz', $config['sub-fields'] );
-		$this->assertArrayNotHasKey( 'settings', $config['sub-fields']['baz'] );
-		$this->assertArrayHasKey( 'parent', $config['sub-fields']['baz'] );
-		$this->assertEquals( 'foo', $config['sub-fields']['baz']['parent'] );
+		$this->assertArrayHasKey( 'sub_fields', $config );
+		$this->assertArrayHasKey( 'baz', $config['sub_fields'] );
+		$this->assertArrayNotHasKey( 'settings', $config['sub_fields']['baz'] );
+		$this->assertArrayHasKey( 'parent', $config['sub_fields']['baz'] );
+		$this->assertEquals( 'foo', $config['sub_fields']['baz']['parent'] );
 	}
 }

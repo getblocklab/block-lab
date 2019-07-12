@@ -176,8 +176,16 @@ class Loader extends Component_Abstract {
 				$attributes[ $field_name ]['default'] = $field->settings['default'];
 			}
 
-			if ( ! empty( $field->settings['sub-fields'] ) ) {
-				$attributes['sub-fields'] = array( 'type' => 'object' );
+			if ( ! empty( $field->settings['sub_fields'] ) ) {
+				foreach( $field->settings['sub_fields'] as $sub_field_name => $sub_field ) {
+					$attributes[ $sub_field_name ] = array(
+						'type' => $sub_field->type,
+					);
+
+					if ( ! empty( $sub_field->settings['default'] ) ) {
+						$attributes[ $sub_field_name ]['default'] = $sub_field->settings['default'];
+					}
+				}
 			}
 
 			if ( 'array' === $field->type ) {
