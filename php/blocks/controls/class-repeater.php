@@ -22,16 +22,7 @@ class Repeater extends Control_Abstract {
 	public $name = 'repeater';
 
 	/**
-	 * Field variable type.
-	 *
-	 * @var string
-	 */
-	public $type = 'object';
-
-	/**
 	 * Repeater constructor.
-	 *
-	 * @return void
 	 */
 	public function __construct() {
 		parent::__construct();

@@ -168,35 +168,43 @@ class Loader extends Component_Abstract {
 		$attributes['className'] = array( 'type' => 'string' );
 
 		foreach ( $block->fields as $field_name => $field ) {
-			$attributes[ $field_name ] = array(
-				'type' => $field->type,
-			);
-
-			if ( ! empty( $field->settings['default'] ) ) {
-				$attributes[ $field_name ]['default'] = $field->settings['default'];
-			}
+			$attributes = $this->set_attributes_from_field( $attributes, $field_name, $field );
 
 			if ( ! empty( $field->settings['sub_fields'] ) ) {
 				foreach ( $field->settings['sub_fields'] as $sub_field_name => $sub_field ) {
-					$attributes[ $sub_field_name ] = array(
-						'type' => $sub_field->type,
-					);
-
-					if ( ! empty( $sub_field->settings['default'] ) ) {
-						$attributes[ $sub_field_name ]['default'] = $sub_field->settings['default'];
-					}
+					$attributes = $this->set_attributes_from_field( $attributes, $sub_field_name, $sub_field );
 				}
 			}
+		}
 
-			if ( 'array' === $field->type ) {
-				/**
-				 * This is a workaround to allow empty array values. We unset the default value before registering the
-				 * block so that the default isn't used to auto-correct empty arrays. This allows the default to be
-				 * used only when creating the form.
-				 */
-				unset( $attributes[ $field_name ]['default'] );
-				$attributes[ $field_name ]['items'] = array( 'type' => 'string' );
-			}
+		return $attributes;
+	}
+
+	/**
+	 * Sets the field values in the attributes, enabling them to appear in the block.
+	 *
+	 * @param array  $attributes The attributes in which to store the field value.
+	 * @param string $field_name The name of the field, like 'home-hero'.
+	 * @param Field  $field      The Field to set the attributes from.
+	 * @return array $attributes The attributes, with the new field value set.
+	 */
+	public function set_attributes_from_field( $attributes, $field_name, $field ) {
+		$attributes[ $field_name ] = array(
+			'type' => $field->type,
+		);
+
+		if ( ! empty( $field->settings['default'] ) ) {
+			$attributes[ $field_name ]['default'] = $field->settings['default'];
+		}
+
+		if ( 'array' === $field->type ) {
+			/**
+			 * This is a workaround to allow empty array values. We unset the default value before registering the
+			 * block so that the default isn't used to auto-correct empty arrays. This allows the default to be
+			 * used only when creating the form.
+			 */
+			unset( $attributes[ $field_name ]['default'] );
+			$attributes[ $field_name ]['items'] = array( 'type' => 'string' );
 		}
 
 		return $attributes;

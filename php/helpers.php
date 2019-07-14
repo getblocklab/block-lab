@@ -136,9 +136,9 @@ function block_field( $name, $echo = true ) {
 /**
  * Gets the root sub-field name for a repeater, if it exists.
  *
- * For example, if a sub-field was in the 'home_hero' repeater,
+ * For example, if a sub-field was in the 'home-hero' repeater,
  * this function could be passed a $field_names argument of ( 'home_hero', 'main_image' ).
- * This would get return the name 'main_image', if that's a valid field in the 'home_hero' repeater field.
+ * This would get return the name 'main-image', if that's a valid field in the 'home-hero' repeater field.
  *
  * @param array|string $field_names The names of the fields, must be an array with two fields (strings) to return a field.
  * @return string|false The sub-field name, or false if it does not exit.
