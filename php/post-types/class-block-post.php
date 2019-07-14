@@ -689,10 +689,17 @@ class Block_Post extends Component_Abstract {
 								<?php disabled( $is_field_disabled ); ?> >
 								<?php
 								$controls_for_select = $this->controls;
+
 								// If this field is disabled, it was probably added when there was a valid pro license, so still display it.
 								if ( $is_field_disabled && in_array( $field->control, $this->pro_controls, true ) ) {
 									$controls_for_select[ $field->control ] = $this->get_control( $field->control );
 								}
+
+								// Don't allow nesting repeaters inside repeaters.
+								if ( 'repeater' === $field->control ) {
+									unset( $controls_for_select['repeater'] );
+								}
+
 								foreach ( $controls_for_select as $control_for_select ) :
 									?>
 									<option
