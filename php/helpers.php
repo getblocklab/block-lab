@@ -15,8 +15,8 @@ use Block_Lab\Blocks;
  * To output a repeater sub-field, pass an array() with the repeater field followed by the sub-field.
  * For example, block_field( 'home_hero', 'image' ).
  *
- * @param string|array $name The name of the field as created in the UI, or an array of the repeater field and sub-field.
- * @param bool         $echo Whether to echo and return the field, or just return the field.
+ * @param string|string[] $name The name of the field as created in the UI, or an array of the repeater field and sub-field.
+ * @param bool            $echo Whether to echo and return the field, or just return the field.
  *
  * @return mixed|null
  */
@@ -136,11 +136,12 @@ function block_field( $name, $echo = true ) {
 /**
  * Gets the root sub-field name for a repeater, if it exists.
  *
+ * Not intended to get the value, use block_field() or block_value() for that.
  * For example, if a sub-field was in the 'home-hero' repeater,
  * this function could be passed a $field_names argument of ( 'home_hero', 'main_image' ).
  * This would get return the name 'main-image', if that's a valid field in the 'home-hero' repeater field.
  *
- * @param array|string $field_names The names of the fields, must be an array with two fields (strings) to return a field.
+ * @param string[]|string $field_names The names of the fields, must be an array with two fields (strings) to return a field.
  * @return string|false The sub-field name, or false if it does not exit.
  */
 function maybe_get_sub_field_name( $field_names ) {

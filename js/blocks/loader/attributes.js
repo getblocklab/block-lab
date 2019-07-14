@@ -26,12 +26,9 @@ const getBlockAttributes = ( fields ) => {
 			attributes[ fieldName ].default = field.default;
 		}
 
-		/*
-		 * Account for 'sub_fields' in the Repeater control.
-		 * @todo: there should probably be a recursion limit.
-		 */
+		// Account for 'sub_fields' in the Repeater control.
 		if ( field.hasOwnProperty( 'sub_fields' ) ) {
-			let subFields = getBlockAttributes( field['sub_fields'] );
+			let subFields = getBlockAttributes( field.sub_fields );
 			attributes = Object.assign( {}, attributes, subFields );
 		}
 
