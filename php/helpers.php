@@ -40,7 +40,6 @@ function block_field( $name, $echo = true ) {
 		return null;
 	}
 
-
 	$is_valid_field = (
 		isset( $block_lab_config->fields[ $name ] )
 		||
