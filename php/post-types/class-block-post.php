@@ -513,16 +513,7 @@ class Block_Post extends Component_Abstract {
 						<td colspan="4">
 							<div class="block-fields-rows">
 								<p class="block-no-fields">
-									<?php
-									echo wp_kses_post(
-										sprintf(
-											// Translators: Placeholders are for <strong> HTML tags.
-											__( 'Click %1$sAdd Field%2$s below to add your first field.' ),
-											'<strong>',
-											'</strong>'
-										)
-									);
-									?>
+									<?php echo wp_kses_post( __( 'Click <strong>Add Field</strong> below to add your first field.', 'block-lab' ) ); ?>
 								</p>
 								<?php
 								if ( count( $block->fields ) > 0 ) {

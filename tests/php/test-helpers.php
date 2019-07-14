@@ -107,7 +107,7 @@ class Test_Helpers extends \WP_UnitTestCase {
 		$block_lab_config = new Blocks\Block();
 		$block_lab_config->from_array( $block_config );
 
-		// Neither of the strings in the array are fields, so this should return false.
+		// Neither of the strings in the array is a field, so this should return false.
 		$this->assertFalse( maybe_get_sub_field_name( array( 'non-existent-field', 'not-a-field' ) ) );
 
 		// The first field doesn't have a sub-field, so this should return false.
@@ -117,11 +117,13 @@ class Test_Helpers extends \WP_UnitTestCase {
 		$this->assertFalse( maybe_get_sub_field_name( $sub_field_name ) );
 		$this->assertFalse( maybe_get_sub_field_name( array( $sub_field_name ) ) );
 
-		// The arguments are correct, but in the wrong order.
+		// The array values are correct, but in the wrong order.
 		$this->assertFalse( maybe_get_sub_field_name( array( $sub_field_name, $field_name_with_sub_field ) ) );
+
+		// The first 2 array values are correct, but there's a third value that's not needed.
+		$this->assertFalse( maybe_get_sub_field_name( array( $field_name_with_sub_field, $sub_field_name, 'extra-field-name' ) ) );
 
 		// The arguments are now in the correct order, so this should return the sub-field name.
 		$this->assertEquals( $sub_field_name, maybe_get_sub_field_name( array( $field_name_with_sub_field, $sub_field_name ) ) );
-
 	}
 }
