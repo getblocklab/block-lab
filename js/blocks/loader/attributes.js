@@ -6,7 +6,7 @@
  */
 const getBlockAttributes = ( fields ) => {
 
-	let attributes = {}
+	let attributes = {};
 
 	for ( let fieldName in fields ) {
 
@@ -16,18 +16,18 @@ const getBlockAttributes = ( fields ) => {
 
 		let field = fields[ fieldName ];
 
-		attributes[ fieldName ] = {}
+		attributes[ fieldName ] = {};
 
 		if ( field.type ) {
 			attributes[ fieldName ].type = field.type
 		}
 
 		if ( field.default ) {
-			attributes[ fieldName ].default = field.default
+			attributes[ fieldName ].default = field.default;
 		}
 
 		/*
-		 * Account for 'sub_fields' in the Repeater control
+		 * Account for 'sub_fields' in the Repeater control.
 		 * @todo: there should probably be a recursion limit.
 		 */
 		if ( field.hasOwnProperty( 'sub_fields' ) ) {
@@ -37,7 +37,7 @@ const getBlockAttributes = ( fields ) => {
 
 	}
 
-	return attributes
+	return attributes;
 };
 
 export default getBlockAttributes
