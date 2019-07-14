@@ -177,7 +177,7 @@ class Loader extends Component_Abstract {
 			}
 
 			if ( ! empty( $field->settings['sub_fields'] ) ) {
-				foreach( $field->settings['sub_fields'] as $sub_field_name => $sub_field ) {
+				foreach ( $field->settings['sub_fields'] as $sub_field_name => $sub_field ) {
 					$attributes[ $sub_field_name ] = array(
 						'type' => $sub_field->type,
 					);
