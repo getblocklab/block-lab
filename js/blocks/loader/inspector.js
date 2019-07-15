@@ -19,7 +19,7 @@ const inspectorControls = ( props, block ) => {
 		const control = typeof controlFunction !== 'undefined' ? controlFunction( props, field, block ) : null;
 
 		return (
-			<PanelBody key={"inspector-controls-panel-" + field}>
+			<PanelBody key={"inspector-controls-panel-" + field.name}>
 				{control}
 			</PanelBody>
 		)
