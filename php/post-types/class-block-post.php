@@ -447,18 +447,30 @@ class Block_Post extends Component_Abstract {
 			<label for="block-properties-category">
 				<?php esc_html_e( 'Category:', 'block-lab' ); ?>
 			</label>
-			<select name="block-properties-category" id="block-properties-category">
+			<select name="block-properties-category" id="block-properties-category" class="block-properties-category">
 				<?php
 				$categories = get_block_categories( $post );
 				foreach ( $categories as $category ) {
 					?>
-					<option value="<?php echo esc_attr( $category['slug'] ); ?>" <?php selected( $category['slug'], $block->category ); ?>>
+					<option value="<?php echo esc_attr( $category['slug'] ); ?>" <?php selected( $category['slug'], $block->category['slug'] ); ?>>
 						<?php echo esc_html( $category['title'] ); ?>
 					</option>
 					<?php
 				}
 				?>
+				<option disabled>────────</option>
+				<option value="__custom"><?php esc_html_e( 'Custom Category', 'block-lab' ); ?></option>
 			</select>
+			<span class="block-properties-category-custom">
+				<label for="block-properties-category-name">
+					<?php esc_html_e( 'New Category Name:', 'block-lab' ); ?>
+				</label>
+				<input
+					name="block-properties-category-name"
+					type="text"
+					id="block-properties-category-name"
+					value="" />
+			</span>
 		</p>
 		<p>
 			<label for="block-properties-keywords">
@@ -597,7 +609,7 @@ class Block_Post extends Component_Abstract {
 			</div>
 			<div class="block-fields-control" id="block-fields-control_<?php echo esc_attr( $uid ); ?>">
 				<?php
-				if ( ! $is_field_disabled ) :
+				if ( ! $is_field_disabled && isset( $this->controls[ $field->control ] ) ) :
 					echo esc_html( $this->controls[ $field->control ]->label );
 				else :
 					?>
@@ -931,7 +943,28 @@ class Block_Post extends Component_Abstract {
 
 		// Block category.
 		if ( isset( $_POST['block-properties-category'] ) ) {
-			$block->category = sanitize_key( $_POST['block-properties-category'] );
+			$category_slug = sanitize_key( $_POST['block-properties-category'] );
+			$categories    = get_block_categories( the_post() );
+
+			if ( '__custom' === $category_slug && isset( $_POST['block-properties-category-name'] ) ) {
+				$category = array(
+					'slug'  => sanitize_key( $_POST['block-properties-category-name'] ),
+					'title' => sanitize_text_field(
+						wp_unslash( $_POST['block-properties-category-name'] )
+					),
+					'icon'  => null,
+				);
+			} else {
+				$category_slugs = wp_list_pluck( $categories, 'slug' );
+				$category_key   = array_search( $category_slug, $category_slugs, true );
+				$category       = $categories[ $category_key ];
+			}
+
+			if ( ! $category ) {
+				$category = isset( $categories[0] ) ? $categories[0] : '';
+			}
+
+			$block->category = $category;
 		}
 
 		// Block keywords.
@@ -1115,14 +1148,7 @@ class Block_Post extends Component_Abstract {
 		}
 		if ( 'category' === $column ) {
 			$block = new Block( $post_id );
-			if ( ! empty( $block->category ) ) {
-				$categories = get_block_categories( get_post() );
-				$categories = wp_list_pluck( $categories, 'title', 'slug' );
-
-				if ( isset( $categories[ $block->category ] ) ) {
-					echo esc_html( $categories[ $block->category ] );
-				}
-			}
+			echo esc_html( $block->category['title'] );
 		}
 	}
 
