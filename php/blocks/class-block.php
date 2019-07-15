@@ -36,11 +36,15 @@ class Block {
 	public $icon = '';
 
 	/**
-	 * Category name.
+	 * Category. An array containing the keys slug, title, and icon.
 	 *
-	 * @var string
+	 * @var array
 	 */
-	public $category = '';
+	public $category = array(
+		'slug'  => '',
+		'title' => '',
+		'icon'  => '',
+	);
 
 	/**
 	 * Block keywords.
@@ -119,6 +123,9 @@ class Block {
 
 		if ( isset( $config['category'] ) ) {
 			$this->category = $config['category'];
+			if ( ! is_array( $this->category ) ) {
+				$this->category = $this->get_category_array_from_slug( $this->category );
+			}
 		}
 
 		if ( isset( $config['keywords'] ) ) {
@@ -150,5 +157,26 @@ class Block {
 		}
 
 		return wp_json_encode( array( 'block-lab/' . $this->name => $config ), JSON_UNESCAPED_UNICODE );
+	}
+
+	/**
+	 * This is a backwards compatibility fix.
+	 *
+	 * Block categories used to be saved as strings, but were always included in
+	 * the default list of categories, so we can find them.
+	 *
+	 * It's not possible to use get_block_categories() here, as Block's are
+	 * sometimes instantiated before that function is available.
+	 *
+	 * @param string $slug The category slug to find.
+	 *
+	 * @return array
+	 */
+	public function get_category_array_from_slug( $slug ) {
+		return array(
+			'slug'  => $slug,
+			'title' => ucwords( $slug, '-' ),
+			'icon'  => null,
+		);
 	}
 }
