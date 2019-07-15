@@ -67,7 +67,7 @@ class Import extends Component_Abstract {
 					$json   = file_get_contents( $file['file'] ); // @codingStandardsIgnoreLine
 					$blocks = json_decode( $json, true );
 
-					$this->import( $blocks );
+					$this->import_blocks( $blocks );
 				}
 				break;
 		}
@@ -204,7 +204,7 @@ class Import extends Component_Abstract {
 	 *
 	 * @param array $blocks An array of Block Lab content blocks.
 	 */
-	public function import( $blocks ) {
+	public function import_blocks( $blocks ) {
 		foreach ( $blocks as $config ) {
 			if ( ! isset( $config['title'] ) || ! isset( $config['name'] ) ) {
 				continue;
