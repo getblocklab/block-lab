@@ -170,6 +170,7 @@ function block_lab_locate_template( $template_names, $path = '', $single = true 
 	 *
 	 * Note that template names are prefixed with the blocks directory.
 	 * e.g. `blocks/block-template.php`
+	 * The logic below will look for the prefixed template name inside the $path.
 	 *
 	 * @param string       $path           The absolute path to the stylesheet directory.
 	 * @param string|array $template_names Templates to locate.
