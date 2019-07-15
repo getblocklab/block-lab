@@ -3,7 +3,7 @@ import controls from "../controls";
 
 const { InspectorControls } = wp.editor;
 const { PanelBody } = wp.components;
-
+const { applyFilters } = wp.hooks;
 
 const inspectorControls = ( props, block ) => {
 
@@ -14,7 +14,8 @@ const inspectorControls = ( props, block ) => {
 			return null
 		}
 
-		const controlFunction = field.controlFunction || controls[ field.control ];
+		const loadedControls = applyFilters( 'block_lab_controls', controls );
+		const controlFunction = field.controlFunction || loadedControls[ field.control ];
 		const control = typeof controlFunction !== 'undefined' ? controlFunction( props, field, block ) : null;
 
 		return (
