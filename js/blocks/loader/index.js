@@ -31,7 +31,7 @@ const registerBlocks = () => {
 		// Register the block.
 		registerBlockType( blockName, {
 			title: block.title,
-			category: block.category,
+			category: 'object' === typeof block.category ? block.category.slug : block.category,
 			icon: icon,
 			keywords: block.keywords,
 			attributes: blockAttributes( block ),
