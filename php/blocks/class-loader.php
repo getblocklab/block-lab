@@ -60,6 +60,11 @@ class Loader extends Component_Abstract {
 		add_action( 'enqueue_block_editor_assets', array( $this, 'editor_assets' ) );
 
 		/**
+		 * Gutenberg custom categories.
+		 */
+		add_filter( 'block_categories', array( $this, 'register_categories' ) );
+
+		/**
 		 * PHP block loading.
 		 */
 		add_action( 'plugins_loaded', array( $this, 'dynamic_block_loader' ) );
@@ -119,45 +124,85 @@ class Loader extends Component_Abstract {
 	 * Loads dynamic blocks via render_callback for each block.
 	 */
 	public function dynamic_block_loader() {
-
 		if ( ! function_exists( 'register_block_type' ) ) {
 			return;
 		}
 
-		// Get blocks.
 		$blocks = json_decode( $this->blocks, true );
 
 		foreach ( $blocks as $block_name => $block_config ) {
 			$block = new Block();
 			$block->from_array( $block_config );
+			$this->register_block( $block_name, $block );
+		}
+	}
 
-			$attributes = $this->get_block_attributes( $block );
+	/**
+	 * Registers a block.
+	 *
+	 * @param string $block_name The name of the block, including namespace.
+	 * @param Block  $block      The block to register.
+	 */
+	public function register_block( $block_name, $block ) {
+		$attributes = $this->get_block_attributes( $block );
 
-			// sanitize_title() allows underscores, but register_block_type doesn't.
-			$block_name = str_replace( '_', '-', $block_name );
+		// sanitize_title() allows underscores, but register_block_type doesn't.
+		$block_name = str_replace( '_', '-', $block_name );
 
-			// register_block_type doesn't allow slugs starting with a number.
-			if ( is_numeric( $block_name[0] ) ) {
-				$block_name = 'block-' . $block_name;
+		// register_block_type doesn't allow slugs starting with a number.
+		if ( is_numeric( $block_name[0] ) ) {
+			$block_name = 'block-' . $block_name;
+		}
+
+		register_block_type(
+			$block_name,
+			array(
+				'attributes'      => $attributes,
+				// @see https://github.com/WordPress/gutenberg/issues/4671
+				'render_callback' => function ( $attributes ) use ( $block ) {
+					return $this->render_block_template( $block, $attributes );
+				},
+			)
+		);
+	}
+
+	/**
+	 * Register custom block categories.
+	 *
+	 * @param array $categories Array of block categories.
+	 *
+	 * @return array
+	 */
+	public function register_categories( $categories ) {
+		$blocks = json_decode( $this->blocks, true );
+
+		foreach ( $blocks as $block_config ) {
+			if ( ! isset( $block_config['category'] ) ) {
+				continue;
 			}
 
-			register_block_type(
-				$block_name,
-				array(
-					'attributes'      => $attributes,
-					// @see https://github.com/WordPress/gutenberg/issues/4671
-					'render_callback' => function ( $attributes ) use ( $block ) {
-						return $this->render_block_template( $block, $attributes );
-					},
-				)
-			);
+			/*
+			 * This is a backwards compatibility fix.
+			 *
+			 * Block categories used to be saved as strings, but were always included in
+			 * the default list of categories, so it's safe to skip them.
+			 */
+			if ( ! is_array( $block_config['category'] ) || empty( $block_config['category'] ) ) {
+				continue;
+			}
+
+			if ( ! in_array( $block_config['category'], $categories, true ) ) {
+				$categories[] = $block_config['category'];
+			}
 		}
+
+		return $categories;
 	}
 
 	/**
 	 * Gets block attributes.
 	 *
-	 * @param array $block An array containing block data.
+	 * @param Block $block The block to get attributes from.
 	 *
 	 * @return array
 	 */
@@ -187,7 +232,16 @@ class Loader extends Component_Abstract {
 			}
 		}
 
-		return $attributes;
+		/**
+		 * Filters a given block's attributes.
+		 *
+		 * These are later passed to register_block_type() in $args['attributes'].
+		 * Removing attributes here can cause 'Error loading block...' in the editor.
+		 *
+		 * @param array[] $attributes The attributes for a block.
+		 * @param array   $block      Block data, including its name at $block['name'].
+		 */
+		return apply_filters( 'block_lab_get_block_attributes', $attributes, $block );
 	}
 
 	/**
