@@ -123,7 +123,14 @@ class Test_Block extends \WP_UnitTestCase {
 		// Check all the base attributes
 		$this->assertEquals( 'Simple Test Block', $this->instance->title );
 		$this->assertEquals( 'block_lab', $this->instance->icon );
-		$this->assertEquals( 'common', $this->instance->category );
+		$this->assertEquals(
+			array(
+				'icon'  => null,
+				'slug'  => 'common',
+				'title' => 'Common',
+			),
+			$this->instance->category
+		);
 		$this->assertEquals( array( 'keywords', 'go', 'here' ), $this->instance->keywords );
 
 		// Check that we've got three fields
