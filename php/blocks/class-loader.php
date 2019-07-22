@@ -105,6 +105,8 @@ class Loader extends Component_Abstract {
 			$this->enqueue_block_styles( $block_name, array( 'preview', 'block' ) );
 		}
 
+		$this->enqueue_global_styles();
+
 		// Used to conditionally show notices for blocks belonging to an author.
 		$author_blocks = get_posts(
 			array(
@@ -277,6 +279,12 @@ class Loader extends Component_Abstract {
 			}
 
 			$this->enqueue_block_styles( $block->name, 'block' );
+
+			/**
+			 * The wp_enqueue_style function handles duplicates, so we don't need to worry about multiple blocks
+			 * loading the global styles more than once.
+			 */
+			$this->enqueue_global_styles();
 		}
 
 		$block_lab_attributes = $attributes;
@@ -345,6 +353,30 @@ class Loader extends Component_Abstract {
 		if ( ! empty( $stylesheet_url ) ) {
 			wp_enqueue_style(
 				"block-lab__block-{$name}",
+				$stylesheet_url,
+				array(),
+				wp_get_theme()->get( 'Version' )
+			);
+		}
+	}
+	/**
+	 * Enqueues global block styles.
+	 */
+	public function enqueue_global_styles() {
+		$locations = array(
+			'blocks/css/blocks.css',
+			'blocks/blocks.css',
+		);
+
+		$stylesheet_path = block_lab_locate_template( $locations );
+		$stylesheet_url  = str_replace( untrailingslashit( ABSPATH ), '', $stylesheet_path );
+
+		/**
+		 * Enqueue the stylesheet, if it exists.
+		 */
+		if ( ! empty( $stylesheet_url ) ) {
+			wp_enqueue_style(
+				'block-lab__global-styles',
 				$stylesheet_url,
 				array(),
 				wp_get_theme()->get( 'Version' )
