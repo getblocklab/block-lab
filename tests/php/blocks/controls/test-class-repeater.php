@@ -46,9 +46,7 @@ class Test_Repeater extends \WP_UnitTestCase {
 	public function test_construct() {
 		$this->assertEquals( 'Repeater', $this->instance->label );
 		$this->assertEquals( 'repeater', $this->instance->name );
-
-		// This doesn't have a ->$type property, so it should be the default, 'string'.
-		$this->assertEquals( 'string', $this->instance->type );
+		$this->assertEquals( 'array', $this->instance->type );
 	}
 
 	/**
