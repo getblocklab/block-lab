@@ -1,5 +1,14 @@
 ## Changelog #
 
+### 1.3.4 - 2019-07-22 ###
+
+* New: Block Lab grew to level 1.3.4. Block Lab learned **Custom Categories**.
+* Tweak: **@phpbits** used Pull Request. All right! The **`block_lab_get_block_attributes`** filter was caught!
+* Tweak: **Template Loader** used Harden. **Template Loader**'s defense rose!
+* Tweak: Booted up a TM! It contained **Unit Tests**!
+* Fix: Wild **Missing Filter in Inspector Controls** bug appeared! Go! Bugfix!
+* Fix: Enemey **Mixed Up Inspector Controls** fainted! @kienstra gained 0902a06 EXP. Points!
+
 ### 1.3.3 - 2019-06-21 ###
 
 * Fix: The previous release broke the `className` field, used for the Additional CSS Class setting. This fixes it.
