@@ -181,6 +181,17 @@ div[class^="wp-block-block-lab-"] {
       border-right: 1px solid #e2e4e7;
     }
   }
+
+  .block-lab-repeater {
+    .button-dismiss {
+      float: right;
+    }
+
+    .block-form .block-form {
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+  }
 }
 
 /* Block form in sidebar */

@@ -22,6 +22,16 @@ class Repeater extends Control_Abstract {
 	public $name = 'repeater';
 
 	/**
+	 * Field variable type.
+	 *
+	 * This has the names of the rows.
+	 * For example, they might be [ '13513afd624bc', '641be16fc1a', 'ad61ce1531cs' ].
+	 *
+	 * @var string[]
+	 */
+	public $type = 'array';
+
+	/**
 	 * Repeater constructor.
 	 */
 	public function __construct() {
