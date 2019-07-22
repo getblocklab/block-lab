@@ -93,15 +93,22 @@ class Test_Loader extends \WP_UnitTestCase {
 
 		if ( ! file_exists( $stylesheet_path . '/blocks/' ) ) {
 			mkdir( $stylesheet_path . '/blocks/' );
+		}
+		if ( ! file_exists( $stylesheet_path . '/blocks/css/' ) ) {
 			mkdir( $stylesheet_path . '/blocks/css/' );
+		}
+		if ( ! file_exists( $stylesheet_path . "/blocks/{$block_name}/" ) ) {
+			mkdir( $stylesheet_path . "/blocks/{$block_name}/" );
 		}
 
 		// In order of reverse priority.
 		$files = array(
 			"{$stylesheet_path}/blocks/block-{$block_name}.css",
 			"{$stylesheet_path}/blocks/css/block-{$block_name}.css",
+			"{$stylesheet_path}/blocks/{$block_name}/block.css",
 			"{$stylesheet_path}/blocks/preview-{$block_name}.css",
 			"{$stylesheet_path}/blocks/css/preview-{$block_name}.css",
+			"{$stylesheet_path}/blocks/{$block_name}/preview.css",
 		);
 
 		// Remove previous template files so that we can correctly check load order.
