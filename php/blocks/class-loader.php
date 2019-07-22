@@ -329,6 +329,7 @@ class Loader extends Component_Abstract {
 			$locations = array_merge(
 				$locations,
 				array(
+					"blocks/{$name}/{$type}.css",
 					"blocks/css/{$type}-{$name}.css",
 					"blocks/{$type}-{$name}.css",
 				)
@@ -378,10 +379,10 @@ class Loader extends Component_Abstract {
 			}
 
 			$template_file = "blocks/{$type}-{$name}.php";
-			$generic_file  = "blocks/{$type}.php";
 			$templates     = [
-				$generic_file,
+				"blocks/{$name}/{$type}.php",
 				$template_file,
+				"blocks/{$type}.php",
 			];
 
 			$located = block_lab_locate_template( $templates );
