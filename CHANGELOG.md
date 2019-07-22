@@ -7,7 +7,7 @@
 * Tweak: **Template Loader** used Harden. **Template Loader**'s defense rose!
 * Tweak: Booted up a TM! It contained **Unit Tests**!
 * Fix: Wild **Missing Filter in Inspector Controls** bug appeared! Go! Bugfix!
-* Fix: Enemey **Mixed Up Inspector Controls** fainted! @kienstra gained 0902a06 EXP. Points!
+* Fix: Enemy **Mixed Up Inspector Controls** fainted! @kienstra gained 0902a06 EXP. Points!
 
 ### 1.3.3 - 2019-06-21 ###
 
