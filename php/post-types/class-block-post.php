@@ -624,24 +624,6 @@ class Block_Post extends Component_Abstract {
 								)
 							);
 							?>
-						<span class="dashicons dashicons-warning"></span>
-						<span class="pro-required">
-							<?php
-							/* translators: %1$s is the field type, %2$s is the URL for the Pro license */
-							printf(
-								wp_kses_post( 'This <code>%1$s</code> field requires an active <a href="%2$s">pro license</a>.', 'block-lab' ),
-								esc_html( $field->control ),
-								esc_url(
-									add_query_arg(
-										array(
-											'post_type' => 'block_lab',
-											'page'      => 'block-lab-pro',
-										),
-										admin_url( 'edit.php' )
-									)
-								)
-							);
-							?>
 						</span>
 					<?php endif; ?>
 				</div>
@@ -1123,7 +1105,7 @@ class Block_Post extends Component_Abstract {
 					$field = new Field( $field_config );
 				}
 
-				/**
+				/*
 				 * Sub-Fields
 				 * If there's a "block-fields-parent" input, include the current field in a "sub-fields" field setting
 				 * for the specified parent.
