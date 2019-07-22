@@ -158,13 +158,6 @@ class Test_Loader extends \WP_UnitTestCase {
 			"{$stylesheet_path}/blocks/css/blocks.css",
 		);
 
-		// Remove previous template files so that we can correctly check load order.
-		foreach ( $files as $file ) {
-			if ( file_exists( $file ) ) {
-				unlink( $file );
-			}
-		}
-
 		// Check that the correct stylesheet is enqueued.
 		foreach ( $files as $key => $file ) {
 			file_put_contents( $file, '' ); // @codingStandardsIgnoreLine
@@ -178,6 +171,7 @@ class Test_Loader extends \WP_UnitTestCase {
 
 			wp_deregister_style( $enqueue_handle );
 			wp_dequeue_style( $enqueue_handle );
+			unlink( $file );
 		}
 	}
 }
