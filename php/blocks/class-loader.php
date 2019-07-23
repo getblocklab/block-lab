@@ -359,6 +359,7 @@ class Loader extends Component_Abstract {
 			);
 		}
 	}
+
 	/**
 	 * Enqueues global block styles.
 	 */
