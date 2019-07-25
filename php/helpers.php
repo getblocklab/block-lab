@@ -256,15 +256,15 @@ function block_lab_locate_template( $template_names, $path = '', $single = true 
 			}
 		}
 
-		if ( file_exists( trailingslashit( $stylesheet_path ) . $template_name ) ) {
-			$located[] = trailingslashit( $stylesheet_path ) . $template_name;
+		if ( file_exists( trailingslashit( $template_path ) . $template_name ) ) {
+			$located[] = trailingslashit( $template_path ) . $template_name;
 			if ( $single ) {
 				break;
 			}
 		}
 
-		if ( file_exists( trailingslashit( $template_path ) . $template_name ) ) {
-			$located[] = trailingslashit( $template_path ) . $template_name;
+		if ( file_exists( trailingslashit( $stylesheet_path ) . $template_name ) ) {
+			$located[] = trailingslashit( $stylesheet_path ) . $template_name;
 			if ( $single ) {
 				break;
 			}
