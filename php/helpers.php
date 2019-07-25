@@ -28,7 +28,7 @@ function block_field( $name, $echo = true ) {
 	if (
 		! isset( $block_lab_attributes ) ||
 		! is_array( $block_lab_attributes ) ||
-		( ! isset( $block_lab_config->fields[ $name ] ) && 'className' !== $name )
+		( ! isset( $block_lab_config->fields[ $name ] ) && 'className' !== $name && 'editorskit' !== $name )
 	) {
 		return null;
 	}
@@ -41,6 +41,11 @@ function block_field( $name, $echo = true ) {
 	// Cast default Editor attributes appropriately.
 	if ( 'className' === $name ) {
 		$value = strval( $value );
+	}
+
+	// Return immediately for EditorsKit attributes
+	if ( 'editorskit' === $name ) {
+		return $value;
 	}
 
 	// Cast block value as correct type.
