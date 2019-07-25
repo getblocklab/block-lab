@@ -47,34 +47,39 @@ class Test_Loader extends \WP_UnitTestCase {
 		$block->from_array( array( 'name' => $block_name ) );
 
 		// Test that the do_action() call with this action runs, and that it allows enqueuing a script.
-		add_action( 'block_lab_render_template', function( $block ) use ( $block_name, $slug, $script_url) {
-			if ( $block_name === $block->name ) {
-				wp_enqueue_script( $slug, $script_url, array(), '0.1', true );
+		add_action(
+			'block_lab_render_template',
+			function( $block ) use ( $block_name, $slug, $script_url ) {
+				if ( $block_name === $block->name ) {
+					wp_enqueue_script( $slug, $script_url, array(), '0.1', true );
+				}
 			}
-		} );
+		);
 
 		$this->instance->render_block_template( $block, array() );
 		$scripts = wp_scripts();
 		$script  = $scripts->registered[ $slug ];
 
-		$this->assertTrue( in_array( $slug, $scripts->queue ) );
+		$this->assertTrue( in_array( $slug, $scripts->queue, true ) );
 		$this->assertEquals( $slug, $script->handle );
 		$this->assertEquals( $script_url, $script->src );
-
 
 		// Test that the do_action() call with the dynamic name runs, like 'block_lab_render_template_bl-dynamic-testing-slug'.
 		$slug       = 'bl-dynamic-testing-slug';
 		$script_url = 'https://example.com/another-script.js';
 
-		add_action( "block_lab_render_template_{$block_name}", function( $block ) use ( $block_name, $slug, $script_url) {
-			wp_enqueue_script( $slug, $script_url, array(), '0.1', true );
-		} );
+		add_action(
+			"block_lab_render_template_{$block_name}",
+			function( $block ) use ( $block_name, $slug, $script_url ) {
+				wp_enqueue_script( $slug, $script_url, array(), '0.1', true );
+			}
+		);
 
 		$this->instance->render_block_template( $block, array() );
 		$scripts = wp_scripts();
 		$script  = $scripts->registered[ $slug ];
 
-		$this->assertTrue( in_array( $slug, $scripts->queue ) );
+		$this->assertTrue( in_array( $slug, $scripts->queue, true ) );
 		$this->assertEquals( $slug, $script->handle );
 		$this->assertEquals( $script_url, $script->src );
 	}
@@ -93,15 +98,22 @@ class Test_Loader extends \WP_UnitTestCase {
 
 		if ( ! file_exists( $stylesheet_path . '/blocks/' ) ) {
 			mkdir( $stylesheet_path . '/blocks/' );
+		}
+		if ( ! file_exists( $stylesheet_path . '/blocks/css/' ) ) {
 			mkdir( $stylesheet_path . '/blocks/css/' );
+		}
+		if ( ! file_exists( $stylesheet_path . "/blocks/{$block_name}/" ) ) {
+			mkdir( $stylesheet_path . "/blocks/{$block_name}/" );
 		}
 
 		// In order of reverse priority.
 		$files = array(
 			"{$stylesheet_path}/blocks/block-{$block_name}.css",
 			"{$stylesheet_path}/blocks/css/block-{$block_name}.css",
+			"{$stylesheet_path}/blocks/{$block_name}/block.css",
 			"{$stylesheet_path}/blocks/preview-{$block_name}.css",
 			"{$stylesheet_path}/blocks/css/preview-{$block_name}.css",
+			"{$stylesheet_path}/blocks/{$block_name}/preview.css",
 		);
 
 		// Remove previous template files so that we can correctly check load order.
@@ -149,6 +161,7 @@ class Test_Loader extends \WP_UnitTestCase {
 		$image_name    = 'testing-image';
 		$image_type    = 'image';
 		$image_default = 'https://example/image';
+
 		$image_field_config = array(
 			'type'    => $image_type,
 			'default' => $image_default,
@@ -173,28 +186,30 @@ class Test_Loader extends \WP_UnitTestCase {
 		);
 
 		$block = new Blocks\Block();
-		$block->from_array( array(
-			'fields' => array(
-				$repeater_name => $repeater_field_config,
-				$taxonomy_name => $taxonomy_field_config,
+		$block->from_array(
+			array(
+				'fields' => array(
+					$repeater_name => $repeater_field_config,
+					$taxonomy_name => $taxonomy_field_config,
+				),
 			)
-		) );
+		);
 
 		$expected_attributes = array(
 			$repeater_name => array(
 				'type' => $repeater_type,
 			),
-			'className' => array(
-				'type'  => 'string',
+			'className'    => array(
+				'type' => 'string',
 			),
-			$text_name => array(
+			$text_name     => array(
 				'type'    => $text_type,
 				'default' => $text_default,
 			),
 			$taxonomy_name => array(
-				'type' => $taxonomy_type
+				'type' => $taxonomy_type,
 			),
-			$image_name => array(
+			$image_name    => array(
 				'type'    => $image_type,
 				'default' => $image_default,
 			),
@@ -212,11 +227,13 @@ class Test_Loader extends \WP_UnitTestCase {
 		$image_name    = 'testing-image';
 		$image_type    = 'image';
 		$image_default = 'https://example/image';
+
 		$image_field_config = array(
 			'type'    => $image_type,
 			'default' => $image_default,
 		);
-		$image_field   = new Blocks\Field( $image_field_config );
+
+		$image_field = new Blocks\Field( $image_field_config );
 
 		$actual_attributes_with_image = $this->instance->set_attributes_from_field( array(), $image_name, $image_field );
 		$this->assertEquals(
@@ -224,9 +241,47 @@ class Test_Loader extends \WP_UnitTestCase {
 				$image_name => array(
 					'default' => $image_default,
 					'type'    => $image_type,
-				)
+				),
 			),
 			$actual_attributes_with_image
 		);
+	}
+
+	/**
+	 * Test enqueue_global_styles.
+	 *
+	 * @covers \Block_Lab\Blocks\Loader::enqueue_global_styles()
+	 */
+	public function test_enqueue_global_styles() {
+		$wp_styles       = wp_styles();
+		$enqueue_handle  = 'block-lab__global-styles';
+		$stylesheet_path = get_template_directory();
+
+		if ( ! file_exists( $stylesheet_path . '/blocks/' ) ) {
+			mkdir( $stylesheet_path . '/blocks/' );
+			mkdir( $stylesheet_path . '/blocks/css/' );
+		}
+
+		// In order of reverse priority.
+		$files = array(
+			"{$stylesheet_path}/blocks/blocks.css",
+			"{$stylesheet_path}/blocks/css/blocks.css",
+		);
+
+		// Check that the correct stylesheet is enqueued.
+		foreach ( $files as $key => $file ) {
+			file_put_contents( $file, '' ); // @codingStandardsIgnoreLine
+			$file_url = str_replace( untrailingslashit( ABSPATH ), '', $file );
+
+			$this->instance->enqueue_global_styles();
+
+			$this->assertContains( $enqueue_handle, $wp_styles->queue );
+			$this->assertArrayHasKey( $enqueue_handle, $wp_styles->registered );
+			$this->assertSame( $wp_styles->registered[ $enqueue_handle ]->src, $file_url, "Trying to enqueue file #{$key} ({$file_url})." );
+
+			wp_deregister_style( $enqueue_handle );
+			wp_dequeue_style( $enqueue_handle );
+			unlink( $file );
+		}
 	}
 }
