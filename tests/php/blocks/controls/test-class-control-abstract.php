@@ -52,6 +52,55 @@ class Test_Control_Abstract extends \WP_UnitTestCase {
 	}
 
 	/**
+	 * Test create_settings_config.
+	 *
+	 * @covers \Block_Lab\Blocks\Controls\Control_Abstract::create_settings_config()
+	 */
+	public function test_create_settings_config() {
+		$this->assertArraySubset(
+			array(
+				'location'    => array(
+					'name'     => 'location',
+					'label'    => __( 'Location', 'block-lab' ),
+					'type'     => 'location',
+					'default'  => 'editor',
+					'sanitize' => array( $this->instance, 'sanitize_location' ),
+				),
+				'help'        => array(
+					'name'     => 'help',
+					'label'    => __( 'Help Text', 'block-lab' ),
+					'type'     => 'text',
+					'default'  => '',
+					'sanitize' => 'sanitize_text_field',
+				),
+				'default'     => array(
+					'name'     => 'default',
+					'label'    => __( 'Default Value', 'block-lab' ),
+					'type'     => 'text',
+					'default'  => '',
+					'sanitize' => 'sanitize_text_field',
+				),
+				'placeholder' => array(
+					'name'     => 'placeholder',
+					'label'    => __( 'Placeholder Text', 'block-lab' ),
+					'type'     => 'text',
+					'default'  => '',
+					'sanitize' => 'sanitize_text_field',
+				),
+			),
+			$this->instance->settings_config
+		);
+
+		$this->assertArraySubset(
+			array(
+				'editor'    => __( 'Editor', 'block-lab' ),
+				'inspector' => __( 'Inspector', 'block-lab' ),
+			),
+			$this->instance->locations
+		);
+	}
+
+	/**
 	 * Test render_settings_number.
 	 *
 	 * @covers \Block_Lab\Blocks\Controls\Control_Abstract::render_settings_number()
@@ -103,5 +152,61 @@ class Test_Control_Abstract extends \WP_UnitTestCase {
 
 		// This should  have a min="0" attribute, as the 4th argument is true.
 		$this->assertContains( $min_attribute, $output );
+	}
+
+	/**
+	 * Test render_select.
+	 *
+	 * @covers \Block_Lab\Blocks\Controls\Control_Abstract::render_select()
+	 */
+	public function test_render_select() {
+		$options = array(
+			'foo' => 'One',
+			'bar' => 'Two',
+			'baz' => 'Three'
+		);
+		ob_start();
+		$this->instance->render_select( $this->setting, self::NAME, self::ID, $options );
+		$output = ob_get_clean();
+
+		$this->assertContains( 'value="foo"', $output );
+		$this->assertContains( 'value="bar"', $output );
+		$this->assertContains( 'value="baz"', $output );
+		$this->assertContains( 'One', $output );
+		$this->assertContains( 'Two', $output );
+		$this->assertContains( 'Three', $output );
+	}
+
+	/**
+	 * Test render_settings_location.
+	 *
+	 * @covers \Block_Lab\Blocks\Controls\Control_Abstract::render_settings_location()
+	 */
+	public function test_render_settings_location() {
+		ob_start();
+		$this->instance->render_select( $this->setting, self::NAME, self::ID, $this->instance->locations );
+		$output = ob_get_clean();
+
+		$this->assertContains( 'value="editor"', $output );
+		$this->assertContains( 'value="inspector"', $output );
+		$this->assertContains( 'Editor', $output );
+		$this->assertContains( 'Inspector', $output );
+	}
+
+	/**
+	 * Test sanitize_location.
+	 *
+	 * @covers \Block_Lab\Blocks\Controls\Control_Abstract::sanitize_location()
+	 */
+	public function test_sanitize_location() {
+		$wrong_locations = array( 'incorrect', 'classic-editor', 'foo-baz', false, null );
+		foreach ( $wrong_locations as $wrong_location ) {
+			$this->assertEquals( null, $this->instance->sanitize_location( $wrong_location ) );
+		}
+
+		$correct_locations = array( 'editor', 'inspector' );
+		foreach ( $correct_locations as $correct_location ) {
+			$this->assertEquals( $correct_location, $this->instance->sanitize_location( $correct_location ) );
+		}
 	}
 }

@@ -12,19 +12,14 @@ use Block_Lab\Blocks\Controls;
  */
 class Test_User extends \WP_UnitTestCase {
 
-	/**
-	 * Instance of the extending class Number.
-	 *
-	 * @var Controls\Number
-	 */
-	public $instance;
+	use Testing_Helper;
 
 	/**
-	 * Instance of the setting.
+	 * Instance of the extending class User.
 	 *
-	 * @var Controls\Control_setting
+	 * @var Controls\User
 	 */
-	public $setting;
+	public $instance;
 
 	/**
 	 * Setup.
@@ -34,7 +29,6 @@ class Test_User extends \WP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->instance = new Controls\User();
-		$this->setting  = new Controls\Control_Setting();
 	}
 	/**
 	 * Test __construct.
@@ -52,21 +46,30 @@ class Test_User extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Controls\User::register_settings()
 	 */
 	public function test_register_settings() {
-		$this->instance->register_settings();
+		$expected_settings = array(
+			array(
+				'name'     => 'location',
+				'label'    => 'Location',
+				'type'     => 'location',
+				'default'  => 'editor',
+				'help'     => '',
+				'sanitize' => array( $this->instance, 'sanitize_location' ),
+				'validate' => '',
+				'value'    => null,
+			),
+			array(
+				'name'     => 'help',
+				'label'    => 'Help Text',
+				'type'     => 'text',
+				'default'  => '',
+				'help'     => '',
+				'sanitize' => 'sanitize_text_field',
+				'validate' => '',
+				'value'    => null,
+			),
+		);
 
-		$first_setting = reset( $this->instance->settings );
-		$this->assertEquals( 'help', $first_setting->name );
-		$this->assertEquals( 'Help Text', $first_setting->label );
-		$this->assertEquals( 'text', $first_setting->type );
-		$this->assertEquals( '', $first_setting->default );
-		$this->assertEquals( 'sanitize_text_field', $first_setting->sanitize );
-
-		$user_setting = end( $this->instance->settings );
-		$this->assertEquals( 'placeholder', $user_setting->name );
-		$this->assertEquals( 'Placeholder Text', $user_setting->label );
-		$this->assertEquals( 'text', $user_setting->type );
-		$this->assertEquals( '', $user_setting->default );
-		$this->assertEquals( 'sanitize_text_field', $user_setting->sanitize );
+		$this->assert_correct_settings( $expected_settings, $this->instance->settings );
 	}
 
 	/**
@@ -75,13 +78,17 @@ class Test_User extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Controls\User::validate()
 	 */
 	public function test_validate() {
-		$invalid_login    = 'notvalid';
-		$valid_login      = 'Jonas Doe';
-		$expected_wp_user = $this->factory()->user->create_and_get( array( 'user_login' => $valid_login ) );
+		$expected_wp_user = $this->factory()->user->create_and_get();
+		$valid_user_id    = $expected_wp_user->ID;
+		$invalid_user_id  = 11111111;
 
-		$this->assertEquals( false, $this->instance->validate( $invalid_login, false ) );
-		$this->assertEquals( $expected_wp_user, $this->instance->validate( $valid_login, false ) );
-		$this->assertEquals( '', $this->instance->validate( $invalid_login, true ) );
-		$this->assertEquals( $expected_wp_user->get( 'display_name' ), $this->instance->validate( $valid_login, true ) );
+		$this->assertFalse( $this->instance->validate( array( 'id' => $invalid_user_id ), false ) );
+		$this->assertEquals( $expected_wp_user, $this->instance->validate( array( 'id' => $valid_user_id ), false ) );
+		$this->assertEquals( '', $this->instance->validate( array( 'id' => $invalid_user_id ), true ) );
+		$this->assertEquals( $expected_wp_user->get( 'display_name' ), $this->instance->validate( array( 'id' => $valid_user_id ), true ) );
+
+		// If the value is a string, instead of the expected object, assert the proper values.
+		$this->assertFalse( $this->instance->validate( 'Example username', false ) );
+		$this->assertEquals( '', $this->instance->validate( 'Baz username', true ) );
 	}
 }

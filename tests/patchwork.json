@@ -1,0 +1,8 @@
+{
+    "redefinable-internals": [
+        "chmod",
+        "filter_input",
+        "is_uploaded_file",
+        "move_uploaded_file"
+    ]
+}

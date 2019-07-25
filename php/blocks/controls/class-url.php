@@ -1,6 +1,6 @@
 <?php
 /**
- * URL control.
+ * Url control.
  *
  * @package   Block_Lab
  * @copyright Copyright(c) 2018, Block Lab
@@ -12,7 +12,7 @@ namespace Block_Lab\Blocks\Controls;
 /**
  * Class Text
  */
-class URL extends Control_Abstract {
+class Url extends Control_Abstract {
 
 	/**
 	 * Control name.
@@ -37,15 +37,8 @@ class URL extends Control_Abstract {
 	 * @return void
 	 */
 	public function register_settings() {
-		$this->settings[] = new Control_Setting(
-			array(
-				'name'     => 'help',
-				'label'    => __( 'Help Text', 'block-lab' ),
-				'type'     => 'text',
-				'default'  => '',
-				'sanitize' => 'sanitize_text_field',
-			)
-		);
+		$this->settings[] = new Control_Setting( $this->settings_config['location'] );
+		$this->settings[] = new Control_Setting( $this->settings_config['help'] );
 		$this->settings[] = new Control_Setting(
 			array(
 				'name'     => 'default',
@@ -55,14 +48,6 @@ class URL extends Control_Abstract {
 				'sanitize' => 'esc_url_raw',
 			)
 		);
-		$this->settings[] = new Control_Setting(
-			array(
-				'name'     => 'placeholder',
-				'label'    => __( 'Placeholder Text', 'block-lab' ),
-				'type'     => 'text',
-				'default'  => '',
-				'sanitize' => 'sanitize_text_field',
-			)
-		);
+		$this->settings[] = new Control_Setting( $this->settings_config['placeholder'] );
 	}
 }
