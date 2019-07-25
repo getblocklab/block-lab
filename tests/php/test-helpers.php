@@ -67,4 +67,63 @@ class Test_Helpers extends \WP_UnitTestCase {
 		$this->assertEquals( $expected_class, $actual_class );
 		$this->assertEquals( $return_value, $actual_class );
 	}
+
+	/**
+	 * Test maybe_get_sub_field_name.
+	 *
+	 * @covers ::maybe_get_sub_field_name()
+	 */
+	public function test_maybe_get_sub_field_name() {
+		global $block_lab_config;
+
+		$field_name_one_without_sub_fields = 'Example name';
+		$field_name_two_without_sub_fields = 'Baz name';
+		$fields_without_repeater           = array(
+			$field_name_one_without_sub_fields => array( 'control' => 'image' ),
+			$field_name_two_without_sub_fields => array( 'control' => 'textarea' ),
+		);
+
+		$block_config     = array( 'fields' => $fields_without_repeater );
+		$block_lab_config = new Blocks\Block();
+		$block_lab_config->from_array( $block_config );
+
+		// This does not have sub-fields, so this should return false.
+		$this->assertFalse( maybe_get_sub_field_name( $field_name_one_without_sub_fields ) );
+		$this->assertFalse( maybe_get_sub_field_name( array( $field_name_one_without_sub_fields, $field_name_two_without_sub_fields ) ) );
+
+		$field_name_with_sub_field = 'Has sub-field';
+		$sub_field_name            = 'Example sub-field';
+		$fields_with_repeater      = array(
+			$field_name_one_without_sub_fields => array( 'control' => 'image' ),
+			$field_name_with_sub_field         => array(
+				'control'    => 'repeater',
+				'sub_fields' => array(
+					$sub_field_name => array( 'control' => 'taxonomy' ),
+				),
+			),
+		);
+
+		$block_config     = array( 'fields' => $fields_with_repeater );
+		$block_lab_config = new Blocks\Block();
+		$block_lab_config->from_array( $block_config );
+
+		// Neither of the strings in the array is a field, so this should return false.
+		$this->assertFalse( maybe_get_sub_field_name( array( 'non-existent-field', 'not-a-field' ) ) );
+
+		// The first field doesn't have a sub-field, so this should return false.
+		$this->assertFalse( maybe_get_sub_field_name( array( $field_name_one_without_sub_fields, $sub_field_name ) ) );
+
+		// When passing only the sub-field name, this should return false.
+		$this->assertFalse( maybe_get_sub_field_name( $sub_field_name ) );
+		$this->assertFalse( maybe_get_sub_field_name( array( $sub_field_name ) ) );
+
+		// The array values are correct, but in the wrong order.
+		$this->assertFalse( maybe_get_sub_field_name( array( $sub_field_name, $field_name_with_sub_field ) ) );
+
+		// The first 2 array values are correct, but there's a third value that's not needed.
+		$this->assertFalse( maybe_get_sub_field_name( array( $field_name_with_sub_field, $sub_field_name, 'extra-field-name' ) ) );
+
+		// The arguments are now in the correct order, so this should return the sub-field name.
+		$this->assertEquals( $sub_field_name, maybe_get_sub_field_name( array( $field_name_with_sub_field, $sub_field_name ) ) );
+	}
 }

@@ -30,6 +30,7 @@ class Test_User extends \WP_UnitTestCase {
 		parent::setUp();
 		$this->instance = new Controls\User();
 	}
+
 	/**
 	 * Test __construct.
 	 *
