@@ -12,7 +12,6 @@
 
 	$(function() {
 		blockTitleInit();
-		blockCategoryInit();
 		blockIconInit();
 		blockFieldInit();
 
@@ -26,10 +25,46 @@
 			field.find( '.block-fields-edit-label input' ).select();
 		});
 
-		$( '#block_properties .block-properties-icons span' ).on( 'click', function() {
-			$( '#block_properties .block-properties-icons span.selected' ).removeClass( 'selected' );
+		$( '#block_properties .block-properties-icon-select span' ).on( 'click', function() {
+			let svg = $( 'svg', this ).clone();
+			$( '#block_properties .block-properties-icon-select span.selected' ).removeClass( 'selected' );
 			$( this ).addClass( 'selected' );
 			$( '#block-properties-icon' ).val( $( this ).data( 'value' ) );
+			$( '#block-properties-icon-current' ).html( svg );
+		});
+
+		$( '#block_properties .block-properties-category' ).on( 'change', function() {
+			if ( '__custom' === $( this ).val() ) {
+				$( this ).next( '.block-properties-category-custom' ).css( 'display', 'block' );
+			} else {
+				$( this ).next( '.block-properties-category-custom' ).hide();
+			}
+		});
+
+		$( '#block_template .template-location a.filename' ).on( 'click', function( event ) {
+			event.preventDefault();
+
+			let copy  = $( '#block_template .template-location .click-to-copy' ),
+				input = $( 'input', copy ),
+				width = $( this ).width() + input.outerWidth( false ) - input.width();
+
+			copy.show();
+			input.outerWidth( width ).focus().select();
+
+			let copied = document.execCommand('copy');
+
+			if ( copied ) {
+				copy.attr( 'data-tooltip', blockLab.copySuccessMessage );
+			} else {
+				copy.attr( 'data-tooltip', blockLab.copyFailMessage );
+			}
+
+			$( this ).hide();
+		});
+
+		$( '#block_template .template-location .click-to-copy input' ).on( 'blur', function() {
+			$( '#block_template .template-location a.filename' ).show();
+			$( this ).parent().hide();
 		});
 
 		$( '.block-fields-rows' )
@@ -42,9 +77,28 @@
 			.on( 'click', '.block-fields-actions-edit, a.row-title', function() {
 				let currentRow = $( this ).closest( '.block-fields-row' );
 
-				// If we're expanding this row, first collapse all other rows.
+				// If we're expanding this row, first collapse all other rows and scroll this row into view.
 				if ( ! currentRow.hasClass( 'block-fields-row-active' ) ) {
-					$( '.block-fields-rows .block-fields-edit' ).slideUp();
+					let fieldRows = $( '.block-fields-rows' ),
+						scrollTop = 0,
+						editRow   = $( '.block-fields-rows .block-fields-edit' );
+
+					$( '.block-fields-row', fieldRows ).each( function() {
+						// Add the height of all previous rows to the target scrollTop position.
+						if ( $( this ).is( currentRow ) ) {
+							return false;
+						}
+
+						let height = $( this ).children().first().outerHeight();
+						scrollTop += height;
+					});
+
+					fieldRows.animate({
+						scrollTop: scrollTop
+					});
+
+					editRow.slideUp();
+
 					$( '.block-fields-rows .block-fields-row-active' ).removeClass( 'block-fields-row-active' );
 				}
 
@@ -78,12 +132,21 @@
 				fetchFieldSettings( fieldRow, $( this ).val() );
 			})
 			.on( 'change keyup', '.block-fields-edit-label input', function() {
-				let slug = slugify( $( this ).val() );
+				let slug = $( this )
+					.closest( '.block-fields-edit' )
+					.find( '.block-fields-edit-name input' );
+
+				if ( 'false' !== slug.data( 'autoslug' ) ) {
+					slug
+						.val( slugify( $( this ).val() ) )
+						.trigger( 'change' );
+				}
+			})
+			.on( 'blur', '.block-fields-edit-label input', function() {
 				$( this )
 					.closest( '.block-fields-edit' )
 					.find( '.block-fields-edit-name input' )
-					.val( slug )
-					.trigger( 'change' );
+					.data( 'autoslug', 'false' );
 			})
 			.sortable({
 				axis: 'y',
@@ -100,11 +163,10 @@
 
 		// If this is a new block, then enable auto-generated slugs.
 		if( '' === title.val() && '' === slug.val() ) {
-			let autoSlug = true;
 
 			// If auto-generated slugs are enabled, set the slug based on the title.
 			title.on( 'change keyup', function() {
-				if ( autoSlug ) {
+				if ( 'false' !== slug.data( 'autoslug' ) ) {
 					slug.val( slugify( title.val() ) );
 				}
 			});
@@ -112,37 +174,14 @@
 			// Turn auto-generated slugs off once a title has been set.
 			title.on( 'blur', function() {
 				if ( '' !== title.val() ) {
-					autoSlug = false;
+					slug.data( 'autoslug', 'false' );
 				}
 			});
 		}
 	};
 
-	let blockCategoryInit = function() {
-		let categories       = wp.blocks.getCategories(),
-			categoriesLength = categories.length,
-			category         = $( '#block-properties-category-saved' );
-
-		for (let i = 0; i < categoriesLength; i++) {
-			if ( 'reusable' === categories[i].slug ) {
-				continue;
-			}
-			$( '<option/>', {
-				value: categories[i].slug,
-				text: categories[i].title,
-			} ).appendTo( '#block-properties-category' );
-		}
-
-		if ( category.val() !== '' ) {
-			let option = $( '#block-properties-category option[value="' + category.val() + '"]' );
-			if ( option.length > 0 ) {
-				$( '#block-properties-category' ).prop( 'selectedIndex', option.index() );
-			}
-		}
-	};
-
 	let blockIconInit = function() {
-		let iconsContainer = $( '.block-properties-icons' ),
+		let iconsContainer = $( '.block-properties-icon-select' ),
 			selectedIcon   = $( '.selected', iconsContainer );
 		if ( 0 !== iconsContainer.length && 0 !== selectedIcon.length ) {
 			iconsContainer.scrollTop( selectedIcon.position().top );
@@ -153,6 +192,7 @@
 		if ( 0 === $( '.block-fields-rows' ).children( '.block-fields-row' ).length ) {
 			$( '.block-no-fields' ).show();
 		}
+		$( '.block-fields-edit-name input' ).data( 'autoslug', 'false' );
 	};
 
 	let fetchFieldSettings = function( fieldRow, fieldControl ) {
@@ -178,7 +218,7 @@
 					return;
 				}
 				let settingsRows = $( data.html );
-				$( '.block-fields-edit-location', fieldRow ).after( settingsRows );
+				$( '.block-fields-edit-control', fieldRow ).after( settingsRows );
 			},
 			error: function() {
 				$( '.block-fields-edit-loading', fieldRow ).remove();

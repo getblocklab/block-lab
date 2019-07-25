@@ -9,7 +9,7 @@ const BlockLabRangeControl = ( props, field, block ) => {
 			afterIcon={field.afterIcon}
 			label={field.label}
 			help={field.help}
-			value={attr[ field.name ] || field.default}
+			value={ ( attr[ field.name ] || '0' == attr[ field.name ] || undefined == attr[ field.name ] ) ? attr[ field.name ] : field.default }
 			onChange={rangeControl => {
 				attr[ field.name ] = rangeControl
 				setAttributes( attr )

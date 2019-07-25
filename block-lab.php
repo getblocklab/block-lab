@@ -7,9 +7,9 @@
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  *
  * Plugin Name: Block Lab
- * Plugin URI: https://github.com/getblocklab/block-lab
- * Description: Create custom blocks effortlessly. No Gutenberg development know-how required.
- * Version: 1.2.1
+ * Plugin URI: https://getblocklab.com
+ * Description: The easy way to build custom blocks for Gutenberg.
+ * Version: 1.3.4
  * Author: Block Lab
  * Author URI: https://getblocklab.com
  * License: GPL2

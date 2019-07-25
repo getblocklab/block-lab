@@ -27,7 +27,8 @@ function block_field( $name, $echo = true ) {
 
 	if (
 		! isset( $block_lab_attributes ) ||
-		! is_array( $block_lab_attributes )
+		! is_array( $block_lab_attributes ) ||
+		( ! isset( $block_lab_config->fields[ $name ] ) && 'className' !== $name )
 	) {
 		return null;
 	}
@@ -37,11 +38,27 @@ function block_field( $name, $echo = true ) {
 		$value = $block_lab_attributes[ $name ];
 	}
 
+	// Cast default Editor attributes appropriately.
+	if ( 'className' === $name ) {
+		$value = strval( $value );
+	}
+
 	// Cast block value as correct type.
-	if ( isset( $block_lab_config['fields'][ $name ]['type'] ) ) {
-		switch ( $block_lab_config['fields'][ $name ]['type'] ) {
+	if ( isset( $block_lab_config->fields[ $name ]->type ) ) {
+		switch ( $block_lab_config->fields[ $name ]->type ) {
 			case 'string':
 				$value = strval( $value );
+				break;
+			case 'textarea':
+				$value = strval( $value );
+				if ( isset( $block_lab_config->fields[ $name ]->settings['new_lines'] ) ) {
+					if ( 'autop' === $block_lab_config->fields[ $name ]->settings['new_lines'] ) {
+						$value = wpautop( $value );
+					}
+					if ( 'autobr' === $block_lab_config->fields[ $name ]->settings['new_lines'] ) {
+						$value = nl2br( $value );
+					}
+				}
 				break;
 			case 'boolean':
 				if ( 1 === $value ) {
@@ -61,14 +78,14 @@ function block_field( $name, $echo = true ) {
 		}
 	}
 
-	$control = isset( $block_lab_config['fields'][ $name ]['control'] ) ? $block_lab_config['fields'][ $name ]['control'] : null;
+	$control = isset( $block_lab_config->fields[ $name ]->control ) ? $block_lab_config->fields[ $name ]->control : null;
 
 	/**
 	 * Filters the value to be made available or echoed on the front-end template.
 	 *
-	 * @param mixed  $value The value.
-	 * @param string $control The type of the control, like 'user'.
-	 * @param bool   $echo Whether or not this value will be echoed.
+	 * @param mixed       $value The value.
+	 * @param string|null $control The type of the control, like 'user', or null if this is the 'className', which has no control.
+	 * @param bool        $echo Whether or not this value will be echoed.
 	 */
 	$value = apply_filters( 'block_lab_field_value', $value, $control, $echo );
 
@@ -116,7 +133,7 @@ function block_value( $name ) {
  */
 function block_config() {
 	global $block_lab_config;
-	return $block_lab_config;
+	return (array) $block_lab_config;
 }
 
 /**
@@ -128,10 +145,10 @@ function block_config() {
  */
 function block_field_config( $name ) {
 	global $block_lab_config;
-	if ( ! isset( $block_lab_config['fields'][ $name ] ) ) {
+	if ( ! isset( $block_lab_config->fields[ $name ] ) ) {
 		return null;
 	}
-	return $block_lab_config['fields'][ $name ];
+	return (array) $block_lab_config->fields[ $name ];
 }
 
 /**
@@ -148,7 +165,18 @@ function block_field_config( $name ) {
  * @return string|array
  */
 function block_lab_locate_template( $template_names, $path = '', $single = true ) {
-	$path            = apply_filters( 'block_lab_template_path', $path );
+	/**
+	 * Filters the path where block templates are saved.
+	 *
+	 * Note that template names are prefixed with the blocks directory.
+	 * e.g. `blocks/block-template.php`
+	 * The logic below will look for the prefixed template name inside the $path.
+	 *
+	 * @param string       $path           The absolute path to the stylesheet directory.
+	 * @param string|array $template_names Templates to locate.
+	 */
+	$path = apply_filters( 'block_lab_template_path', $path, $template_names );
+
 	$stylesheet_path = get_template_directory();
 	$template_path   = get_stylesheet_directory();
 
@@ -160,22 +188,22 @@ function block_lab_locate_template( $template_names, $path = '', $single = true 
 			continue;
 		}
 
-		if ( ! empty( $path ) && file_exists( $path . '/' . $template_name ) ) {
-			$located[] = $path . '/' . $template_name;
+		if ( ! empty( $path ) && file_exists( trailingslashit( $path ) . $template_name ) ) {
+			$located[] = trailingslashit( $path ) . $template_name;
 			if ( $single ) {
 				break;
 			}
 		}
 
-		if ( file_exists( $stylesheet_path . '/' . $template_name ) ) {
-			$located[] = $stylesheet_path . '/' . $template_name;
+		if ( file_exists( trailingslashit( $template_path ) . $template_name ) ) {
+			$located[] = trailingslashit( $template_path ) . $template_name;
 			if ( $single ) {
 				break;
 			}
 		}
 
-		if ( file_exists( $template_path . '/' . $template_name ) ) {
-			$located[] = $template_path . '/' . $template_name;
+		if ( file_exists( trailingslashit( $stylesheet_path ) . $template_name ) ) {
+			$located[] = trailingslashit( $stylesheet_path ) . $template_name;
 			if ( $single ) {
 				break;
 			}

@@ -23,6 +23,7 @@ gulp.task( 'run:build', function () {
 gulp.task( 'bundle', function () {
 	return gulp.src( [
 		'**/*',
+		'!bin/**/*',
 		'!node_modules/**/*',
 		'!vendor/**/*',
 		'!composer.*',
@@ -76,6 +77,7 @@ gulp.task( 'clean:bundle', function () {
 		'package/trunk/coverage',
 		'package/trunk/js/blocks',
 		'package/trunk/js/src',
+		'package/trunk/bin',
 		'package/trunk/node_modules',
 		'package/trunk/vendor',
 		'package/trunk/tests',

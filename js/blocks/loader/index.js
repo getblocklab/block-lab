@@ -24,16 +24,14 @@ const registerBlocks = () => {
 		let icon = '';
 		if ( 'undefined' !== typeof icons[ block.icon ] ) {
 			icon = (
-				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-				     dangerouslySetInnerHTML={{ __html: icons[ block.icon ] }}
-				/>
+				<span dangerouslySetInnerHTML={{ __html: icons[ block.icon ] }} />
 			);
 		}
 
 		// Register the block.
 		registerBlockType( blockName, {
 			title: block.title,
-			category: block.category,
+			category: 'object' === typeof block.category ? block.category.slug : block.category,
 			icon: icon,
 			keywords: block.keywords,
 			attributes: blockAttributes( block ),

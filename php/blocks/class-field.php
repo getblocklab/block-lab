@@ -43,13 +43,6 @@ class Field {
 	public $type = 'string';
 
 	/**
-	 * Field location.
-	 *
-	 * @var string
-	 */
-	public $location = 'editor';
-
-	/**
 	 * Field order.
 	 *
 	 * @var int
@@ -66,29 +59,88 @@ class Field {
 	/**
 	 * Field constructor.
 	 *
-	 * @param array $args An associative array with keys corresponding to the Field's properties.
+	 * @param array array $config An associative array with keys corresponding to the Field's properties.
 	 */
-	public function __construct( $args = array() ) {
-		if ( isset( $args['name'] ) ) {
-			$this->name = $args['name'];
+	public function __construct( $config = array() ) {
+		$this->from_array( $config );
+	}
+
+	/**
+	 * Get field properties as an array, ready to be stored as JSON.
+	 *
+	 * @return array
+	 */
+	public function to_array() {
+		$config = array(
+			'name'    => $this->name,
+			'label'   => $this->label,
+			'control' => $this->control,
+			'type'    => $this->type,
+			'order'   => $this->order,
+		);
+
+		$config = array_merge(
+			$config,
+			$this->settings
+		);
+
+		// Handle the sub-fields setting used by the Repeater.
+		if ( isset( $this->settings['sub-fields'] ) ) {
+			/**
+			 * Recursively loop through sub-fields.
+			 *
+			 * @var string $key   The name of the sub-field's parent.
+			 * @var Field  $field The sub-field.
+			 */
+			foreach ( $this->settings['sub-fields'] as $key => $field ) {
+				$config['sub-fields'][ $key ] = $field->to_array();
+			}
 		}
-		if ( isset( $args['label'] ) ) {
-			$this->label = $args['label'];
+
+		return $config;
+	}
+
+	/**
+	 * Set field properties from an array, after being stored as JSON.
+	 *
+	 * @param array $config An array containing field parameters.
+	 */
+	public function from_array( $config ) {
+		if ( isset( $config['name'] ) ) {
+			$this->name = $config['name'];
 		}
-		if ( isset( $args['control'] ) ) {
-			$this->control = $args['control'];
+		if ( isset( $config['label'] ) ) {
+			$this->label = $config['label'];
 		}
-		if ( isset( $args['type'] ) ) {
-			$this->type = $args['type'];
+		if ( isset( $config['control'] ) ) {
+			$this->control = $config['control'];
 		}
-		if ( isset( $args['location'] ) ) {
-			$this->location = $args['location'];
+		if ( isset( $config['type'] ) ) {
+			$this->type = $config['type'];
 		}
-		if ( isset( $args['order'] ) ) {
-			$this->order = $args['order'];
+		if ( isset( $config['order'] ) ) {
+			$this->order = $config['order'];
 		}
-		if ( isset( $args['settings'] ) ) {
-			$this->settings = $args['settings'];
+		if ( isset( $config['settings'] ) ) {
+			$this->settings = $config['settings'];
+		}
+
+		// Add any other non-default keys to the settings array.
+		$field_defaults = array( 'name', 'label', 'control', 'type', 'order', 'settings' );
+		$field_settings = array_diff( array_keys( $config ), $field_defaults );
+
+		foreach ( $field_settings as $settings_key ) {
+			$this->settings[ $settings_key ] = $config[ $settings_key ];
+		}
+
+		// Handle the sub-fields setting used by the Repeater.
+		if ( isset( $this->settings['sub-fields'] ) ) {
+			/**
+			 * Recursively loop through sub-fields.
+			 */
+			foreach ( $this->settings['sub-fields'] as $key => $field ) {
+				$this->settings['sub-fields'][ $key ] = new Field( $field );
+			}
 		}
 	}
 }
