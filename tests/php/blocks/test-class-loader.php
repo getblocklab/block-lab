@@ -145,6 +145,109 @@ class Test_Loader extends \WP_UnitTestCase {
 	}
 
 	/**
+	 * Test get_block_attributes.
+	 *
+	 * @covers \Block_Lab\Blocks\Loader::get_block_attributes()
+	 */
+	public function test_get_block_attributes() {
+		$text_name         = 'example-text';
+		$text_type         = 'text';
+		$text_default      = 'Title';
+		$text_field_config = array(
+			'type'    => $text_type,
+			'default' => $text_default,
+		);
+
+		$image_name    = 'testing-image';
+		$image_type    = 'image';
+		$image_default = 'https://example/image';
+
+		$image_field_config = array(
+			'type'    => $image_type,
+			'default' => $image_default,
+		);
+
+		$sub_fields = array(
+			$text_name  => $text_field_config,
+			$image_name => $image_field_config,
+		);
+
+		$repeater_name         = 'baz-repeater';
+		$repeater_type         = 'repeater';
+		$repeater_field_config = array(
+			'type'       => $repeater_type,
+			'sub_fields' => $sub_fields,
+		);
+
+		$taxonomy_name         = 'foo-taxonomy';
+		$taxonomy_type         = 'taxonomy';
+		$taxonomy_field_config = array(
+			'type' => $taxonomy_type,
+		);
+
+		$block = new Blocks\Block();
+		$block->from_array(
+			array(
+				'fields' => array(
+					$repeater_name => $repeater_field_config,
+					$taxonomy_name => $taxonomy_field_config,
+				),
+			)
+		);
+
+		$expected_attributes = array(
+			$repeater_name => array(
+				'type' => $repeater_type,
+			),
+			'className'    => array(
+				'type' => 'string',
+			),
+			$text_name     => array(
+				'type'    => $text_type,
+				'default' => $text_default,
+			),
+			$taxonomy_name => array(
+				'type' => $taxonomy_type,
+			),
+			$image_name    => array(
+				'type'    => $image_type,
+				'default' => $image_default,
+			),
+		);
+		$actual_attributes   = $this->instance->get_block_attributes( $block );
+		$this->assertEquals( $expected_attributes, $actual_attributes );
+	}
+
+	/**
+	 * Test set_attributes_from_field.
+	 *
+	 * @covers \Block_Lab\Blocks\Loader::set_attributes_from_field()
+	 */
+	public function test_set_attributes_from_field() {
+		$image_name    = 'testing-image';
+		$image_type    = 'image';
+		$image_default = 'https://example/image';
+
+		$image_field_config = array(
+			'type'    => $image_type,
+			'default' => $image_default,
+		);
+
+		$image_field = new Blocks\Field( $image_field_config );
+
+		$actual_attributes_with_image = $this->instance->set_attributes_from_field( array(), $image_name, $image_field );
+		$this->assertEquals(
+			array(
+				$image_name => array(
+					'default' => $image_default,
+					'type'    => $image_type,
+				),
+			),
+			$actual_attributes_with_image
+		);
+	}
+
+	/**
 	 * Test enqueue_global_styles.
 	 *
 	 * @covers \Block_Lab\Blocks\Loader::enqueue_global_styles()

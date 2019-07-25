@@ -7,7 +7,7 @@ const BlockLabColorPopover = withState( {
 		setState( ( state ) => ( { isVisible: ! state.isVisible } ) );
 	};
 	const colorChange = ( value ) => {
-		let color = value.hex
+		let color = value.hex;
 		if ( value.rgb.a < 1 ) {
 			color = 'rgba(' + value.rgb.r + ', ' + value.rgb.g + ', ' + value.rgb.b + ', ' + value.rgb.a + ')'
 		}
