@@ -99,7 +99,9 @@ class Onboarding extends Component_Abstract {
 		 */
 		if ( $slug === $screen->id && 'post' === $screen->base ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-			add_action( 'block_lab_after_fields_list', array( $this, 'show_add_fields_notice' ) );
+			add_action( 'edit_form_advanced', array( $this, 'show_add_fields_notice' ) );
+			add_action( 'edit_form_before_permalink', array( $this, 'show_publish_notice' ) );
+
 			add_action(
 				'add_meta_boxes',
 				function() use ( $slug ) {
@@ -145,7 +147,7 @@ class Onboarding extends Component_Abstract {
 		}
 		?>
 		<div class="block-lab-welcome block-lab-notice notice is-dismissible">
-			<h2><?php esc_html_e( '🖖 Welcome, traveller!', 'block-lab' ); ?></h2>
+			<h2>🖖 <?php esc_html_e( 'Welcome, traveller!', 'block-lab' ); ?></h2>
 			<p class="intro"><?php esc_html_e( 'Block Lab makes it super easy to build custom blocks for the WordPress editor.', 'block-lab' ); ?></p>
 			<p><strong><?php esc_html_e( 'Want to see how it\'s done?', 'block-lab' ); ?></strong> <?php esc_html_e( 'Here\'s one I prepared earlier.', 'block-lab' ); ?></p>
 			<?php
@@ -220,9 +222,42 @@ class Onboarding extends Component_Abstract {
 		}
 		?>
 		<div class="block-lab-add-fields block-lab-notice">
-			<h2><?php esc_html_e( '🧐 Try adding a field.', 'block-lab' ); ?></h2>
+			<h2>🧐 <?php esc_html_e( 'Try adding a field.', 'block-lab' ); ?></h2>
 			<p><?php esc_html_e( 'Fields let you define the options you see when adding your block to a post.', 'block-lab' ); ?></p>
 			<span class="pointer">👈</span>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Render the Add Fields message.
+	 */
+	public function show_publish_notice() {
+		$post  = get_post();
+		$block = new Block( $post->ID );
+
+		/**
+		 * We add 4 fields to our Example Block in add_dummy_data().
+		 */
+		if ( count( $block->fields ) > 4 ) {
+			return;
+		}
+		?>
+		<div class="block-lab-publish block-lab-notice">
+			<h2>🧪 <?php esc_html_e( 'Time to experiment!', 'block-lab' ); ?></h2>
+			<p class="intro"><?php esc_html_e( 'Choose an icon, change the category, and investigate a few different field types.', 'block-lab' ); ?></p>
+			<p>
+				<?php
+				echo wp_kses_post(
+					sprintf(
+						// translators: Placeholders are <strong> html tags.
+						__( 'When you\'re ready, save your block by pressing %1$sPublish%2$s.', 'block-lab' ),
+						'<strong>',
+						'</strong>'
+					)
+				);
+				?>
+			</p>
 		</div>
 		<?php
 	}
@@ -248,7 +283,7 @@ class Onboarding extends Component_Abstract {
 		}
 		?>
 		<div class="block-lab-add-to-block block-lab-notice notice notice-large is-dismissible">
-			<h2><?php esc_html_e( '🚀 Only one thing left to do!', 'block-lab' ); ?></h2>
+			<h2>🚀 <?php esc_html_e( 'Only one thing left to do!', 'block-lab' ); ?></h2>
 			<p class="intro"><?php esc_html_e( 'You\'ve created a new block, and added a block template. Well done!', 'block-lab' ); ?></p>
 			<p><?php esc_html_e( 'All that\'s left is to add your block to a post.', 'block-lab' ); ?></p>
 			<a href="<?php echo esc_attr( admin_url( 'post-new.php' ) ); ?>" class="button">

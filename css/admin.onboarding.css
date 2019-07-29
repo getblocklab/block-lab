@@ -127,11 +127,7 @@
 	animation-name: block-lab-edit-block-point;
 }
 .block-lab-add-fields {
-	position: absolute;
-	margin-top: 2em;
-	width: 100%;
-	box-sizing: border-box;
-	z-index: 5;
+	position: relative;
 }
 .block-lab-add-fields h2 {
 	font-size: 1.3em !important;
@@ -141,10 +137,19 @@
 }
 .block-lab-add-fields .pointer {
 	margin-left: calc(50% + 1em);
-	margin-top: -160px;
+	margin-top: -140px;
 	transform: rotate(30deg);
 	animation-name: block-lab-add-fields-point;
 }
+.block-lab-publish {
+	margin: 1em 0 0;
+}
+.block-lab-publish h2 {
+	font-size: 1.3em !important;
+	padding: 0 !important;
+	margin: 0.5em 0 1em !important;
+}
+
 @keyframes block-lab-edit-block-point {
 	from {
 		transform: rotate(230deg) translateX(0px) translateY(0px);
