@@ -20,6 +20,10 @@ class Onboarding extends Component_Abstract {
 	 * Register any hooks that this component needs.
 	 */
 	public function register_hooks() {
+		if ( 'true' === get_transient( 'block_lab_show_welcome' ) ) {
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+			add_action( 'admin_notices', array( $this, 'show_welcome_message' ) );
+		}
 	}
 
 	/**
@@ -27,6 +31,58 @@ class Onboarding extends Component_Abstract {
 	 */
 	public function plugin_activation() {
 		$this->add_dummy_data();
+		$this->prepare_welcome_message();
+	}
+
+	/**
+	 * Enqueue scripts and styles used by the Onboarding screens.
+	 *
+	 * @return void
+	 */
+	public function enqueue_scripts() {
+		wp_enqueue_style(
+			'block-lab-onboarding-css',
+			$this->plugin->get_url( 'css/admin.onboarding.css' ),
+			array(),
+			$this->plugin->get_version()
+		);
+	}
+
+	/**
+	 * Shows a welcome message.
+	 */
+	public function prepare_welcome_message() {
+		set_transient( 'block_lab_show_welcome', 'true', 1 );
+	}
+
+	/**
+	 * Render welcome message.
+	 */
+	public function show_welcome_message() {
+		$example_posts = get_posts(
+			array(
+				'numberposts' => 1,
+				'post_type'   => $this->plugin->block_post->slug,
+				'post_status' => array( 'publish', 'draft' ),
+			)
+		);
+		$example_post  = array_shift( $example_posts );
+		?>
+		<div class="block-lab-welcome notice is-dismissible">
+			<h2><?php esc_html_e( '🖖 Welcome, traveller!', 'block-lab' ); ?></h2>
+			<p><?php esc_html_e( 'Block Lab makes it super easy to build custom blocks for the WordPress editor.', 'block-lab' ); ?></p>
+			<p><strong><?php esc_html_e( 'Want to see how it\'s done?', 'block-lab' ); ?></strong> <?php esc_html_e( 'Here\'s one I prepared earlier.', 'block-lab' ); ?></p>
+			<?php
+			edit_post_link(
+				__( 'Let\'s get started!', 'block-lab' ),
+				'',
+				'',
+				$example_post->ID,
+				'button button--white button_cta'
+			);
+			?>
+		</div>
+		<?php
 	}
 
 	/**
