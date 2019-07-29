@@ -49,19 +49,17 @@ class Onboarding extends Component_Abstract {
 			return;
 		}
 
+		$post_id = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
+
 		/**
 		 * On the edit post screen, editing the Example Block.
 		 */
-		if ( $slug === $screen->id && 'post' === $screen->base && get_the_ID() === $example_post_id ) {
+		if ( $slug === $screen->id && 'post' === $screen->base && $post_id === $example_post_id ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 			add_action( 'block_lab_before_fields_list', array( $this, 'show_add_to_block_notice' ) );
 		}
 
 		if ( 'draft' !== get_post_status( $example_post_id ) ) {
-			/*
-			 * The post has been published or trashed – we don't need this option anymore.
-			 */
-			delete_option( 'block_lab_example_post_id' );
 			return;
 		}
 
@@ -87,6 +85,13 @@ class Onboarding extends Component_Abstract {
 		if ( $slug === $screen->id && 'post' === $screen->base ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 			add_action( 'block_lab_after_fields_list', array( $this, 'show_add_fields_notice' ) );
+			add_action(
+				'add_meta_boxes',
+				function() use ( $slug ) {
+					remove_meta_box( 'block_template', $slug, 'normal' );
+				},
+				20
+			);
 		}
 	}
 
@@ -151,7 +156,7 @@ class Onboarding extends Component_Abstract {
 		}
 		?>
 		<div class="block-lab-edit-block block-lab-notice notice">
-			<h2><?php echo esc_html_e( 'Ready to begin?', 'block-lab' ); ?></h2>
+			<h2>👩‍🔬 <?php echo esc_html_e( 'Ready to begin?', 'block-lab' ); ?></h2>
 			<p class="intro">
 				<?php
 				echo wp_kses_post(
@@ -198,7 +203,7 @@ class Onboarding extends Component_Abstract {
 		}
 		?>
 		<div class="block-lab-add-fields block-lab-notice">
-			<h2><?php esc_html_e( 'Try adding a field.', 'block-lab' ); ?></h2>
+			<h2><?php esc_html_e( '🧐 Try adding a field.', 'block-lab' ); ?></h2>
 			<p><?php esc_html_e( 'Fields let you define the options you see when adding your block to a post.', 'block-lab' ); ?></p>
 			<span class="pointer">👈</span>
 		</div>
@@ -226,11 +231,11 @@ class Onboarding extends Component_Abstract {
 		}
 		?>
 		<div class="block-lab-add-to-block block-lab-notice notice notice-large is-dismissible">
-			<h2><?php esc_html_e( 'Only one thing left to do!', 'block-lab' ); ?></h2>
-			<p><?php esc_html_e( 'You\'ve created a new block, and added a block template. Well done!', 'block-lab' ); ?></p>
+			<h2><?php esc_html_e( '🚀 Only one thing left to do!', 'block-lab' ); ?></h2>
+			<p class="intro"><?php esc_html_e( 'You\'ve created a new block, and added a block template. Well done!', 'block-lab' ); ?></p>
 			<p><?php esc_html_e( 'All that\'s left is to add your block to a post.', 'block-lab' ); ?></p>
 			<a href="<?php echo esc_attr( admin_url( 'post-new.php' ) ); ?>" class="button">
-				<?php esc_html_e( 'New Post', 'block-lab' ); ?>
+				<?php esc_html_e( 'Add New Post', 'block-lab' ); ?>
 			</a>
 		</div>
 		<?php

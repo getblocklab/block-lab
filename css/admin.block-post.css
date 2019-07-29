@@ -310,15 +310,7 @@
 	background: #fff;
 	border-left: 4px solid #ffffff;
 	padding: 1px 12px;
-	border-left-color: #00a0d2;
-}
-#block_template .template-notice .dashicons {
-	font-size: 1.8em;
-	width: auto;
-	height: auto;
-	line-height: 20px;
-	padding-right: 4px;
-	margin-left: -5px;
+	border-left-color: #7D5DEC;
 }
 #block_template .template-success {
 	border-left-color: #46b450;
