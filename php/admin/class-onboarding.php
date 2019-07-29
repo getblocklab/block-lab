@@ -22,7 +22,7 @@ class Onboarding extends Component_Abstract {
 	public function register_hooks() {
 		if ( 'true' === get_transient( 'block_lab_show_welcome' ) ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-			add_action( 'admin_notices', array( $this, 'show_welcome_message' ) );
+			add_action( 'admin_notices', array( $this, 'show_welcome_notice' ) );
 		}
 	}
 
@@ -31,11 +31,21 @@ class Onboarding extends Component_Abstract {
 	 */
 	public function plugin_activation() {
 		$this->add_dummy_data();
-		$this->prepare_welcome_message();
+		$this->prepare_welcome_notice();
 	}
 
 	/**
-	 * Enqueue scripts and styles used by the Onboarding screens.
+	 * Prepare the welcome notice on plugin activation.
+	 *
+	 * We can't hook into admin_notices at this point, so instead we set a short
+	 * transient, and check that transient during the next page load.
+	 */
+	public function prepare_welcome_notice() {
+		set_transient( 'block_lab_show_welcome', 'true', 1 );
+	}
+
+	/**
+	 * Enqueue scripts and styles used by the onboarding screens.
 	 *
 	 * @return void
 	 */
@@ -49,18 +59,12 @@ class Onboarding extends Component_Abstract {
 	}
 
 	/**
-	 * Shows a welcome message.
-	 */
-	public function prepare_welcome_message() {
-		set_transient( 'block_lab_show_welcome', 'true', 1 );
-	}
-
-	/**
 	 * Render welcome message.
 	 */
-	public function show_welcome_message() {
+	public function show_welcome_notice() {
 		$example_posts = get_posts(
 			array(
+				'name'        => 'example-block',
 				'numberposts' => 1,
 				'post_type'   => $this->plugin->block_post->slug,
 				'post_status' => array( 'publish', 'draft' ),
