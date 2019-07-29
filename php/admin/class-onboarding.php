@@ -47,6 +47,8 @@ class Onboarding extends Component_Abstract {
 			return;
 		}
 
+		$categories = get_block_categories( the_post() );
+
 		wp_insert_post(
 			array(
 				'post_title'   => __( 'Example Block', 'block-lab' ),
@@ -55,11 +57,11 @@ class Onboarding extends Component_Abstract {
 				'post_type'    => block_lab()->block_post->slug,
 				'post_content' => wp_json_encode(
 					array(
-						'block-lab/example-block' => array(
-							'title'    => __( 'Example Block', 'block-lab' ),
+						'block-lab\/example-block' => array(
 							'name'     => 'example-block',
+							'title'    => __( 'Example Block', 'block-lab' ),
 							'icon'     => 'block_lab',
-							'category' => 'common',
+							'category' => isset( $categories[0] ) ? $categories[0] : array(),
 							'keywords' => array(
 								__( 'sample', 'block-lab' ), // translators: A keyword, used for search.
 								__( 'tutorial', 'block-lab' ), // translators: A keyword, used for search.
