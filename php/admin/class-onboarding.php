@@ -207,6 +207,7 @@ class Onboarding extends Component_Abstract {
 	 * Render the Add Fields message.
 	 */
 	public function show_add_fields_notice() {
+		$post  = get_post();
 		$block = new Block( $post->ID );
 
 		/**
