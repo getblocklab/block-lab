@@ -69,7 +69,9 @@ class Onboarding extends Component_Abstract {
 			 * After we've shown the Add to Post message once, we can delete the option. This will
 			 * ensure that no further onboarding messages are shown.
 			 */
-			delete_option( $this->option );
+			if ( 'publish' === get_post_status( $example_post_id ) ) {
+				delete_option( $this->option );
+			}
 		}
 
 		if ( 'draft' !== get_post_status( $example_post_id ) ) {
