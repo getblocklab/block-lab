@@ -18,9 +18,22 @@ use Block_Lab\Blocks\Block;
 class Onboarding extends Component_Abstract {
 
 	/**
+	 * Option name.
+	 *
+	 * @var string
+	 */
+	public $option = 'block_lab_example_post_id';
+
+	/**
 	 * Register any hooks that this component needs.
 	 */
 	public function register_hooks() {
+		$example_post_id = get_option( $this->option );
+
+		if ( ! $example_post_id ) {
+			return;
+		}
+
 		add_action( 'current_screen', array( $this, 'admin_notices' ) );
 	}
 
@@ -43,12 +56,6 @@ class Onboarding extends Component_Abstract {
 			return;
 		}
 
-		$example_post_id = get_option( 'block_lab_example_post_id' );
-
-		if ( ! $example_post_id ) {
-			return;
-		}
-
 		$post_id = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
 
 		/**
@@ -56,7 +63,13 @@ class Onboarding extends Component_Abstract {
 		 */
 		if ( $slug === $screen->id && 'post' === $screen->base && $post_id === $example_post_id ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-			add_action( 'block_lab_before_fields_list', array( $this, 'show_add_to_block_notice' ) );
+			add_action( 'block_lab_before_fields_list', array( $this, 'show_add_to_post_notice' ) );
+
+			/**
+			 * After we've shown the Add to Post message once, we can delete the option. This will
+			 * ensure that no further onboarding messages are shown.
+			 */
+			delete_option( $this->option );
 		}
 
 		if ( 'draft' !== get_post_status( $example_post_id ) ) {
@@ -120,10 +133,11 @@ class Onboarding extends Component_Abstract {
 	}
 
 	/**
-	 * Render the welcome message.
+	 * Render the Welcome message.
 	 */
 	public function show_welcome_notice() {
-		$example_post_id = get_option( 'block_lab_example_post_id' );
+		$example_post_id = get_option( $this->option );
+
 		if ( ! $example_post_id ) {
 			return;
 		}
@@ -147,10 +161,11 @@ class Onboarding extends Component_Abstract {
 	}
 
 	/**
-	 * Render the edit your first block message.
+	 * Render the Edit Your First Block message.
 	 */
 	public function show_edit_block_notice() {
 		$example_post_id = get_option( 'block_lab_example_post_id' );
+
 		if ( ! $example_post_id ) {
 			return;
 		}
@@ -189,10 +204,9 @@ class Onboarding extends Component_Abstract {
 	}
 
 	/**
-	 * Render the add fields message.
+	 * Render the Add Fields message.
 	 */
 	public function show_add_fields_notice() {
-		$post  = get_post();
 		$block = new Block( $post->ID );
 
 		/**
@@ -211,12 +225,12 @@ class Onboarding extends Component_Abstract {
 	}
 
 	/**
-	 * Render the add to post message.
+	 * Render the Add to Post message.
 	 */
-	public function show_add_to_block_notice() {
+	public function show_add_to_post_notice() {
 		$post = get_post();
 
-		if ( ! isset( $post->post_name ) || empty( $post->post_name ) ) {
+		if ( ! $post || ! isset( $post->post_name ) || empty( $post->post_name ) ) {
 			return;
 		}
 
@@ -335,6 +349,6 @@ class Onboarding extends Component_Abstract {
 			)
 		);
 
-		update_option( 'block_lab_example_post_id', $example_post_id );
+		update_option( $this->option, $example_post_id );
 	}
 }
