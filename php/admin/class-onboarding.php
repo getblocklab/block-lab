@@ -70,7 +70,7 @@ class Onboarding extends Component_Abstract {
 		?>
 		<div class="block-lab-welcome notice is-dismissible">
 			<h2><?php esc_html_e( '🖖 Welcome, traveller!', 'block-lab' ); ?></h2>
-			<p><?php esc_html_e( 'Block Lab makes it super easy to build custom blocks for the WordPress editor.', 'block-lab' ); ?></p>
+			<p class="intro"><?php esc_html_e( 'Block Lab makes it super easy to build custom blocks for the WordPress editor.', 'block-lab' ); ?></p>
 			<p><strong><?php esc_html_e( 'Want to see how it\'s done?', 'block-lab' ); ?></strong> <?php esc_html_e( 'Here\'s one I prepared earlier.', 'block-lab' ); ?></p>
 			<?php
 			edit_post_link(
@@ -81,6 +81,7 @@ class Onboarding extends Component_Abstract {
 				'button button--white button_cta'
 			);
 			?>
+			<p class="ps"><?php esc_html_e( 'P.S. We don\'t like to nag. This message won\'t be shown again.', 'block-lab' ); ?></p>
 		</div>
 		<?php
 	}
