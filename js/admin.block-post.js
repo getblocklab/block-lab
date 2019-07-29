@@ -21,7 +21,7 @@
 				field    = $( template( data ) );
 			$( '.block-fields-rows' ).append( field );
 			$( '.block-no-fields' ).hide();
-			$( '.block-lab-add-fields' ).remove();
+			$( '.block-lab-add-fields' ).hide();
 			field.find( '.block-fields-actions-edit' ).trigger( 'click' );
 			field.find( '.block-fields-edit-label input' ).select();
 		});
