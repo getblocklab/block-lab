@@ -10,6 +10,7 @@
 namespace Block_Lab\Admin;
 
 use Block_Lab\Component_Abstract;
+use Block_Lab\Blocks\Block;
 
 /**
  * Class Onboarding
@@ -35,10 +36,25 @@ class Onboarding extends Component_Abstract {
 	 * Prepare onboarding notices.
 	 */
 	public function admin_notices() {
+		$screen = get_current_screen();
+		$slug   = $this->plugin->block_post->slug;
+
+		if ( ! is_object( $screen ) ) {
+			return;
+		}
+
 		$example_post_id = get_option( 'block_lab_example_post_id' );
 
 		if ( ! $example_post_id ) {
 			return;
+		}
+
+		/**
+		 * On the edit post screen, editing the Example Block.
+		 */
+		if ( $slug === $screen->id && 'post' === $screen->base && get_the_ID() === $example_post_id ) {
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+			add_action( 'block_lab_before_fields_list', array( $this, 'show_add_to_block_notice' ) );
 		}
 
 		if ( 'draft' !== get_post_status( $example_post_id ) ) {
@@ -49,17 +65,28 @@ class Onboarding extends Component_Abstract {
 			return;
 		}
 
-		$screen = get_current_screen();
-		$slug   = $this->plugin->block_post->slug;
-
+		/**
+		 * On the plugins screen, immediately after activating Block Lab.
+		 */
 		if ( 'plugins' === $screen->id && 'true' === get_transient( 'block_lab_show_welcome' ) ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 			add_action( 'admin_notices', array( $this, 'show_welcome_notice' ) );
 		}
 
+		/**
+		 * On the All Blocks screen, when a draft Example Block exists.
+		 */
 		if ( "edit-$slug" === $screen->id ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 			add_action( 'admin_notices', array( $this, 'show_edit_block_notice' ) );
+		}
+
+		/**
+		 * On the edit post screen, editing the draft Example Block.
+		 */
+		if ( $slug === $screen->id && 'post' === $screen->base ) {
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+			add_action( 'block_lab_after_fields_list', array( $this, 'show_add_fields_notice' ) );
 		}
 	}
 
@@ -123,14 +150,14 @@ class Onboarding extends Component_Abstract {
 			return;
 		}
 		?>
-		<div class="block-lab-edit-block block-lab-notice notice notice-large">
+		<div class="block-lab-edit-block block-lab-notice notice">
 			<h2><?php echo esc_html_e( 'Ready to begin?', 'block-lab' ); ?></h2>
 			<p class="intro">
 				<?php
 				echo wp_kses_post(
 					sprintf(
 						// translators: Placeholders are <strong> html tags.
-						__( 'We created this %1$sExample Block%2$s to show you just how easy it is to get started.' ),
+						__( 'We created this %1$sExample Block%2$s to show you just how easy it is to get started.', 'block-lab' ),
 						'<strong>',
 						'</strong>'
 					)
@@ -142,7 +169,7 @@ class Onboarding extends Component_Abstract {
 				echo wp_kses_post(
 					sprintf(
 						// translators: Placeholders are <strong> and <a> html tags.
-						__( 'You can %1$sEdit%2$s the block to learn more, or just %3$sTrash%4$s it to dismiss this message.' ),
+						__( 'You can %1$sEdit%2$s the block to learn more, or just %3$sTrash%4$s it to dismiss this message.', 'block-lab' ),
 						'<strong>',
 						'</strong>',
 						'<a href="' . get_delete_post_link( $example_post_id ) . '" class="trash">',
@@ -152,6 +179,59 @@ class Onboarding extends Component_Abstract {
 				?>
 			</p>
 			<span class="pointer">☝️</span>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Render the add fields message.
+	 */
+	public function show_add_fields_notice() {
+		$post  = get_post();
+		$block = new Block( $post->ID );
+
+		/**
+		 * We add 4 fields to our Example Block in add_dummy_data().
+		 */
+		if ( count( $block->fields ) > 4 ) {
+			return;
+		}
+		?>
+		<div class="block-lab-add-fields block-lab-notice">
+			<h2><?php esc_html_e( 'Try adding a field.', 'block-lab' ); ?></h2>
+			<p><?php esc_html_e( 'Fields let you define the options you see when adding your block to a post.', 'block-lab' ); ?></p>
+			<span class="pointer">👈</span>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Render the add to post message.
+	 */
+	public function show_add_to_block_notice() {
+		$post = get_post();
+
+		if ( ! isset( $post->post_name ) || empty( $post->post_name ) ) {
+			return;
+		}
+
+		if ( 'publish' !== $post->post_status ) {
+			return;
+		}
+
+		$template = block_lab_locate_template( 'blocks/block-' . $post->post_name . '.php', '', true );
+
+		if ( ! $template ) {
+			return;
+		}
+		?>
+		<div class="block-lab-add-to-block block-lab-notice notice notice-large is-dismissible">
+			<h2><?php esc_html_e( 'Only one thing left to do!', 'block-lab' ); ?></h2>
+			<p><?php esc_html_e( 'You\'ve created a new block, and added a block template. Well done!', 'block-lab' ); ?></p>
+			<p><?php esc_html_e( 'All that\'s left is to add your block to a post.', 'block-lab' ); ?></p>
+			<a href="<?php echo esc_attr( admin_url( 'post-new.php' ) ); ?>" class="button">
+				<?php esc_html_e( 'New Post', 'block-lab' ); ?>
+			</a>
 		</div>
 		<?php
 	}
