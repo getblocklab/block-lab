@@ -28,12 +28,6 @@ class Onboarding extends Component_Abstract {
 	 * Register any hooks that this component needs.
 	 */
 	public function register_hooks() {
-		$example_post_id = get_option( $this->option );
-
-		if ( ! $example_post_id ) {
-			return;
-		}
-
 		add_action( 'current_screen', array( $this, 'admin_notices' ) );
 	}
 
@@ -49,6 +43,12 @@ class Onboarding extends Component_Abstract {
 	 * Prepare onboarding notices.
 	 */
 	public function admin_notices() {
+		$example_post_id = get_option( $this->option );
+
+		if ( ! $example_post_id ) {
+			return;
+		}
+
 		$screen = get_current_screen();
 		$slug   = $this->plugin->block_post->slug;
 
