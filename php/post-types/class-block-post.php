@@ -503,6 +503,7 @@ class Block_Post extends Component_Abstract {
 	public function render_fields_meta_box() {
 		$post  = get_post();
 		$block = new Block( $post->ID );
+		do_action( 'block_lab_before_fields_list' );
 		?>
 		<div class="block-fields-list">
 			<table class="widefat">
@@ -559,6 +560,7 @@ class Block_Post extends Component_Abstract {
 			</script>
 		</div>
 		<?php
+		do_action( 'block_lab_after_fields_list' );
 		wp_nonce_field( 'block_lab_save_fields', 'block_lab_fields_nonce' );
 	}
 
