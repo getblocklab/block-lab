@@ -42,6 +42,10 @@ class Onboarding extends Component_Abstract {
 		}
 
 		if ( 'draft' !== get_post_status( $example_post_id ) ) {
+			/*
+			 * The post has been published or trashed – we don't need this option anymore.
+			 */
+			delete_option( 'block_lab_example_post_id' );
 			return;
 		}
 
@@ -120,9 +124,33 @@ class Onboarding extends Component_Abstract {
 		}
 		?>
 		<div class="block-lab-edit-block block-lab-notice notice notice-large">
-			<h2>Ready to begin?</h2>
-			<p class="intro">We created this <strong>Example Block</strong> to show you just how easy it is to get started.</p>
-			<p>You can <strong>Edit</strong> the block to learn more, or just <a href="<?php echo get_delete_post_link( $example_post_id ); ?>" class="trash">Trash</a> it to dismiss this message.</p>
+			<h2><?php echo esc_html_e( 'Ready to begin?', 'block-lab' ); ?></h2>
+			<p class="intro">
+				<?php
+				echo wp_kses_post(
+					sprintf(
+						// translators: Placeholders are <strong> html tags.
+						__( 'We created this %1$sExample Block%2$s to show you just how easy it is to get started.' ),
+						'<strong>',
+						'</strong>'
+					)
+				);
+				?>
+			</p>
+			<p>
+				<?php
+				echo wp_kses_post(
+					sprintf(
+						// translators: Placeholders are <strong> and <a> html tags.
+						__( 'You can %1$sEdit%2$s the block to learn more, or just %3$sTrash%4$s it to dismiss this message.' ),
+						'<strong>',
+						'</strong>',
+						'<a href="' . get_delete_post_link( $example_post_id ) . '" class="trash">',
+						'</a>'
+					)
+				);
+				?>
+			</p>
 			<span class="pointer">☝️</span>
 		</div>
 		<?php
