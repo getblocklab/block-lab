@@ -803,7 +803,7 @@ class Block_Post extends Component_Abstract {
 		$post = get_post();
 		?>
 		<div class="template-notice">
-			<h3><span class="dashicons dashicons-yes"></span><?php esc_html_e( 'Next step: Create a block template.', 'block-lab' ); ?></h3>
+			<h3>✔️ <?php esc_html_e( 'Next step: Create a block template.', 'block-lab' ); ?></h3>
 			<p>
 				<?php esc_html_e( 'To display this block, Block Lab will look for this template file in your theme:', 'block-lab' ); ?>
 			</p>
