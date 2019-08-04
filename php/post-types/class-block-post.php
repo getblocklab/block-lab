@@ -59,6 +59,7 @@ class Block_Post extends Component_Abstract {
 		add_action( 'edit_form_before_permalink', array( $this, 'template_location' ) );
 		add_action( 'post_submitbox_start', array( $this, 'save_draft_button' ) );
 		add_filter( 'enter_title_here', array( $this, 'post_title_placeholder' ) );
+		add_action( 'post_submitbox_misc_actions', array( $this, 'post_type_condition' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'wp_insert_post_data', array( $this, 'save_block' ), 10, 2 );
 		add_action( 'init', array( $this, 'register_controls' ) );
@@ -1080,6 +1081,62 @@ class Block_Post extends Component_Abstract {
 		}
 
 		return $title;
+	}
+
+	/**
+	 * Displays an option for editing the post type that this block appears on.
+	 */
+	public function post_type_condition() {
+		$screen = get_current_screen();
+
+		// Enqueue scripts and styles on the edit screen of the Block post type.
+		if ( ! is_object( $screen ) || $this->slug !== $screen->post_type ) {
+			return;
+		}
+
+		$post_types = get_post_types(
+			array(
+				'show_in_rest' => true,
+				'show_in_menu' => true,
+			),
+			'objects'
+		);
+
+		$active_post_types = get_post_meta( get_the_ID(), 'block-post-types', true );
+
+		if ( empty( $active_post_types ) ) {
+			$active_post_types = 'all';
+		}
+		?>
+		<div class="block-lab-pub-section">
+			<?php esc_html_e( 'Post Types:', 'block-lab' ); ?> <span class="post-types-display">All</span>
+			<a href="#post-types-select" class="edit-post-types hide-if-no-js" role="button">
+				<span aria-hidden="true"><?php esc_html_e( 'Edit', 'block-lab' ); ?></span>
+			</a>
+			<input type="hidden" value="<?php echo esc_attr( $active_post_types ); ?>" name="block-post-types" />
+			<div class="post-types-select">
+				<div class="post-types-select-items">
+					<input type="checkbox" class="block-post-type-all" id="block-post-type-all" <?php checked( 'all', $active_post_types ); ?>>
+					<label for="block-post-type-all"><?php esc_html_e( 'All', 'block-lab' ); ?></label>
+					<br />
+					<?php
+					foreach ( $post_types as $post_type ) {
+						if ( ! post_type_supports( $post_type->name, 'editor' ) ) {
+							continue;
+						}
+						?>
+						<input type="checkbox" id="block-post-type-<?php echo esc_attr( $post_type->name ); ?>" value="<?php echo esc_attr( $post_type->name ); ?>">
+						<label for="block-post-type-<?php echo esc_attr( $post_type->name ); ?>"><?php echo esc_html( $post_type->label ); ?></label>
+						<br />
+						<?php
+					}
+					?>
+				</div>
+				<a href="#post-types" class="save-post-types hide-if-no-js button"><?php esc_html_e( 'OK', 'block-lab' ); ?></a>
+				<a href="#post-types" class="hide-if-no-js button-cancel"><?php esc_html_e( 'Cancel', 'block-lab' ); ?></a>
+			</div>
+		</div>
+		<?php
 	}
 
 	/**
