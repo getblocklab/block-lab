@@ -214,7 +214,7 @@ class Onboarding extends Component_Abstract {
 		$post  = get_post();
 		$block = new Block( $post->ID );
 
-		/**
+		/*
 		 * We add 4 fields to our Example Block in add_dummy_data().
 		 */
 		if ( count( $block->fields ) > 4 ) {
@@ -233,8 +233,7 @@ class Onboarding extends Component_Abstract {
 	 * Render the Add Fields message.
 	 */
 	public function show_publish_notice() {
-		$post  = get_post();
-		$block = new Block( $post->ID );
+		$block = new Block( get_the_ID() );
 
 		/**
 		 * We add 4 fields to our Example Block in add_dummy_data().
@@ -297,11 +296,14 @@ class Onboarding extends Component_Abstract {
 	 * Create a dummy starter block when the plugin is activated for the first time.
 	 */
 	public function add_dummy_data() {
-		// Note: wp_count_posts() does not work here.
+		/*
+		 * Check if there are any block posts already added, and if so, bail.
+		 * Note: wp_count_posts() does not work here.
+		 */
 		$blocks = get_posts(
 			array(
 				'post_type'   => block_lab()->block_post->slug,
-				'numberposts' => '-1',
+				'numberposts' => '1',
 				'post_status' => 'any',
 				'fields'      => 'ids',
 			)
