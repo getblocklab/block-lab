@@ -25,6 +25,34 @@
 			field.find( '.block-fields-edit-label input' ).select();
 		});
 
+		$( '.block-lab-pub-section .edit-post-types' ).on( 'click', function() {
+			$( '.block-lab-pub-section .post-types-select' ).slideDown();
+			$( this ).hide();
+		});
+
+		$( '.block-lab-pub-section .save-post-types' ).on( 'click', function() {
+			$( '.block-lab-pub-section .post-types-select' ).slideUp();
+			$( '.block-lab-pub-section .edit-post-types' ).show();
+		});
+
+		$( '.block-lab-pub-section .button-cancel' ).on( 'click', function() {
+			$( '.block-lab-pub-section .post-types-select' ).slideUp();
+			$( '.block-lab-pub-section .edit-post-types' ).show();
+		});
+
+		$( '.block-lab-pub-section .block-post-type-all' ).on( 'click', function() {
+			$( this ).nextAll( 'input[type="checkbox"]' ).prop( 'checked', $( this ).prop( 'checked' ) );
+		});
+
+		$( '.block-lab-pub-section input[type="checkbox"]:not(.block-post-type-all)' ).on( 'change', function() {
+			if ( $( this ).parent().find( 'input[type="checkbox"]:not(:checked)' ).length > 0 ) {
+				$( '.block-lab-pub-section .block-post-type-all' ).prop( 'checked', false );
+			}
+			if ( $( this ).parent().find( 'input[type="checkbox"]:checked:not(.block-post-type-all)' ).length === $( this ).parent().find( 'input[type="checkbox"]:not(.block-post-type-all)' ).length ) {
+				$( '.block-lab-pub-section .block-post-type-all' ).prop( 'checked', true );
+			}
+		});
+
 		$( '#block_properties .block-properties-icon-select span' ).on( 'click', function() {
 			let svg = $( 'svg', this ).clone();
 			$( '#block_properties .block-properties-icon-select span.selected' ).removeClass( 'selected' );

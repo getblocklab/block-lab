@@ -3,6 +3,33 @@
 #misc-publishing-actions .curtime {
 	display: none;
 }
+#misc-publishing-actions .block-lab-pub-section {
+	padding: 6px 10px 14px;
+}
+#misc-publishing-actions .block-lab-pub-section:before {
+	content: "\f537";
+	color: #82878c;
+	font: normal 20px/1 dashicons;
+	speak: none;
+	display: inline-block;
+	margin-left: -1px;
+	padding-right: 3px;
+	vertical-align: top;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+#misc-publishing-actions .block-lab-pub-section .post-types-display {
+	font-weight: bold;
+}
+#misc-publishing-actions .block-lab-pub-section .post-types-select {
+	display: none;
+}
+#misc-publishing-actions .block-lab-pub-section .post-types-select .post-types-select-items {
+	margin: 3px 0;
+	border: 1px solid #eeeeee;
+	padding: 6px 10px;
+	margin-bottom: 6px;
+}
 #block_fields a,
 #block_fields a:focus {
 	outline: none;
