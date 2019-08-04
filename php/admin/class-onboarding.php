@@ -58,14 +58,14 @@ class Onboarding extends Component_Abstract {
 
 		$post_id = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
 
-		/**
+		/*
 		 * On the edit post screen, editing the Example Block.
 		 */
 		if ( $slug === $screen->id && 'post' === $screen->base && $post_id === $example_post_id ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 			add_action( 'block_lab_before_fields_list', array( $this, 'show_add_to_post_notice' ) );
 
-			/**
+			/*
 			 * After we've shown the Add to Post message once, we can delete the option. This will
 			 * ensure that no further onboarding messages are shown.
 			 */
@@ -78,7 +78,7 @@ class Onboarding extends Component_Abstract {
 			return;
 		}
 
-		/**
+		/*
 		 * On the plugins screen, immediately after activating Block Lab.
 		 */
 		if ( 'plugins' === $screen->id && 'true' === get_transient( 'block_lab_show_welcome' ) ) {
@@ -86,7 +86,7 @@ class Onboarding extends Component_Abstract {
 			add_action( 'admin_notices', array( $this, 'show_welcome_notice' ) );
 		}
 
-		/**
+		/*
 		 * On the All Blocks screen, when a draft Example Block exists.
 		 */
 		if ( "edit-$slug" === $screen->id ) {
@@ -94,7 +94,7 @@ class Onboarding extends Component_Abstract {
 			add_action( 'admin_notices', array( $this, 'show_edit_block_notice' ) );
 		}
 
-		/**
+		/*
 		 * On the edit post screen, editing the draft Example Block.
 		 */
 		if ( $slug === $screen->id && 'post' === $screen->base ) {
