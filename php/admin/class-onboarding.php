@@ -275,7 +275,7 @@ class Onboarding extends Component_Abstract {
 			return;
 		}
 
-		$template = block_lab_locate_template( 'blocks/block-' . $post->post_name . '.php', '', true );
+		$template = block_lab_locate_template( "blocks/block-{$post->post_name}.php", '', true );
 
 		if ( ! $template ) {
 			return;
