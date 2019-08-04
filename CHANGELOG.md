@@ -1,5 +1,11 @@
 ## Changelog #
 
+### 1.3.5 – 2019-08-05 ###
+
+* New: Block Lab will now enqueue a global stylesheet, so you can keep your common block styles in one place. [Read more](https://github.com/getblocklab/block-lab/pull/371)
+* New: Block templates can now be placed inside a sub-folder, for an even cleaner directory structure. [Read more](https://github.com/getblocklab/block-lab/pull/372)
+* Fix: Child theme templates are now correctly loaded before their parent templates.
+
 ### 1.3.4 - 2019-07-22 ###
 
 * New: Block Lab grew to level 1.3.4. Block Lab learned **Custom Categories**.
