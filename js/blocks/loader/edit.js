@@ -5,7 +5,7 @@ import { simplifiedFields } from "./fields";
 import icons from '../../../assets/icons.json';
 
 const { __ } = wp.i18n;
-const { IconButton } = wp.components;
+const { BaseControl, IconButton } = wp.components;
 const { ServerSideRender } = wp.editor;
 const { applyFilters } = wp.hooks;
 
@@ -93,7 +93,7 @@ export const Fields = ( { fields, parentBlockProps, parentBlock, rowName = null 
  * @return {Array} fields The rendered fields.
  */
 export const RepeaterRows = ( { rows, fields, parentBlockProps, parentBlock } ) => {
-	const subFields = [];
+	const subFields  = [];
 	const parentName = getParent( fields );
 
 	/*
@@ -122,24 +122,42 @@ export const RepeaterRows = ( { rows, fields, parentBlockProps, parentBlock } ) 
 	};
 
 	for ( let rowIndex in rows ) {
-		const rowName = rows[ rowIndex ];
+		const rowName     = rows[ rowIndex ];
+		const activeClass = 0 === parseInt( rowIndex ) ? 'active' : ''; // @todo: Make this dynamic.
+
 		const renderedSubField = (
-			<div className="block-form" key={ `${ rowName }-row` }>
-				<IconButton
-					key={ `${ rowName }-dismiss` }
-					icon="dismiss"
-					label={ __( 'Remove row', 'block-lab' ) }
-					labelPosition="bottom"
-					onClick={ removeRow( rowIndex ) }
-					className="button-dismiss"
-				/>
+			<BaseControl className={`block-lab-repeater--row ${activeClass}`} key={ `${ rowName }-row` }>
 				<Fields
 					fields={ fields }
 					parentBlockProps={ parentBlockProps }
 					parentBlock={ parentBlock }
 					rowName={ rowName }
 				/>
-			</div>
+				<div className="block-lab-repeater--row-actions">
+					<IconButton
+						key={ `${ rowName }-move-left` }
+						icon="arrow-left-alt2"
+						label={ __( 'Move left', 'block-lab' ) }
+						labelPosition="bottom"
+						className="button-move-left"
+					/>
+					<IconButton
+						key={ `${ rowName }-dismiss` }
+						icon="dismiss"
+						label={ __( 'Remove row', 'block-lab' ) }
+						labelPosition="bottom"
+						onClick={ removeRow( rowIndex ) }
+						className="button-dismiss"
+					/>
+					<IconButton
+						key={ `${ rowName }-move-right` }
+						icon="arrow-right-alt2"
+						label={ __( 'Move right', 'block-lab' ) }
+						labelPosition="bottom"
+						className="button-move-right"
+					/>
+				</div>
+			</BaseControl>
 		);
 		subFields.push( renderedSubField );
 	}
