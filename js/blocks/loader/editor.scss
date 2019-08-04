@@ -1,6 +1,6 @@
 $black: #222;
-$dark: rgba(0, 0, 0, 0.39);
-$light: rgba(140, 140, 151, 0.1);
+$dark: #b4bcc0;
+$light: #f3f4f5;
 $input-padding: 8px;
 $input-width: 300px;
 
@@ -114,10 +114,13 @@ div[class^="wp-block-block-lab-"] {
   padding: 5px;
 
   .block-form {
-    border: 5px solid $dark;
+    box-shadow: -3px 0 0 0 $dark;
+    border: 1px solid rgba(66,88,99,0.2);
     background: $light;
     padding: 1rem;
     font-size: 0.8125rem;
+    max-height: 450px;
+    overflow: scroll;
 
     h3 {
       color: $black;
@@ -183,13 +186,35 @@ div[class^="wp-block-block-lab-"] {
   }
 
   .block-lab-repeater {
-    .button-dismiss {
-      float: right;
-    }
 
-    .block-form .block-form {
-      margin-top: 0.5rem;
-      margin-bottom: 0.5rem;
+    .block-lab-repeater--rows {
+      display: flex;
+      width: 100%;
+
+      .block-lab-repeater--row {
+        box-shadow: -3px 0 0 0 rgba(66,88,99,0.2);
+        padding-left: 1em;
+        flex: 0 0 100%;
+        min-width: 100%;
+        margin-left: -100%;
+        opacity: 0;
+        pointer-events: none;
+
+        &:first-child {
+          margin-left: 0;
+        }
+        &.active {
+          opacity: 1;
+          pointer-events: auto;
+        }
+        .block-lab-repeater--row-actions {
+          text-align: right;
+
+          button {
+            display: inline-block;
+          }
+        }
+      }
     }
   }
 }
