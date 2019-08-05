@@ -336,11 +336,7 @@ class Loader extends Component_Abstract {
 		foreach ( $types as $type ) {
 			$locations = array_merge(
 				$locations,
-				array(
-					"blocks/{$name}/{$type}.css",
-					"blocks/css/{$type}-{$name}.css",
-					"blocks/{$type}-{$name}.css",
-				)
+				block_lab_template_locations( $name, $type )
 			);
 		}
 
@@ -398,7 +394,7 @@ class Loader extends Component_Abstract {
 
 		// So lets fix it.
 		if ( empty( $wp_query ) ) {
-			$wp_query = new \WP_Query(); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+			$wp_query = new \WP_Query(); // phpcs: ignore WordPress.WP.GlobalVariablesOverride.Prohibited.
 		}
 
 		$types         = (array) $type;
@@ -406,19 +402,12 @@ class Loader extends Component_Abstract {
 		$template_file = '';
 
 		foreach ( $types as $type ) {
+			$templates = block_lab_template_locations( $name, $type );
+			$located   = block_lab_locate_template( $templates );
 
 			if ( ! empty( $located ) ) {
-				continue;
+				break;
 			}
-
-			$template_file = "blocks/{$type}-{$name}.php";
-			$templates     = [
-				"blocks/{$name}/{$type}.php",
-				$template_file,
-				"blocks/{$type}.php",
-			];
-
-			$located = block_lab_locate_template( $templates );
 		}
 
 		if ( ! empty( $located ) ) {
@@ -434,7 +423,7 @@ class Loader extends Component_Abstract {
 				'<div class="notice notice-warning">%s</div>',
 				wp_kses_post(
 					// Translators: Placeholder is a file path.
-					sprintf( __( 'Template file %s not found.' ), '<code>' . esc_html( $template_file ) . '</code>' )
+					sprintf( __( 'Template file %s not found.' ), '<code>' . esc_html( $templates[0] ) . '</code>' )
 				)
 			);
 		}
@@ -458,7 +447,7 @@ class Loader extends Component_Abstract {
 			$block_data = json_decode( $json, true );
 
 			// Merge if no json_decode error occurred.
-			if ( json_last_error() == JSON_ERROR_NONE ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
+			if ( json_last_error() == JSON_ERROR_NONE ) { // phpcs: ignore WordPress.PHP.StrictComparisons.LooseComparison.
 				$blocks = array_merge( $blocks, $block_data );
 			}
 		}
@@ -477,7 +466,7 @@ class Loader extends Component_Abstract {
 				$block_data = json_decode( $post->post_content, true );
 
 				// Merge if no json_decode error occurred.
-				if ( json_last_error() == JSON_ERROR_NONE ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
+				if ( json_last_error() == JSON_ERROR_NONE ) { // phpcs: ignore WordPress.PHP.StrictComparisons.LooseComparison.
 					$blocks = array_merge( $blocks, $block_data );
 				}
 			}
