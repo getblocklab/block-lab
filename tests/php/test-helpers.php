@@ -95,4 +95,31 @@ class Test_Helpers extends \WP_UnitTestCase {
 			block_lab_template_locations( $name, $type )
 		);
 	}
-}
+
+	/**
+	 * Test block_lab_stylesheet_locations.
+	 *
+	 * @covers ::block_lab_stylesheet_locations()
+	 */
+	public function test_block_lab_stylesheet_locations() {
+		$name = 'foo-baz';
+		$this->assertEquals(
+			array(
+				"blocks/foo-baz/block.css",
+				"blocks/css/block-foo-baz.css",
+				"blocks/block-foo-baz.css",
+			),
+			block_lab_stylesheet_locations( $name )
+		);
+
+		$name = 'example';
+		$type = 'another-type';
+		$this->assertEquals(
+			array(
+				"blocks/example/another-type.css",
+				"blocks/css/another-type-example.css",
+				"blocks/another-type-example.css",
+			),
+			block_lab_stylesheet_locations( $name, $type )
+		);
+	}}
