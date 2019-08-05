@@ -77,8 +77,8 @@ class Test_Helpers extends \WP_UnitTestCase {
 		$name = 'foo-baz';
 		$this->assertEquals(
 			array(
-				"blocks/block-foo-baz.php",
 				"blocks/foo-baz/block.php",
+				"blocks/block-foo-baz.php",
 				"blocks/block.php",
 			),
 			block_lab_template_locations( $name )
@@ -88,8 +88,8 @@ class Test_Helpers extends \WP_UnitTestCase {
 		$type = 'another-type';
 		$this->assertEquals(
 			array(
-				"blocks/another-type-example.php",
 				"blocks/example/another-type.php",
+				"blocks/another-type-example.php",
 				"blocks/another-type.php",
 			),
 			block_lab_template_locations( $name, $type )
