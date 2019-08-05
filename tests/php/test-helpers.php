@@ -67,4 +67,32 @@ class Test_Helpers extends \WP_UnitTestCase {
 		$this->assertEquals( $expected_class, $actual_class );
 		$this->assertEquals( $return_value, $actual_class );
 	}
+
+	/**
+	 * Test block_lab_template_locations.
+	 *
+	 * @covers ::block_lab_template_locations()
+	 */
+	public function test_block_lab_template_locations() {
+		$name = 'foo-baz';
+		$this->assertEquals(
+			array(
+				"blocks/block-foo-baz.php",
+				"blocks/foo-baz/block.php",
+				"blocks/block.php",
+			),
+			block_lab_template_locations( $name )
+		);
+
+		$name = 'example';
+		$type = 'another-type';
+		$this->assertEquals(
+			array(
+				"blocks/another-type-example.php",
+				"blocks/example/another-type.php",
+				"blocks/another-type.php",
+			),
+			block_lab_template_locations( $name, $type )
+		);
+	}
 }
