@@ -336,7 +336,7 @@ class Loader extends Component_Abstract {
 		foreach ( $types as $type ) {
 			$locations = array_merge(
 				$locations,
-				block_lab_template_locations( $name, $type )
+				block_lab_stylesheet_locations( $name, $type )
 			);
 		}
 
