@@ -231,15 +231,31 @@ function block_lab_locate_template( $template_names, $path = '', $single = true 
  * Return an array of possible template locations.
  *
  * @param string $name The name of the block (slug as defined in UI).
- * @param string $type The type of template to load.
+ * @param string $type The type of template to load. Typically block or preview.
  *
  * @return array
  */
 function block_lab_template_locations( $name, $type = 'block' ) {
 	return array(
-		"blocks/{$type}-{$name}.php",
 		"blocks/{$name}/{$type}.php",
+		"blocks/{$type}-{$name}.php",
 		"blocks/{$type}.php",
+	);
+}
+
+/**
+ * Return an array of possible stylesheet locations.
+ *
+ * @param string $name The name of the block (slug as defined in UI).
+ * @param string $type The type of template to load. Typically block or preview.
+ *
+ * @return array
+ */
+function block_lab_stylesheet_locations( $name, $type = 'block' ) {
+	return array(
+		"blocks/{$name}/{$type}.css",
+		"blocks/css/{$type}-{$name}.css",
+		"blocks/{$type}-{$name}.css",
 	);
 }
 

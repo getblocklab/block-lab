@@ -129,7 +129,6 @@ class Test_Loader extends \WP_UnitTestCase {
 			$file_url = str_replace( untrailingslashit( ABSPATH ), '', $file );
 
 			$this->instance->enqueue_block_styles( $block_name, array( 'preview', 'block' ) );
-
 			$this->assertContains( $block_handle, $wp_styles->queue );
 			$this->assertArrayHasKey( $block_handle, $wp_styles->registered );
 			$this->assertSame( $wp_styles->registered[ $block_handle ]->src, $file_url, "Trying to enqueue file #{$key} ({$file_url})." );
