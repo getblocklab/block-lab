@@ -397,9 +397,8 @@ class Loader extends Component_Abstract {
 			$wp_query = new \WP_Query(); // phpcs: ignore WordPress.WP.GlobalVariablesOverride.Prohibited.
 		}
 
-		$types         = (array) $type;
-		$located       = '';
-		$template_file = '';
+		$types   = (array) $type;
+		$located = '';
 
 		foreach ( $types as $type ) {
 			$templates = block_lab_template_locations( $name, $type );
