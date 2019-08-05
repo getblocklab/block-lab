@@ -415,7 +415,7 @@ class Loader extends Component_Abstract {
 			// This is not a load once template, so require_once is false.
 			load_template( $theme_template, false );
 		} else {
-			if ( ! current_user_can( 'edit_posts' ) ) {
+			if ( ! current_user_can( 'edit_posts' ) || ! isset( $templates[0] ) ) {
 				return;
 			}
 			printf(
