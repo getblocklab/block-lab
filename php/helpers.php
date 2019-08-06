@@ -228,38 +228,6 @@ function block_lab_locate_template( $template_names, $path = '', $single = true 
 }
 
 /**
- * Return an array of possible template locations.
- *
- * @param string $name The name of the block (slug as defined in UI).
- * @param string $type The type of template to load. Typically block or preview.
- *
- * @return array
- */
-function block_lab_template_locations( $name, $type = 'block' ) {
-	return array(
-		"blocks/{$name}/{$type}.php",
-		"blocks/{$type}-{$name}.php",
-		"blocks/{$type}.php",
-	);
-}
-
-/**
- * Return an array of possible stylesheet locations.
- *
- * @param string $name The name of the block (slug as defined in UI).
- * @param string $type The type of template to load. Typically block or preview.
- *
- * @return array
- */
-function block_lab_stylesheet_locations( $name, $type = 'block' ) {
-	return array(
-		"blocks/{$name}/{$type}.css",
-		"blocks/css/{$type}-{$name}.css",
-		"blocks/{$type}-{$name}.css",
-	);
-}
-
-/**
  * Provides a list of all available block icons.
  *
  * To include additional icons in this list, use the block_lab_icons filter, and add a new svg string to the array,

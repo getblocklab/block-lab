@@ -20,6 +20,7 @@ class Test_Loader extends \WP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->instance = new Blocks\Loader();
+		$this->instance->set_plugin( block_lab() );
 	}
 
 	/**

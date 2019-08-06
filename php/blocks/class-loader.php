@@ -336,7 +336,7 @@ class Loader extends Component_Abstract {
 		foreach ( $types as $type ) {
 			$locations = array_merge(
 				$locations,
-				block_lab_stylesheet_locations( $name, $type )
+				$this->plugin->utils->get_block_lab_stylesheet_locations( $name, $type )
 			);
 		}
 
@@ -401,7 +401,7 @@ class Loader extends Component_Abstract {
 		$located = '';
 
 		foreach ( $types as $type ) {
-			$templates = block_lab_template_locations( $name, $type );
+			$templates = $this->plugin->utils->get_block_lab_template_locations( $name, $type );
 			$located   = block_lab_locate_template( $templates );
 
 			if ( ! empty( $located ) ) {

@@ -32,6 +32,7 @@ class Test_Block_Post extends \WP_UnitTestCase {
 		$this->instance = new Post_Types\Block_Post();
 		$this->instance->register_controls();
 		$this->instance->controls['user'] = new Controls\User();
+		$this->instance->set_plugin( block_lab() );
 	}
 
 	/**
