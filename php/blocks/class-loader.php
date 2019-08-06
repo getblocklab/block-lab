@@ -394,7 +394,7 @@ class Loader extends Component_Abstract {
 
 		// So lets fix it.
 		if ( empty( $wp_query ) ) {
-			$wp_query = new \WP_Query(); // phpcs: ignore WordPress.WP.GlobalVariablesOverride.Prohibited.
+			$wp_query = new \WP_Query(); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 		}
 
 		$types   = (array) $type;
@@ -446,7 +446,7 @@ class Loader extends Component_Abstract {
 			$block_data = json_decode( $json, true );
 
 			// Merge if no json_decode error occurred.
-			if ( json_last_error() == JSON_ERROR_NONE ) { // phpcs: ignore WordPress.PHP.StrictComparisons.LooseComparison.
+			if ( json_last_error() == JSON_ERROR_NONE ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
 				$blocks = array_merge( $blocks, $block_data );
 			}
 		}
@@ -465,7 +465,7 @@ class Loader extends Component_Abstract {
 				$block_data = json_decode( $post->post_content, true );
 
 				// Merge if no json_decode error occurred.
-				if ( json_last_error() == JSON_ERROR_NONE ) { // phpcs: ignore WordPress.PHP.StrictComparisons.LooseComparison.
+				if ( json_last_error() == JSON_ERROR_NONE ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
 					$blocks = array_merge( $blocks, $block_data );
 				}
 			}
