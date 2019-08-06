@@ -31,7 +31,7 @@ This project and everyone participating in it is governed by the [Block Lab Code
 
 This section guides you through submitting a bug report for Block Lab.  Following these guidelines helps maintainers and the community understand your report :pencil:, reproduce the behavior :computer: :computer:, and find related reports :mag_right:.
 
-Before creating bug reports, please check [this list](#before-submitting-a-bug-report) as you might find out that you don't need to create one.  When you are creating a bug report, please [include as many details as possible](#how-do-i-submit-a-good-bug-report).  Fill out [the required template](ISSUE_TEMPLATE.md), the information it asks for helps us resolve issues faster.
+Before creating bug reports, please check [this list](#before-submitting-a-bug-report) as you might find out that you don't need to create one.  When you are creating a bug report, please [include as many details as possible](#how-do-i-submit-a-good-bug-report).
 
 > **Note:** If you find a **Closed** issue that seems like it is the same thing that you're experiencing, open a new issue and include a link to the original issue in the body of your new one.
 
@@ -39,7 +39,7 @@ Before creating bug reports, please check [this list](#before-submitting-a-bug-r
 
 * You might be able to find the cause of the problem and fix things yourself.  Most importantly, check if you can reproduce the problem [in the latest version of Block Lab](https://github.com/getblocklab/block-lab/releases).
 * **Check the [FAQs](https://github.com/getblocklab/block-lab#frequently-asked-questions)** for a list of common questions and problems.
-* **Perform a [cursory search](https://github.com/getblocklab/block-lab/issues)** to see if the problem has already been reported.  If it has **and the issue is still open**, add a comment to the existing issue instead of opening a new one.
+* While entering the title of your new issue, GitHub might show related issues below. If a related issue describes your problem and it's still open, add a comment to the existing issue instead of opening a new one.
 
 #### How Do I Submit A (Good) Bug Report?
 
@@ -48,7 +48,7 @@ Bugs are tracked as [GitHub issues](https://guides.github.com/features/issues/) 
 Explain the problem and include additional details to help maintainers reproduce the problem:
 
 * **Use a clear and descriptive title** for the issue to identify the problem.
-* **Describe the exact steps which reproduce the problem** in as many details as possible.  When listing steps, **don't just say what you did, but explain how you did it**.  For example, if you moved the cursor to the end of a line, explain if you used the mouse or the keyboard?
+* **Describe the exact steps which reproduce the problem** in as many details as possible.  When listing steps, **don't just say what you did, but explain how you did it**.  For example, if you moved the cursor to the end of a line, explain if you used the mouse or the keyboard.
 * **Provide specific examples to demonstrate the steps**.  Include links to files or GitHub projects, or copy/pasteable snippets, which you use in those examples.  If you're providing snippets in the issue, use [Markdown code blocks](https://help.github.com/articles/markdown-basics/#multiple-lines).
 * **Describe the behavior you observed after following the steps** and point out what exactly is the problem with that behavior.
 * **Explain which behavior you expected to see instead and why.**
@@ -75,7 +75,7 @@ Before creating enhancement suggestions, please check [this list](#before-submit
 
 #### Before Submitting An Enhancement Suggestion
 
-* **Perform a [cursory search](https://github.com/getblocklab/block-lab/issues)** to see if the enhancement has already been suggested.  If it has, add a comment to the existing issue instead of opening a new one.
+While entering the title of your new issue, GitHub may show related issues. If a related issue captures your idea, add a comment to the existing issue instead of opening a new one.
 
 #### How Do I Submit A (Good) Enhancement Suggestion?
 
