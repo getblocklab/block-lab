@@ -81,10 +81,10 @@ class Test_Textarea extends \WP_UnitTestCase {
 			array(
 				'name'     => 'default',
 				'label'    => 'Default Value',
-				'type'     => 'text',
+				'type'     => 'textarea',
 				'default'  => '',
 				'help'     => '',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'validate' => '',
 				'value'    => null,
 			),
