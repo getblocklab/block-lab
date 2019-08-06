@@ -25,6 +25,7 @@ class Plugin extends Plugin_Abstract {
 	 */
 	public function plugin_loaded() {
 		$this->admin = new Admin\Admin();
+		$this->utils = new Blocks\Utils();
 		$this->register_component( $this->admin );
 	}
 
