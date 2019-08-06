@@ -7,7 +7,7 @@ const { BaseControl, IconButton } = wp.components;
 /**
  * Internal dependendies
  */
-import { RepeaterRows } from '../loader/edit';
+import { RepeaterRows } from './components/repeater-rows';
 
 const BlockLabRepeaterControl = ( props, field, block ) => {
 	const attr = { ...props.attributes };
