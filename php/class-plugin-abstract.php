@@ -70,13 +70,6 @@ abstract class Plugin_Abstract implements Plugin_Interface {
 	protected $version;
 
 	/**
-	 * Plugin utility functions.
-	 *
-	 * @var Blocks\Utils
-	 */
-	public $utils;
-
-	/**
 	 * Get the plugin basename.
 	 *
 	 * @return string The basename.

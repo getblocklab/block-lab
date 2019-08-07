@@ -67,7 +67,7 @@ class Test_Loader extends \WP_UnitTestCase {
 	 * @inheritdoc
 	 */
 	public function tearDown() {
-		// Remove testing templates and CSS files.
+		// Delete testing templates and CSS files.
 		array_map(
 			function( $template ) {
 				if ( file_exists( $template ) ) {
