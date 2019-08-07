@@ -167,6 +167,11 @@ function block_lab_get_icons() {
 	$json      = file_get_contents( $json_file ); // @codingStandardsIgnoreLine
 	$icons     = json_decode( $json, true );
 
+	/**
+	 * The available block icons.
+	 *
+	 * @param array $icons The available icons.
+	 */
 	return apply_filters( 'block_lab_icons', $icons );
 }
 
@@ -198,5 +203,10 @@ function block_lab_allowed_svg_tags() {
 		),
 	);
 
+	/**
+	 * The tags that an <svg> allows.
+	 *
+	 * @param array $allowed_tags The allowed tags.
+	 */
 	return apply_filters( 'block_lab_allowed_svg_tags', $allowed_tags );
 }
