@@ -10,94 +10,7 @@ use Block_Lab\Blocks;
 /**
  * Tests for class Loader.
  */
-class Test_Loader extends \WP_UnitTestCase {
-
-	/**
-	 * The name of a testing block.
-	 *
-	 * @var string
-	 */
-	public $mock_block_name = 'test-block';
-
-	/**
-	 * The path of the parent theme.
-	 *
-	 * @var string
-	 */
-	public $theme_directory;
-
-	/**
-	 * The template locations.
-	 *
-	 * @var array
-	 */
-	public $template_locations;
-
-	/**
-	 * The full path of the overridden theme template, used in a filter to override the normal template.
-	 *
-	 * @var string
-	 */
-	public $overridden_theme_template_path;
-
-	/**
-	 * Setup.
-	 *
-	 * @inheritdoc
-	 */
-	public function setUp() {
-		parent::setUp();
-		$this->instance = new Blocks\Loader();
-		$this->instance->set_plugin( block_lab() );
-		$this->theme_directory                = get_template_directory();
-		$this->template_locations             = block_lab()->get_template_locations( $this->mock_block_name );
-		$this->overridden_theme_template_path = "{$this->theme_directory}/example-overridden-template.php";
-
-		foreach ( $this->get_block_template_directories() as $template_directory ) {
-			mkdir( $template_directory );
-		}
-	}
-
-	/**
-	 * Teardown.
-	 *
-	 * Deletes the mock templates and directories that were created.
-	 * This is in tearDown(), as it runs even if a test fails.
-	 *
-	 * @inheritdoc
-	 */
-	public function tearDown() {
-		// Delete testing templates and CSS files.
-		array_map(
-			function( $template ) {
-				if ( file_exists( $template ) ) {
-					unlink( $template );
-				}
-			},
-			array_merge(
-				$this->get_template_paths_in_theme(),
-				$this->get_global_style_paths(),
-				$this->get_template_css_paths(),
-				array( $this->overridden_theme_template_path )
-			)
-		);
-
-		/*
-		 * Remove testing directories that were created, in reverse order.
-		 * There's a nested directory, so this has to remove the parent directory last.
-		 */
-		array_map(
-			function( $directory ) {
-				if ( is_dir( $directory ) ) {
-					rmdir( $directory );
-				}
-			},
-			array_reverse( $this->get_block_template_directories() )
-		);
-
-		parent::tearDown();
-	}
-
+class Test_Loader extends Base_Template {
 	/**
 	 * Test register_hooks.
 	 *
@@ -171,7 +84,7 @@ class Test_Loader extends \WP_UnitTestCase {
 
 		// Check that the correct stylesheet is enqueued.
 		foreach ( $this->get_template_css_paths() as $key => $file ) {
-			file_put_contents( $file, '' ); // @codingStandardsIgnoreLine
+			$this->file_put_contents( $file, '' );
 			$file_url = str_replace( untrailingslashit( ABSPATH ), '', $file );
 
 			$this->instance->enqueue_block_styles( $this->mock_block_name, array( 'preview', 'block' ) );
@@ -195,12 +108,16 @@ class Test_Loader extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Loader::enqueue_global_styles()
 	 */
 	public function test_enqueue_global_styles() {
-		$wp_styles       = wp_styles();
-		$enqueue_handle  = 'block-lab__global-styles';
+		$wp_styles          = wp_styles();
+		$enqueue_handle     = 'block-lab__global-styles';
+		$global_style_paths = array(
+			"{$this->theme_directory}/blocks/blocks.css",
+			"{$this->theme_directory}/blocks/css/blocks.css",
+		);
 
 		// Check that the correct stylesheet is enqueued.
-		foreach ( $this->get_global_style_paths() as $key => $file ) {
-			file_put_contents( $file, '' ); // @codingStandardsIgnoreLine
+		foreach ( $global_style_paths as $key => $file ) {
+			$this->file_put_contents( $file, '' );
 			$file_url = str_replace( untrailingslashit( ABSPATH ), '', $file );
 
 			$this->instance->enqueue_global_styles();
@@ -247,55 +164,29 @@ class Test_Loader extends \WP_UnitTestCase {
 		$templates_in_parent_theme = array_reverse( $this->get_template_paths_in_theme() );
 		foreach ( $templates_in_parent_theme as $template_location ) {
 			$expected_template_contents = "This is content in the template {$template_location}";
-			file_put_contents( $template_location, $expected_template_contents );
+			$this->file_put_contents( $template_location, $expected_template_contents );
 
 			ob_start();
 			$this->instance->block_template( $this->mock_block_name );
 			$this->assertContains( $expected_template_contents, ob_get_clean() );
 		}
 
-		$expected_overriden_template_contents = "This is content in the template {$this->overridden_theme_template_path}";
-		file_put_contents( $this->overridden_theme_template_path, $expected_overriden_template_contents );
+		$overridden_theme_template_path       = "{$this->theme_directory}/example-overridden-template.php";
+		$expected_overriden_template_contents = "This is content in the template {$overridden_theme_template_path}";
+		$this->file_put_contents( $overridden_theme_template_path, $expected_overriden_template_contents );
 
 		// Test that this filter changes the template used.
 		add_filter(
 			'block_lab_override_theme_template',
-			function( $directory ) {
+			function( $directory ) use( $overridden_theme_template_path ) {
 				unset( $directory );
-				return $this->overridden_theme_template_path;
+				return $overridden_theme_template_path;
 			}
 		);
 
 		ob_start();
 		$this->instance->block_template( $this->mock_block_name );
 		$this->assertContains( $expected_overriden_template_contents, ob_get_clean() );
-	}
-
-	/**
-	 * Gets the template paths for the the mock block, in order of descending priority.
-	 *
-	 * @return array The template paths in the parent theme.
-	 */
-	public function get_template_paths_in_theme() {
-		return array_map(
-			function( $template_location ) {
-				return "{$this->theme_directory}/{$template_location}";
-			},
-			$this->template_locations
-		);
-	}
-
-	/**
-	 * Gets the directories that block templates and CSS files could be in.
-	 *
-	 * @return array
-	 */
-	public function get_block_template_directories() {
-		return array(
-			"{$this->theme_directory}/blocks/",
-			"{$this->theme_directory}/blocks/css/",
-			"{$this->theme_directory}/blocks/{$this->mock_block_name}/",
-		);
 	}
 
 	/**
@@ -311,18 +202,6 @@ class Test_Loader extends \WP_UnitTestCase {
 			"{$this->theme_directory}/blocks/preview-{$this->mock_block_name}.css",
 			"{$this->theme_directory}/blocks/css/preview-{$this->mock_block_name}.css",
 			"{$this->theme_directory}/blocks/{$this->mock_block_name}/preview.css",
-		);
-	}
-
-	/**
-	 * Gets the paths to the global stylesheets, in order of reverse priority.
-	 *
-	 * @return array The possible global stylesheet paths.
-	 */
-	public function get_global_style_paths() {
-		return array(
-			"{$this->theme_directory}/blocks/blocks.css",
-			"{$this->theme_directory}/blocks/css/blocks.css",
 		);
 	}
 }
