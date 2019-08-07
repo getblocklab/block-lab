@@ -27,6 +27,7 @@ class Test_Plugin extends \WP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->instance = new Block_Lab\Plugin();
+		$this->instance->plugin_loaded();
 	}
 
 	/**
@@ -42,6 +43,11 @@ class Test_Plugin extends \WP_UnitTestCase {
 	/**
 	 * Test is_pro.
 	 *
+	 * This is essentially the same test as in Test_Utils.
+	 * But this tests that the __call() magic method in Plugin works.
+	 * This method, is_pro(), is called in the Plugin class.
+	 * So this ensures that the magic method refers the call to the Utils class.
+	 *
 	 * @covers \Block_Lab\Plugin::is_pro()
 	 */
 	public function test_is_pro() {
@@ -52,5 +58,25 @@ class Test_Plugin extends \WP_UnitTestCase {
 
 		$this->set_license_validity( false );
 		$this->assertFalse( $this->instance->is_pro() );
+	}
+
+	/**
+	 * Test get_block_lab_template_locations.
+	 *
+	 * This is also essentially the same test as in Test_Utils.
+	 * But this also tests that the __call() magic method in Plugin works.
+	 *
+	 * @covers \Block_Lab\Plugin::get_block_lab_template_locations()
+	 */
+	public function test_get_block_lab_template_locations() {
+		$name = 'foo-baz';
+		$this->assertEquals(
+			array(
+				"blocks/foo-baz/block.php",
+				"blocks/block-foo-baz.php",
+				"blocks/block.php",
+			),
+			$this->instance->get_block_lab_template_locations( $name )
+		);
 	}
 }
