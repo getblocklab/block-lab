@@ -48,7 +48,7 @@ class Test_Plugin extends \WP_UnitTestCase {
 	 * This method, is_pro(), is called in the Plugin class.
 	 * So this ensures that the magic method refers the call to the Utils class.
 	 *
-	 * @covers \Block_Lab\Plugin::is_pro()
+	 * @covers \Block_Lab\Blocks\Utils::is_pro()
 	 */
 	public function test_is_pro() {
 		$this->instance->admin = new Block_Lab\Admin\Admin();
@@ -66,7 +66,7 @@ class Test_Plugin extends \WP_UnitTestCase {
 	 * This is also essentially the same test as in Test_Utils.
 	 * But this also tests that the __call() magic method in Plugin works.
 	 *
-	 * @covers \Block_Lab\Plugin::get_template_locations()
+	 * @covers \Block_Lab\Blocks\Utils::get_template_locations()
 	 */
 	public function test_get_template_locations() {
 		$name = 'foo-baz';
