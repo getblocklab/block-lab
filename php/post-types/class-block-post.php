@@ -326,7 +326,7 @@ class Block_Post extends Component_Abstract {
 
 		if ( isset( $post->post_name ) && ! empty( $post->post_name ) ) {
 			$locations = block_lab()->get_block_lab_template_locations( $post->post_name );
-			$template  = block_lab_locate_template( $locations, '', true );
+			$template  = block_lab()->locate_template( $locations, '', true );
 
 			if ( ! $template ) {
 				add_meta_box(
@@ -806,7 +806,7 @@ class Block_Post extends Component_Abstract {
 		}
 
 		$locations = block_lab()->get_block_lab_template_locations( $post->post_name, 'block' );
-		$template  = block_lab_locate_template( $locations, '', true );
+		$template  = block_lab()->locate_template( $locations, '', true );
 
 		if ( ! $template ) {
 			return;
@@ -1127,7 +1127,7 @@ class Block_Post extends Component_Abstract {
 		if ( 'template' === $column ) {
 			$block     = new Block( $post_id );
 			$locations = block_lab()->get_block_lab_template_locations( $block->name, 'block' );
-			$template  = block_lab_locate_template( $locations, '', true );
+			$template  = block_lab()->locate_template( $locations, '', true );
 
 			if ( ! $template ) {
 				esc_html_e( 'No template found.', 'block-lab' );
