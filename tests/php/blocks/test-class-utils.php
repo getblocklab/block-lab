@@ -12,6 +12,8 @@ use Block_Lab\Blocks;
  */
 class Test_Utils extends \WP_UnitTestCase {
 
+	use Testing_Helper;
+
 	/**
 	 * Setup.
 	 *
@@ -19,13 +21,34 @@ class Test_Utils extends \WP_UnitTestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
+
 		$this->instance = new Blocks\Utils();
+		block_lab()->register_component( $this->instance );
+	}
+
+	/**
+	 * Test is_pro.
+	 *
+	 * @covers \Block_Lab\Blocks\Utils::is_pro()
+	 */
+	public function test_is_pro() {
+		$this->instance = new Block_Lab\Plugin();
+		$this->instance->plugin_loaded();
+
+		$this->instance->admin = new Block_Lab\Admin\Admin();
+		$this->instance->admin->init();
+
+		$this->set_license_validity( true );
+		$this->assertTrue( $this->instance->is_pro() );
+
+		$this->set_license_validity( false );
+		$this->assertFalse( $this->instance->is_pro() );
 	}
 
 	/**
 	 * Test get_block_lab_template_locations.
 	 *
-	 * @covers Block_Lab\Blocks\Utils::get_block_lab_template_locations()
+	 * @covers \Block_Lab\Blocks\Utils::get_block_lab_template_locations()
 	 */
 	public function test_get_block_lab_template_locations() {
 		$name = 'foo-baz';
@@ -53,7 +76,7 @@ class Test_Utils extends \WP_UnitTestCase {
 	/**
 	 * Test get_block_lab_stylesheet_locations.
 	 *
-	 * @covers Block_Lab\Blocks\Utils::get_block_lab_stylesheet_locations()
+	 * @covers \Block_Lab\Blocks\Utils::get_block_lab_stylesheet_locations()
 	 */
 	public function test_get_block_lab_stylesheet_locations() {
 		$name = 'foo-baz';
