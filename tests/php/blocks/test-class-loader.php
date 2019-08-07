@@ -50,7 +50,7 @@ class Test_Loader extends \WP_UnitTestCase {
 		$this->instance = new Blocks\Loader();
 		$this->instance->set_plugin( block_lab() );
 		$this->theme_directory                = get_template_directory();
-		$this->template_locations             = block_lab()->get_block_lab_template_locations( $this->mock_block_name );
+		$this->template_locations             = block_lab()->get_template_locations( $this->mock_block_name );
 		$this->overridden_theme_template_path = "{$this->theme_directory}/example-overridden-template.php";
 
 		foreach ( $this->get_block_template_directories() as $template_directory ) {
