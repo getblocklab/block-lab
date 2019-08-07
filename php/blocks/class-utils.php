@@ -2,7 +2,7 @@
 /**
  * Helper functions for the Block_Lab plugin.
  *
- * These are publicly accessible via a magic method, like block_lab->get_block_lab_template_locations().
+ * These are publicly accessible via a magic method, like block_lab->get_template_locations().
  * So these methods should generally be 'getter' functions, and should not affect the global state.
  *
  * @package Block_Lab
@@ -39,7 +39,7 @@ class Utils extends Component_Abstract {
 	 *
 	 * @return array
 	 */
-	public function get_block_lab_template_locations( $name, $type = 'block' ) {
+	public function get_template_locations( $name, $type = 'block' ) {
 		return array(
 			"blocks/{$name}/{$type}.php",
 			"blocks/{$type}-{$name}.php",
@@ -55,7 +55,7 @@ class Utils extends Component_Abstract {
 	 *
 	 * @return array
 	 */
-	public function get_block_lab_stylesheet_locations( $name, $type = 'block' ) {
+	public function get_stylesheet_locations( $name, $type = 'block' ) {
 		return array(
 			"blocks/{$name}/{$type}.css",
 			"blocks/css/{$type}-{$name}.css",

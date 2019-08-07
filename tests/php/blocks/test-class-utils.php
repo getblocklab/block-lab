@@ -46,11 +46,11 @@ class Test_Utils extends \WP_UnitTestCase {
 	}
 
 	/**
-	 * Test get_block_lab_template_locations.
+	 * Test get_template_locations.
 	 *
-	 * @covers \Block_Lab\Blocks\Utils::get_block_lab_template_locations()
+	 * @covers \Block_Lab\Blocks\Utils::get_template_locations()
 	 */
-	public function test_get_block_lab_template_locations() {
+	public function test_get_template_locations() {
 		$name = 'foo-baz';
 		$this->assertEquals(
 			array(
@@ -58,7 +58,7 @@ class Test_Utils extends \WP_UnitTestCase {
 				"blocks/block-foo-baz.php",
 				"blocks/block.php",
 			),
-			$this->instance->get_block_lab_template_locations( $name )
+			$this->instance->get_template_locations( $name )
 		);
 
 		$name = 'example';
@@ -69,16 +69,16 @@ class Test_Utils extends \WP_UnitTestCase {
 				"blocks/another-type-example.php",
 				"blocks/another-type.php",
 			),
-			$this->instance->get_block_lab_template_locations( $name, $type )
+			$this->instance->get_template_locations( $name, $type )
 		);
 	}
 
 	/**
-	 * Test get_block_lab_stylesheet_locations.
+	 * Test get_stylesheet_locations.
 	 *
-	 * @covers \Block_Lab\Blocks\Utils::get_block_lab_stylesheet_locations()
+	 * @covers \Block_Lab\Blocks\Utils::get_stylesheet_locations()
 	 */
-	public function test_get_block_lab_stylesheet_locations() {
+	public function test_get_stylesheet_locations() {
 		$name = 'foo-baz';
 		$this->assertEquals(
 			array(
@@ -86,7 +86,7 @@ class Test_Utils extends \WP_UnitTestCase {
 				"blocks/css/block-foo-baz.css",
 				"blocks/block-foo-baz.css",
 			),
-			$this->instance->get_block_lab_stylesheet_locations( $name )
+			$this->instance->get_stylesheet_locations( $name )
 		);
 
 		$name = 'example';
@@ -97,7 +97,7 @@ class Test_Utils extends \WP_UnitTestCase {
 				"blocks/css/another-type-example.css",
 				"blocks/another-type-example.css",
 			),
-			$this->instance->get_block_lab_stylesheet_locations( $name, $type )
+			$this->instance->get_stylesheet_locations( $name, $type )
 		);
 	}
 }

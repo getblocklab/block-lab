@@ -61,14 +61,14 @@ class Test_Plugin extends \WP_UnitTestCase {
 	}
 
 	/**
-	 * Test get_block_lab_template_locations.
+	 * Test get_template_locations.
 	 *
 	 * This is also essentially the same test as in Test_Utils.
 	 * But this also tests that the __call() magic method in Plugin works.
 	 *
-	 * @covers \Block_Lab\Plugin::get_block_lab_template_locations()
+	 * @covers \Block_Lab\Plugin::get_template_locations()
 	 */
-	public function test_get_block_lab_template_locations() {
+	public function test_get_template_locations() {
 		$name = 'foo-baz';
 		$this->assertEquals(
 			array(
@@ -76,7 +76,7 @@ class Test_Plugin extends \WP_UnitTestCase {
 				"blocks/block-foo-baz.php",
 				"blocks/block.php",
 			),
-			$this->instance->get_block_lab_template_locations( $name )
+			$this->instance->get_template_locations( $name )
 		);
 	}
 }
