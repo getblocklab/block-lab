@@ -1,6 +1,6 @@
 <?php
 /**
- * Base test class, used for testing functions that get templates.
+ * Abstract test class, used for testing functions that get templates.
  *
  * @package Block_Lab
  */
@@ -8,9 +8,9 @@
 use Block_Lab\Blocks;
 
 /**
- * Base test class.
+ * Abstract test class.
  */
-abstract class Base_Template extends \WP_UnitTestCase {
+abstract class Abstract_Template extends \WP_UnitTestCase {
 
 	/**
 	 * The name of a testing block.
