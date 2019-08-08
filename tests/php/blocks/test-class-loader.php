@@ -10,7 +10,7 @@ use Block_Lab\Blocks;
 /**
  * Tests for class Loader.
  */
-class Test_Loader extends Base_Template {
+class Test_Loader extends Abstract_Template {
 	/**
 	 * Test register_hooks.
 	 *

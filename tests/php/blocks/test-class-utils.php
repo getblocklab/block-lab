@@ -10,7 +10,7 @@ use Block_Lab\Blocks;
 /**
  * Tests for class Utils.
  */
-class Test_Utils extends Base_Template {
+class Test_Utils extends Abstract_Template {
 
 	use Testing_Helper;
 
