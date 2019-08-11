@@ -2,7 +2,7 @@
 /**
  * Helper functions for the Block_Lab plugin.
  *
- * These are publicly accessible via a magic method, like block_lab->get_template_locations().
+ * These are publicly accessible via a magic method, like block_lab()->get_template_locations().
  * So these methods should generally be 'getter' functions, and should not affect the global state.
  *
  * @package Block_Lab
