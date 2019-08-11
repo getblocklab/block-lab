@@ -64,14 +64,6 @@ class Onboarding extends Component_Abstract {
 		if ( $slug === $screen->id && 'post' === $screen->base && $post_id === $example_post_id ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 			add_action( 'block_lab_before_fields_list', array( $this, 'show_add_to_post_notice' ) );
-
-			/*
-			 * After we've shown the Add to Post message once, we can delete the option. This will
-			 * ensure that no further onboarding messages are shown.
-			 */
-			if ( 'publish' === get_post_status( $example_post_id ) ) {
-				delete_option( $this->option );
-			}
 		}
 
 		if ( 'draft' !== get_post_status( $example_post_id ) ) {
@@ -290,6 +282,12 @@ class Onboarding extends Component_Abstract {
 			</a>
 		</div>
 		<?php
+
+		/*
+		 * After we've shown the Add to Post message once, we can delete the option. This will
+		 * ensure that no further onboarding messages are shown.
+		 */
+		delete_option( $this->option );
 	}
 
 	/**
