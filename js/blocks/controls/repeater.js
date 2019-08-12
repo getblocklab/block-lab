@@ -19,6 +19,11 @@ const BlockLabRepeaterControl = ( props, field, block ) => {
 		return Math.round( Math.random() * 1000000 );
 	};
 
+	if ( ! rows ) {
+		attr[ field.name ] = [ uuid() ];
+		setAttributes( attr );
+	}
+
 	return (
 		<BaseControl className="block-lab-repeater" label={field.label} help={field.help}>
 			<div className="block-lab-repeater--rows">
