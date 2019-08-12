@@ -29,6 +29,13 @@ class Block {
 	public $title = '';
 
 	/**
+	 * Exclude the block in these post types.
+	 *
+	 * @var array
+	 */
+	public $excluded = array();
+
+	/**
 	 * Icon.
 	 *
 	 * @var string
@@ -117,6 +124,10 @@ class Block {
 			$this->title = $config['title'];
 		}
 
+		if ( isset( $config['excluded'] ) ) {
+			$this->excluded = $config['excluded'];
+		}
+
 		if ( isset( $config['icon'] ) ) {
 			$this->icon = $config['icon'];
 		}
@@ -147,6 +158,7 @@ class Block {
 	public function to_json() {
 		$config['name']     = $this->name;
 		$config['title']    = $this->title;
+		$config['excluded'] = $this->excluded;
 		$config['icon']     = $this->icon;
 		$config['category'] = $this->category;
 		$config['keywords'] = $this->keywords;
