@@ -27,12 +27,12 @@
 		});
 
 		$( '.block-lab-pub-section .edit-post-types' ).on( 'click', function() {
-			let postTypes = $( '#block-post-types' ).val().split( ',' ).filter( Boolean );
+			let excludedPostTypes = $( '#block-excluded-post-types' ).val().split( ',' ).filter( Boolean );
 
-			$( '.post-types-select-items input' ).prop( 'checked', false );
+			$( '.post-types-select-items input' ).prop( 'checked', true );
 
-			for ( postType of postTypes ) {
-				$( '.post-types-select-items input[value="' + postType + '"]' ).prop( 'checked', 'checked' );
+			for ( postType of excludedPostTypes ) {
+				$( '.post-types-select-items input[value="' + postType + '"]' ).prop( 'checked', false );
 			}
 
 			$( '.block-lab-pub-section .post-types-select' ).slideDown( 200 );
@@ -40,13 +40,13 @@
 		});
 
 		$( '.block-lab-pub-section .save-post-types' ).on( 'click', function() {
-			let checked   = $( '.post-types-select-items input:checked' );
+			let checked   = $( '.post-types-select-items input:not(:checked)' );
 			var postTypes = [];
 			for ( input of checked ) {
 				postTypes.push( $( input ).val() );
 			}
 
-			$( '#block-post-types' ).val( postTypes.join( ',' ) );
+			$( '#block-excluded-post-types' ).val( postTypes.join( ',' ) );
 
 			blockPostTypesInit();
 
@@ -230,25 +230,32 @@
 	};
 
 	let blockPostTypesInit = function() {
-		let postTypes = $( '#block-post-types' ).val().split( ',' ).filter( Boolean ),
-			display   = $( '.post-types-display' ),
-			inputs    = $( '.post-types-select-items input' );
+		let display = $( '.post-types-display' ),
+			inputs  = $( '.post-types-select-items input' );
 
-		if ( postTypes.length === inputs.length ) {
+		let excludedPostTypes = $( '#block-excluded-post-types' )
+			.val()
+			.split( ',' )
+			.filter( Boolean );
+
+		if ( 0 === excludedPostTypes.length ) {
 			display.text( blockLab.postTypes.all );
 			return;
 		}
-console.log(postTypes);
-		if ( 0 === postTypes.length ) {
+
+		if ( excludedPostTypes.length === inputs.length ) {
 			display.text( blockLab.postTypes.none );
 			return;
 		}
 
 		var displayList = [];
-		for ( postType of postTypes ) {
-			displayList.push(
-				$( 'input[value="' + postType + '"]' ).next( 'label' ).text()
-			);
+		for ( input of inputs ) {
+			let postType = $( input ).val();
+			if ( -1 === excludedPostTypes.indexOf( postType ) ) {
+				displayList.push(
+					$( input ).next( 'label' ).text()
+				);
+			}
 		}
 
 		display.text( displayList.join( ', ' ) );
