@@ -279,6 +279,10 @@ class Block_Post extends Component_Abstract {
 				'blockLab',
 				array(
 					'fieldSettingsNonce' => wp_create_nonce( 'block_lab_field_settings_nonce' ),
+					'postTypes'          => array(
+						'all'  => __( 'All', 'block-lab' ),
+						'none' => __( 'None', 'block-lab' ),
+					),
 					'copySuccessMessage' => __( 'Copied to clipboard.', 'block-lab' ),
 					'copyFailMessage'    => sprintf(
 						// translators: Placeholder is a shortcut key combination.
@@ -896,6 +900,15 @@ class Block_Post extends Component_Abstract {
 		check_admin_referer( 'block_lab_save_fields', 'block_lab_fields_nonce' );
 		check_admin_referer( 'block_lab_save_properties', 'block_lab_properties_nonce' );
 
+		// Update post meta with allowed post types.
+		if ( isset( $_POST['block-post-types'] ) ) {
+			$post_types = sanitize_text_field(
+				wp_unslash( $_POST['block-post-types'] )
+			);
+			$post_types = explode( ',', $post_types );
+			update_post_meta( $post_id, 'block-post-types', $post_types );
+		}
+
 		// Strip encoded special characters, like 🖖 (%f0%9f%96%96).
 		$data['post_name'] = preg_replace( '/%[a-f|0-9][a-f|0-9]/', '', $data['post_name'] );
 
@@ -1102,28 +1115,30 @@ class Block_Post extends Component_Abstract {
 			'objects'
 		);
 
+		$post_types = array_filter(
+			$post_types,
+			function( $post_type ) {
+				return post_type_supports( $post_type->name, 'editor' );
+			}
+		);
+
 		$active_post_types = get_post_meta( get_the_ID(), 'block-post-types', true );
 
 		if ( empty( $active_post_types ) ) {
-			$active_post_types = 'all';
+			$active_post_types = wp_list_pluck( $post_types, 'name' );
+			$active_post_types = array_values( $active_post_types );
 		}
 		?>
-		<div class="block-lab-pub-section">
-			<?php esc_html_e( 'Post Types:', 'block-lab' ); ?> <span class="post-types-display">All</span>
-			<a href="#post-types-select" class="edit-post-types hide-if-no-js" role="button">
+		<div class="block-lab-pub-section hide-if-no-js">
+			<?php esc_html_e( 'Post Types:', 'block-lab' ); ?> <span class="post-types-display"></span>
+			<a href="#post-types-select" class="edit-post-types" role="button">
 				<span aria-hidden="true"><?php esc_html_e( 'Edit', 'block-lab' ); ?></span>
 			</a>
-			<input type="hidden" value="<?php echo esc_attr( $active_post_types ); ?>" name="block-post-types" />
+			<input type="hidden" value="<?php echo esc_attr( implode( ',', $active_post_types ) ); ?>" name="block-post-types" id="block-post-types" />
 			<div class="post-types-select">
 				<div class="post-types-select-items">
-					<input type="checkbox" class="block-post-type-all" id="block-post-type-all" <?php checked( 'all', $active_post_types ); ?>>
-					<label for="block-post-type-all"><?php esc_html_e( 'All', 'block-lab' ); ?></label>
-					<br />
 					<?php
 					foreach ( $post_types as $post_type ) {
-						if ( ! post_type_supports( $post_type->name, 'editor' ) ) {
-							continue;
-						}
 						?>
 						<input type="checkbox" id="block-post-type-<?php echo esc_attr( $post_type->name ); ?>" value="<?php echo esc_attr( $post_type->name ); ?>">
 						<label for="block-post-type-<?php echo esc_attr( $post_type->name ); ?>"><?php echo esc_html( $post_type->label ); ?></label>
@@ -1132,8 +1147,8 @@ class Block_Post extends Component_Abstract {
 					}
 					?>
 				</div>
-				<a href="#post-types" class="save-post-types hide-if-no-js button"><?php esc_html_e( 'OK', 'block-lab' ); ?></a>
-				<a href="#post-types" class="hide-if-no-js button-cancel"><?php esc_html_e( 'Cancel', 'block-lab' ); ?></a>
+				<a href="#post-types" class="save-post-types button"><?php esc_html_e( 'OK', 'block-lab' ); ?></a>
+				<a href="#post-types" class="button-cancel"><?php esc_html_e( 'Cancel', 'block-lab' ); ?></a>
 			</div>
 		</div>
 		<?php
