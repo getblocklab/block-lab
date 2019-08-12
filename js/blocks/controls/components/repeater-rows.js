@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-const { BaseControl, IconButton } = wp.components;
+const { BaseControl, Button, IconButton } = wp.components;
 const { Component } = wp.element;
 const { __ } = wp.i18n;
 
@@ -33,6 +33,29 @@ import { Fields } from '../../loader/edit';
 		};
 	}
 
+	/**
+	 * Gets the parent from fields, if one exists.
+	 *
+	 * Sub-fields in the Repeater control have parents.
+	 * This looks for a parent in each field, and returns a parent as long as they don't have different parents.
+	 *
+	 * @param {Object} fields The fields in which to look for the parent.
+	 * @return {String|null} parent The parent of the fields.
+	 */
+	getParent( fields ) {
+		let parent = null;
+		for ( const field in fields ) {
+			if ( fields.hasOwnProperty( field ) ) {
+				if ( parent && parent !== fields[ field ].parent ) {
+					return null;
+				}
+				parent = fields[ field ].parent;
+			}
+		}
+
+		return parent;
+	};
+
 	/*
 	 * On clicking the 'remove' button in a repeater row, this removes it.
 	 *
@@ -42,7 +65,7 @@ import { Fields } from '../../loader/edit';
 		return () => {
 			const { parentBlockProps } = this.props;
 			const attr = { ...parentBlockProps.attributes };
-			const parentName = getParent( fields );
+			const parentName = this.getParent( this.props.fields );
 			const repeaterRows = attr[ parentName ];
 			if ( ! repeaterRows ) {
 				return;
@@ -77,28 +100,28 @@ import { Fields } from '../../loader/edit';
 						rowName={ rowName }
 					/>
 					<div className="block-lab-repeater--row-actions">
-						<IconButton
+						<Button
 							key={ `${ rowName }-move-left` }
-							icon="arrow-left-alt2"
-							label={ __( 'Move left', 'block-lab' ) }
-							labelPosition="bottom"
+							isLink={true}
 							className="button-move-left"
-						/>
-						<IconButton
+						>
+							{ __( 'Move left', 'block-lab' ) }
+						</Button>
+						<Button
 							key={ `${ rowName }-dismiss` }
-							icon="dismiss"
-							label={ __( 'Remove row', 'block-lab' ) }
-							labelPosition="bottom"
+							isLink={true}
 							onClick={ this.removeRow( rowIndex ) }
 							className="button-dismiss"
-						/>
-						<IconButton
+						>
+							{ __( 'Remove row', 'block-lab' ) }
+						</Button>
+						<Button
 							key={ `${ rowName }-move-right` }
-							icon="arrow-right-alt2"
-							label={ __( 'Move right', 'block-lab' ) }
-							labelPosition="bottom"
+							isLink={true}
 							className="button-move-right"
-						/>
+						>
+							{ __( 'Move right', 'block-lab' ) }
+						</Button>
 					</div>
 					<div className="block-lab-repeater__carousel-buttons">
 						<IconButton
@@ -108,7 +131,11 @@ import { Fields } from '../../loader/edit';
 							labelPosition="bottom"
 							className="button-move-left"
 							onClick={ () => {
-								this.setState( { activeRow: this.state.activeRow - 1 } );
+								var activeRow = this.state.activeRow - 1;
+								if ( activeRow < 0 ) {
+									activeRow = rows.length - 1;
+								}
+								this.setState( { activeRow: activeRow } );
 							} }
 						/>
 						<IconButton
@@ -118,7 +145,11 @@ import { Fields } from '../../loader/edit';
 							labelPosition="bottom"
 							className="button-move-right"
 							onClick={ () => {
-								this.setState( { activeRow: this.state.activeRow + 1 } );
+								var activeRow = this.state.activeRow + 1;
+								if ( activeRow >= rows.length ) {
+									activeRow = 0;
+								}
+								this.setState( { activeRow: activeRow } );
 							} }
 						/>
 					</div>
