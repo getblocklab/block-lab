@@ -116,6 +116,7 @@ div[class^="wp-block-block-lab-"] {
   .block-form {
     box-shadow: -3px 0 0 0 $dark;
     border: 1px solid rgba(66,88,99,0.2);
+    border-left: none;
     background: $light;
     padding: 1rem;
     font-size: 0.8125rem;
@@ -208,10 +209,14 @@ div[class^="wp-block-block-lab-"] {
           pointer-events: auto;
         }
         .block-lab-repeater--row-actions {
-          text-align: right;
+          padding: 1em 0;
 
           button {
-            display: inline-block;
+            text-decoration: none;
+          }
+          .separator {
+            padding: 0 0.5em;
+            color: $dark;
           }
         }
       }

@@ -107,20 +107,22 @@ import { Fields } from '../../loader/edit';
 						>
 							{ __( 'Move left', 'block-lab' ) }
 						</Button>
-						<Button
-							key={ `${ rowName }-dismiss` }
-							isLink={true}
-							onClick={ this.removeRow( rowIndex ) }
-							className="button-dismiss"
-						>
-							{ __( 'Remove row', 'block-lab' ) }
-						</Button>
+						<span className="separator">|</span>
 						<Button
 							key={ `${ rowName }-move-right` }
 							isLink={true}
 							className="button-move-right"
 						>
 							{ __( 'Move right', 'block-lab' ) }
+						</Button>
+						<span className="separator">|</span>
+						<Button
+							key={ `${ rowName }-delete` }
+							isLink={true}
+							onClick={ this.removeRow( rowIndex ) }
+							className="button-dismiss"
+						>
+							{ __( 'Delete', 'block-lab' ) }
 						</Button>
 					</div>
 					<div className="block-lab-repeater__carousel-buttons">
