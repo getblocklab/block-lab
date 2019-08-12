@@ -14,6 +14,7 @@
 		blockTitleInit();
 		blockIconInit();
 		blockFieldInit();
+		blockPostTypesInit();
 
 		$( '#block-add-field' ).on( 'click', function() {
 			let template = wp.template( 'field-repeater' ),
@@ -26,31 +27,36 @@
 		});
 
 		$( '.block-lab-pub-section .edit-post-types' ).on( 'click', function() {
-			$( '.block-lab-pub-section .post-types-select' ).slideDown();
+			let postTypes = $( '#block-post-types' ).val().split( ',' ).filter( Boolean );
+
+			$( '.post-types-select-items input' ).prop( 'checked', false );
+
+			for ( postType of postTypes ) {
+				$( '.post-types-select-items input[value="' + postType + '"]' ).prop( 'checked', 'checked' );
+			}
+
+			$( '.block-lab-pub-section .post-types-select' ).slideDown( 200 );
 			$( this ).hide();
 		});
 
 		$( '.block-lab-pub-section .save-post-types' ).on( 'click', function() {
-			$( '.block-lab-pub-section .post-types-select' ).slideUp();
+			let checked   = $( '.post-types-select-items input:checked' );
+			var postTypes = [];
+			for ( input of checked ) {
+				postTypes.push( $( input ).val() );
+			}
+
+			$( '#block-post-types' ).val( postTypes.join( ',' ) );
+
+			blockPostTypesInit();
+
+			$( '.block-lab-pub-section .post-types-select' ).slideUp( 200 );
 			$( '.block-lab-pub-section .edit-post-types' ).show();
 		});
 
 		$( '.block-lab-pub-section .button-cancel' ).on( 'click', function() {
-			$( '.block-lab-pub-section .post-types-select' ).slideUp();
+			$( '.block-lab-pub-section .post-types-select' ).slideUp( 200 );
 			$( '.block-lab-pub-section .edit-post-types' ).show();
-		});
-
-		$( '.block-lab-pub-section .block-post-type-all' ).on( 'click', function() {
-			$( this ).nextAll( 'input[type="checkbox"]' ).prop( 'checked', $( this ).prop( 'checked' ) );
-		});
-
-		$( '.block-lab-pub-section input[type="checkbox"]:not(.block-post-type-all)' ).on( 'change', function() {
-			if ( $( this ).parent().find( 'input[type="checkbox"]:not(:checked)' ).length > 0 ) {
-				$( '.block-lab-pub-section .block-post-type-all' ).prop( 'checked', false );
-			}
-			if ( $( this ).parent().find( 'input[type="checkbox"]:checked:not(.block-post-type-all)' ).length === $( this ).parent().find( 'input[type="checkbox"]:not(.block-post-type-all)' ).length ) {
-				$( '.block-lab-pub-section .block-post-type-all' ).prop( 'checked', true );
-			}
 		});
 
 		$( '#block_properties .block-properties-icon-select span' ).on( 'click', function() {
@@ -221,6 +227,31 @@
 			$( '.block-no-fields' ).show();
 		}
 		$( '.block-fields-edit-name input' ).data( 'autoslug', 'false' );
+	};
+
+	let blockPostTypesInit = function() {
+		let postTypes = $( '#block-post-types' ).val().split( ',' ).filter( Boolean ),
+			display   = $( '.post-types-display' ),
+			inputs    = $( '.post-types-select-items input' );
+
+		if ( postTypes.length === inputs.length ) {
+			display.text( blockLab.postTypes.all );
+			return;
+		}
+console.log(postTypes);
+		if ( 0 === postTypes.length ) {
+			display.text( blockLab.postTypes.none );
+			return;
+		}
+
+		var displayList = [];
+		for ( postType of postTypes ) {
+			displayList.push(
+				$( 'input[value="' + postType + '"]' ).next( 'label' ).text()
+			);
+		}
+
+		display.text( displayList.join( ', ' ) );
 	};
 
 	let fetchFieldSettings = function( fieldRow, fieldControl ) {
