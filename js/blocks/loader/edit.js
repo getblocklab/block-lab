@@ -81,29 +81,6 @@ export const Fields = ( { fields, parentBlockProps, parentBlock, rowName = null 
 	} );
 };
 
-/**
- * Gets the parent from fields, if one exists.
- *
- * Sub-fields in the Repeater control have parents.
- * This looks for a parent in each field, and returns a parent as long as they don't have different parents.
- *
- * @param {Object} fields The fields in which to look for the parent.
- * @return {String|null} parent The parent of the fields.
- */
-export const getParent = ( fields ) => {
-	let parent = null;
-	for ( const field in fields ) {
-		if ( fields.hasOwnProperty( field ) ) {
-			if ( parent && parent !== fields[ field ].parent ) {
-				return null;
-			}
-			parent = fields[ field ].parent;
-		}
-	}
-
-	return parent;
-};
-
 export const editComponent = ( props, block ) => {
 	const { className, isSelected } = props;
 
