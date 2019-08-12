@@ -194,7 +194,6 @@ class Onboarding extends Component_Abstract {
 				);
 				?>
 			</p>
-			<span class="pointer">☝️</span>
 		</div>
 		<?php
 	}
@@ -216,7 +215,6 @@ class Onboarding extends Component_Abstract {
 		<div class="block-lab-add-fields block-lab-notice">
 			<h2>🧐 <?php esc_html_e( 'Try adding a field.', 'block-lab' ); ?></h2>
 			<p><?php esc_html_e( 'Fields let you define the options you see when adding your block to a post.', 'block-lab' ); ?></p>
-			<span class="pointer">👈</span>
 		</div>
 		<?php
 	}
@@ -236,7 +234,11 @@ class Onboarding extends Component_Abstract {
 		?>
 		<div class="block-lab-publish block-lab-notice">
 			<h2>🧪 <?php esc_html_e( 'Time to experiment!', 'block-lab' ); ?></h2>
-			<p class="intro"><?php esc_html_e( 'Choose an icon, change the category, and investigate a few different field types.', 'block-lab' ); ?></p>
+			<ol class="intro">
+				<li><?php esc_html_e( 'Choose an icon', 'block-lab' ); ?></li>
+				<li><?php esc_html_e( 'Change the category', 'block-lab' ); ?></li>
+				<li><?php esc_html_e( 'Investigate a few different field types', 'block-lab' ); ?></li>
+			</ol>
 			<p>
 				<?php
 				echo wp_kses_post(

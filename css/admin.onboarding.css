@@ -12,23 +12,12 @@
 .block-lab-notice p {
 	font-size: 1em;
 }
-.block-lab-notice p.intro {
+.block-lab-notice .intro {
 	font-size: 1.2em;
+	line-height: 1.5em;
 }
 .block-lab-notice p.ps {
 	font-size: smaller;
-}
-.block-lab-notice .pointer {
-	font-size: 3em;
-	position: absolute;
-	z-index: 10;
-	animation-duration: 1s;
-	animation-timing-function: ease-in-out;
-	animation-direction: alternate;
-	animation-iteration-count: infinite;
-}
-.block-lab-notice .pointer img {
-	filter: drop-shadow(0 0 1px rgba(0,0,0,0.3));
 }
 .block-lab-notice .button {
 	display: inline-block;
@@ -102,7 +91,7 @@
 .block-lab-welcome p {
 	font-size: 1.1em;
 }
-.block-lab-welcome p.intro {
+.block-lab-welcome .intro {
 	font-size: 1.3em;
 }
 .block-lab-notice p.ps {
@@ -120,12 +109,6 @@
 .block-lab-edit-block a.trash:hover {
 	color: #dc3232;
 }
-.block-lab-edit-block .pointer {
-	margin-left: 120px;
-	margin-top: 25px;
-	transform: rotate(220deg);
-	animation-name: block-lab-edit-block-point;
-}
 .block-lab-add-fields {
 	position: relative;
 }
@@ -134,12 +117,6 @@
 	padding: 0 !important;
 	margin: 0.5em 0 1em !important;
 	font-weight: 600 !important;
-}
-.block-lab-add-fields .pointer {
-	margin-left: calc(50% + 1em);
-	margin-top: -140px;
-	transform: rotate(30deg);
-	animation-name: block-lab-add-fields-point;
 }
 .block-lab-publish {
 	margin: 1em 0 0;
