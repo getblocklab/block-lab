@@ -943,12 +943,12 @@ class Block_Post extends Component_Abstract {
 
 		// Block excluded post type.
 		if ( isset( $_POST['block-excluded-post-types'] ) ) {
-			$block->excluded = explode(
-				',',
-				sanitize_text_field(
-					wp_unslash( $_POST['block-excluded-post-types'] )
-				)
+			$excluded = sanitize_text_field(
+				wp_unslash( $_POST['block-excluded-post-types'] )
 			);
+			if ( ! empty( $excluded ) ) {
+				$block->excluded = explode( ',', $excluded );
+			}
 		}
 
 		// Block icon.
