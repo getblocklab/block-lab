@@ -1,16 +1,14 @@
 <?php
 /**
- * Tests for class Utils.
+ * Tests for class Util.
  *
  * @package Block_Lab
  */
 
-use Block_Lab\Blocks;
-
 /**
- * Tests for class Utils.
+ * Tests for class Util.
  */
-class Test_Utils extends Abstract_Template {
+class Test_Util extends Abstract_Template {
 
 	use Testing_Helper;
 
@@ -22,14 +20,14 @@ class Test_Utils extends Abstract_Template {
 	public function setUp() {
 		parent::setUp();
 
-		$this->instance = new Blocks\Utils();
+		$this->instance = new Block_Lab\Util();
 		block_lab()->register_component( $this->instance );
 	}
 
 	/**
 	 * Test is_pro.
 	 *
-	 * @covers \Block_Lab\Blocks\Utils::is_pro()
+	 * @covers \Block_Lab\Util::is_pro()
 	 */
 	public function test_is_pro() {
 		$this->instance = new Block_Lab\Plugin();
@@ -48,7 +46,7 @@ class Test_Utils extends Abstract_Template {
 	/**
 	 * Test get_template_locations.
 	 *
-	 * @covers \Block_Lab\Blocks\Utils::get_template_locations()
+	 * @covers \Block_Lab\Util::get_template_locations()
 	 */
 	public function test_get_template_locations() {
 		$name = 'foo-baz';
@@ -76,7 +74,7 @@ class Test_Utils extends Abstract_Template {
 	/**
 	 * Test get_stylesheet_locations.
 	 *
-	 * @covers \Block_Lab\Blocks\Utils::get_stylesheet_locations()
+	 * @covers \Block_Lab\Util::get_stylesheet_locations()
 	 */
 	public function test_get_stylesheet_locations() {
 		$name = 'foo-baz';
@@ -104,7 +102,7 @@ class Test_Utils extends Abstract_Template {
 	/**
 	 * Test locate_template.
 	 *
-	 * @covers \Block_Lab\Blocks\Utils::locate_template()
+	 * @covers \Block_Lab\Util::locate_template()
 	 */
 	public function test_locate_template() {
 		$templates                   = $this->instance->get_template_locations( $this->mock_block_name );
