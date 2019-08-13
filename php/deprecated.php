@@ -45,3 +45,15 @@ function block_lab_get_icons() {
 	block_lab_deprecated_function( 'block_lab_get_icons', '1.3.5', 'block_lab()->get_icons()' );
 	return block_lab()->get_icons();
 }
+
+/**
+ * Handle the deprecated block_lab_allowed_svg_tags() function.
+ *
+ * @see \Block_Lab\Util->allowed_svg_tags()
+ *
+ * @return array
+ */
+function block_lab_allowed_svg_tags() {
+	block_lab_deprecated_function( 'block_lab_allowed_svg_tags', '1.3.5', 'block_lab()->allowed_svg_tags()' );
+	return block_lab()->allowed_svg_tags();
+}
