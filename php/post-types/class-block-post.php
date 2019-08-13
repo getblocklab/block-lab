@@ -384,7 +384,7 @@ class Block_Post extends Component_Abstract {
 	public function render_properties_meta_box() {
 		$post  = get_post();
 		$block = new Block( $post->ID );
-		$icons = block_lab_get_icons();
+		$icons = block_lab()->get_icons();
 
 		if ( ! $block->icon ) {
 			$block->icon = 'block_lab';
@@ -1114,7 +1114,7 @@ class Block_Post extends Component_Abstract {
 	public function list_table_content( $column, $post_id ) {
 		if ( 'icon' === $column ) {
 			$block = new Block( $post_id );
-			$icons = block_lab_get_icons();
+			$icons = block_lab()->get_icons();
 
 			if ( isset( $icons[ $block->icon ] ) ) {
 				printf(
