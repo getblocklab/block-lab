@@ -8,14 +8,14 @@
  * @package Block_Lab
  */
 
-namespace Block_Lab\Blocks;
+namespace Block_Lab;
 
 use Block_Lab\Component_Abstract;
 
 /**
- * Class Utils
+ * Class Util
  */
-class Utils extends Component_Abstract {
+class Util extends Component_Abstract {
 
 	/**
 	 * Not implemented, as this class only has utility methods.
