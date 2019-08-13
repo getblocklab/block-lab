@@ -119,7 +119,18 @@ class Loader extends Component_Abstract {
 
 		$author_block_slugs = wp_list_pluck( $author_blocks, 'post_name' );
 
-		wp_localize_script( 'block-lab-blocks', 'blockLab', array( 'authorBlocks' => $author_block_slugs ) );
+		// Used to conditionally exclude blocks from certain post types.
+		$post      = get_post();
+		$post_type = $post->post_type;
+
+		wp_localize_script(
+			'block-lab-blocks',
+			'blockLab',
+			array(
+				'authorBlocks' => $author_block_slugs,
+				'postType'     => $post_type,
+			)
+		);
 	}
 
 	/**
