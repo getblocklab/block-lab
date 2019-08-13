@@ -90,6 +90,9 @@ if ( ! function_exists( 'register_block_type' ) ) {
 // Load some helpers.
 require_once __DIR__ . '/php/helpers.php';
 
+// Handle deprecated functions.
+require_once __DIR__ . '/php/deprecated.php';
+
 /**
  * Get the plugin object.
  *
