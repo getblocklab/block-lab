@@ -46,6 +46,7 @@ class Plugin extends Plugin_Abstract {
 	 *
 	 * @param string $name      The name of the method called in this class.
 	 * @param array  $arguments The arguments passed to the method.
+	 *
 	 * @return mixed The result of calling the util method, if it exists.
 	 */
 	public function __call( $name, $arguments ) {
