@@ -33,3 +33,15 @@ function block_lab_deprecated_function( $function, $version, $replacement ) {
 		);
 	}
 }
+
+/**
+ * Handle the deprecated block_lab_get_icons() function.
+ *
+ * @see \Block_Lab\Util->get_icons()
+ *
+ * @return array
+ */
+function block_lab_get_icons() {
+	block_lab_deprecated_function( 'block_lab_get_icons', '1.3.5', 'block_lab()->get_icons()' );
+	return block_lab()->get_icons();
+}

@@ -152,30 +152,6 @@ function block_field_config( $name ) {
 }
 
 /**
- * Provides a list of all available block icons.
- *
- * To include additional icons in this list, use the block_lab_icons filter, and add a new svg string to the array,
- * using a unique key. For example:
- *
- * $icons['foo'] = '<svg>…</svg>';
- *
- * @return array
- */
-function block_lab_get_icons() {
-	// This is on the local filesystem, so file_get_contents() is ok to use here.
-	$json_file = block_lab()->get_assets_path( 'icons.json' );
-	$json      = file_get_contents( $json_file ); // @codingStandardsIgnoreLine
-	$icons     = json_decode( $json, true );
-
-	/**
-	 * The available block icons.
-	 *
-	 * @param array $icons The available icons.
-	 */
-	return apply_filters( 'block_lab_icons', $icons );
-}
-
-/**
  * Provides a list of allowed tags to be used by an <svg>.
  *
  * @return array
