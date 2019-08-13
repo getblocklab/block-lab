@@ -19,19 +19,18 @@
  * @param string $replacement The function that should have been called.
  */
 function block_lab_deprecated_function( $function, $version, $replacement ) {
-	if ( WP_DEBUG && apply_filters( 'deprecated_function_trigger_error', true ) ) {
-		trigger_error( // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
-			esc_html(
-				sprintf(
-					// translators: (1) a function name, (2) a version number, (3) a function name.
-					__( '%1$s is deprecated since Block Lab version %2$s! Use %3$s instead.', 'block-lab' ),
-					$function,
-					$version,
-					$replacement
-				)
+	_deprecated_function(
+		// filter_var is used for sanitization here as it allows arrow functions ("->").
+		filter_var(
+			sprintf(
+				// translators: A function name.
+				__( 'Block Lab\'s %1$s', 'block-lab' ),
+				$function
 			)
-		);
-	}
+		),
+		esc_html( $version ),
+		filter_var( $replacement )
+	);
 }
 
 /**
