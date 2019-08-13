@@ -420,7 +420,7 @@ class Block_Post extends Component_Abstract {
 			<span id="block-properties-icon-current">
 				<?php
 				if ( array_key_exists( $block->icon, $icons ) ) {
-					echo wp_kses( $icons[ $block->icon ], block_lab_allowed_svg_tags() );
+					echo wp_kses( $icons[ $block->icon ], block_lab()->allowed_svg_tags() );
 				}
 				?>
 			</span>
@@ -438,7 +438,7 @@ class Block_Post extends Component_Abstract {
 						'<span class="icon %1$s" data-value="%2$s">%3$s</span>',
 						esc_attr( $selected ),
 						esc_attr( $icon ),
-						wp_kses( $svg, block_lab_allowed_svg_tags() )
+						wp_kses( $svg, block_lab()->allowed_svg_tags() )
 					);
 				}
 				?>
@@ -1120,7 +1120,7 @@ class Block_Post extends Component_Abstract {
 				printf(
 					'<span class="icon %1$s">%2$s</span>',
 					esc_attr( $block->icon ),
-					wp_kses( $icons[ $block->icon ], block_lab_allowed_svg_tags() )
+					wp_kses( $icons[ $block->icon ], block_lab()->allowed_svg_tags() )
 				);
 			}
 		}

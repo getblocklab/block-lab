@@ -162,4 +162,40 @@ class Util extends Component_Abstract {
 		 */
 		return apply_filters( 'block_lab_icons', $icons );
 	}
+
+	/**
+	 * Provides a list of allowed tags to be used by an <svg>.
+	 *
+	 * @return array
+	 */
+	public function allowed_svg_tags() {
+		$allowed_tags = array(
+			'svg'    => array(
+				'xmlns'   => true,
+				'width'   => true,
+				'height'  => true,
+				'viewbox' => true,
+			),
+			'g'      => array( 'fill' => true ),
+			'title'  => array( 'title' => true ),
+			'path'   => array(
+				'd'       => true,
+				'fill'    => true,
+				'opacity' => true,
+			),
+			'circle' => array(
+				'cx'   => true,
+				'cy'   => true,
+				'r'    => true,
+				'fill' => true,
+			),
+		);
+
+		/**
+		 * The tags that an <svg> allows.
+		 *
+		 * @param array $allowed_tags The allowed tags.
+		 */
+		return apply_filters( 'block_lab_allowed_svg_tags', $allowed_tags );
+	}
 }
