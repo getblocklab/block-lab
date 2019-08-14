@@ -26,10 +26,11 @@ function block_lab_deprecated_function( $function, $version, $replacement ) {
 				// translators: A function name.
 				__( 'Block Lab\'s %1$s', 'block-lab' ),
 				$function
-			)
+			),
+			FILTER_SANITIZE_STRING
 		),
 		esc_html( $version ),
-		filter_var( $replacement )
+		filter_var( $replacement, FILTER_SANITIZE_STRING )
 	);
 }
 
