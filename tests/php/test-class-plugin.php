@@ -27,6 +27,8 @@ class Test_Plugin extends \WP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->instance = new Block_Lab\Plugin();
+		$this->instance->plugin_loaded();
+		$this->instance->set_util();
 	}
 
 	/**
@@ -42,7 +44,12 @@ class Test_Plugin extends \WP_UnitTestCase {
 	/**
 	 * Test is_pro.
 	 *
-	 * @covers \Block_Lab\Plugin::is_pro()
+	 * This is essentially the same test as in Test_Util.
+	 * But this tests that the __call() magic method in Plugin works.
+	 * This method, is_pro(), is called in the Plugin class.
+	 * So this ensures that the magic method refers the call to the Util class.
+	 *
+	 * @covers \Block_Lab\Blocks\Util::is_pro()
 	 */
 	public function test_is_pro() {
 		$this->instance->admin = new Block_Lab\Admin\Admin();
@@ -52,5 +59,44 @@ class Test_Plugin extends \WP_UnitTestCase {
 
 		$this->set_license_validity( false );
 		$this->assertFalse( $this->instance->is_pro() );
+	}
+
+	/**
+	 * Test get_template_locations.
+	 *
+	 * This is also essentially the same test as in Test_Util.
+	 * But this also tests that the __call() magic method in Plugin works.
+	 *
+	 * @covers \Block_Lab\Blocks\Util::get_template_locations()
+	 */
+	public function test_get_template_locations() {
+		$name = 'foo-baz';
+		$this->assertEquals(
+			array(
+				"blocks/foo-baz/block.php",
+				"blocks/block-foo-baz.php",
+				"blocks/block.php",
+			),
+			$this->instance->get_template_locations( $name )
+		);
+	}
+
+	/**
+	 * Test set_util.
+	 *
+	 * @covers \Block_Lab\Abstract_Plugin:set_util()
+	 */
+	public function test_set_util() {
+		$plugin_instance = new Block_Lab\Plugin();
+		$plugin_instance->plugin_loaded();
+		$plugin_instance->set_util();
+
+		$reflection_plugin = new ReflectionObject( $this->instance );
+		$util_property     = $reflection_plugin->getProperty( 'util' );
+
+		$util_property->setAccessible( true );
+		$util_class = $util_property->getValue( $this->instance );
+
+		$this->assertEquals( 'Block_Lab\Util', get_class( $util_class ) );
 	}
 }
