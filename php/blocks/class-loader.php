@@ -356,15 +356,11 @@ class Loader extends Component_Abstract {
 		foreach ( $types as $type ) {
 			$locations = array_merge(
 				$locations,
-				array(
-					"blocks/{$name}/{$type}.css",
-					"blocks/css/{$type}-{$name}.css",
-					"blocks/{$type}-{$name}.css",
-				)
+				block_lab()->get_stylesheet_locations( $name, $type )
 			);
 		}
 
-		$stylesheet_path = block_lab_locate_template( $locations );
+		$stylesheet_path = block_lab()->locate_template( $locations );
 		$stylesheet_url  = str_replace( untrailingslashit( ABSPATH ), '', $stylesheet_path );
 
 		/**
@@ -390,7 +386,7 @@ class Loader extends Component_Abstract {
 			'blocks/blocks.css',
 		);
 
-		$stylesheet_path = block_lab_locate_template( $locations );
+		$stylesheet_path = block_lab()->locate_template( $locations );
 		$stylesheet_url  = str_replace( untrailingslashit( ABSPATH ), '', $stylesheet_path );
 
 		/**
@@ -421,24 +417,16 @@ class Loader extends Component_Abstract {
 			$wp_query = new \WP_Query(); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 		}
 
-		$types         = (array) $type;
-		$located       = '';
-		$template_file = '';
+		$types   = (array) $type;
+		$located = '';
 
 		foreach ( $types as $type ) {
+			$templates = block_lab()->get_template_locations( $name, $type );
+			$located   = block_lab()->locate_template( $templates );
 
 			if ( ! empty( $located ) ) {
-				continue;
+				break;
 			}
-
-			$template_file = "blocks/{$type}-{$name}.php";
-			$templates     = [
-				"blocks/{$name}/{$type}.php",
-				$template_file,
-				"blocks/{$type}.php",
-			];
-
-			$located = block_lab_locate_template( $templates );
 		}
 
 		if ( ! empty( $located ) ) {
@@ -447,14 +435,14 @@ class Loader extends Component_Abstract {
 			// This is not a load once template, so require_once is false.
 			load_template( $theme_template, false );
 		} else {
-			if ( ! current_user_can( 'edit_posts' ) ) {
+			if ( ! current_user_can( 'edit_posts' ) || ! isset( $templates[0] ) ) {
 				return;
 			}
 			printf(
 				'<div class="notice notice-warning">%s</div>',
 				wp_kses_post(
 					// Translators: Placeholder is a file path.
-					sprintf( __( 'Template file %s not found.' ), '<code>' . esc_html( $template_file ) . '</code>' )
+					sprintf( __( 'Template file %s not found.' ), '<code>' . esc_html( $templates[0] ) . '</code>' )
 				)
 			);
 		}
@@ -469,7 +457,7 @@ class Loader extends Component_Abstract {
 
 		// Retrieve blocks from blocks.json.
 		// Reverse to preserve order of preference when using array_merge.
-		$blocks_files = array_reverse( (array) block_lab_locate_template( 'blocks/blocks.json', '', false ) );
+		$blocks_files = array_reverse( (array) block_lab()->locate_template( 'blocks/blocks.json', '', false ) );
 		foreach ( $blocks_files as $blocks_file ) {
 			// This is expected to be on the local filesystem, so file_get_contents() is ok to use here.
 			$json       = file_get_contents( $blocks_file ); // @codingStandardsIgnoreLine

@@ -95,7 +95,7 @@ class Test_Admin extends \WP_UnitTestCase {
 	/**
 	 * Test register_hooks.
 	 *
-	 * @covers Block_Lab\Admin\Admin::register_hooks()
+	 * @covers \Block_Lab\Admin\Admin::register_hooks()
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -125,7 +125,7 @@ class Test_Admin extends \WP_UnitTestCase {
 	/**
 	 * Test maybe_settings_redirect.
 	 *
-	 * @covers Block_Lab\Admin\Admin::maybe_settings_redirect()
+	 * @covers \Block_Lab\Admin\Admin::maybe_settings_redirect()
 	 */
 	public function test_maybe_settings_redirect() {
 		Monkey\Functions\expect( 'filter_input' )
