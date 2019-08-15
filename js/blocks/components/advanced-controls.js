@@ -1,10 +1,13 @@
 /* global blockLab */
 
+/**
+ * WordPress dependencies
+ */
 const { InspectorAdvancedControls } = wp.editor;
 const { DotTip } = wp.nux;
 const { sprintf, __ } = wp.i18n;
 
-const inspectorControls = ( props, block ) => {
+export default AdvancedControls = ( props, block ) => {
 	if ( '-1' === blockLab.authorBlocks.indexOf( block.name ) ) {
 		return;
 	}
@@ -25,5 +28,3 @@ const inspectorControls = ( props, block ) => {
 		</InspectorAdvancedControls>
 	)
 }
-
-export default inspectorControls

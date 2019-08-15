@@ -1,4 +1,7 @@
-import FetchInput from './components/fetch-input';
+/**
+ * Internal dependencies
+ */
+import { FetchInput } from '../components';
 
 /**
  * Gets a content control, eg. a Post or Taxonomy control.

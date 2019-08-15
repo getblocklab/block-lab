@@ -1,7 +1,7 @@
 import icons from '../../../assets/icons.json';
 
 import getBlockAttributes from './attributes'
-import { editComponent } from './edit'
+import { Edit } from '../components'
 
 import './editor.scss';
 
@@ -36,7 +36,7 @@ const registerBlocks = () => {
 			keywords: block.keywords,
 			attributes: getBlockAttributes( block.fields ),
 			edit: props => {
-				return editComponent(props, block)
+				return Edit( props, block )
 			},
 			save() {
 				return null
