@@ -471,7 +471,7 @@ class Loader extends Component_Abstract {
 
 		$block_posts = new \WP_Query(
 			[
-				'post_type'      => block_lab()->block_post->slug,
+				'post_type'      => block_lab()->get_post_type_slug(),
 				'post_status'    => 'publish',
 				'posts_per_page' => - 1,
 			]
