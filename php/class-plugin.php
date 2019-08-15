@@ -29,6 +29,14 @@ class Plugin extends Plugin_Abstract {
 	public $admin;
 
 	/**
+	 * The slug of the post type that stores the blocks.
+	 *
+	 * @since 1.3.5
+	 * @var string
+	 */
+	protected $post_type_slug = 'block_lab';
+
+	/**
 	 * Execute this as early as possible.
 	 */
 	public function init() {
