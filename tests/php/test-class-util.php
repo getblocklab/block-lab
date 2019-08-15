@@ -13,6 +13,13 @@ class Test_Util extends Abstract_Template {
 	use Testing_Helper;
 
 	/**
+	 * The instance to test.
+	 *
+	 * @var Block_Lab\Util
+	 */
+	public $instance;
+
+	/**
 	 * Setup.
 	 *
 	 * @inheritdoc
@@ -21,7 +28,7 @@ class Test_Util extends Abstract_Template {
 		parent::setUp();
 
 		$this->instance = new Block_Lab\Util();
-		block_lab()->register_component( $this->instance );
+		$this->instance->set_plugin( block_lab() );
 	}
 
 	/**
