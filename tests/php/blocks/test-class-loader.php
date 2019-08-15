@@ -10,18 +10,7 @@ use Block_Lab\Blocks;
 /**
  * Tests for class Loader.
  */
-class Test_Loader extends \WP_UnitTestCase {
-
-	/**
-	 * Setup.
-	 *
-	 * @inheritdoc
-	 */
-	public function setUp() {
-		parent::setUp();
-		$this->instance = new Blocks\Loader();
-	}
-
+class Test_Loader extends Abstract_Template {
 	/**
 	 * Test register_hooks.
 	 *
@@ -91,45 +80,14 @@ class Test_Loader extends \WP_UnitTestCase {
 	 */
 	public function test_enqueue_block_styles() {
 		$wp_styles = wp_styles();
-
-		$block_name      = 'mock-block';
-		$block_handle    = "block-lab__block-{$block_name}";
-		$stylesheet_path = get_template_directory();
-
-		if ( ! file_exists( $stylesheet_path . '/blocks/' ) ) {
-			mkdir( $stylesheet_path . '/blocks/' );
-		}
-		if ( ! file_exists( $stylesheet_path . '/blocks/css/' ) ) {
-			mkdir( $stylesheet_path . '/blocks/css/' );
-		}
-		if ( ! file_exists( $stylesheet_path . "/blocks/{$block_name}/" ) ) {
-			mkdir( $stylesheet_path . "/blocks/{$block_name}/" );
-		}
-
-		// In order of reverse priority.
-		$files = array(
-			"{$stylesheet_path}/blocks/block-{$block_name}.css",
-			"{$stylesheet_path}/blocks/css/block-{$block_name}.css",
-			"{$stylesheet_path}/blocks/{$block_name}/block.css",
-			"{$stylesheet_path}/blocks/preview-{$block_name}.css",
-			"{$stylesheet_path}/blocks/css/preview-{$block_name}.css",
-			"{$stylesheet_path}/blocks/{$block_name}/preview.css",
-		);
-
-		// Remove previous template files so that we can correctly check load order.
-		foreach ( $files as $file ) {
-			if ( file_exists( $file ) ) {
-				unlink( $file );
-			}
-		}
+		$block_handle    = "block-lab__block-{$this->mock_block_name}";
 
 		// Check that the correct stylesheet is enqueued.
-		foreach ( $files as $key => $file ) {
-			file_put_contents( $file, '' ); // @codingStandardsIgnoreLine
+		foreach ( $this->get_template_css_paths() as $key => $file ) {
+			$this->file_put_contents( $file, '' );
 			$file_url = str_replace( untrailingslashit( ABSPATH ), '', $file );
 
-			$this->instance->enqueue_block_styles( $block_name, array( 'preview', 'block' ) );
-
+			$this->instance->enqueue_block_styles( $this->mock_block_name, array( 'preview', 'block' ) );
 			$this->assertContains( $block_handle, $wp_styles->queue );
 			$this->assertArrayHasKey( $block_handle, $wp_styles->registered );
 			$this->assertSame( $wp_styles->registered[ $block_handle ]->src, $file_url, "Trying to enqueue file #{$key} ({$file_url})." );
@@ -253,24 +211,16 @@ class Test_Loader extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Loader::enqueue_global_styles()
 	 */
 	public function test_enqueue_global_styles() {
-		$wp_styles       = wp_styles();
-		$enqueue_handle  = 'block-lab__global-styles';
-		$stylesheet_path = get_template_directory();
-
-		if ( ! file_exists( $stylesheet_path . '/blocks/' ) ) {
-			mkdir( $stylesheet_path . '/blocks/' );
-			mkdir( $stylesheet_path . '/blocks/css/' );
-		}
-
-		// In order of reverse priority.
-		$files = array(
-			"{$stylesheet_path}/blocks/blocks.css",
-			"{$stylesheet_path}/blocks/css/blocks.css",
+		$wp_styles          = wp_styles();
+		$enqueue_handle     = 'block-lab__global-styles';
+		$global_style_paths = array(
+			"{$this->theme_directory}/blocks/blocks.css",
+			"{$this->theme_directory}/blocks/css/blocks.css",
 		);
 
 		// Check that the correct stylesheet is enqueued.
-		foreach ( $files as $key => $file ) {
-			file_put_contents( $file, '' ); // @codingStandardsIgnoreLine
+		foreach ( $global_style_paths as $key => $file ) {
+			$this->file_put_contents( $file, '' );
 			$file_url = str_replace( untrailingslashit( ABSPATH ), '', $file );
 
 			$this->instance->enqueue_global_styles();
@@ -283,5 +233,78 @@ class Test_Loader extends \WP_UnitTestCase {
 			wp_dequeue_style( $enqueue_handle );
 			unlink( $file );
 		}
+	}
+
+	/**
+	 * Test block_template.
+	 *
+	 * @covers \Block_Lab\Blocks\Loader::block_template()
+	 */
+	public function test_block_template() {
+		ob_start();
+		$this->instance->block_template( $this->mock_block_name );
+
+		// If there is no template and the user does not have 'edit_posts' permissions, this should not output anything.
+		$this->assertEmpty( ob_get_clean() );
+
+		wp_set_current_user( $this->factory()->user->create( array( 'role' => 'administrator' ) ) );
+		ob_start();
+		$this->instance->block_template( $this->mock_block_name );
+		$output = ob_get_clean();
+
+		// There is still no template, but the user has the correct permissions, so this should output a warning.
+		$this->assertContains( '<div class="notice notice-warning">', $output );
+		$this->assertContains( $this->mock_block_name, $output );
+		$this->assertContains( 'not found', $output );
+
+		/*
+		 * Test that the templates are used in the proper priority.
+		 * This reverses the order of the $this->get_template_paths_in_theme(),
+		 * as they were originally in order of descending priority.
+		 * So in each iteration, the template should have a higher priority than the last, and should be used as the template.
+		 * The templates won't be deleted until the tearDown() method after this test.
+		 */
+		$templates_in_parent_theme = array_reverse( $this->get_template_paths_in_theme() );
+		foreach ( $templates_in_parent_theme as $template_location ) {
+			$expected_template_contents = "This is content in the template {$template_location}";
+			$this->file_put_contents( $template_location, $expected_template_contents );
+
+			ob_start();
+			$this->instance->block_template( $this->mock_block_name );
+			$this->assertContains( $expected_template_contents, ob_get_clean() );
+		}
+
+		$overridden_theme_template_path       = "{$this->theme_directory}/example-overridden-template.php";
+		$expected_overriden_template_contents = "This is content in the template {$overridden_theme_template_path}";
+		$this->file_put_contents( $overridden_theme_template_path, $expected_overriden_template_contents );
+
+		// Test that this filter changes the template used.
+		add_filter(
+			'block_lab_override_theme_template',
+			function( $directory ) use( $overridden_theme_template_path ) {
+				unset( $directory );
+				return $overridden_theme_template_path;
+			}
+		);
+
+		ob_start();
+		$this->instance->block_template( $this->mock_block_name );
+		$this->assertContains( $expected_overriden_template_contents, ob_get_clean() );
+	}
+
+	/**
+	 * Gets the full paths of the template CSS files, in order of reverse priority.
+	 *
+	 * @return array The paths of the template CSS files.
+	 */
+	public function get_template_css_paths() {
+		return array(
+			"{$this->theme_directory}/blocks/block-{$this->mock_block_name}.css",
+			"{$this->theme_directory}/blocks/css/block-{$this->mock_block_name}.css",
+			"{$this->theme_directory}/blocks/{$this->mock_block_name}/block.css",
+			"{$this->theme_directory}/blocks/preview-{$this->mock_block_name}.css",
+			"{$this->theme_directory}/blocks/css/preview-{$this->mock_block_name}.css",
+			"{$this->theme_directory}/blocks/{$this->mock_block_name}/preview.css",
+		);
 	}
 }

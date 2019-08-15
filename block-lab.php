@@ -3,7 +3,7 @@
  * Block Lab
  *
  * @package   Block_Lab
- * @copyright Copyright(c) 2018, Block Lab
+ * @copyright Copyright(c) 2019, Block Lab
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  *
  * Plugin Name: Block Lab
@@ -89,6 +89,9 @@ if ( ! function_exists( 'register_block_type' ) ) {
 
 // Load some helpers.
 require_once __DIR__ . '/php/helpers.php';
+
+// Handle deprecated functions.
+require_once __DIR__ . '/php/deprecated.php';
 
 /**
  * Get the plugin object.

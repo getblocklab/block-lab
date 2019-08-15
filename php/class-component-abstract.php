@@ -3,7 +3,7 @@
  * Component abstract.
  *
  * @package   Block_Lab
- * @copyright Copyright(c) 2018, Block Lab
+ * @copyright Copyright(c) 2019, Block Lab
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
@@ -31,6 +31,29 @@ abstract class Component_Abstract implements Component_Interface {
 	public function set_plugin( Plugin_Interface $plugin ) {
 		$this->plugin = $plugin;
 		return $this;
+	}
+
+	/**
+	 * Handle deprecated component methods.
+	 *
+	 * @param string $name      The name of the method called in this class.
+	 * @param array  $arguments The arguments passed to the method.
+	 *
+	 * @return mixed The result of calling the deprecated method, if it exists.
+	 *
+	 * @throws \Error Fallback to a standard PHP error.
+	 */
+	public function __call( $name, $arguments ) {
+		$class         = get_class( $this );
+		$class_name    = strtolower( str_replace( '\\', '__', $class ) );
+		$function_name = "${class_name}__${name}";
+
+		if ( function_exists( $function_name ) ) {
+			return call_user_func_array( $function_name, $arguments );
+		}
+
+		// Intentionally untranslated, to match PHP's error message.
+		throw new \Error( "Call to undefined method $class::$name()" );
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * Plugin abstract.
  *
  * @package   Block_Lab
- * @copyright Copyright(c) 2018, Block Lab
+ * @copyright Copyright(c) 2019, Block Lab
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
@@ -68,6 +68,36 @@ abstract class Plugin_Abstract implements Plugin_Interface {
 	 * @var string
 	 */
 	protected $version;
+
+	/**
+	 * Utility methods.
+	 *
+	 * @var Util
+	 */
+	protected $util;
+
+	/**
+	 * Allows calling methods in the Util class, directly in this class.
+	 *
+	 * When calling a method in this class that isn't defined, this calls it in $this->util if it exists.
+	 * For example, on calling ->example_method() in this class,
+	 * this looks for $this->util->example_method().
+	 *
+	 * @param string $name      The name of the method called in this class.
+	 * @param array  $arguments The arguments passed to the method.
+	 * @return mixed The result of calling the util method, if it exists.
+	 * @throws \Exception On calling a method that isn't defined in this class or Util.
+	 */
+	public function __call( $name, $arguments ) {
+		if ( method_exists( $this->util, $name ) ) {
+			return call_user_func_array( array( $this->util, $name ), $arguments );
+		}
+
+		if ( ! method_exists( $this, $name ) ) {
+			$class = get_class( $this );
+			throw new \Exception( "Call to undefined method {$class}::{$name}()" );
+		}
+	}
 
 	/**
 	 * Get the plugin basename.
@@ -215,6 +245,14 @@ abstract class Plugin_Abstract implements Plugin_Interface {
 		};
 
 		return $this;
+	}
+
+	/**
+	 * Instantiates the Util class, with utility methods.
+	 */
+	public function set_util() {
+		$this->util = new Util();
+		$this->register_component( $this->util );
 	}
 
 	/**
