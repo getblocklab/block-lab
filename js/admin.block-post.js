@@ -18,11 +18,16 @@
 		$( '#block-add-field' ).on( 'click', function() {
 			let template = wp.template( 'field-repeater' ),
 				data     = { uid: new Date().getTime() },
-				field    = $( template( data ) );
+				field    = $( template( data ) ),
+				edit     = field.find( '.block-fields-actions-edit' ),
+				label    = field.find( '.block-fields-edit-label input' );
+
 			$( '.block-fields-rows' ).append( field );
 			$( '.block-no-fields' ).hide();
-			field.find( '.block-fields-actions-edit' ).trigger( 'click' );
-			field.find( '.block-fields-edit-label input' ).select();
+
+			edit.trigger( 'click' );
+			label.data( 'defaultValue', label.val() );
+			label.select();
 		});
 
 		$( '#block_properties .block-properties-icon-select span' ).on( 'click', function() {
@@ -143,6 +148,10 @@
 				}
 			})
 			.on( 'blur', '.block-fields-edit-label input', function() {
+				// If the value hasn't changed from default, don't turn off autoslug.
+				if ( $( this ).data( 'defaultValue' ) === $( this ).val() ) {
+					return;
+				}
 				$( this )
 					.closest( '.block-fields-edit' )
 					.find( '.block-fields-edit-name input' )
