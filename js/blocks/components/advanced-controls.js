@@ -7,7 +7,7 @@ const { InspectorAdvancedControls } = wp.editor;
 const { DotTip } = wp.nux;
 const { sprintf, __ } = wp.i18n;
 
-export default AdvancedControls = ( props, block ) => {
+export default ( props, block ) => {
 	if ( '-1' === blockLab.authorBlocks.indexOf( block.name ) ) {
 		return;
 	}
@@ -27,4 +27,4 @@ export default AdvancedControls = ( props, block ) => {
 			</DotTip>
 		</InspectorAdvancedControls>
 	)
-}
+};
