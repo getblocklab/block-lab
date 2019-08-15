@@ -254,4 +254,16 @@ class Test_Util extends Abstract_Template {
 		$svg_tags = $this->instance->allowed_svg_tags();
 		$this->assertEquals( $additional_tag_attributes, $svg_tags[ $additional_tag_name ] );
 	}
+
+	/**
+	 * Test get_post_type_slug.
+	 *
+	 * @covers \Block_Lab\Util::get_post_type_slug()
+	 */
+	public function test_get_post_type_slug() {
+		$this->assertEquals( 'block_lab', $this->instance->get_post_type_slug() );
+
+		// It should also be possible to call this via a magic method of the Plugin class.
+		$this->assertEquals( 'block_lab', block_lab()->get_post_type_slug() );
+	}
 }

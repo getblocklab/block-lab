@@ -54,14 +54,6 @@ abstract class Plugin_Abstract implements Plugin_Interface {
 	protected $slug;
 
 	/**
-	 * The slug of the post type that stores the blocks.
-	 *
-	 * @since 1.3.5
-	 * @var string
-	 */
-	protected $post_type_slug = 'block_lab';
-
-	/**
 	 * URL to the main plugin directory.
 	 *
 	 * @since 1.0.0
@@ -181,15 +173,6 @@ abstract class Plugin_Abstract implements Plugin_Interface {
 	 */
 	public function get_slug() {
 		return $this->slug;
-	}
-
-	/**
-	 * Gets the slug of the post type that stores the blocks.
-	 *
-	 * @return string The slug.
-	 */
-	public function get_post_type_slug() {
-		return $this->post_type_slug;
 	}
 
 	/**
