@@ -27,20 +27,26 @@ class Test_Util extends Abstract_Template {
 	/**
 	 * Test is_pro.
 	 *
+	 * This method is normally accessed via a Plugin::__call(), as a magic method.
+	 * Like block_lab->is_pro().
+	 *
 	 * @covers \Block_Lab\Util::is_pro()
 	 */
 	public function test_is_pro() {
-		$this->instance = new Block_Lab\Plugin();
-		$this->instance->plugin_loaded();
+		$plugin_instance = new Block_Lab\Plugin();
+		$plugin_instance->plugin_loaded();
+		$plugin_instance->set_util();
 
-		$this->instance->admin = new Block_Lab\Admin\Admin();
-		$this->instance->admin->init();
+		$plugin_instance->admin = new Block_Lab\Admin\Admin();
+		$plugin_instance->admin->init();
 
 		$this->set_license_validity( true );
-		$this->assertTrue( $this->instance->is_pro() );
+		$this->assertTrue( $plugin_instance->is_pro() );
+		$this->assertTrue( block_lab()->is_pro() );
 
 		$this->set_license_validity( false );
-		$this->assertFalse( $this->instance->is_pro() );
+		$this->assertFalse( $plugin_instance->is_pro() );
+		$this->assertFalse( block_lab()->is_pro() );
 	}
 
 	/**

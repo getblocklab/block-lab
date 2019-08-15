@@ -28,6 +28,7 @@ class Test_Plugin extends \WP_UnitTestCase {
 		parent::setUp();
 		$this->instance = new Block_Lab\Plugin();
 		$this->instance->plugin_loaded();
+		$this->instance->set_util();
 	}
 
 	/**
@@ -86,7 +87,10 @@ class Test_Plugin extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Abstract_Plugin:set_util()
 	 */
 	public function test_set_util() {
-		$this->instance->set_util();
+		$plugin_instance = new Block_Lab\Plugin();
+		$plugin_instance->plugin_loaded();
+		$plugin_instance->set_util();
+
 		$reflection_plugin = new ReflectionObject( $this->instance );
 		$util_property     = $reflection_plugin->getProperty( 'util' );
 
