@@ -27,13 +27,4 @@ class Plugin extends Plugin_Abstract {
 		$this->admin = new Admin\Admin();
 		$this->register_component( $this->admin );
 	}
-
-	/**
-	 * Check if a valid Pro license has been activated on this site.
-	 *
-	 * @return bool
-	 */
-	public function is_pro() {
-		return $this->admin->license->is_valid();
-	}
 }
