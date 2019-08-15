@@ -20,13 +20,6 @@ use Block_Lab\Blocks\Controls;
 class Block_Post extends Component_Abstract {
 
 	/**
-	 * Slug used for the custom post type.
-	 *
-	 * @var string
-	 */
-	public $slug = 'block_lab';
-
-	/**
 	 * Registered controls.
 	 *
 	 * @var Controls\Control_Abstract[]
@@ -66,12 +59,12 @@ class Block_Post extends Component_Abstract {
 		add_filter( 'block_lab_field_value', array( $this, 'get_field_value' ), 10, 3 );
 
 		// Clean up the list table.
-		add_filter( 'disable_months_dropdown', '__return_true', 10, $this->slug );
+		add_filter( 'disable_months_dropdown', '__return_true', 10, block_lab()->get_post_type_slug() );
 		add_filter( 'page_row_actions', array( $this, 'page_row_actions' ), 10, 1 );
-		add_filter( 'bulk_actions-edit-' . $this->slug, array( $this, 'bulk_actions' ) );
-		add_filter( 'handle_bulk_actions-edit-' . $this->slug, array( $this, 'bulk_export' ), 10, 3 );
-		add_filter( 'manage_edit-' . $this->slug . '_columns', array( $this, 'list_table_columns' ) );
-		add_action( 'manage_' . $this->slug . '_posts_custom_column', array( $this, 'list_table_content' ), 10, 2 );
+		add_filter( 'bulk_actions-edit-' . block_lab()->get_post_type_slug(), array( $this, 'bulk_actions' ) );
+		add_filter( 'handle_bulk_actions-edit-' . block_lab()->get_post_type_slug(), array( $this, 'bulk_export' ), 10, 3 );
+		add_filter( 'manage_edit-' . block_lab()->get_post_type_slug() . '_columns', array( $this, 'list_table_columns' ) );
+		add_action( 'manage_' . block_lab()->get_post_type_slug() . '_posts_custom_column', array( $this, 'list_table_content' ), 10, 2 );
 
 		// AJAX Handlers.
 		add_action( 'wp_ajax_fetch_field_settings', array( $this, 'ajax_field_settings' ) );
@@ -205,7 +198,7 @@ class Block_Post extends Component_Abstract {
 			),
 			// @codingStandardsIgnoreEnd
 			'query_var'     => true,
-			'rewrite'       => array( 'slug' => $this->slug ),
+			'rewrite'       => array( 'slug' => block_lab()->get_post_type_slug() ),
 			'hierarchical'  => true,
 			'capabilities'  => array(
 				'edit_post'          => 'block_lab_edit_block',
@@ -220,7 +213,7 @@ class Block_Post extends Component_Abstract {
 			'supports'      => array( 'title' ),
 		);
 
-		register_post_type( $this->slug, $args );
+		register_post_type( block_lab()->get_post_type_slug(), $args );
 	}
 
 	/**
@@ -254,7 +247,7 @@ class Block_Post extends Component_Abstract {
 		}
 
 		// Enqueue scripts and styles on the edit screen of the Block post type.
-		if ( $this->slug === $screen->post_type && 'post' === $screen->base ) {
+		if ( block_lab()->get_post_type_slug() === $screen->post_type && 'post' === $screen->base ) {
 			wp_enqueue_style(
 				'block-post',
 				$this->plugin->get_url( 'css/admin.block-post.css' ),
@@ -289,7 +282,7 @@ class Block_Post extends Component_Abstract {
 			);
 		}
 
-		if ( $this->slug === $screen->post_type && 'edit' === $screen->base ) {
+		if ( block_lab()->get_post_type_slug() === $screen->post_type && 'edit' === $screen->base ) {
 			wp_enqueue_style(
 				'block-edit',
 				$this->plugin->get_url( 'css/admin.block-edit.css' ),
@@ -311,7 +304,7 @@ class Block_Post extends Component_Abstract {
 			'block_properties',
 			__( 'Block Properties', 'block-lab' ),
 			array( $this, 'render_properties_meta_box' ),
-			$this->slug,
+			block_lab()->get_post_type_slug(),
 			'side',
 			'default'
 		);
@@ -320,7 +313,7 @@ class Block_Post extends Component_Abstract {
 			'block_fields',
 			__( 'Block Fields', 'block-lab' ),
 			array( $this, 'render_fields_meta_box' ),
-			$this->slug,
+			block_lab()->get_post_type_slug(),
 			'normal',
 			'default'
 		);
@@ -334,7 +327,7 @@ class Block_Post extends Component_Abstract {
 					'block_template',
 					__( 'Template', 'block-lab' ),
 					array( $this, 'render_template_meta_box' ),
-					$this->slug,
+					block_lab()->get_post_type_slug(),
 					'normal',
 					'high'
 				);
@@ -350,11 +343,11 @@ class Block_Post extends Component_Abstract {
 	public function remove_meta_boxes() {
 		$screen = get_current_screen();
 
-		if ( ! is_object( $screen ) || $this->slug !== $screen->post_type ) {
+		if ( ! is_object( $screen ) || block_lab()->get_post_type_slug() !== $screen->post_type ) {
 			return;
 		}
 
-		remove_meta_box( 'slugdiv', $this->slug, 'normal' );
+		remove_meta_box( 'slugdiv', block_lab()->get_post_type_slug(), 'normal' );
 	}
 
 	/**
@@ -366,7 +359,7 @@ class Block_Post extends Component_Abstract {
 		$post   = get_post();
 		$screen = get_current_screen();
 
-		if ( ! is_object( $screen ) || $this->slug !== $screen->post_type ) {
+		if ( ! is_object( $screen ) || block_lab()->get_post_type_slug() !== $screen->post_type ) {
 			return;
 		}
 
@@ -853,7 +846,7 @@ class Block_Post extends Component_Abstract {
 		$post   = get_post();
 		$screen = get_current_screen();
 
-		if ( ! is_object( $screen ) || $this->slug !== $screen->post_type ) {
+		if ( ! is_object( $screen ) || block_lab()->get_post_type_slug() !== $screen->post_type ) {
 			return;
 		}
 
@@ -946,7 +939,7 @@ class Block_Post extends Component_Abstract {
 		}
 
 		// Exits script if not the right post type.
-		if ( $data['post_type'] !== $this->slug ) {
+		if ( block_lab()->get_post_type_slug() !== $data['post_type'] ) {
 			return $data;
 		}
 
@@ -1154,7 +1147,7 @@ class Block_Post extends Component_Abstract {
 		$screen = get_current_screen();
 
 		// Enqueue scripts and styles on the edit screen of the Block post type.
-		if ( is_object( $screen ) && $this->slug === $screen->post_type ) {
+		if ( is_object( $screen ) && block_lab()->get_post_type_slug() === $screen->post_type ) {
 			$title = __( 'Enter block name here', 'block-lab' );
 		}
 
@@ -1243,7 +1236,7 @@ class Block_Post extends Component_Abstract {
 		$post = get_post();
 
 		// Abort if the post type is incorrect.
-		if ( $post->post_type !== $this->slug ) {
+		if ( block_lab()->get_post_type_slug() !== $post->post_type ) {
 			return $actions;
 		}
 

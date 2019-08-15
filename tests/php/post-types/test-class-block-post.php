@@ -23,6 +23,13 @@ class Test_Block_Post extends \WP_UnitTestCase {
 	public $instance;
 
 	/**
+	 * The expected slug.
+	 *
+	 * @var string
+	 */
+	const EXPECTED_SLUG = 'block_lab';
+
+	/**
 	 * Setup.
 	 *
 	 * @inheritdoc
@@ -57,10 +64,10 @@ class Test_Block_Post extends \WP_UnitTestCase {
 
 		$this->assertEquals( 10, has_action( 'disable_months_dropdown', '__return_true' ) );
 		$this->assertEquals( 10, has_action( 'page_row_actions', array( $this->instance, 'page_row_actions' ) ) );
-		$this->assertEquals( 10, has_action( 'bulk_actions-edit-' . $this->instance->slug, array( $this->instance, 'bulk_actions' ) ) );
-		$this->assertEquals( 10, has_action( 'handle_bulk_actions-edit-' . $this->instance->slug, array( $this->instance, 'bulk_export' ) ) );
-		$this->assertEquals( 10, has_action( 'manage_edit-' . $this->instance->slug . '_columns', array( $this->instance, 'list_table_columns' ) ) );
-		$this->assertEquals( 10, has_action( 'manage_' . $this->instance->slug . '_posts_custom_column', array( $this->instance, 'list_table_content' ) ) );
+		$this->assertEquals( 10, has_action( 'bulk_actions-edit-' . self::EXPECTED_SLUG, array( $this->instance, 'bulk_actions' ) ) );
+		$this->assertEquals( 10, has_action( 'handle_bulk_actions-edit-' . self::EXPECTED_SLUG, array( $this->instance, 'bulk_export' ) ) );
+		$this->assertEquals( 10, has_action( 'manage_edit-' . self::EXPECTED_SLUG . '_columns', array( $this->instance, 'list_table_columns' ) ) );
+		$this->assertEquals( 10, has_action( 'manage_' . self::EXPECTED_SLUG . '_posts_custom_column', array( $this->instance, 'list_table_content' ) ) );
 
 		$this->assertEquals( 10, has_action( 'wp_ajax_fetch_field_settings', array( $this->instance, 'ajax_field_settings' ) ) );
 	}
@@ -234,7 +241,7 @@ class Test_Block_Post extends \WP_UnitTestCase {
 		$block = $this->factory()->post->create(
 			array(
 				'post_title' => 'Test Block',
-				'post_type'  => $this->instance->slug,
+				'post_type'  => self::EXPECTED_SLUG,
 			)
 		);
 
