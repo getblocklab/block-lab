@@ -198,4 +198,13 @@ class Util extends Component_Abstract {
 		 */
 		return apply_filters( 'block_lab_allowed_svg_tags', $allowed_tags );
 	}
+
+	/**
+	 * Gets the slug of the post type that stores the blocks.
+	 *
+	 * @return string The slug.
+	 */
+	public function get_post_type_slug() {
+		return $this->plugin->post_type_slug;
+	}
 }

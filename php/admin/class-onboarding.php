@@ -50,7 +50,7 @@ class Onboarding extends Component_Abstract {
 		}
 
 		$screen = get_current_screen();
-		$slug   = $this->plugin->block_post->slug;
+		$slug   = block_lab()->get_post_type_slug();
 
 		if ( ! is_object( $screen ) ) {
 			return;
@@ -302,7 +302,7 @@ class Onboarding extends Component_Abstract {
 		 */
 		$blocks = get_posts(
 			array(
-				'post_type'   => block_lab()->block_post->slug,
+				'post_type'   => block_lab()->get_post_type_slug(),
 				'numberposts' => '1',
 				'post_status' => 'any',
 				'fields'      => 'ids',
@@ -320,7 +320,7 @@ class Onboarding extends Component_Abstract {
 				'post_title'   => __( 'Example Block', 'block-lab' ),
 				'post_name'    => 'example-block',
 				'post_status'  => 'draft',
-				'post_type'    => block_lab()->block_post->slug,
+				'post_type'    => block_lab()->get_post_type_slug(),
 				'post_content' => wp_json_encode(
 					array(
 						'block-lab\/example-block' => array(

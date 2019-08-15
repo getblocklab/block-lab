@@ -70,13 +70,6 @@ abstract class Plugin_Abstract implements Plugin_Interface {
 	protected $version;
 
 	/**
-	 * Utility methods.
-	 *
-	 * @var Util
-	 */
-	protected $util;
-
-	/**
 	 * Allows calling methods in the Util class, directly in this class.
 	 *
 	 * When calling a method in this class that isn't defined, this calls it in $this->util if it exists.
@@ -245,14 +238,6 @@ abstract class Plugin_Abstract implements Plugin_Interface {
 		};
 
 		return $this;
-	}
-
-	/**
-	 * Instantiates the Util class, with utility methods.
-	 */
-	public function set_util() {
-		$this->util = new Util();
-		$this->register_component( $this->util );
 	}
 
 	/**

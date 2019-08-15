@@ -13,6 +13,13 @@ class Test_Util extends Abstract_Template {
 	use Testing_Helper;
 
 	/**
+	 * The instance to test.
+	 *
+	 * @var Block_Lab\Util
+	 */
+	public $instance;
+
+	/**
 	 * Setup.
 	 *
 	 * @inheritdoc
@@ -21,7 +28,7 @@ class Test_Util extends Abstract_Template {
 		parent::setUp();
 
 		$this->instance = new Block_Lab\Util();
-		block_lab()->register_component( $this->instance );
+		$this->instance->set_plugin( block_lab() );
 	}
 
 	/**
@@ -46,8 +53,8 @@ class Test_Util extends Abstract_Template {
 	 */
 	public function test_is_pro() {
 		$plugin_instance = new Block_Lab\Plugin();
+		$plugin_instance->init();
 		$plugin_instance->plugin_loaded();
-		$plugin_instance->set_util();
 
 		$plugin_instance->admin = new Block_Lab\Admin\Admin();
 		$plugin_instance->admin->init();
@@ -253,5 +260,17 @@ class Test_Util extends Abstract_Template {
 		// The filter should add the additional tag and attributes.
 		$svg_tags = $this->instance->allowed_svg_tags();
 		$this->assertEquals( $additional_tag_attributes, $svg_tags[ $additional_tag_name ] );
+	}
+
+	/**
+	 * Test get_post_type_slug.
+	 *
+	 * @covers \Block_Lab\Util::get_post_type_slug()
+	 */
+	public function test_get_post_type_slug() {
+		$this->assertEquals( 'block_lab', $this->instance->get_post_type_slug() );
+
+		// It should also be possible to call this via a magic method of the Plugin class.
+		$this->assertEquals( 'block_lab', block_lab()->get_post_type_slug() );
 	}
 }
