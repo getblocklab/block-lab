@@ -1,4 +1,7 @@
-import FetchInput from './components/fetch-input';
+/**
+ * Internal dependencies
+ */
+import { FetchInput } from '../components';
 
 const BlockLabUserControl = ( props, field, block ) => {
 	const { setAttributes } = props;

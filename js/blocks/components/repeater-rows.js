@@ -8,7 +8,7 @@ const { __ } = wp.i18n;
 /**
  * Internal dependencies
  */
-import { Fields } from '../../loader/edit';
+import { Fields } from './';
 
 /**
  * Gets the rendered fields, using their control functions.
@@ -19,7 +19,7 @@ import { Fields } from '../../loader/edit';
  * @param {Object} parentBlock  The block where the fields are.
  * @return {Array} fields The rendered fields.
  */
- export class RepeaterRows extends Component {
+ export default class RepeaterRows extends Component {
 
 	/**
 	 * Constructs the component class.
