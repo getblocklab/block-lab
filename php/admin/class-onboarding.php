@@ -50,7 +50,7 @@ class Onboarding extends Component_Abstract {
 		}
 
 		$screen = get_current_screen();
-		$slug   = $this->plugin->block_post->slug;
+		$slug   = block_lab()->get_post_type_slug();
 
 		if ( ! is_object( $screen ) ) {
 			return;
