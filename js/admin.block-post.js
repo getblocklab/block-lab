@@ -22,7 +22,7 @@
 				edit     = field.find( '.block-fields-actions-edit' ),
 				label    = field.find( '.block-fields-edit-label input' );
 
-				$( '.block-fields-rows' ).append( field );
+			$( '.block-fields-rows' ).append( field );
 			$( '.block-no-fields' ).hide();
 
 			edit.trigger( 'click' );
