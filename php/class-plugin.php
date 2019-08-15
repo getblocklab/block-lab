@@ -13,6 +13,14 @@ namespace Block_Lab;
  * Class Plugin
  */
 class Plugin extends Plugin_Abstract {
+
+	/**
+	 * Utility methods.
+	 *
+	 * @var Util
+	 */
+	protected $util;
+
 	/**
 	 * WP Admin resources.
 	 *
@@ -21,30 +29,14 @@ class Plugin extends Plugin_Abstract {
 	public $admin;
 
 	/**
-	 * Block Post Type.
-	 *
-	 * @var Post_Types\Block_Post
-	 */
-	public $block_post;
-
-	/**
-	 * Initiate the loading of new blocks.
-	 *
-	 * @var Blocks\Loader
-	 */
-	public $loader;
-
-	/**
 	 * Execute this as early as possible.
 	 */
 	public function init() {
-		$this->set_util();
+		$this->util = new Util();
+		$this->register_component( $this->util );
 
-		$this->block_post = new Post_Types\Block_Post();
-		$this->register_component( $this->block_post );
-
-		$this->loader = new Blocks\Loader();
-		$this->register_component( $this->loader );
+		$this->register_component( new Post_Types\Block_Post() );
+		$this->register_component( new Blocks\Loader() );
 
 		register_activation_hook(
 			$this->get_file(),

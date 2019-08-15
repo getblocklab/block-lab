@@ -46,8 +46,8 @@ class Test_Util extends Abstract_Template {
 	 */
 	public function test_is_pro() {
 		$plugin_instance = new Block_Lab\Plugin();
+		$plugin_instance->init();
 		$plugin_instance->plugin_loaded();
-		$plugin_instance->set_util();
 
 		$plugin_instance->admin = new Block_Lab\Admin\Admin();
 		$plugin_instance->admin->init();
