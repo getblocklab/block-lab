@@ -32,7 +32,7 @@ const getControlFunction = ( field ) => {
  * @param {number|string} index            The index in the block, or the row name if one exists.
  * @return {Function|null} The rendered control as JSX, or null.
  */
-export const Control = ( { parentBlock, parentBlockProps, field } ) => {
+export default ( { parentBlock, parentBlockProps, field } ) => {
 	if ( field.location && ! field.location.includes( 'editor' ) ) {
 		return null; // This is not meant for the editor.
 	}

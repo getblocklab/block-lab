@@ -22,7 +22,7 @@ const FormControls = ( props, block ) => {
 	)
 };
 
-export default Edit = ( props, block ) => {
+export default ( props, block ) => {
 	const { className, isSelected } = props;
 
 	if ( 'undefined' === typeof icons[block.icon] ) {
