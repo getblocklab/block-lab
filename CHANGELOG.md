@@ -1,10 +1,14 @@
 ## Changelog #
 
-### 1.3.5 – 2019-08-05 ###
+### 1.3.5 – 2019-08-16 ###
 
 * New: Block Lab will now enqueue a global stylesheet, so you can keep your common block styles in one place. [Read more](https://github.com/getblocklab/block-lab/pull/371)
 * New: Block templates can now be placed inside a sub-folder, for an even cleaner directory structure. [Read more](https://github.com/getblocklab/block-lab/pull/372)
+* Tweak: Use a textarea for specifying the default value of a textarea control.
+* Tweak: Better handling of deprecated functions.
+* Tweak: Rewrite of various functions, making developer access to common commands much simpler.
 * Fix: Child theme templates are now correctly loaded before their parent templates.
+* Fix: Autoslugs now continue to work properly after the title field loses focus.
 
 ### 1.3.4 - 2019-07-22 ###
 
