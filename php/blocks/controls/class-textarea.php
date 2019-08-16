@@ -3,7 +3,7 @@
  * Textarea control.
  *
  * @package   Block_Lab
- * @copyright Copyright(c) 2018, Block Lab
+ * @copyright Copyright(c) 2019, Block Lab
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
@@ -44,10 +44,20 @@ class Textarea extends Control_Abstract {
 	 * @return void
 	 */
 	public function register_settings() {
-		foreach ( array( 'location', 'help', 'default', 'placeholder' ) as $setting ) {
+		foreach ( array( 'location', 'help' ) as $setting ) {
 			$this->settings[] = new Control_Setting( $this->settings_config[ $setting ] );
 		}
 
+		$this->settings[] = new Control_Setting(
+			array(
+				'name'     => 'default',
+				'label'    => __( 'Default Value', 'block-lab' ),
+				'type'     => 'textarea',
+				'default'  => '',
+				'sanitize' => 'sanitize_textarea_field',
+			)
+		);
+		$this->settings[] = new Control_Setting( $this->settings_config['placeholder'] );
 		$this->settings[] = new Control_Setting(
 			array(
 				'name'     => 'maxlength',

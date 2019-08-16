@@ -3,7 +3,7 @@
  * Block Post Type.
  *
  * @package   Block_Lab
- * @copyright Copyright(c) 2018, Block Lab
+ * @copyright Copyright(c) 2019, Block Lab
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
@@ -325,7 +325,8 @@ class Block_Post extends Component_Abstract {
 		);
 
 		if ( isset( $post->post_name ) && ! empty( $post->post_name ) ) {
-			$template = block_lab_locate_template( 'blocks/block-' . $post->post_name . '.php', '', true );
+			$locations = block_lab()->get_template_locations( $post->post_name );
+			$template  = block_lab()->locate_template( $locations, '', true );
 
 			if ( ! $template ) {
 				add_meta_box(
@@ -383,7 +384,7 @@ class Block_Post extends Component_Abstract {
 	public function render_properties_meta_box() {
 		$post  = get_post();
 		$block = new Block( $post->ID );
-		$icons = block_lab_get_icons();
+		$icons = block_lab()->get_icons();
 
 		if ( ! $block->icon ) {
 			$block->icon = 'block_lab';
@@ -419,7 +420,7 @@ class Block_Post extends Component_Abstract {
 			<span id="block-properties-icon-current">
 				<?php
 				if ( array_key_exists( $block->icon, $icons ) ) {
-					echo wp_kses( $icons[ $block->icon ], block_lab_allowed_svg_tags() );
+					echo wp_kses( $icons[ $block->icon ], block_lab()->allowed_svg_tags() );
 				}
 				?>
 			</span>
@@ -437,7 +438,7 @@ class Block_Post extends Component_Abstract {
 						'<span class="icon %1$s" data-value="%2$s">%3$s</span>',
 						esc_attr( $selected ),
 						esc_attr( $icon ),
-						wp_kses( $svg, block_lab_allowed_svg_tags() )
+						wp_kses( $svg, block_lab()->allowed_svg_tags() )
 					);
 				}
 				?>
@@ -804,7 +805,8 @@ class Block_Post extends Component_Abstract {
 			return;
 		}
 
-		$template = block_lab_locate_template( 'blocks/block-' . $post->post_name . '.php', '', true );
+		$locations = block_lab()->get_template_locations( $post->post_name, 'block' );
+		$template  = block_lab()->locate_template( $locations, '', true );
 
 		if ( ! $template ) {
 			return;
@@ -1112,19 +1114,20 @@ class Block_Post extends Component_Abstract {
 	public function list_table_content( $column, $post_id ) {
 		if ( 'icon' === $column ) {
 			$block = new Block( $post_id );
-			$icons = block_lab_get_icons();
+			$icons = block_lab()->get_icons();
 
 			if ( isset( $icons[ $block->icon ] ) ) {
 				printf(
 					'<span class="icon %1$s">%2$s</span>',
 					esc_attr( $block->icon ),
-					wp_kses( $icons[ $block->icon ], block_lab_allowed_svg_tags() )
+					wp_kses( $icons[ $block->icon ], block_lab()->allowed_svg_tags() )
 				);
 			}
 		}
 		if ( 'template' === $column ) {
-			$block    = new Block( $post_id );
-			$template = block_lab_locate_template( 'blocks/block-' . $block->name . '.php', '', true );
+			$block     = new Block( $post_id );
+			$locations = block_lab()->get_template_locations( $block->name, 'block' );
+			$template  = block_lab()->locate_template( $locations, '', true );
 
 			if ( ! $template ) {
 				esc_html_e( 'No template found.', 'block-lab' );
