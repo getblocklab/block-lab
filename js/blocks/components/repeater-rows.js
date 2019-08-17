@@ -93,7 +93,7 @@ import { Fields } from './';
 			const activeClass = this.state.activeRow === parseInt( rowIndex ) ? 'active' : ''; // @todo: Make this dynamic.
 
 			return (
-				<BaseControl className={`block-lab-repeater--row ${activeClass}`} key={ `${ rowName }-row` }>
+				<BaseControl className={ `block-lab-repeater--row ${ activeClass }` } key={ `${ rowName }-row` }>
 					<Fields
 						fields={ fields }
 						parentBlockProps={ parentBlockProps }
