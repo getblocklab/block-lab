@@ -9,11 +9,9 @@
 	>
 
 	<testsuites>
-		<testsuite>
-			<directory prefix="test-" suffix=".php">./tests/</directory>
-		</testsuite>
-		<testsuite>
-			<directory prefix="class-test-" suffix=".php">./tests/</directory>
+		<testsuite name="unit">
+			<directory suffix=".php">./tests/php/helpers/</directory>
+			<directory prefix="test-class-" suffix=".php">./tests/</directory>
 		</testsuite>
 	</testsuites>
 
