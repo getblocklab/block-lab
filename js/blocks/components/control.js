@@ -31,7 +31,7 @@ const getControlFunction = ( field ) => {
  * @param {Object}        field            The field to render.
  * @return {Function|null} The rendered control as JSX, or null.
  */
-export default ( { parentBlock, parentBlockProps, field } ) => {
+const Control = ( { parentBlock, parentBlockProps, field } ) => {
 	if ( field.location && ! field.location.includes( 'editor' ) ) {
 		return null; // This is not meant for the editor.
 	}
@@ -45,3 +45,5 @@ export default ( { parentBlock, parentBlockProps, field } ) => {
 		</div>
 	)
 };
+
+export default Control;

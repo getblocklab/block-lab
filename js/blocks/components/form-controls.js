@@ -10,7 +10,7 @@ import { Fields } from './';
  * @param {Object} block The block.
  * @return {Function|null} The Edit component for the block.
  */
-export default ( { blockProps, block } ) => {
+const FormControls = ( { blockProps, block } ) => {
 	return (
 		<div key={ `${ block.name }-fields` } >
 			<Fields
@@ -21,3 +21,5 @@ export default ( { blockProps, block } ) => {
 		</div>
 	)
 };
+
+export default FormControls;

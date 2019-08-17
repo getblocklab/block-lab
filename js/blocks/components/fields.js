@@ -13,7 +13,7 @@ import { Control } from './';
  * @param {String} rowName          The name of the repeater row, if this field is in one (optional).
  * @return {Function} fields The rendered fields.
  */
-export default ( { fields, parentBlockProps, parentBlock, rowName = null } ) => {
+const Fields = ( { fields, parentBlockProps, parentBlock, rowName = null } ) => {
 	return simplifiedFields( fields, rowName ).map( ( field, index ) => {
 		return (
 			<Control
@@ -26,3 +26,5 @@ export default ( { fields, parentBlockProps, parentBlock, rowName = null } ) => 
 		);
 	} );
 };
+
+export default Fields;
