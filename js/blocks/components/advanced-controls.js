@@ -13,7 +13,7 @@ const { sprintf, __ } = wp.i18n;
  * @param {Object} block The block that the controls are for.
  * @return {Function|null} The rendered control as JSX, or null.
  */
-export default ( { block } ) => {
+const AdvancedControls = ( { block } ) => {
 	if ( '-1' === blockLab.authorBlocks.indexOf( block.name ) ) {
 		return;
 	}
@@ -34,3 +34,5 @@ export default ( { block } ) => {
 		</InspectorAdvancedControls>
 	)
 };
+
+export default AdvancedControls;

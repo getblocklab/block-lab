@@ -12,7 +12,7 @@ const { applyFilters } = wp.hooks;
  * @param {Object} block The block.
  * @return {Function|null} The rendered control as JSX, or null.
  */
- export default ( { blockProps, block } ) => {
+const BlockLabInspector = ( { blockProps, block } ) => {
 	const fields = simplifiedFields( block.fields ).map( field => {
 		// If its not meant for the inspector then continue (return null).
 		if ( ! field.location || ! field.location.includes( 'inspector' ) ) {
@@ -36,3 +36,5 @@ const { applyFilters } = wp.hooks;
 		</InspectorControls>
 	)
 }
+
+export default BlockLabInspector;

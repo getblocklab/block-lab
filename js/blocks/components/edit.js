@@ -17,7 +17,7 @@ const { Fragment } = wp.element;
  * @param {Object} block The block.
  * @return {Function|null} The Edit function for the block.
  */
-export default ( { blockProps, block } ) => {
+const Edit = ( { blockProps, block } ) => {
 	const { attributes, className, isSelected } = blockProps;
 
 	if ( 'undefined' === typeof icons[ block.icon ] ) {
@@ -46,3 +46,5 @@ export default ( { blockProps, block } ) => {
 		</Fragment>
 	);
 };
+
+export default Edit;
