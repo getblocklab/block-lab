@@ -1,7 +1,7 @@
 /**
  * Internal dependencies
  */
-import { simplifiedFields } from '../loader/fields';
+import simplifiedFields from '../loader/fields';
 import { Control } from './';
 
 /**
