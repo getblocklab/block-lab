@@ -28,7 +28,7 @@ const Edit = ( { blockProps, block } ) => {
 		<Fragment>
 			<BlockLabInspector blockProps={ blockProps } block={ block } />
 			<AdvancedControls block={ block } />
-			<div className={className} key={"form-controls-" + block.name}>
+			<div className={ className } key={ `form-controls-${ block.name }` } >
 				{ isSelected ? (
 					<div className="block-form">
 						<h3 dangerouslySetInnerHTML={ { __html: icons[ block.icon ] + ' ' + block.title } } />
@@ -41,7 +41,7 @@ const Edit = ( { blockProps, block } ) => {
 						block={ `block-lab/${ block.name }` }
 						attributes={ attributes }
 					/>
-				)}
+				) }
 			</div>
 		</Fragment>
 	);
