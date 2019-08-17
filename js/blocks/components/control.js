@@ -29,7 +29,6 @@ const getControlFunction = ( field ) => {
  * @param {Object}        parentBlock      The block that has the control.
  * @param {Object}        parentBlockProps The block props.
  * @param {Object}        field            The field to render.
- * @param {number|string} index            The index in the block, or the row name if one exists.
  * @return {Function|null} The rendered control as JSX, or null.
  */
 export default ( { parentBlock, parentBlockProps, field } ) => {

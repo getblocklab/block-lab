@@ -83,15 +83,16 @@ import { Fields } from './';
 		};
 	}
 
+	/**
+	 * Renders the repeater rows.
+	 */
 	render() {
 		const { rows, fields, parentBlockProps, parentBlock } = this.props;
-		const subFields = [];
 
-		for ( let rowIndex in rows ) {
-			const rowName     = rows[ rowIndex ];
+		return rows.map( ( rowName, rowIndex ) => {
 			const activeClass = this.state.activeRow === parseInt( rowIndex ) ? 'active' : ''; // @todo: Make this dynamic.
 
-			const renderedSubField = (
+			return (
 				<BaseControl className={`block-lab-repeater--row ${activeClass}`} key={ `${ rowName }-row` }>
 					<Fields
 						fields={ fields }
@@ -157,9 +158,6 @@ import { Fields } from './';
 					</div>
 				</BaseControl>
 			);
-			subFields.push( renderedSubField );
-		}
-
-		return subFields;
+		} );
 	}
 };

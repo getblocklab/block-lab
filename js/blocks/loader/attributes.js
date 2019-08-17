@@ -37,4 +37,4 @@ const getBlockAttributes = ( fields ) => {
 	return attributes;
 };
 
-export default getBlockAttributes
+export default getBlockAttributes;
