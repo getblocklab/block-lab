@@ -29,7 +29,7 @@ const getBlockAttributes = ( fields ) => {
 		// Account for 'sub_fields' in the Repeater control.
 		if ( field.hasOwnProperty( 'sub_fields' ) ) {
 			let subFields = getBlockAttributes( field.sub_fields );
-			attributes = Object.assign( {}, attributes, subFields );
+			attributes = { ...attributes, ...subFields };
 		}
 
 	}
