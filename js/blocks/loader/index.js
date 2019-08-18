@@ -1,15 +1,19 @@
-import icons from '../../../assets/icons.json';
 
-import getBlockAttributes from './attributes'
-import { editComponent } from './edit'
-
-import './editor.scss';
-
-const { __ } = wp.i18n;
+/**
+ * WordPress dependencies
+ */
 const { registerBlockType } = wp.blocks;
 
-const registerBlocks = () => {
+/**
+ * Internal dependencies
+ */
+import icons from '../../../assets/icons.json';
+import getBlockAttributes from './attributes'
+import { Edit } from '../components'
+import './editor.scss';
 
+
+const registerBlocks = () => {
 	// Loop through all the blocks.
 	// Note: This is not guaranteed to be sequential.
 	for ( let blockName in blockLabBlocks ) {
@@ -35,8 +39,8 @@ const registerBlocks = () => {
 			icon: icon,
 			keywords: block.keywords,
 			attributes: getBlockAttributes( block.fields ),
-			edit: props => {
-				return editComponent(props, block)
+			edit: ( props ) => {
+				return <Edit blockProps={ props } block={ block } />;
 			},
 			save() {
 				return null
