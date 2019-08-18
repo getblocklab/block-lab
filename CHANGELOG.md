@@ -1,6 +1,6 @@
 ## Changelog #
 
-### 1.3.5 – 2019-08-16 ###
+### 1.3.5 – 2019-08-18 ###
 
 * New: Block Lab will now enqueue a global stylesheet, so you can keep your common block styles in one place. [Read more](https://github.com/getblocklab/block-lab/pull/371)
 * New: Block templates can now be placed inside a sub-folder, for an even cleaner directory structure. [Read more](https://github.com/getblocklab/block-lab/pull/372)
