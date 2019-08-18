@@ -944,7 +944,7 @@ class Block_Post extends Component_Abstract {
 		}
 
 		// Block excluded post type.
-		if ( isset( $_POST['block-excluded-post-types'] ) && block_lab()->is_pro() ) {
+		if ( isset( $_POST['block-excluded-post-types'] ) ) {
 			$excluded = sanitize_text_field(
 				wp_unslash( $_POST['block-excluded-post-types'] )
 			);
