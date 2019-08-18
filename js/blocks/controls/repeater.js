@@ -26,14 +26,12 @@ const BlockLabRepeaterControl = ( props, field, block ) => {
 
 	return (
 		<BaseControl className="block-lab-repeater" label={field.label} help={field.help}>
-			<div className="block-lab-repeater--rows">
-				<RepeaterRows
-					rows={ attr[ field.name ] }
-					fields={ field.sub_fields }
-					parentBlockProps={ props }
-					parentBlock={ block }
-				/>
-			</div>
+			<RepeaterRows
+				rows={ attr[ field.name ] }
+				fields={ field.sub_fields }
+				parentBlockProps={ props }
+				parentBlock={ block }
+			/>
 			<IconButton
 				key={ `${ field.name }-repeater-insert` }
 				icon="insert"

@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 const { BaseControl, Button, IconButton } = wp.components;
-const { Component } = wp.element;
+const { Component, Fragment } = wp.element;
 const { __ } = wp.i18n;
 
 /**
@@ -89,75 +89,81 @@ import { Fields } from './';
 	render() {
 		const { rows, fields, parentBlockProps, parentBlock } = this.props;
 
-		return rows.map( ( rowName, rowIndex ) => {
-			const activeClass = this.state.activeRow === parseInt( rowIndex ) ? 'active' : ''; // @todo: Make this dynamic.
+		return (
+			<Fragment>
+				<div className="block-lab-repeater__rows">
+					{
+						rows.map( ( rowName, rowIndex ) => {
+							const activeClass = this.state.activeRow === parseInt( rowIndex ) ? 'active' : ''; // @todo: Make this dynamic.
 
-			return (
-				<BaseControl className={ `block-lab-repeater--row ${ activeClass }` } key={ `${ rowName }-row` }>
-					<Fields
-						fields={ fields }
-						parentBlockProps={ parentBlockProps }
-						parentBlock={ parentBlock }
-						rowName={ rowName }
+							return (
+								<BaseControl className={ `block-lab-repeater--row ${ activeClass }` } key={ `${ rowName }-row` }>
+									<Fields
+										fields={ fields }
+										parentBlockProps={ parentBlockProps }
+										parentBlock={ parentBlock }
+										rowName={ rowName }
+									/>
+									<div className="block-lab-repeater--row-actions">
+										<Button
+											key={ `${ rowName }-move-left` }
+											isLink={true}
+											className="button-move-left"
+										>
+											{ __( 'Move left', 'block-lab' ) }
+										</Button>
+										<span className="separator">|</span>
+										<Button
+											key={ `${ rowName }-move-right` }
+											isLink={true}
+											className="button-move-right"
+										>
+											{ __( 'Move right', 'block-lab' ) }
+										</Button>
+										<span className="separator">|</span>
+										<Button
+											key={ `${ rowName }-delete` }
+											isLink={true}
+											onClick={ this.removeRow( rowIndex ) }
+											className="button-dismiss"
+										>
+											{ __( 'Delete', 'block-lab' ) }
+										</Button>
+									</div>
+								</BaseControl>
+							);
+						} )
+					}
+				</div>
+				<div className="block-lab-repeater__carousel-buttons">
+					<IconButton
+						icon="arrow-left-alt2"
+						label={ __( 'Previous', 'block-lab' ) }
+						labelPosition="bottom"
+						className="button-move-left"
+						onClick={ () => {
+							var activeRow = this.state.activeRow - 1;
+							if ( activeRow < 0 ) {
+								activeRow = rows.length - 1;
+							}
+							this.setState( { activeRow: activeRow } );
+						} }
 					/>
-					<div className="block-lab-repeater--row-actions">
-						<Button
-							key={ `${ rowName }-move-left` }
-							isLink={true}
-							className="button-move-left"
-						>
-							{ __( 'Move left', 'block-lab' ) }
-						</Button>
-						<span className="separator">|</span>
-						<Button
-							key={ `${ rowName }-move-right` }
-							isLink={true}
-							className="button-move-right"
-						>
-							{ __( 'Move right', 'block-lab' ) }
-						</Button>
-						<span className="separator">|</span>
-						<Button
-							key={ `${ rowName }-delete` }
-							isLink={true}
-							onClick={ this.removeRow( rowIndex ) }
-							className="button-dismiss"
-						>
-							{ __( 'Delete', 'block-lab' ) }
-						</Button>
-					</div>
-					<div className="block-lab-repeater__carousel-buttons">
-						<IconButton
-							key={ `${ rowName }-move-previous` }
-							icon="arrow-left-alt2"
-							label={ __( 'Previous', 'block-lab' ) }
-							labelPosition="bottom"
-							className="button-move-left"
-							onClick={ () => {
-								var activeRow = this.state.activeRow - 1;
-								if ( activeRow < 0 ) {
-									activeRow = rows.length - 1;
-								}
-								this.setState( { activeRow: activeRow } );
-							} }
-						/>
-						<IconButton
-							key={ `${ rowName }-move-next` }
-							icon="arrow-right-alt2"
-							label={ __( 'Next', 'block-lab' ) }
-							labelPosition="bottom"
-							className="button-move-right"
-							onClick={ () => {
-								var activeRow = this.state.activeRow + 1;
-								if ( activeRow >= rows.length ) {
-									activeRow = 0;
-								}
-								this.setState( { activeRow: activeRow } );
-							} }
-						/>
-					</div>
-				</BaseControl>
-			);
-		} );
+					<IconButton
+						icon="arrow-right-alt2"
+						label={ __( 'Next', 'block-lab' ) }
+						labelPosition="bottom"
+						className="button-move-right"
+						onClick={ () => {
+							var activeRow = this.state.activeRow + 1;
+							if ( activeRow >= rows.length ) {
+								activeRow = 0;
+							}
+							this.setState( { activeRow: activeRow } );
+						} }
+					/>
+				</div>
+			</Fragment>
+		);
 	}
 };
