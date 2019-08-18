@@ -9,7 +9,7 @@
 
 ?>
 <section class="container">
-	<div class="dashboard_welcome tile" style="background-image: url('https://getblocklab.com/wp-content/uploads/2019/02/Block-Lab-Pro-Hero-Background-1.svg');">
+	<div class="dashboard_welcome tile">
 		<div class="tile_body">
 			<div>
 				<span><?php esc_html_e( 'Block Lab Pro', 'block-lab' ); ?></span>

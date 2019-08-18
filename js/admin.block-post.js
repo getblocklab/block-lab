@@ -24,6 +24,7 @@
 
 			$( '.block-fields-rows' ).append( field );
 			$( '.block-no-fields' ).hide();
+			$( '.block-lab-add-fields' ).hide();
 
 			edit.trigger( 'click' );
 			label.data( 'defaultValue', label.val() );
@@ -34,7 +35,10 @@
 			let template = wp.template( 'field-repeater' ),
 				data     = { uid: new Date().getTime() },
 				field    = $( template( data ) ),
-				row      = $( this ).closest( '.block-fields-row' );
+				row      = $( this ).closest( '.block-fields-row' ),
+				edit     = field.find( '.block-fields-actions-edit' ),
+				label    = field.find( '.block-fields-edit-label input' );
+;
 
 			// Prevents adding a repeater, in a repeater, in a repeater…
 			field.find( '.block-fields-edit-control option[value="repeater"]' ).remove();
@@ -50,8 +54,10 @@
 			$( '.block-fields-sub-rows', row ).append( field );
 			$( '.repeater-no-fields', row ).hide();
 			$( '.repeater-has-fields', row ).show();
-			field.find( '.block-fields-actions-edit' ).trigger( 'click' );
-			field.find( '.block-fields-edit-label input' ).select();
+
+			edit.trigger( 'click' );
+			label.data( 'defaultValue', label.val() );
+			label.select();
 		});
 
 		$( '#block_properties .block-properties-icon-select span' ).on( 'click', function() {

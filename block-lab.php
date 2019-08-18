@@ -118,14 +118,7 @@ block_lab()
 	->set_slug( 'block-lab' )
 	->set_url( plugin_dir_url( __FILE__ ) )
 	->set_version( __FILE__ )
-	->set_util();
-
-/**
- * Register plugin components.
- */
-block_lab()
-	->register_component( new \Block_Lab\Post_Types\Block_Post() )
-	->register_component( new \Block_Lab\Blocks\Loader() );
+	->init();
 
 /**
  * Sometimes we need to do some things after the plugin is loaded, so call the Plugin_Interface::plugin_loaded().

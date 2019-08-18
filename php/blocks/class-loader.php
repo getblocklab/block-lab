@@ -1,6 +1,6 @@
 <?php
 /**
- * Loader initiates the loading of new Gutenberg blocks for the Block_Lab plugin.
+ * Loader initiates the loading of new blocks.
  *
  * @package Block_Lab
  */
@@ -452,8 +452,6 @@ class Loader extends Component_Abstract {
 	 * Load all the published blocks and blocks/block.json files.
 	 */
 	public function retrieve_blocks() {
-		$slug = 'block_lab';
-
 		$this->blocks = '';
 		$blocks       = [];
 
@@ -473,7 +471,7 @@ class Loader extends Component_Abstract {
 
 		$block_posts = new \WP_Query(
 			[
-				'post_type'      => $slug,
+				'post_type'      => block_lab()->get_post_type_slug(),
 				'post_status'    => 'publish',
 				'posts_per_page' => - 1,
 			]

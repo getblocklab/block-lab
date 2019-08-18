@@ -57,7 +57,7 @@ class Settings extends Component_Abstract {
 	 */
 	public function add_submenu_pages() {
 		add_submenu_page(
-			'edit.php?post_type=block_lab',
+			'edit.php?post_type=' . block_lab()->get_post_type_slug(),
 			__( 'Block Lab Settings', 'block-lab' ),
 			__( 'Settings', 'block-lab' ),
 			'manage_options',
