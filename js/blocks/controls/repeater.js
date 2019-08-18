@@ -7,7 +7,7 @@ const { BaseControl, IconButton } = wp.components;
 /**
  * Internal dependendies
  */
-import { RepeaterRows } from '../loader/edit';
+import { RepeaterRows } from '../components';
 
 const BlockLabRepeaterControl = ( props, field, block ) => {
 	const attr = { ...props.attributes };
@@ -19,30 +19,31 @@ const BlockLabRepeaterControl = ( props, field, block ) => {
 		return Math.round( Math.random() * 1000000 );
 	};
 
+	if ( ! rows ) {
+		attr[ field.name ] = [ uuid() ];
+		setAttributes( attr );
+	}
+
 	return (
-		<BaseControl className="block-lab-repeater">
-			<div className="block-form">
-				{ !! field.label && <p className="components-base-control__label">{ field.label }</p> }
-				{ !! field.help && <p className="components-base-control__help">{ field.help }</p> }
-				<RepeaterRows
-					rows={ attr[ field.name ] }
-					fields={ field.sub_fields }
-					parentBlockProps={ props }
-					parentBlock={ block }
-				/>
-				<IconButton
-					key={ `${ field.name }-repeater-insert` }
-					icon="insert"
-					label={ __( 'Add row', 'block-lab' ) }
-					labelPosition="bottom"
-					onClick={ () => {
-						const repeaterRows = rows || [];
-						attr[ field.name ] = repeaterRows.concat( uuid() );
-						setAttributes( attr );
-					} }
-					disabled={ false }
-				/>
-			</div>
+		<BaseControl className="block-lab-repeater" label={field.label} help={field.help}>
+			<RepeaterRows
+				rows={ attr[ field.name ] }
+				fields={ field.sub_fields }
+				parentBlockProps={ props }
+				parentBlock={ block }
+			/>
+			<IconButton
+				key={ `${ field.name }-repeater-insert` }
+				icon="insert"
+				label={ __( 'Add row', 'block-lab' ) }
+				labelPosition="bottom"
+				onClick={ () => {
+					const repeaterRows = rows || [];
+					attr[ field.name ] = repeaterRows.concat( uuid() );
+					setAttributes( attr );
+				} }
+				disabled={ false }
+			/>
 		</BaseControl>
 	);
 }

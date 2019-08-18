@@ -40,4 +40,4 @@ const simplifiedFields = ( fields, rowName = null ) => {
 	return fieldList
 }
 
-export { simplifiedFields };
+export default simplifiedFields;

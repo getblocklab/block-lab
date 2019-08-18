@@ -704,7 +704,7 @@ class Block_Post extends Component_Abstract {
 								}
 
 								// Don't allow nesting repeaters inside repeaters.
-								if ( 'repeater' === $field->control ) {
+								if ( isset( $field->settings['parent'] ) ) {
 									unset( $controls_for_select['repeater'] );
 								}
 
