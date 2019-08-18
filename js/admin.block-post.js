@@ -2,7 +2,7 @@
  * Used for editing Blocks.
  *
  * @package   Block_Lab
- * @copyright Copyright(c) 2018, Block Lab
+ * @copyright Copyright(c) 2019, Block Lab
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  *
  * Globals wp, blockLab
@@ -19,11 +19,16 @@
 		$( '#block-add-field' ).on( 'click', function() {
 			let template = wp.template( 'field-repeater' ),
 				data     = { uid: new Date().getTime() },
-				field    = $( template( data ) );
+				field    = $( template( data ) ),
+				edit     = field.find( '.block-fields-actions-edit' ),
+				label    = field.find( '.block-fields-edit-label input' );
+
 			$( '.block-fields-rows' ).append( field );
 			$( '.block-no-fields' ).hide();
-			field.find( '.block-fields-actions-edit' ).trigger( 'click' );
-			field.find( '.block-fields-edit-label input' ).select();
+
+			edit.trigger( 'click' );
+			label.data( 'defaultValue', label.val() );
+			label.select();
 		});
 
 		$( '.block-lab-pub-section .edit-post-types' ).on( 'click', function() {
@@ -177,6 +182,10 @@
 				}
 			})
 			.on( 'blur', '.block-fields-edit-label input', function() {
+				// If the value hasn't changed from default, don't turn off autoslug.
+				if ( $( this ).data( 'defaultValue' ) === $( this ).val() ) {
+					return;
+				}
 				$( this )
 					.closest( '.block-fields-edit' )
 					.find( '.block-fields-edit-name input' )
