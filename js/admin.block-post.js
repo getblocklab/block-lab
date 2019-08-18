@@ -239,6 +239,10 @@
 	};
 
 	let blockPostTypesInit = function() {
+		if ( 0 === $( '.block-lab-pub-section' ).length ) {
+			return;
+		}
+
 		let display = $( '.post-types-display' ),
 			inputs  = $( '.post-types-select-items input' );
 
