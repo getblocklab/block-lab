@@ -944,7 +944,7 @@ class Block_Post extends Component_Abstract {
 		}
 
 		// Block excluded post type.
-		if ( isset( $_POST['block-excluded-post-types'] ) ) {
+		if ( isset( $_POST['block-excluded-post-types'] ) && block_lab()->is_pro() ) {
 			$excluded = sanitize_text_field(
 				wp_unslash( $_POST['block-excluded-post-types'] )
 			);
@@ -1103,6 +1103,10 @@ class Block_Post extends Component_Abstract {
 	 * Displays an option for editing the post type that this block appears on.
 	 */
 	public function post_type_condition() {
+		if ( ! block_lab()->is_pro() ) {
+			return;
+		}
+
 		$screen = get_current_screen();
 
 		// Enqueue scripts and styles on the edit screen of the Block post type.
