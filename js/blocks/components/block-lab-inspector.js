@@ -1,9 +1,15 @@
-import simplifiedFields from '../loader/fields';
-import controls from '../controls';
-
+/**
+ * WordPress dependencies
+ */
 const { PanelBody } = wp.components;
 const { InspectorControls } = wp.editor;
 const { applyFilters } = wp.hooks;
+
+/**
+ * Internal dependencies
+ */
+import simplifiedFields from '../loader/fields';
+import controls from '../controls';
 
 /**
  * Gets the rendered control for the Inspector Controls, based on the field values.

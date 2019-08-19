@@ -1,14 +1,14 @@
 /**
- * Internal dependencies
- */
-import { AdvancedControls, BlockLabInspector, Fields, FormControls } from './';
-import icons from '../../../assets/icons.json';
-
-/**
  * WordPress dependencies
  */
 const { ServerSideRender } = wp.editor;
 const { Fragment } = wp.element;
+
+/**
+ * Internal dependencies
+ */
+import { AdvancedControls, BlockLabInspector, Fields, FormControls } from './';
+import icons from '../../../assets/icons.json';
 
 /**
  * The Edit function for the block.
