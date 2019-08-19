@@ -12,8 +12,8 @@ use Block_Lab\Blocks;
 /**
  * Return the value of a block field.
  *
- * @param string|string[] $name The name of the field.
- * @param bool            $echo Whether to echo and return the field, or just return the field.
+ * @param string $name The name of the field.
+ * @param bool   $echo Whether to echo and return the field, or just return the field.
  *
  * @return mixed
  */
@@ -141,8 +141,8 @@ function block_rows( $name ) {
 /**
  * Return the value of a sub-field.
  *
- * @param string|string[] $name The name of the sub-field.
- * @param bool            $echo Whether to echo and return the field, or just return the field.
+ * @param string $name The name of the sub-field.
+ * @param bool   $echo Whether to echo and return the field, or just return the field.
  *
  * @return mixed
  */
