@@ -35,21 +35,18 @@ function block_field( $name, $echo = true ) {
 		return null;
 	}
 
-	$field   = $block_lab_config->fields[ $name ];
 	$value   = false; // This is a good default, it allows us to pick up on unchecked checkboxes.
 	$control = null;
 
-	if ( array_key_exists( $name, $block_lab_attributes ) ) {
-		// Get the value from the block attributes.
-		$value = $block_lab_attributes[ $name ];
-
-		// Cast the value with the correct type.
-		$value = $field->cast_value( $value );
-
-		$control = $field->control;
-	}
-
-	if ( in_array( $name, $default_fields, true ) ) {
+	if ( isset( $block_lab_config->fields[ $name ] ) ) {
+		// Get the value from the block attributes, with the correct type.
+		if ( array_key_exists( $name, $block_lab_attributes ) ) {
+			$field   = $block_lab_config->fields[ $name ];
+			$control = $field->control;
+			$value   = $block_lab_attributes[ $name ];
+			$value   = $field->cast_value( $value );
+		}
+	} elseif ( in_array( $name, $default_fields, true ) ) {
 		// Cast default Editor attributes appropriately.
 		$value = strval( $value );
 	}
