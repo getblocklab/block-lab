@@ -29,59 +29,30 @@ function block_field( $name, $echo = true ) {
 		return null;
 	}
 
-	$is_valid_field = ( isset( $block_lab_config->fields[ $name ] ) || 'className' === $name );
+	$default_fields = array( 'className' );
 
-	if ( ! $is_valid_field ) {
+	if ( ! isset( $block_lab_config->fields[ $name ] ) && ! in_array( $name, $default_fields, true ) ) {
 		return null;
 	}
 
-	$value = false; // This is a good default, it allows us to pick up on unchecked checkboxes.
+	$field   = $block_lab_config->fields[ $name ];
+	$value   = false; // This is a good default, it allows us to pick up on unchecked checkboxes.
+	$control = null;
 
 	if ( array_key_exists( $name, $block_lab_attributes ) ) {
+		// Get the value from the block attributes.
 		$value = $block_lab_attributes[ $name ];
+
+		// Cast the value with the correct type.
+		$value = $field->cast_value( $value );
+
+		$control = $field->control;
 	}
 
-	// Cast default Editor attributes appropriately.
-	if ( 'className' === $name ) {
+	if ( in_array( $name, $default_fields, true ) ) {
+		// Cast default Editor attributes appropriately.
 		$value = strval( $value );
 	}
-
-	// Cast block value as correct type.
-	if ( isset( $block_lab_config->fields[ $name ]->type ) ) {
-		switch ( $block_lab_config->fields[ $name ]->type ) {
-			case 'string':
-				$value = strval( $value );
-				break;
-			case 'textarea':
-				$value = strval( $value );
-				if ( isset( $block_lab_config->fields[ $name ]->settings['new_lines'] ) ) {
-					if ( 'autop' === $block_lab_config->fields[ $name ]->settings['new_lines'] ) {
-						$value = wpautop( $value );
-					}
-					if ( 'autobr' === $block_lab_config->fields[ $name ]->settings['new_lines'] ) {
-						$value = nl2br( $value );
-					}
-				}
-				break;
-			case 'boolean':
-				if ( 1 === $value ) {
-					$value = true;
-				}
-				break;
-			case 'integer':
-				$value = intval( $value );
-				break;
-			case 'array':
-				if ( ! $value ) {
-					$value = array();
-				} else {
-					$value = (array) $value;
-				}
-				break;
-		}
-	}
-
-	$control = isset( $block_lab_config->fields[ $name ]->control ) ? $block_lab_config->fields[ $name ]->control : null;
 
 	/**
 	 * Filters the value to be made available or echoed on the front-end template.

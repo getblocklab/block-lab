@@ -10,6 +10,7 @@
 
 namespace Block_Lab;
 
+use Block_Lab\Blocks;
 use Block_Lab\Component_Abstract;
 
 /**
@@ -29,6 +30,21 @@ class Util extends Component_Abstract {
 	 */
 	public function is_pro() {
 		return $this->plugin->admin->license->is_valid();
+	}
+
+	/**
+	 * Get the loop handler.
+	 *
+	 * @return Blocks\Loop
+	 */
+	public function loop() {
+		static $instance;
+
+		if ( null === $instance ) {
+			return new \Blocks\Loop();
+		}
+
+		return $instance;
 	}
 
 	/**
