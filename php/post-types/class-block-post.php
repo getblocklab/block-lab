@@ -59,6 +59,7 @@ class Block_Post extends Component_Abstract {
 		add_action( 'edit_form_before_permalink', array( $this, 'template_location' ) );
 		add_action( 'post_submitbox_start', array( $this, 'save_draft_button' ) );
 		add_filter( 'enter_title_here', array( $this, 'post_title_placeholder' ) );
+		add_action( 'post_submitbox_misc_actions', array( $this, 'post_type_condition' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'wp_insert_post_data', array( $this, 'save_block' ), 10, 2 );
 		add_action( 'init', array( $this, 'register_controls' ) );
@@ -278,6 +279,10 @@ class Block_Post extends Component_Abstract {
 				'blockLab',
 				array(
 					'fieldSettingsNonce' => wp_create_nonce( 'block_lab_field_settings_nonce' ),
+					'postTypes'          => array(
+						'all'  => __( 'All', 'block-lab' ),
+						'none' => __( 'None', 'block-lab' ),
+					),
 					'copySuccessMessage' => __( 'Copied to clipboard.', 'block-lab' ),
 					'copyFailMessage'    => sprintf(
 						// translators: Placeholder is a shortcut key combination.
@@ -938,6 +943,16 @@ class Block_Post extends Component_Abstract {
 			$block->title = $post_id;
 		}
 
+		// Block excluded post type.
+		if ( isset( $_POST['block-excluded-post-types'] ) ) {
+			$excluded = sanitize_text_field(
+				wp_unslash( $_POST['block-excluded-post-types'] )
+			);
+			if ( ! empty( $excluded ) ) {
+				$block->excluded = explode( ',', $excluded );
+			}
+		}
+
 		// Block icon.
 		if ( isset( $_POST['block-properties-icon'] ) ) {
 			$block->icon = sanitize_key( $_POST['block-properties-icon'] );
@@ -1082,6 +1097,63 @@ class Block_Post extends Component_Abstract {
 		}
 
 		return $title;
+	}
+
+	/**
+	 * Displays an option for editing the post type that this block appears on.
+	 */
+	public function post_type_condition() {
+		if ( ! block_lab()->is_pro() ) {
+			return;
+		}
+
+		$screen = get_current_screen();
+
+		// Enqueue scripts and styles on the edit screen of the Block post type.
+		if ( ! is_object( $screen ) || $this->slug !== $screen->post_type ) {
+			return;
+		}
+
+		$post_types = get_post_types(
+			array(
+				'show_in_rest' => true,
+				'show_in_menu' => true,
+			),
+			'objects'
+		);
+
+		$post_types = array_filter(
+			$post_types,
+			function( $post_type ) {
+				return post_type_supports( $post_type->name, 'editor' );
+			}
+		);
+
+		$block = new Block( get_the_ID() );
+		?>
+		<div class="block-lab-pub-section hide-if-no-js">
+			<?php esc_html_e( 'Post Types:', 'block-lab' ); ?> <span class="post-types-display"></span>
+			<a href="#post-types-select" class="edit-post-types" role="button">
+				<span aria-hidden="true"><?php esc_html_e( 'Edit', 'block-lab' ); ?></span>
+			</a>
+			<input type="hidden" value="<?php echo esc_attr( implode( ',', $block->excluded ) ); ?>" name="block-excluded-post-types" id="block-excluded-post-types" />
+			<div class="post-types-select">
+				<div class="post-types-select-items">
+					<?php
+					foreach ( $post_types as $post_type ) {
+						?>
+						<input type="checkbox" id="block-post-type-<?php echo esc_attr( $post_type->name ); ?>" value="<?php echo esc_attr( $post_type->name ); ?>">
+						<label for="block-post-type-<?php echo esc_attr( $post_type->name ); ?>"><?php echo esc_html( $post_type->label ); ?></label>
+						<br />
+						<?php
+					}
+					?>
+				</div>
+				<a href="#post-types" class="save-post-types button"><?php esc_html_e( 'OK', 'block-lab' ); ?></a>
+				<a href="#post-types" class="button-cancel"><?php esc_html_e( 'Cancel', 'block-lab' ); ?></a>
+			</div>
+		</div>
+		<?php
 	}
 
 	/**
