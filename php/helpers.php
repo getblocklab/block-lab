@@ -147,7 +147,71 @@ function block_rows( $name ) {
  * @return mixed
  */
 function block_sub_field( $name, $echo = true ) {
+	/*
+	 * Defined in Block_Lab\Blocks\Loader->render_block_template().
+	 *
+	 * @var array
+	 */
+	global $block_lab_attributes, $block_lab_config;
 
+	if ( ! isset( $block_lab_attributes ) || ! is_array( $block_lab_attributes ) ) {
+		return null;
+	}
+
+	$parent  = block_lab()->loop()->active;
+	$pointer = block_lab()->loop()->row( $parent );
+
+	if ( ! isset( $block_lab_config->fields[ $parent ] ) ) {
+		return null;
+	}
+
+	$value   = false; // This is a good default, it allows us to pick up on unchecked checkboxes.
+	$control = null;
+
+	// Get the value from the block attributes, with the correct type.
+	if ( array_key_exists( $parent, $block_lab_attributes ) ) {
+		$parent_attributes = $block_lab_attributes[ $name ];
+		$row_attributes    = $parent_attributes['rows'][ $pointer ];
+
+		if ( array_key_exists( $name, $row_attributes ) ) {
+			$field   = $block_lab_config->fields[ $parent ]->settings['sub_fields'][ $name ];
+			$control = $field->control;
+			$value   = $row_attributes[ $name ];
+			$value   = $field->cast_value( $value );
+		}
+	}
+
+	/**
+	 * Filters the value to be made available or echoed on the front-end template.
+	 *
+	 * @param mixed       $value The value.
+	 * @param string|null $control The type of the control, like 'user', or null if this is the 'className', which has no control.
+	 * @param bool        $echo Whether or not this value will be echoed.
+	 */
+	$value = apply_filters( 'block_lab_sub_field_value', $value, $control, $echo );
+
+	if ( $echo ) {
+		if ( is_array( $value ) ) {
+			$value = implode( ', ', $value );
+		}
+
+		if ( true === $value ) {
+			$value = __( 'Yes', 'block-lab' );
+		}
+
+		if ( false === $value ) {
+			$value = __( 'No', 'block-lab' );
+		}
+
+		/**
+		 * Escaping this value may cause it to break in some use cases.
+		 * If this happens, retrieve the field's value using block_value(),
+		 * and then output the field with a more suitable escaping function.
+		 */
+		echo wp_kses_post( $value );
+	}
+
+	return $value;
 }
 
 /**
