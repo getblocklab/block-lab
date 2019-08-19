@@ -130,6 +130,17 @@ function block_value( $name ) {
 }
 
 /**
+ * Prepare a loop with the first or next row in a repeater.
+ *
+ * @param string $name The name of the repeater field.
+ *
+ * @return int
+ */
+function block_row( $name ) {
+	return block_lab()->loop->increment( $name );
+}
+
+/**
  * Determine whether another repeater row exists to loop through.
  *
  * @param string $name The name of the repeater field.
@@ -137,17 +148,25 @@ function block_value( $name ) {
  * @return bool
  */
 function block_rows( $name ) {
-	return false;
-}
+	global $block_lab_attributes;
 
-/**
- * Prepare a global variable with the first or next row in a repeater.
- *
- * @param string $name The name of the repeater field.
- *
- * @return void
- */
-function block_row( $name ) {
+	if ( ! isset( $block_lab_attributes[ $name ] ) ) {
+		return false;
+	}
+
+	$current_row = block_lab()->loop->row( $name );
+
+	if ( false === $current_row ) {
+		$next_row = 0;
+	} else {
+		$next_row = $current_row + 1;
+	}
+
+	if ( isset( $block_lab_attributes[ $name ]['rows'][ $next_row ] ) ) {
+		return true;
+	}
+
+	return false;
 }
 
 /**
@@ -159,6 +178,7 @@ function block_row( $name ) {
  * @return mixed
  */
 function block_sub_field( $name, $echo = true ) {
+
 }
 
 /**
