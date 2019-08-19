@@ -28,54 +28,40 @@ function block_field( $name, $echo = true ) {
 	 */
 	global $block_lab_attributes, $block_lab_config;
 
-	$possible_sub_field_name = maybe_get_sub_field_name( $name );
-
-	if (
-		( is_array( $name ) && ! $possible_sub_field_name )
-		||
-		! isset( $block_lab_attributes )
-		||
-		! is_array( $block_lab_attributes )
-	) {
+	if ( ! isset( $block_lab_attributes ) || ! is_array( $block_lab_attributes ) ) {
 		return null;
 	}
 
-	$is_valid_field = (
-		isset( $block_lab_config->fields[ $name ] )
-		||
-		'className' === $name
-		||
-		$possible_sub_field_name
-	);
+	$is_valid_field = ( isset( $block_lab_config->fields[ $name ] ) || 'className' === $name );
 
 	if ( ! $is_valid_field ) {
 		return null;
 	}
 
-	$field_name = $possible_sub_field_name ? $possible_sub_field_name : $name;
-	$value      = false; // This is a good default, it allows us to pick up on unchecked checkboxes.
-	if ( array_key_exists( $field_name, $block_lab_attributes ) ) {
-		$value = $block_lab_attributes[ $field_name ];
+	$value = false; // This is a good default, it allows us to pick up on unchecked checkboxes.
+
+	if ( array_key_exists( $name, $block_lab_attributes ) ) {
+		$value = $block_lab_attributes[ $name ];
 	}
 
 	// Cast default Editor attributes appropriately.
-	if ( 'className' === $field_name ) {
+	if ( 'className' === $name ) {
 		$value = strval( $value );
 	}
 
 	// Cast block value as correct type.
-	if ( isset( $block_lab_config->fields[ $field_name ]->type ) ) {
-		switch ( $block_lab_config->fields[ $field_name ]->type ) {
+	if ( isset( $block_lab_config->fields[ $name ]->type ) ) {
+		switch ( $block_lab_config->fields[ $name ]->type ) {
 			case 'string':
 				$value = strval( $value );
 				break;
 			case 'textarea':
 				$value = strval( $value );
-				if ( isset( $block_lab_config->fields[ $field_name ]->settings['new_lines'] ) ) {
-					if ( 'autop' === $block_lab_config->fields[ $field_name ]->settings['new_lines'] ) {
+				if ( isset( $block_lab_config->fields[ $name ]->settings['new_lines'] ) ) {
+					if ( 'autop' === $block_lab_config->fields[ $name ]->settings['new_lines'] ) {
 						$value = wpautop( $value );
 					}
-					if ( 'autobr' === $block_lab_config->fields[ $field_name ]->settings['new_lines'] ) {
+					if ( 'autobr' === $block_lab_config->fields[ $name ]->settings['new_lines'] ) {
 						$value = nl2br( $value );
 					}
 				}
@@ -98,7 +84,7 @@ function block_field( $name, $echo = true ) {
 		}
 	}
 
-	$control = isset( $block_lab_config->fields[ $field_name ]->control ) ? $block_lab_config->fields[ $field_name ]->control : null;
+	$control = isset( $block_lab_config->fields[ $name ]->control ) ? $block_lab_config->fields[ $name ]->control : null;
 
 	/**
 	 * Filters the value to be made available or echoed on the front-end template.
@@ -131,47 +117,6 @@ function block_field( $name, $echo = true ) {
 	}
 
 	return $value;
-}
-
-/**
- * Gets the root sub-field name for a repeater, if it exists.
- *
- * Not intended to get the value, use block_field() or block_value() for that.
- * For example, if a sub-field was in the 'home-hero' repeater,
- * this function could be passed a $field_names argument of ( 'home_hero', 'main_image' ).
- * This would get return the name 'main-image', if that's a valid field in the 'home-hero' repeater field.
- *
- * @param string[]|string $field_names The names of the fields, must be an array with two fields (strings) to return a field.
- * @return string|false The sub-field name, or false if it does not exit.
- */
-function maybe_get_sub_field_name( $field_names ) {
-	global $block_lab_config;
-
-	if ( ! is_array( $field_names ) || count( $field_names ) < 2 ) {
-		return false;
-	}
-
-	$i      = 1;
-	$fields = $block_lab_config->fields;
-	foreach ( $field_names as $field_name ) {
-		if ( ! isset( $fields[ $field_name ] ) ) {
-			return false;
-		}
-
-		// If this doesn't have 'sub_fields' and is the last string in $field_names, return it.
-		if ( ! isset( $fields[ $field_name ]->settings['sub_fields'] ) ) {
-			if ( count( $field_names ) === $i ) {
-				return $field_name;
-			} else {
-				return false;
-			}
-		}
-
-		$fields = $fields[ $field_name ]->settings['sub_fields'];
-		$i++;
-	}
-
-	return false;
 }
 
 /**
