@@ -10,15 +10,12 @@
 use Block_Lab\Blocks;
 
 /**
- * Echos out the value of a block field.
+ * Return the value of a block field.
  *
- * To output a repeater sub-field, pass an array() with the repeater field followed by the sub-field.
- * For example, block_field( 'home_hero', 'image' ).
- *
- * @param string|string[] $name The name of the field as created in the UI, or an array of the repeater field and sub-field.
+ * @param string|string[] $name The name of the field.
  * @param bool            $echo Whether to echo and return the field, or just return the field.
  *
- * @return mixed|null
+ * @return mixed
  */
 function block_field( $name, $echo = true ) {
 	/*
@@ -120,16 +117,61 @@ function block_field( $name, $echo = true ) {
 }
 
 /**
- * Convenience method to return the value of a block field.
+ * Return the value of a block field, without echoing it.
  *
  * @param string $name The name of the field as created in the UI.
  *
  * @uses block_field()
  *
- * @return mixed|null
+ * @return mixed
  */
 function block_value( $name ) {
 	return block_field( $name, false );
+}
+
+/**
+ * Determine whether another repeater row exists to loop through.
+ *
+ * @param string $name The name of the repeater field.
+ *
+ * @return bool
+ */
+function block_rows( $name ) {
+	return false;
+}
+
+/**
+ * Prepare a global variable with the first or next row in a repeater.
+ *
+ * @param string $name The name of the repeater field.
+ *
+ * @return void
+ */
+function block_row( $name ) {
+}
+
+/**
+ * Return the value of a sub-field.
+ *
+ * @param string|string[] $name The name of the sub-field.
+ * @param bool            $echo Whether to echo and return the field, or just return the field.
+ *
+ * @return mixed
+ */
+function block_sub_field( $name, $echo = true ) {
+}
+
+/**
+ * Return the value of a sub-field, without echoing it.
+ *
+ * @param string $name The name of the sub-field.
+ *
+ * @uses block_field()
+ *
+ * @return mixed
+ */
+function block_sub_value( $name ) {
+	return block_sub_field( $name, false );
 }
 
 /**
