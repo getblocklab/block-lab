@@ -105,6 +105,7 @@ function block_value( $name ) {
  * @return int
  */
 function block_row( $name ) {
+	block_lab()->loop->active( $name );
 	return block_lab()->loop->increment( $name );
 }
 

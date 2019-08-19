@@ -22,13 +22,33 @@ class Loop {
 	public $loops = array();
 
 	/**
+	 * Currently active loop
+	 *
+	 * @var string
+	 */
+	public $active;
+
+	/**
+	 * Set a loop to active.
+	 *
+	 * @param string $name The field name.
+	 */
+	public function active( $name ) {
+		$this->active = $name;
+	}
+
+	/**
 	 * Get the current pointer for a loop.
 	 *
 	 * @param string $name The field name.
 	 *
 	 * @return bool
 	 */
-	public function row( $name ) {
+	public function row( $name = '' ) {
+		if ( empty( $name ) ) {
+			$name = $this->active;
+		}
+
 		if ( isset( $this->loops[ $name ] ) ) {
 			return $this->loops[ $name ];
 		}
@@ -43,7 +63,11 @@ class Loop {
 	 *
 	 * @return int
 	 */
-	public function increment( $name ) {
+	public function increment( $name = '' ) {
+		if ( empty( $name ) ) {
+			$name = $this->active;
+		}
+
 		if ( isset( $this->loops[ $name ] ) ) {
 			$this->loops[ $name ]++;
 		} else {
@@ -58,7 +82,11 @@ class Loop {
 	 *
 	 * @param string $name The field name.
 	 */
-	public function reset( $name ) {
+	public function reset( $name = '' ) {
+		if ( empty( $name ) ) {
+			$name = $this->active;
+		}
+
 		unset( $this->loops[ $name ] );
 	}
 }
