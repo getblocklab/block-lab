@@ -38,14 +38,15 @@ function block_field( $name, $echo = true ) {
 	$value   = false; // This is a good default, it allows us to pick up on unchecked checkboxes.
 	$control = null;
 
+	if ( array_key_exists( $name, $block_lab_attributes ) ) {
+		$value = $block_lab_attributes[ $name ];
+	}
+
 	if ( isset( $block_lab_config->fields[ $name ] ) ) {
-		// Get the value from the block attributes, with the correct type.
-		if ( array_key_exists( $name, $block_lab_attributes ) ) {
-			$field   = $block_lab_config->fields[ $name ];
-			$control = $field->control;
-			$value   = $block_lab_attributes[ $name ];
-			$value   = $field->cast_value( $value );
-		}
+		// Cast the value with the correct type.
+		$field   = $block_lab_config->fields[ $name ];
+		$value   = $field->cast_value( $value );
+		$control = $field->control;
 	} elseif ( in_array( $name, $default_fields, true ) ) {
 		// Cast default Editor attributes appropriately.
 		$value = strval( $value );
@@ -105,8 +106,8 @@ function block_value( $name ) {
  * @return int
  */
 function block_row( $name ) {
-	block_lab()->loop->active( $name );
-	return block_lab()->loop->increment( $name );
+	block_lab()->loop()->active( $name );
+	return block_lab()->loop()->increment( $name );
 }
 
 /**
@@ -123,7 +124,7 @@ function block_rows( $name ) {
 		return false;
 	}
 
-	$current_row = block_lab()->loop->row( $name );
+	$current_row = block_lab()->loop()->row( $name );
 
 	if ( false === $current_row ) {
 		$next_row = 0;
@@ -131,7 +132,7 @@ function block_rows( $name ) {
 		$next_row = $current_row + 1;
 	}
 
-	if ( isset( $block_lab_attributes[ $name ]['rows'][ $next_row ] ) ) {
+	if ( isset( $block_lab_attributes[ $name ][ $next_row ] ) ) {
 		return true;
 	}
 
@@ -170,8 +171,8 @@ function block_sub_field( $name, $echo = true ) {
 
 	// Get the value from the block attributes, with the correct type.
 	if ( array_key_exists( $parent, $block_lab_attributes ) ) {
-		$parent_attributes = $block_lab_attributes[ $name ];
-		$row_attributes    = $parent_attributes['rows'][ $pointer ];
+		$parent_attributes = $block_lab_attributes[ $parent ];
+		$row_attributes    = $parent_attributes[ $pointer ];
 
 		if ( array_key_exists( $name, $row_attributes ) ) {
 			$field   = $block_lab_config->fields[ $parent ]->settings['sub_fields'][ $name ];

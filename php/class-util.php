@@ -41,7 +41,8 @@ class Util extends Component_Abstract {
 		static $instance;
 
 		if ( null === $instance ) {
-			return new \Blocks\Loop();
+			$instance = new Blocks\Loop();
+			return $instance;
 		}
 
 		return $instance;
