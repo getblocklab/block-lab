@@ -14,7 +14,7 @@ import { ControlContainer } from './';
  * @return {Function} fields The rendered fields.
  */
 const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
-	return simplifiedFields( fields, rowIndex ).map( ( field, index ) => {
+	return simplifiedFields( fields, rowIndex ).map( ( field ) => {
 
 		/**
 		 * Handles a control value changing.

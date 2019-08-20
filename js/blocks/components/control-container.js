@@ -53,7 +53,7 @@ const ControlContainer = ( { parentBlock, parentBlockProps, field, rowIndex, onC
 	const getValue = ( props ) => {
 		const { attributes, field, rowIndex } = props;
 		const attr = { ...attributes };
-		return field.parent && attr[ field.parent ][ rowIndex ] ? attr[ field.parent ][ rowIndex ][ field.name ] : attr[ field.name ];
+		return field.parent && attr[ field.parent ] ? attr[ field.parent ][ rowIndex ][ field.name ] : attr[ field.name ];
 	}
 	const controlProps = { ...parentBlockProps, field, getValue, onChange, parentBlock, rowIndex };
 
