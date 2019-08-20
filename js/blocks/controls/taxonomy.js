@@ -8,8 +8,9 @@ const BlockLabTaxonomyControl = ( props, field, block ) => {
 	 * @return {String} The post title from the response, or the default.
 	 */
 	const getNameFromAPI = apiResponse => ( apiResponse && apiResponse.name ) ? apiResponse.name : '';
+	const contentProps = { ...props, field, getNameFromAPI };
 
-	return ContentControl( props, field, getNameFromAPI );
+	return <ContentControl { ...contentProps } />;
 }
 
-export default BlockLabTaxonomyControl
+export default BlockLabTaxonomyControl;

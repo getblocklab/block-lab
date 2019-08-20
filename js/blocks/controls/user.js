@@ -3,8 +3,8 @@
  */
 import { FetchInput } from '../components';
 
-const BlockLabUserControl = ( props, field, block ) => {
-	const { setAttributes } = props;
+const BlockLabUserControl = ( props ) => {
+	const { field, getValue, onChange } = props;
 	const attr = { ...props.attributes };
 	const DEFAULT_ID = 0;
 	const getIdFromAPI = apiResponse => ( apiResponse && apiResponse.id ) ? apiResponse.id : DEFAULT_ID;
@@ -12,17 +12,17 @@ const BlockLabUserControl = ( props, field, block ) => {
 
 	const initialValue = ( 'object' === typeof attr[ field.name ] ) ? attr[ field.name ] : {};
 	attr[ field.name ] = Object.assign( { id: DEFAULT_ID, userName: '' }, initialValue );
-	const userAttribute = attr[ field.name ];
+	const userAttribute = getValue( props );
 
 	return (
 		<FetchInput
-			field={field}
+			field={ field }
 			apiSlug="users"
-			value={userAttribute['id']}
-			displayValue={userAttribute['userName']}
-			getValueFromAPI={getIdFromAPI}
-			getDisplayValueFromAPI={getNameFromAPI}
-			onChange={value => {
+			value={ userAttribute['id'] }
+			displayValue={ userAttribute['userName'] }
+			getValueFromAPI={ getIdFromAPI }
+			getDisplayValueFromAPI={ getNameFromAPI }
+			onChange={ ( value ) => {
 				if ( 'string' === typeof value ) {
 					// The value is probably from the user typing into the <input>.
 					userAttribute['userName'] = value;
@@ -32,9 +32,9 @@ const BlockLabUserControl = ( props, field, block ) => {
 					userAttribute['userName'] = getNameFromAPI( value );
 					userAttribute['id'] = getIdFromAPI( value );
 				}
-				attr[ field.name ] = userAttribute;
-				setAttributes( attr );
-			}}
+
+				onChange( userAttribute );
+			} }
 		/>
 	);
 }

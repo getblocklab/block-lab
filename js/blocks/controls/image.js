@@ -8,10 +8,11 @@ const { __ } = wp.i18n;
 const ALLOWED_TYPES  = [ 'image' ];
 const DEFAULT_IMG_ID = 0;
 
-const BlockLabImageControl = ( props, field, block ) => {
+const BlockLabImageControl = ( props ) => {
+	const { field, getValue } = props;
+
 	const ImageControl = withSelect( ( select, ownProps ) => {
-		const { attributes } = ownProps;
-		const fieldValue = attributes[ field.name ];
+		const fieldValue = getValue( props );
 		let media, imageAlt,
 			imageSrc = '';
 
@@ -37,18 +38,15 @@ const BlockLabImageControl = ( props, field, block ) => {
 			imageSrc,
 		 };
 
-	} )( withState( {} )( ownProps => {
-		const { imageAlt, imageSrc, isUploading, setAttributes, setState } = ownProps;
-		const attr = { ...ownProps.attributes };
-
+	} )( withState( {} )( ( ownProps ) => {
+		const { getValue, imageAlt, imageSrc, isUploading, onChange, setState } = ownProps;
 		const uploadStart = () => {
 			setState( { isUploading: true } )
 		};
 
 		const uploadComplete = ( image ) => {
 			if ( image.hasOwnProperty( 'id' ) ) {
-				attr[ field.name ] = parseInt( image.id );
-				setAttributes( attr )
+				onChange( parseInt( image.id ) );
 			}
 			setState( { isUploading: false } )
 		};
@@ -67,8 +65,7 @@ const BlockLabImageControl = ( props, field, block ) => {
 
 		const removeImage = () => {
 			// The attribute should be an int, so set it to 0 on removing an image.
-			attr[ field.name ] = DEFAULT_IMG_ID;
-			setAttributes( attr );
+			onChange( DEFAULT_IMG_ID );
 		}
 
 		const uploadFiles = ( files ) => {
@@ -121,7 +118,7 @@ const BlockLabImageControl = ( props, field, block ) => {
 										multiple={ false }
 										onSelect={ onSelect }
 										allowedTypes={ ALLOWED_TYPES }
-										value={ attr[ field.name ] }
+										value={ getValue( ownProps ) }
 										render={ ( { open } ) => (
 											<div className='components-media-library-button'>
 												<Button

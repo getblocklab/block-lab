@@ -13,7 +13,7 @@ const BlockLabTextControl = ( props ) => {
 			value={ getValue( props ) }
 			onChange={ onChange }
 		/>
-	)
+	);
 };
 
 export default BlockLabTextControl

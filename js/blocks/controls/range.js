@@ -1,25 +1,23 @@
 const { RangeControl } = wp.components;
 
-const BlockLabRangeControl = ( props, field, block ) => {
-	const { setAttributes } = props
-	const attr = { ...props.attributes }
+const BlockLabRangeControl = ( props ) => {
+	const { field, onChange } = props
+	const value = getValue( props );
+
 	return (
 		<RangeControl
-			beforeIcon={field.beforeIcon}
-			afterIcon={field.afterIcon}
-			label={field.label}
-			help={field.help}
-			value={ ( attr[ field.name ] || '0' == attr[ field.name ] || undefined == attr[ field.name ] ) ? attr[ field.name ] : field.default }
-			onChange={rangeControl => {
-				attr[ field.name ] = rangeControl
-				setAttributes( attr )
-			}}
-			min={field.min}
-			max={field.max}
-			step={field.step}
-			allowReset={field.allowReset}
+			beforeIcon={ field.beforeIcon }
+			afterIcon={ field.afterIcon }
+			label={ field.label }
+			help={ field.help }
+			value={ ( value || undefined === value ) ? value : field.default }
+			onChange={ onChange }
+			min={ field.min }
+			max={ field.max }
+			step={ field.step }
+			allowReset={ field.allowReset }
 		/>
-	)
+	);
 }
 
-export default BlockLabRangeControl
+export default BlockLabRangeControl;
