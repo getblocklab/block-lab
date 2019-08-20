@@ -1,7 +1,7 @@
 const { TextareaControl } = wp.components;
 
 const BlockLabTextareaControl = ( props ) => {
-	const { getValue, field } = props
+	const { getValue, field, onChange } = props
 
 	return (
 		<TextareaControl
