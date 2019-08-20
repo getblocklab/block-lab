@@ -24,10 +24,10 @@ class Repeater extends Control_Abstract {
 	/**
 	 * Field variable type.
 	 *
-	 * This has the names of the rows.
-	 * For example, they might be [ '13513afd624bc', '641be16fc1a', 'ad61ce1531cs' ].
+	 * This is an array of arrays, with each row being an array.
+	 * For example, a repeater with one row might be [ [ 'example-text': 'Foo', 'example-image': 4232 ] ].
 	 *
-	 * @var string[]
+	 * @var array[]
 	 */
 	public $type = 'array';
 

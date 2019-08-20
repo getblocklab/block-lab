@@ -87,26 +87,26 @@ import { Fields } from './';
 	 * Renders the repeater rows.
 	 */
 	render() {
-		const { rows, fields, parentBlockProps, parentBlock } = this.props;
+		const { rows, subFields, parentBlockProps, parentBlock } = this.props;
 
 		return (
 			<Fragment>
 				<div className="block-lab-repeater__rows">
 					{
-						rows.map( ( rowName, rowIndex ) => {
+						rows.map( ( row, rowIndex ) => {
 							const activeClass = this.state.activeRow === parseInt( rowIndex ) ? 'active' : ''; // @todo: Make this dynamic.
 
 							return (
-								<BaseControl className={ `block-lab-repeater--row ${ activeClass }` } key={ `${ rowName }-row` }>
+								<BaseControl className={ `block-lab-repeater--row ${ activeClass }` } key={ `bl-row-${ rowIndex }` }>
 									<Fields
-										fields={ fields }
+										fields={ subFields }
 										parentBlockProps={ parentBlockProps }
 										parentBlock={ parentBlock }
-										rowName={ rowName }
+										rowIndex={ rowIndex }
 									/>
 									<div className="block-lab-repeater--row-actions">
 										<Button
-											key={ `${ rowName }-move-left` }
+											key={ `${ rowIndex }-move-left` }
 											isLink={true}
 											className="button-move-left"
 										>
@@ -114,7 +114,7 @@ import { Fields } from './';
 										</Button>
 										<span className="separator">|</span>
 										<Button
-											key={ `${ rowName }-move-right` }
+											key={ `${ rowIndex }-move-right` }
 											isLink={true}
 											className="button-move-right"
 										>
@@ -122,7 +122,7 @@ import { Fields } from './';
 										</Button>
 										<span className="separator">|</span>
 										<Button
-											key={ `${ rowName }-delete` }
+											key={ `${ rowIndex }-delete` }
 											isLink={true}
 											onClick={ this.removeRow( rowIndex ) }
 											className="button-dismiss"

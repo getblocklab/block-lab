@@ -260,7 +260,8 @@ class Loader extends Component_Abstract {
 			 * used only when creating the form.
 			 */
 			unset( $attributes[ $field_name ]['default'] );
-			$attributes[ $field_name ]['items'] = array( 'type' => 'string' );
+			$items_type                         = 'repeater' === $field->control ? 'object' : 'string';
+			$attributes[ $field_name ]['items'] = array( 'type' => $items_type );
 		}
 
 		return $attributes;

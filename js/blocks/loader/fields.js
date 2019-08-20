@@ -10,10 +10,10 @@ const compare = ( a, b ) => {
  * Gets a simplified and sorted array of the fields.
  *
  * @param {Array}  fields  The fields to simplify.
- * @param {String} rowName The name of a repeater row the fields are in, if any (optional).
+ * @param {number} rowIndex The index of the repeater row.
  * @retun {Array} The simplified fields.
  */
-const simplifiedFields = ( fields, rowName = null ) => {
+const simplifiedFields = ( fields, rowIndex = null ) => {
 
 	let fieldList = []
 
@@ -30,7 +30,7 @@ const simplifiedFields = ( fields, rowName = null ) => {
 		fieldList.push(
 			{
 				...field,
-				name: rowName ? `${ rowName }[${ fieldName }]` : fieldName, // If in a repeater row, include the row in the name.
+				name: fieldName,
 			}
 		)
 	}
