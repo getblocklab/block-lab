@@ -1,22 +1,18 @@
 const { SelectControl } = wp.components;
 
-const BlockLabMultiselectControl = ( props, field, block ) => {
-	const { setAttributes } = props
-	const attr = { ...props.attributes }
+const BlockLabMultiselectControl = ( props ) => {
+	const { field, getValue, onChange } = props
 
 	return (
 		<SelectControl
 			multiple="multiple"
-			label={field.label}
-			help={field.help}
-			value={attr[ field.name ] || field.default}
-			options={field.options}
-			onChange={multiselectControl => {
-				attr[ field.name ] = multiselectControl
-				setAttributes( attr )
-			}}
+			label={ field.label }
+			help={ field.help }
+			value={ getValue( props ) || field.default }
+			options={ field.options }
+			onChange={ onChange }
 		/>
-	)
+	);
 }
 
 export default BlockLabMultiselectControl

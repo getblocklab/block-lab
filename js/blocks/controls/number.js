@@ -2,9 +2,8 @@ import classNames from 'classnames';
 
 const { TextControl } = wp.components;
 
-const BlockLabNumberControl = ( props, field, block ) => {
-	const { setAttributes } = props;
-	const attr = { ...props.attributes };
+const BlockLabNumberControl = ( props ) => {
+	const { field, getValue, onChange } = props;
 
 	/**
 	 * Sets the Error Class for the Text Control.
@@ -22,24 +21,23 @@ const BlockLabNumberControl = ( props, field, block ) => {
 	return (
 		<TextControl
 			type="number"
-			label={field.label}
-			placeholder={field.placeholder || ''}
-			help={field.help}
-			defaultValue={field.default}
-			value={attr[ field.name ]}
-			onChange={numberControl => {
-				attr[ field.name ] = Number( numberControl )
-				setAttributes( attr )
-			}}
+			label={ field.label }
+			placeholder={ field.placeholder || '' }
+			help={ field.help }
+			defaultValue={ field.default }
+			value={ getValue( props ) }
+			onChange={ numberControl => {
+				onChange( Number( numberControl ) );
+			} }
 			onFocus={ event => {
 				setErrorClass( document.activeElement, false );
 				event.target.reportValidity()
-			}}
+			} }
 			onBlur={ event => {
 				setErrorClass( event.target, ! event.target.checkValidity() );
-			}}
+			} }
 		/>
-	)
+	);
 }
 
 export default BlockLabNumberControl

@@ -1,20 +1,17 @@
 const { RadioControl } = wp.components;
 
-const BlockLabRadioControl = ( props, field, block ) => {
-	const { setAttributes } = props
-	const attr = { ...props.attributes }
+const BlockLabRadioControl = ( props ) => {
+	const { field, getValue, onChange } = props
+
 	return (
 		<RadioControl
-			label={field.label}
-			help={field.help}
-			selected={attr[ field.name ] || field.default}
-			options={field.options}
-			onChange={radioControl => {
-				attr[ field.name ] = radioControl
-				setAttributes( attr )
-			}}
+			label={ field.label }
+			help={ field.help }
+			selected={ getValue( props ) || field.default }
+			options={ field.options }
+			onChange={ onChange }
 		/>
-	)
+	);
 }
 
-export default BlockLabRadioControl
+export default BlockLabRadioControl;

@@ -1,6 +1,6 @@
 import ContentControl from './content';
 
-const BlockLabPostControl = ( props, field, block ) => {
+const BlockLabPostControl = ( props ) => {
 	/**
 	 * Gets the post title from an API response.
 	 *
@@ -8,8 +8,9 @@ const BlockLabPostControl = ( props, field, block ) => {
 	 * @return {String} The post title from the response, or the default.
 	 */
 	const getTitleFromAPI = apiResponse => ( apiResponse && apiResponse.title && apiResponse.title.rendered ) ? apiResponse.title.rendered : '';
+	const contentProps = { ...props, getTitleFromAPI }
 
-	return ContentControl( props, field, getTitleFromAPI );
+	return <ContentControl { ...contentProps } />;
 }
 
-export default BlockLabPostControl
+export default BlockLabPostControl;

@@ -8,8 +8,8 @@ import { FetchInput } from '../components';
  *
  * @return {Function} A component for a control.
  */
-export default ( props, field, getNameFromAPI ) => {
-	const { setAttributes } = props;
+export default ( props ) => {
+	const { field, getNameFromAPI, onChange } = props;
 	const attr = { ...props.attributes };
 	const DEFAULT_ID = 0;
 	const DEFAULT_NAME = '';
@@ -27,13 +27,13 @@ export default ( props, field, getNameFromAPI ) => {
 
 	return (
 		<FetchInput
-			field={field}
-			apiSlug={field.post_type_rest_slug}
-			value={valueAttribute['id']}
-			displayValue={valueAttribute['name']}
-			getValueFromAPI={getIdfromAPI}
-			getDisplayValueFromAPI={getNameFromAPI}
-			onChange={value => {
+			field={ field }
+			apiSlug={ field.post_type_rest_slug }
+			value={ valueAttribute['id'] }
+			displayValue={ valueAttribute['name'] }
+			getValueFromAPI={ getIdfromAPI }
+			getDisplayValueFromAPI={ getNameFromAPI }
+			onChange={ ( value ) => {
 				if ( 'string' === typeof value ) {
 					// The value is probably from the user typing into the <input>.
 					valueAttribute['name'] = value;
@@ -43,9 +43,9 @@ export default ( props, field, getNameFromAPI ) => {
 					valueAttribute['name'] = getNameFromAPI( value );
 					valueAttribute['id'] = getIdfromAPI( value );
 				}
-				attr[ field.name ] = valueAttribute;
-				setAttributes( attr );
-			}}
+
+				onChange( valueAttribute );
+			} }
 		/>
 	);
 }

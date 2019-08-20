@@ -11,6 +11,9 @@ import { Fields } from './';
  * @return {Function|null} The Edit component for the block.
  */
 const FormControls = ( { blockProps, block } ) => {
+	const attr = { ...blockProps.attributes };
+	const { setAttributes } = blockProps;
+
 	return (
 		<div key={ `${ block.name }-fields` } >
 			<Fields

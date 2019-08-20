@@ -1,23 +1,20 @@
 const { TextareaControl } = wp.components;
 
-const BlockLabTextareaControl = ( props, field, block ) => {
-	const { setAttributes } = props
-	const attr = { ...props.attributes }
+const BlockLabTextareaControl = ( props ) => {
+	const { getValue, field } = props
+
 	return (
 		<TextareaControl
-			label={field.label}
-			placeholder={field.placeholder || ''}
-			maxLength={field.maxlength}
-			rows={field.number_rows}
-			help={field.help}
-			defaultValue={field.default}
-			value={attr[ field.name ]}
-			onChange={textareaControl => {
-				attr[ field.name ] = textareaControl
-				setAttributes( attr )
-			}}
+			label={ field.label }
+			placeholder={ field.placeholder || '' }
+			maxLength={ field.maxlength }
+			rows={ field.number_rows }
+			help={ field.help }
+			defaultValue={ field.default }
+			value={ getValue( props ) }
+			onChange={ onChange }
 		/>
-	)
+	);
 }
 
 export default BlockLabTextareaControl
