@@ -143,4 +143,69 @@ class Field {
 			}
 		}
 	}
+
+	/**
+	 * Return the value with the correct variable type.
+	 *
+	 * @param mixed $value The value to typecast.
+	 * @return mixed
+	 */
+	public function cast_value( $value ) {
+		switch ( $this->type ) {
+			case 'string':
+				$value = strval( $value );
+				break;
+			case 'textarea':
+				$value = strval( $value );
+				if ( isset( $this->settings['new_lines'] ) ) {
+					if ( 'autop' === $this->settings['new_lines'] ) {
+						$value = wpautop( $value );
+					}
+					if ( 'autobr' === $this->settings['new_lines'] ) {
+						$value = nl2br( $value );
+					}
+				}
+				break;
+			case 'boolean':
+				if ( 1 === $value ) {
+					$value = true;
+				}
+				break;
+			case 'integer':
+				$value = intval( $value );
+				break;
+			case 'array':
+				if ( ! $value ) {
+					$value = array();
+				} else {
+					$value = (array) $value;
+				}
+				break;
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Gets the field value as a string.
+	 *
+	 * @param mixed $value The field value.
+	 *
+	 * @return string $value The value to echo.
+	 */
+	public function cast_value_to_string( $value ) {
+		if ( is_array( $value ) ) {
+			return implode( ', ', $value );
+		}
+
+		if ( true === $value ) {
+			return __( 'Yes', 'block-lab' );
+		}
+
+		if ( false === $value ) {
+			return __( 'No', 'block-lab' );
+		}
+
+		return strval( $value );
+	}
 }
