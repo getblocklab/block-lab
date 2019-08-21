@@ -1,7 +1,7 @@
 const { RangeControl } = wp.components;
 
 const BlockLabRangeControl = ( props ) => {
-	const { field, onChange } = props
+	const { field, getValue, onChange } = props;
 	const value = getValue( props );
 
 	return (
