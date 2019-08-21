@@ -1188,7 +1188,7 @@ class Block_Post extends Component_Abstract {
 		$screen = get_current_screen();
 
 		// Enqueue scripts and styles on the edit screen of the Block post type.
-		if ( ! is_object( $screen ) || $this->slug !== $screen->post_type ) {
+		if ( ! is_object( $screen ) || block_lab()->get_post_type_slug() !== $screen->post_type ) {
 			return;
 		}
 
