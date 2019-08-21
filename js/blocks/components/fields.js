@@ -13,8 +13,8 @@ import { ControlContainer } from './';
  * @param {number} rowIndex         The index of the repeater row, if this field is in one (optional).
  * @return {Function} fields The rendered fields.
  */
-const Fields = ( { fields, onChange, parentBlockProps, parentBlock, rowIndex } ) => {
-	return simplifiedFields( fields, rowIndex ).map( ( field ) => {
+const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
+	return simplifiedFields( fields ).map( ( field ) => {
 
 		/**
 		 * Handles a single control value changing.
@@ -26,7 +26,7 @@ const Fields = ( { fields, onChange, parentBlockProps, parentBlock, rowIndex } )
 		 *
 		 * @param {mixed} newValue The new control value.
 		 */
-		const ownOnChange = ( newValue ) => {
+		const onChange = ( newValue ) => {
 			const attr = { ...parentBlockProps.attributes };
 			const { setAttributes } = parentBlockProps;
 
@@ -71,8 +71,8 @@ const Fields = ( { fields, onChange, parentBlockProps, parentBlock, rowIndex } )
 				parentBlockProps={ parentBlockProps }
 				field={ field }
 				rowIndex={ rowIndex }
-				onChange={ onChange || ownOnChange }
 				getValue={ getValue }
+				onChange={ onChange }
 			/>
 		);
 	} );
