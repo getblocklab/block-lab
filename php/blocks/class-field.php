@@ -187,7 +187,7 @@ class Field {
 	}
 
 	/**
-	 * Gets the field value to echo on the front-end.
+	 * Gets the field value as a string.
 	 *
 	 * @param mixed $value The field value.
 	 *
