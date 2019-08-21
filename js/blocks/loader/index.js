@@ -10,7 +10,7 @@ const { registerBlockType } = wp.blocks;
 import icons from '../../../assets/icons.json';
 import getBlockAttributes from './attributes'
 import { Edit } from '../components'
-import './editor.scss';
+import '../../../css/src/editor.scss';
 
 
 const registerBlocks = () => {
