@@ -10,21 +10,19 @@ const { BaseControl, IconButton } = wp.components;
 import { RepeaterRows } from '../components';
 
 const BlockLabRepeaterControl = ( props ) => {
-	const { attributes, field, parentBlock, setAttributes } = props;
-	const attr = { ...attributes };
-	const rows = attr[ field.name ];
+	const { field, getValue, onChange, parentBlock, parentBlockProps } = props;
+	const rows = getValue( props );
 
+	const defaultRows = [];
 	if ( ! rows ) {
-		attr[ field.name ] = [];
-		setAttributes( attr );
+		onChange( defaultRows );
 	}
-
 	return (
 		<BaseControl className="block-lab-repeater" label={ field.label } help={ field.help }>
 			<RepeaterRows
-				rows={ attr[ field.name ] }
-				subFields={ field.sub_fields || [] }
-				parentBlockProps={ props }
+				rows={ rows }
+				subFields={ field.sub_fields || defaultRows }
+				parentBlockProps={ parentBlockProps }
 				parentBlock={ parentBlock }
 			/>
 			<div className="block-lab-repeater--row-add">

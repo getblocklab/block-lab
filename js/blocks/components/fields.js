@@ -13,7 +13,7 @@ import { ControlContainer } from './';
  * @param {number} rowIndex         The index of the repeater row, if this field is in one (optional).
  * @return {Function} fields The rendered fields.
  */
-const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
+const Fields = ( { fields, onChange, parentBlockProps, parentBlock, rowIndex } ) => {
 	return simplifiedFields( fields, rowIndex ).map( ( field ) => {
 
 		/**
@@ -26,12 +26,12 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 		 *
 		 * @param {mixed} newValue The new control value.
 		 */
-		const onChange = ( newValue ) => {
+		const ownOnChange = ( newValue ) => {
 			const attr = { ...parentBlockProps.attributes };
 			const { setAttributes } = parentBlockProps;
 
 			if ( undefined !== rowIndex ) { // If this is in a repeater row.
-				const rows = attr[ field.parent ];
+				const rows = attr[ field.parent ] || [ {} ];
 
 				/*
 				* Copy the rows array, so the change is recognized.
@@ -43,11 +43,11 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 				}
 				rowsCopy[ rowIndex ][ field.name ] = newValue;
 				attr[ field.parent ] = rowsCopy;
+				parentBlockProps.setAttributes( attr );
 			} else { // If this is not in a repeater row.
 				attr[ field.name ] = newValue;
+				setAttributes( attr );
 			}
-
-			setAttributes( attr );
 		};
 
 		/**
@@ -58,8 +58,9 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 		 * @param {Object} props The properties of the Control function.
 		 */
 		const getValue = ( props ) => {
-			const { attributes, field, rowIndex } = props;
-			const attr = { ...attributes };
+			const { field, parentBlockProps, rowIndex } = props;
+			const attr = { ...parentBlockProps.attributes };
+
 			return field.parent && attr[ field.parent ] ? attr[ field.parent ][ rowIndex ][ field.name ] : attr[ field.name ];
 		}
 
@@ -70,7 +71,7 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 				parentBlockProps={ parentBlockProps }
 				field={ field }
 				rowIndex={ rowIndex }
-				onChange={ onChange }
+				onChange={ onChange || ownOnChange }
 				getValue={ getValue }
 			/>
 		);

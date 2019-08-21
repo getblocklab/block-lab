@@ -13,7 +13,7 @@ const BlockLabRichTextControl = ( props ) => {
 			*/
 			}
 			<RichText
-				key={ `block-lab-${field.name}` }
+				key={ `block-lab-${ field.name }` }
 				placeholder={ field.placeholder || '' }
 				keepPlaceholderOnFocus={ true }
 				defaultValue={ field.default }

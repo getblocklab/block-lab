@@ -1,7 +1,7 @@
 const { RadioControl } = wp.components;
 
 const BlockLabRadioControl = ( props ) => {
-	const { field, getValue, onChange } = props
+	const { field, getValue, onChange } = props;
 
 	return (
 		<RadioControl
