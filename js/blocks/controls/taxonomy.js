@@ -1,6 +1,6 @@
 import { ContentControl } from '../components';
 
-const BlockLabTaxonomyControl = ( props, field, block ) => {
+const BlockLabTaxonomyControl = ( props ) => {
 	/**
 	 * Gets the taxonomy name from an API response.
 	 *
@@ -8,7 +8,7 @@ const BlockLabTaxonomyControl = ( props, field, block ) => {
 	 * @return {String} The post title from the response, or the default.
 	 */
 	const getNameFromAPI = apiResponse => ( apiResponse && apiResponse.name ) ? apiResponse.name : '';
-	const contentProps = { ...props, field, getNameFromAPI };
+	const contentProps = { ...props, getNameFromAPI };
 
 	return <ContentControl { ...contentProps } />;
 }
