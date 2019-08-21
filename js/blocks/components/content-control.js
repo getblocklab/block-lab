@@ -9,7 +9,7 @@ import { FetchInput } from '../components';
  * @return {Function} A component for a control.
  */
 const ContentControl = ( props ) => {
-	const { field, getNameFromAPI, onChange } = props;
+	const { field, getValue, getNameFromAPI, onChange } = props;
 	const attr = { ...props.attributes };
 	const DEFAULT_ID = 0;
 	const DEFAULT_NAME = '';
@@ -22,8 +22,8 @@ const ContentControl = ( props ) => {
 	 */
 	const getIdfromAPI = apiResponse => ( apiResponse && apiResponse.id ) ? parseInt( apiResponse.id ) : DEFAULT_ID;
 
-	attr[ field.name ] = Object.assign( { id: DEFAULT_ID, name: DEFAULT_NAME }, attr[ field.name ] );
-	const valueAttribute = attr[ field.name ];
+	const initialValue = getValue( props );
+	const valueAttribute = { id: DEFAULT_ID, userName: '', ...initialValue };
 
 	return (
 		<FetchInput
