@@ -32,6 +32,7 @@ const BlockLabRepeaterControl = ( props ) => {
 				icon="insert"
 				label={ __( 'Add row', 'block-lab' ) }
 				labelPosition="bottom"
+				className="block-lab-repeater--add-row"
 				onClick={ () => {
 					const repeaterRows = rows || [];
 					attr[ field.name ] = repeaterRows.concat( {} );

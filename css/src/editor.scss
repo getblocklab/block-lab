@@ -190,6 +190,16 @@ div[class^="wp-block-block-lab-"] {
 
         &:first-child {
           border-top: 1px dashed $dark-gray-150;
+
+          .block-lab-repeater--row-actions .button-move-up {
+            display: none;
+          }
+        }
+
+        &:last-child {
+          .block-lab-repeater--row-actions .button-move-down {
+            display: none;
+          }
         }
 
         .components-base-control__field {
@@ -272,6 +282,10 @@ div[class^="wp-block-block-lab-"] {
           }
         }
       }
+    }
+
+    .block-lab-repeater--add-row {
+      margin-top: 14px;
     }
   }
 }
