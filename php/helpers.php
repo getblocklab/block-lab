@@ -35,6 +35,7 @@ function block_field( $name, $echo = true ) {
 		return null;
 	}
 
+	$field   = null;
 	$value   = false; // This is a good default, it allows us to pick up on unchecked checkboxes.
 	$control = null;
 
@@ -62,7 +63,9 @@ function block_field( $name, $echo = true ) {
 	$value = apply_filters( 'block_lab_field_value', $value, $control, $echo );
 
 	if ( $echo ) {
-		$value = $field->cast_value_to_string( $value );
+		if ( $field ) {
+			$value = $field->cast_value_to_string( $value );
+		}
 
 		/*
 		 * Escaping this value may cause it to break in some use cases.
