@@ -17,7 +17,10 @@ class Loop {
 	/**
 	 * Current pointer in active loops.
 	 *
-	 * @var int[]
+	 * An associative array of $loop_name => $pointer.
+	 * The $pointer is an int of the current iteration, e.g: 0, 1, or 2.
+	 *
+	 * @var array
 	 */
 	public $loops = array();
 
@@ -33,7 +36,7 @@ class Loop {
 	 *
 	 * @param string $name The field name.
 	 */
-	public function active( $name ) {
+	public function set_active( $name ) {
 		$this->active = $name;
 	}
 
@@ -44,7 +47,7 @@ class Loop {
 	 *
 	 * @return bool
 	 */
-	public function row( $name = '' ) {
+	public function get_row( $name = '' ) {
 		if ( empty( $name ) ) {
 			$name = $this->active;
 		}
@@ -60,7 +63,6 @@ class Loop {
 	 * Increment the row pointer for a loop.
 	 *
 	 * @param string $name The field name.
-	 *
 	 * @return int
 	 */
 	public function increment( $name = '' ) {

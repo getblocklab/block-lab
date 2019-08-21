@@ -62,19 +62,9 @@ function block_field( $name, $echo = true ) {
 	$value = apply_filters( 'block_lab_field_value', $value, $control, $echo );
 
 	if ( $echo ) {
-		if ( is_array( $value ) ) {
-			$value = implode( ', ', $value );
-		}
+		$value = $field->cast_value_to_string( $value );
 
-		if ( true === $value ) {
-			$value = __( 'Yes', 'block-lab' );
-		}
-
-		if ( false === $value ) {
-			$value = __( 'No', 'block-lab' );
-		}
-
-		/**
+		/*
 		 * Escaping this value may cause it to break in some use cases.
 		 * If this happens, retrieve the field's value using block_value(),
 		 * and then output the field with a more suitable escaping function.
@@ -106,7 +96,7 @@ function block_value( $name ) {
  * @return int
  */
 function block_row( $name ) {
-	block_lab()->loop()->active( $name );
+	block_lab()->loop()->set_active( $name );
 	return block_lab()->loop()->increment( $name );
 }
 
@@ -124,7 +114,7 @@ function block_rows( $name ) {
 		return false;
 	}
 
-	$current_row = block_lab()->loop()->row( $name );
+	$current_row = block_lab()->loop()->get_row( $name );
 
 	if ( false === $current_row ) {
 		$next_row = 0;
@@ -160,7 +150,7 @@ function block_sub_field( $name, $echo = true ) {
 	}
 
 	$parent  = block_lab()->loop()->active;
-	$pointer = block_lab()->loop()->row( $parent );
+	$pointer = block_lab()->loop()->get_row( $parent );
 
 	if ( ! isset( $block_lab_config->fields[ $parent ] ) ) {
 		return null;
@@ -192,19 +182,9 @@ function block_sub_field( $name, $echo = true ) {
 	$value = apply_filters( 'block_lab_sub_field_value', $value, $control, $echo );
 
 	if ( $echo ) {
-		if ( is_array( $value ) ) {
-			$value = implode( ', ', $value );
-		}
+		$value = $field->cast_value_to_string( $value );
 
-		if ( true === $value ) {
-			$value = __( 'Yes', 'block-lab' );
-		}
-
-		if ( false === $value ) {
-			$value = __( 'No', 'block-lab' );
-		}
-
-		/**
+		/*
 		 * Escaping this value may cause it to break in some use cases.
 		 * If this happens, retrieve the field's value using block_value(),
 		 * and then output the field with a more suitable escaping function.

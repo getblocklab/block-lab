@@ -148,7 +148,6 @@ class Field {
 	 * Return the value with the correct variable type.
 	 *
 	 * @param mixed $value The value to typecast.
-	 *
 	 * @return mixed
 	 */
 	public function cast_value( $value ) {
@@ -158,11 +157,11 @@ class Field {
 				break;
 			case 'textarea':
 				$value = strval( $value );
-				if ( isset( $block_lab_config->fields[ $name ]->settings['new_lines'] ) ) {
-					if ( 'autop' === $block_lab_config->fields[ $name ]->settings['new_lines'] ) {
+				if ( isset( $this->settings['new_lines'] ) ) {
+					if ( 'autop' === $this->settings['new_lines'] ) {
 						$value = wpautop( $value );
 					}
-					if ( 'autobr' === $block_lab_config->fields[ $name ]->settings['new_lines'] ) {
+					if ( 'autobr' === $this->settings['new_lines'] ) {
 						$value = nl2br( $value );
 					}
 				}
@@ -185,5 +184,28 @@ class Field {
 		}
 
 		return $value;
+	}
+
+	/**
+	 * Gets the field value to echo on the front-end.
+	 *
+	 * @param mixed $value The field value.
+	 *
+	 * @return string $value The value to echo.
+	 */
+	public function cast_value_to_string( $value ) {
+		if ( is_array( $value ) ) {
+			return implode( ', ', $value );
+		}
+
+		if ( true === $value ) {
+			return __( 'Yes', 'block-lab' );
+		}
+
+		if ( false === $value ) {
+			return __( 'No', 'block-lab' );
+		}
+
+		return strval( $value );
 	}
 }
