@@ -34,9 +34,9 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 				const rows = attr[ field.parent ] || [ {} ];
 
 				/*
-				* Copy the rows array, so the change is recognized.
-				* @see https://github.com/WordPress/gutenberg/issues/7016#issuecomment-396094836
-				*/
+				 * Copy the rows array, so the change is recognized.
+				 * @see https://github.com/WordPress/gutenberg/issues/7016#issuecomment-396094836
+				 */
 				const rowsCopy = rows.slice();
 				if ( ! rowsCopy[ rowIndex ] ) {
 					rowsCopy[ rowIndex ] = {};

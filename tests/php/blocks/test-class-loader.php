@@ -177,11 +177,11 @@ class Test_Loader extends Abstract_Template {
 	}
 
 	/**
-	 * Test set_attributes_from_field.
+	 * Test get_attributes_from_field.
 	 *
-	 * @covers \Block_Lab\Blocks\Loader::set_attributes_from_field()
+	 * @covers \Block_Lab\Blocks\Loader::get_attributes_from_field()
 	 */
-	public function test_set_attributes_from_field() {
+	public function test_get_attributes_from_field() {
 		$image_name    = 'testing-image';
 		$image_type    = 'image';
 		$image_default = 'https://example/image';
@@ -193,7 +193,7 @@ class Test_Loader extends Abstract_Template {
 
 		$image_field = new Blocks\Field( $image_field_config );
 
-		$actual_attributes_with_image = $this->instance->set_attributes_from_field( array(), $image_name, $image_field );
+		$actual_attributes_with_image = $this->instance->get_attributes_from_field( array(), $image_name, $image_field );
 		$this->assertEquals(
 			array(
 				$image_name => array(

@@ -215,11 +215,11 @@ class Loader extends Component_Abstract {
 		$attributes['className'] = array( 'type' => 'string' );
 
 		foreach ( $block->fields as $field_name => $field ) {
-			$attributes = $this->set_attributes_from_field( $attributes, $field_name, $field );
+			$attributes = $this->get_attributes_from_field( $attributes, $field_name, $field );
 
 			if ( ! empty( $field->settings['sub_fields'] ) ) {
 				foreach ( $field->settings['sub_fields'] as $sub_field_name => $sub_field ) {
-					$attributes = $this->set_attributes_from_field( $attributes, $sub_field_name, $sub_field );
+					$attributes = $this->get_attributes_from_field( $attributes, $sub_field_name, $sub_field );
 				}
 			}
 		}
@@ -244,7 +244,7 @@ class Loader extends Component_Abstract {
 	 * @param Field  $field      The Field to set the attributes from.
 	 * @return array $attributes The attributes, with the new field value set.
 	 */
-	public function set_attributes_from_field( $attributes, $field_name, $field ) {
+	public function get_attributes_from_field( $attributes, $field_name, $field ) {
 		$attributes[ $field_name ] = array(
 			'type' => $field->type,
 		);

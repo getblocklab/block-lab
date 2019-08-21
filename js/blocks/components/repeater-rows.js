@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-const { BaseControl, Button, IconButton } = wp.components;
+const { BaseControl, IconButton } = wp.components;
 const { Component, Fragment } = wp.element;
 const { __ } = wp.i18n;
 
@@ -11,7 +11,7 @@ const { __ } = wp.i18n;
 import { Fields } from './';
 
 /**
- * Gets the rendered fields, using their control functions.
+ * Gets the repeater rows.
  *
  * @param {Array}  rows   The repeater rows to render.
  * @param {Array}  fields The fields to render.
@@ -26,7 +26,9 @@ import { Fields } from './';
 	 */
 	constructor() {
 		super( ...arguments );
+		this.getParent = this.getParent.bind( this );
 		this.removeRow = this.removeRow.bind( this );
+		this.move = this.move.bind( this );
 
 		this.state = {
 			activeRow: 0,
@@ -56,7 +58,7 @@ import { Fields } from './';
 		return parent;
 	};
 
-	/*
+	/**
 	 * On clicking the 'remove' button in a repeater row, this removes it.
 	 *
 	 * @param {Number} index The index of the row to remove, 0 being the first.
@@ -84,7 +86,7 @@ import { Fields } from './';
 		};
 	}
 
-	/*
+	/**
 	 * On clicking the 'move up' or 'move down' button in a repeater row, this moves it.
 	 *
 	 * @param {Number} from The index of the row to move from.
