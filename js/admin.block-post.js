@@ -38,7 +38,6 @@
 				row      = $( this ).closest( '.block-fields-row' ),
 				edit     = field.find( '.block-fields-actions-edit' ),
 				label    = field.find( '.block-fields-edit-label input' );
-;
 
 			// Prevents adding a repeater, in a repeater, in a repeater…
 			field.find( '.block-fields-edit-control option[value="repeater"]' ).remove();
@@ -267,6 +266,17 @@
 		$( '.block-fields-edit-settings', fieldRow ).remove();
 		$( '.block-fields-edit-control', fieldRow ).after( $( loadingRow ) );
 
+		let data = {
+			control: fieldControl,
+			uid:     fieldRow.data( 'uid' ),
+			nonce:   blockLab.fieldSettingsNonce
+		}
+
+		// If this is a sub-field, pass along the parent UID as well.
+		if ( fieldRow.parent( '.block-fields-sub-rows' ).length > 0 ) {
+			data.parent = fieldRow.closest( '.block-fields-row' ).data( 'uid' );
+		}
+
 		wp.ajax.send( 'fetch_field_settings', {
 			success: function( data ) {
 				$( '.block-fields-edit-loading', fieldRow ).remove();
@@ -281,11 +291,7 @@
 			error: function() {
 				$( '.block-fields-edit-loading', fieldRow ).remove();
 			},
-			data: {
-				control: fieldControl,
-				uid:     fieldRow.data( 'uid' ),
-				nonce:   blockLab.fieldSettingsNonce
-			}
+			data: data
 		});
 	};
 

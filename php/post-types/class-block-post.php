@@ -543,8 +543,11 @@ class Block_Post extends Component_Abstract {
 			<script type="text/html" id="tmpl-field-repeater">
 				<?php
 				$args = array(
-					'name'  => 'new-field',
-					'label' => __( 'New Field', 'block-lab' ),
+					'name'     => 'new-field',
+					'label'    => __( 'New Field', 'block-lab' ),
+					'settings' => array(
+						'parent' => '',
+					),
 				);
 				$this->render_fields_meta_box_row( new Field( $args ) );
 				?>
@@ -909,6 +912,11 @@ class Block_Post extends Component_Abstract {
 
 		ob_start();
 		$field = new Field( array( 'control' => $control ) );
+
+		if ( isset( $_POST['parent'] ) ) {
+			$field->settings['parent'] = sanitize_key( $_POST['parent'] );
+		}
+
 		$this->render_field_settings( $field, $uid );
 		$data['html'] = ob_get_clean();
 
