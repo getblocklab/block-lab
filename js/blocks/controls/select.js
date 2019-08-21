@@ -23,4 +23,4 @@ const BlockLabSelectControl = ( props ) => {
 	);
 }
 
-export default BlockLabSelectControl
+export default BlockLabSelectControl;

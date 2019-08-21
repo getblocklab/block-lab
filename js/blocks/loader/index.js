@@ -19,7 +19,7 @@ const registerBlocks = () => {
 	for ( let blockName in blockLabBlocks ) {
 
 		// Avoid weird inheritance issues. Which should not happen because the backend is safe.
-		if ( !blockLabBlocks.hasOwnProperty( blockName ) ) continue;
+		if ( ! blockLabBlocks.hasOwnProperty( blockName ) ) continue;
 
 		// Get the block definition.
 		let block = blockLabBlocks[ blockName ];
@@ -28,7 +28,7 @@ const registerBlocks = () => {
 		let icon = '';
 		if ( 'undefined' !== typeof icons[ block.icon ] ) {
 			icon = (
-				<span dangerouslySetInnerHTML={{ __html: icons[ block.icon ] }} />
+				<span dangerouslySetInnerHTML={ { __html: icons[ block.icon ] } } />
 			);
 		}
 
@@ -49,4 +49,4 @@ const registerBlocks = () => {
 	}
 }
 
-export default registerBlocks()
+export default registerBlocks();

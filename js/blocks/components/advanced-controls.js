@@ -11,7 +11,7 @@ const { sprintf, __ } = wp.i18n;
  * Renders the inspector advanced controls.
  *
  * @param {Object} block The block that the controls are for.
- * @return {Function|null} The rendered control as JSX, or null.
+ * @return {Function|null} The advanced controls.
  */
 const AdvancedControls = ( { block } ) => {
 	if ( '-1' === blockLab.authorBlocks.indexOf( block.name ) ) {

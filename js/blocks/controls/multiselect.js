@@ -15,4 +15,4 @@ const BlockLabMultiselectControl = ( props ) => {
 	);
 }
 
-export default BlockLabMultiselectControl
+export default BlockLabMultiselectControl;

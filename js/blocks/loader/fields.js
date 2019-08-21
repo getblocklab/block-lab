@@ -1,3 +1,10 @@
+/**
+ * Gets the comparison between two objects.
+ *
+ * @param {Object} a The first to compare.
+ * @param {Object} b The second to compare.
+ * @return {number} Either -1, 0, or 1, depending on the comparison.
+ */
 const compare = ( a, b ) => {
 	if ( a.order < b.order )
 		return -1;
@@ -9,8 +16,8 @@ const compare = ( a, b ) => {
 /**
  * Gets a simplified and sorted array of the fields.
  *
- * @param {Array}  fields The fields to simplify.
- * @retun {Array} The simplified fields.
+ * @param {Array} fields The fields to simplify.
+ * @return {Array} The simplified fields.
  */
 const simplifiedFields = ( fields ) => {
 

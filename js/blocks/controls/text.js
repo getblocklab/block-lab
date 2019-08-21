@@ -16,4 +16,4 @@ const BlockLabTextControl = ( props ) => {
 	);
 };
 
-export default BlockLabTextControl
+export default BlockLabTextControl;

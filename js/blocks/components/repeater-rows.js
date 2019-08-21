@@ -42,7 +42,7 @@ import { Fields } from './';
 	 * This looks for a parent in each field, and returns a parent as long as they don't have different parents.
 	 *
 	 * @param {Object} subFields The fields in which to look for the parent.
-	 * @return {String|null} parent The parent of the fields.
+	 * @return {string|null} parent The parent of the fields.
 	 */
 	getParent( subFields ) {
 		let parent = null;
@@ -61,7 +61,7 @@ import { Fields } from './';
 	/**
 	 * On clicking the 'remove' button in a repeater row, this removes it.
 	 *
-	 * @param {Number} index The index of the row to remove, 0 being the first.
+	 * @param {number} index The index of the row to remove, 0 being the first.
 	 */
 	removeRow( index ) {
 		return () => {
@@ -89,8 +89,8 @@ import { Fields } from './';
 	/**
 	 * On clicking the 'move up' or 'move down' button in a repeater row, this moves it.
 	 *
-	 * @param {Number} from The index of the row to move from.
-	 * @param {Number} to   The index of the row to move to.
+	 * @param {number} from The index of the row to move from.
+	 * @param {number} to   The index of the row to move to.
 	 */
 	move( from, to ) {
 		return () => {
@@ -113,7 +113,7 @@ import { Fields } from './';
 					if ( ! row.hasOwnProperty( name ) ) {
 						row[ name ] = null;
 					}
-				});
+				} );
 			};
 
 			rows.splice(

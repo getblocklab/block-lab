@@ -17,4 +17,4 @@ const BlockLabTextareaControl = ( props ) => {
 	);
 }
 
-export default BlockLabTextareaControl
+export default BlockLabTextareaControl;

@@ -38,4 +38,4 @@ const BlockLabURLControl = ( props ) => {
 	);
 }
 
-export default BlockLabURLControl
+export default BlockLabURLControl;

@@ -12,11 +12,11 @@ import simplifiedFields from '../loader/fields';
 import controls from '../controls';
 
 /**
- * Gets the rendered control for the Inspector Controls, based on the field values.
+ * Gets the rendered controls for the Inspector Controls, based on the field values.
  *
  * @param {Object} blockProps The block's props.
  * @param {Object} block The block.
- * @return {Function|null} The rendered control as JSX, or null.
+ * @return {Function|null} The inspector controls.
  */
 const BlockLabInspector = ( { blockProps, block } ) => {
 	const fields = simplifiedFields( block.fields ).map( field => {

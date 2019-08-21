@@ -37,4 +37,4 @@ const BlockLabUserControl = ( props ) => {
 	);
 }
 
-export default BlockLabUserControl
+export default BlockLabUserControl;

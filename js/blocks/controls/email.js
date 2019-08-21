@@ -38,4 +38,4 @@ const BlockLabEmailControl = ( props ) => {
 	);
 }
 
-export default BlockLabEmailControl
+export default BlockLabEmailControl;

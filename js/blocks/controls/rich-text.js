@@ -27,4 +27,4 @@ const BlockLabRichTextControl = ( props ) => {
 	);
 }
 
-export default BlockLabRichTextControl
+export default BlockLabRichTextControl;

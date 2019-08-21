@@ -17,4 +17,4 @@ const BlockLabToggleControl = ( props ) => {
 	);
 }
 
-export default BlockLabToggleControl
+export default BlockLabToggleControl;

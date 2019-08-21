@@ -62,7 +62,7 @@ class FetchInput extends Component {
 	/**
 	 * Binds the suggestion node to the ref of the button.
 	 *
-	 * @param {Number} index The index of the suggestion.
+	 * @param {number} index The index of the suggestion.
 	 * @return {Function}
 	 */
 	bindSuggestionNode( index ) {
@@ -74,7 +74,7 @@ class FetchInput extends Component {
 	/**
 	 * Updates the suggested items in the Popover.
 	 *
-	 * @param {String} value The <input> value.
+	 * @param {string} value The <input> value.
 	 */
 	updateSuggestions( value ) {
 		this.setState( {
@@ -301,7 +301,7 @@ class FetchInput extends Component {
 	 * This isn't simply this.props.value because sometimes this needs to also save an ID.
 	 * For example, the Post control needs to save the post ID, and display the post title in the <input>.
 	 *
-	 * @return {String} The value of the <input>
+	 * @return {string} The value of the <input>
 	 */
 	getInputValue() {
 		return this.props.hasOwnProperty( 'displayValue' ) ? this.props.displayValue : this.props.value;

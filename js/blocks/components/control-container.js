@@ -32,7 +32,7 @@ const getControl = ( field ) => {
   * @param {number}        rowIndex         The index of the row, if this is in a row.
   * @param {Function}      onChange         The handler for when the value of the control changes.
   * @param {Function}      getValue         Gets the value of the control.
-  * @return {Function|null} The rendered control as JSX, or null.
+  * @return {Function|null} The control container.
   */
 const ControlContainer = ( { parentBlock, parentBlockProps, field, rowIndex, onChange, getValue } ) => {
 	if ( field.location && ! field.location.includes( 'editor' ) ) {

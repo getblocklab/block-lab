@@ -18,7 +18,7 @@ const ContentControl = ( props ) => {
 	 * Gets the ID from an API response.
 	 *
 	 * @param {Object} value The value in which to look for the ID.
-	 * @return {Number} The ID from the value, or 0.
+	 * @return {number} The ID from the value, or 0.
 	 */
 	const getIdfromAPI = apiResponse => ( apiResponse && apiResponse.id ) ? parseInt( apiResponse.id ) : DEFAULT_ID;
 
