@@ -10,14 +10,19 @@ import { ControlContainer } from './';
  * @param {Array}  fields           The fields to render.
  * @param {Object} parentBlockProps The props to pass to the control function.
  * @param {Object} parentBlock      The block where the fields are.
- * @param {string} rowIndex         The name of the repeater row, if this field is in one (optional).
+ * @param {number} rowIndex         The index of the repeater row, if this field is in one (optional).
  * @return {Function} fields The rendered fields.
  */
 const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 	return simplifiedFields( fields, rowIndex ).map( ( field ) => {
 
 		/**
-		 * Handles a control value changing.
+		 * Handles a single control value changing.
+		 *
+		 * Changing a control value inside a block needs to be able to call
+		 * the block's setAttributes property, so that the block can save the value.
+		 * This function is passed to the control so that the control can save the value,
+		 * depending on whether the control is in a repeater row or not.
 		 *
 		 * @param {mixed} newValue The new control value.
 		 */
@@ -25,7 +30,7 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 			const attr = { ...parentBlockProps.attributes };
 			const { setAttributes } = parentBlockProps;
 
-			if ( undefined !== rowIndex ) { // This is in a repeater row.
+			if ( undefined !== rowIndex ) { // If this is in a repeater row.
 				const rows = attr[ field.parent ];
 
 				/*
@@ -38,21 +43,35 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 				}
 				rowsCopy[ rowIndex ][ field.name ] = newValue;
 				attr[ field.parent ] = rowsCopy;
-			} else { // This is not in a repeater row.
+			} else { // If this is not in a repeater row.
 				attr[ field.name ] = newValue;
 			}
 
 			setAttributes( attr );
 		};
 
+		/**
+		 * Gets the value of the Control function, given its properties.
+		 *
+		 * If this is in a repeater row, the value is appropriate for that.
+		 *
+		 * @param {Object} props The properties of the Control function.
+		 */
+		const getValue = ( props ) => {
+			const { attributes, field, rowIndex } = props;
+			const attr = { ...attributes };
+			return field.parent && attr[ field.parent ] ? attr[ field.parent ][ rowIndex ][ field.name ] : attr[ field.name ];
+		}
+
 		return (
 			<ControlContainer
+				key={ field.name }
 				parentBlock={ parentBlock }
 				parentBlockProps={ parentBlockProps }
 				field={ field }
 				rowIndex={ rowIndex }
-				key={ field.name }
 				onChange={ onChange }
+				getValue={ getValue }
 			/>
 		);
 	} );

@@ -1,4 +1,4 @@
-import ContentControl from './content';
+import { ContentControl } from '../components';
 
 const BlockLabPostControl = ( props ) => {
 	/**
