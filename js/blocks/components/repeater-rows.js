@@ -105,6 +105,7 @@ import { Fields } from './';
 										key={ `${ rowIndex }-menu` }
 										className="button-delete"
 										onClick={ this.removeRow( rowIndex ) }
+										label={ __( 'Delete', 'block-lab' ) }
 										isSmall
 									/>
 									</div>
@@ -119,12 +120,14 @@ import { Fields } from './';
 											icon="arrow-up-alt2"
 											key={ `${ rowIndex }-move-up` }
 											className="button-move-up"
+											label={ __( 'Move up', 'block-lab' ) }
 											isSmall
 										/>
 										<IconButton
 											icon="arrow-down-alt2"
 											key={ `${ rowIndex }-move-down` }
 											className="button-move-down"
+											label={ __( 'Move down', 'block-lab' ) }
 											isSmall
 										/>
 									</div>

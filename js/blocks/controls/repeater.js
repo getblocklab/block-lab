@@ -27,19 +27,20 @@ const BlockLabRepeaterControl = ( props ) => {
 				parentBlockProps={ props }
 				parentBlock={ parentBlock }
 			/>
-			<IconButton
-				key={ `${ field.name }-repeater-insert` }
-				icon="insert"
-				label={ __( 'Add row', 'block-lab' ) }
-				labelPosition="bottom"
-				className="block-lab-repeater--add-row"
-				onClick={ () => {
-					const repeaterRows = rows || [];
-					attr[ field.name ] = repeaterRows.concat( {} );
-					setAttributes( attr );
-				} }
-				disabled={ false }
-			/>
+			<div className="block-lab-repeater--row-add">
+				<IconButton
+					key={ `${ field.name }-repeater-insert` }
+					icon="insert"
+					label={ __( 'Add new', 'block-lab' ) }
+					labelPosition="bottom"
+					onClick={ () => {
+						const repeaterRows = rows || [];
+						attr[ field.name ] = repeaterRows.concat( {} );
+						setAttributes( attr );
+					} }
+					disabled={ false }
+				/>
+			</div>
 		</BaseControl>
 	);
 }

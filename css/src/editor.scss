@@ -284,8 +284,17 @@ div[class^="wp-block-block-lab-"] {
       }
     }
 
-    .block-lab-repeater--add-row {
-      margin-top: 14px;
+    .block-lab-repeater--row-add {
+      margin-top: 4px;
+      display: flex;
+      justify-content: center;
+
+      .components-icon-button:hover {
+        border-color: transparent;
+        box-shadow: none;
+        background: transparent;
+        color: $blue-medium-focus;
+      }
     }
   }
 }
