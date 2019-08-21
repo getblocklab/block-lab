@@ -31,9 +31,10 @@ const getControl = ( field ) => {
   * @param {Object}        field            The field to render.
   * @param {number}        rowIndex         The index of the row, if this is in a row.
   * @param {Function}      onChange         The handler for when the value of the control changes.
+  * @param {Function}      getValue         Gets the value of the control.
   * @return {Function|null} The rendered control as JSX, or null.
   */
-const ControlContainer = ( { parentBlock, parentBlockProps, field, rowIndex, onChange } ) => {
+const ControlContainer = ( { parentBlock, parentBlockProps, field, rowIndex, onChange, getValue } ) => {
 	if ( field.location && ! field.location.includes( 'editor' ) ) {
 		return null; // This is not meant for the editor.
 	}
@@ -43,18 +44,6 @@ const ControlContainer = ( { parentBlock, parentBlockProps, field, rowIndex, onC
 		return null;
 	}
 
-	/**
-	 * Gets the value of the Control function, given its properties.
-	 *
-	 * If this is in a repeater row, the value is appropriate for that.
-	 *
-	 * @param {Object} props The properties of the Control function.
-	 */
-	const getValue = ( props ) => {
-		const { attributes, field, rowIndex } = props;
-		const attr = { ...attributes };
-		return field.parent && attr[ field.parent ] ? attr[ field.parent ][ rowIndex ][ field.name ] : attr[ field.name ];
-	}
 	const controlProps = { ...parentBlockProps, field, getValue, onChange, parentBlock, rowIndex };
 
 	return (

@@ -8,7 +8,7 @@ import { FetchInput } from '../components';
  *
  * @return {Function} A component for a control.
  */
-export default ( props ) => {
+const ContentControl = ( props ) => {
 	const { field, getNameFromAPI, onChange } = props;
 	const attr = { ...props.attributes };
 	const DEFAULT_ID = 0;
@@ -48,4 +48,6 @@ export default ( props ) => {
 			} }
 		/>
 	);
-}
+};
+
+export default ContentControl;

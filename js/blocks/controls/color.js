@@ -70,4 +70,4 @@ const BlockLabColorControl = ( props ) => {
 	);
 }
 
-export default BlockLabColorControl
+export default BlockLabColorControl;

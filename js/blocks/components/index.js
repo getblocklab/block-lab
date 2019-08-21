@@ -1,5 +1,6 @@
 export { default as AdvancedControls } from './advanced-controls';
 export { default as BlockLabInspector } from './block-lab-inspector';
+export { default as ContentControl } from './content-control';
 export { default as ControlContainer } from './control-container';
 export { default as Edit } from './edit';
 export { default as FetchInput } from './fetch-input';

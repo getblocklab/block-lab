@@ -24,7 +24,7 @@ const AdvancedControls = ( { block } ) => {
 	);
 
 	return (
-		<InspectorAdvancedControls key={ `inspector-advanced-controls-${ block.name }` } >
+		<InspectorAdvancedControls key={ `inspector-advanced-controls-${ block.name }` }>
 			<DotTip tipId="block-lab/additional-css-class">
 				<p className="bl-dot-tip" dangerouslySetInnerHTML={ { __html: tip } }></p>
 				<p className="bl-dot-tip read-more">
