@@ -56,7 +56,7 @@ const BlockLabInspector = ( { blockProps, block } ) => {
 		<InspectorControls key={ `inspector-controls${ block.name }` }>
 			{ fields }
 		</InspectorControls>
-	)
+	);
 }
 
 export default BlockLabInspector;

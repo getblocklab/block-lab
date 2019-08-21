@@ -61,8 +61,9 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 			const { field, parentBlockProps, rowIndex } = props;
 			const attr = { ...parentBlockProps.attributes };
 
-			return field.parent && attr[ field.parent ] ? attr[ field.parent ][ rowIndex ][ field.name ] : attr[ field.name ];
-		}
+			// If the field has a parent, it's probably in a repeater row.
+			return ( field.parent && attr[ field.parent ][ rowIndex ] ) ? attr[ field.parent ][ rowIndex ][ field.name ] : attr[ field.name ];
+		};
 
 		return (
 			<ControlContainer
@@ -71,8 +72,8 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 				parentBlockProps={ parentBlockProps }
 				field={ field }
 				rowIndex={ rowIndex }
-				getValue={ getValue }
 				onChange={ onChange }
+				getValue={ getValue }
 			/>
 		);
 	} );

@@ -55,7 +55,7 @@ const ControlContainer = ( { parentBlock, parentBlockProps, field, rowIndex, onC
 				parentBlockProps={ parentBlockProps }
 			/>
 		</div>
-	)
+	);
 };
 
 export default ControlContainer;

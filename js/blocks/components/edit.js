@@ -21,7 +21,7 @@ const Edit = ( { blockProps, block } ) => {
 	const { attributes, className, isSelected } = blockProps;
 
 	if ( 'undefined' === typeof icons[ block.icon ] ) {
-		icons[ block.icon ] = ''
+		icons[ block.icon ] = '';
 	}
 
 	return (

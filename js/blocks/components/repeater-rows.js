@@ -41,10 +41,10 @@ import { Fields } from './';
 	 * Sub-fields in the Repeater control have parents.
 	 * This looks for a parent in each field, and returns a parent as long as they don't have different parents.
 	 *
-	 * @param {Object} subFields The fields in which to look for the parent.
 	 * @return {string|null} parent The parent of the fields.
 	 */
-	getParent( subFields ) {
+	getParent() {
+		const { subFields } = this.props;
 		let parent = null;
 		for ( const field in subFields ) {
 			if ( subFields.hasOwnProperty( field ) ) {
@@ -67,7 +67,7 @@ import { Fields } from './';
 		return () => {
 			const { parentBlockProps } = this.props;
 			const attr = { ...parentBlockProps.attributes };
-			const parentName = this.getParent( this.props.subFields );
+			const parentName = this.getParent();
 			const repeaterRows = attr[ parentName ];
 
 			if ( ! repeaterRows ) {
@@ -96,7 +96,7 @@ import { Fields } from './';
 		return () => {
 			const { parentBlockProps } = this.props;
 			const attr = { ...parentBlockProps.attributes };
-			const parentName = this.getParent( this.props.subFields );
+			const parentName = this.getParent();
 			const repeaterRows = attr[ parentName ];
 
 			/*
