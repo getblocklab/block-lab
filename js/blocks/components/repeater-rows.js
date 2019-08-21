@@ -138,7 +138,7 @@ import { Fields } from './';
 			<Fragment>
 				<div className="block-lab-repeater__rows">
 					{
-						rows.map( ( row, rowIndex ) => {
+						rows && rows.map( ( row, rowIndex ) => {
 							const activeClass = this.state.activeRow === parseInt( rowIndex ) ? 'active' : ''; // @todo: Make this dynamic.
 
 							return (

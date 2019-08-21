@@ -9,11 +9,10 @@ const compare = ( a, b ) => {
 /**
  * Gets a simplified and sorted array of the fields.
  *
- * @param {Array}  fields  The fields to simplify.
- * @param {number} rowIndex The index of the repeater row.
+ * @param {Array}  fields The fields to simplify.
  * @retun {Array} The simplified fields.
  */
-const simplifiedFields = ( fields, rowIndex = null ) => {
+const simplifiedFields = ( fields ) => {
 
 	let fieldList = []
 

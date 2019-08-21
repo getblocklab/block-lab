@@ -57,7 +57,7 @@ const BlockLabColorControl = ( props ) => {
 	return (
 		<BaseControl label={ field.label } className="block-lab-color-control" help={ field.help }>
 			<TextControl
-				defaultValue={field.default}
+				defaultValue={ field.default }
 				value={ getValue( props ) }
 				onChange={ onChange }
 			/>
