@@ -11,9 +11,11 @@ import { RepeaterRows } from '../components';
 
 const BlockLabRepeaterControl = ( props ) => {
 	const { field, getValue, onChange, parentBlock, parentBlockProps } = props;
+	const { attributes, setAttributes } = parentBlockProps;
+	const attr = { ...attributes };
 	const rows = getValue( props );
 
-	const defaultRows = [];
+	const defaultRows = [ {} ];
 	if ( ! rows ) {
 		onChange( defaultRows );
 	}
@@ -32,8 +34,8 @@ const BlockLabRepeaterControl = ( props ) => {
 					label={ __( 'Add new', 'block-lab' ) }
 					labelPosition="bottom"
 					onClick={ () => {
-						const repeaterRows = rows || [];
-						attr[ field.name ] = repeaterRows.concat( {} );
+						const newRows = rows || defaultRows;
+						attr[ field.name ] = newRows.concat( {} );
 						setAttributes( attr );
 					} }
 					disabled={ false }
