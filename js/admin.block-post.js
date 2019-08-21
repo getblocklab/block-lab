@@ -14,6 +14,7 @@
 		blockTitleInit();
 		blockIconInit();
 		blockFieldInit();
+		blockPostTypesInit();
 
 		$( '#block-add-field' ).on( 'click', function() {
 			let template = wp.template( 'field-repeater' ),
@@ -57,6 +58,39 @@
 			edit.trigger( 'click' );
 			label.data( 'defaultValue', label.val() );
 			label.select();
+		});
+
+		$( '.block-lab-pub-section .edit-post-types' ).on( 'click', function() {
+			let excludedPostTypes = $( '#block-excluded-post-types' ).val().split( ',' ).filter( Boolean );
+
+			$( '.post-types-select-items input' ).prop( 'checked', true );
+
+			for ( postType of excludedPostTypes ) {
+				$( '.post-types-select-items input[value="' + postType + '"]' ).prop( 'checked', false );
+			}
+
+			$( '.block-lab-pub-section .post-types-select' ).slideDown( 200 );
+			$( this ).hide();
+		});
+
+		$( '.block-lab-pub-section .save-post-types' ).on( 'click', function() {
+			let checked   = $( '.post-types-select-items input:not(:checked)' );
+			var postTypes = [];
+			for ( input of checked ) {
+				postTypes.push( $( input ).val() );
+			}
+
+			$( '#block-excluded-post-types' ).val( postTypes.join( ',' ) );
+
+			blockPostTypesInit();
+
+			$( '.block-lab-pub-section .post-types-select' ).slideUp( 200 );
+			$( '.block-lab-pub-section .edit-post-types' ).show();
+		});
+
+		$( '.block-lab-pub-section .button-cancel' ).on( 'click', function() {
+			$( '.block-lab-pub-section .post-types-select' ).slideUp( 200 );
+			$( '.block-lab-pub-section .edit-post-types' ).show();
 		});
 
 		$( '#block_properties .block-properties-icon-select span' ).on( 'click', function() {
@@ -250,6 +284,42 @@
 			tolerance: 'pointer',
 		});
 	}
+
+	let blockPostTypesInit = function() {
+		if ( 0 === $( '.block-lab-pub-section' ).length ) {
+			return;
+		}
+
+		let display = $( '.post-types-display' ),
+			inputs  = $( '.post-types-select-items input' );
+
+		let excludedPostTypes = $( '#block-excluded-post-types' )
+			.val()
+			.split( ',' )
+			.filter( Boolean );
+
+		if ( 0 === excludedPostTypes.length ) {
+			display.text( blockLab.postTypes.all );
+			return;
+		}
+
+		if ( excludedPostTypes.length === inputs.length ) {
+			display.text( blockLab.postTypes.none );
+			return;
+		}
+
+		var displayList = [];
+		for ( input of inputs ) {
+			let postType = $( input ).val();
+			if ( -1 === excludedPostTypes.indexOf( postType ) ) {
+				displayList.push(
+					$( input ).next( 'label' ).text()
+				);
+			}
+		}
+
+		display.text( displayList.join( ', ' ) );
+	};
 
 	let fetchFieldSettings = function( fieldRow, fieldControl ) {
 		if ( ! blockLab.hasOwnProperty( 'fieldSettingsNonce' ) ) {

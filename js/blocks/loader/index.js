@@ -27,6 +27,13 @@ const registerBlocks = () => {
 		let block = blockLabBlocks[ blockName ];
 		block.block_slug = blockName;
 
+		// Don't register the block if it's excluded for this post type.
+		if ( blockLab.hasOwnProperty( 'postType' ) && block.hasOwnProperty( 'excluded' ) ) {
+			if ( -1 !== block.excluded.indexOf( blockLab.postType ) ) {
+				continue;
+			}
+		}
+
 		let icon = '';
 		if ( 'undefined' !== typeof icons[ block.icon ] ) {
 			icon = (

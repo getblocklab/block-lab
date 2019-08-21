@@ -72,11 +72,9 @@ class Admin extends Component_Abstract {
 			$this->maybe_settings_redirect();
 		}
 
-		if ( block_lab()->is_pro() ) {
-			if ( defined( 'WP_LOAD_IMPORTERS' ) && WP_LOAD_IMPORTERS ) {
-				$this->import = new Import();
-				block_lab()->register_component( $this->import );
-			}
+		if ( defined( 'WP_LOAD_IMPORTERS' ) && WP_LOAD_IMPORTERS ) {
+			$this->import = new Import();
+			block_lab()->register_component( $this->import );
 		}
 	}
 
