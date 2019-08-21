@@ -76,10 +76,54 @@ import { Fields } from './';
 			 * Calling slice() essentially creates a copy of repeaterRows.
 			 * Without this, it looks like setAttributes() doesn't recognize a change to the array, and the component doesn't re-render.
 			 */
-			const repeaterRowsCopy = repeaterRows.slice();
-			repeaterRowsCopy.splice( index, 1 );
+			const rows = repeaterRows.slice();
+			rows.splice( index, 1 );
 
-			attr[ parentName ] = repeaterRowsCopy;
+			attr[ parentName ] = rows;
+			parentBlockProps.setAttributes( attr );
+		};
+	}
+
+	/*
+	 * On clicking the 'move up' or 'move down' button in a repeater row, this moves it.
+	 *
+	 * @param {Number} from The index of the row to move from.
+	 * @param {Number} to   The index of the row to move to.
+	 */
+	move( from, to ) {
+		return () => {
+			const { parentBlockProps } = this.props;
+			const attr = { ...parentBlockProps.attributes };
+			const parentName = this.getParent( this.props.subFields );
+			const repeaterRows = attr[ parentName ];
+
+			/*
+			 * Calling slice() essentially creates a copy of repeaterRows.
+			 * Without this, it looks like setAttributes() doesn't recognize a change to the array, and the component doesn't re-render.
+			 */
+			const rows = repeaterRows.slice();
+
+			/*
+			 * Ensure that every row has the required attributes, so that we don't lose blank rows.
+			 */
+			for ( name in this.props.subFields ) {
+				rows.forEach( ( row ) => {
+					if ( ! row.hasOwnProperty( name ) ) {
+						row[ name ] = null;
+					}
+				});
+			};
+
+			rows.splice(
+				to,
+				0,
+				rows.splice(
+					from,
+					1
+				)[0]
+			);
+
+			attr[ parentName ] = rows;
 			parentBlockProps.setAttributes( attr );
 		};
 	}
@@ -104,8 +148,8 @@ import { Fields } from './';
 										icon="no"
 										key={ `${ rowIndex }-menu` }
 										className="button-delete"
-										onClick={ this.removeRow( rowIndex ) }
 										label={ __( 'Delete', 'block-lab' ) }
+										onClick={ this.removeRow( rowIndex ) }
 										isSmall
 									/>
 									</div>
@@ -121,6 +165,7 @@ import { Fields } from './';
 											key={ `${ rowIndex }-move-up` }
 											className="button-move-up"
 											label={ __( 'Move up', 'block-lab' ) }
+											onClick={ this.move( rowIndex, rowIndex - 1 ) }
 											isSmall
 										/>
 										<IconButton
@@ -128,6 +173,7 @@ import { Fields } from './';
 											key={ `${ rowIndex }-move-down` }
 											className="button-move-down"
 											label={ __( 'Move down', 'block-lab' ) }
+											onClick={ this.move( rowIndex, rowIndex + 1 ) }
 											isSmall
 										/>
 									</div>
