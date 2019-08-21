@@ -26,12 +26,28 @@ const BlockLabInspector = ( { blockProps, block } ) => {
 		}
 
 		const loadedControls = applyFilters( 'block_lab_controls', controls );
-		const controlFunction = field.controlFunction || loadedControls[ field.control ];
-		const control = typeof controlFunction !== 'undefined' ? controlFunction( blockProps, field, block ) : null;
+		const Control = field.controlFunction || loadedControls[ field.control ];
+		if ( ! Control ) {
+			return null;
+		}
+
+		const { attributes, setAttributes } = blockProps;
+		const attr = { ...attributes };
 
 		return (
 			<PanelBody key={ `inspector-controls-panel-${ field.name }` }>
-				{ control }
+				<Control
+					field={ field }
+					getValue={ () => {
+						return attr[ field.name ];
+					} }
+					onChange={ ( newValue ) => {
+						attr[ field.name ] = newValue;
+						setAttributes( attr );
+					} }
+					parentBlock={ block }
+					parentBlockProps={ blockProps }
+				/>
 			</PanelBody>
 		)
 	} )
