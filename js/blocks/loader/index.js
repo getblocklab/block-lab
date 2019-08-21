@@ -19,7 +19,9 @@ const registerBlocks = () => {
 	for ( let blockName in blockLabBlocks ) {
 
 		// Avoid weird inheritance issues. Which should not happen because the backend is safe.
-		if ( ! blockLabBlocks.hasOwnProperty( blockName ) ) continue;
+		if ( ! blockLabBlocks.hasOwnProperty( blockName ) ) {
+			continue;
+		}
 
 		// Get the block definition.
 		let block = blockLabBlocks[ blockName ];

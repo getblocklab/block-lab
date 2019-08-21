@@ -181,7 +181,7 @@ import { Fields } from './';
 									</div>
 								</BaseControl>
 							);
-						} )
+						} );
 					}
 				</div>
 			</Fragment>

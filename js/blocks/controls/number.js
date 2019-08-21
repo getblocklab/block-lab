@@ -26,7 +26,7 @@ const BlockLabNumberControl = ( props ) => {
 			help={ field.help }
 			defaultValue={ field.default }
 			value={ getValue( props ) }
-			onChange={ numberControl => {
+			onChange={ ( numberControl ) => {
 				onChange( Number( numberControl ) );
 			} }
 			onFocus={ event => {
