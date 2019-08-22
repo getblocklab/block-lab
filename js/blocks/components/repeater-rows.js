@@ -164,7 +164,7 @@ import { Fields } from './';
 	 * @return {Object} The rows.
 	 */
 	getRows( attribute ) {
-		return ( attribute[ 'rows' ] ) ? attribute[ 'rows' ] : [ {} ];
+		return ( attribute && attribute[ 'rows' ] ) ? attribute[ 'rows' ] : [ {} ];
 	}
 
 	/**
