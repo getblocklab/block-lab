@@ -726,7 +726,7 @@ class Block_Post extends Component_Abstract {
 								}
 
 								// Don't allow nesting repeaters inside repeaters.
-								if ( isset( $field->settings['parent'] ) ) {
+								if ( ! empty( $field->settings['parent'] ) ) {
 									unset( $controls_for_select['repeater'] );
 								}
 
@@ -1144,7 +1144,7 @@ class Block_Post extends Component_Abstract {
 				 * If there's a "block-fields-parent" input, include the current field in a "sub-fields" field setting
 				 * for the specified parent.
 				 */
-				if ( isset( $_POST['block-fields-parent'][ $key ] ) ) {
+				if ( ! empty( $_POST['block-fields-parent'][ $key ] ) ) {
 					$parent = sanitize_key( $_POST['block-fields-parent'][ $key ] );
 
 					// The parent field should be set by now. We expect it to always preceed the child field.

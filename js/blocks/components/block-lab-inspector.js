@@ -20,7 +20,7 @@ import controls from '../controls';
  */
 const BlockLabInspector = ( { blockProps, block } ) => {
 	const fields = simplifiedFields( block.fields ).map( field => {
-		// If its not meant for the inspector then continue (return null).
+		// If it's not meant for the inspector, continue (return null).
 		if ( ! field.location || ! field.location.includes( 'inspector' ) ) {
 			return null
 		}
