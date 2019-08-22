@@ -59,7 +59,7 @@ class Field {
 	/**
 	 * Field constructor.
 	 *
-	 * @param array array $config An associative array with keys corresponding to the Field's properties.
+	 * @param array $config An associative array with keys corresponding to the Field's properties.
 	 */
 	public function __construct( $config = array() ) {
 		$this->from_array( $config );
@@ -85,15 +85,15 @@ class Field {
 		);
 
 		// Handle the sub-fields setting used by the Repeater.
-		if ( isset( $this->settings['sub-fields'] ) ) {
+		if ( isset( $this->settings['sub_fields'] ) ) {
 			/**
 			 * Recursively loop through sub-fields.
 			 *
 			 * @var string $key   The name of the sub-field's parent.
 			 * @var Field  $field The sub-field.
 			 */
-			foreach ( $this->settings['sub-fields'] as $key => $field ) {
-				$config['sub-fields'][ $key ] = $field->to_array();
+			foreach ( $this->settings['sub_fields'] as $key => $field ) {
+				$config['sub_fields'][ $key ] = $field->to_array();
 			}
 		}
 
@@ -134,13 +134,78 @@ class Field {
 		}
 
 		// Handle the sub-fields setting used by the Repeater.
-		if ( isset( $this->settings['sub-fields'] ) ) {
+		if ( isset( $this->settings['sub_fields'] ) ) {
 			/**
 			 * Recursively loop through sub-fields.
 			 */
-			foreach ( $this->settings['sub-fields'] as $key => $field ) {
-				$this->settings['sub-fields'][ $key ] = new Field( $field );
+			foreach ( $this->settings['sub_fields'] as $key => $field ) {
+				$this->settings['sub_fields'][ $key ] = new Field( $field );
 			}
 		}
+	}
+
+	/**
+	 * Return the value with the correct variable type.
+	 *
+	 * @param mixed $value The value to typecast.
+	 * @return mixed
+	 */
+	public function cast_value( $value ) {
+		switch ( $this->type ) {
+			case 'string':
+				$value = strval( $value );
+				break;
+			case 'textarea':
+				$value = strval( $value );
+				if ( isset( $this->settings['new_lines'] ) ) {
+					if ( 'autop' === $this->settings['new_lines'] ) {
+						$value = wpautop( $value );
+					}
+					if ( 'autobr' === $this->settings['new_lines'] ) {
+						$value = nl2br( $value );
+					}
+				}
+				break;
+			case 'boolean':
+				if ( 1 === $value ) {
+					$value = true;
+				}
+				break;
+			case 'integer':
+				$value = intval( $value );
+				break;
+			case 'array':
+				if ( ! $value ) {
+					$value = array();
+				} else {
+					$value = (array) $value;
+				}
+				break;
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Gets the field value as a string.
+	 *
+	 * @param mixed $value The field value.
+	 *
+	 * @return string $value The value to echo.
+	 */
+	public function cast_value_to_string( $value ) {
+		if ( is_array( $value ) ) {
+			return implode( ', ', $value );
+		}
+
+		if ( true === $value ) {
+			return __( 'Yes', 'block-lab' );
+		}
+
+		if ( false === $value ) {
+			return __( 'No', 'block-lab' );
+		}
+
+		return strval( $value );
 	}
 }

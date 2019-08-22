@@ -25,6 +25,35 @@
 
 			$( '.block-fields-rows' ).append( field );
 			$( '.block-no-fields' ).hide();
+			$( '.block-lab-add-fields' ).hide();
+
+			edit.trigger( 'click' );
+			label.data( 'defaultValue', label.val() );
+			label.select();
+		});
+
+		$( '#block_fields' ).on( 'click', '#block-add-sub-field', function() {
+			let template = wp.template( 'field-repeater' ),
+				data     = { uid: new Date().getTime() },
+				field    = $( template( data ) ),
+				row      = $( this ).closest( '.block-fields-row' ),
+				edit     = field.find( '.block-fields-actions-edit' ),
+				label    = field.find( '.block-fields-edit-label input' );
+
+			// Prevents adding a repeater, in a repeater, in a repeater…
+			field.find( '.block-fields-edit-control option[value="repeater"]' ).remove();
+
+			// Add parent UID as a hidden input
+			let parentInput = $( '<input>' ).attr({
+				'type': 'hidden',
+				'name': 'block-fields-parent[' + data.uid + ']',
+				'value': row.find( 'input[name^="block-fields-name"]' ).val()
+			});
+			field.append( parentInput );
+
+			$( '.block-fields-sub-rows', row ).append( field );
+			$( '.repeater-no-fields', row ).hide();
+			$( '.repeater-has-fields', row ).show();
 
 			edit.trigger( 'click' );
 			label.data( 'defaultValue', label.val() );
@@ -108,9 +137,14 @@
 
 		$( '.block-fields-rows' )
 			.on( 'click', '.block-fields-actions-delete', function() {
+				let subRows = $( this ).closest( '.block-fields-sub-rows' );
 				$( this ).closest( '.block-fields-row' ).remove();
 				if ( 0 === $( '.block-fields-rows' ).children( '.block-fields-row' ).length ) {
 					$( '.block-no-fields' ).show();
+				}
+				if ( 0 !== subRows.length && 0 === $( '.block-fields-row', subRows ).length ) {
+					$( '.repeater-no-fields' ).show();
+					$( '.repeater-has-fields' ).hide();
 				}
 			})
 			.on( 'click', '.block-fields-actions-edit, a.row-title', function() {
@@ -118,31 +152,16 @@
 
 				// If we're expanding this row, first collapse all other rows and scroll this row into view.
 				if ( ! currentRow.hasClass( 'block-fields-row-active' ) ) {
-					let fieldRows = $( '.block-fields-rows' ),
-						scrollTop = 0,
-						editRow   = $( '.block-fields-rows .block-fields-edit' );
+					let editRow   = $( '.block-fields-rows .block-fields-edit' );
 
-					$( '.block-fields-row', fieldRows ).each( function() {
-						// Add the height of all previous rows to the target scrollTop position.
-						if ( $( this ).is( currentRow ) ) {
-							return false;
-						}
-
-						let height = $( this ).children().first().outerHeight();
-						scrollTop += height;
-					});
-
-					fieldRows.animate({
-						scrollTop: scrollTop
-					});
-
+					scrollRowIntoView( currentRow );
 					editRow.slideUp();
 
 					$( '.block-fields-rows .block-fields-row-active' ).removeClass( 'block-fields-row-active' );
 				}
 
 				currentRow.toggleClass( 'block-fields-row-active' );
-				currentRow.find( '.block-fields-edit' ).slideToggle();
+				currentRow.find( '.block-fields-edit' ).first().slideToggle();
 
 				// Fetch field settings if field is active and there are no settings.
 				if ( $( this ).closest( '.block-fields-row' ).hasClass( 'block-fields-row-active' ) ) {
@@ -154,8 +173,9 @@
 				}
 			})
 			.on( 'click', '.block-fields-edit-actions-close a.button', function() {
-				$( this ).closest( '.block-fields-row' ).removeClass( 'block-fields-row-active' );
-				$( this ).closest( '.block-fields-edit' ).slideUp();
+				let fieldRow = $( this ).closest( '.block-fields-row' );
+				fieldRow.removeClass( 'block-fields-row-active' );
+				$( '.block-fields-edit', fieldRow ).slideUp();
 			})
 			.on( 'change keyup', '.block-fields-edit input', function() {
 				let sync = $( this ).data( 'sync' );
@@ -169,6 +189,14 @@
 			.on( 'change', '.block-fields-edit-control select', function() {
 				let fieldRow = $( this ).closest( '.block-fields-row' );
 				fetchFieldSettings( fieldRow, $( this ).val() );
+
+				if ( 'repeater' === $( this ).val() ) {
+					let subRows = wp.template( 'sub-field-rows' );
+					fieldRow.append( subRows );
+					blockFieldSubRowsInit( $( '.block-fields-sub-rows', fieldRow ) );
+				} else {
+					$( '.block-fields-sub-rows,.block-fields-sub-rows-actions', fieldRow ).remove();
+				}
 			})
 			.on( 'change keyup', '.block-fields-edit-label input', function() {
 				let slug = $( this )
@@ -191,12 +219,18 @@
 					.find( '.block-fields-edit-name input' )
 					.data( 'autoslug', 'false' );
 			})
+			.on( 'mouseenter', '.block-fields-row div:not(.block-fields-edit,.block-fields-sub-rows,.block-fields-sub-rows-actions)', function() {
+				$( this ).parent().addClass('hover');
+			})
+			.on( 'mouseleave', '.block-fields-row div', function() {
+				$( this ).parent().removeClass('hover');
+			})
 			.sortable({
 				axis: 'y',
 				cursor: 'grabbing',
-				handle: '.block-fields-sort-handle',
+				handle: '> .block-fields-row-columns .block-fields-sort-handle',
 				containment: 'parent',
-				tolerance: 'pointer'
+				tolerance: 'pointer',
 			});
 	});
 
@@ -236,7 +270,20 @@
 			$( '.block-no-fields' ).show();
 		}
 		$( '.block-fields-edit-name input' ).data( 'autoslug', 'false' );
+		$( '.block-fields-sub-rows' ).each( function() {
+			blockFieldSubRowsInit( $( this ) );
+		});
 	};
+
+	let blockFieldSubRowsInit = function( subRows ) {
+		subRows.sortable({
+			axis: 'y',
+			cursor: 'grabbing',
+			handle: '> .block-fields-row-columns .block-fields-sort-handle',
+			containment: 'parent',
+			tolerance: 'pointer',
+		});
+	}
 
 	let blockPostTypesInit = function() {
 		if ( 0 === $( '.block-lab-pub-section' ).length ) {
@@ -289,6 +336,17 @@
 		$( '.block-fields-edit-settings', fieldRow ).remove();
 		$( '.block-fields-edit-control', fieldRow ).after( $( loadingRow ) );
 
+		let data = {
+			control: fieldControl,
+			uid:     fieldRow.data( 'uid' ),
+			nonce:   blockLab.fieldSettingsNonce
+		}
+
+		// If this is a sub-field, pass along the parent UID as well.
+		if ( fieldRow.parent( '.block-fields-sub-rows' ).length > 0 ) {
+			data.parent = fieldRow.closest( '.block-fields-row' ).data( 'uid' );
+		}
+
 		wp.ajax.send( 'fetch_field_settings', {
 			success: function( data ) {
 				$( '.block-fields-edit-loading', fieldRow ).remove();
@@ -298,15 +356,30 @@
 				}
 				let settingsRows = $( data.html );
 				$( '.block-fields-edit-control', fieldRow ).after( settingsRows );
+				scrollRowIntoView( fieldRow );
 			},
 			error: function() {
 				$( '.block-fields-edit-loading', fieldRow ).remove();
 			},
-			data: {
-				control: fieldControl,
-				uid:     fieldRow.data( 'uid' ),
-				nonce:   blockLab.fieldSettingsNonce
+			data: data
+		});
+	};
+
+	let scrollRowIntoView = function( row ) {
+		let scrollTop = 0;
+
+		$( '.block-fields-rows .block-fields-row' ).each( function() {
+			// Add the height of all previous rows to the target scrollTop position.
+			if ( $( this ).is( row ) ) {
+				return false;
 			}
+
+			let height = $( this ).children().first().outerHeight();
+			scrollTop += height;
+		});
+
+		$( 'body' ).animate({
+			scrollTop: scrollTop
 		});
 	};
 

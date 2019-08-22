@@ -1,12 +1,15 @@
 const { BaseControl } = wp.components;
 const { RichText } = wp.blockEditor;
 
-const BlockLabRichTextControl = ( props, field, block ) => {
-	const { setAttributes } = props
-	const attr = { ...props.attributes }
+const BlockLabRichTextControl = ( props ) => {
+	const { field, getValue, onChange } = props
 
 	return (
-		<BaseControl label={field.label} className="block-lab-rich-text-control " help={field.help}>
+		<BaseControl
+			label={ field.label }
+			className="block-lab-rich-text-control"
+			help={ field.help }
+		>
 			{
 			/*
 			* @todo: Resolve known issue with toolbar not disappearing on blur
@@ -14,21 +17,18 @@ const BlockLabRichTextControl = ( props, field, block ) => {
 			*/
 			}
 			<RichText
-				key={`block-lab-${field.name}`} 
-				placeholder={field.placeholder || ''}
-				keepPlaceholderOnFocus={true}
-				defaultValue={field.default}
-				value={attr[ field.name ]}
+				key={ `block-lab-${ field.name }` }
+				placeholder={ field.placeholder || '' }
+				keepPlaceholderOnFocus={ true }
+				defaultValue={ field.default }
+				value={ getValue( props ) }
 				className='input-control'
-				multiline={true}
-				inlineToolbar={true}
-				onChange={richTextControl => {
-					attr[field.name] = richTextControl
-					setAttributes(attr)
-				}}
+				multiline={ true }
+				inlineToolbar={ true }
+				onChange={ onChange }
 			/>
 		</BaseControl>
-	)
+	);
 }
 
-export default BlockLabRichTextControl
+export default BlockLabRichTextControl;

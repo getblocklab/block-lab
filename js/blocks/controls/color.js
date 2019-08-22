@@ -7,7 +7,7 @@ const BlockLabColorPopover = withState( {
 		setState( ( state ) => ( { isVisible: ! state.isVisible } ) );
 	};
 	const colorChange = ( value ) => {
-		let color = value.hex
+		let color = value.hex;
 		if ( value.rgb.a < 1 ) {
 			color = 'rgba(' + value.rgb.r + ', ' + value.rgb.g + ', ' + value.rgb.b + ', ' + value.rgb.a + ')'
 		}
@@ -51,30 +51,24 @@ const BlockLabColorPopover = withState( {
 	);
 } );
 
-const BlockLabColorControl = ( props, field, block ) => {
-	const { setAttributes } = props;
-	const attr = { ...props.attributes };
+const BlockLabColorControl = ( props ) => {
+	const { field, getValue, onChange } = props;
+	const value = getValue( props );
 
 	return (
-		<BaseControl label={field.label} className="block-lab-color-control" help={field.help}>
+		<BaseControl label={ field.label } className="block-lab-color-control" help={ field.help }>
 			<TextControl
-				defaultValue={field.default}
-				value={attr[ field.name ]}
-				onChange={colorControl => {
-					attr[ field.name ] = colorControl
-					setAttributes( attr )
-				}}
+				defaultValue={ field.default }
+				value={ value }
+				onChange={ onChange }
 			/>
 			<BlockLabColorPopover
-				isVisible={false}
-				color={attr[ field.name ]}
-				onUpdate={color => {
-					attr[ field.name ] = color
-					setAttributes( attr )
-				}}
+				isVisible={ false }
+				color={ value }
+				onUpdate={ onChange }
 			/>
 		</BaseControl>
-	)
+	);
 }
 
-export default BlockLabColorControl
+export default BlockLabColorControl;

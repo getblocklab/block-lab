@@ -38,7 +38,7 @@ Before creating bug reports, please check [this list](#before-submitting-a-bug-r
 #### Before Submitting A Bug Report
 
 * You might be able to find the cause of the problem and fix things yourself.  Most importantly, check if you can reproduce the problem [in the latest version of Block Lab](https://github.com/getblocklab/block-lab/releases).
-* **Check the [FAQs](https://github.com/getblocklab/block-lab#frequently-asked-questions)** for a list of common questions and problems.
+* **Check the [FAQs](https://getblocklab.com/docs/faqs/)** for a list of common questions and problems.
 * While entering the title of your new issue, GitHub might show related issues below. If a related issue describes your problem and it's still open, add a comment to the existing issue instead of opening a new one.
 
 #### How Do I Submit A (Good) Bug Report?

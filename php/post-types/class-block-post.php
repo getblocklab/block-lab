@@ -24,7 +24,7 @@ class Block_Post extends Component_Abstract {
 	 *
 	 * @var string
 	 */
-	public $slug = 'block_lab';
+	public $slug;
 
 	/**
 	 * Registered controls.
@@ -39,11 +39,19 @@ class Block_Post extends Component_Abstract {
 	 * @var array
 	 */
 	public $pro_controls = array(
+		'repeater',
 		'post',
 		'rich_text',
 		'taxonomy',
 		'user',
 	);
+
+	/**
+	 * Block Post constructor.
+	 */
+	public function __construct() {
+		$this->slug = block_lab()->get_post_type_slug();
+	}
 
 	/**
 	 * Register any hooks that this component needs.
@@ -508,6 +516,7 @@ class Block_Post extends Component_Abstract {
 	public function render_fields_meta_box() {
 		$post  = get_post();
 		$block = new Block( $post->ID );
+		do_action( 'block_lab_before_fields_list' );
 		?>
 		<div class="block-fields-list">
 			<table class="widefat">
@@ -527,19 +536,10 @@ class Block_Post extends Component_Abstract {
 				</thead>
 				<tbody>
 					<tr>
-						<td colspan="5">
+						<td colspan="4">
 							<div class="block-fields-rows">
 								<p class="block-no-fields">
-									<?php
-									echo wp_kses_post(
-										sprintf(
-											// Translators: Placeholders are for <strong> HTML tags.
-											__( 'Click the %1$s+ Add Field%2$s button below to add your first field.' ),
-											'<strong>',
-											'</strong>'
-										)
-									);
-									?>
+									<?php echo wp_kses_post( __( 'Click <strong>Add Field</strong> below to add your first field.', 'block-lab' ) ); ?>
 								</p>
 								<?php
 								if ( count( $block->fields ) > 0 ) {
@@ -555,24 +555,28 @@ class Block_Post extends Component_Abstract {
 			</table>
 		</div>
 		<div class="block-fields-actions-add-field">
-			<input
-				name="add-field"
-				type="button"
-				class="button button-primary button-large"
-				id="block-add-field"
-				value="<?php esc_attr_e( '+ Add Field', 'block-lab' ); ?>" />
-
+			<button type="button" aria-label="Add Field" class="block-fields-action" id="block-add-field">
+				<span class="dashicons dashicons-plus"></span>
+				<?php esc_attr_e( 'Add Field', 'block-lab' ); ?>
+			</button>
 			<script type="text/html" id="tmpl-field-repeater">
 				<?php
 				$args = array(
-					'name'  => 'new-field',
-					'label' => __( 'New Field', 'block-lab' ),
+					'name'     => 'new-field',
+					'label'    => __( 'New Field', 'block-lab' ),
+					'settings' => array(
+						'parent' => '',
+					),
 				);
 				$this->render_fields_meta_box_row( new Field( $args ) );
 				?>
 			</script>
+			<script type="text/html" id="tmpl-sub-field-rows">
+				<?php $this->render_fields_sub_rows(); ?>
+			</script>
 		</div>
 		<?php
+		do_action( 'block_lab_after_fields_list' );
 		wp_nonce_field( 'block_lab_save_fields', 'block_lab_fields_nonce' );
 	}
 
@@ -593,52 +597,54 @@ class Block_Post extends Component_Abstract {
 
 		?>
 		<div class="block-fields-row" data-uid="<?php echo esc_attr( $uid ); ?>">
-			<div class="block-fields-sort">
-				<span class="block-fields-sort-handle"></span>
-			</div>
-			<div class="block-fields-label">
-				<a class="row-title" href="javascript:" id="block-fields-label_<?php echo esc_attr( $uid ); ?>">
-					<?php echo esc_html( $field->label ); ?>
-				</a>
-				<div class="block-fields-actions">
-					<a class="block-fields-actions-edit" href="javascript:">
-						<?php esc_html_e( 'Edit', 'block-lab' ); ?>
-					</a>
-					&nbsp;|&nbsp;
-					<a class="block-fields-actions-delete" href="javascript:">
-						<?php esc_html_e( 'Delete', 'block-lab' ); ?>
-					</a>
+			<div class="block-fields-row-columns">
+				<div class="block-fields-sort">
+					<span class="block-fields-sort-handle"></span>
 				</div>
-			</div>
-			<div class="block-fields-name" id="block-fields-name_<?php echo esc_attr( $uid ); ?>">
-				<code id="block-fields-name-code_<?php echo esc_attr( $uid ); ?>"><?php echo esc_html( $field->name ); ?></code>
-			</div>
-			<div class="block-fields-control" id="block-fields-control_<?php echo esc_attr( $uid ); ?>">
-				<?php
-				if ( ! $is_field_disabled && isset( $this->controls[ $field->control ] ) ) :
-					echo esc_html( $this->controls[ $field->control ]->label );
-				else :
-					?>
-					<span class="dashicons dashicons-warning"></span>
-					<span class="pro-required">
-						<?php
-						/* translators: %1$s is the field type, %2$s is the URL for the Pro license */
-						printf(
-							wp_kses_post( 'This <code>%1$s</code> field requires an active <a href="%2$s">pro license</a>.', 'block-lab' ),
-							esc_html( $field->control ),
-							esc_url(
-								add_query_arg(
-									array(
-										'post_type' => 'block_lab',
-										'page'      => 'block-lab-pro',
-									),
-									admin_url( 'edit.php' )
-								)
-							)
-						);
+				<div class="block-fields-label">
+					<a class="row-title" href="javascript:" id="block-fields-label_<?php echo esc_attr( $uid ); ?>">
+						<?php echo esc_html( $field->label ); ?>
+					</a>
+					<div class="block-fields-actions">
+						<a class="block-fields-actions-edit" href="javascript:">
+							<?php esc_html_e( 'Edit', 'block-lab' ); ?>
+						</a>
+						&nbsp;|&nbsp;
+						<a class="block-fields-actions-delete" href="javascript:">
+							<?php esc_html_e( 'Delete', 'block-lab' ); ?>
+						</a>
+					</div>
+				</div>
+				<div class="block-fields-name" id="block-fields-name_<?php echo esc_attr( $uid ); ?>">
+					<code id="block-fields-name-code_<?php echo esc_attr( $uid ); ?>"><?php echo esc_html( $field->name ); ?></code>
+				</div>
+				<div class="block-fields-control" id="block-fields-control_<?php echo esc_attr( $uid ); ?>">
+					<?php
+					if ( ! $is_field_disabled && isset( $this->controls[ $field->control ] ) ) :
+						echo esc_html( $this->controls[ $field->control ]->label );
+					else :
 						?>
-					</span>
-				<?php endif; ?>
+						<span class="dashicons dashicons-warning"></span>
+						<span class="pro-required">
+							<?php
+							/* translators: %1$s is the field type, %2$s is the URL for the Pro license */
+							printf(
+								wp_kses_post( 'This <code>%1$s</code> field requires an active <a href="%2$s">pro license</a>.', 'block-lab' ),
+								esc_html( $field->control ),
+								esc_url(
+									add_query_arg(
+										array(
+											'post_type' => 'block_lab',
+											'page'      => 'block-lab-pro',
+										),
+										admin_url( 'edit.php' )
+									)
+								)
+							);
+							?>
+						</span>
+					<?php endif; ?>
+				</div>
 			</div>
 			<div class="block-fields-edit">
 				<table class="widefat">
@@ -694,7 +700,8 @@ class Block_Post extends Component_Abstract {
 								class="regular-text"
 								value="<?php echo esc_attr( $field->name ); ?>"
 								data-sync="block-fields-name-code_<?php echo esc_attr( $uid ); ?>"
-								<?php echo $is_field_disabled ? 'readonly="readonly"' : ''; ?> />
+								<?php echo $is_field_disabled ? 'readonly="readonly"' : ''; ?>
+							/>
 						</td>
 					</tr>
 					<tr class="block-fields-edit-control">
@@ -712,10 +719,17 @@ class Block_Post extends Component_Abstract {
 								<?php disabled( $is_field_disabled ); ?> >
 								<?php
 								$controls_for_select = $this->controls;
+
 								// If this field is disabled, it was probably added when there was a valid pro license, so still display it.
 								if ( $is_field_disabled && in_array( $field->control, $this->pro_controls, true ) ) {
 									$controls_for_select[ $field->control ] = $this->get_control( $field->control );
 								}
+
+								// Don't allow nesting repeaters inside repeaters.
+								if ( ! empty( $field->settings['parent'] ) ) {
+									unset( $controls_for_select['repeater'] );
+								}
+
 								foreach ( $controls_for_select as $control_for_select ) :
 									?>
 									<option
@@ -740,6 +754,58 @@ class Block_Post extends Component_Abstract {
 					</tr>
 				</table>
 			</div>
+			<?php
+			if ( 'repeater' === $field->control ) {
+				if ( ! isset( $field->settings['sub_fields'] ) ) {
+					$field->settings['sub_fields'] = array();
+				}
+				$this->render_fields_sub_rows( $field->settings['sub_fields'] );
+			}
+			if ( isset( $field->settings['parent'] ) ) {
+				?>
+				<input
+					type="hidden"
+					name="block-fields-parent[<?php echo esc_attr( $uid ); ?>]"
+					value="<?php echo esc_attr( $field->settings['parent'] ); ?>"
+				/>
+				<?php
+			}
+			?>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Render the actions row when adding a Repeater field.
+	 *
+	 * @param Field[] $fields The sub fields to render.
+	 *
+	 * @return void
+	 */
+	public function render_fields_sub_rows( $fields = array() ) {
+		?>
+		<div class="block-fields-sub-rows">
+			<?php
+			if ( ! empty( $fields ) ) {
+				foreach ( $fields as $field ) {
+					$this->render_fields_meta_box_row( $field, uniqid() );
+				}
+			}
+			?>
+		</div>
+		<div class="block-fields-sub-rows-actions">
+			<p class="repeater-no-fields <?php echo esc_attr( empty( $fields ) ? '' : 'hidden' ); ?>">
+				<button type="button" aria-label="Add Sub-Field" id="block-add-sub-field">
+					<span class="dashicons dashicons-plus"></span>
+					<?php esc_attr_e( 'Add your first Sub-Field', 'block-lab' ); ?>
+				</button>
+			</p>
+			<p class="repeater-has-fields <?php echo esc_attr( empty( $fields ) ? 'hidden' : '' ); ?>">
+				<button type="button" aria-label="Add Sub-Field" id="block-add-sub-field">
+					<span class="dashicons dashicons-plus"></span>
+					<?php esc_attr_e( 'Add Sub-Field', 'block-lab' ); ?>
+				</button>
+			</p>
 		</div>
 		<?php
 	}
@@ -753,7 +819,7 @@ class Block_Post extends Component_Abstract {
 		$post = get_post();
 		?>
 		<div class="template-notice">
-			<h3><span class="dashicons dashicons-yes"></span><?php esc_html_e( 'Next step: Create a block template.', 'block-lab' ); ?></h3>
+			<h3>✔️ <?php esc_html_e( 'Next step: Create a block template.', 'block-lab' ); ?></h3>
 			<p>
 				<?php esc_html_e( 'To display this block, Block Lab will look for this template file in your theme:', 'block-lab' ); ?>
 			</p>
@@ -778,14 +844,14 @@ class Block_Post extends Component_Abstract {
 				echo wp_kses_post(
 					sprintf(
 						'<a href="%1$s" target="_blank">%2$s</a> | ',
-						'https://github.com/getblocklab/block-lab/wiki/3.-Displaying-custom-blocks',
+						'https://getblocklab.com/docs/get-started/add-a-block-lab-block-to-your-website-content/',
 						esc_html__( 'Block Templates', 'block-lab' )
 					)
 				);
 				echo wp_kses_post(
 					sprintf(
 						'<a href="%1$s" target="_blank">%2$s</a>',
-						'https://github.com/getblocklab/block-lab/wiki/4.-Template-Functions',
+						'https://getblocklab.com/docs/functions/',
 						esc_html__( 'Template Functions', 'block-lab' )
 					)
 				);
@@ -865,6 +931,11 @@ class Block_Post extends Component_Abstract {
 
 		ob_start();
 		$field = new Field( array( 'control' => $control ) );
+
+		if ( isset( $_POST['parent'] ) ) {
+			$field->settings['parent'] = sanitize_key( $_POST['parent'] );
+		}
+
 		$this->render_field_settings( $field, $uid );
 		$data['html'] = ob_get_clean();
 
@@ -895,7 +966,7 @@ class Block_Post extends Component_Abstract {
 		}
 
 		// Exits script if not the right post type.
-		if ( $data['post_type'] !== $this->slug ) {
+		if ( $this->slug !== $data['post_type'] ) {
 			return $data;
 		}
 
@@ -998,16 +1069,11 @@ class Block_Post extends Component_Abstract {
 
 		// Block fields.
 		if ( isset( $_POST['block-fields-name'] ) && is_array( $_POST['block-fields-name'] ) ) {
-			$order = 0;
-
 			// We loop through this array and sanitize its content according to the content type.
 			$fields = wp_unslash( $_POST['block-fields-name'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			foreach ( $fields as $key => $name ) {
 				// Field name and order.
-				$field_config = array(
-					'name'  => sanitize_key( $name ),
-					'order' => $order,
-				);
+				$field_config = array( 'name' => sanitize_key( $name ) );
 
 				// Field label.
 				if ( isset( $_POST['block-fields-label'][ $key ] ) ) {
@@ -1066,14 +1132,40 @@ class Block_Post extends Component_Abstract {
 						}
 
 						$field_config['settings'][ $setting->name ] = $value;
-						$field                                      = new Field( $field_config );
+
+						$field = new Field( $field_config );
 					}
 				} else {
 					$field = new Field( $field_config );
 				}
 
-				$block->fields[ $name ] = $field;
-				$order++;
+				/*
+				 * Sub-Fields
+				 * If there's a "block-fields-parent" input, include the current field in a "sub-fields" field setting
+				 * for the specified parent.
+				 */
+				if ( ! empty( $_POST['block-fields-parent'][ $key ] ) ) {
+					$parent = sanitize_key( $_POST['block-fields-parent'][ $key ] );
+
+					// The parent field should be set by now. We expect it to always preceed the child field.
+					if ( ! isset( $block->fields[ $parent ] ) ) {
+						continue;
+					}
+					if ( ! isset( $block->fields[ $parent ]->settings['sub_fields'] ) ) {
+						$block->fields[ $parent ]->settings['sub_fields'] = array();
+					}
+
+					$field->settings['parent'] = $parent;
+					$field->order              = count(
+						$block->fields[ $parent ]->settings['sub_fields']
+					);
+
+					$block->fields[ $parent ]->settings['sub_fields'][ $name ] = $field;
+				} else {
+					$field->order = count( $block->fields );
+
+					$block->fields[ $name ] = $field;
+				}
 			}
 		}
 
@@ -1238,7 +1330,7 @@ class Block_Post extends Component_Abstract {
 		$post = get_post();
 
 		// Abort if the post type is incorrect.
-		if ( $post->post_type !== $this->slug ) {
+		if ( $this->slug !== $post->post_type ) {
 			return $actions;
 		}
 

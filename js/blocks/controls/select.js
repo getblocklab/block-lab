@@ -1,8 +1,7 @@
 const { SelectControl } = wp.components;
 
-const BlockLabSelectControl = ( props, field, block ) => {
-	const { setAttributes } = props
-	const attr = { ...props.attributes }
+const BlockLabSelectControl = ( props ) => {
+	const { field, getValue, onChange } = props
 	const { __ } = wp.i18n;
 
 	if ( '' === field.default ) {
@@ -10,21 +9,18 @@ const BlockLabSelectControl = ( props, field, block ) => {
 			// @see https://github.com/WordPress/gutenberg/issues/11270 Disabled attribute not currently supported.
 			{ label: __( '– Select –', 'block-lab' ), value: '', disabled: true },
 			...field.options
-		]
+		];
 	}
 
 	return (
 		<SelectControl
-			label={field.label}
-			help={field.help}
-			value={attr[ field.name ] || field.default}
-			options={field.options}
-			onChange={selectControl => {
-				attr[ field.name ] = selectControl
-				setAttributes( attr )
-			}}
+			label={ field.label }
+			help={ field.help }
+			value={ getValue( props ) || field.default }
+			options={ field.options }
+			onChange={ onChange }
 		/>
-	)
+	);
 }
 
-export default BlockLabSelectControl
+export default BlockLabSelectControl;

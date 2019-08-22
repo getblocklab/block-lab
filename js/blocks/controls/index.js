@@ -12,6 +12,7 @@ import BlockLabRangeControl from './range'
 import BlockLabSelectControl from './select'
 import BlockLabMultiselectControl from './multiselect'
 import BlockLabPostControl from './post'
+import BlockLabRepeaterControl from './repeater'
 import BlockLabTaxonomyControl from './taxonomy'
 import BlockLabToggleControl from './toggle'
 import BlockLabUserControl from './user'
@@ -28,6 +29,7 @@ export default {
 	checkbox: BlockLabCheckboxControl,
 	radio: BlockLabRadioControl,
 	range: BlockLabRangeControl,
+	repeater: BlockLabRepeaterControl,
 	select: BlockLabSelectControl,
 	multiselect: BlockLabMultiselectControl,
 	post: BlockLabPostControl,

@@ -1,0 +1,145 @@
+
+.block-lab-notice {
+	border-left: 4px solid #7D5DEC;
+	padding: 10px 20px;
+	background: #fff;
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+	margin: 5px 0 15px;
+}
+.block-lab-notice h2 {
+	margin: 0.5em 0 1em;
+}
+.block-lab-notice p {
+	font-size: 1em;
+}
+.block-lab-notice .intro {
+	font-size: 1.2em;
+	line-height: 1.5em;
+}
+.block-lab-notice p.ps {
+	font-size: smaller;
+}
+.block-lab-notice .button {
+	display: inline-block;
+	position: relative;
+	background-color: #7D5DEC;
+	padding: 10px 12px;
+	margin: 1em 0;
+	height: auto;
+	border-radius: 4px;
+	border: 2px solid #7D5DEC;
+	color: #fff;
+	font-size: 13px;
+	text-decoration: none;
+	line-height: 13px;
+	cursor: pointer;
+	box-shadow: none;
+}
+.block-lab-notice .button:active,
+.block-lab-notice .button:focus,
+.block-lab-notice .button:visited {
+	color: #fff;
+}
+.block-lab-notice .button:hover {
+	color: #fff;
+	background-color: #6444d3;
+	border-color: #6444d3;
+}
+.block-lab-notice .button:nth-of-type( 2 ) {
+	margin-left: 10px;
+}
+.block-lab-notice .button--white {
+	background-color: #fff;
+	border-color: #fff;
+	color: #7D5DEC;
+}
+.block-lab-notice .button--white:active,
+.block-lab-notice .button--white:focus,
+.block-lab-notice .button--white:visited {
+	color: #7D5DEC;
+}
+.block-lab-notice .button--white:hover {
+	color: #7D5DEC;
+	background-color: #f4f4f4;
+	border-color: #f4f4f4;
+}
+.block-lab-notice .button_cta {
+	font-weight: 600;
+	padding: 16px 15px 15px;
+	box-shadow: 10px 10px 20px 0 rgba( 0, 0, 0, 0.2 );
+}
+.block-lab-welcome {
+	background-color: #7D5DEC;
+	background-image: url('https://getblocklab.com/wp-content/uploads/2019/02/Block-Lab-Pro-Hero-Background-1.svg');
+	background-size: cover;
+	background-position: center;
+	color: #fff;
+	padding: 32px 32px 6px;
+	border: none;
+	box-shadow: 10px 10px 20px 0px rgba( 121, 110, 255, 0.05 );
+	border-radius: 3px;
+}
+.block-lab-welcome h2 {
+	color: #fff;
+	line-height: 1em;
+	font-size: 2em;
+	font-weight: 700;
+	margin-bottom: 0.5em;
+	margin-top: 0;
+	font-style: italic;
+}
+.block-lab-welcome p {
+	font-size: 1.1em;
+}
+.block-lab-welcome .intro {
+	font-size: 1.3em;
+}
+.block-lab-notice p.ps {
+	opacity: 0.5;
+}
+.block-lab-welcome .notice-dismiss:before {
+	color: #372182;
+}
+.block-lab-welcome .notice-dismiss:hover:before {
+	color: #f4f4f4;
+}
+.block-lab-edit-block a.trash {
+	color: #444;
+}
+.block-lab-edit-block a.trash:hover {
+	color: #dc3232;
+}
+.block-lab-add-fields {
+	position: relative;
+}
+.block-lab-add-fields h2 {
+	font-size: 1.3em !important;
+	padding: 0 !important;
+	margin: 0.5em 0 1em !important;
+	font-weight: 600 !important;
+}
+.block-lab-publish {
+	margin: 1em 0 0;
+}
+.block-lab-publish h2 {
+	font-size: 1.3em !important;
+	padding: 0 !important;
+	margin: 0.5em 0 1em !important;
+}
+
+@keyframes block-lab-edit-block-point {
+	from {
+		transform: rotate(230deg) translateX(0px) translateY(0px);
+	}
+	to {
+		transform: rotate(220deg) translateX(10px) translateY(-40px);
+	}
+}
+@keyframes block-lab-add-fields-point {
+	from {
+		transform: rotate(30deg) translateX(0px) translateY(0px);
+	}
+	to {
+		transform: rotate(40deg) translateX(40px) translateY(20px);
+	}
+}

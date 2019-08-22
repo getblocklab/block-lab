@@ -10,6 +10,7 @@
 
 namespace Block_Lab;
 
+use Block_Lab\Blocks;
 use Block_Lab\Component_Abstract;
 
 /**
@@ -29,6 +30,22 @@ class Util extends Component_Abstract {
 	 */
 	public function is_pro() {
 		return $this->plugin->admin->license->is_valid();
+	}
+
+	/**
+	 * Get the loop handler.
+	 *
+	 * @return Blocks\Loop
+	 */
+	public function loop() {
+		static $instance;
+
+		if ( null === $instance ) {
+			$instance = new Blocks\Loop();
+			return $instance;
+		}
+
+		return $instance;
 	}
 
 	/**
@@ -197,5 +214,34 @@ class Util extends Component_Abstract {
 		 * @param array $allowed_tags The allowed tags.
 		 */
 		return apply_filters( 'block_lab_allowed_svg_tags', $allowed_tags );
+	}
+
+	/**
+	 * Gets the slug of the post type that stores the blocks.
+	 *
+	 * @return string The slug.
+	 */
+	public function get_post_type_slug() {
+		return $this->plugin->post_type_slug;
+	}
+
+	/**
+	 * Get a relative URL from a path.
+	 *
+	 * @param string $path The absolute path to a file.
+	 *
+	 * @return string
+	 */
+	public function get_url_from_path( $path ) {
+		$abspath = ABSPATH;
+
+		// Workaround for weird hosting situations.
+		if ( trailingslashit( ABSPATH ) . 'wp-content' !== WP_CONTENT_DIR && isset( $_SERVER['DOCUMENT_ROOT'] ) ) {
+			$abspath = sanitize_text_field( wp_unslash( $_SERVER['DOCUMENT_ROOT'] ) );
+		}
+
+		$stylesheet_url = str_replace( untrailingslashit( $abspath ), '', $path );
+
+		return $stylesheet_url;
 	}
 }

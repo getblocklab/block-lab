@@ -225,7 +225,7 @@ class Import extends Component_Abstract {
 					'post_name'    => $config['name'],
 					'post_content' => wp_slash( $json ),
 					'post_status'  => 'publish',
-					'post_type'    => 'block_lab',
+					'post_type'    => block_lab()->get_post_type_slug(),
 				)
 			);
 

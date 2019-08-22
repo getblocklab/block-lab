@@ -38,7 +38,7 @@ Block Lab Pro is coming mid 2019 with power features to take your block building
 ## Links ##
 * [WordPress.org](https://wordpress.org/plugins/block-lab)
 * [Github](https://github.com/getblocklab/block-lab)
-* [Documentation](https://github.com/getblocklab/block-lab/wiki)
+* [Documentation](https://getblocklab.com/docs)
 * [Support](https://wordpress.org/support/plugin/block-lab)
 * [Block Lab Pro](https://getblocklab.com/block-lab-pro)
 
@@ -64,7 +64,7 @@ A: Although the plugin handles the majority of the work in building a custom blo
 A: This plugin is open source and can only be better through community contribution. The GitHub repo is [here](https://github.com/getblocklab/block-lab).
 
 **Q: Where can I find documentation for this plugin?**
-A: [Here](https://github.com/getblocklab/block-lab/wiki)
+A: [Here](https://getblocklab.com/docs/)
 
 ## Contributing ##
 

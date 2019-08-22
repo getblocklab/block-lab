@@ -1,6 +1,6 @@
 <?php
 /**
- * Loader initiates the loading of new Gutenberg blocks for the Block_Lab plugin.
+ * Loader initiates the loading of new blocks.
  *
  * @package Block_Lab
  */
@@ -226,23 +226,7 @@ class Loader extends Component_Abstract {
 		$attributes['className'] = array( 'type' => 'string' );
 
 		foreach ( $block->fields as $field_name => $field ) {
-			$attributes[ $field_name ] = array(
-				'type' => $field->type,
-			);
-
-			if ( ! empty( $field->settings['default'] ) ) {
-				$attributes[ $field_name ]['default'] = $field->settings['default'];
-			}
-
-			if ( 'array' === $field->type ) {
-				/**
-				 * This is a workaround to allow empty array values. We unset the default value before registering the
-				 * block so that the default isn't used to auto-correct empty arrays. This allows the default to be
-				 * used only when creating the form.
-				 */
-				unset( $attributes[ $field_name ]['default'] );
-				$attributes[ $field_name ]['items'] = array( 'type' => 'string' );
-			}
+			$attributes = $this->get_attributes_from_field( $attributes, $field_name, $field );
 		}
 
 		/**
@@ -255,6 +239,37 @@ class Loader extends Component_Abstract {
 		 * @param array   $block      Block data, including its name at $block['name'].
 		 */
 		return apply_filters( 'block_lab_get_block_attributes', $attributes, $block );
+	}
+
+	/**
+	 * Sets the field values in the attributes, enabling them to appear in the block.
+	 *
+	 * @param array  $attributes The attributes in which to store the field value.
+	 * @param string $field_name The name of the field, like 'home-hero'.
+	 * @param Field  $field      The Field to set the attributes from.
+	 * @return array $attributes The attributes, with the new field value set.
+	 */
+	public function get_attributes_from_field( $attributes, $field_name, $field ) {
+		$attributes[ $field_name ] = array(
+			'type' => $field->type,
+		);
+
+		if ( ! empty( $field->settings['default'] ) ) {
+			$attributes[ $field_name ]['default'] = $field->settings['default'];
+		}
+
+		if ( 'array' === $field->type ) {
+			/**
+			 * This is a workaround to allow empty array values. We unset the default value before registering the
+			 * block so that the default isn't used to auto-correct empty arrays. This allows the default to be
+			 * used only when creating the form.
+			 */
+			unset( $attributes[ $field_name ]['default'] );
+			$items_type                         = 'repeater' === $field->control ? 'object' : 'string';
+			$attributes[ $field_name ]['items'] = array( 'type' => $items_type );
+		}
+
+		return $attributes;
 	}
 
 	/**
@@ -286,6 +301,19 @@ class Loader extends Component_Abstract {
 			foreach ( $missing_schema_attributes as $attribute_name => $schema ) {
 				if ( isset( $schema->settings['default'] ) ) {
 					$attributes[ $attribute_name ] = $schema->settings['default'];
+				}
+			}
+
+			// Similar to the logic above, populate the Repeater control's sub-fields with default values.
+			foreach ( $block->fields as $field ) {
+				if ( isset( $field->settings['sub_fields'] ) ) {
+					$existing_sub_fields           = isset( $attributes[ $field->name ]['rows'][0] ) ? $attributes[ $field->name ]['rows'][0] : array();
+					$missing_sub_schema_attributes = array_diff_key( $field->settings['sub_fields'], $existing_sub_fields );
+					foreach ( $missing_sub_schema_attributes as $sub_field_name => $sub_schema ) {
+						if ( isset( $sub_schema->settings['default'] ) ) {
+							$attributes[ $field->name ]['rows'][0][ $sub_field_name ] = $sub_schema->settings['default'];
+						}
+					}
 				}
 			}
 
@@ -352,7 +380,7 @@ class Loader extends Component_Abstract {
 		}
 
 		$stylesheet_path = block_lab()->locate_template( $locations );
-		$stylesheet_url  = str_replace( untrailingslashit( ABSPATH ), '', $stylesheet_path );
+		$stylesheet_url  = block_lab()->get_url_from_path( $stylesheet_path );
 
 		/**
 		 * Enqueue the stylesheet, if it exists. The wp_enqueue_style function handles duplicates, so we don't need
@@ -378,7 +406,7 @@ class Loader extends Component_Abstract {
 		);
 
 		$stylesheet_path = block_lab()->locate_template( $locations );
-		$stylesheet_url  = str_replace( untrailingslashit( ABSPATH ), '', $stylesheet_path );
+		$stylesheet_url  = block_lab()->get_url_from_path( $stylesheet_path );
 
 		/**
 		 * Enqueue the stylesheet, if it exists.
@@ -443,8 +471,6 @@ class Loader extends Component_Abstract {
 	 * Load all the published blocks and blocks/block.json files.
 	 */
 	public function retrieve_blocks() {
-		$slug = 'block_lab';
-
 		$this->blocks = '';
 		$blocks       = [];
 
@@ -464,7 +490,7 @@ class Loader extends Component_Abstract {
 
 		$block_posts = new \WP_Query(
 			[
-				'post_type'      => $slug,
+				'post_type'      => block_lab()->get_post_type_slug(),
 				'post_status'    => 'publish',
 				'posts_per_page' => - 1,
 			]

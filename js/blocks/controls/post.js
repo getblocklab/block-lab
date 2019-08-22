@@ -1,15 +1,16 @@
-import ContentControl from './content';
+import { ContentControl } from '../components';
 
-const BlockLabPostControl = ( props, field, block ) => {
+const BlockLabPostControl = ( props ) => {
+
 	/**
 	 * Gets the post title from an API response.
 	 *
 	 * @param {Object} apiResponse The API response in which to look for the post title.
-	 * @return {String} The post title from the response, or the default.
+	 * @return {string} The post title from the response, or the default.
 	 */
-	const getTitleFromAPI = apiResponse => ( apiResponse && apiResponse.title && apiResponse.title.rendered ) ? apiResponse.title.rendered : '';
-
-	return ContentControl( props, field, getTitleFromAPI );
+	const getNameFromAPI = apiResponse => ( apiResponse && apiResponse.title && apiResponse.title.rendered ) ? apiResponse.title.rendered : '';
+	const contentProps = { ...props, getNameFromAPI };
+	return <ContentControl { ...contentProps } />;
 }
 
-export default BlockLabPostControl
+export default BlockLabPostControl;

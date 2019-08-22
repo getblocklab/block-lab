@@ -1,23 +1,21 @@
 const { CheckboxControl } = wp.components;
 
-const BlockLabCheckboxControl = ( props, field, block ) => {
-	const { setAttributes } = props
-	const attr = { ...props.attributes }
-	if ( 'undefined' === typeof attr[ field.name ] ) {
-		attr[ field.name ] = field.default || false
+const BlockLabCheckboxControl = ( props ) => {
+	const { field, getValue, onChange } = props
+	let value = getValue( props );
+	if ( 'undefined' === typeof value ) {
+		value = field.default || false
 	}
+
 	return (
 		<CheckboxControl
-			label={field.label}
-			help={field.help}
-			checked={attr[ field.name ]}
-			options={field.options}
-			onChange={checkboxControl => {
-				attr[ field.name ] = checkboxControl
-				setAttributes( attr )
-			}}
+			label={ field.label }
+			help={ field.help }
+			checked={ value }
+			options={ field.options }
+			onChange={ onChange }
 		/>
-	)
+	);
 }
 
-export default BlockLabCheckboxControl
+export default BlockLabCheckboxControl;

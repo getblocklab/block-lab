@@ -1,22 +1,20 @@
 const { ToggleControl } = wp.components;
 
-const BlockLabToggleControl = ( props, field, block ) => {
-	const { setAttributes } = props
+const BlockLabToggleControl = ( props ) => {
+	const { field, onChange, getValue } = props
 	const attr = { ...props.attributes }
 	if ( 'undefined' === typeof attr[ field.name ] ) {
 		attr[ field.name ] = field.default
 	}
+
 	return (
 		<ToggleControl
-			label={field.label}
-			help={field.help}
-			checked={attr[ field.name ]}
-			onChange={toggleControl => {
-				attr[ field.name ] = toggleControl
-				setAttributes( attr )
-			}}
+			label={ field.label }
+			help={ field.help }
+			checked={ getValue( props ) }
+			onChange={ onChange }
 		/>
-	)
+	);
 }
 
-export default BlockLabToggleControl
+export default BlockLabToggleControl;

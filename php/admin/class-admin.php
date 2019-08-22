@@ -31,6 +31,13 @@ class Admin extends Component_Abstract {
 	public $license;
 
 	/**
+	 * User onboarding.
+	 *
+	 * @var Onboarding
+	 */
+	public $onboarding;
+
+	/**
 	 * Plugin upgrade.
 	 *
 	 * @var Upgrade
@@ -53,6 +60,9 @@ class Admin extends Component_Abstract {
 
 		$this->license = new License();
 		block_lab()->register_component( $this->license );
+
+		$this->onboarding = new Onboarding();
+		block_lab()->register_component( $this->onboarding );
 
 		$show_pro_nag = apply_filters( 'block_lab_show_pro_nag', true );
 		if ( $show_pro_nag && ! block_lab()->is_pro() ) {

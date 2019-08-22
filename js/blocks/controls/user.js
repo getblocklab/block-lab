@@ -1,25 +1,26 @@
-import FetchInput from './components/fetch-input';
+/**
+ * Internal dependencies
+ */
+import { FetchInput } from '../components';
 
-const BlockLabUserControl = ( props, field, block ) => {
-	const { setAttributes } = props;
-	const attr = { ...props.attributes };
+const BlockLabUserControl = ( props ) => {
+	const { field, getValue, onChange } = props;
 	const DEFAULT_ID = 0;
 	const getIdFromAPI = apiResponse => ( apiResponse && apiResponse.id ) ? apiResponse.id : DEFAULT_ID;
 	const getNameFromAPI = apiResponse => ( apiResponse && apiResponse.name ) ? apiResponse.name : '';
 
-	const initialValue = ( 'object' === typeof attr[ field.name ] ) ? attr[ field.name ] : {};
-	attr[ field.name ] = Object.assign( { id: DEFAULT_ID, userName: '' }, initialValue );
-	const userAttribute = attr[ field.name ];
+	const initialValue = ( 'object' === typeof getValue( props ) ) ? getValue( props ) : {};
+	const userAttribute = { id: DEFAULT_ID, userName: '', ...initialValue };
 
 	return (
 		<FetchInput
-			field={field}
+			field={ field }
 			apiSlug="users"
-			value={userAttribute['id']}
-			displayValue={userAttribute['userName']}
-			getValueFromAPI={getIdFromAPI}
-			getDisplayValueFromAPI={getNameFromAPI}
-			onChange={value => {
+			value={ userAttribute['id'] }
+			displayValue={ userAttribute['userName'] }
+			getValueFromAPI={ getIdFromAPI }
+			getDisplayValueFromAPI={ getNameFromAPI }
+			onChange={ ( value ) => {
 				if ( 'string' === typeof value ) {
 					// The value is probably from the user typing into the <input>.
 					userAttribute['userName'] = value;
@@ -29,11 +30,11 @@ const BlockLabUserControl = ( props, field, block ) => {
 					userAttribute['userName'] = getNameFromAPI( value );
 					userAttribute['id'] = getIdFromAPI( value );
 				}
-				attr[ field.name ] = userAttribute;
-				setAttributes( attr );
-			}}
+
+				onChange( userAttribute );
+			} }
 		/>
 	);
 }
 
-export default BlockLabUserControl
+export default BlockLabUserControl;

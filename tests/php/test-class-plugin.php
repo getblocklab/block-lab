@@ -27,8 +27,27 @@ class Test_Plugin extends \WP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->instance = new Block_Lab\Plugin();
+		$this->instance->init();
 		$this->instance->plugin_loaded();
-		$this->instance->set_util();
+	}
+
+	/**
+	 * Test init.
+	 *
+	 * @covers \Block_Lab\Abstract_Plugin:init()
+	 */
+	public function test_init() {
+		$plugin_instance = new Block_Lab\Plugin();
+		$plugin_instance->init();
+		$plugin_instance->plugin_loaded();
+
+		$reflection_plugin = new ReflectionObject( $this->instance );
+		$util_property     = $reflection_plugin->getProperty( 'util' );
+
+		$util_property->setAccessible( true );
+		$util_class = $util_property->getValue( $this->instance );
+
+		$this->assertEquals( 'Block_Lab\Util', get_class( $util_class ) );
 	}
 
 	/**
@@ -79,24 +98,5 @@ class Test_Plugin extends \WP_UnitTestCase {
 			),
 			$this->instance->get_template_locations( $name )
 		);
-	}
-
-	/**
-	 * Test set_util.
-	 *
-	 * @covers \Block_Lab\Abstract_Plugin:set_util()
-	 */
-	public function test_set_util() {
-		$plugin_instance = new Block_Lab\Plugin();
-		$plugin_instance->plugin_loaded();
-		$plugin_instance->set_util();
-
-		$reflection_plugin = new ReflectionObject( $this->instance );
-		$util_property     = $reflection_plugin->getProperty( 'util' );
-
-		$util_property->setAccessible( true );
-		$util_class = $util_property->getValue( $this->instance );
-
-		$this->assertEquals( 'Block_Lab\Util', get_class( $util_class ) );
 	}
 }

@@ -30,6 +30,7 @@ class Test_Image extends \WP_UnitTestCase {
 		parent::setUp();
 		$this->instance = new Controls\Image();
 	}
+
 	/**
 	 * Test __construct.
 	 *

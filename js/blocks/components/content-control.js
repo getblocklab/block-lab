@@ -1,13 +1,15 @@
-import FetchInput from './components/fetch-input';
+/**
+ * Internal dependencies
+ */
+import { FetchInput } from '../components';
 
 /**
  * Gets a content control, eg. a Post or Taxonomy control.
  *
  * @return {Function} A component for a control.
  */
-export default ( props, field, getNameFromAPI ) => {
-	const { setAttributes } = props;
-	const attr = { ...props.attributes };
+const ContentControl = ( props ) => {
+	const { field, getValue, getNameFromAPI, onChange } = props;
 	const DEFAULT_ID = 0;
 	const DEFAULT_NAME = '';
 
@@ -15,22 +17,22 @@ export default ( props, field, getNameFromAPI ) => {
 	 * Gets the ID from an API response.
 	 *
 	 * @param {Object} value The value in which to look for the ID.
-	 * @return {Number} The ID from the value, or 0.
+	 * @return {number} The ID from the value, or 0.
 	 */
 	const getIdfromAPI = apiResponse => ( apiResponse && apiResponse.id ) ? parseInt( apiResponse.id ) : DEFAULT_ID;
 
-	attr[ field.name ] = Object.assign( { id: DEFAULT_ID, name: DEFAULT_NAME }, attr[ field.name ] );
-	const valueAttribute = attr[ field.name ];
+	const initialValue = getValue( props );
+	const valueAttribute = { id: DEFAULT_ID, name: DEFAULT_NAME, ...initialValue };
 
 	return (
 		<FetchInput
-			field={field}
-			apiSlug={field.post_type_rest_slug}
-			value={valueAttribute['id']}
-			displayValue={valueAttribute['name']}
-			getValueFromAPI={getIdfromAPI}
-			getDisplayValueFromAPI={getNameFromAPI}
-			onChange={value => {
+			field={ field }
+			apiSlug={ field.post_type_rest_slug }
+			value={ valueAttribute['id'] }
+			displayValue={ valueAttribute['name'] }
+			getValueFromAPI={ getIdfromAPI }
+			getDisplayValueFromAPI={ getNameFromAPI }
+			onChange={ ( value ) => {
 				if ( 'string' === typeof value ) {
 					// The value is probably from the user typing into the <input>.
 					valueAttribute['name'] = value;
@@ -40,9 +42,11 @@ export default ( props, field, getNameFromAPI ) => {
 					valueAttribute['name'] = getNameFromAPI( value );
 					valueAttribute['id'] = getIdfromAPI( value );
 				}
-				attr[ field.name ] = valueAttribute;
-				setAttributes( attr );
-			}}
+
+				onChange( valueAttribute );
+			} }
 		/>
 	);
-}
+};
+
+export default ContentControl;
