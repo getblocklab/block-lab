@@ -71,8 +71,8 @@ import { Fields } from './';
 		return () => {
 			const { parentBlockProps } = this.props;
 			const attr = { ...parentBlockProps.attributes };
-			const attribute = attr[ parentName ];
 			const parentName = this.getParent();
+			const attribute = attr[ parentName ];
 			const repeaterRows = this.getRows( attribute );
 
 			if ( ! repeaterRows ) {
