@@ -10,7 +10,6 @@ import { FetchInput } from '../components';
  */
 const ContentControl = ( props ) => {
 	const { field, getValue, getNameFromAPI, onChange } = props;
-	const attr = { ...props.attributes };
 	const DEFAULT_ID = 0;
 	const DEFAULT_NAME = '';
 
@@ -23,7 +22,7 @@ const ContentControl = ( props ) => {
 	const getIdfromAPI = apiResponse => ( apiResponse && apiResponse.id ) ? parseInt( apiResponse.id ) : DEFAULT_ID;
 
 	const initialValue = getValue( props );
-	const valueAttribute = { id: DEFAULT_ID, userName: '', ...initialValue };
+	const valueAttribute = { id: DEFAULT_ID, name: DEFAULT_NAME, ...initialValue };
 
 	return (
 		<FetchInput
