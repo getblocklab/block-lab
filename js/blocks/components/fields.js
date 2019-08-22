@@ -61,8 +61,13 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 			const { field, parentBlockProps, rowIndex } = props;
 			const attr = { ...parentBlockProps.attributes };
 
-			// If the field has a parent, it's probably in a repeater row.
-			return ( field.parent && attr[ field.parent ][ rowIndex ] ) ? attr[ field.parent ][ rowIndex ][ field.name ] : attr[ field.name ];
+			if ( field.parent && attr[ field.parent ][ rowIndex ] ) {
+				// The field is probably in a repeater row, as it has a parent.
+				return attr[ field.parent ][ rowIndex ][ field.name ];
+			} else {
+				// The field is not in a repeater row.
+				return attr[ field.name ];
+			}
 		};
 
 		return (
