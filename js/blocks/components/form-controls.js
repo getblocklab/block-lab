@@ -12,14 +12,13 @@ import { Fields } from './';
  */
 const FormControls = ( { blockProps, block } ) => {
 	return (
-		<div key={ `${ block.name }-fields` } >
-			<Fields
-				fields={ block.fields }
-				parentBlockProps={ blockProps }
-				parentBlock={ blockProps }
-			/>
-		</div>
-	)
+		<Fields
+			key={ `${ block.name }-fields` }
+			fields={ block.fields }
+			parentBlockProps={ blockProps }
+			parentBlock={ blockProps }
+		/>
+	);
 };
 
 export default FormControls;
