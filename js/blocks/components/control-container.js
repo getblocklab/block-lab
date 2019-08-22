@@ -15,10 +15,6 @@ import controls from '../controls';
  * @return {Function} The control function.
  */
 const getControl = ( field ) => {
-	if ( field.hasOwnProperty( 'controlFunction' ) ) {
-		return field.controlFunction;
-	}
-
 	const loadedControls = applyFilters( 'block_lab_controls', controls );
 	return loadedControls[ field.control ];
 };

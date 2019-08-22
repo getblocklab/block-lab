@@ -26,7 +26,7 @@ const BlockLabInspector = ( { blockProps, block } ) => {
 		}
 
 		const loadedControls = applyFilters( 'block_lab_controls', controls );
-		const Control = field.controlFunction || loadedControls[ field.control ];
+		const Control = loadedControls[ field.control ];
 		if ( ! Control ) {
 			return null;
 		}
