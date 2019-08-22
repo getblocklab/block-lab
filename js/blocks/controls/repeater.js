@@ -13,11 +13,13 @@ const BlockLabRepeaterControl = ( props ) => {
 	const { field, getValue, onChange, parentBlock, parentBlockProps } = props;
 	const { attributes, setAttributes } = parentBlockProps;
 	const attr = { ...attributes };
-	const rows = getValue( props );
-
+	const value = attr[ field.name ];
 	const defaultRows = [ {} ];
-	if ( ! rows ) {
-		onChange( defaultRows );
+	const hasRows = value && value.hasOwnProperty( 'rows' );
+	const rows = hasRows ? value.rows : defaultRows;
+
+	if ( ! hasRows ) {
+		onChange( { rows: defaultRows } );
 	}
 	return (
 		<BaseControl className="block-lab-repeater" label={ field.label } help={ field.help }>
@@ -34,8 +36,8 @@ const BlockLabRepeaterControl = ( props ) => {
 					label={ __( 'Add new', 'block-lab' ) }
 					labelPosition="bottom"
 					onClick={ () => {
-						const newRows = rows || defaultRows;
-						attr[ field.name ] = newRows.concat( {} );
+						const withAddedRow = rows.concat( {} );
+						attr[ field.name ] = { rows: withAddedRow };
 						setAttributes( attr );
 					} }
 					disabled={ false }

@@ -125,7 +125,7 @@ function block_rows( $name ) {
 		$next_row = $current_row + 1;
 	}
 
-	if ( isset( $block_lab_attributes[ $name ][ $next_row ] ) ) {
+	if ( isset( $block_lab_attributes[ $name ]['rows'][ $next_row ] ) ) {
 		return true;
 	}
 
@@ -163,11 +163,11 @@ function block_sub_field( $name, $echo = true ) {
 	$control = null;
 
 	// Get the value from the block attributes, with the correct type.
-	if ( ! array_key_exists( $parent, $block_lab_attributes ) ) {
+	if ( ! array_key_exists( $parent, $block_lab_attributes ) || ! isset( $block_lab_attributes[ $parent ]['rows'] ) ) {
 		return;
 	}
 
-	$parent_attributes = $block_lab_attributes[ $parent ];
+	$parent_attributes = $block_lab_attributes[ $parent ]['rows'];
 	$row_attributes    = $parent_attributes[ $pointer ];
 
 	if ( ! array_key_exists( $name, $row_attributes ) ) {

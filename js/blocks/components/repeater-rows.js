@@ -30,6 +30,7 @@ import { Fields } from './';
 		this.getParent = this.getParent.bind( this );
 		this.removeRow = this.removeRow.bind( this );
 		this.move = this.move.bind( this );
+		this.getRows = this.getRows.bind( this );
 
 		this.repeaterRows = createRef();
 
@@ -70,8 +71,9 @@ import { Fields } from './';
 		return () => {
 			const { parentBlockProps } = this.props;
 			const attr = { ...parentBlockProps.attributes };
+			const attribute = attr[ parentName ];
 			const parentName = this.getParent();
-			const repeaterRows = attr[ parentName ];
+			const repeaterRows = this.getRows( attribute );
 
 			if ( ! repeaterRows ) {
 				return;
@@ -84,7 +86,7 @@ import { Fields } from './';
 			const rows = repeaterRows.slice();
 			rows.splice( index, 1 );
 
-			attr[ parentName ] = rows;
+			attr[ parentName ] = { rows };
 			parentBlockProps.setAttributes( attr );
 		};
 	}
@@ -119,7 +121,8 @@ import { Fields } from './';
 			const { parentBlockProps } = this.props;
 			const attr = { ...parentBlockProps.attributes };
 			const parentName = this.getParent();
-			const repeaterRows = attr[ parentName ];
+			const attribute = attr[ parentName ];
+			const repeaterRows = this.getRows( attribute );
 
 			/*
 			 * Calling slice() essentially creates a copy of repeaterRows.
@@ -147,11 +150,21 @@ import { Fields } from './';
 				)[0]
 			);
 
-			attr[ parentName ] = rows;
+			attr[ parentName ] = { rows };
 			parentBlockProps.setAttributes( attr );
 
 			scrollView();
 		};
+	}
+
+	/**
+	 * Gets the rows or a default.
+	 *
+	 * @param {Object} attribute The block attribute.
+	 * @return {Object} The rows.
+	 */
+	getRows( attribute ) {
+		return ( attribute[ 'rows' ] ) ? attribute[ 'rows' ] : [ {} ];
 	}
 
 	/**
