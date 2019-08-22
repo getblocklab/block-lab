@@ -1,5 +1,11 @@
 ## Changelog #
 
+### 1.3.6 – 2019-08-22 ###
+
+* New: 🔁 REPEATER FIELD 🔁
+* New: Conditional Blocks, based on Post Type
+* Tweaks: Just about everything! We did a lot of refactoring in this release to make things silky smooth and über-maintainable.
+
 ### 1.3.5 – 2019-08-18 ###
 
 * New: Block Lab will now enqueue a global stylesheet, so you can keep your common block styles in one place. [Read more](https://github.com/getblocklab/block-lab/pull/371)
