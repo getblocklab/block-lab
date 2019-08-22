@@ -12,9 +12,8 @@
 	<div class="dashboard_welcome tile">
 		<div class="tile_body">
 			<div>
-				<span><?php esc_html_e( 'Block Lab Pro', 'block-lab' ); ?></span>
-				<h1><?php esc_html_e( 'Early Access Pass', 'block-lab' ); ?></h1>
-				<p><?php esc_html_e( 'Lock in a lifetime discount and help kickstart Block Lab Pro.', 'block-lab' ); ?></p>
+				<h1>Block Lab <span class="pro-pill">Pro</span></h1>
+				<p class="description"><?php esc_html_e( 'A custom block building experience perfect for agencies and freelancers.', 'block-lab' ); ?></p>
 				<div class="cta_license_form_wrapper">
 					<form class="license_key_form" method="post" action="options.php">
 						<?php
@@ -25,11 +24,8 @@
 						<input class="button" type="submit" value="<?php esc_html_e( 'Activate', 'block-lab' ); ?>" />
 					</form>
 					<p class="license_key_text">or</p>
-					<a target="_blank" class="button button--white button_cta" href="https://getblocklab.com/block-lab-pro"><?php esc_html_e( 'Check out Early Access', 'block-lab' ); ?></a>
+					<a target="_blank" class="button button--secondary button_cta" href="https://getblocklab.com/block-lab-pro"><?php esc_html_e( 'Go Pro', 'block-lab' ); ?></a>
 				</div>
-			</div>
-			<div>
-				<img class="early_access_pass" src="https://getblocklab.com/wp-content/uploads/2019/02/block_lab_early_access_pass.png" alt="" />
 			</div>
 		</div>
 	</div>

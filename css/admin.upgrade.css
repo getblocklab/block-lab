@@ -63,11 +63,11 @@
 .block-lab-pro .button {
 	display: inline-block;
 	position: relative;
-	background-color: #7D5DEC;
+	background-color: #5c34e8;
 	padding: 10px 12px;
 	height: auto;
 	border-radius: 4px;
-	border: 2px solid #7D5DEC;
+	border: 2px solid #5c34e8;
 	color: #fff;
 	font-size: 13px;
 	text-decoration: none;
@@ -82,38 +82,39 @@
 }
 .block-lab-pro .button:hover {
 	color: #fff;
-	background-color: #6444d3;
-	border-color: #6444d3;
+	background-color: #5c34e8;
+	border-color: #5c34e8;
+	opacity: 0.9;
 }
 .block-lab-pro .button:nth-of-type( 2 ) {
 	margin-left: 10px;
 }
-.block-lab-pro .button--white {
-	background-color: #fff;
-	border-color: #fff;
-	color: #7D5DEC;
+.block-lab-pro .button--secondary {
+	background-color: #ff237e;
+	border-color: #ff237e;
+	color: #fff;
 }
-.block-lab-pro .button--white:active,
-.block-lab-pro .button--white:focus,
-.block-lab-pro .button--white:visited {
-	color: #7D5DEC;
+.block-lab-pro .button--secondary:active,
+.block-lab-pro .button--secondary:focus,
+.block-lab-pro .button--secondary:visited {
+	color: #ff237e;
 }
-.block-lab-pro .button--white:hover {
-	color: #7D5DEC;
-	background-color: #f4f4f4;
-	border-color: #f4f4f4;
+.block-lab-pro .button--secondary:hover {
+	background-color: #ff237e;
+	border-color: #ff237e;
+	opacity: 0.9;
 }
-.block-lab-pro .button--white-stroke {
+.block-lab-pro .button--secondary-stroke {
 	border-color: #fff;
 	background-color: transparent;
 }
-.block-lab-pro .button--white-stroke:active,
-.block-lab-pro .button--white-stroke:focus,
-.block-lab-pro .button--white-stroke:visited {
+.block-lab-pro .button--secondary-stroke:active,
+.block-lab-pro .button--secondary-stroke:focus,
+.block-lab-pro .button--secondary-stroke:visited {
 	color: #fff;
 }
-.block-lab-pro .button--white-stroke:hover {
-	color: #7D5DEC;
+.block-lab-pro .button--secondary-stroke:hover {
+	color: #5c34e8;
 	background-color: #fff;
 	border-color: #fff;
 }
@@ -134,11 +135,11 @@
 .block-lab-pro .dashboard_welcome {
 	grid-column-start: 1;
 	grid-column-end: 7;
-	background-color: #7D5DEC;
-	background-image: url('https://getblocklab.com/wp-content/uploads/2019/02/Block-Lab-Pro-Hero-Background-1.svg');
+	background-color: #fff;
+	background-image: url('http://getblocklab.com/wp-content/uploads/2019/08/block_lab_hero_bg.svg');
 	background-size: cover;
-	background-position: center;
-	color: #fff;
+	background-position: top;
+	color: #000;
 	padding: 32px;
 }
 .block-lab-pro .dashboard_welcome .notice p {
@@ -147,35 +148,39 @@
 	margin: 0.5em 0;
 	padding: 2px;
 }
-.block-lab-pro .dashboard_welcome span {
-	font-weight: 700;
-	text-transform: uppercase;
-	letter-spacing: 1px;
-	color: rgba( 250, 250, 250, 0.7 );
-}
 .block-lab-pro .dashboard_welcome h1 {
-	color: #fff;
+	color: #000;
 	font-weight: 700;
 	font-size: 52px;
 	line-height: 52px;
 	margin-top: 10px;
+	text-shadow: 0 0 10px rgba(255,255,255,0.6);
+}
+.block-lab-pro .dashboard_welcome h1 .pro-pill {
+	font-size: .6em;
+	line-height: 1.3;
+	color: #fff;
+	background-color: #5c34e8;
+	display: inline-block;
+	border-radius: 8px;
+	padding: 0 10px;
+	top: -5px;
+	position: relative;
+	box-shadow: 0 0 10px rgba(255,255,255,0.6);
+	text-shadow: none;
 }
 .block-lab-pro .dashboard_welcome .tile_body {
 	display: flex;
-	justify-content: center;
+	justify-content: left;
 	align-items: center;
 }
-.block-lab-pro .dashboard_welcome p {
+.block-lab-pro .dashboard_welcome p.description {
 	font-size: 18px;
 	margin-bottom: 30px;
-	max-width: 680px;
-}
-.block-lab-pro .early_access_pass {
-	width: 320px;
-	margin-top: -260px;
-	margin-bottom: -40px;
-	display: block;
-	margin-left: 60px;
+	max-width: 480px;
+	color: #000;
+	padding-top: 12px;
+	text-shadow: 0 0 6px #fff;
 }
 /* Tile sizing */
 .block-lab-pro .tile_2 {
@@ -218,12 +223,11 @@
 	display: flex;
 }
 .block-lab-pro input[type=email].input {
-	background-color: rgba( 21, 8, 89, 0.1 );
-	box-shadow: none;
+	background-color: #fff;
+	border: 1px solid rgba( 0, 0, 0, 0.1 );
 	border-radius: 3px;
-	padding: 11px 10px 10px;
+	padding: 9px 10px;
 	width: 100%;
-	border: none;
 }
 .block-lab-pro label.input_label {
 	display: none;
@@ -242,7 +246,7 @@
 }
 .block-lab-pro .license_key_form {
 	display: flex;
-	background-color: rgba( 255, 255, 255, 0.1 );
+	background-color: rgba( 0, 0, 0, 0.06 );
 	border-radius: 3px;
 	padding: 4px;
 }
@@ -259,7 +263,7 @@
 	width: 100%;
 	box-shadow: none;
 	border: none;
-	background-color: rgba( 255, 255, 255, 0.9 );
+	background-color: rgba( 255,255,255,1 );
 	margin-right: 4px;
 }
 @media ( max-width: 1200px ) {
@@ -279,10 +283,5 @@
 	}
 	.block-lab-pro .tile_body {
 		padding-top: 40px;
-	}
-}
-@media ( max-width: 960px ) {
-	.block-lab-pro .early_access_pass {
-		display: none;
 	}
 }
