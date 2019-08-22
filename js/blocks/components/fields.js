@@ -1,8 +1,24 @@
 /**
+ * WordPress dependencies
+ */
+const { applyFilters } = wp.hooks;
+
+/**
  * Internal dependencies
  */
 import simplifiedFields from '../loader/fields';
-import { ControlContainer } from './';
+import controls from '../controls';
+
+/**
+ * Gets the control function for the field.
+ *
+ * @param {Object} field The field to get the control function of.
+ * @return {Function} The control function.
+ */
+const getControl = ( field ) => {
+	const loadedControls = applyFilters( 'block_lab_controls', controls);
+	return loadedControls[ field.control ];
+};
 
 /**
  * Renders the fields, using their control functions.
@@ -15,6 +31,9 @@ import { ControlContainer } from './';
  */
 const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 	return simplifiedFields( fields ).map( ( field ) => {
+		if ( field.location && ! field.location.includes( 'editor' ) ) {
+			return null; // This is not meant for the editor.
+		}
 
 		/**
 		 * Handles a single control value changing.
@@ -72,15 +91,20 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 			}
 		};
 
+		const Control = getControl( field );
+		if ( ! Control ) {
+			return null;
+		}
+
 		return (
-			<ControlContainer
-				key={ field.name }
-				parentBlock={ parentBlock }
-				parentBlockProps={ parentBlockProps }
+			<Control
+				key={ `${ field.name }-control-${ rowIndex }` }
 				field={ field }
-				rowIndex={ rowIndex }
-				onChange={ onChange }
 				getValue={ getValue }
+				onChange={ onChange }
+				parentBlock={ parentBlock }
+				rowIndex={ rowIndex }
+				parentBlockProps={ parentBlockProps }
 			/>
 		);
 	} );
