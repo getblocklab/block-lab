@@ -224,4 +224,24 @@ class Util extends Component_Abstract {
 	public function get_post_type_slug() {
 		return $this->plugin->post_type_slug;
 	}
+
+	/**
+	 * Get a relative URL from a path.
+	 *
+	 * @param string $path The absolute path to a file.
+	 *
+	 * @return string
+	 */
+	public function get_url_from_path( $path ) {
+		$abspath = ABSPATH;
+
+		// Workaround for weird hosting situations.
+		if ( trailingslashit( ABSPATH ) . 'wp-content' !== WP_CONTENT_DIR && isset( $_SERVER['DOCUMENT_ROOT'] ) ) {
+			$abspath = sanitize_text_field( wp_unslash( $_SERVER['DOCUMENT_ROOT'] ) );
+		}
+
+		$stylesheet_url = str_replace( untrailingslashit( $abspath ), '', $path );
+
+		return $stylesheet_url;
+	}
 }

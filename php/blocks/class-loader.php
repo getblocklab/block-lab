@@ -373,7 +373,7 @@ class Loader extends Component_Abstract {
 		}
 
 		$stylesheet_path = block_lab()->locate_template( $locations );
-		$stylesheet_url  = str_replace( untrailingslashit( ABSPATH ), '', $stylesheet_path );
+		$stylesheet_url  = block_lab()->get_url_from_path( $stylesheet_path );
 
 		/**
 		 * Enqueue the stylesheet, if it exists. The wp_enqueue_style function handles duplicates, so we don't need
@@ -399,7 +399,7 @@ class Loader extends Component_Abstract {
 		);
 
 		$stylesheet_path = block_lab()->locate_template( $locations );
-		$stylesheet_url  = str_replace( untrailingslashit( ABSPATH ), '', $stylesheet_path );
+		$stylesheet_url  = block_lab()->get_url_from_path( $stylesheet_path );
 
 		/**
 		 * Enqueue the stylesheet, if it exists.
