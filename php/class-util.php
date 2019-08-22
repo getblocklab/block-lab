@@ -222,7 +222,7 @@ class Util extends Component_Abstract {
 	 * @return string The slug.
 	 */
 	public function get_post_type_slug() {
-		return $this->plugin->post_type_slug;
+		return $this->plugin->block_post->slug;
 	}
 
 	/**

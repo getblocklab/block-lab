@@ -24,7 +24,7 @@ class Block_Post extends Component_Abstract {
 	 *
 	 * @var string
 	 */
-	public $slug;
+	public $slug = 'block_lab';
 
 	/**
 	 * Registered controls.
@@ -45,13 +45,6 @@ class Block_Post extends Component_Abstract {
 		'taxonomy',
 		'user',
 	);
-
-	/**
-	 * Block Post constructor.
-	 */
-	public function __construct() {
-		$this->slug = block_lab()->get_post_type_slug();
-	}
 
 	/**
 	 * Register any hooks that this component needs.
