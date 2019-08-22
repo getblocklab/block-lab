@@ -163,17 +163,21 @@ function block_sub_field( $name, $echo = true ) {
 	$control = null;
 
 	// Get the value from the block attributes, with the correct type.
-	if ( array_key_exists( $parent, $block_lab_attributes ) ) {
-		$parent_attributes = $block_lab_attributes[ $parent ];
-		$row_attributes    = $parent_attributes[ $pointer ];
-
-		if ( array_key_exists( $name, $row_attributes ) ) {
-			$field   = $block_lab_config->fields[ $parent ]->settings['sub_fields'][ $name ];
-			$control = $field->control;
-			$value   = $row_attributes[ $name ];
-			$value   = $field->cast_value( $value );
-		}
+	if ( ! array_key_exists( $parent, $block_lab_attributes ) ) {
+		return;
 	}
+
+	$parent_attributes = $block_lab_attributes[ $parent ];
+	$row_attributes    = $parent_attributes[ $pointer ];
+
+	if ( ! array_key_exists( $name, $row_attributes ) ) {
+		return;
+	}
+
+	$field   = $block_lab_config->fields[ $parent ]->settings['sub_fields'][ $name ];
+	$control = $field->control;
+	$value   = $row_attributes[ $name ];
+	$value   = $field->cast_value( $value );
 
 	/**
 	 * Filters the value to be made available or echoed on the front-end template.
