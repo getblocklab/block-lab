@@ -41,16 +41,15 @@ const ControlContainer = ( { parentBlock, parentBlockProps, field, rowIndex, onC
 	}
 
 	return (
-		<div key={ `${ field.name }-control-${ rowIndex }` }>
-			<Control
-				field={ field }
-				getValue={ getValue }
-				onChange={ onChange }
-				parentBlock={ parentBlock }
-				rowIndex={ rowIndex }
-				parentBlockProps={ parentBlockProps }
-			/>
-		</div>
+		<Control
+			key={ `${ field.name }-control-${ rowIndex }` }
+			field={ field }
+			getValue={ getValue }
+			onChange={ onChange }
+			parentBlock={ parentBlock }
+			rowIndex={ rowIndex }
+			parentBlockProps={ parentBlockProps }
+		/>
 	);
 };
 

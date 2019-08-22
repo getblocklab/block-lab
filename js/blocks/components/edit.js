@@ -15,7 +15,7 @@ import icons from '../../../assets/icons.json';
  *
  * @param {Object} blockProps The block's props.
  * @param {Object} block The block.
- * @return {Function|null} The Edit function for the block.
+ * @return {Function} The Edit function for the block.
  */
 const Edit = ( { blockProps, block } ) => {
 	const { attributes, className, isSelected } = blockProps;

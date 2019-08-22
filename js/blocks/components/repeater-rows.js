@@ -14,13 +14,13 @@ import { Fields } from './';
 /**
  * Gets the repeater rows.
  *
- * @param {Array}  rows   The repeater rows to render.
- * @param {Array}  fields The fields to render.
- * @param {Object} parentBlockProps  The props to pass to the control function.
- * @param {Object} parentBlock  The block where the fields are.
+ * @param {Array} rows The repeater rows to render.
+ * @param {Array} fields The fields to render.
+ * @param {Object} parentBlockProps The props to pass to the control function.
+ * @param {Object} parentBlock The block where the fields are.
  * @return {Array} fields The rendered fields.
  */
- export default class RepeaterRows extends Component {
+ class RepeaterRows extends Component {
 
 	/**
 	 * Constructs the component class.
@@ -98,11 +98,11 @@ import { Fields } from './';
 	move( from, to ) {
 		const scrollView = () => {
 			// Scroll the view.
-			const scrollContainer = getScrollContainer( this.repeaterRows.current ),
-				rowRefs         = this.repeaterRows.current.querySelectorAll( '.block-lab-repeater--row' ),
-				rowRefFrom      = rowRefs[ from ],
-				rowRefTo        = rowRefs[ to ],
-				scrollTop       = scrollContainer.scrollTop + ( rowRefTo.offsetTop - rowRefFrom.offsetTop );
+			const scrollContainer = getScrollContainer( this.repeaterRows.current );
+			const rowRefs = this.repeaterRows.current.querySelectorAll( '.block-lab-repeater--row' );
+			const rowRefFrom = rowRefs[ from ];
+			const rowRefTo = rowRefs[ to ];
+			const scrollTop = scrollContainer.scrollTop + ( rowRefTo.offsetTop - rowRefFrom.offsetTop );
 
 			rowRefTo.classList.add( 'row-to' );
 			rowRefFrom.classList.add( 'row-from' );
@@ -112,7 +112,7 @@ import { Fields } from './';
 				rowRefFrom.classList.remove( 'row-from' );
 			}, 1000 )
 
-			scrollContainer.scroll( {top: scrollTop, behavior: 'smooth' } );
+			scrollContainer.scroll( { top: scrollTop, behavior: 'smooth' } );
 		}
 
 		return () => {
@@ -212,3 +212,5 @@ import { Fields } from './';
 		);
 	}
 };
+
+export default RepeaterRows;

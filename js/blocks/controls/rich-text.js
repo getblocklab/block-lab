@@ -5,7 +5,11 @@ const BlockLabRichTextControl = ( props ) => {
 	const { field, getValue, onChange } = props
 
 	return (
-		<BaseControl label={ field.label } className="block-lab-rich-text-control " help={ field.help }>
+		<BaseControl
+			label={ field.label }
+			className="block-lab-rich-text-control"
+			help={ field.help }
+		>
 			{
 			/*
 			* @todo: Resolve known issue with toolbar not disappearing on blur
