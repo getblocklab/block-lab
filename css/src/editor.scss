@@ -187,6 +187,7 @@ div[class^="wp-block-block-lab-"] {
         margin-bottom: 0;
         padding: 10px 14px 0;
         position: relative;
+        transition: background 1s ease-in-out;
 
         &:first-child {
           border-top: 1px dashed $dark-gray-150;
@@ -253,9 +254,20 @@ div[class^="wp-block-block-lab-"] {
               color: $dark-gray-600;
             }
           }
-      }
+        }
 
-        &:hover {
+        &.row-to {
+          transition: background 0.2s ease-in-out;
+          background: #fef8ee;
+        }
+
+        &.row-from {
+          transition: none;
+          background: transparent;
+        }
+
+        &:hover:not(.row-from),
+        &.row-to {
           .block-lab-repeater--row-actions {
             display: block;
             background: #fff;
@@ -280,6 +292,15 @@ div[class^="wp-block-block-lab-"] {
           .block-lab-repeater--row-delete {
             display: block;
           }
+        }
+
+        &:before {
+          content: '';
+          width: 29px;
+          height: 100%;
+          position: absolute;
+          left: -30px;
+          top: 0;
         }
       }
     }

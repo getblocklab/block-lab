@@ -2,8 +2,9 @@
  * WordPress dependencies
  */
 const { BaseControl, IconButton } = wp.components;
-const { Component, Fragment } = wp.element;
+const { Component, Fragment, createRef } = wp.element;
 const { __ } = wp.i18n;
+const { getScrollContainer } = wp.dom;
 
 /**
  * Internal dependencies
@@ -29,6 +30,8 @@ import { Fields } from './';
 		this.getParent = this.getParent.bind( this );
 		this.removeRow = this.removeRow.bind( this );
 		this.move = this.move.bind( this );
+
+		this.repeaterRows = createRef();
 
 		this.state = {
 			activeRow: 0,
@@ -93,6 +96,25 @@ import { Fields } from './';
 	 * @param {number} to   The index of the row to move to.
 	 */
 	move( from, to ) {
+		const scrollView = () => {
+			// Scroll the view.
+			const scrollContainer = getScrollContainer( this.repeaterRows.current ),
+				rowRefs         = this.repeaterRows.current.querySelectorAll( '.block-lab-repeater--row' ),
+				rowRefFrom      = rowRefs[ from ],
+				rowRefTo        = rowRefs[ to ],
+				scrollTop       = scrollContainer.scrollTop + ( rowRefTo.offsetTop - rowRefFrom.offsetTop );
+
+			rowRefTo.classList.add( 'row-to' );
+			rowRefFrom.classList.add( 'row-from' );
+
+			setTimeout( () => {
+				rowRefTo.classList.remove( 'row-to' );
+				rowRefFrom.classList.remove( 'row-from' );
+			}, 1000 )
+
+			scrollContainer.scroll( {top: scrollTop, behavior: 'smooth' } );
+		}
+
 		return () => {
 			const { parentBlockProps } = this.props;
 			const attr = { ...parentBlockProps.attributes };
@@ -127,6 +149,8 @@ import { Fields } from './';
 
 			attr[ parentName ] = rows;
 			parentBlockProps.setAttributes( attr );
+
+			scrollView();
 		};
 	}
 
@@ -138,7 +162,7 @@ import { Fields } from './';
 
 		return (
 			<Fragment>
-				<div className="block-lab-repeater__rows">
+				<div className="block-lab-repeater__rows" ref={this.repeaterRows}>
 					{
 						rows && rows.map( ( row, rowIndex ) => {
 							const activeClass = this.state.activeRow === parseInt( rowIndex ) ? 'active' : ''; // @todo: Make this dynamic.
