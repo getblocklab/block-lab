@@ -29,11 +29,12 @@ class Plugin extends Plugin_Abstract {
 	public $admin;
 
 	/**
-	 * Post types registered by this plugin.
+	 * The slug of the post type that stores the blocks.
 	 *
-	 * @var Post_Types\Block_Post
+	 * @since 1.3.5
+	 * @var string
 	 */
-	public $block_post;
+	public $post_type_slug = 'block_lab';
 
 	/**
 	 * Execute this as early as possible.
@@ -42,9 +43,7 @@ class Plugin extends Plugin_Abstract {
 		$this->util = new Util();
 		$this->register_component( $this->util );
 
-		$this->block_post = new Post_Types\Block_Post();
-		$this->register_component( $this->block_post );
-
+		$this->register_component( new Post_Types\Block_Post() );
 		$this->register_component( new Blocks\Loader() );
 
 		register_activation_hook(
