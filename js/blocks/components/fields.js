@@ -30,7 +30,12 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 			const attr = { ...parentBlockProps.attributes };
 			const { setAttributes } = parentBlockProps;
 
-			if ( undefined !== rowIndex ) { // If this is in a repeater row.
+			if ( undefined === rowIndex ) {
+ 				// This is not in a repeater row.
+				attr[ field.name ] = newValue;
+				setAttributes( attr );
+			} else {
+ 				// This is in a repeater row.
 				const rows = attr[ field.parent ] || [ {} ];
 
 				/*
@@ -44,9 +49,6 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 				rowsCopy[ rowIndex ][ field.name ] = newValue;
 				attr[ field.parent ] = rowsCopy;
 				parentBlockProps.setAttributes( attr );
-			} else { // If this is not in a repeater row.
-				attr[ field.name ] = newValue;
-				setAttributes( attr );
 			}
 		};
 
