@@ -844,14 +844,14 @@ class Block_Post extends Component_Abstract {
 				echo wp_kses_post(
 					sprintf(
 						'<a href="%1$s" target="_blank">%2$s</a> | ',
-						'https://github.com/getblocklab/block-lab/wiki/3.-Displaying-custom-blocks',
+						'https://getblocklab.com/docs/get-started/add-a-block-lab-block-to-your-website-content/',
 						esc_html__( 'Block Templates', 'block-lab' )
 					)
 				);
 				echo wp_kses_post(
 					sprintf(
 						'<a href="%1$s" target="_blank">%2$s</a>',
-						'https://github.com/getblocklab/block-lab/wiki/4.-Template-Functions',
+						'https://getblocklab.com/docs/functions/',
 						esc_html__( 'Template Functions', 'block-lab' )
 					)
 				);

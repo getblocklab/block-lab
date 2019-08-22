@@ -38,7 +38,7 @@
 
 ### 1.3.1 - 2019-05-22 ###
 
-* New: Support for Gutenberg's built-in Additional CSS Class in your block template, by using the field `className`. [Read more](https://github.com/getblocklab/block-lab/wiki/7.-FAQ)
+* New: Support for Gutenberg's built-in Additional CSS Class in your block template, by using the field `className`. [Read more](https://getblocklab.com/docs/faqs/)
 * New: The Textarea field now has an option to automatically add paragraph tags and line-breaks
 * Fix: Bug affecting blocks containing Pro fields when there's no active Pro license
 
@@ -70,7 +70,7 @@ If you are using the `block_value()` function with an image field and externally
 
 ### 1.2.1 - 2019-03-21 ###
 
-* New: Automatic stylesheet enqueuing. Now you can create custom stylesheets for individual blocks! [Read more here](https://github.com/getblocklab/block-lab/wiki/5.-Styling-Custom-Blocks).
+* New: Automatic stylesheet enqueuing. Now you can create custom stylesheets for individual blocks! [Read more here](https://getblocklab.com/docs/get-started/style-block-lab-custom-blocks/).
 * New: A User control type (for Block Lab Pro users)
 * Fix: Various multiselect bug fixes, allowing for empty values in the multiselect control
 
