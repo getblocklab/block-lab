@@ -47,7 +47,9 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 		 */
 		const onChange = ( newValue ) => {
 			const attr = { ...parentBlockProps.attributes };
+			const attribute = attr[ field.parent ];
 			const { setAttributes } = parentBlockProps;
+			const defaultRows = [ {} ];
 
 			if ( undefined === rowIndex ) {
  				// This is not in a repeater row.
@@ -55,7 +57,7 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 				setAttributes( attr );
 			} else {
  				// This is in a repeater row.
-				const rows = attr[ field.parent ] || [ {} ];
+				const rows = ( attribute && attribute[ 'rows' ] ) ? attribute[ 'rows' ] : defaultRows;
 
 				/*
 				 * Copy the rows array, so the change is recognized.
@@ -66,7 +68,7 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 					rowsCopy[ rowIndex ] = {};
 				}
 				rowsCopy[ rowIndex ][ field.name ] = newValue;
-				attr[ field.parent ] = rowsCopy;
+				attr[ field.parent ] = { rows: rowsCopy };
 				parentBlockProps.setAttributes( attr );
 			}
 		};
@@ -82,9 +84,9 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 			const { field, parentBlockProps, rowIndex } = props;
 			const attr = { ...parentBlockProps.attributes };
 
-			if ( field.parent && attr[ field.parent ][ rowIndex ] ) {
+			if ( field.parent && attr[ field.parent ] && attr[ field.parent ]['rows'] ) {
 				// The field is probably in a repeater row, as it has a parent.
-				return attr[ field.parent ][ rowIndex ][ field.name ];
+				return attr[ field.parent ][ 'rows' ][ rowIndex ][ field.name ];
 			} else {
 				// The field is not in a repeater row.
 				return attr[ field.name ];

@@ -227,12 +227,6 @@ class Loader extends Component_Abstract {
 
 		foreach ( $block->fields as $field_name => $field ) {
 			$attributes = $this->get_attributes_from_field( $attributes, $field_name, $field );
-
-			if ( ! empty( $field->settings['sub_fields'] ) ) {
-				foreach ( $field->settings['sub_fields'] as $sub_field_name => $sub_field ) {
-					$attributes = $this->get_attributes_from_field( $attributes, $sub_field_name, $sub_field );
-				}
-			}
 		}
 
 		/**
@@ -307,6 +301,19 @@ class Loader extends Component_Abstract {
 			foreach ( $missing_schema_attributes as $attribute_name => $schema ) {
 				if ( isset( $schema->settings['default'] ) ) {
 					$attributes[ $attribute_name ] = $schema->settings['default'];
+				}
+			}
+
+			// Similar to the logic above, populate the Repeater control's sub-fields with default values.
+			foreach ( $block->fields as $field ) {
+				if ( isset( $field->settings['sub_fields'] ) ) {
+					$existing_sub_fields           = isset( $attributes[ $field->name ]['rows'][0] ) ? $attributes[ $field->name ]['rows'][0] : array();
+					$missing_sub_schema_attributes = array_diff_key( $field->settings['sub_fields'], $existing_sub_fields );
+					foreach ( $missing_sub_schema_attributes as $sub_field_name => $sub_schema ) {
+						if ( isset( $sub_schema->settings['default'] ) ) {
+							$attributes[ $field->name ]['rows'][0][ $sub_field_name ] = $sub_schema->settings['default'];
+						}
+					}
 				}
 			}
 

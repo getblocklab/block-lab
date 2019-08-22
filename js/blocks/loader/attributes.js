@@ -25,13 +25,6 @@ const getBlockAttributes = ( fields ) => {
 		if ( field.default ) {
 			attributes[ fieldName ].default = field.default;
 		}
-
-		// Account for 'sub_fields' in the Repeater control.
-		if ( field.hasOwnProperty( 'sub_fields' ) ) {
-			let subFields = getBlockAttributes( field.sub_fields );
-			attributes = { ...attributes, ...subFields };
-		}
-
 	}
 
 	return attributes;

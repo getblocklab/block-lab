@@ -160,18 +160,12 @@ class Test_Loader extends Abstract_Template {
 			'className'    => array(
 				'type' => 'string',
 			),
-			$text_name     => array(
-				'type'    => $text_type,
-				'default' => $text_default,
-			),
 			$taxonomy_name => array(
 				'type' => $taxonomy_type,
 			),
-			$image_name    => array(
-				'type'    => $image_type,
-				'default' => $image_default,
-			),
 		);
+
+		// Repeater sub-fields should not be returned, as they're not added as block attributes.
 		$actual_attributes   = $this->instance->get_block_attributes( $block );
 		$this->assertEquals( $expected_attributes, $actual_attributes );
 	}
