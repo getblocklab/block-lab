@@ -55,8 +55,8 @@
 			<div class="tile_icon_wrapper" style="background-image: url('https://getblocklab.com/wp-content/uploads/2019/02/block_lab_admin_icon_support.svg');"></div>
 		</div>
 		<div class="tile_body">
-			<h4 class="align_center"><?php esc_html_e( 'Support & Updates', 'block-lab' ); ?></h4>
-			<p class="align_center"><?php esc_html_e( 'Priority support and regular feature and fix updates.', 'block-lab' ); ?></p>
+			<h4 class="align_center"><?php esc_html_e( 'Pro Support', 'block-lab' ); ?></h4>
+			<p class="align_center"><?php esc_html_e( 'Priority support and regular feature updates. We’re right here for you whenever you have a question.', 'block-lab' ); ?></p>
 		</div>
 	</div>
 	<!-- Dashboard Tile -->
