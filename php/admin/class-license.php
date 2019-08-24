@@ -114,8 +114,6 @@ class License extends Component_Abstract {
 	 * Try to activate the license.
 	 *
 	 * @param string $key The license key to activate.
-	 *
-	 * @return bool
 	 */
 	public function activate_license( $key ) {
 		// Data to send in our API request.
