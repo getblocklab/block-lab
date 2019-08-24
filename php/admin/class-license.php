@@ -130,7 +130,7 @@ class License extends Component_Abstract {
 		$response = wp_remote_post(
 			$this->store_url,
 			array(
-				'timeout'   => 15,
+				'timeout'   => 10,
 				'sslverify' => true,
 				'body'      => $api_params,
 			)
