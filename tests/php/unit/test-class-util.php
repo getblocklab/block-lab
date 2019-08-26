@@ -69,6 +69,18 @@ class Test_Util extends Abstract_Template {
 	}
 
 	/**
+	 * Test loop.
+	 *
+	 * @covers \Block_Lab\Util::loop()
+	 */
+	public function test_loop() {
+		$this->assertEquals( 'Block_Lab\\Blocks\Loop', get_class( $this->instance->loop() ) );
+
+		// Calling this singleton function repeatedly should return the same instance of the Loop.
+		$this->assertEquals( $this->instance->loop(), $this->instance->loop() );
+	}
+
+	/**
 	 * Test get_template_locations.
 	 *
 	 * @covers \Block_Lab\Util::get_template_locations()
