@@ -209,7 +209,7 @@ class Test_Settings extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Admin\Settings::prepare_notice()
 	 */
 	public function test_prepare_notice() {
-		$notice      = 'There was a problem activating your Block Lab license.';
+		$notice = 'There was a problem activating your Block Lab license.';
 		$this->instance->prepare_notice( $notice );
 
 		$this->assertEquals( array( $notice ), get_option( self::NOTICES_OPTION_NAME ) );

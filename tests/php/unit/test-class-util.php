@@ -89,9 +89,9 @@ class Test_Util extends Abstract_Template {
 		$name = 'foo-baz';
 		$this->assertEquals(
 			array(
-				"blocks/foo-baz/block.php",
-				"blocks/block-foo-baz.php",
-				"blocks/block.php",
+				'blocks/foo-baz/block.php',
+				'blocks/block-foo-baz.php',
+				'blocks/block.php',
 			),
 			$this->instance->get_template_locations( $name )
 		);
@@ -100,9 +100,9 @@ class Test_Util extends Abstract_Template {
 		$type = 'another-type';
 		$this->assertEquals(
 			array(
-				"blocks/example/another-type.php",
-				"blocks/another-type-example.php",
-				"blocks/another-type.php",
+				'blocks/example/another-type.php',
+				'blocks/another-type-example.php',
+				'blocks/another-type.php',
 			),
 			$this->instance->get_template_locations( $name, $type )
 		);
@@ -117,9 +117,9 @@ class Test_Util extends Abstract_Template {
 		$name = 'foo-baz';
 		$this->assertEquals(
 			array(
-				"blocks/foo-baz/block.css",
-				"blocks/css/block-foo-baz.css",
-				"blocks/block-foo-baz.css",
+				'blocks/foo-baz/block.css',
+				'blocks/css/block-foo-baz.css',
+				'blocks/block-foo-baz.css',
 			),
 			$this->instance->get_stylesheet_locations( $name )
 		);
@@ -128,9 +128,9 @@ class Test_Util extends Abstract_Template {
 		$type = 'another-type';
 		$this->assertEquals(
 			array(
-				"blocks/example/another-type.css",
-				"blocks/css/another-type-example.css",
-				"blocks/another-type-example.css",
+				'blocks/example/another-type.css',
+				'blocks/css/another-type-example.css',
+				'blocks/another-type-example.css',
 			),
 			$this->instance->get_stylesheet_locations( $name, $type )
 		);
@@ -159,7 +159,7 @@ class Test_Util extends Abstract_Template {
 			$this->assertEquals( $template_location, $this->instance->locate_template( $templates ) );
 
 			// When passing a second argument of a path that doesn't exist, the result should be the same.
-			$this->assertEquals( $template_location, $this->instance->locate_template( $templates, $non_existent_alternate_path ));
+			$this->assertEquals( $template_location, $this->instance->locate_template( $templates, $non_existent_alternate_path ) );
 
 			// With the $single argument of false, this should return an array() that contains this $template_location.
 			$this->assertTrue( in_array( $template_location, $this->instance->locate_template( $templates, '', false ), true ) );
@@ -216,7 +216,7 @@ class Test_Util extends Abstract_Template {
 
 		add_filter(
 			'block_lab_icons',
-			function( $icons ) use( $additional_icon, $icon_name ) {
+			function( $icons ) use ( $additional_icon, $icon_name ) {
 				$icons[ $icon_name ] = $additional_icon;
 				return $icons;
 			}
@@ -293,7 +293,7 @@ class Test_Util extends Abstract_Template {
 	 */
 	public function test_get_url_from_path() {
 		$subdirectory_path = 'wp-content/theme/blocks/test-block-here.css';
-		$path = ABSPATH . $subdirectory_path;
+		$path              = ABSPATH . $subdirectory_path;
 		$this->assertEquals( '/' . $subdirectory_path, $this->instance->get_url_from_path( $path ) );
 	}
 }

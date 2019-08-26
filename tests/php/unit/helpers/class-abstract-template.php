@@ -89,8 +89,6 @@ abstract class Abstract_Template extends \WP_UnitTestCase {
 
 	/**
 	 * Gets the directories that block templates and CSS files could be in.
-	 *
-	 * @return array
 	 */
 	public function create_block_template_directories() {
 		array_map(
@@ -122,7 +120,7 @@ abstract class Abstract_Template extends \WP_UnitTestCase {
 	/**
 	 * Creates a directory, and stores the directory in order to later remove it in tearDown().
 	 *
-	 * @param string $directory The directory to creat.
+	 * @param string $directory The directory to create.
 	 */
 	public function mkdir( $directory ) {
 		if ( ! is_dir( $directory ) ) {
@@ -138,7 +136,7 @@ abstract class Abstract_Template extends \WP_UnitTestCase {
 	 * @param string $contents The contents of the file.
 	 */
 	public function file_put_contents( $file, $contents ) {
-		file_put_contents( $file, $contents );
+		file_put_contents( $file, $contents ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents
 		array_push( $this->files_created, $file );
 	}
 }

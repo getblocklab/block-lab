@@ -2,7 +2,7 @@
 /**
  * Test_Template_Output
  *
- * @package Template_Output
+ * @package Block_Lab
  */
 
 use Block_Lab\Post_Types;
@@ -30,7 +30,7 @@ class Test_Template_Output extends \WP_UnitTestCase {
 	public $string_fields;
 
 	/**
-	 * All fields that don't return a string for block_value(), other than the repeater.
+	 * All fields that return either an object or ID for block_value().
 	 *
 	 * @var array
 	 */
@@ -301,7 +301,7 @@ class Test_Template_Output extends \WP_UnitTestCase {
 	 *
 	 * Every field except the Repeater is tested.
 	 * This sets mock block attributes, like those that would be saved from a block.
-	 * Then, it looks for the mock template in the theme directory's blocks/ directory,
+	 * Then, it loads the mock template in the theme's blocks/ directory,
 	 * and ensures that all of these fields appear correctly in it.
 	 */
 	public function test_block_template() {

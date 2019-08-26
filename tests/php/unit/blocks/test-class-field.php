@@ -39,10 +39,10 @@ class Test_Field extends \WP_UnitTestCase {
 					'control' => 'text',
 					'type'    => 'string',
 					'order'   => 0,
-					'parent'  => 'foo'
-				)
-			)
-		)
+					'parent'  => 'foo',
+				),
+			),
+		),
 	);
 
 	/**

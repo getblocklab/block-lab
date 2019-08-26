@@ -1,4 +1,3 @@
-
 /**
  * WordPress dependencies
  */
@@ -56,6 +55,6 @@ const registerBlocks = () => {
 			},
 		} )
 	}
-}
+};
 
 export default registerBlocks();

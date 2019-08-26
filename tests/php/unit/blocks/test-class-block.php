@@ -101,9 +101,9 @@ class Test_Block extends \WP_UnitTestCase {
 
 		$post = $this->factory()->post->create(
 			array(
-				'post_title'   => 'Simple Test Block',
-				'post_name'    => 'simple-test-block',
-				'post_type'    => 'block_lab',
+				'post_title' => 'Simple Test Block',
+				'post_name'  => 'simple-test-block',
+				'post_type'  => 'block_lab',
 			)
 		);
 
@@ -127,7 +127,7 @@ class Test_Block extends \WP_UnitTestCase {
 	public function test_from_json() {
 		$this->instance->from_json( self::JSON );
 
-		// Check all the base attributes
+		// Check all the base attributes.
 		$this->assertEquals( 'Simple Test Block', $this->instance->title );
 		$this->assertEquals( 'block_lab', $this->instance->icon );
 		$this->assertEquals(
@@ -140,13 +140,13 @@ class Test_Block extends \WP_UnitTestCase {
 		);
 		$this->assertEquals( array( 'keywords', 'go', 'here' ), $this->instance->keywords );
 
-		// Check that we've got three fields
+		// Check that we've got three fields.
 		$this->assertCount( 3, $this->instance->fields );
 		$this->assertArrayHasKey( 'heading', $this->instance->fields );
 		$this->assertArrayHasKey( 'content', $this->instance->fields );
 		$this->assertArrayHasKey( 'parent', $this->instance->fields );
 
-		// Check that the repeater works as expected
+		// Check that the repeater works as expected.
 		$this->assertAttributeNotEmpty( 'settings', $this->instance->fields['parent'] );
 		$this->assertArrayHasKey( 'sub_fields', $this->instance->fields['parent']->settings );
 		$this->assertArrayHasKey( 'child', $this->instance->fields['parent']->settings['sub_fields'] );
@@ -168,7 +168,7 @@ class Test_Block extends \WP_UnitTestCase {
 		$decoded = json_decode( $json, true );
 		$this->assertArrayHasKey( 'block-lab/simple-test-block', $decoded );
 
-		// Check all the base attributes
+		// Check all the base attributes.
 		$block = $decoded['block-lab/simple-test-block'];
 		$this->assertArrayHasKey( 'name', $block );
 		$this->assertArrayHasKey( 'title', $block );
@@ -177,13 +177,13 @@ class Test_Block extends \WP_UnitTestCase {
 		$this->assertArrayHasKey( 'keywords', $block );
 		$this->assertArrayHasKey( 'fields', $block );
 
-		// Check that we've got three fields
+		// Check that we've got three fields.
 		$this->assertCount( 3, $block['fields'] );
 		$this->assertArrayHasKey( 'heading', $block['fields'] );
 		$this->assertArrayHasKey( 'content', $block['fields'] );
 		$this->assertArrayHasKey( 'parent', $block['fields'] );
 
-		// Check that the repeater works as expected
+		// Check that the repeater works as expected.
 		$this->assertArrayHasKey( 'sub_fields', $block['fields']['parent'] );
 		$this->assertArrayHasKey( 'child', $block['fields']['parent']['sub_fields'] );
 		$this->assertArrayHasKey( 'name', $block['fields']['parent']['sub_fields']['child'] );

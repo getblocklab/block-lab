@@ -4,6 +4,10 @@
 
     <rule ref="WordPress" />
 
+    <rule ref="WordPress.Files.FileName.InvalidClassFileName">
+        <exclude-pattern>tests/*</exclude-pattern>
+    </rule>
+
     <config name="testVersion" value="5.4-"/>
 
     <arg value="s"/>

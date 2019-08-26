@@ -2,7 +2,7 @@
  * Gets the attributes for a block, based on given fields.
  *
  * @param {Object} fields     The fields to get the attributes from.
- * @return {Array} attributes The attributes for the fields.
+ * @return {Object} attributes The attributes for the fields.
  */
 const getBlockAttributes = ( fields ) => {
 

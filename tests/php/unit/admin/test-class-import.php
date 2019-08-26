@@ -81,7 +81,7 @@ class Test_Import extends \WP_UnitTestCase {
 			array(
 				'Block Lab',
 				'Import custom blocks created with Block Lab.',
-				array( $this->instance, 'render_page' )
+				array( $this->instance, 'render_page' ),
 			),
 			$wp_importers[ $this->instance->slug ]
 		);
@@ -162,16 +162,19 @@ class Test_Import extends \WP_UnitTestCase {
 			)
 		);
 		$_FILES['import'] = $files_import;
-		add_filter( 'wp_handle_upload', function( $upload ) use ( $file ) {
-			unset( $upload );
-			return array_merge(
-				$file,
-				array(
-					'url'  => 'https://example.com/foo',
-					'type' => 'text/plain',
-				)
-			);
-		} );
+		add_filter(
+			'wp_handle_upload',
+			function( $upload ) use ( $file ) {
+				unset( $upload );
+				return array_merge(
+					$file,
+					array(
+						'url'  => 'https://example.com/foo',
+						'type' => 'text/plain',
+					)
+				);
+			}
+		);
 
 		Monkey\Functions\expect( 'filter_input' )
 			->twice()
@@ -222,16 +225,18 @@ class Test_Import extends \WP_UnitTestCase {
 		$_FILES['import'] = $files_import;
 
 		remove_all_filters( 'wp_handle_upload' );
-		add_filter( 'wp_handle_upload', function( $upload ) use ( $file ) {
-			unset( $upload );
-			return array_merge(
-				$file,
-				array(
-					'url'  => 'https://example.com/foo',
-					'type' => 'text/plain',
-				)
-			);
-		} );
+		add_filter(
+			'wp_handle_upload',
+			function() use ( $file ) {
+				return array_merge(
+					$file,
+					array(
+						'url'  => 'https://example.com/foo',
+						'type' => 'text/plain',
+					)
+				);
+			}
+		);
 
 		Monkey\Functions\expect( 'is_uploaded_file' )
 			->once()
@@ -347,7 +352,7 @@ class Test_Import extends \WP_UnitTestCase {
 		$nonexistent_file = 'does-not-exist.xml';
 
 		ob_start();
-		$this->assertFalse( $this->instance->validate_upload( array( 'file' => $nonexistent_file) ) );
+		$this->assertFalse( $this->instance->validate_upload( array( 'file' => $nonexistent_file ) ) );
 		$output = ob_get_clean();
 
 		// If the file doesn't exist, this should have a message that reflects that.

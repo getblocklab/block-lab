@@ -60,8 +60,8 @@ class Test_Loop extends \WP_UnitTestCase {
 		$this->assertFalse( $this->instance->get_row( 'random-row-name' ) );
 
 		// When the row has a pointer, this should return it.
-		$row_name = 'example-row-name';
-		$pointer  = 2;
+		$row_name                           = 'example-row-name';
+		$pointer                            = 2;
 		$this->instance->loops[ $row_name ] = $pointer;
 		$this->assertEquals( $pointer, $this->instance->get_row( $row_name ) );
 
@@ -99,15 +99,15 @@ class Test_Loop extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Loop::reset()
 	 */
 	public function test_reset() {
-		$row_name = 'example-row-name';
-		$pointer  = 2;
+		$row_name                           = 'example-row-name';
+		$pointer                            = 2;
 		$this->instance->loops[ $row_name ] = $pointer;
 
 		$this->instance->reset( $row_name );
 		$this->assertFalse( isset( $this->instance->loops[ $row_name ] ) );
 
 		$this->instance->loops[ $row_name ] = $pointer;
-		$this->instance->active = $row_name;
+		$this->instance->active             = $row_name;
 
 		// If the row is the active row, it should be necessary to pass it to reset() as an argument.
 		$this->instance->reset();

@@ -25,7 +25,7 @@ trait Testing_Helper {
 			$expected_setting = $expected_settings[ $settings_index ];
 			foreach ( $setting as $setting_key => $setting_value ) {
 				unset( $setting_value );
-				$this->assertEquals( $expected_setting[ $setting_key ],  $setting->$setting_key );
+				$this->assertEquals( $expected_setting[ $setting_key ], $setting->$setting_key );
 				$this->assertEquals( 'Block_Lab\Blocks\Controls\Control_Setting', get_class( $setting ) );
 			}
 		}
