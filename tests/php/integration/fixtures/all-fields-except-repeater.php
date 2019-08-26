@@ -7,7 +7,7 @@
 
 // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaping could interfere with testing block_value().
 
-$string_fields = array(
+$non_object_fields = array(
 	'text',
 	'textarea',
 	'url',
@@ -23,7 +23,7 @@ $string_fields = array(
 	'rich-text',
 );
 
-foreach ( $string_fields as $field ) :
+foreach ( $non_object_fields as $field ) :
 	?>
 	<p class="<?php block_field( 'className' ); ?>">
 		<?php

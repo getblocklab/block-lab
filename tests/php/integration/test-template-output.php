@@ -37,6 +37,13 @@ class Test_Template_Output extends \WP_UnitTestCase {
 	public $object_fields;
 
 	/**
+	 * Fields that don't fit well into the other test groups.
+	 *
+	 * @var array
+	 */
+	public $special_case_fields;
+
+	/**
 	 * The instance of Loader, to render the template.
 	 *
 	 * @var Blocks\Loader
@@ -70,13 +77,6 @@ class Test_Template_Output extends \WP_UnitTestCase {
 	 * @var string
 	 */
 	public $template_location;
-
-	/**
-	 * The expected return value of the rich-text control.
-	 *
-	 * @var string
-	 */
-	public $rich_text_expected_return;
 
 	/**
 	 * The block class name.
@@ -128,7 +128,7 @@ class Test_Template_Output extends \WP_UnitTestCase {
 			'email'       => 'entered@emal.com',
 			'number'      => 15134,
 			'color'       => '#777444',
-			'image'       => 614,
+			'image'       => $this->get_image_attribute(),
 			'select'      => 'foo',
 			'multiselect' => array( 'foo' ),
 			'toggle'      => true,
@@ -153,11 +153,32 @@ class Test_Template_Output extends \WP_UnitTestCase {
 		);
 
 		$this->object_fields = array(
-			'image',
 			'multiselect',
 			'post',
 			'taxonomy',
 			'user',
+		);
+
+		$image     = wp_get_attachment_image_src( $this->attributes['image'], 'full' );
+		$rich_text = '<p>This is <strong>bold</strong> and this is <em>italic</em></p></p><p>Here is a new line with a space above</p></p>';
+
+		$this->special_case_fields = array(
+			'checkbox'  => array(
+				'block_field' => 'Yes',
+				'block_value' => 1,
+			),
+			'image'     => array(
+				'block_field' => $image[0],
+				'block_value' => $this->attributes['image'],
+			),
+			'rich-text' => array(
+				'block_field' => $rich_text,
+				'block_value' => $rich_text,
+			),
+			'toggle'    => array(
+				'block_field' => 'Yes',
+				'block_value' => 1,
+			),
 		);
 	}
 
@@ -168,13 +189,12 @@ class Test_Template_Output extends \WP_UnitTestCase {
 	 * this puts an include statement in it, pointing to the fixture.
 	 */
 	public function create_block_template() {
-		$this->rich_text_expected_return = '<p>This is <strong>bold</strong> and this is <em>italic</em></p></p><p>Here is a new line with a space above</p></p>';
-		$this->block_name                = 'all-fields-except-repeater';
-		$this->prefixed_block_name       = "block-lab/{$this->block_name}";
-		$theme_directory                 = get_template_directory();
-		$template_path_in_fixtures       = __DIR__ . "/fixtures/{$this->block_name}.php";
-		$this->blocks_directory          = "{$theme_directory}/blocks";
-		$this->template_location         = "{$this->blocks_directory}/block-{$this->block_name}.php";
+		$this->block_name          = 'all-fields-except-repeater';
+		$this->prefixed_block_name = "block-lab/{$this->block_name}";
+		$theme_directory           = get_template_directory();
+		$template_path_in_fixtures = __DIR__ . "/fixtures/{$this->block_name}.php";
+		$this->blocks_directory    = "{$theme_directory}/blocks";
+		$this->template_location   = "{$this->blocks_directory}/block-{$this->block_name}.php";
 
 		mkdir( $this->blocks_directory );
 		$template_contents = sprintf( "<?php include '%s';", $template_path_in_fixtures );
@@ -224,6 +244,19 @@ class Test_Template_Output extends \WP_UnitTestCase {
 	}
 
 	/**
+	 * Gets the image attribute.
+	 *
+	 * @return int The image's ID.
+	 */
+	public function get_image_attribute() {
+		return $this->factory()->attachment->create_object(
+			array( 'file' => 'baz.jpeg' ),
+			0,
+			array( 'post_mime_type' => 'image/jpeg' )
+		);
+	}
+
+	/**
 	 * Gets the block config.
 	 *
 	 * @return array The config for the block.
@@ -235,7 +268,7 @@ class Test_Template_Output extends \WP_UnitTestCase {
 		$all_fields = array_merge(
 			$this->string_fields,
 			$this->object_fields,
-			array_keys( $this->get_special_case_fields() )
+			array_keys( $this->special_case_fields )
 		);
 
 		foreach ( $all_fields as $field_name ) {
@@ -264,31 +297,14 @@ class Test_Template_Output extends \WP_UnitTestCase {
 	}
 
 	/**
-	 * Gets the expected result of the template tags for special case fields.
-	 *
-	 * @return array
-	 */
-	public function get_special_case_fields() {
-		return array(
-			'checkbox'  => array(
-				'block_field' => 'Yes',
-				'block_value' => 1,
-			),
-			'rich-text' => array(
-				'block_field' => $this->rich_text_expected_return,
-				'block_value' => $this->rich_text_expected_return,
-			),
-			'toggle'    => array(
-				'block_field' => 'Yes',
-				'block_value' => 1,
-			),
-		);
-	}
-
-	/**
 	 * Tests whether the rendered block template has the expected values.
+	 *
+	 * Every field except the Repeater is tested.
+	 * This sets mock block attributes, like those that would be saved from a block.
+	 * Then, it looks for the mock template in the theme directory's blocks/ directory,
+	 * and ensures that all of these fields appear correctly in it.
 	 */
-	public function test_integration_render_block_template() {
+	public function test_block_template() {
 		$block = new Blocks\Block();
 		$block->from_array( $this->get_block_config() );
 		$rendered_template = $this->loader->render_block_template( $block, $this->attributes );
@@ -355,7 +371,7 @@ class Test_Template_Output extends \WP_UnitTestCase {
 		}
 
 		// Test the fields that don't fit well into the tests above.
-		foreach ( $this->get_special_case_fields() as $field_name => $expected ) {
+		foreach ( $this->special_case_fields as $field_name => $expected ) {
 			$this->assertContains(
 				sprintf(
 					'Here is the result of block_field() for %s: %s',
