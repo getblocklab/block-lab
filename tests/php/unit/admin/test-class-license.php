@@ -231,7 +231,8 @@ class Test_License extends \WP_UnitTestCase {
 		$this->instance->init();
 		$license_key = '6234234';
 		add_filter(
-			self::HTTP_FILTER_NAME, function( $response ) {
+			self::HTTP_FILTER_NAME,
+			function( $response ) {
 				unset( $response );
 				return new WP_Error();
 			}

@@ -212,9 +212,9 @@ class Test_Import extends \WP_UnitTestCase {
 		$this->assertNotContains( $welcome_text, $output );
 
 		// The file is now a real file.
-		$file         = array( 'file' => $this->import_file_valid_json );
-		$tmp_name     = $this->import_file_valid_json;
-		$files_import = array_merge(
+		$file             = array( 'file' => $this->import_file_valid_json );
+		$tmp_name         = $this->import_file_valid_json;
+		$files_import     = array_merge(
 			$file,
 			array(
 				'name'     => 'mock-import-valid-format',
