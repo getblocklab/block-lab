@@ -273,4 +273,15 @@ class Test_Util extends Abstract_Template {
 		// It should also be possible to call this via a magic method of the Plugin class.
 		$this->assertEquals( 'block_lab', block_lab()->get_post_type_slug() );
 	}
+
+	/**
+	 * Test get_url_from_path.
+	 *
+	 * @covers \Block_Lab\Util::get_url_from_path()
+	 */
+	public function test_get_url_from_path() {
+		$subdirectory_path = 'wp-content/theme/blocks/test-block-here.css';
+		$path = ABSPATH . $subdirectory_path;
+		$this->assertEquals( '/' . $subdirectory_path, $this->instance->get_url_from_path( $path ) );
+	}
 }

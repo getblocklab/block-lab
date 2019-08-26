@@ -43,8 +43,8 @@ class Test_Import extends \WP_UnitTestCase {
 		parent::setUp();
 		Monkey\setUp();
 		$this->instance                 = new Admin\Import();
-		$this->import_file_valid_json   = dirname( dirname( __DIR__ ) ) . '/fixtures/mock-import-valid-format.txt';
-		$this->import_file_invalid_json = dirname( dirname( __DIR__ ) ) . '/fixtures/mock-import-invalid-format.txt';
+		$this->import_file_valid_json   = dirname( __DIR__ ) . '/fixtures/mock-import-valid-format.txt';
+		$this->import_file_invalid_json = dirname( __DIR__ ) . '/fixtures/mock-import-invalid-format.txt';
 		$this->instance->set_plugin( block_lab() );
 	}
 
