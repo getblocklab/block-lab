@@ -275,7 +275,7 @@ class Loader extends Component_Abstract {
 	/**
 	 * Renders the block provided a template is provided.
 	 *
-	 * @param array $block      The block to render.
+	 * @param Block $block The block to render.
 	 * @param array $attributes Attributes to render.
 	 *
 	 * @return mixed

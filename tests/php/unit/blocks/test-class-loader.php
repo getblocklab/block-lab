@@ -67,7 +67,7 @@ class Test_Loader extends Abstract_Template {
 
 		add_action(
 			"block_lab_render_template_{$block_name}",
-			function( $block ) use ( $block_name, $slug, $script_url ) {
+			function() use ( $block_name, $slug, $script_url ) {
 				wp_enqueue_script( $slug, $script_url, array(), '0.1', true );
 			}
 		);
