@@ -11,6 +11,14 @@ use Block_Lab\Blocks;
  * Tests for class Loader.
  */
 class Test_Loader extends Abstract_Template {
+
+	/**
+	 * The instance to test.
+	 *
+	 * @var Blocks\Loader
+	 */
+	public $instance;
+
 	/**
 	 * Test register_hooks.
 	 *

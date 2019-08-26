@@ -13,6 +13,13 @@ use Block_Lab\Blocks;
 class Test_Block extends \WP_UnitTestCase {
 
 	/**
+	 * The instance to test.
+	 *
+	 * @var Blocks\Block
+	 */
+	public $instance;
+
+	/**
 	 * A mock JSON blob for the block.
 	 *
 	 * @var string
