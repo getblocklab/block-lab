@@ -128,10 +128,13 @@ class Test_License extends \WP_UnitTestCase {
 			'license' => 'valid',
 			'expires' => date( 'Y-m-d', time() + DAY_IN_SECONDS ),
 		);
-		add_filter( self::HTTP_FILTER_NAME, function( $response ) use ( $expected_license ) {
-			unset( $response );
-			return array( 'body' => wp_json_encode( $expected_license ) );
-		} );
+		add_filter(
+			self::HTTP_FILTER_NAME,
+			function( $response ) use ( $expected_license ) {
+				unset( $response );
+				return array( 'body' => wp_json_encode( $expected_license ) );
+			}
+		);
 
 		$this->set_license_validity( true );
 		$mock_valid_license_key = '9250342';
