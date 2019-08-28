@@ -30,6 +30,16 @@ class License extends Component_Abstract {
 	public $product_slug;
 
 	/**
+	 * The transient 'license' value for when the request to validate the Pro license failed.
+	 *
+	 * This is for when the actual POST request fails,
+	 * not for when it returns that the license is invalid.
+	 *
+	 * @var string
+	 */
+	const REQUEST_FAILED = 'request_failed';
+
+	/**
 	 * Initialise the Pro component.
 	 */
 	public function init() {
@@ -104,8 +114,6 @@ class License extends Component_Abstract {
 	 * Try to activate the license.
 	 *
 	 * @param string $key The license key to activate.
-	 *
-	 * @return bool
 	 */
 	public function activate_license( $key ) {
 		// Data to send in our API request.
@@ -120,17 +128,18 @@ class License extends Component_Abstract {
 		$response = wp_remote_post(
 			$this->store_url,
 			array(
-				'timeout'   => 15,
+				'timeout'   => 10,
 				'sslverify' => true,
 				'body'      => $api_params,
 			)
 		);
 
 		if ( is_wp_error( $response ) ) {
-			return false;
+			$license = array( 'license' => self::REQUEST_FAILED );
+		} else {
+			$license = json_decode( wp_remote_retrieve_body( $response ), true );
 		}
 
-		$license    = json_decode( wp_remote_retrieve_body( $response ), true );
 		$expiration = DAY_IN_SECONDS;
 
 		set_transient( 'block_lab_license', $license, $expiration );

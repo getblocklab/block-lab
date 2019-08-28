@@ -124,6 +124,18 @@ class Test_License extends \WP_UnitTestCase {
 		);
 		delete_option( self::NOTICES_OPTION_NAME );
 
+		$expected_license = array(
+			'license' => 'valid',
+			'expires' => date( 'Y-m-d', time() + DAY_IN_SECONDS ),
+		);
+		add_filter(
+			self::HTTP_FILTER_NAME,
+			function( $response ) use ( $expected_license ) {
+				unset( $response );
+				return array( 'body' => wp_json_encode( $expected_license ) );
+			}
+		);
+
 		$this->set_license_validity( true );
 		$mock_valid_license_key = '9250342';
 		$returned_key           = $this->instance->save_license_key( $mock_valid_license_key );
@@ -238,9 +250,12 @@ class Test_License extends \WP_UnitTestCase {
 			}
 		);
 
-		// If the POST request returns a wp_error(), this should return false.
-		$this->assertFalse( $this->instance->activate_license( $license_key ) );
-		$this->assertEmpty( get_transient( self::LICENSE_TRANSIENT_NAME ) );
+		$this->instance->activate_license( $license_key );
+		// If the POST request returns a wp_error(), this should store 'request_failed' in the transient.
+		$this->assertEquals(
+			array( 'license' => 'request_failed' ),
+			get_transient( self::LICENSE_TRANSIENT_NAME )
+		);
 
 		remove_all_filters( self::HTTP_FILTER_NAME );
 		$expected_license = array(
