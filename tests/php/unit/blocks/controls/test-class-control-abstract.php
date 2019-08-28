@@ -163,7 +163,7 @@ class Test_Control_Abstract extends \WP_UnitTestCase {
 		$options = array(
 			'foo' => 'One',
 			'bar' => 'Two',
-			'baz' => 'Three'
+			'baz' => 'Three',
 		);
 		ob_start();
 		$this->instance->render_select( $this->setting, self::NAME, self::ID, $options );

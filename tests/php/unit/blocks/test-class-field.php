@@ -13,6 +13,13 @@ use Block_Lab\Blocks;
 class Test_Field extends \WP_UnitTestCase {
 
 	/**
+	 * The instance to test.
+	 *
+	 * @var Blocks\Field
+	 */
+	public $instance;
+
+	/**
 	 * A mock config array for the field.
 	 *
 	 * @var array
@@ -32,10 +39,10 @@ class Test_Field extends \WP_UnitTestCase {
 					'control' => 'text',
 					'type'    => 'string',
 					'order'   => 0,
-					'parent'  => 'foo'
-				)
-			)
-		)
+					'parent'  => 'foo',
+				),
+			),
+		),
 	);
 
 	/**

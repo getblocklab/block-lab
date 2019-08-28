@@ -192,7 +192,7 @@ class Test_License extends \WP_UnitTestCase {
 		$this->instance->init();
 		$valid_license_transient_value   = array(
 			'license' => 'valid',
-			'expires' => date( 'Y-m-d', time() + DAY_IN_SECONDS )
+			'expires' => date( 'Y-m-d', time() + DAY_IN_SECONDS ),
 		);
 		$invalid_license_transient_value = array(
 			'license' => 'expired',
@@ -215,10 +215,13 @@ class Test_License extends \WP_UnitTestCase {
 			'expires' => $expiration_date,
 		);
 
-		add_filter( self::HTTP_FILTER_NAME, function( $response ) use ( $expected_license ) {
-			unset( $response );
-			return array( 'body' => wp_json_encode( $expected_license ) );
-		} );
+		add_filter(
+			self::HTTP_FILTER_NAME,
+			function( $response ) use ( $expected_license ) {
+				unset( $response );
+				return array( 'body' => wp_json_encode( $expected_license ) );
+			}
+		);
 
 		delete_transient( self::LICENSE_TRANSIENT_NAME );
 		$example_valid_license_key = '5134315';
@@ -236,10 +239,13 @@ class Test_License extends \WP_UnitTestCase {
 	public function test_activate_license() {
 		$this->instance->init();
 		$license_key = '6234234';
-		add_filter( self::HTTP_FILTER_NAME, function( $response ) {
-			unset( $response );
-			return new WP_Error();
-		} );
+		add_filter(
+			self::HTTP_FILTER_NAME,
+			function( $response ) {
+				unset( $response );
+				return new WP_Error();
+			}
+		);
 
 		$this->instance->activate_license( $license_key );
 		// If the POST request returns a wp_error(), this should store 'request_failed' in the transient.
@@ -254,10 +260,13 @@ class Test_License extends \WP_UnitTestCase {
 			'expires' => date( 'Y-m-d', time() + DAY_IN_SECONDS ),
 		);
 
-		add_filter( self::HTTP_FILTER_NAME, function( $response ) use ( $expected_license ) {
-			unset( $response );
-			return array( 'body' => wp_json_encode( $expected_license ) );
-		} );
+		add_filter(
+			self::HTTP_FILTER_NAME,
+			function( $response ) use ( $expected_license ) {
+				unset( $response );
+				return array( 'body' => wp_json_encode( $expected_license ) );
+			}
+		);
 		$this->instance->activate_license( $license_key );
 
 		// Having simulated a successful license validation with the filter above, this should activate the license.

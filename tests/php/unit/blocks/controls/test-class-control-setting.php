@@ -25,7 +25,7 @@ class Test_Control_Setting extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Controls\Control_Setting::__construct()
 	 */
 	public function test_construct() {
-		$this->instance = new Controls\Control_Setting( array() );
+		$this->instance          = new Controls\Control_Setting( array() );
 		$initial_property_values = array(
 			'name'     => '',
 			'label'    => '',
@@ -91,7 +91,7 @@ class Test_Control_Setting extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Controls\Control_Setting::get_value()
 	 */
 	public function get_value() {
-		$default = 'this is a default';
+		$default        = 'this is a default';
 		$this->instance = new Controls\Control_Setting( array( 'default' => $default ) );
 
 		// If the value is null, this should return the default.
@@ -109,7 +109,7 @@ class Test_Control_Setting extends \WP_UnitTestCase {
 		$this->assertEquals( $expected_value, $this->instance->get_value() );
 
 		$int_expected_value = 5400;
-		$this->instance = new Controls\Control_Setting(
+		$this->instance     = new Controls\Control_Setting(
 			array(
 				'value'   => $int_expected_value,
 				'default' => $default,

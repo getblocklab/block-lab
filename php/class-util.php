@@ -11,7 +11,6 @@
 namespace Block_Lab;
 
 use Block_Lab\Blocks;
-use Block_Lab\Component_Abstract;
 
 /**
  * Class Util

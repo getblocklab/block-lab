@@ -11,6 +11,14 @@ use Block_Lab\Blocks;
  * Tests for class Loader.
  */
 class Test_Loader extends Abstract_Template {
+
+	/**
+	 * The instance to test.
+	 *
+	 * @var Blocks\Loader
+	 */
+	public $instance;
+
 	/**
 	 * Test register_hooks.
 	 *
@@ -59,7 +67,7 @@ class Test_Loader extends Abstract_Template {
 
 		add_action(
 			"block_lab_render_template_{$block_name}",
-			function( $block ) use ( $block_name, $slug, $script_url ) {
+			function() use ( $block_name, $slug, $script_url ) {
 				wp_enqueue_script( $slug, $script_url, array(), '0.1', true );
 			}
 		);
@@ -79,8 +87,8 @@ class Test_Loader extends Abstract_Template {
 	 * @covers \Block_Lab\Blocks\Loader::enqueue_block_styles()
 	 */
 	public function test_enqueue_block_styles() {
-		$wp_styles = wp_styles();
-		$block_handle    = "block-lab__block-{$this->mock_block_name}";
+		$wp_styles    = wp_styles();
+		$block_handle = "block-lab__block-{$this->mock_block_name}";
 
 		// Check that the correct stylesheet is enqueued.
 		foreach ( $this->get_template_css_paths() as $key => $file ) {
@@ -166,7 +174,7 @@ class Test_Loader extends Abstract_Template {
 		);
 
 		// Repeater sub-fields should not be returned, as they're not added as block attributes.
-		$actual_attributes   = $this->instance->get_block_attributes( $block );
+		$actual_attributes = $this->instance->get_block_attributes( $block );
 		$this->assertEquals( $expected_attributes, $actual_attributes );
 	}
 
@@ -275,7 +283,7 @@ class Test_Loader extends Abstract_Template {
 		// Test that this filter changes the template used.
 		add_filter(
 			'block_lab_override_theme_template',
-			function( $directory ) use( $overridden_theme_template_path ) {
+			function( $directory ) use ( $overridden_theme_template_path ) {
 				unset( $directory );
 				return $overridden_theme_template_path;
 			}

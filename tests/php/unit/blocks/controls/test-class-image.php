@@ -81,7 +81,7 @@ class Test_Image extends \WP_UnitTestCase {
 	public function test_validate() {
 		$image_file             = 'bar.jpeg';
 		$expected_attachment_id = $this->factory()->attachment->create_object(
-			$image_file,
+			array( 'file' => $image_file ),
 			0,
 			array(
 				'post_mime_type' => 'image/jpeg',

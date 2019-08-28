@@ -10,8 +10,12 @@
 
 	<testsuites>
 		<testsuite name="unit">
-			<directory suffix=".php">./tests/php/helpers/</directory>
-			<directory prefix="test-class-" suffix=".php">./tests/</directory>
+			<directory suffix=".php">./tests/php/unit/helpers/</directory>
+			<directory prefix="test-" suffix=".php">./tests/php/unit/</directory>
+		</testsuite>
+
+		<testsuite name="integration">
+			<directory prefix="test-" suffix=".php">./tests/php/integration/</directory>
 		</testsuite>
 	</testsuites>
 

@@ -34,7 +34,7 @@ class Test_Plugin extends \WP_UnitTestCase {
 	/**
 	 * Test init.
 	 *
-	 * @covers \Block_Lab\Abstract_Plugin:init()
+	 * @covers \Block_Lab\Plugin::init()
 	 */
 	public function test_init() {
 		$plugin_instance = new Block_Lab\Plugin();
@@ -68,7 +68,7 @@ class Test_Plugin extends \WP_UnitTestCase {
 	 * This method, is_pro(), is called in the Plugin class.
 	 * So this ensures that the magic method refers the call to the Util class.
 	 *
-	 * @covers \Block_Lab\Blocks\Util::is_pro()
+	 * @covers \Block_Lab\Util::is_pro()
 	 */
 	public function test_is_pro() {
 		$this->instance->admin = new Block_Lab\Admin\Admin();
@@ -86,15 +86,15 @@ class Test_Plugin extends \WP_UnitTestCase {
 	 * This is also essentially the same test as in Test_Util.
 	 * But this also tests that the __call() magic method in Plugin works.
 	 *
-	 * @covers \Block_Lab\Blocks\Util::get_template_locations()
+	 * @covers \Block_Lab\Util::get_template_locations()
 	 */
 	public function test_get_template_locations() {
 		$name = 'foo-baz';
 		$this->assertEquals(
 			array(
-				"blocks/foo-baz/block.php",
-				"blocks/block-foo-baz.php",
-				"blocks/block.php",
+				'blocks/foo-baz/block.php',
+				'blocks/block-foo-baz.php',
+				'blocks/block.php',
 			),
 			$this->instance->get_template_locations( $name )
 		);
