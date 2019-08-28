@@ -106,7 +106,7 @@ class Test_Post extends \WP_UnitTestCase {
 		$output = ob_get_clean();
 		$this->assertContains( $name, $output );
 		$this->assertContains( $id, $output );
-		foreach( array( 'post', 'page' ) as $post_type ) {
+		foreach ( array( 'post', 'page' ) as $post_type ) {
 			$post_type_object = get_post_type_object( $post_type );
 			$this->assertContains( $post_type_object->rest_base, $output );
 		}
@@ -178,10 +178,12 @@ class Test_Post extends \WP_UnitTestCase {
 
 		// If the 'post_title' is later changed, this block should output the new post title for block_field().
 		$updated_title = 'New Example Title';
-		wp_update_post( array(
-			'ID'         => $valid_id,
-			'post_title' => $updated_title,
-		) );
+		wp_update_post(
+			array(
+				'ID'         => $valid_id,
+				'post_title' => $updated_title,
+			)
+		);
 		$this->assertEquals( $updated_title, $this->instance->validate( array( 'id' => $valid_id ), true ) );
 	}
 }

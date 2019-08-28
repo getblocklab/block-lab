@@ -13,7 +13,7 @@ if ( empty( $_tests_dir ) ) {
 }
 
 if ( ! file_exists( $_tests_dir . '/includes/functions.php' ) ) {
-	echo "Could not find $_tests_dir/includes/functions.php, have you run bin/install-wp-tests.sh ?" . PHP_EOL;
+	echo "Could not find $_tests_dir/includes/functions.php, have you run bin/install-wp-tests.sh ?" . PHP_EOL; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	exit( 1 );
 }
 
@@ -27,7 +27,7 @@ function _manually_load_plugin() {
 	$plugin_root = dirname( __DIR__ );
 	require $plugin_root . '/vendor/autoload.php';
 	require $plugin_root . '/vendor/antecedent/patchwork/Patchwork.php';
-	require $plugin_root . '/tests/php/trait-testing-helper.php';
+	require $plugin_root . '/tests/php/unit/helpers/trait-testing-helper.php';
 	require $plugin_root . '/block-lab.php';
 }
 tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );

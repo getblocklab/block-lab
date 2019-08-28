@@ -107,7 +107,7 @@ class Test_Taxonomy extends \WP_UnitTestCase {
 		$this->assertContains( $name, $output );
 		$this->assertContains( $id, $output );
 
-		foreach( array( 'post_tag', 'category' ) as $post_type ) {
+		foreach ( array( 'post_tag', 'category' ) as $post_type ) {
 			$taxonomy = get_taxonomy( $post_type );
 			$this->assertContains( $taxonomy->rest_base, $output );
 			$this->assertContains( $taxonomy->label, $output );
@@ -148,10 +148,10 @@ class Test_Taxonomy extends \WP_UnitTestCase {
 
 		$this->assertEquals(
 			array(
-				'categories'                     => 'Categories',
-				'tags'                           => 'Tags',
-				$rest_base                       => $new_tax_label,
-				$new_tax_slug_without_rest_base  => $new_tax_label_without_rest_base,
+				'categories'                    => 'Categories',
+				'tags'                          => 'Tags',
+				$rest_base                      => $new_tax_label,
+				$new_tax_slug_without_rest_base => $new_tax_label_without_rest_base,
 			),
 			$this->instance->get_taxonomy_type_rest_slugs()
 		);

@@ -6,10 +6,12 @@
  * @return {number} Either -1, 0, or 1, depending on the comparison.
  */
 const compare = ( a, b ) => {
-	if ( a.order < b.order )
+	if ( a.order < b.order ) {
 		return -1;
-	if ( a.order > b.order )
+	}
+	if ( a.order > b.order ) {
 		return 1;
+	}
 	return 0;
 }
 
@@ -21,7 +23,7 @@ const compare = ( a, b ) => {
  */
 const simplifiedFields = ( fields ) => {
 
-	let fieldList = []
+	let fieldList = [];
 
 	for ( let fieldName in fields ) {
 		if ( '' === fieldName ) {
