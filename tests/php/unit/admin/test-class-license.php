@@ -55,7 +55,7 @@ class Test_License extends \WP_UnitTestCase {
 	 *
 	 * @var string
 	 */
-	const EXPECTED_LICENSE_REQUEST_FAILED_NOTICE = '<div class="notice notice-error"><p>There was a problem activating the license, but it may not be invalid. Please either try again or contact support, mentioning this message.</p></div>';
+	const EXPECTED_LICENSE_REQUEST_FAILED_NOTICE = '<div class="notice notice-error"><p>There was a problem activating the license, but it may not be invalid. If the problem persists, please <a href="mailto:hi@getblocklab.com?subject=There was a problem activating my Block Lab Pro license">contact support</a>.</p></div>';
 
 	/**
 	 * The notice for when the license is invalid.
@@ -113,9 +113,6 @@ class Test_License extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Admin\License::init()
 	 */
 	public function test_init() {
-		$this->store_url    = 'https://getblocklab.com';
-		$this->product_slug = 'block-lab-pro';
-
 		// Before init() is called, these properties should not have values.
 		$this->assertEmpty( $this->instance->store_url );
 		$this->assertEmpty( $this->instance->product_slug );
