@@ -83,6 +83,13 @@ abstract class Control_Abstract {
 	 */
 	public function create_settings_config() {
 		$this->settings_config = array(
+			'field_width' => array(
+				'name'     => 'field_width',
+				'label'    => __( 'Field Width', 'block-lab' ),
+				'type'     => 'field_width',
+				'default'  => '100',
+				'sanitize' => 'sanitize_text_field',
+			),
 			'location'    => array(
 				'name'     => 'location',
 				'label'    => __( 'Location', 'block-lab' ),
@@ -138,6 +145,11 @@ abstract class Control_Abstract {
 		foreach ( $this->settings as $setting ) {
 			// Don't render the location setting for sub-fields.
 			if ( 'location' === $setting->type && isset( $field->settings['parent'] ) ) {
+				continue;
+			}
+
+			// Don't render the location setting for sub-fields.
+			if ( 'field_width' === $setting->type && isset( $field->settings['parent'] ) ) {
 				continue;
 			}
 
@@ -335,6 +347,42 @@ abstract class Control_Abstract {
 	 */
 	public function render_settings_location( $setting, $name, $id ) {
 		$this->render_select( $setting, $name, $id, $this->locations );
+	}
+
+	/**
+	 * Renders a button group of field widths.
+	 *
+	 * @param Control_Setting $setting The Control_Setting being rendered.
+	 * @param string          $name    The name attribute of the option.
+	 * @param string          $id      The id attribute of the option.
+	 *
+	 * @return void
+	 */
+	public function render_settings_field_width( $setting, $name, $id ) {
+		$widths = array(
+			'25'  => '25%',
+			'50'  => '50%',
+			'75'  => '75%',
+			'100' => '100%',
+		);
+		?>
+		<div class="field-width button-group">
+		<?php
+		foreach ( $widths as $value => $label ) {
+			?>
+			<input
+				class="button"
+				name="<?php echo esc_attr( $name ); ?>"
+				type="radio"
+				value="<?php echo esc_attr( $value ); ?>"
+				<?php checked( $value, $setting->get_value() ); ?>
+				/>
+			<label><?php echo esc_html( $label ); ?></label>
+			<?php
+		}
+		?>
+		</div>
+		<?php
 	}
 
 	/**

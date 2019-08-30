@@ -189,6 +189,38 @@
 #block_fields .block-fields-rows textarea[readonly="readonly"] {
     color: #999;
 }
+#block_fields .block-fields-rows .button-group > .button {
+	width: 5em;
+	position: relative;
+	z-index: 10;
+}
+#block_fields .block-fields-rows .button-group > .button:last-of-type {
+	border-radius: 0 3px 3px 0;
+}
+#block_fields .block-fields-rows .button-group > .button:hover {
+	z-index: 30;
+}
+#block_fields .block-fields-rows .button-group > .button:checked {
+	background: #eee;
+	border-color: #999;
+	box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5), 0 1px 0 #cccccc;
+	z-index: 20;
+}
+#block_fields .block-fields-rows .button-group > .button:checked:before {
+	width: 0;
+	height: 0;
+	background-color: transparent;
+}
+#block_fields .block-fields-rows .button-group > label {
+	font-size: 13px;
+	position: absolute;
+	margin-left: -5em;
+	width: 5em;
+	top: 13px;
+	text-align: center;
+	pointer-events: none;
+	z-index: 40;
+}
 #block_fields .block-fields-rows .block-fields-edit-loading .loading:before {
 	content: '';
 	box-sizing: border-box;
