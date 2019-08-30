@@ -177,10 +177,15 @@ class License extends Component_Abstract {
 	 */
 	public function license_request_failed_message() {
 		$message = sprintf(
-			/* translators: %s is the email link for support */
-			__( 'There was a problem activating the license, but it may not be invalid. If the problem persists, please <a href="%s">contact support</a>.', 'block-lab' ),
-			'mailto:hi@getblocklab.com?subject=There was a problem activating my Block Lab Pro license'
+			/* translators: %s is an HTML link to contact support */
+			__( 'There was a problem activating the license, but it may not be invalid. If the problem persists, please %s.', 'block-lab' ),
+			sprintf(
+				'<a href="%1$s">%2$s</a>',
+				'mailto:hi@getblocklab.com?subject=There was a problem activating my Block Lab Pro license',
+				esc_html__( 'contact support', 'block-lab' )
+			)
 		);
+
 		return sprintf( '<div class="notice notice-error"><p>%s</p></div>', wp_kses_post( $message ) );
 	}
 
