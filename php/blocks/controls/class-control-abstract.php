@@ -83,19 +83,19 @@ abstract class Control_Abstract {
 	 */
 	public function create_settings_config() {
 		$this->settings_config = array(
-			'field_width' => array(
-				'name'     => 'field_width',
-				'label'    => __( 'Field Width', 'block-lab' ),
-				'type'     => 'field_width',
-				'default'  => '100',
-				'sanitize' => 'sanitize_text_field',
-			),
 			'location'    => array(
 				'name'     => 'location',
-				'label'    => __( 'Location', 'block-lab' ),
+				'label'    => __( 'Field Location', 'block-lab' ),
 				'type'     => 'location',
 				'default'  => 'editor',
 				'sanitize' => array( $this, 'sanitize_location' ),
+			),
+			'width'       => array(
+				'name'     => 'width',
+				'label'    => __( 'Field Width', 'block-lab' ),
+				'type'     => 'width',
+				'default'  => '100',
+				'sanitize' => 'sanitize_text_field',
 			),
 			'help'        => array(
 				'name'     => 'help',
@@ -358,7 +358,7 @@ abstract class Control_Abstract {
 	 *
 	 * @return void
 	 */
-	public function render_settings_field_width( $setting, $name, $id ) {
+	public function render_settings_width( $setting, $name, $id ) {
 		$widths = array(
 			'25'  => '25%',
 			'50'  => '50%',
@@ -366,7 +366,7 @@ abstract class Control_Abstract {
 			'100' => '100%',
 		);
 		?>
-		<div class="field-width button-group">
+		<div class="button-group">
 		<?php
 		foreach ( $widths as $value => $label ) {
 			?>

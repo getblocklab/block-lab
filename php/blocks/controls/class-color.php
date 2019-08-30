@@ -37,8 +37,17 @@ class Color extends Control_Abstract {
 	 * @return void
 	 */
 	public function register_settings() {
-		foreach ( array( 'location', 'help', 'default' ) as $setting ) {
-			$this->settings[] = new Control_Setting( $this->settings_config[ $setting ] );
-		}
+		$this->settings[] = new Control_Setting( $this->settings_config['location'] );
+		$this->settings[] = new Control_Setting(
+			array(
+				'name'     => 'width',
+				'label'    => __( 'Field Width', 'block-lab' ),
+				'type'     => 'width',
+				'default'  => '25',
+				'sanitize' => 'sanitize_text_field',
+			)
+		);
+		$this->settings[] = new Control_Setting( $this->settings_config['help'] );
+		$this->settings[] = new Control_Setting( $this->settings_config['default'] );
 	}
 }
