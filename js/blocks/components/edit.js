@@ -32,9 +32,7 @@ const Edit = ( { blockProps, block } ) => {
 				{ isSelected ? (
 					<div className="block-form">
 						<h3 dangerouslySetInnerHTML={ { __html: icons[ block.icon ] + ' ' + block.title } } />
-						<div>
-							<FormControls blockProps={ blockProps } block={ block } />
-						</div>
+						<FormControls blockProps={ blockProps } block={ block } />
 					</div>
 				) : (
 					<ServerSideRender
