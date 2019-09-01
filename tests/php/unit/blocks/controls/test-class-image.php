@@ -50,7 +50,7 @@ class Test_Image extends \WP_UnitTestCase {
 		$expected_settings = array(
 			array(
 				'name'     => 'location',
-				'label'    => 'Location',
+				'label'    => 'Field Location',
 				'type'     => 'location',
 				'default'  => 'editor',
 				'help'     => '',

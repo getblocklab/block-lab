@@ -61,10 +61,17 @@ class Test_Control_Abstract extends \WP_UnitTestCase {
 			array(
 				'location'    => array(
 					'name'     => 'location',
-					'label'    => __( 'Location', 'block-lab' ),
+					'label'    => __( 'Field Location', 'block-lab' ),
 					'type'     => 'location',
 					'default'  => 'editor',
 					'sanitize' => array( $this->instance, 'sanitize_location' ),
+				),
+				'width'       => array(
+					'name'     => 'width',
+					'label'    => __( 'Field Width', 'block-lab' ),
+					'type'     => 'width',
+					'default'  => '100',
+					'sanitize' => 'sanitize_text_field',
 				),
 				'help'        => array(
 					'name'     => 'help',
