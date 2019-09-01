@@ -205,28 +205,24 @@ div[class^="wp-block-block-lab-"] {
 
     .block-lab-repeater__rows {
       width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      margin: 1px 0 0 1px;
 
       .block-lab-repeater--row {
-        min-width: 100%;
+        flex-basis: 100%;
         border: 1px dashed $dark-gray-150;
-        border-top: 0;
-        margin-bottom: 0;
         padding: 10px 14px 0;
+        margin: -1px 0 0 -1px;
         position: relative;
         transition: background 1s ease-in-out;
 
-        &:first-child {
-          border-top: 1px dashed $dark-gray-150;
-
-          .block-lab-repeater--row-actions .button-move-up {
-            display: none;
-          }
+        &:first-child .block-lab-repeater--row-actions .button-move-up {
+          display: none !important;
         }
 
-        &:last-child {
-          .block-lab-repeater--row-actions .button-move-down {
-            display: none;
-          }
+        &:nth-last-child(2) .block-lab-repeater--row-actions .button-move-down {
+          display: none !important;
         }
 
         .components-base-control__field {
@@ -320,6 +316,23 @@ div[class^="wp-block-block-lab-"] {
           }
         }
 
+        &.block-lab-repeater--row-add {
+          padding: 0;
+
+          .components-icon-button {
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+          }
+
+          .components-icon-button:hover {
+            border-color: transparent;
+            box-shadow: none;
+            background: transparent;
+            color: $blue-medium-focus;
+          }
+        }
+
         &:before {
           content: '';
           width: 29px;
@@ -327,20 +340,68 @@ div[class^="wp-block-block-lab-"] {
           position: absolute;
           left: -30px;
           top: 0;
+          display: none;
+        }
+
+        &:hover:before {
+          display: block;
         }
       }
     }
 
-    .block-lab-repeater--row-add {
-      margin-top: 4px;
-      display: flex;
-      justify-content: center;
+    &.row-width-25 .block-lab-repeater--row {
+      flex-basis: 25%;
+    }
 
-      .components-icon-button:hover {
-        border-color: transparent;
-        box-shadow: none;
-        background: transparent;
-        color: $blue-medium-focus;
+    &.row-width-33 .block-lab-repeater--row {
+      flex-basis: 33.33%;
+    }
+
+    &.row-width-50 .block-lab-repeater--row {
+      flex-basis: 50%;
+    }
+
+    &.row-width-25,
+    &.row-width-33,
+    &.row-width-50 {
+      .block-lab-repeater--row {
+        &:hover:not(.row-from),
+        &.row-to {
+          .block-lab-repeater--row-actions {
+            left: -1px;
+            top: -26px;
+            border-right: 1px solid #8d96a0;
+            border-bottom: none;
+            border-top-right-radius: 3px;
+            border-bottom-left-radius: 0;
+
+            .components-icon-button {
+              display: inline-block;
+            }
+          }
+        }
+
+        &:before {
+          width: 100%;
+          height: 25px;
+          position: absolute;
+          left: 0;
+          top: -26px;
+          display: none;
+        }
+
+        &:hover:before {
+          display: block;
+        }
+      }
+    }
+
+    &.row-width-100 {
+      .block-lab-repeater--row {
+        &.block-lab-repeater--row-add {
+          border: none;
+          padding: 10px;
+        }
       }
     }
   }

@@ -45,6 +45,34 @@ class Repeater extends Control_Abstract {
 	 * @return void
 	 */
 	public function register_settings() {
+		$this->settings[] = new Control_Setting(
+			array(
+				'name'     => 'columns',
+				'label'    => __( 'Columns', 'block-lab' ),
+				'type'     => 'columns',
+				'default'  => '100',
+				'sanitize' => 'sanitize_text_field',
+			)
+		);
 		$this->settings[] = new Control_Setting( $this->settings_config['help'] );
+	}
+
+	/**
+	 * Renders a button group of field widths.
+	 *
+	 * @param Control_Setting $setting The Control_Setting being rendered.
+	 * @param string          $name    The name attribute of the option.
+	 * @param string          $id      The id attribute of the option.
+	 *
+	 * @return void
+	 */
+	public function render_settings_columns( $setting, $name, $id ) {
+		$columns = array(
+			'25'  => '4',
+			'33'  => '3',
+			'50'  => '2',
+			'100' => '1',
+		);
+		$this->render_button_group( $setting, $name, $id, $columns );
 	}
 }

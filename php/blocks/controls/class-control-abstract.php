@@ -365,10 +365,29 @@ abstract class Control_Abstract {
 			'75'  => '75%',
 			'100' => '100%',
 		);
+		$this->render_button_group( $setting, $name, $id, $widths );
+	}
+
+	/**
+	 * Renders a button group.
+	 *
+	 * @param Control_Setting $setting The Control_Setting being rendered.
+	 * @param string          $name    The name attribute of the option.
+	 * @param string          $id      The id attribute of the option.
+	 * @param array           $values {
+	 *     An associative array of the buttons to render.
+	 *
+	 *     @type string $value The value to be saved.
+	 *     @type string $label The label to display inside the button.
+	 * }
+	 *
+	 * @return void
+	 */
+	public function render_button_group( $setting, $name, $id, $values ) {
 		?>
 		<div class="button-group">
 		<?php
-		foreach ( $widths as $value => $label ) {
+		foreach ( $values as $value => $label ) {
 			?>
 			<input
 				class="button"
@@ -392,10 +411,10 @@ abstract class Control_Abstract {
 	 * @param string          $name    The name attribute of the option.
 	 * @param string          $id      The id attribute of the option.
 	 * @param array           $values {
-	 *     An associative array of the post type REST slugs.
+	 *     An associative array of the options to include in the select dropdown.
 	 *
-	 *     @type string $rest_slug The rest slug, like 'tags' for the 'post_tag' taxonomy.
-	 *     @type string $label     The label to display inside the <option>.
+	 *     @type string $value The value to be saved.
+	 *     @type string $label The label to display inside the option.
 	 * }
 	 *
 	 * @return void

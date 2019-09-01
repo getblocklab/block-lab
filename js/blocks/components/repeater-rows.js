@@ -15,10 +15,10 @@ import { Fields } from './';
  * Gets the repeater rows.
  *
  * @param {Array} rows The repeater rows to render.
- * @param {Array} fields The fields to render.
+ * @param {Array} subFields The fields to render.
  * @param {Object} parentBlockProps The props to pass to the control function.
  * @param {Object} parentBlock The block where the fields are.
- * @return {Array} fields The rendered fields.
+ * @return {Array} subFields The rendered sub-fields.
  */
  class RepeaterRows extends Component {
 
@@ -171,7 +171,15 @@ import { Fields } from './';
 	 * Renders the repeater rows.
 	 */
 	render() {
-		const { rows, subFields, parentBlockProps, parentBlock } = this.props;
+		const { rows, field, subFields, parentBlockProps, parentBlock } = this.props;
+
+		let upIcon   = 'arrow-up-alt2';
+		let downIcon = 'arrow-down-alt2';
+
+		if ( field.columns && '100' !== field.columns ) {
+			upIcon   = 'arrow-left-alt2';
+			downIcon = 'arrow-right-alt2';
+		}
 
 		return (
 			<Fragment>
@@ -200,7 +208,7 @@ import { Fields } from './';
 									/>
 									<div className="block-lab-repeater--row-actions">
 										<IconButton
-											icon="arrow-up-alt2"
+											icon={ upIcon }
 											key={ `${ rowIndex }-move-up` }
 											className="button-move-up"
 											label={ __( 'Move up', 'block-lab' ) }
@@ -208,7 +216,7 @@ import { Fields } from './';
 											isSmall
 										/>
 										<IconButton
-											icon="arrow-down-alt2"
+											icon={ downIcon }
 											key={ `${ rowIndex }-move-down` }
 											className="button-move-down"
 											label={ __( 'Move down', 'block-lab' ) }
@@ -220,6 +228,22 @@ import { Fields } from './';
 							);
 						} )
 					}
+					<div className="block-lab-repeater--row block-lab-repeater--row-add">
+						<IconButton
+							key={ `${ field.name }-repeater-insert` }
+							icon="insert"
+							label={ __( 'Add new', 'block-lab' ) }
+							labelPosition="bottom"
+							onClick={ () => {
+								const { parentBlockProps } = this.props;
+								const attr = { ...parentBlockProps.attributes };
+								const withAddedRow = rows.concat( {} );
+								attr[ field.name ] = { rows: withAddedRow };
+								parentBlockProps.setAttributes( attr );
+							} }
+							disabled={ false }
+						/>
+					</div>
 				</div>
 			</Fragment>
 		);

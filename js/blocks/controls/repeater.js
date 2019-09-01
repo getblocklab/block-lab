@@ -10,7 +10,7 @@ const { BaseControl, IconButton } = wp.components;
 import { RepeaterRows } from '../components';
 
 const BlockLabRepeaterControl = ( props ) => {
-	const { field, getValue, onChange, parentBlock, parentBlockProps } = props;
+	const { field, onChange, parentBlock, parentBlockProps } = props;
 	const { attributes, setAttributes } = parentBlockProps;
 	const attr = { ...attributes };
 	const value = attr[ field.name ];
@@ -21,28 +21,22 @@ const BlockLabRepeaterControl = ( props ) => {
 	if ( ! hasRows ) {
 		onChange( { rows: defaultRows } );
 	}
+
+	let className = 'block-lab-repeater';
+
+	if ( field.columns ) {
+		className += ' row-width-' + field.columns;
+	}
+
 	return (
-		<BaseControl className="block-lab-repeater" label={ field.label } help={ field.help }>
+		<BaseControl className={className} label={ field.label } help={ field.help }>
 			<RepeaterRows
 				rows={ rows }
+				field={ field }
 				subFields={ field.sub_fields || defaultRows }
 				parentBlockProps={ parentBlockProps }
 				parentBlock={ parentBlock }
 			/>
-			<div className="block-lab-repeater--row-add">
-				<IconButton
-					key={ `${ field.name }-repeater-insert` }
-					icon="insert"
-					label={ __( 'Add new', 'block-lab' ) }
-					labelPosition="bottom"
-					onClick={ () => {
-						const withAddedRow = rows.concat( {} );
-						attr[ field.name ] = { rows: withAddedRow };
-						setAttributes( attr );
-					} }
-					disabled={ false }
-				/>
-			</div>
 		</BaseControl>
 	);
 }
