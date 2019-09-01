@@ -160,6 +160,7 @@
 					$( '.block-fields-rows .block-fields-row-active' ).removeClass( 'block-fields-row-active' );
 				}
 
+				blockFieldWidthInit( currentRow );
 				currentRow.toggleClass( 'block-fields-row-active' );
 				currentRow.find( '.block-fields-edit' ).first().slideToggle();
 
@@ -197,6 +198,9 @@
 				} else {
 					$( '.block-fields-sub-rows,.block-fields-sub-rows-actions', fieldRow ).remove();
 				}
+			})
+			.on( 'change', '.block-fields-edit-location-settings select', function() {
+				blockFieldWidthInit( $( this ).closest( '.block-fields-row' ) );
 			})
 			.on( 'change keyup', '.block-fields-edit-label input', function() {
 				let slug = $( this )
@@ -285,6 +289,17 @@
 		});
 	}
 
+	let blockFieldWidthInit = function( fieldRow ) {
+		let widthSettings    = fieldRow.find( '.block-fields-edit-width-settings' ),
+			locationSettings = fieldRow.find( '.block-fields-edit-location-settings' );
+
+		if ( 'editor' !== $( 'select', locationSettings ).val() ) {
+			widthSettings.hide();
+		} else {
+			widthSettings.show();
+		}
+	}
+
 	let blockPostTypesInit = function() {
 		if ( 0 === $( '.block-lab-pub-section' ).length ) {
 			return;
@@ -356,6 +371,7 @@
 				}
 				let settingsRows = $( data.html );
 				$( '.block-fields-edit-control', fieldRow ).after( settingsRows );
+				blockFieldWidthInit( fieldRow );
 				scrollRowIntoView( fieldRow );
 			},
 			error: function() {
