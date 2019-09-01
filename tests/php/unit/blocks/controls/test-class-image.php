@@ -59,6 +59,16 @@ class Test_Image extends \WP_UnitTestCase {
 				'value'    => null,
 			),
 			array(
+				'name'     => 'width',
+				'label'    => 'Field Width',
+				'type'     => 'width',
+				'default'  => '100',
+				'help'     => '',
+				'sanitize' => 'sanitize_text_field',
+				'validate' => '',
+				'value'    => null,
+			),
+			array(
 				'name'     => 'help',
 				'label'    => 'Help Text',
 				'type'     => 'text',
