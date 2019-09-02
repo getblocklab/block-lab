@@ -51,6 +51,27 @@ class Test_License extends \WP_UnitTestCase {
 	const HTTP_FILTER_NAME = 'pre_http_request';
 
 	/**
+	 * The notice for when the validation request fails.
+	 *
+	 * @var string
+	 */
+	const EXPECTED_LICENSE_REQUEST_FAILED_NOTICE = '<div class="notice notice-error"><p>There was a problem activating the license, but it may not be invalid. If the problem persists, please <a href="mailto:hi@getblocklab.com?subject=There was a problem activating my Block Lab Pro license">contact support</a>.</p></div>';
+
+	/**
+	 * The notice for when the license is invalid.
+	 *
+	 * @var string
+	 */
+	const EXPECTED_LICENSE_INVALID_NOTICE = '<div class="notice notice-error"><p>There was a problem activating your Block Lab license.</p></div>';
+
+	/**
+	 * The notice for when the license validation succeeds.
+	 *
+	 * @var string
+	 */
+	const EXPECTED_LICENSE_SUCCESS_NOTICE = '<div class="notice notice-success"><p>Your Block Lab license was successfully activated!</p></div>';
+
+	/**
 	 * Setup.
 	 *
 	 * @inheritdoc
@@ -92,9 +113,6 @@ class Test_License extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Admin\License::init()
 	 */
 	public function test_init() {
-		$this->store_url    = 'https://getblocklab.com';
-		$this->product_slug = 'block-lab-pro';
-
 		// Before init() is called, these properties should not have values.
 		$this->assertEmpty( $this->instance->store_url );
 		$this->assertEmpty( $this->instance->product_slug );
@@ -112,17 +130,34 @@ class Test_License extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Admin\License::save_license_key()
 	 */
 	public function test_save_license_key() {
-		$this->set_license_validity( false );
 		$mock_invalid_license_key = '0000000';
 		$returned_key             = $this->instance->save_license_key( $mock_invalid_license_key );
 
-		// For an invalid license, the method should return '', and the notice should be an error.
+		// For the request failing, like with a 404, the method should return '', and the notice should be to retry or contact support.
 		$this->assertEquals( '', $returned_key );
 		$this->assertEquals(
-			array( '<div class="notice notice-error"><p>There was a problem activating your Block Lab license.</p></div>' ),
+			array( self::EXPECTED_LICENSE_REQUEST_FAILED_NOTICE ),
 			get_option( self::NOTICES_OPTION_NAME )
 		);
 		delete_option( self::NOTICES_OPTION_NAME );
+
+		// Cause the validation request to return that the license is valid.
+		add_filter(
+			self::HTTP_FILTER_NAME,
+			function() {
+				return array( 'body' => wp_json_encode( array( 'license' => 'invalid' ) ) );
+			}
+		);
+		$returned_key = $this->instance->save_license_key( $mock_invalid_license_key );
+
+		// For an invalid license (not simply the request failing), the method should return '', and the notice should be an error.
+		$this->assertEquals( '', $returned_key );
+		$this->assertEquals(
+			array( self::EXPECTED_LICENSE_INVALID_NOTICE ),
+			get_option( self::NOTICES_OPTION_NAME )
+		);
+		delete_option( self::NOTICES_OPTION_NAME );
+		remove_all_filters( self::HTTP_FILTER_NAME );
 
 		$expected_license = array(
 			'license' => 'valid',
@@ -141,7 +176,7 @@ class Test_License extends \WP_UnitTestCase {
 		$returned_key           = $this->instance->save_license_key( $mock_valid_license_key );
 		$this->assertEquals( $mock_valid_license_key, $returned_key );
 		$this->assertEquals(
-			array( '<div class="notice notice-success"><p>Your Block Lab license was successfully activated!</p></div>' ),
+			array( self::EXPECTED_LICENSE_SUCCESS_NOTICE ),
 			get_option( self::NOTICES_OPTION_NAME )
 		);
 	}
@@ -244,8 +279,7 @@ class Test_License extends \WP_UnitTestCase {
 		$license_key = '6234234';
 		add_filter(
 			self::HTTP_FILTER_NAME,
-			function( $response ) {
-				unset( $response );
+			function() {
 				return new WP_Error();
 			}
 		);
@@ -265,8 +299,7 @@ class Test_License extends \WP_UnitTestCase {
 
 		add_filter(
 			self::HTTP_FILTER_NAME,
-			function( $response ) use ( $expected_license ) {
-				unset( $response );
+			function() use ( $expected_license ) {
 				return array( 'body' => wp_json_encode( $expected_license ) );
 			}
 		);
@@ -283,20 +316,32 @@ class Test_License extends \WP_UnitTestCase {
 	 */
 	public function test_license_success_message() {
 		$this->assertEquals(
-			'<div class="notice notice-success"><p>Your Block Lab license was successfully activated!</p></div>',
+			self::EXPECTED_LICENSE_SUCCESS_NOTICE,
 			$this->instance->license_success_message()
 		);
 	}
 
 	/**
-	 * Test license_error_message.
+	 * Test license_request_failed_message.
 	 *
-	 * @covers \Block_Lab\Admin\License::license_error_message()
+	 * @covers \Block_Lab\Admin\License::license_request_failed_message()
 	 */
-	public function test_license_error_message() {
+	public function test_license_request_failed_message() {
 		$this->assertEquals(
-			'<div class="notice notice-error"><p>There was a problem activating your Block Lab license.</p></div>',
-			$this->instance->license_error_message()
+			self::EXPECTED_LICENSE_REQUEST_FAILED_NOTICE,
+			$this->instance->license_request_failed_message()
+		);
+	}
+
+	/**
+	 * Test license_invalid_message.
+	 *
+	 * @covers \Block_Lab\Admin\License::license_invalid_message()
+	 */
+	public function test_license_invalid_message() {
+		$this->assertEquals(
+			self::EXPECTED_LICENSE_INVALID_NOTICE,
+			$this->instance->license_invalid_message()
 		);
 	}
 }
