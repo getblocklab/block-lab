@@ -36,6 +36,7 @@ class Test_Repeater extends \WP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->instance = new Controls\Repeater();
+		$this->setting  = new Controls\Control_Setting();
 	}
 
 	/**
@@ -57,6 +58,16 @@ class Test_Repeater extends \WP_UnitTestCase {
 	public function test_register_settings() {
 		$expected_settings = array(
 			array(
+				'name'     => 'columns',
+				'label'    => __( 'Columns', 'block-lab' ),
+				'type'     => 'columns',
+				'default'  => '100',
+				'help'     => '',
+				'sanitize' => 'sanitize_text_field',
+				'validate' => '',
+				'value'    => null,
+			),
+			array(
 				'name'     => 'help',
 				'label'    => 'Help Text',
 				'type'     => 'text',
@@ -69,5 +80,34 @@ class Test_Repeater extends \WP_UnitTestCase {
 		);
 
 		$this->assert_correct_settings( $expected_settings, $this->instance->settings );
+	}
+
+	/**
+	 * Test render_settings_columns.
+	 *
+	 * @covers \Block_Lab\Blocks\Controls\Repeater::render_settings_columns()
+	 * @covers \Block_Lab\Blocks\Controls\Control_Abstract::render_button_group()
+	 */
+	public function test_render_settings_columns() {
+		$name = 'repeater';
+		$id   = 'bl_repeater';
+
+		ob_start();
+		$this->instance->render_settings_columns( $this->setting, $name, $id );
+		$output = ob_get_clean();
+
+		$this->assertContains( 'button-group', $output );
+
+		$columns = array(
+			'100' => '1',
+			'50'  => '2',
+			'33'  => '3',
+			'25'  => '4',
+		);
+
+		foreach ( $columns as $value => $label ) {
+			$this->assertContains( strval( $value ), $output );
+			$this->assertContains( strval( $label ), $output );
+		}
 	}
 }

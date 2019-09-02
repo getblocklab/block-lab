@@ -191,7 +191,7 @@ class Test_Control_Abstract extends \WP_UnitTestCase {
 	 */
 	public function test_render_settings_location() {
 		ob_start();
-		$this->instance->render_select( $this->setting, self::NAME, self::ID, $this->instance->locations );
+		$this->instance->render_settings_location( $this->setting, self::NAME, self::ID );
 		$output = ob_get_clean();
 
 		$this->assertContains( 'value="editor"', $output );
@@ -214,6 +214,53 @@ class Test_Control_Abstract extends \WP_UnitTestCase {
 		$correct_locations = array( 'editor', 'inspector' );
 		foreach ( $correct_locations as $correct_location ) {
 			$this->assertEquals( $correct_location, $this->instance->sanitize_location( $correct_location ) );
+		}
+	}
+
+	/**
+	 * Test render_settings_width.
+	 *
+	 * @covers \Block_Lab\Blocks\Controls\Control_Abstract::render_settings_width()
+	 */
+	public function test_render_settings_width() {
+		ob_start();
+		$this->instance->render_settings_width( $this->setting, self::NAME, self::ID );
+		$output = ob_get_clean();
+
+		$this->assertContains( 'button-group', $output );
+
+		$widths = array(
+			'25'  => '25%',
+			'50'  => '50%',
+			'75'  => '75%',
+			'100' => '100%',
+		);
+
+		foreach ( $widths as $value => $label ) {
+			$this->assertContains( strval( $value ), $output );
+			$this->assertContains( strval( $label ), $output );
+		}
+	}
+
+	/**
+	 * Test render_button_group.
+	 *
+	 * @covers \Block_Lab\Blocks\Controls\Control_Abstract::render_button_group()
+	 */
+	public function test_render_button_group() {
+		$buttons = array(
+			'foo' => 'Bar',
+			'baz' => 'Qux',
+		);
+		ob_start();
+		$this->instance->render_button_group( $this->setting, self::NAME, self::ID, $buttons );
+		$output = ob_get_clean();
+
+		$this->assertContains( 'button-group', $output );
+
+		foreach ( $buttons as $value => $label ) {
+			$this->assertContains( $value, $output );
+			$this->assertContains( $label, $output );
 		}
 	}
 }
