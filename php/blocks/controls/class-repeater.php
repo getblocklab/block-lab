@@ -68,10 +68,10 @@ class Repeater extends Control_Abstract {
 	 */
 	public function render_settings_columns( $setting, $name, $id ) {
 		$columns = array(
-			'25'  => '4',
-			'33'  => '3',
-			'50'  => '2',
 			'100' => '1',
+			'50'  => '2',
+			'33'  => '3',
+			'25'  => '4',
 		);
 		$this->render_button_group( $setting, $name, $id, $columns );
 	}
