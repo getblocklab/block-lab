@@ -37,7 +37,7 @@ class Color extends Control_Abstract {
 	 * @return void
 	 */
 	public function register_settings() {
-		foreach ( array( 'location', 'help', 'default' ) as $setting ) {
+		foreach ( array( 'location', 'width', 'help', 'default' ) as $setting ) {
 			$this->settings[] = new Control_Setting( $this->settings_config[ $setting ] );
 		}
 	}

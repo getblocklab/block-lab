@@ -43,6 +43,7 @@ class Post extends Control_Abstract {
 	 */
 	public function register_settings() {
 		$this->settings[] = new Control_Setting( $this->settings_config['location'] );
+		$this->settings[] = new Control_Setting( $this->settings_config['width'] );
 		$this->settings[] = new Control_Setting( $this->settings_config['help'] );
 		$this->settings[] = new Control_Setting(
 			array(

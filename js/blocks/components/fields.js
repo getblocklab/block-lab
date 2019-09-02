@@ -21,6 +21,22 @@ const getControl = ( field ) => {
 };
 
 /**
+ * Gets the class name for the field.
+ *
+ * @param {Object} field The field to get the class name of.
+ * @return {string} The class name.
+ */
+const getClassName = ( field ) => {
+	let className = 'block-lab-control';
+
+	if ( field.width ) {
+		className += ' width-' + field.width;
+	}
+
+	return className;
+};
+
+/**
  * Renders the fields, using their control functions.
  *
  * @param {Array}  fields           The fields to render.
@@ -99,15 +115,17 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 		}
 
 		return (
-			<Control
-				key={ `${ field.name }-control-${ rowIndex }` }
-				field={ field }
-				getValue={ getValue }
-				onChange={ onChange }
-				parentBlock={ parentBlock }
-				rowIndex={ rowIndex }
-				parentBlockProps={ parentBlockProps }
-			/>
+			<div className={getClassName( field )}>
+				<Control
+					key={ `${ field.name }-control-${ rowIndex }` }
+					field={ field }
+					getValue={ getValue }
+					onChange={ onChange }
+					parentBlock={ parentBlock }
+					rowIndex={ rowIndex }
+					parentBlockProps={ parentBlockProps }
+				/>
+			</div>
 		);
 	} );
 };

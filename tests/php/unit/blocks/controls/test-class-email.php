@@ -52,11 +52,21 @@ class Test_Email extends \WP_UnitTestCase {
 		$expected_settings = array(
 			array(
 				'name'     => 'location',
-				'label'    => 'Location',
+				'label'    => 'Field Location',
 				'type'     => 'location',
 				'default'  => 'editor',
 				'help'     => '',
 				'sanitize' => array( $this->instance, 'sanitize_location' ),
+				'validate' => '',
+				'value'    => null,
+			),
+			array(
+				'name'     => 'width',
+				'label'    => 'Field Width',
+				'type'     => 'width',
+				'default'  => '100',
+				'help'     => '',
+				'sanitize' => 'sanitize_text_field',
 				'validate' => '',
 				'value'    => null,
 			),

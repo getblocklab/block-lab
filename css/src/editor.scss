@@ -109,13 +109,16 @@ div[class^="wp-block-block-lab-"] {
   .block-form {
     border-left: none;
     background: $dark-opacity-light-200;
-    padding: 22px;
+    padding: 22px 0 22px 22px;
     font-size: 0.8125rem;
+    display: flex;
+    flex-wrap: wrap;
 
     h3 {
       color: #111;
       font-size: 1rem;
       margin: 0;
+      flex: 1 1 100%;
 
       svg {
         position: relative;
@@ -126,6 +129,29 @@ div[class^="wp-block-block-lab-"] {
 
     p {
       font-size: 1rem;
+    }
+
+    .block-lab-control {
+      flex-basis: 100%;
+      padding-right: 22px;
+
+      &.width-25 {
+        flex-basis: 25%;
+      }
+      &.width-50 {
+        flex-basis: 50%;
+      }
+      &.width-75 {
+        flex-basis: 75%;
+      }
+    }
+
+    @media screen and (max-width: 782px) {
+      .block-lab-control.width-25,
+      .block-lab-control.width-50,
+      .block-lab-control.width-75 {
+        flex-basis: 100%;
+      }
     }
 
     .components-base-control__field {
