@@ -10,13 +10,27 @@ const { BaseControl, IconButton } = wp.components;
 import { RepeaterRows } from '../components';
 
 const BlockLabRepeaterControl = ( props ) => {
-	const { field, getValue, onChange, parentBlock, parentBlockProps } = props;
+	const { field, onChange, parentBlock, parentBlockProps } = props;
 	const { attributes, setAttributes } = parentBlockProps;
 	const attr = { ...attributes };
 	const value = attr[ field.name ];
 	const defaultRows = [ {} ];
 	const hasRows = value && value.hasOwnProperty( 'rows' );
 	const rows = hasRows ? value.rows : defaultRows;
+
+	/**
+	 * Adds a new empty row, using { '': '' }.
+	 *
+	 * Simply using {} results in <ServerSideRender> not sending an empty row,
+	 * and the empty row isn't rendered in the editor.
+	 *
+	 * @see https://github.com/getblocklab/block-lab/issues/393
+	 */
+	const addEmptyRow = () => {
+		const withAddedRow = rows.concat( { '': '' } );
+		attr[ field.name ] = { rows: withAddedRow };
+		setAttributes( attr );
+	};
 
 	if ( ! hasRows ) {
 		onChange( { rows: defaultRows } );
@@ -35,11 +49,7 @@ const BlockLabRepeaterControl = ( props ) => {
 					icon="insert"
 					label={ __( 'Add new', 'block-lab' ) }
 					labelPosition="bottom"
-					onClick={ () => {
-						const withAddedRow = rows.concat( {} );
-						attr[ field.name ] = { rows: withAddedRow };
-						setAttributes( attr );
-					} }
+					onClick={ addEmptyRow }
 					disabled={ false }
 				/>
 			</div>
