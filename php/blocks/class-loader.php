@@ -313,7 +313,7 @@ class Loader extends Component_Abstract {
 					// In each row, apply a field's default value if a value doesn't exist in the attributes.
 					foreach ( $rows as $row_index => $row ) {
 						foreach ( $sub_field_settings as $sub_field_name => $sub_field ) {
-							if ( ( ! isset( $row[ $sub_field_name ] ) ) && isset( $sub_field_settings[ $sub_field_name ]->settings['default'] ) ) {
+							if ( ! isset( $row[ $sub_field_name ] ) && isset( $sub_field_settings[ $sub_field_name ]->settings['default'] ) ) {
 								$rows[ $row_index ][ $sub_field_name ] = $sub_field_settings[ $sub_field_name ]->settings['default'];
 							}
 						}
