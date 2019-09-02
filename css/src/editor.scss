@@ -205,12 +205,12 @@ div[class^="wp-block-block-lab-"] {
 
     .block-lab-repeater__rows {
       width: 100%;
-      display: flex;
+      display: grid;
       flex-wrap: wrap;
       margin: 1px 0 0 1px;
+      grid-template-columns: 100%;
 
       .block-lab-repeater--row {
-        flex-basis: 100%;
         border: 1px dashed $dark-gray-150;
         padding: 10px 14px 0;
         margin: -1px 0 0 -1px;
@@ -349,49 +349,53 @@ div[class^="wp-block-block-lab-"] {
       }
     }
 
-    &.row-width-25 .block-lab-repeater--row {
-      flex-basis: 25%;
+    &.row-width-25 .block-lab-repeater__rows {
+      grid-template-columns: 25% 25% 25% 25%;
     }
 
-    &.row-width-33 .block-lab-repeater--row {
-      flex-basis: 33.33%;
+    &.row-width-33 .block-lab-repeater__rows {
+      grid-template-columns: 33.33% 33.33% 33.33%;
     }
 
-    &.row-width-50 .block-lab-repeater--row {
-      flex-basis: 50%;
+    &.row-width-50 .block-lab-repeater__rows {
+      grid-template-columns: 50% 50%;
     }
 
     &.row-width-25,
     &.row-width-33,
     &.row-width-50 {
-      .block-lab-repeater--row {
-        &:hover:not(.row-from),
-        &.row-to {
-          .block-lab-repeater--row-actions {
-            left: -1px;
-            top: -26px;
-            border-right: 1px solid #8d96a0;
-            border-bottom: none;
-            border-top-right-radius: 3px;
-            border-bottom-left-radius: 0;
+      .block-lab-repeater__rows {
+        grid-auto-rows: 1fr;
 
-            .components-icon-button {
-              display: inline-block;
+        .block-lab-repeater--row {
+          &:hover:not(.row-from),
+          &.row-to {
+            .block-lab-repeater--row-actions {
+              left: -1px;
+              top: -26px;
+              border-right: 1px solid #8d96a0;
+              border-bottom: none;
+              border-top-right-radius: 3px;
+              border-bottom-left-radius: 0;
+
+              .components-icon-button {
+                display: inline-block;
+              }
             }
           }
-        }
 
-        &:before {
-          width: 100%;
-          height: 25px;
-          position: absolute;
-          left: 0;
-          top: -26px;
-          display: none;
-        }
+          &:before {
+            width: 100%;
+            height: 25px;
+            position: absolute;
+            left: 0;
+            top: -26px;
+            display: none;
+          }
 
-        &:hover:before {
-          display: block;
+          &:hover:before {
+            display: block;
+          }
         }
       }
     }
