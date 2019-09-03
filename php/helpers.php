@@ -133,7 +133,7 @@ function block_rows( $name ) {
 }
 
 /**
- * Resets the repeater block rows at the end of the iteration.
+ * Resets the repeater block rows after the while loop.
  *
  * Similar to wp_reset_postdata().
  * Call this after the repeater loop's endwhile.
