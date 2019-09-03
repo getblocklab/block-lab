@@ -135,9 +135,9 @@ function block_rows( $name ) {
 /**
  * Resets the repeater block rows after the while loop.
  *
- * Similar to wp_reset_postdata().
- * Call this after the repeater loop's endwhile.
+ * Similar to wp_reset_postdata(). Call this after the repeater loop.
  * For example:
+ *
  * while ( block_rows( 'example-repeater-name' ) ) :
  *     block_row( 'example-repeater-name' );
  *     block_sub_field( 'example-field' );
