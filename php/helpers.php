@@ -133,6 +133,15 @@ function block_rows( $name ) {
 }
 
 /**
+ * Resets the block rows at the end of the iteration.
+ *
+ * @param string $name The name of the repeater field.
+ */
+function reset_block_rows( $name ) {
+	block_lab()->loop()->reset( $name );
+}
+
+/**
  * Return the value of a sub-field.
  *
  * @param string $name The name of the sub-field.
