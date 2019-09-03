@@ -129,26 +129,7 @@ import { Fields } from './';
 			 * Without this, it looks like setAttributes() doesn't recognize a change to the array, and the component doesn't re-render.
 			 */
 			const rows = repeaterRows.slice();
-
-			/*
-			 * Ensure that every row has the required attributes, so that we don't lose blank rows.
-			 */
-			for ( name in this.props.subFields ) {
-				rows.forEach( ( row ) => {
-					if ( ! row.hasOwnProperty( name ) ) {
-						row[ name ] = null;
-					}
-				} );
-			};
-
-			rows.splice(
-				to,
-				0,
-				rows.splice(
-					from,
-					1
-				)[0]
-			);
+			[ rows[ from ], rows[ to ] ] = [ rows[ to ], rows[ from ] ]
 
 			attr[ parentName ] = { rows };
 			parentBlockProps.setAttributes( attr );
@@ -175,22 +156,22 @@ import { Fields } from './';
 
 		return (
 			<Fragment>
-				<div className="block-lab-repeater__rows" ref={this.repeaterRows}>
+				<div className="block-lab-repeater__rows" ref={ this.repeaterRows }>
 					{
-						rows && rows.map( ( row, rowIndex ) => {
+						rows.map( ( row, rowIndex ) => {
 							const activeClass = this.state.activeRow === parseInt( rowIndex ) ? 'active' : ''; // @todo: Make this dynamic.
 
 							return (
 								<BaseControl className={ `block-lab-repeater--row ${ activeClass }` } key={ `bl-row-${ rowIndex }` }>
 									<div className="block-lab-repeater--row-delete">
-									<IconButton
-										icon="no"
-										key={ `${ rowIndex }-menu` }
-										className="button-delete"
-										label={ __( 'Delete', 'block-lab' ) }
-										onClick={ this.removeRow( rowIndex ) }
-										isSmall
-									/>
+										<IconButton
+											icon="no"
+											key={ `${ rowIndex }-menu` }
+											className="button-delete"
+											label={ __( 'Delete', 'block-lab' ) }
+											onClick={ this.removeRow( rowIndex ) }
+											isSmall
+										/>
 									</div>
 									<Fields
 										fields={ subFields }

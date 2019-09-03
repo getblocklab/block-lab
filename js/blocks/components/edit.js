@@ -7,7 +7,7 @@ const { Fragment } = wp.element;
 /**
  * Internal dependencies
  */
-import { AdvancedControls, BlockLabInspector, Fields, FormControls } from './';
+import { AdvancedControls, BlockLabInspector, FormControls } from './';
 import icons from '../../../assets/icons.json';
 
 /**

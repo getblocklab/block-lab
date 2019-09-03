@@ -2,6 +2,8 @@ const { TextControl } = wp.components;
 
 const BlockLabTextControl = ( props ) => {
 	const { field, getValue, onChange } = props;
+	const initialValue = getValue( props );
+	const value = 'undefined' !== typeof initialValue ? initialValue : field.default;
 
 	return (
 		<TextControl
@@ -9,8 +11,7 @@ const BlockLabTextControl = ( props ) => {
 			placeholder={ field.placeholder || '' }
 			maxLength={ field.maxlength }
 			help={ field.help }
-			defaultValue={ field.default }
-			value={ getValue( props ) }
+			value={ value }
 			onChange={ onChange }
 		/>
 	);
