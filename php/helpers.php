@@ -133,6 +133,24 @@ function block_rows( $name ) {
 }
 
 /**
+ * Resets the repeater block rows after the while loop.
+ *
+ * Similar to wp_reset_postdata(). Call this after the repeater loop.
+ * For example:
+ *
+ * while ( block_rows( 'example-repeater-name' ) ) :
+ *     block_row( 'example-repeater-name' );
+ *     block_sub_field( 'example-field' );
+ * endwhile;
+ * reset_block_rows( 'example-repeater-name' );
+ *
+ * @param string $name The name of the repeater field.
+ */
+function reset_block_rows( $name ) {
+	block_lab()->loop()->reset( $name );
+}
+
+/**
  * Return the value of a sub-field.
  *
  * @param string $name The name of the sub-field.
