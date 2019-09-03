@@ -4,6 +4,8 @@ const { TextControl } = wp.components;
 
 const BlockLabNumberControl = ( props ) => {
 	const { field, getValue, onChange } = props;
+	const initialValue = getValue( props );
+	const value = 'undefined' !== typeof initialValue ? initialValue : field.default;
 
 	/**
 	 * Sets the Error Class for the Text Control.
@@ -24,8 +26,7 @@ const BlockLabNumberControl = ( props ) => {
 			label={ field.label }
 			placeholder={ field.placeholder || '' }
 			help={ field.help }
-			defaultValue={ field.default }
-			value={ getValue( props ) }
+			value={ value }
 			onChange={ ( numberControl ) => {
 				onChange( Number( numberControl ) );
 			} }
