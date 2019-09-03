@@ -92,6 +92,8 @@ class Test_Helpers extends \WP_UnitTestCase {
 		$this->assertEmpty( $echoed_value );
 
 		$default_fields_filter = 'block_lab_default_fields';
+
+		// Don't return anything from the filter callback, to test the behavior.
 		add_filter(
 			$default_fields_filter,
 			function( $default_fields ) use ( $additional_field_name ) {
@@ -120,7 +122,7 @@ class Test_Helpers extends \WP_UnitTestCase {
 		$return_value = block_field( $additional_field_name, true );
 		$echoed_value = ob_get_clean();
 
-		// Now that the filter returns true, the field should be echoed, even though it's not in $block_lab_config.
+		// Now that the filter includes the additional field, the field should be echoed, even though it's not in $block_lab_config.
 		$this->assertEquals( $additional_field_value, $return_value );
 		$this->assertEquals( $additional_field_value, $echoed_value );
 	}
