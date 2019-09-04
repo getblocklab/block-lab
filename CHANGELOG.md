@@ -1,5 +1,17 @@
 ## Changelog #
 
+### 1.4.0 – 2019-09-04 ###
+
+This release applies some finishing touches to the repeater field. It also introduces a new "Field Width" feature, which lets you choose the width of the fields as seen in the Editor.
+
+* New: Function to reset repeater rows: reset_block_rows()
+* New: Add a "Field Width" control to blocks
+* Fix: Empty repeater rows now save and can be moved properly
+* Fix: An issue which occasionally prevented repeater rows from being deleted
+* Fix: Prevent repeated requests to validate a Pro license
+* Tweaks: Add a different admin notice for when a license validation request fails
+* Tweaks: Many new and shiny unit and integration tests, making Block Lab more solid than ever
+
 ### 1.3.6 – 2019-08-22 ###
 
 * New: 🔁 REPEATER FIELD 🔁
