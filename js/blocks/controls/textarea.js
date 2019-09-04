@@ -2,6 +2,8 @@ const { TextareaControl } = wp.components;
 
 const BlockLabTextareaControl = ( props ) => {
 	const { getValue, field, onChange } = props
+	const initialValue = getValue( props );
+	const value = 'undefined' !== typeof initialValue ? initialValue : field.default;
 
 	return (
 		<TextareaControl
@@ -10,8 +12,7 @@ const BlockLabTextareaControl = ( props ) => {
 			maxLength={ field.maxlength }
 			rows={ field.number_rows }
 			help={ field.help }
-			defaultValue={ field.default }
-			value={ getValue( props ) }
+			value={ value }
 			onChange={ onChange }
 		/>
 	);
