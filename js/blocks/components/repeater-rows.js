@@ -63,6 +63,38 @@ import { Fields } from './';
 	};
 
 	/**
+	 * Adds a new empty row, using { '': '' }.
+	 *
+	 * Simply using {} results in <ServerSideRender> not sending an empty row,
+	 * and the empty row isn't rendered in the editor.
+	 *
+	 * @see https://github.com/getblocklab/block-lab/issues/393
+	 */
+	addEmptyRow() {
+		return () => {
+			const { parentBlockProps } = this.props;
+			const attr = { ...parentBlockProps.attributes };
+			const parentName = this.getParent();
+			const attribute = attr[ parentName ];
+			const repeaterRows = this.getRows( attribute );
+
+			if ( ! repeaterRows ) {
+				return;
+			}
+
+			/*
+			 * Calling slice() essentially creates a copy of repeaterRows.
+			 * Without this, it looks like setAttributes() doesn't recognize a change to the array, and the component doesn't re-render.
+			 */
+			const rows = repeaterRows.slice()
+			const withAddedRow = rows.concat( { '': '' } );
+
+			attr[ parentName ] = { rows: withAddedRow };
+			parentBlockProps.setAttributes( attr );
+		}
+	};
+
+	/**
 	 * On clicking the 'remove' button in a repeater row, this removes it.
 	 *
 	 * @param {number} index The index of the row to remove, 0 being the first.
@@ -129,26 +161,7 @@ import { Fields } from './';
 			 * Without this, it looks like setAttributes() doesn't recognize a change to the array, and the component doesn't re-render.
 			 */
 			const rows = repeaterRows.slice();
-
-			/*
-			 * Ensure that every row has the required attributes, so that we don't lose blank rows.
-			 */
-			for ( name in this.props.subFields ) {
-				rows.forEach( ( row ) => {
-					if ( ! row.hasOwnProperty( name ) ) {
-						row[ name ] = null;
-					}
-				} );
-			};
-
-			rows.splice(
-				to,
-				0,
-				rows.splice(
-					from,
-					1
-				)[0]
-			);
+			[ rows[ from ], rows[ to ] ] = [ rows[ to ], rows[ from ] ]
 
 			attr[ parentName ] = { rows };
 			parentBlockProps.setAttributes( attr );
@@ -183,22 +196,22 @@ import { Fields } from './';
 
 		return (
 			<Fragment>
-				<div className="block-lab-repeater__rows" ref={this.repeaterRows}>
+				<div className="block-lab-repeater__rows" ref={ this.repeaterRows }>
 					{
-						rows && rows.map( ( row, rowIndex ) => {
+						rows.map( ( row, rowIndex ) => {
 							const activeClass = this.state.activeRow === parseInt( rowIndex ) ? 'active' : ''; // @todo: Make this dynamic.
 
 							return (
 								<BaseControl className={ `block-lab-repeater--row ${ activeClass }` } key={ `bl-row-${ rowIndex }` }>
 									<div className="block-lab-repeater--row-delete">
-									<IconButton
-										icon="no"
-										key={ `${ rowIndex }-menu` }
-										className="button-delete"
-										label={ __( 'Delete', 'block-lab' ) }
-										onClick={ this.removeRow( rowIndex ) }
-										isSmall
-									/>
+										<IconButton
+											icon="no"
+											key={ `${ rowIndex }-menu` }
+											className="button-delete"
+											label={ __( 'Delete', 'block-lab' ) }
+											onClick={ this.removeRow( rowIndex ) }
+											isSmall
+										/>
 									</div>
 									<Fields
 										fields={ subFields }
@@ -234,13 +247,7 @@ import { Fields } from './';
 							icon="insert"
 							label={ __( 'Add new', 'block-lab' ) }
 							labelPosition="bottom"
-							onClick={ () => {
-								const { parentBlockProps } = this.props;
-								const attr = { ...parentBlockProps.attributes };
-								const withAddedRow = rows.concat( {} );
-								attr[ field.name ] = { rows: withAddedRow };
-								parentBlockProps.setAttributes( attr );
-							} }
+							onClick={ this.addEmptyRow() }
 							disabled={ false }
 						/>
 					</div>

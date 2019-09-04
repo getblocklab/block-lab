@@ -53,12 +53,12 @@ const BlockLabColorPopover = withState( {
 
 const BlockLabColorControl = ( props ) => {
 	const { field, getValue, onChange } = props;
-	const value = getValue( props );
+	const initialValue = getValue( props );
+	const value = 'undefined' !== typeof initialValue ? initialValue : field.default;
 
 	return (
 		<BaseControl label={ field.label } className="block-lab-color-control" help={ field.help }>
 			<TextControl
-				defaultValue={ field.default }
 				value={ value }
 				onChange={ onChange }
 			/>
