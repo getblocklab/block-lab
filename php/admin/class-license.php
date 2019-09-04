@@ -95,7 +95,15 @@ class License extends Component_Abstract {
 		$license = $this->get_license();
 
 		if ( isset( $license['license'] ) && 'valid' === $license['license'] ) {
-			if ( isset( $license['expires'] ) && time() < strtotime( $license['expires'] ) ) {
+			if (
+				isset( $license['expires'] )
+				&&
+				(
+					'lifetime' === $license['expires']
+					||
+					time() < strtotime( $license['expires'] )
+				)
+			) {
 				return true;
 			}
 		}
