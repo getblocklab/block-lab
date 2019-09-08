@@ -156,7 +156,7 @@ class Test_Template_Output extends Abstract_Attribute {
 		foreach ( $this->string_fields as $field ) {
 			$this->assertContains(
 				sprintf(
-					'And here is the result of calling block_value() for %s: %s',
+					'Here is the result of calling block_value() for %s: %s',
 					$field,
 					$this->attributes[ $field ]
 				),
@@ -219,7 +219,7 @@ class Test_Template_Output extends Abstract_Attribute {
 
 			$this->assertContains(
 				sprintf(
-					'And here is the result of calling block_value() for %s: %s',
+					'Here is the result of calling block_value() for %s: %s',
 					$field_name,
 					$expected['block_value']
 				),
