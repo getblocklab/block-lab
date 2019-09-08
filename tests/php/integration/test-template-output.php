@@ -156,7 +156,7 @@ class Test_Template_Output extends Abstract_Attribute {
 		foreach ( $this->string_fields as $field ) {
 			$this->assertContains(
 				sprintf(
-					esc_html( 'And here is the result of calling block_value() for %s: %s', 'bl-testing-templates' ),
+					'And here is the result of calling block_value() for %s: %s',
 					$field,
 					$this->attributes[ $field ]
 				),
@@ -165,7 +165,7 @@ class Test_Template_Output extends Abstract_Attribute {
 
 			$this->assertContains(
 				sprintf(
-					esc_html( 'Here is the result of block_field() for %s: %s', 'bl-testing-templates' ),
+					'Here is the result of block_field() for %s: %s',
 					$field,
 					$this->attributes[ $field ]
 				),

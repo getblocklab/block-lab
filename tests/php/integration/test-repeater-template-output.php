@@ -16,7 +16,7 @@ use Block_Lab\Post_Types;
 class Test_Repeater_Template_Output extends Abstract_Attribute {
 
 	/**
-	 * The field nam e of the repeater.
+	 * The field name of the repeater.
 	 *
 	 * @var string
 	 */
@@ -169,9 +169,9 @@ class Test_Repeater_Template_Output extends Abstract_Attribute {
 			'excluded' => array(),
 			'fields'   => $fields,
 			'icon'     => 'block_lab',
-			'keywords' => array( '' ),
+			'keywords' => array( 'Repeater' ),
 			'name'     => $this->block_name,
-			'title'    => 'All Fields',
+			'title'    => 'Repeater With All Fields',
 		);
 	}
 
@@ -200,7 +200,7 @@ class Test_Repeater_Template_Output extends Abstract_Attribute {
 			foreach ( $this->string_fields as $field ) {
 				$this->assertContains(
 					sprintf(
-						esc_html( 'And in row %d, here is the result of calling block_sub_value() for %s: %s', 'bl-testing-templates' ),
+						'And in row %d, here is the result of calling block_sub_value() for %s: %s',
 						$row_number,
 						$field,
 						$row[ $field ]
@@ -210,7 +210,7 @@ class Test_Repeater_Template_Output extends Abstract_Attribute {
 
 				$this->assertContains(
 					sprintf(
-						esc_html( 'In row %d, here is the result of block_sub_field() for %s: %s', 'bl-testing-templates' ),
+						'In row %d, here is the result of block_sub_field() for %s: %s',
 						$row_number,
 						$field,
 						$row[ $field ]
