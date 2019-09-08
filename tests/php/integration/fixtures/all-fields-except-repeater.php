@@ -27,7 +27,6 @@ foreach ( $non_object_fields as $field ) :
 	?>
 	<p class="<?php block_field( 'className' ); ?>">
 		<?php
-		/* translators: %s is the field name */
 		printf(
 			'Here is the result of block_field() for %s: ',
 			$field
@@ -38,7 +37,6 @@ foreach ( $non_object_fields as $field ) :
 
 	<p>
 		<?php
-		/* translators: %s is the field name, %s is the result of calling block_value() */
 		printf(
 			'And here is the result of calling block_value() for %s: %s',
 			$field,
@@ -56,7 +54,6 @@ $non_string_fields = array(
 );
 
 foreach ( $non_string_fields as $name => $value ) :
-	/* translators: %s is the field name */
 	printf(
 		'Here is the result of block_field() for %s: ',
 		$name
