@@ -563,11 +563,8 @@ class Block_Post extends Component_Abstract {
 			<script type="text/html" id="tmpl-field-repeater">
 				<?php
 				$args = array(
-					'name'     => 'new-field',
-					'label'    => __( 'New Field', 'block-lab' ),
-					'settings' => array(
-						'parent' => '',
-					),
+					'name'  => 'new-field',
+					'label' => __( 'New Field', 'block-lab' ),
 				);
 				$this->render_fields_meta_box_row( new Field( $args ) );
 				?>
@@ -594,8 +591,8 @@ class Block_Post extends Component_Abstract {
 		if ( ! $uid ) {
 			$uid = '{{ data.uid }}';
 		}
-		$is_field_disabled = ( ! isset( $this->controls[ $field->control ] ) && in_array( $field->control, $this->pro_controls, true ) );
 
+		$is_field_disabled = ( ! isset( $this->controls[ $field->control ] ) && in_array( $field->control, $this->pro_controls, true ) );
 		?>
 		<div class="block-fields-row" data-uid="<?php echo esc_attr( $uid ); ?>">
 			<div class="block-fields-row-columns">

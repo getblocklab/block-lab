@@ -43,6 +43,10 @@
 			// Prevents adding a repeater, in a repeater, in a repeater…
 			field.find( '.block-fields-edit-control option[value="repeater"]' ).remove();
 
+			// Don't render the location or width settings for sub-fields.
+			field.find( '.block-fields-edit-location-settings' ).remove();
+			field.find( '.block-fields-edit-width-settings' ).remove();
+
 			// Add parent UID as a hidden input
 			let parentInput = $( '<input>' ).attr({
 				'type': 'hidden',
@@ -160,7 +164,6 @@
 					$( '.block-fields-rows .block-fields-row-active' ).removeClass( 'block-fields-row-active' );
 				}
 
-				blockFieldWidthInit( currentRow );
 				currentRow.toggleClass( 'block-fields-row-active' );
 				currentRow.find( '.block-fields-edit' ).first().slideToggle();
 
