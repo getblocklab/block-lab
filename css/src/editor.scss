@@ -272,12 +272,16 @@ div[class^="wp-block-block-lab-"] {
               width: 100%;
             }
 
-            &:hover {
+            &:hover:not(:disabled) {
               color: $alert-red;
             }
 
-            &:active {
+            &:active:not(:disabled) {
               color: $dark-gray-600;
+            }
+
+            &:disabled {
+              opacity: 0;
             }
           }
         }
@@ -336,11 +340,14 @@ div[class^="wp-block-block-lab-"] {
       display: flex;
       justify-content: center;
 
-      .components-icon-button:hover {
+      .components-icon-button:hover:not(:disabled) {
         border-color: transparent;
         box-shadow: none;
         background: transparent;
         color: $blue-medium-focus;
+      }
+      .components-icon-button:active:disabled {
+        color: #555d66;
       }
     }
   }
