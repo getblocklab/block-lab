@@ -91,29 +91,7 @@ class Test_Helpers extends \WP_UnitTestCase {
 		$this->assertEmpty( $return_value );
 		$this->assertEmpty( $echoed_value );
 
-		add_filter(
-			'block_lab_default_fields',
-			function( $default_fields ) use ( $additional_field_name ) {
-				$default_fields[] = $additional_field_name;
-			}
-		);
-
-		ob_start();
-		$return_value = block_field( $additional_field_name, true );
-		$echoed_value = ob_get_clean();
-
-		// In case the filter accidentally doesn't return anything, there should still not be a fatal error, there should just be no output.
-		$this->assertEmpty( $return_value );
-		$this->assertEmpty( $echoed_value );
-		remove_all_filters( 'is_block_field_name_allowed' );
-
-		add_filter(
-			'block_lab_default_fields',
-			function( $default_fields ) use ( $additional_field_name ) {
-				$default_fields[] = $additional_field_name;
-				return $default_fields;
-			}
-		);
+		add_filter( 'is_block_field_name_allowed', '__return_true' );
 
 		ob_start();
 		$return_value = block_field( $additional_field_name, true );

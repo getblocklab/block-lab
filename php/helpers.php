@@ -25,30 +25,27 @@ function block_field( $name, $echo = true ) {
 	 */
 	global $block_lab_attributes, $block_lab_config;
 
+	$default_fields = array( 'className' );
+
 	if ( ! isset( $block_lab_attributes ) || ! is_array( $block_lab_attributes ) ) {
 		return null;
 	}
 
-	$default_fields = array( 'className' );
+	$is_name_allowed = isset( $block_lab_config->fields[ $name ] ) || in_array( $name, $default_fields, true );
 
 	/**
-	 * Filters the default fields that are allowed in addition to the fields in block attributes.
+	 * Filters whether the $name argument to this function is allowed.
 	 *
-	 * Adding an attribute to this can enable outputting it via block_field().
-	 * Normally, this function only returns or echoes Block Lab attributes (fields), and one default field.
-	 * But this allows getting block attributes that might have been added by other plugins.
-	 * To allow getting another attribute, add it to the $default_fields array.
+	 * By default, this only allows a $name that is in the block fields or default fields, like 'className'.
+	 * Returning true to this filter can prevent exiting from block_field()
+	 * when looking for another value in the block attributes.
 	 *
-	 * @param string[] $default_fields Default block fields to allow.
-	 * @param string   $name The name of value to get.
+	 * @param bool   $is_name_allowed Whether the name is allowed.
+	 * @param string $name The name of value to get.
 	 */
-	$default_fields = apply_filters( 'block_lab_default_fields', $default_fields, $name );
+	$is_block_field_name_allowed = apply_filters( 'is_block_field_name_allowed', $is_name_allowed, $name );
 
-	if ( ! is_array( $default_fields ) ) {
-		return null;
-	}
-
-	if ( ! isset( $block_lab_config->fields[ $name ] ) && ! in_array( $name, $default_fields, true ) ) {
+	if ( ! $is_block_field_name_allowed ) {
 		return null;
 	}
 
