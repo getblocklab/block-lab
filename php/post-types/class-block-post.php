@@ -72,6 +72,7 @@ class Block_Post extends Component_Abstract {
 		add_action( 'wp_insert_post_data', array( $this, 'save_block' ), 10, 2 );
 		add_action( 'init', array( $this, 'register_controls' ) );
 		add_filter( 'block_lab_field_value', array( $this, 'get_field_value' ), 10, 3 );
+		add_filter( 'block_lab_sub_field_value', array( $this, 'get_field_value' ), 10, 3 );
 
 		// Clean up the list table.
 		add_filter( 'disable_months_dropdown', '__return_true', 10, $this->slug );
