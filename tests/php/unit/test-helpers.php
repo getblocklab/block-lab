@@ -18,7 +18,7 @@ class Test_Helpers extends \WP_UnitTestCase {
 	 * @inheritdoc
 	 */
 	public function tearDown() {
-		remove_all_filters( 'block_lab_default_fields' );
+		remove_all_filters( 'is_block_field_name_allowed' );
 		$GLOBALS['block_lab_attributes'] = array();
 		$GLOBALS['block_lab_config']     = array();
 		parent::tearDown();
@@ -91,9 +91,8 @@ class Test_Helpers extends \WP_UnitTestCase {
 		$this->assertEmpty( $return_value );
 		$this->assertEmpty( $echoed_value );
 
-		$default_fields_filter = 'block_lab_default_fields';
 		add_filter(
-			$default_fields_filter,
+			'block_lab_default_fields',
 			function( $default_fields ) use ( $additional_field_name ) {
 				$default_fields[] = $additional_field_name;
 			}
@@ -106,10 +105,10 @@ class Test_Helpers extends \WP_UnitTestCase {
 		// In case the filter accidentally doesn't return anything, there should still not be a fatal error, there should just be no output.
 		$this->assertEmpty( $return_value );
 		$this->assertEmpty( $echoed_value );
-		remove_all_filters( $default_fields_filter );
+		remove_all_filters( 'is_block_field_name_allowed' );
 
 		add_filter(
-			$default_fields_filter,
+			'block_lab_default_fields',
 			function( $default_fields ) use ( $additional_field_name ) {
 				$default_fields[] = $additional_field_name;
 				return $default_fields;
