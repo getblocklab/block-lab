@@ -27,7 +27,6 @@ foreach ( $non_object_fields as $field ) :
 	?>
 	<p class="<?php block_field( 'className' ); ?>">
 		<?php
-		/* translators: %s is the field name */
 		printf(
 			'Here is the result of block_field() for %s: ',
 			$field
@@ -38,9 +37,8 @@ foreach ( $non_object_fields as $field ) :
 
 	<p>
 		<?php
-		/* translators: %s is the field name, %s is the result of calling block_value() */
 		printf(
-			'And here is the result of calling block_value() for %s: %s',
+			'Here is the result of calling block_value() for %s: %s',
 			$field,
 			block_value( $field )
 		);
@@ -56,7 +54,6 @@ $non_string_fields = array(
 );
 
 foreach ( $non_string_fields as $name => $value ) :
-	/* translators: %s is the field name */
 	printf(
 		'Here is the result of block_field() for %s: ',
 		$name
@@ -65,11 +62,18 @@ foreach ( $non_string_fields as $name => $value ) :
 
 	$block_value = block_value( $name );
 	foreach ( $value as $block_value_property ) :
-		printf(
-			'Here is the result of passing %s to block_value() with the property %s: %s',
-			$name,
-			$block_value_property,
-			$block_value->$block_value_property
-		);
+		if ( isset( $block_value->$block_value_property ) ) :
+			printf(
+				'Here is the result of passing %s to block_value() with the property %s: %s',
+				$name,
+				$block_value_property,
+				$block_value->$block_value_property
+			);
+		endif;
 	endforeach;
 endforeach;
+
+printf(
+	'Here is the result of block_field() for multiselect: %s',
+	block_field( 'multiselect' )
+);
