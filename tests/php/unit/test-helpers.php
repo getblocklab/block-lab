@@ -113,7 +113,7 @@ class Test_Helpers extends \WP_UnitTestCase {
 		add_filter(
 			$default_fields_filter,
 			function( $default_fields ) use ( $additional_field_name ) {
-				$default_fields[] = $additional_field_name;
+				$default_fields[ $additional_field_name ] = 'string';
 				return $default_fields;
 			}
 		);
