@@ -18,7 +18,7 @@ class Test_Helpers extends \WP_UnitTestCase {
 	 * @inheritdoc
 	 */
 	public function tearDown() {
-		remove_all_filters( 'is_block_field_name_allowed' );
+		remove_all_filters( 'block_lab_default_fields' );
 		$GLOBALS['block_lab_attributes'] = array();
 		$GLOBALS['block_lab_config']     = array();
 		parent::tearDown();
@@ -91,13 +91,38 @@ class Test_Helpers extends \WP_UnitTestCase {
 		$this->assertEmpty( $return_value );
 		$this->assertEmpty( $echoed_value );
 
-		add_filter( 'is_block_field_name_allowed', '__return_true' );
+		$default_fields_filter = 'block_lab_default_fields';
+
+		// Don't return anything from the filter callback, to test the behavior.
+		add_filter(
+			$default_fields_filter,
+			function( $default_fields ) use ( $additional_field_name ) {
+				$default_fields[] = $additional_field_name;
+			}
+		);
 
 		ob_start();
 		$return_value = block_field( $additional_field_name, true );
 		$echoed_value = ob_get_clean();
 
-		// Now that the filter returns true, the field should be echoed, even though it's not in $block_lab_config.
+		// In case the filter accidentally doesn't return anything, there should still not be a fatal error, there should just be no output.
+		$this->assertEmpty( $return_value );
+		$this->assertEmpty( $echoed_value );
+		remove_all_filters( $default_fields_filter );
+
+		add_filter(
+			$default_fields_filter,
+			function( $default_fields ) use ( $additional_field_name ) {
+				$default_fields[] = $additional_field_name;
+				return $default_fields;
+			}
+		);
+
+		ob_start();
+		$return_value = block_field( $additional_field_name, true );
+		$echoed_value = ob_get_clean();
+
+		// Now that the filter includes the additional field, the field should be echoed, even though it's not in $block_lab_config.
 		$this->assertEquals( $additional_field_value, $return_value );
 		$this->assertEquals( $additional_field_value, $echoed_value );
 	}
