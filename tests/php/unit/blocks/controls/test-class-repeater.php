@@ -66,6 +66,26 @@ class Test_Repeater extends \WP_UnitTestCase {
 				'validate' => '',
 				'value'    => null,
 			),
+			array(
+				'name'     => 'min',
+				'label'    => 'Minimum Rows',
+				'type'     => 'number_non_negative',
+				'default'  => '',
+				'help'     => '',
+				'sanitize' => array( $this->instance, 'sanitize_number' ),
+				'validate' => '',
+				'value'    => null,
+			),
+			array(
+				'name'     => 'max',
+				'label'    => 'Maximum Rows',
+				'type'     => 'number_non_negative',
+				'default'  => '',
+				'help'     => '',
+				'sanitize' => array( $this->instance, 'sanitize_number' ),
+				'validate' => '',
+				'value'    => null,
+			),
 		);
 
 		$this->assert_correct_settings( $expected_settings, $this->instance->settings );
