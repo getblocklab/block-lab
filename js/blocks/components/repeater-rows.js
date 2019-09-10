@@ -170,7 +170,7 @@ import { Fields } from './';
 											className="button-delete"
 											label={ __( 'Delete', 'block-lab' ) }
 											onClick={ this.removeRow( rowIndex ) }
-											disabled={ rows.length <= field.min ? true : false }
+											disabled={ !! field.min && rows.length <= field.min }
 											isSmall
 										/>
 									</div>

@@ -52,7 +52,7 @@ const BlockLabRepeaterControl = ( props ) => {
 					label={ __( 'Add new', 'block-lab' ) }
 					labelPosition="bottom"
 					onClick={ addEmptyRow }
-					disabled={ rows.length >= field.max ? true : false }
+					disabled={ !! field.max && rows.length >= field.max }
 				/>
 			</div>
 		</BaseControl>
