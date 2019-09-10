@@ -148,8 +148,8 @@ abstract class Control_Abstract {
 				continue;
 			}
 
-			// Don't render the location setting for sub-fields.
-			if ( 'field_width' === $setting->type && isset( $field->settings['parent'] ) ) {
+			// Don't render the field width setting for sub-fields.
+			if ( 'width' === $setting->type && isset( $field->settings['parent'] ) ) {
 				continue;
 			}
 
