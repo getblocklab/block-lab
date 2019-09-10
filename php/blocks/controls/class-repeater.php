@@ -51,7 +51,6 @@ class Repeater extends Control_Abstract {
 				'name'     => 'min',
 				'label'    => __( 'Minimum Rows', 'block-lab' ),
 				'type'     => 'number_non_negative',
-				'default'  => '',
 				'sanitize' => array( $this, 'sanitize_number' ),
 			)
 		);
@@ -60,7 +59,6 @@ class Repeater extends Control_Abstract {
 				'name'     => 'max',
 				'label'    => __( 'Maximum Rows', 'block-lab' ),
 				'type'     => 'number_non_negative',
-				'default'  => '',
 				'sanitize' => array( $this, 'sanitize_number' ),
 			)
 		);
