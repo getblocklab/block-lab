@@ -152,7 +152,7 @@ import { Fields } from './';
 	 * Renders the repeater rows.
 	 */
 	render() {
-		const { rows, subFields, parentBlockProps, parentBlock } = this.props;
+		const { rows, field, subFields, parentBlockProps, parentBlock } = this.props;
 
 		return (
 			<Fragment>
@@ -170,6 +170,7 @@ import { Fields } from './';
 											className="button-delete"
 											label={ __( 'Delete', 'block-lab' ) }
 											onClick={ this.removeRow( rowIndex ) }
+											disabled={ !! field.min && rows.length <= field.min }
 											isSmall
 										/>
 									</div>
