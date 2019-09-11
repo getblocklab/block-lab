@@ -5,9 +5,6 @@ const { __ } = wp.i18n;
 const { BaseControl, IconButton } = wp.components;
 
 /**
- * Internal dependendies
- */
-/**
  * Internal dependencies
  */
 import { RepeaterRows } from '../components';
