@@ -5,21 +5,19 @@
  * @return {Object} attributes The attributes for the fields.
  */
 const getBlockAttributes = ( fields ) => {
+	const attributes = {};
 
-	let attributes = {};
-
-	for ( let fieldName in fields ) {
-
+	for ( const fieldName in fields ) {
 		if ( ! fields.hasOwnProperty( fieldName ) ) {
 			continue;
 		}
 
-		let field = fields[ fieldName ];
+		const field = fields[ fieldName ];
 
 		attributes[ fieldName ] = {};
 
 		if ( field.type ) {
-			attributes[ fieldName ].type = field.type
+			attributes[ fieldName ].type = field.type;
 		}
 
 		if ( field.default ) {
