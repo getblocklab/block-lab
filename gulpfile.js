@@ -85,7 +85,7 @@ gulp.task( 'clean:bundle', function () {
 		'package/trunk/gulpfile.js',
 		'package/trunk/Makefile',
 		'package/trunk/package*.json',
-		'package/trunk/phpunit.xml.dist',
+		'package/trunk/phpunit.xml',
 		'package/trunk/README.md',
 		'package/trunk/CHANGELOG.md',
 		'package/trunk/webpack.config.js',
