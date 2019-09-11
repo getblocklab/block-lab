@@ -18,6 +18,6 @@ const BlockLabRangeControl = ( props ) => {
 			allowReset={ field.allowReset }
 		/>
 	);
-}
+};
 
 export default BlockLabRangeControl;

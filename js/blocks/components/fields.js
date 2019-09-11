@@ -16,7 +16,7 @@ import controls from '../controls';
  * @return {Function} The control function.
  */
 const getControl = ( field ) => {
-	const loadedControls = applyFilters( 'block_lab_controls', controls);
+	const loadedControls = applyFilters( 'block_lab_controls', controls );
 	return loadedControls[ field.control ];
 };
 
@@ -73,7 +73,7 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 				setAttributes( attr );
 			} else {
  				// This is in a repeater row.
-				const rows = ( attribute && attribute[ 'rows' ] ) ? attribute[ 'rows' ] : defaultRows;
+				const rows = ( attribute && attribute.rows ) ? attribute.rows : defaultRows;
 
 				/*
 				 * Copy the rows array, so the change is recognized.
@@ -100,13 +100,12 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 			const { field, parentBlockProps, rowIndex } = props;
 			const attr = { ...parentBlockProps.attributes };
 
-			if ( field.parent && attr[ field.parent ] && attr[ field.parent ]['rows'] ) {
+			if ( field.parent && attr[ field.parent ] && attr[ field.parent ].rows ) {
 				// The field is probably in a repeater row, as it has a parent.
-				return attr[ field.parent ][ 'rows' ][ rowIndex ][ field.name ];
-			} else {
-				// The field is not in a repeater row.
-				return attr[ field.name ];
+				return attr[ field.parent ].rows[ rowIndex ][ field.name ];
 			}
+			// The field is not in a repeater row.
+			return attr[ field.name ];
 		};
 
 		const Control = getControl( field );
@@ -115,7 +114,7 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 		}
 
 		return (
-			<div className={getClassName( field )}>
+			<div className={ getClassName( field ) }>
 				<Control
 					key={ `${ field.name }-control-${ rowIndex }` }
 					field={ field }

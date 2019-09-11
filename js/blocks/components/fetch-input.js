@@ -27,21 +27,20 @@ const { addQueryArgs } = wp.url;
 const stopEventPropagation = ( event ) => event.stopPropagation();
 
 class FetchInput extends Component {
-
 	/**
 	 * Constructs the component class.
 	 */
 	constructor( { autocompleteRef } ) {
 		super( ...arguments );
 
-		this.onBlur            = this.onBlur.bind( this );
-		this.onFocus           = this.onFocus.bind( this );
-		this.onChange          = this.onChange.bind( this );
-		this.onKeyDown         = this.onKeyDown.bind( this );
-		this.autocompleteRef   = autocompleteRef || createRef();
-		this.inputRef          = createRef();
+		this.onBlur = this.onBlur.bind( this );
+		this.onFocus = this.onFocus.bind( this );
+		this.onChange = this.onChange.bind( this );
+		this.onKeyDown = this.onKeyDown.bind( this );
+		this.autocompleteRef = autocompleteRef || createRef();
+		this.inputRef = createRef();
 		this.updateSuggestions = this.updateSuggestions.bind( this );
-		this.setInputValidity  = this.setInputValidity.bind( this );
+		this.setInputValidity = this.setInputValidity.bind( this );
 
 		this.suggestionNodes = [];
 
@@ -112,8 +111,8 @@ class FetchInput extends Component {
 
 				if ( null === this.state.selectedSuggestion && '' !== this.getInputValue() ) {
 					this.setState( {
-						selectedSuggestion: 0
-					})
+						selectedSuggestion: 0,
+					} );
 				}
 			} else {
 				this.props.debouncedSpeak( __( 'No results.', 'block-lab' ), 'assertive' );
@@ -139,7 +138,7 @@ class FetchInput extends Component {
 	 */
 	setInputValidity( isValid ) {
 		if ( ! this.inputRef.current || ! this.inputRef.current.setCustomValidity ) {
-			return
+			return;
 		}
 
 		if ( ! isValid ) {
@@ -150,7 +149,7 @@ class FetchInput extends Component {
 		}
 
 		this.inputRef.current.className = classNames( 'bl-fetch__input', {
-			'text-control__error': ! isValid
+			'text-control__error': ! isValid,
 		} );
 	}
 
@@ -178,7 +177,7 @@ class FetchInput extends Component {
 			if ( false === this.inputRef.current.checkValidity() ) {
 				this.handlePopoverButton( '' );
 			} else {
-				this.handlePopoverButton( this.state.results[ this.state.selectedSuggestion] );
+				this.handlePopoverButton( this.state.results[ this.state.selectedSuggestion ] );
 			}
 		}
 	}
@@ -285,7 +284,7 @@ class FetchInput extends Component {
 	 * Including the user selecting a link in the Popover, either by clicking or using certain keys.
 	 * Or the user tabbing away or blurring, which passes a '' argument and clears the <input>.
 	 *
-	 * @param {Object|String} result The result associated with the selected link, or '' to clear the <input>.
+	 * @param {Object|string} result The result associated with the selected link, or '' to clear the <input>.
 	 */
 	handlePopoverButton( result ) {
 		this.setState( {

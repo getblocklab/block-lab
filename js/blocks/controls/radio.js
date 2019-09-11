@@ -12,6 +12,6 @@ const BlockLabRadioControl = ( props ) => {
 			onChange={ onChange }
 		/>
 	);
-}
+};
 
 export default BlockLabRadioControl;

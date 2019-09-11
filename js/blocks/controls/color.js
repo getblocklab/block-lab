@@ -9,43 +9,43 @@ const BlockLabColorPopover = withState( {
 	const colorChange = ( value ) => {
 		let color = value.hex;
 		if ( value.rgb.a < 1 ) {
-			color = 'rgba(' + value.rgb.r + ', ' + value.rgb.g + ', ' + value.rgb.b + ', ' + value.rgb.a + ')'
+			color = 'rgba(' + value.rgb.r + ', ' + value.rgb.g + ', ' + value.rgb.b + ', ' + value.rgb.a + ')';
 		}
-		setState( () => ( { color: color } ) );
-		onUpdate( color )
+		setState( () => ( { color } ) );
+		onUpdate( color );
 	};
 
 	return (
 		<BaseControl className="block-lab-color-popover">
 			<ColorIndicator
-				colorValue={color}
-				onMouseDown={event => {
-					event.preventDefault() // Prevent the popover blur.
-				}}
-				onClick={toggleVisible}
+				colorValue={ color }
+				onMouseDown={ ( event ) => {
+					event.preventDefault(); // Prevent the popover blur.
+				} }
+				onClick={ toggleVisible }
 			>
-				{isVisible && (
+				{ isVisible && (
 					<Popover
-						onClick={event => {
-							event.stopPropagation()
-						}}
-						onBlur={event => {
+						onClick={ ( event ) => {
+							event.stopPropagation();
+						} }
+						onBlur={ ( event ) => {
 							if ( null === event.relatedTarget ) {
-								return
+								return;
 							}
 							if ( event.relatedTarget.classList.contains( 'wp-block' ) ) {
-								toggleVisible()
+								toggleVisible();
 							}
-						}}
+						} }
 					>
 						<ColorPicker
-							color={color}
-							onChangeComplete={value => {
-								colorChange( value )
-							}}
+							color={ color }
+							onChangeComplete={ ( value ) => {
+								colorChange( value );
+							} }
 						/>
 					</Popover>
-				)}
+				) }
 			</ColorIndicator>
 		</BaseControl>
 	);
@@ -69,6 +69,6 @@ const BlockLabColorControl = ( props ) => {
 			/>
 		</BaseControl>
 	);
-}
+};
 
 export default BlockLabColorControl;

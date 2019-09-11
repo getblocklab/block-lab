@@ -1,7 +1,7 @@
 const { SelectControl } = wp.components;
 
 const BlockLabMultiselectControl = ( props ) => {
-	const { field, getValue, onChange } = props
+	const { field, getValue, onChange } = props;
 
 	return (
 		<SelectControl
@@ -13,6 +13,6 @@ const BlockLabMultiselectControl = ( props ) => {
 			onChange={ onChange }
 		/>
 	);
-}
+};
 
 export default BlockLabMultiselectControl;

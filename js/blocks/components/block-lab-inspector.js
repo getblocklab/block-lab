@@ -19,10 +19,10 @@ import controls from '../controls';
  * @return {Function|null} The inspector controls.
  */
 const BlockLabInspector = ( { blockProps, block } ) => {
-	const fields = simplifiedFields( block.fields ).map( field => {
+	const fields = simplifiedFields( block.fields ).map( ( field ) => {
 		// If it's not meant for the inspector, continue (return null).
 		if ( ! field.location || ! field.location.includes( 'inspector' ) ) {
-			return null
+			return null;
 		}
 
 		const loadedControls = applyFilters( 'block_lab_controls', controls );
@@ -49,14 +49,14 @@ const BlockLabInspector = ( { blockProps, block } ) => {
 					parentBlockProps={ blockProps }
 				/>
 			</PanelBody>
-		)
-	} )
+		);
+	} );
 
 	return (
 		<InspectorControls key={ `inspector-controls${ block.name }` }>
 			{ fields }
 		</InspectorControls>
 	);
-}
+};
 
 export default BlockLabInspector;

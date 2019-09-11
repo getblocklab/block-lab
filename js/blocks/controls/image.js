@@ -5,7 +5,7 @@ const { mediaUpload, MediaUpload, MediaUploadCheck } = wp.editor;
 const { Fragment } = wp.element;
 const { __ } = wp.i18n;
 
-const ALLOWED_TYPES  = [ 'image' ];
+const ALLOWED_TYPES = [ 'image' ];
 const DEFAULT_IMG_ID = 0;
 
 const BlockLabImageControl = ( props ) => {
@@ -19,7 +19,7 @@ const BlockLabImageControl = ( props ) => {
 		if ( parseInt( fieldValue ) ) {
 			media = select( 'core' ).getMedia( fieldValue );
 			imageSrc = ( media && media.source_url ) ? media.source_url : '';
-		} else if ( 'string' === typeof fieldValue )  {
+		} else if ( 'string' === typeof fieldValue ) {
 			// Backwards-compatibility: this used to save the URL as the fieldValue, not the ID as it does now.
 			imageSrc = fieldValue;
 		}
@@ -37,27 +37,26 @@ const BlockLabImageControl = ( props ) => {
 			imageAlt,
 			imageSrc,
 		 };
-
 	} )( withState( {} )( ( ownProps ) => {
 		const { getValue, imageAlt, imageSrc, isUploading, onChange, setState } = ownProps;
 		const uploadStart = () => {
-			setState( { isUploading: true } )
+			setState( { isUploading: true } );
 		};
 
 		const uploadComplete = ( image ) => {
 			if ( image.hasOwnProperty( 'id' ) ) {
 				onChange( parseInt( image.id ) );
 			}
-			setState( { isUploading: false } )
+			setState( { isUploading: false } );
 		};
 
 		const onSelect = ( image ) => {
 			if ( ! image.hasOwnProperty( 'url' ) || ! image.hasOwnProperty( 'id' ) ) {
-				return
+				return;
 			}
 			if ( 'blob' === image.url.substr( 0, 4 ) ) {
 				// Still uploading…
-				return
+				return;
 			}
 
 			uploadComplete( image );
@@ -66,17 +65,17 @@ const BlockLabImageControl = ( props ) => {
 		const removeImage = () => {
 			// The attribute should be an int, so set it to 0 on removing an image.
 			onChange( DEFAULT_IMG_ID );
-		}
+		};
 
 		const uploadFiles = ( files ) => {
-				mediaUpload( {
+			mediaUpload( {
 				allowedTypes: ALLOWED_TYPES,
 				filesList: files,
 				onFileChange: ( image ) => {
-					onSelect( image[0] )
-				}
+					onSelect( image[ 0 ] );
+				},
 			} );
-		}
+		};
 
 		return (
 			<BaseControl className="block-lab-media-controls" label={ field.label }>
@@ -85,7 +84,7 @@ const BlockLabImageControl = ( props ) => {
 					<img className="bl-image__img" src={ imageSrc } alt={ imageAlt } />
 				) }
 				{ ! imageSrc && (
-					<Placeholder className="bl-image__placeholder" icon="format-image" label={ __( 'Image', 'block-lab') } instructions={ __( 'Drag an image, upload a new one or select a file from your library.', 'block-lab' ) }>
+					<Placeholder className="bl-image__placeholder" icon="format-image" label={ __( 'Image', 'block-lab' ) } instructions={ __( 'Drag an image, upload a new one or select a file from your library.', 'block-lab' ) }>
 						<MediaUploadCheck>
 							<DropZone
 								onFilesDrop={ ( files ) => {
@@ -102,13 +101,13 @@ const BlockLabImageControl = ( props ) => {
 								<Fragment>
 									<FormFileUpload
 										isLarge
-										disabled={!!isUploading}
-										onChange={(event) => {
-											let files = event.target.files;
-											uploadStart(files[0].name);
+										disabled={ !! isUploading }
+										onChange={ ( event ) => {
+											const files = event.target.files;
+											uploadStart( files[ 0 ].name );
 											uploadFiles( files );
-										}}
-										accept='image/*'
+										} }
+										accept="image/*"
 										multiple={ false }
 									>
 										{ __( 'Upload', 'block-lab' ) }
@@ -120,10 +119,10 @@ const BlockLabImageControl = ( props ) => {
 										allowedTypes={ ALLOWED_TYPES }
 										value={ getValue( ownProps ) }
 										render={ ( { open } ) => (
-											<div className='components-media-library-button'>
+											<div className="components-media-library-button">
 												<Button
 													isLarge
-													disabled={!!isUploading}
+													disabled={ !! isUploading }
 													className="editor-media-placeholder__button"
 													onClick={ open }
 												>
@@ -133,16 +132,16 @@ const BlockLabImageControl = ( props ) => {
 										) }
 									/>
 								</Fragment>
-								) }
+							) }
 						</MediaUploadCheck>
 					</Placeholder>
 				) }
 				{ imageSrc && (
 					<Button
 						isLarge
-						disabled={!!isUploading}
+						disabled={ !! isUploading }
 						className="bl-image__remove"
-						onClick={removeImage}
+						onClick={ removeImage }
 					>
 						{ __( 'Remove', 'block-lab' ) }
 					</Button>
@@ -153,7 +152,7 @@ const BlockLabImageControl = ( props ) => {
 
 	return (
 		<ImageControl { ...props } />
-	)
+	);
 };
 
 export default BlockLabImageControl;

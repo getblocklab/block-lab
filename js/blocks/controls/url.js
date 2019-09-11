@@ -1,3 +1,6 @@
+/**
+ * External dependencies
+ */
 import classNames from 'classnames';
 
 const { TextControl } = wp.components;
@@ -16,9 +19,9 @@ const BlockLabURLControl = ( props ) => {
 	 */
 	const setErrorClass = ( element, valid ) => {
 		element.className = classNames( 'components-text-control__input', {
-			'text-control__error': valid
+			'text-control__error': valid,
 		} );
-	}
+	};
 
 	return (
 		<TextControl
@@ -28,15 +31,15 @@ const BlockLabURLControl = ( props ) => {
 			help={ field.help }
 			value={ value }
 			onChange={ onChange }
-			onFocus={ event => {
+			onFocus={ ( event ) => {
 				setErrorClass( document.activeElement, false );
-				event.target.reportValidity()
+				event.target.reportValidity();
 			} }
-			onBlur={ event => {
+			onBlur={ ( event ) => {
 				setErrorClass( event.target, ! event.target.checkValidity() );
 			} }
 		/>
 	);
-}
+};
 
 export default BlockLabURLControl;

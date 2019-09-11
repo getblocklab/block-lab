@@ -32,7 +32,7 @@ const AdvancedControls = ( { block } ) => {
 				</p>
 			</DotTip>
 		</InspectorAdvancedControls>
-	)
+	);
 };
 
 export default AdvancedControls;

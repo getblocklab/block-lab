@@ -2,7 +2,7 @@ const { BaseControl } = wp.components;
 const { RichText } = wp.blockEditor;
 
 const BlockLabRichTextControl = ( props ) => {
-	const { field, getValue, onChange } = props
+	const { field, getValue, onChange } = props;
 
 	return (
 		<BaseControl
@@ -22,13 +22,13 @@ const BlockLabRichTextControl = ( props ) => {
 				keepPlaceholderOnFocus={ true }
 				defaultValue={ field.default }
 				value={ getValue( props ) }
-				className='input-control'
+				className="input-control"
 				multiline={ true }
 				inlineToolbar={ true }
 				onChange={ onChange }
 			/>
 		</BaseControl>
 	);
-}
+};
 
 export default BlockLabRichTextControl;

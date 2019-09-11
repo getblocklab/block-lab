@@ -7,6 +7,9 @@ const { BaseControl, IconButton } = wp.components;
 /**
  * Internal dependendies
  */
+/**
+ * Internal dependencies
+ */
 import { RepeaterRows } from '../components';
 
 const BlockLabRepeaterControl = ( props ) => {
@@ -57,6 +60,6 @@ const BlockLabRepeaterControl = ( props ) => {
 			</div>
 		</BaseControl>
 	);
-}
+};
 
 export default BlockLabRepeaterControl;

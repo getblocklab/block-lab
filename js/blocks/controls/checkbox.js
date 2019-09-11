@@ -1,10 +1,10 @@
 const { CheckboxControl } = wp.components;
 
 const BlockLabCheckboxControl = ( props ) => {
-	const { field, getValue, onChange } = props
+	const { field, getValue, onChange } = props;
 	let value = getValue( props );
 	if ( 'undefined' === typeof value ) {
-		value = field.default || false
+		value = field.default || false;
 	}
 
 	return (
@@ -16,6 +16,6 @@ const BlockLabCheckboxControl = ( props ) => {
 			onChange={ onChange }
 		/>
 	);
-}
+};
 
 export default BlockLabCheckboxControl;

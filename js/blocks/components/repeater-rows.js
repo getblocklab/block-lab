@@ -20,8 +20,7 @@ import { Fields } from './';
  * @param {Object} parentBlock The block where the fields are.
  * @return {Array} fields The rendered fields.
  */
- class RepeaterRows extends Component {
-
+class RepeaterRows extends Component {
 	/**
 	 * Constructs the component class.
 	 */
@@ -60,7 +59,7 @@ import { Fields } from './';
 		}
 
 		return parent;
-	};
+	}
 
 	/**
 	 * On clicking the 'remove' button in a repeater row, this removes it.
@@ -112,10 +111,10 @@ import { Fields } from './';
 			setTimeout( () => {
 				rowRefTo.classList.remove( 'row-to' );
 				rowRefFrom.classList.remove( 'row-from' );
-			}, 1000 )
+			}, 1000 );
 
 			scrollContainer.scroll( { top: scrollTop, behavior: 'smooth' } );
-		}
+		};
 
 		return () => {
 			const { parentBlockProps } = this.props;
@@ -129,7 +128,7 @@ import { Fields } from './';
 			 * Without this, it looks like setAttributes() doesn't recognize a change to the array, and the component doesn't re-render.
 			 */
 			const rows = repeaterRows.slice();
-			[ rows[ from ], rows[ to ] ] = [ rows[ to ], rows[ from ] ]
+			[ rows[ from ], rows[ to ] ] = [ rows[ to ], rows[ from ] ];
 
 			attr[ parentName ] = { rows };
 			parentBlockProps.setAttributes( attr );
@@ -145,7 +144,7 @@ import { Fields } from './';
 	 * @return {Object} The rows.
 	 */
 	getRows( attribute ) {
-		return ( attribute && attribute[ 'rows' ] ) ? attribute[ 'rows' ] : [ {} ];
+		return ( attribute && attribute.rows ) ? attribute.rows : [ {} ];
 	}
 
 	/**
@@ -206,6 +205,6 @@ import { Fields } from './';
 			</Fragment>
 		);
 	}
-};
+}
 
 export default RepeaterRows;

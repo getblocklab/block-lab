@@ -12,6 +12,7 @@
     "build": "cross-env BABEL_ENV=default NODE_ENV=production webpack",
     "lint": "npm-run-all --parallel lint:*",
     "lint:js": "eslint js/blocks",
+    "lint:js:fix": "eslint js/blocks --fix",
     "lint:php": "vendor/bin/phpcs",
     "lint:php:fix": "vendor/bin/phpcbf"
   },
