@@ -1,5 +1,13 @@
 ## Changelog #
 
+### 1.4.1 – 2019-09-11 ###
+
+You can now add a Minimum and Maximum Rows setting to repeaters, allowing you to specify a lower and upper limit on how many repeater rows can be added.
+
+* New: The repeater field now includes a minimum and maximum row setting
+* Fix: Location and Width settings are now visible again when adding a new field
+* Fix: Using block_sub_field() with an image now correctly outputs the image URL instead of the ID
+
 ### 1.4.0 – 2019-09-04 ###
 
 This release applies some finishing touches to the repeater field. It also introduces a new "Field Width" feature, which lets you choose the width of the fields as seen in the Editor.
