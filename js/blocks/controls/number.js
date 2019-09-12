@@ -14,7 +14,7 @@ const BlockLabNumberControl = ( props ) => {
 	 * Sets the Error Class for the Text Control.
 	 *
 	 * @param {string} element The HTML element.
-	 *
+	 * @param {boolean} valid Whether the value is valid.
 	 * @return {void}
 	 */
 	const setErrorClass = ( element, valid ) => {

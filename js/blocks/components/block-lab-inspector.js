@@ -14,8 +14,9 @@ import controls from '../controls';
 /**
  * Gets the rendered controls for the Inspector Controls, based on the field values.
  *
- * @param {Object} blockProps The block's props.
- * @param {Object} block The block.
+ * @param {Object} props This component's props.
+ * @param {Object} props.blockProps The block's props.
+ * @param {Object} props.block The block.
  * @return {Function|null} The inspector controls.
  */
 const BlockLabInspector = ( { blockProps, block } ) => {

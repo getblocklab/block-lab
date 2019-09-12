@@ -62,7 +62,7 @@ class FetchInput extends Component {
 	 * Binds the suggestion node to the ref of the button.
 	 *
 	 * @param {number} index The index of the suggestion.
-	 * @return {Function}
+	 * @return {Function} A function wrapping the ref.
 	 */
 	bindSuggestionNode( index ) {
 		return ( ref ) => {
@@ -159,6 +159,8 @@ class FetchInput extends Component {
 	 * Mainly taken from the color control onBlur handler.
 	 * The only exception is when selecting an item by clicking a .bl-fetch-input__suggestion.
 	 * That has its own handler, which will eventually hide the Popover.
+	 *
+	 * @param {Object} event The event.
 	 */
 	onBlur( event ) {
 		if (

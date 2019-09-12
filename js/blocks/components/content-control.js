@@ -6,6 +6,7 @@ import { FetchInput } from '../components';
 /**
  * Gets a content control, eg. a Post or Taxonomy control.
  *
+ * @param {Object} props The props of the control.
  * @return {Function} A component for a control.
  */
 const ContentControl = ( props ) => {
@@ -16,7 +17,7 @@ const ContentControl = ( props ) => {
 	/**
 	 * Gets the ID from an API response.
 	 *
-	 * @param {Object} value The value in which to look for the ID.
+	 * @param {Object} apiResponse The API response in which to look for the ID.
 	 * @return {number} The ID from the value, or 0.
 	 */
 	const getIdfromAPI = ( apiResponse ) => ( apiResponse && apiResponse.id ) ? parseInt( apiResponse.id ) : DEFAULT_ID;

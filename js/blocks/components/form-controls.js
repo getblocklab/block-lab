@@ -6,8 +6,9 @@ import { Fields } from './';
 /**
  * Gets the form controls for a block.
  *
- * @param {Object} blockProps The block's props.
- * @param {Object} block The block.
+ * @param {Object} props The props of this components.
+ * @param {Object} props.blockProps The block's props.
+ * @param {Object} props.block The block.
  * @return {Function|null} The Edit component for the block.
  */
 const FormControls = ( { blockProps, block } ) => {

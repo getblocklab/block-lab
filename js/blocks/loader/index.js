@@ -1,3 +1,5 @@
+/* global blockLab, blockLabBlocks */
+
 /**
  * WordPress dependencies
  */

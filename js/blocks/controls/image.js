@@ -3,15 +3,16 @@ const { withState } = wp.compose;
 const { withSelect } = wp.data;
 const { mediaUpload, MediaUpload, MediaUploadCheck } = wp.editor;
 const { Fragment } = wp.element;
-const { __ } = wp.i18n;
+const { __, sprintf } = wp.i18n;
 
 const ALLOWED_TYPES = [ 'image' ];
 const DEFAULT_IMG_ID = 0;
 
 const BlockLabImageControl = ( props ) => {
-	const { field, getValue } = props;
+	const { field } = props;
 
-	const ImageControl = withSelect( ( select, ownProps ) => {
+	const ImageControl = withSelect( ( select ) => {
+		const { getValue } = props;
 		const fieldValue = getValue( props );
 		let media, imageAlt,
 			imageSrc = '';
@@ -36,8 +37,8 @@ const BlockLabImageControl = ( props ) => {
 		return {
 			imageAlt,
 			imageSrc,
-		 };
-	} )( withState( {} )( ( ownProps ) => {
+		};
+	} )( withState()( ( ownProps ) => {
 		const { getValue, imageAlt, imageSrc, isUploading, onChange, setState } = ownProps;
 		const uploadStart = () => {
 			setState( { isUploading: true } );
