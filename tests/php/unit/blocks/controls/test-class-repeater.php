@@ -46,7 +46,7 @@ class Test_Repeater extends \WP_UnitTestCase {
 	public function test_construct() {
 		$this->assertEquals( 'Repeater', $this->instance->label );
 		$this->assertEquals( 'repeater', $this->instance->name );
-		$this->assertEquals( 'object', $this->instance->type );
+		$this->assertEquals( 'array', $this->instance->type );
 	}
 
 	/**
