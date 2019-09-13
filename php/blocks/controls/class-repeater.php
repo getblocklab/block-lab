@@ -24,12 +24,13 @@ class Repeater extends Control_Abstract {
 	/**
 	 * Field variable type.
 	 *
-	 * The Repeater control is an array of objects, with each row being an object.
-	 * For example, a repeater with one row might be [ { 'example-text': 'Foo', 'example-image': 4232 } ].
+	 * The Repeater control is an array of arrays, with each row being its own array.
+	 * For example, a repeater with two rows might be:
+	 * [ 'rows': [ 0: [ 'example-text': 'Foo', 'example-image': 42 ], 1: [ 'example-text': 'Bar', 'example-image': 32 ] ] ].
 	 *
 	 * @var string
 	 */
-	public $type = 'object';
+	public $type = 'array';
 
 	/**
 	 * Repeater constructor.
