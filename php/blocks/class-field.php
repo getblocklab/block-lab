@@ -183,6 +183,18 @@ class Field {
 				break;
 		}
 
+		if ( 'repeater' === $this->control ) {
+			/**
+			 * Repeaters contain a blank row, to prevent them from being hidden when empty.
+			 * This removes that row.
+			 */
+			if ( isset( $value['rows'] ) ) {
+				foreach ( $value['rows'] as $key => $row ) {
+					unset( $value['rows'][ $key ][''] );
+				}
+			}
+		}
+
 		return $value;
 	}
 
@@ -194,6 +206,18 @@ class Field {
 	 * @return string $value The value to echo.
 	 */
 	public function cast_value_to_string( $value ) {
+		if ( 'repeater' === $this->control ) {
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				return sprintf(
+					// translators: Placeholders are the opening and closing anchor tags of a link.
+					__( '⚠️ Please use Block Lab\'s %1$srepeater functions%2$s to display repeater fields in your template.', 'block-lab' ),
+					'<a href="https://getblocklab.com/docs/fields/repeater/">',
+					'</a>'
+				);
+			}
+			return '';
+		}
+
 		if ( is_array( $value ) ) {
 			return implode( ', ', $value );
 		}
