@@ -2,11 +2,12 @@ const { BaseControl } = wp.components;
 const { RichText } = wp.blockEditor;
 
 const BlockLabRichTextControl = ( props ) => {
-	const { field, getValue, onChange } = props;
+	const { field, getValue, instanceId, onChange } = props;
 
 	return (
 		<BaseControl
 			label={ field.label }
+			id={ `bl-rich-text-${ instanceId }` }
 			className="block-lab-rich-text-control"
 			help={ field.help }
 		>

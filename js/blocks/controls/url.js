@@ -14,7 +14,7 @@ const BlockLabURLControl = ( props ) => {
 	 * Sets the Error Class for the Text Control.
 	 *
 	 * @param {string} element The HTML element.
-	 * @param {booolean} valid Whether the value is value.
+	 * @param {boolean} valid Whether the value is value.
 	 * @return {void}
 	 */
 	const setErrorClass = ( element, valid ) => {

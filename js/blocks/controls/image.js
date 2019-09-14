@@ -39,7 +39,7 @@ const BlockLabImageControl = ( props ) => {
 			imageSrc,
 		};
 	} )( withState()( ( ownProps ) => {
-		const { getValue, imageAlt, imageSrc, isUploading, onChange, setState } = ownProps;
+		const { getValue, imageAlt, imageSrc, instanceId, isUploading, onChange, setState } = ownProps;
 		const uploadStart = () => {
 			setState( { isUploading: true } );
 		};
@@ -79,7 +79,7 @@ const BlockLabImageControl = ( props ) => {
 		};
 
 		return (
-			<BaseControl className="block-lab-media-controls" label={ field.label }>
+			<BaseControl className="block-lab-media-controls" label={ field.label } id={ `bl-image-${ instanceId }` }>
 				{ !! field.help && <p className="components-base-control__help">{ field.help }</p> }
 				{ ! isUploading && imageSrc && (
 					<img className="bl-image__img" src={ imageSrc } alt={ imageAlt } />

@@ -1,7 +1,4 @@
-/**
- * External dependencies
- */
-const { blockLab, blockLabBlocks } = window;
+/* global blockLab, blockLabBlocks */
 
 /**
  * WordPress dependencies

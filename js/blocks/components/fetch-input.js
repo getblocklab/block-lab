@@ -317,7 +317,7 @@ class FetchInput extends Component {
 
 		/* eslint-disable jsx-a11y/no-autofocus */
 		return (
-			<BaseControl label={ field.label } className={ classNames( 'bl-fetch-input', className ) } help={ field.help }>
+			<BaseControl label={ field.label } id={ `fetch-input-${ instanceId }` } className={ classNames( 'bl-fetch-input', className ) } help={ field.help }>
 				<input
 					autoFocus={ autoFocus }
 					className="bl-fetch__input"

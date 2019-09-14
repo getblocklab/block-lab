@@ -10,7 +10,7 @@ const { BaseControl, IconButton } = wp.components;
 import { RepeaterRows } from '../components';
 
 const BlockLabRepeaterControl = ( props ) => {
-	const { field, onChange, parentBlock, parentBlockProps } = props;
+	const { field, instanceId, onChange, parentBlock, parentBlockProps } = props;
 	const { attributes, setAttributes } = parentBlockProps;
 	const attr = { ...attributes };
 	const value = attr[ field.name ];
@@ -37,7 +37,7 @@ const BlockLabRepeaterControl = ( props ) => {
 	}
 
 	return (
-		<BaseControl className="block-lab-repeater" label={ field.label } help={ field.help }>
+		<BaseControl className="block-lab-repeater" label={ field.label } id={ `bl-repeater-${ instanceId }` } help={ field.help }>
 			<RepeaterRows
 				rows={ rows }
 				field={ field }
