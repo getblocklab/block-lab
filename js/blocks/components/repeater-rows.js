@@ -36,6 +36,16 @@ class RepeaterRows extends Component {
 		this.state = {
 			activeRow: 0,
 		};
+		this.timeouts = [];
+	}
+
+	/**
+	 * Lifecycle method called when the component will unmount.
+	 */
+	componentWillUnmount() {
+		this.timeouts.forEach( ( timeoutId ) => {
+			clearTimeout( timeoutId );
+		} );
 	}
 
 	/**
@@ -108,10 +118,12 @@ class RepeaterRows extends Component {
 			rowRefTo.classList.add( 'row-to' );
 			rowRefFrom.classList.add( 'row-from' );
 
-			setTimeout( () => {
-				rowRefTo.classList.remove( 'row-to' );
-				rowRefFrom.classList.remove( 'row-from' );
-			}, 1000 );
+			this.timeouts.push(
+				setTimeout( () => { /* eslint-disable-line @wordpress/react-no-unsafe-timeout */
+					rowRefTo.classList.remove( 'row-to' );
+					rowRefFrom.classList.remove( 'row-from' );
+				}, 1000 )
+			);
 
 			scrollContainer.scroll( { top: scrollTop, behavior: 'smooth' } );
 		};
