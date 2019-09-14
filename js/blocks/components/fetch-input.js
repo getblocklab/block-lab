@@ -45,6 +45,7 @@ class FetchInput extends Component {
 		this.suggestionNodes = [];
 
 		this.state = {
+			loading: false,
 			results: [],
 			showSuggestions: false,
 			selectedSuggestion: null,
@@ -52,11 +53,25 @@ class FetchInput extends Component {
 	}
 
 	/**
+	 * Conditionally sets the validity of the <input>.
+	 *
 	 * Runs when the component updates, like with a change of state.
+	 *
+	 * @param {Object} prevProps The previous props.
+	 * @param {Object} prevState The previous state.
 	 */
-	componentDidUpdate() {
-		const { results, showSuggestions } = this.state;
-		if ( ! showSuggestions || '' === this.getInputValue() || ! results.length ) {
+	componentDidUpdate( prevProps, prevState ) {
+		const { loading, results, showSuggestions } = this.state;
+		const { prevLoading, prevResults, prevShowSuggestions } = prevState;
+
+		// Exit if the relevant state values didn't update.
+		if ( loading === prevLoading && results === prevResults && showSuggestions === prevShowSuggestions ) {
+			return;
+		}
+
+		if ( showSuggestions && results.length && ! loading ) {
+			this.setInputValidity( true );
+		} else if ( ! loading && ( ! results.length || '' === this.getInputValue() ) ) {
 			this.setInputValidity( false );
 		}
 	}
@@ -352,7 +367,6 @@ class FetchInput extends Component {
 				/>
 
 				{ ( loading ) && <Spinner /> }
-				{ shouldDisplayPopover && ! loading && this.setInputValidity( true ) }
 
 				{ shouldDisplayPopover &&
 					<Popover
