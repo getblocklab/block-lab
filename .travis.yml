@@ -25,7 +25,7 @@ matrix:
     - php: 5.6
       env: WP_VERSION=trunk
     - php: 5.6
-      env: WP_TRAVISCI=phpcs
+      env: WP_TRAVISCI=lint
 
 install:
   - composer install
@@ -44,9 +44,10 @@ before_script:
       composer global require "phpunit/phpunit=5.7.9"
     fi
   - |
-    if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
+    if [[ "$WP_TRAVISCI" == "lint" ]] ; then
       composer global require wp-coding-standards/wpcs
       phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
+      npm run lint:js
     fi
 
 script:
