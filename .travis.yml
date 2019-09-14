@@ -47,6 +47,7 @@ before_script:
     if [[ "$WP_TRAVISCI" == "lint" ]] ; then
       composer global require wp-coding-standards/wpcs
       phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
+      npm install
       npm run lint:js
     fi
 
