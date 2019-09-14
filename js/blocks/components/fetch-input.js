@@ -52,6 +52,16 @@ class FetchInput extends Component {
 	}
 
 	/**
+	 * Runs when the component updates, like with a change of state.
+	 */
+	componentDidUpdate() {
+		const { results, showSuggestions } = this.state;
+		if ( ! showSuggestions || '' === this.getInputValue() || ! results.length ) {
+			this.setInputValidity( false );
+		}
+	}
+
+	/**
 	 * Deletes the request for suggestions in the Popover before this component unmounts.
 	 */
 	componentWillUnmount() {
@@ -380,7 +390,6 @@ class FetchInput extends Component {
 						</div>
 					</Popover>
 				}
-				{ ! showSuggestions || '' === inputValue || ! results.length && this.setInputValidity( false ) }
 			</BaseControl>
 		);
 		/* eslint-enable jsx-a11y/no-autofocus */
