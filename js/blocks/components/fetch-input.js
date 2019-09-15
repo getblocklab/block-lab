@@ -61,18 +61,20 @@ class FetchInput extends Component {
 	 * @param {Object} prevState The previous state.
 	 */
 	componentDidUpdate( prevProps, prevState ) {
-		const { loading, results, showSuggestions } = this.state;
-		const { prevLoading, prevResults, prevShowSuggestions } = prevState;
+		const { loading, results } = this.state;
+		const { prevLoading, prevResults } = prevState;
 
 		// Exit if the relevant state values didn't update.
-		if ( loading === prevLoading && results === prevResults && showSuggestions === prevShowSuggestions ) {
+		if ( loading === prevLoading && results === prevResults ) {
 			return;
 		}
 
-		if ( showSuggestions && results.length && ! loading ) {
-			this.setInputValidity( true );
-		} else if ( ! loading && ( ! results.length || '' === this.getInputValue() ) ) {
-			this.setInputValidity( false );
+		if ( ! loading ) {
+			if ( results.length ) {
+				this.setInputValidity( true );
+			} else {
+				this.setInputValidity( false );
+			}
 		}
 	}
 
@@ -366,7 +368,7 @@ class FetchInput extends Component {
 					spellCheck="false"
 				/>
 
-				{ ( loading ) && <Spinner /> }
+				{ !! loading && <Spinner /> }
 
 				{ shouldDisplayPopover &&
 					<Popover
