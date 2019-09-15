@@ -61,15 +61,15 @@ class FetchInput extends Component {
 	 * @param {Object} prevState The previous state.
 	 */
 	componentDidUpdate( prevProps, prevState ) {
-		const { loading, results } = this.state;
-		const { prevLoading, prevResults } = prevState;
+		const { results, showSuggestions } = this.state;
+		const { prevResults, prevShowSuggestions } = prevState;
 
 		// Exit if the relevant state values didn't update.
-		if ( loading === prevLoading && results === prevResults ) {
+		if ( results === prevResults && showSuggestions === prevShowSuggestions ) {
 			return;
 		}
 
-		if ( ! loading ) {
+		if ( showSuggestions ) {
 			if ( results.length ) {
 				this.setInputValidity( true );
 			} else {
