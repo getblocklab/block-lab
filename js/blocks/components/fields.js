@@ -43,7 +43,7 @@ const getClassName = ( field ) => {
  * @param {Array}  props.fields           The fields to render.
  * @param {Object} props.parentBlockProps The props to pass to the control function.
  * @param {Object} props.parentBlock      The block where the fields are.
- * @param {number} props.owIndex         The index of the repeater row, if this field is in one (optional).
+ * @param {number} props.rowIndex         The index of the repeater row, if this field is in one (optional).
  * @return {Function} fields The rendered fields.
  */
 const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
