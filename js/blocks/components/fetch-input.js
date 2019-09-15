@@ -27,29 +27,55 @@ const { addQueryArgs } = wp.url;
 const stopEventPropagation = ( event ) => event.stopPropagation();
 
 class FetchInput extends Component {
-
 	/**
 	 * Constructs the component class.
 	 */
 	constructor( { autocompleteRef } ) {
 		super( ...arguments );
 
-		this.onBlur            = this.onBlur.bind( this );
-		this.onFocus           = this.onFocus.bind( this );
-		this.onChange          = this.onChange.bind( this );
-		this.onKeyDown         = this.onKeyDown.bind( this );
-		this.autocompleteRef   = autocompleteRef || createRef();
-		this.inputRef          = createRef();
+		this.onBlur = this.onBlur.bind( this );
+		this.onFocus = this.onFocus.bind( this );
+		this.onChange = this.onChange.bind( this );
+		this.onKeyDown = this.onKeyDown.bind( this );
+		this.autocompleteRef = autocompleteRef || createRef();
+		this.inputRef = createRef();
 		this.updateSuggestions = this.updateSuggestions.bind( this );
-		this.setInputValidity  = this.setInputValidity.bind( this );
+		this.setInputValidity = this.setInputValidity.bind( this );
 
 		this.suggestionNodes = [];
 
 		this.state = {
+			loading: false,
 			results: [],
 			showSuggestions: false,
 			selectedSuggestion: null,
 		};
+	}
+
+	/**
+	 * Conditionally sets the validity of the <input>.
+	 *
+	 * Runs when the component updates, like with a change of state.
+	 *
+	 * @param {Object} prevProps The previous props.
+	 * @param {Object} prevState The previous state.
+	 */
+	componentDidUpdate( prevProps, prevState ) {
+		const { results, showSuggestions } = this.state;
+		const { prevResults, prevShowSuggestions } = prevState;
+
+		// Exit if the relevant state values didn't update.
+		if ( results === prevResults && showSuggestions === prevShowSuggestions ) {
+			return;
+		}
+
+		if ( showSuggestions ) {
+			if ( results.length ) {
+				this.setInputValidity( true );
+			} else {
+				this.setInputValidity( false );
+			}
+		}
 	}
 
 	/**
@@ -63,7 +89,7 @@ class FetchInput extends Component {
 	 * Binds the suggestion node to the ref of the button.
 	 *
 	 * @param {number} index The index of the suggestion.
-	 * @return {Function}
+	 * @return {Function} A function wrapping the ref.
 	 */
 	bindSuggestionNode( index ) {
 		return ( ref ) => {
@@ -112,8 +138,8 @@ class FetchInput extends Component {
 
 				if ( null === this.state.selectedSuggestion && '' !== this.getInputValue() ) {
 					this.setState( {
-						selectedSuggestion: 0
-					})
+						selectedSuggestion: 0,
+					} );
 				}
 			} else {
 				this.props.debouncedSpeak( __( 'No results.', 'block-lab' ), 'assertive' );
@@ -139,7 +165,7 @@ class FetchInput extends Component {
 	 */
 	setInputValidity( isValid ) {
 		if ( ! this.inputRef.current || ! this.inputRef.current.setCustomValidity ) {
-			return
+			return;
 		}
 
 		if ( ! isValid ) {
@@ -150,7 +176,7 @@ class FetchInput extends Component {
 		}
 
 		this.inputRef.current.className = classNames( 'bl-fetch__input', {
-			'text-control__error': ! isValid
+			'text-control__error': ! isValid,
 		} );
 	}
 
@@ -160,6 +186,8 @@ class FetchInput extends Component {
 	 * Mainly taken from the color control onBlur handler.
 	 * The only exception is when selecting an item by clicking a .bl-fetch-input__suggestion.
 	 * That has its own handler, which will eventually hide the Popover.
+	 *
+	 * @param {Object} event The event.
 	 */
 	onBlur( event ) {
 		if (
@@ -178,7 +206,7 @@ class FetchInput extends Component {
 			if ( false === this.inputRef.current.checkValidity() ) {
 				this.handlePopoverButton( '' );
 			} else {
-				this.handlePopoverButton( this.state.results[ this.state.selectedSuggestion] );
+				this.handlePopoverButton( this.state.results[ this.state.selectedSuggestion ] );
 			}
 		}
 	}
@@ -285,7 +313,7 @@ class FetchInput extends Component {
 	 * Including the user selecting a link in the Popover, either by clicking or using certain keys.
 	 * Or the user tabbing away or blurring, which passes a '' argument and clears the <input>.
 	 *
-	 * @param {Object|String} result The result associated with the selected link, or '' to clear the <input>.
+	 * @param {Object|string} result The result associated with the selected link, or '' to clear the <input>.
 	 */
 	handlePopoverButton( result ) {
 		this.setState( {
@@ -316,7 +344,7 @@ class FetchInput extends Component {
 
 		/* eslint-disable jsx-a11y/no-autofocus */
 		return (
-			<BaseControl label={ field.label } className={ classNames( 'bl-fetch-input', className ) } help={ field.help }>
+			<BaseControl label={ field.label } id={ `fetch-input-${ instanceId }` } className={ classNames( 'bl-fetch-input', className ) } help={ field.help }>
 				<input
 					autoFocus={ autoFocus }
 					className="bl-fetch__input"
@@ -340,8 +368,7 @@ class FetchInput extends Component {
 					spellCheck="false"
 				/>
 
-				{ ( loading ) && <Spinner /> }
-				{ shouldDisplayPopover && ! loading && this.setInputValidity( true ) }
+				{ !! loading && <Spinner /> }
 
 				{ shouldDisplayPopover &&
 					<Popover
@@ -379,7 +406,6 @@ class FetchInput extends Component {
 						</div>
 					</Popover>
 				}
-				{ ! showSuggestions || '' === inputValue || ! results.length && this.setInputValidity( false ) }
 			</BaseControl>
 		);
 		/* eslint-enable jsx-a11y/no-autofocus */

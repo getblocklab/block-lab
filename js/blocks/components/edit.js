@@ -13,8 +13,9 @@ import icons from '../../../assets/icons.json';
 /**
  * The Edit function for the block.
  *
- * @param {Object} blockProps The block's props.
- * @param {Object} block The block.
+ * @param {Object} props The props of this component.
+ * @param {Object} props.blockProps The block's props.
+ * @param {Object} props.block The block.
  * @return {Function} The Edit function for the block.
  */
 const Edit = ( { blockProps, block } ) => {

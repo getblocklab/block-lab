@@ -1,3 +1,6 @@
+/**
+ * External dependencies
+ */
 import classNames from 'classnames';
 
 const { TextControl } = wp.components;
@@ -11,14 +14,14 @@ const BlockLabNumberControl = ( props ) => {
 	 * Sets the Error Class for the Text Control.
 	 *
 	 * @param {string} element The HTML element.
-	 *
+	 * @param {boolean} valid Whether the value is valid.
 	 * @return {void}
 	 */
 	const setErrorClass = ( element, valid ) => {
 		element.className = classNames( 'components-text-control__input', {
-			'text-control__error': valid
+			'text-control__error': valid,
 		} );
-	}
+	};
 
 	return (
 		<TextControl
@@ -30,15 +33,15 @@ const BlockLabNumberControl = ( props ) => {
 			onChange={ ( numberControl ) => {
 				onChange( Number( numberControl ) );
 			} }
-			onFocus={ event => {
+			onFocus={ ( event ) => {
 				setErrorClass( document.activeElement, false );
-				event.target.reportValidity()
+				event.target.reportValidity();
 			} }
-			onBlur={ event => {
+			onBlur={ ( event ) => {
 				setErrorClass( event.target, ! event.target.checkValidity() );
 			} }
 		/>
 	);
-}
+};
 
-export default BlockLabNumberControl
+export default BlockLabNumberControl;

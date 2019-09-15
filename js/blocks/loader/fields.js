@@ -13,7 +13,7 @@ const compare = ( a, b ) => {
 		return 1;
 	}
 	return 0;
-}
+};
 
 /**
  * Gets a simplified and sorted array of the fields.
@@ -22,10 +22,9 @@ const compare = ( a, b ) => {
  * @return {Array} The simplified fields.
  */
 const simplifiedFields = ( fields ) => {
+	const fieldList = [];
 
-	let fieldList = [];
-
-	for ( let fieldName in fields ) {
+	for ( const fieldName in fields ) {
 		if ( '' === fieldName ) {
 			continue;
 		}
@@ -34,18 +33,18 @@ const simplifiedFields = ( fields ) => {
 			continue;
 		}
 
-		let field = fields[ fieldName ];
+		const field = fields[ fieldName ];
 		fieldList.push(
 			{
 				...field,
 				name: fieldName,
 			}
-		)
+		);
 	}
 
 	fieldList.sort( compare );
 
-	return fieldList
-}
+	return fieldList;
+};
 
 export default simplifiedFields;

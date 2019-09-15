@@ -16,7 +16,7 @@ import controls from '../controls';
  * @return {Function} The control function.
  */
 const getControl = ( field ) => {
-	const loadedControls = applyFilters( 'block_lab_controls', controls);
+	const loadedControls = applyFilters( 'block_lab_controls', controls );
 	return loadedControls[ field.control ];
 };
 
@@ -39,10 +39,11 @@ const getClassName = ( field ) => {
 /**
  * Renders the fields, using their control functions.
  *
- * @param {Array}  fields           The fields to render.
- * @param {Object} parentBlockProps The props to pass to the control function.
- * @param {Object} parentBlock      The block where the fields are.
- * @param {number} rowIndex         The index of the repeater row, if this field is in one (optional).
+ * @param {Object} props                  The component props.
+ * @param {Array}  props.fields           The fields to render.
+ * @param {Object} props.parentBlockProps The props to pass to the control function.
+ * @param {Object} props.parentBlock      The block where the fields are.
+ * @param {number} props.rowIndex         The index of the repeater row, if this field is in one (optional).
  * @return {Function} fields The rendered fields.
  */
 const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
@@ -59,7 +60,7 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 		 * This function is passed to the control so that the control can save the value,
 		 * depending on whether the control is in a repeater row or not.
 		 *
-		 * @param {mixed} newValue The new control value.
+		 * @param {*} newValue The new control value.
 		 */
 		const onChange = ( newValue ) => {
 			const attr = { ...parentBlockProps.attributes };
@@ -68,12 +69,12 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 			const defaultRows = [ {} ];
 
 			if ( undefined === rowIndex ) {
- 				// This is not in a repeater row.
+				// This is not in a repeater row.
 				attr[ field.name ] = newValue;
 				setAttributes( attr );
 			} else {
- 				// This is in a repeater row.
-				const rows = ( attribute && attribute[ 'rows' ] ) ? attribute[ 'rows' ] : defaultRows;
+				// This is in a repeater row.
+				const rows = ( attribute && attribute.rows ) ? attribute.rows : defaultRows;
 
 				/*
 				 * Copy the rows array, so the change is recognized.
@@ -95,27 +96,29 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 		 * If this is in a repeater row, the value is appropriate for that.
 		 *
 		 * @param {Object} props The properties of the Control function.
+		 * @param {Object} props.field The field.
+		 * @param {Object} props.parentBlockProps The props of the parent block.
+		 * @param {number} props.rowIndex The index of the repeater row (optional).
 		 */
-		const getValue = ( props ) => {
-			const { field, parentBlockProps, rowIndex } = props;
-			const attr = { ...parentBlockProps.attributes };
+		const getValue = ( {
+			field: ownField,
+			parentBlockProps: ownParentBlockProps,
+			rowIndex: ownRowIndex,
+		} ) => {
+			const attr = { ...ownParentBlockProps.attributes };
 
-			if ( field.parent && attr[ field.parent ] && attr[ field.parent ]['rows'] ) {
-				// The field is probably in a repeater row, as it has a parent.
-				return attr[ field.parent ][ 'rows' ][ rowIndex ][ field.name ];
-			} else {
-				// The field is not in a repeater row.
-				return attr[ field.name ];
+			if ( ownField.parent && attr[ ownField.parent ] && attr[ ownField.parent ].rows ) {
+				// The ownField is probably in a repeater row, as it has a parent.
+				return attr[ ownField.parent ].rows[ ownRowIndex ][ ownField.name ];
 			}
+			// The ownField is not in a repeater row.
+			return attr[ ownField.name ];
 		};
 
 		const Control = getControl( field );
-		if ( ! Control ) {
-			return null;
-		}
 
-		return (
-			<div className={getClassName( field )}>
+		return !! Control && (
+			<div className={ getClassName( field ) }>
 				<Control
 					key={ `${ field.name }-control-${ rowIndex }` }
 					field={ field }
