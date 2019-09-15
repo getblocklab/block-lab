@@ -6,7 +6,7 @@
     "plugin:eslint-comments/recommended"
   ],
   "globals": {
-		"wp": "readonly"
+    "wp": "readonly"
   },
   "rules": {
     "@wordpress/dependency-group": "error",
