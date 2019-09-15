@@ -32,12 +32,13 @@ function block_field( $name, $echo = true ) {
 	$default_fields = array( 'className' => 'string' );
 
 	/**
-	 * Filters the default fields that are allowed in addition to the fields in block attributes.
+	 * Filters the default fields that are allowed in addition to Block Lab fields.
 	 *
 	 * Adding an attribute to this can enable outputting it via block_field().
 	 * Normally, this function only returns or echoes Block Lab attributes (fields), and one default field.
-	 * But this allows getting block attributes that might have been added by other plugins.
-	 * To allow getting another attribute, add it to the $default_fields array.
+	 * But this allows getting block attributes that might have been added by other plugins or JS.
+	 * To allow getting another attribute, add it to the $default_fields associative array.
+	 * For example, 'your-example-field' => 'array'.
 	 *
 	 * @param array  $default_fields An associative array of $field_name => $field_type.
 	 * @param string $name The name of value to get.
