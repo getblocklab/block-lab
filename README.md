@@ -33,7 +33,7 @@ Simple to use functions, ready to render and work with the values stored through
 Join The Lab, our free Block Lab Community on Slack. The Lab is our real-time home for sharing resources, learning, and making connections. [Learn more.](https://getblocklab.com/welcome-to-the-lab/)
 
 ### Go Pro ###
-Block Lab Pro is coming mid 2019 with power features to take your block building to the next level. [Learn more.](https://getblocklab.com/block-lab-pro)
+Block Lab Pro is here, with power features to take your block building to the next level. [Learn more.](https://getblocklab.com/block-lab-pro)
 
 ## Links ##
 * [WordPress.org](https://wordpress.org/plugins/block-lab)
