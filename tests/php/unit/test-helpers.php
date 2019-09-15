@@ -13,19 +13,29 @@ use Block_Lab\Blocks;
 class Test_Helpers extends \WP_UnitTestCase {
 
 	/**
+	 * Teardown.
+	 *
+	 * @inheritdoc
+	 */
+	public function tearDown() {
+		remove_all_filters( 'block_lab_default_fields' );
+		$GLOBALS['block_lab_attributes'] = array();
+		$GLOBALS['block_lab_config']     = array();
+		parent::tearDown();
+	}
+
+	/**
 	 * Test block_field.
 	 *
 	 * @covers ::block_field()
 	 */
 	public function test_block_field() {
-		global $block_lab_attributes, $block_lab_config;
-
-		$field_name                          = 'test-user';
-		$class_key                           = 'className';
-		$expected_class                      = 'baz-class';
-		$mock_text                           = 'Example text';
-		$block_lab_attributes[ $field_name ] = $mock_text;
-		$block_lab_attributes[ $class_key ]  = $expected_class;
+		$field_name                                     = 'test-user';
+		$class_key                                      = 'className';
+		$expected_class                                 = 'baz-class';
+		$mock_text                                      = 'Example text';
+		$GLOBALS['block_lab_attributes'][ $field_name ] = $mock_text;
+		$GLOBALS['block_lab_attributes'][ $class_key ]  = $expected_class;
 
 		$field_config = array( 'control' => 'text' );
 		$block_config = array(
@@ -34,8 +44,8 @@ class Test_Helpers extends \WP_UnitTestCase {
 			),
 		);
 
-		$block_lab_config = new Blocks\Block();
-		$block_lab_config->from_array( $block_config );
+		$GLOBALS['block_lab_config'] = new Blocks\Block();
+		$GLOBALS['block_lab_config']->from_array( $block_config );
 
 		// Because block_field() had the second argument of false, this should return the value stored in the field, not echo it.
 		ob_start();
@@ -66,5 +76,54 @@ class Test_Helpers extends \WP_UnitTestCase {
 		// Test the same scenario as above, but for 'className'.
 		$this->assertEquals( $expected_class, $actual_class );
 		$this->assertEquals( $return_value, $actual_class );
+
+		$additional_field_name           = 'example_additional_field';
+		$additional_field_value          = 'Here is some text';
+		$GLOBALS['block_lab_attributes'] = array(
+			$additional_field_name => $additional_field_value,
+		);
+
+		ob_start();
+		$return_value = block_field( $additional_field_name, true );
+		$echoed_value = ob_get_clean();
+
+		// When a field isn't in the $block_lab_config, it should not be echoed or returned.
+		$this->assertEmpty( $return_value );
+		$this->assertEmpty( $echoed_value );
+
+		$default_fields_filter = 'block_lab_default_fields';
+
+		// Don't return anything from the filter callback, to test the behavior.
+		add_filter(
+			$default_fields_filter,
+			function( $default_fields ) use ( $additional_field_name ) {
+				$default_fields[] = $additional_field_name;
+			}
+		);
+
+		ob_start();
+		$return_value = block_field( $additional_field_name, true );
+		$echoed_value = ob_get_clean();
+
+		// In case the filter accidentally doesn't return anything, there should still not be a fatal error, there should just be no output.
+		$this->assertEmpty( $return_value );
+		$this->assertEmpty( $echoed_value );
+		remove_all_filters( $default_fields_filter );
+
+		add_filter(
+			$default_fields_filter,
+			function( $default_fields ) use ( $additional_field_name ) {
+				$default_fields[ $additional_field_name ] = 'string';
+				return $default_fields;
+			}
+		);
+
+		ob_start();
+		$return_value = block_field( $additional_field_name, true );
+		$echoed_value = ob_get_clean();
+
+		// Now that the filter includes the additional field, the field should be echoed, even though it's not in $block_lab_config.
+		$this->assertEquals( $additional_field_value, $return_value );
+		$this->assertEquals( $additional_field_value, $echoed_value );
 	}
 }
