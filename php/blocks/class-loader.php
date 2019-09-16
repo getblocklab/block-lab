@@ -308,7 +308,10 @@ class Loader extends Component_Abstract {
 			foreach ( $block->fields as $field ) {
 				if ( isset( $field->settings['sub_fields'] ) ) {
 					$sub_field_settings = $field->settings['sub_fields'];
-					$rows               = $attributes[ $field->name ]['rows'];
+				}
+
+				if ( isset( $attributes[ $field->name ]['rows'] ) ) {
+					$rows = $attributes[ $field->name ]['rows'];
 
 					// In each row, apply a field's default value if a value doesn't exist in the attributes.
 					foreach ( $rows as $row_index => $row ) {
