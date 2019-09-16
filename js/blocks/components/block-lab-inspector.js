@@ -14,15 +14,16 @@ import controls from '../controls';
 /**
  * Gets the rendered controls for the Inspector Controls, based on the field values.
  *
- * @param {Object} blockProps The block's props.
- * @param {Object} block The block.
+ * @param {Object} props This component's props.
+ * @param {Object} props.blockProps The block's props.
+ * @param {Object} props.block The block.
  * @return {Function|null} The inspector controls.
  */
 const BlockLabInspector = ( { blockProps, block } ) => {
-	const fields = simplifiedFields( block.fields ).map( field => {
+	const fields = simplifiedFields( block.fields ).map( ( field ) => {
 		// If it's not meant for the inspector, continue (return null).
 		if ( ! field.location || ! field.location.includes( 'inspector' ) ) {
-			return null
+			return null;
 		}
 
 		const loadedControls = applyFilters( 'block_lab_controls', controls );
@@ -49,14 +50,14 @@ const BlockLabInspector = ( { blockProps, block } ) => {
 					parentBlockProps={ blockProps }
 				/>
 			</PanelBody>
-		)
-	} )
+		);
+	} );
 
 	return (
 		<InspectorControls key={ `inspector-controls${ block.name }` }>
 			{ fields }
 		</InspectorControls>
 	);
-}
+};
 
 export default BlockLabInspector;

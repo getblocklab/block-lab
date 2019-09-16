@@ -1,7 +1,7 @@
 const { TextareaControl } = wp.components;
 
 const BlockLabTextareaControl = ( props ) => {
-	const { getValue, field, onChange } = props
+	const { getValue, field, onChange } = props;
 	const initialValue = getValue( props );
 	const value = 'undefined' !== typeof initialValue ? initialValue : field.default;
 
@@ -16,6 +16,6 @@ const BlockLabTextareaControl = ( props ) => {
 			onChange={ onChange }
 		/>
 	);
-}
+};
 
 export default BlockLabTextareaControl;

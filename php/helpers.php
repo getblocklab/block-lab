@@ -29,9 +29,23 @@ function block_field( $name, $echo = true ) {
 		return null;
 	}
 
-	$default_fields = array( 'className' );
+	$default_fields = array( 'className' => 'string' );
 
-	if ( ! isset( $block_lab_config->fields[ $name ] ) && ! in_array( $name, $default_fields, true ) ) {
+	/**
+	 * Filters the default fields that are allowed in addition to Block Lab fields.
+	 *
+	 * Adding an attribute to this can enable outputting it via block_field().
+	 * Normally, this function only returns or echoes Block Lab attributes (fields), and one default field.
+	 * But this allows getting block attributes that might have been added by other plugins or JS.
+	 * To allow getting another attribute, add it to the $default_fields associative array.
+	 * For example, 'your-example-field' => 'array'.
+	 *
+	 * @param array  $default_fields An associative array of $field_name => $field_type.
+	 * @param string $name The name of value to get.
+	 */
+	$default_fields = apply_filters( 'block_lab_default_fields', $default_fields, $name );
+
+	if ( ! isset( $block_lab_config->fields[ $name ] ) && ! isset( $default_fields[ $name ] ) ) {
 		return null;
 	}
 
@@ -48,9 +62,10 @@ function block_field( $name, $echo = true ) {
 		$field   = $block_lab_config->fields[ $name ];
 		$value   = $field->cast_value( $value );
 		$control = $field->control;
-	} elseif ( in_array( $name, $default_fields, true ) ) {
-		// Cast default Editor attributes appropriately.
-		$value = strval( $value );
+	} elseif ( isset( $default_fields[ $name ] ) ) {
+		// Cast default Editor attributes and those added via a filter.
+		$field = new Blocks\Field( array( 'type' => $default_fields[ $name ] ) );
+		$value = $field->cast_value( $value );
 	}
 
 	/**

@@ -1,10 +1,10 @@
 const { ToggleControl } = wp.components;
 
 const BlockLabToggleControl = ( props ) => {
-	const { field, onChange, getValue } = props
-	const attr = { ...props.attributes }
+	const { field, onChange, getValue } = props;
+	const attr = { ...props.attributes };
 	if ( 'undefined' === typeof attr[ field.name ] ) {
-		attr[ field.name ] = field.default
+		attr[ field.name ] = field.default;
 	}
 
 	return (
@@ -15,6 +15,6 @@ const BlockLabToggleControl = ( props ) => {
 			onChange={ onChange }
 		/>
 	);
-}
+};
 
 export default BlockLabToggleControl;
