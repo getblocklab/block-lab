@@ -159,10 +159,6 @@ function reset_block_rows( $name ) {
 function block_row_count( $name ) {
 	global $block_lab_attributes;
 
-	if ( ! isset( $block_lab_attributes[ $name ] ) ) {
-		return false;
-	}
-
 	if ( ! isset( $block_lab_attributes[ $name ]['rows'] ) ) {
 		return false;
 	}
