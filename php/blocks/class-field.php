@@ -194,17 +194,6 @@ class Field {
 	 * @return string $value The value to echo.
 	 */
 	public function cast_value_to_string( $value ) {
-		/**
-		 * Filters the value of a field when being output as a string.
-		 *
-		 * The result of this filter should be a string. Even if it isn't, it will be run
-		 * through strval() anyway.
-		 *
-		 * @param mixed $value  The value to cast as a string.
-		 * @param Field $field  This field.
-		 */
-		$value = apply_filters( 'block_lab_cast_field_value_to_string', $value, $this );
-
 		if ( is_array( $value ) ) {
 			return implode( ', ', $value );
 		}
