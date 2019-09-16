@@ -463,6 +463,10 @@ class Loader extends Component_Abstract {
 			if ( ! current_user_can( 'edit_posts' ) || ! isset( $templates[0] ) ) {
 				return;
 			}
+			// Hide the template not found notice on the frontend, unless WP_DEBUG is enabled.
+			if ( ! is_admin() && ! ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ) {
+				return;
+			}
 			printf(
 				'<div class="notice notice-warning">%s</div>',
 				wp_kses_post(
