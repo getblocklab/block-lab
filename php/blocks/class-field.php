@@ -183,18 +183,6 @@ class Field {
 				break;
 		}
 
-		if ( 'repeater' === $this->control ) {
-			/**
-			 * Repeaters contain a blank row, to prevent them from being hidden when empty.
-			 * This removes that row.
-			 */
-			if ( isset( $value['rows'] ) ) {
-				foreach ( $value['rows'] as $key => $row ) {
-					unset( $value['rows'][ $key ][''] );
-				}
-			}
-		}
-
 		return $value;
 	}
 
