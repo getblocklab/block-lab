@@ -194,17 +194,16 @@ class Field {
 	 * @return string $value The value to echo.
 	 */
 	public function cast_value_to_string( $value ) {
-		if ( 'repeater' === $this->control ) {
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-				return sprintf(
-					// translators: Placeholders are the opening and closing anchor tags of a link.
-					__( '⚠️ Please use Block Lab\'s %1$srepeater functions%2$s to display repeater fields in your template.', 'block-lab' ),
-					'<a href="https://getblocklab.com/docs/fields/repeater/">',
-					'</a>'
-				);
-			}
-			return '';
-		}
+		/**
+		 * Filters the value of a field when being output as a string.
+		 *
+		 * The result of this filter should be a string. Even if it isn't, it will be run
+		 * through strval() anyway.
+		 *
+		 * @param mixed $value  The value to cast as a string.
+		 * @param Field $field  This field.
+		 */
+		$value = apply_filters( 'block_lab_cast_field_value_to_string', $value, $this );
 
 		if ( is_array( $value ) ) {
 			return implode( ', ', $value );

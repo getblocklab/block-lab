@@ -38,6 +38,14 @@ class Repeater extends Control_Abstract {
 	public function __construct() {
 		parent::__construct();
 		$this->label = __( 'Repeater', 'block-lab' );
+		$this->register_hooks();
+	}
+
+	/**
+	 * Register all the hooks.
+	 */
+	public function register_hooks() {
+		add_filter( 'block_lab_cast_field_value_to_string', array( $this, 'cast_as_string' ), 10, 2 );
 	}
 
 	/**
@@ -79,6 +87,28 @@ class Repeater extends Control_Abstract {
 			foreach ( $value['rows'] as $key => $row ) {
 				unset( $value['rows'][ $key ][''] );
 				unset( $value['rows'][ $key ][0] );
+			}
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Show a warning if someone tries to use block_field() with a repeater.
+	 *
+	 * @param mixed $value  The value to cast as a string.
+	 * @param Field $field  The field that is being cast.
+	 * @return string
+	 */
+	public function cast_as_string( $value, $field ) {
+		if ( 'repeater' === $field->control ) {
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				return sprintf(
+					// translators: Placeholders are the opening and closing anchor tags of a link.
+					__( '⚠️ Please use Block Lab\'s %1$srepeater functions%2$s to display repeater fields in your template.', 'block-lab' ),
+					'<a href="https://getblocklab.com/docs/fields/repeater/">',
+					'</a>'
+				);
 			}
 		}
 
