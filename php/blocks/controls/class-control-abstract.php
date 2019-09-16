@@ -31,7 +31,7 @@ abstract class Control_Abstract {
 	public $label = '';
 
 	/**
-	 * Field variable type.
+	 * Field variable type (passed as an attribute when registering the block in Javascript).
 	 *
 	 * @var string
 	 */
