@@ -63,4 +63,31 @@ class Repeater extends Control_Abstract {
 			)
 		);
 	}
+
+	/**
+	 * Remove empty placeholder rows.
+	 *
+	 * @param mixed $value The value to either make available as a variable or echoed on the front-end template.
+	 * @param bool  $echo Whether this will be echoed.
+	 * @return mixed $value The value to be made available or echoed on the front-end template.
+	 */
+	public function validate( $value, $echo ) {
+		if ( isset( $value['rows'] ) ) {
+			foreach ( $value['rows'] as $key => $row ) {
+				unset( $value['rows'][ $key ][''] );
+				unset( $value['rows'][ $key ][0] );
+			}
+		}
+
+		if ( $echo && defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			$value = sprintf(
+				// translators: Placeholders are the opening and closing anchor tags of a link.
+				__( '⚠️ Please use Block Lab\'s %1$srepeater functions%2$s to display repeater fields in your template.', 'block-lab' ),
+				'<a href="https://getblocklab.com/docs/fields/repeater/">',
+				'</a>'
+			);
+		}
+
+		return $value;
+	}
 }

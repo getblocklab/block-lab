@@ -306,7 +306,7 @@ class Loader extends Component_Abstract {
 
 			// Similar to the logic above, populate the Repeater control's sub-fields with default values.
 			foreach ( $block->fields as $field ) {
-				if ( isset( $field->settings['sub_fields'] ) ) {
+				if ( isset( $field->settings['sub_fields'] ) && isset( $attributes[ $field->name ]['rows'] ) ) {
 					$sub_field_settings = $field->settings['sub_fields'];
 					$rows               = $attributes[ $field->name ]['rows'];
 
@@ -461,6 +461,10 @@ class Loader extends Component_Abstract {
 			load_template( $theme_template, false );
 		} else {
 			if ( ! current_user_can( 'edit_posts' ) || ! isset( $templates[0] ) ) {
+				return;
+			}
+			// Hide the template not found notice on the frontend, unless WP_DEBUG is enabled.
+			if ( ! is_admin() && ! ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ) {
 				return;
 			}
 			printf(

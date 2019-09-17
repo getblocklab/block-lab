@@ -166,6 +166,43 @@ function reset_block_rows( $name ) {
 }
 
 /**
+ * Return the total amount of rows in a repeater.
+ *
+ * @param string $name The name of the repeater field.
+ * @return int|bool The total amount of rows. False if the repeater isn't found.
+ */
+function block_row_count( $name ) {
+	global $block_lab_attributes;
+
+	if ( ! isset( $block_lab_attributes[ $name ]['rows'] ) ) {
+		return false;
+	}
+
+	return count( $block_lab_attributes[ $name ]['rows'] );
+}
+
+/**
+ * Return the index of the current repeater row.
+ *
+ * Note: The index is zero-based, which means that the first row in a repeater has
+ * an index of 0, the second row has an index of 1, and so on.
+ *
+ * @param string $name (Optional) The name of the repeater field.
+ * @return int|bool The index of the row. False if the repeater isn't found.
+ */
+function block_row_index( $name = '' ) {
+	if ( '' === $name ) {
+		$name = block_lab()->loop()->active;
+	}
+
+	if ( ! isset( block_lab()->loop()->loops[ $name ] ) ) {
+		return false;
+	}
+
+	return block_lab()->loop()->loops[ $name ];
+}
+
+/**
  * Return the value of a sub-field.
  *
  * @param string $name The name of the sub-field.
