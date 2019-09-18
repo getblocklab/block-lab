@@ -2,8 +2,7 @@
  * WordPress dependencies
  */
 const { BaseControl } = wp.components;
-const { RichText } = wp.blockEditor;
-const { RichTextToolbarButton } = wp.blockEditor;
+const { RichText, RichTextToolbarButton } = wp.blockEditor;
 const { Fragment } = wp.element;
 const { __ } = wp.i18n;
 const {
