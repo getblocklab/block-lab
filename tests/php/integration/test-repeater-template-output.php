@@ -181,6 +181,14 @@ class Test_Repeater_Template_Output extends Abstract_Attribute {
 	 * This has a repeater with 2 rows, and tests every possible field.
 	 * It sets mock block attributes, like those that would be saved from a block.
 	 * Then, it loads the mock template in the theme's blocks/ directory and asserts the values.
+	 *
+	 * @covers \block_rows()
+	 * @covers \block_row()
+	 * @covers \reset_block_row()
+	 * @covers \block_row_field()
+	 * @covers \block_row_value()
+	 * @covers \block_row_index()
+	 * @covers \block_row_count()
 	 */
 	public function test_repeater_template() {
 		$block = new Blocks\Block();
