@@ -140,8 +140,7 @@ const BlockLabRichTextControl = ( props ) => {
 				multiline={ true }
 				inlineToolbar={ true }
 				onChange={ onChange }
-			>
-			</RichText>
+			/>
 		</BaseControl>
 	);
 };
