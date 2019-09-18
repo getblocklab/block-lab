@@ -29,8 +29,14 @@ $non_object_fields = array(
 <?php
 if ( block_rows( $repeater_name ) ) :
 	$row_number = 0;
+	printf( 'block_row_count() returns %d', block_row_count( $repeater_name ) );
 	while ( block_rows( $repeater_name ) ) :
 		block_row( $repeater_name );
+			printf(
+				'In row %d, the result of block_row_index() is %s: ',
+				$row_number,
+				block_row_index()
+			);
 
 		foreach ( $non_object_fields as $field ) :
 			?>
