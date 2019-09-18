@@ -176,6 +176,9 @@ div[class^="wp-block-block-lab-"] {
 
   /* Rich Text Control Component */
   .block-lab-rich-text-control {
+    .rich-text__edit {
+      background-color: #a9a9a94d;
+    }
     .input-control {
       background: #fff;
       min-height: 7em;
