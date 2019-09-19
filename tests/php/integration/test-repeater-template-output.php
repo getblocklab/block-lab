@@ -215,7 +215,7 @@ class Test_Repeater_Template_Output extends Abstract_Attribute {
 		foreach ( $rows as $row_number => $row ) {
 			$this->assertContains(
 				sprintf(
-					'In row %d, the result of block_row_index() is %s: ',
+					'In row %d, the result of block_row_index() is %d',
 					$row_number,
 					$row_number
 				),

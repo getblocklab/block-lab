@@ -33,7 +33,7 @@ if ( block_rows( $repeater_name ) ) :
 	while ( block_rows( $repeater_name ) ) :
 		block_row( $repeater_name );
 			printf(
-				'In row %d, the result of block_row_index() is %s: ',
+				'In row %d, the result of block_row_index() is %d',
 				$row_number,
 				block_row_index()
 			);
