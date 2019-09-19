@@ -175,32 +175,18 @@ div[class^="wp-block-block-lab-"] {
   }
 
   /* Rich Text Control Component */
-  .block-lab-rich-text-control {
-    .rich-text__edit {
-      background-color: #a9a9a94d;
-    }
-    .input-control {
-      background: #fff;
-      min-height: 7em;
-      line-height: 1.4rem;
+  .block-lab-rich-text-control .rich-text__edit {
+    background-color: $light-gray-500;
+    padding: 0.1rem 1rem;
+
+    p {
       font-size: 13px;
-
-      p {
-        font-size: 13px;
-        margin-top: 0.67rem;
-        margin-bottom: 0.67rem;
-      }
-
-      p:first-child,
-      p:first-child > p {
-        margin-top: 0;
-      }
+      margin-top: 0.67rem;
+      margin-bottom: 0.67rem;
     }
 
-    /* Override native styling that created a double border */
-    .editor-rich-text__inline-toolbar .components-toolbar > .components-toolbar {
-      border: none;
-      border-right: 1px solid $light-gray-500;
+    ul {
+      margin-left: 1rem;
     }
   }
 

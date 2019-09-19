@@ -21,7 +21,7 @@ const BlockLabRichTextControl = ( props ) => {
 			<TinyMCE
 				content={ getValue( props ) }
 				onChange={ onChange }
-				clientId={ `rich-text-${ field.name }` }
+				editorId={ `rich-text-${ field.name }` }
 			/>
 		</BaseControl>
 	);

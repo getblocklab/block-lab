@@ -27,6 +27,11 @@ function isTmceEmpty( editor ) {
  * @see https://github.com/WordPress/gutenberg/blob/416c9bc9eaef6e6bceea923b6f36642746c01aba/packages/block-library/src/classic/edit.js
  */
 export default class TinyMCE extends Component {
+	/**
+	 * Constructs the class.
+	 *
+	 * @param {Object} props The component properties.
+	 */
 	constructor( props ) {
 		super( props );
 		this.initialize = this.initialize.bind( this );
@@ -34,6 +39,9 @@ export default class TinyMCE extends Component {
 		this.focus = this.focus.bind( this );
 	}
 
+	/**
+	 * A lifecycle method, called after the component mounts.
+	 */
 	componentDidMount() {
 		const { baseURL, suffix } = window.wpEditorL10n.tinymce;
 
@@ -49,30 +57,42 @@ export default class TinyMCE extends Component {
 		}
 	}
 
+	/**
+	 * A lifecycle method, called before the component unmounts.
+	 */
 	componentWillUnmount() {
 		window.addEventListener( 'DOMContentLoaded', this.initialize );
-		wp.oldEditor.remove( `editor-${ this.props.clientId }` );
+		wp.oldEditor.remove( `editor-${ this.props.editorId }` );
 	}
 
+	/**
+	 * A lifecycle method, called after the component updates.
+	 *
+	 * @param {Object} prevProps The previous props of the component, before the update.
+	 */
 	componentDidUpdate( prevProps ) {
-		const { clientId, content } = this.props;
+		const { content, editorId, onChange } = this.props;
 
-		const editor = window.tinymce.get( `editor-${ clientId }` );
+		const editor = window.tinymce.get( `editor-${ editorId }` );
 
 		if ( prevProps.content !== content ) {
 			editor.setContent( content || '' );
+			onChange( content || '' );
 		}
 	}
 
+	/**
+	 * Initializes the TinyMCE.
+	 */
 	initialize() {
-		const { clientId } = this.props;
+		const { editorId } = this.props;
 		const { settings } = window.wpEditorL10n.tinymce;
-		wp.oldEditor.initialize( `editor-${ clientId }`, {
+		wp.oldEditor.initialize( `editor-${ editorId }`, {
 			tinymce: {
 				...settings,
 				inline: true,
 				content_css: false,
-				fixed_toolbar_container: `#toolbar-${ clientId }`,
+				fixed_toolbar_container: `#toolbar-${ editorId }`,
 				setup: this.onSetup,
 				toolbar1: 'bold,italic,bullist,numlist,outdent,indent,alignleft,aligncenter,alignright,link,unlink,wp_add_media',
 				toolbar2: '',
@@ -80,9 +100,13 @@ export default class TinyMCE extends Component {
 		} );
 	}
 
+	/**
+	 * Handles events in the editor.
+	 *
+	 * @param {Object} editor The editor.
+	 */
 	onSetup( editor ) {
 		const { content, onChange } = this.props;
-		const { ref } = this;
 		let bookmark;
 
 		this.editor = editor;
@@ -109,6 +133,10 @@ export default class TinyMCE extends Component {
 			bookmark = null;
 		} );
 
+		editor.on( 'change', () => {
+			onChange( editor.getContent() );
+		} );
+
 		editor.on( 'keydown', ( event ) => {
 			if ( ( event.keyCode === BACKSPACE || event.keyCode === DELETE ) && isTmceEmpty( editor ) ) {
 				// delete the block
@@ -124,13 +152,6 @@ export default class TinyMCE extends Component {
 			 */
 			if ( altKey && event.keyCode === F10 ) {
 				event.stopPropagation();
-			}
-		} );
-
-		// Show the second, third, etc. toolbars when the `kitchensink` button is removed by a plugin.
-		editor.on( 'init', function() {
-			if ( editor.settings.toolbar1 && editor.settings.toolbar1.indexOf( 'kitchensink' ) === -1 ) {
-				editor.dom.addClass( ref, 'has-advanced-toolbar' );
 			}
 		} );
 
@@ -151,12 +172,20 @@ export default class TinyMCE extends Component {
 		} );
 	}
 
+	/**
+	 * If the editor exists, this focuses it.
+	 */
 	focus() {
 		if ( this.editor ) {
 			this.editor.focus();
 		}
 	}
 
+	/**
+	 * Handles a keydown event for the toolbar.
+	 *
+	 * @param {Object} event The keydown event.
+	 */
 	onToolbarKeyDown( event ) {
 		// Prevent WritingFlow from kicking in and allow arrows navigation on the toolbar.
 		event.stopPropagation();
@@ -164,8 +193,11 @@ export default class TinyMCE extends Component {
 		event.nativeEvent.stopImmediatePropagation();
 	}
 
+	/**
+	 * Renders the component.
+	 */
 	render() {
-		const { clientId } = this.props;
+		const { editorId } = this.props;
 
 		// Disable reasons:
 		//
@@ -177,7 +209,7 @@ export default class TinyMCE extends Component {
 		return [
 			<div
 				key="toolbar"
-				id={ `toolbar-${ clientId }` }
+				id={ `toolbar-${ editorId }` }
 				ref={ ( ref ) => this.ref = ref }
 				className="rich-text__toolbar"
 				onClick={ this.focus }
@@ -186,7 +218,7 @@ export default class TinyMCE extends Component {
 			/>,
 			<div
 				key="editor"
-				id={ `editor-${ clientId }` }
+				id={ `editor-${ editorId }` }
 				className="rich-text__edit block-library-rich-text__tinymce"
 			/>,
 		];
