@@ -178,6 +178,7 @@ div[class^="wp-block-block-lab-"] {
   .block-lab-rich-text-control .rich-text__edit {
     background-color: $light-gray-500;
     padding: 0.1rem 1rem;
+    outline: none;
 
     p {
       font-size: 13px;
@@ -185,8 +186,15 @@ div[class^="wp-block-block-lab-"] {
       margin-bottom: 0.67rem;
     }
 
-    ul {
+    ul, ol {
       margin-left: 1rem;
+    }
+
+    /* Clear the float in case an image is floated. */
+    &:after {
+      content: "";
+      display: table;
+      clear: both;
     }
   }
 

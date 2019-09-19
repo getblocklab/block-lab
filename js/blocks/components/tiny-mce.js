@@ -55,12 +55,9 @@ class TinyMCE extends Component {
 	 * @param {Object} prevProps The previous props of the component, before the update.
 	 */
 	componentDidUpdate( prevProps ) {
-		const { content, editorId, onChange } = this.props;
-
-		const editor = window.tinymce.get( `editor-${ editorId }` );
+		const { content, onChange } = this.props;
 
 		if ( prevProps.content !== content ) {
-			editor.setContent( content || '' );
 			onChange( content || '' );
 		}
 	}
@@ -188,16 +185,15 @@ class TinyMCE extends Component {
 			<div
 				key="toolbar"
 				id={ `toolbar-${ editorId }` }
-				ref={ ( ref ) => this.ref = ref }
 				className="rich-text__toolbar"
 				onClick={ this.focus }
-				data-placeholder={ __( 'Classic', 'block-lab' ) }
+				data-placeholder={ __( 'Rich text', 'block-lab' ) }
 				onKeyDown={ this.onToolbarKeyDown }
 			/>,
 			<div
 				key="editor"
 				id={ `editor-${ editorId }` }
-				className="rich-text__edit block-library-rich-text__tinymce"
+				className="rich-text__edit"
 			/>,
 		];
 		/* eslint-enable jsx-a11y/no-static-element-interactions */
