@@ -3,30 +3,14 @@
  */
 const { Component } = wp.element;
 const { __ } = wp.i18n;
-const { BACKSPACE, DELETE, F10 } = wp.keycodes;
-
-function isTmceEmpty( editor ) {
-	// When tinyMce is empty the content seems to be:
-	// <p><br data-mce-bogus="1"></p>
-	// avoid expensive checks for large documents
-	const body = editor.getBody();
-	if ( body.childNodes.length > 1 ) {
-		return false;
-	} else if ( body.childNodes.length === 0 ) {
-		return true;
-	}
-	if ( body.childNodes[ 0 ].childNodes.length > 1 ) {
-		return false;
-	}
-	return /^\n?$/.test( body.innerText || body.textContent );
-}
+const { F10 } = wp.keycodes;
 
 /**
  * Forked from the Core Classic Editor's Edit component.
  *
  * @see https://github.com/WordPress/gutenberg/blob/416c9bc9eaef6e6bceea923b6f36642746c01aba/packages/block-library/src/classic/edit.js
  */
-export default class TinyMCE extends Component {
+class TinyMCE extends Component {
 	/**
 	 * Constructs the class.
 	 *
@@ -133,18 +117,12 @@ export default class TinyMCE extends Component {
 			bookmark = null;
 		} );
 
+		// Different from the Core Classic block, prevents losing edits when viewing the <ServerSideRender>.
 		editor.on( 'change', () => {
 			onChange( editor.getContent() );
 		} );
 
 		editor.on( 'keydown', ( event ) => {
-			if ( ( event.keyCode === BACKSPACE || event.keyCode === DELETE ) && isTmceEmpty( editor ) ) {
-				// delete the block
-				this.props.onReplace( [] );
-				event.preventDefault();
-				event.stopImmediatePropagation();
-			}
-
 			const { altKey } = event;
 			/*
 			 * Prevent Mousetrap from kicking in: TinyMCE already uses its own
@@ -225,3 +203,5 @@ export default class TinyMCE extends Component {
 		/* eslint-enable jsx-a11y/no-static-element-interactions */
 	}
 }
+
+export default TinyMCE;
