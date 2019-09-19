@@ -460,3 +460,10 @@ div[class^="wp-block-block-lab-"] {
   margin: 0;
   padding-right: 1em;
 }
+
+// In the <ServerSideRender> display, correct an issue where <ul> and <ol> can appear outside (to the left) of their container.
+.editor-styles-wrapper .block-lab-editor__ssr {
+  ul, ol {
+    margin-left: 1rem;
+  }
+}

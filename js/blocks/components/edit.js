@@ -39,6 +39,7 @@ const Edit = ( { blockProps, block } ) => {
 					<ServerSideRender
 						block={ `block-lab/${ block.name }` }
 						attributes={ attributes }
+						className="block-lab-editor__ssr"
 					/>
 				) }
 			</div>
