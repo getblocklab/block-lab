@@ -75,7 +75,7 @@ class TinyMCE extends Component {
 				content_css: false,
 				fixed_toolbar_container: `#toolbar-${ editorId }`,
 				setup: this.onSetup,
-				toolbar1: 'bold,italic,bullist,numlist,outdent,indent,alignleft,aligncenter,alignright,link,unlink,wp_add_media',
+				toolbar1: 'bold,italic,bullist,numlist,outdent,indent,alignleft,aligncenter,alignright,link,unlink,wp_add_media,strikethrough',
 				toolbar2: '',
 			},
 		} );
