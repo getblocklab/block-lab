@@ -139,6 +139,9 @@ class Test_Template_Output extends Abstract_Attribute {
 	 * This sets mock block attributes, like those that would be saved from a block.
 	 * Then, it loads the mock template in the theme's blocks/ directory,
 	 * and ensures that all of these fields appear correctly in it.
+	 *
+	 * @covers \block_field()
+	 * @covers \block_value()
 	 */
 	public function test_block_template() {
 		$block = new Blocks\Block();

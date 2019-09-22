@@ -20,6 +20,19 @@ class Test_Loader extends Abstract_Template {
 	public $instance;
 
 	/**
+	 * Test init.
+	 *
+	 * @covers \Block_Lab\Blocks\Loader::init()
+	 */
+	public function test_init() {
+		$this->assertEquals( 'Block_Lab\\Blocks\\Loader', get_class( $this->instance->init() ) );
+		$this->assertContains( 'js/editor.blocks.js', $this->instance->assets['path']['entry'] );
+		$this->assertContains( 'css/blocks.editor.css', $this->instance->assets['path']['editor_style'] );
+		$this->assertContains( 'js/editor.blocks.js', $this->instance->assets['url']['entry'] );
+		$this->assertContains( 'css/blocks.editor.css', $this->instance->assets['url']['editor_style'] );
+	}
+
+	/**
 	 * Test register_hooks.
 	 *
 	 * @covers \Block_Lab\Blocks\Loader::register_hooks()

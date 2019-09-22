@@ -338,7 +338,7 @@ class Block_Post extends Component_Abstract {
 			'default'
 		);
 
-		if ( isset( $post->post_name ) && ! empty( $post->post_name ) ) {
+		if ( ! empty( $post->post_name ) ) {
 			$locations = block_lab()->get_template_locations( $post->post_name );
 			$template  = block_lab()->locate_template( $locations, '', true );
 
