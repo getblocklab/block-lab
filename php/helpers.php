@@ -326,17 +326,7 @@ function block_field_config( $name ) {
  *         An associative array containing block fields. Each key in the array should be the field slug.
  *
  *         @type array {$slug} {
- *             An associative array describing a field.
- *
- *             @type string $name    The field name.
- *             @type string $label   The field label.
- *             @type string $control The field control type. Default: 'text'.
- *             @type string $type    The field variable type. Default: 'string'.
- *             @type int    $order   The order that the field appears in. Default: 0.
- *             @type array  $settings {
- *                 An associative array of settings for the field. Each field has a different set of possible settings.
- *                 Check the register_settings method for the field, found in php/blocks/controls/class-{field name}.php.
- *             }
+ *             An associative array describing a field. Refer to the $config parameter of block_lab_add_field().
  *         }
  *     }
  * }
@@ -375,8 +365,128 @@ function block_lab_add_block( $name, $config = array() ) {
 			if ( ! isset( $config['name'] ) ) {
 				return $blocks;
 			}
+
+			if ( isset( $config['fields'] ) && is_array( $config['fields'] ) ) {
+				foreach ( $config['fields'] as $field_name => $field ) {
+					block_lab_add_field( $config['name'], $field_name, $field );
+				}
+			}
+
 			$blocks[ "block-lab/{$config['name']}" ] = $config;
 			return $blocks;
 		}
 	);
 }
+
+/**
+ * Add a field to a block.
+ *
+ * @param string $block_name The block name (slug), like 'example-block'.
+ * @param string $field_name The field name (slug), like 'first-name'.
+ * @param array  $config {
+ *     An associative array containing the field configuration.
+ *
+ *     @type string $name    The field name.
+ *     @type string $label   The field label.
+ *     @type string $control The field control type. Default: 'text'.
+ *     @type int    $order   The order that the field appears in. Default: 0.
+ *     @type array  $settings {
+ *         An associative array of settings for the field. Each field has a different set of possible settings.
+ *         Check the register_settings method for the field, found in php/blocks/controls/class-{field name}.php.
+ *     }
+ * }
+ */
+function block_lab_add_field( $block_name, $field_name, $config = array() ) {
+	$config['name'] = str_replace( '_', '-', sanitize_title( $field_name ) );
+
+	if ( ! isset( $config['label'] ) ) {
+		$config['label'] = ucwords( $config['name'], '-' );
+		$config['label'] = str_replace( '-', ' ', $config['label'] );
+	}
+
+	if ( ! isset( $config['control'] ) ) {
+		$config['control'] = 'text';
+	}
+
+	$control_class_name  = 'Block_Lab\\Blocks\\Controls\\';
+	$control_class_name .= ucwords( $config['control'], '_' );
+	if ( class_exists( $control_class_name ) ) {
+		/**
+		 * An instance of the control, to retrieve the correct type.
+		 *
+		 * @var Control_Abstract $control_class
+		 */
+		$control_class  = new $control_class_name();
+		$config['type'] = $control_class->type;
+	}
+
+	if ( ! isset( $config['order'] ) ) {
+		$config['order'] = 0;
+	}
+
+	if ( ! isset( $config['settings'] ) ) {
+		$config['settings'] = array();
+	}
+
+	add_filter(
+		'block_lab_blocks',
+		function( $blocks ) use ( $block_name, $config ) {
+			if ( ! isset( $blocks[ "block-lab/{$block_name}" ] ) ) {
+				return $blocks;
+			}
+			if ( ! isset( $config['name'] ) ) {
+				return $blocks;
+			}
+			$blocks[ "block-lab/{$block_name}" ]['fields'][ $config['name'] ] = $config;
+			return $blocks;
+		}
+	);
+}
+
+block_lab_add_block(
+	'one-fish',
+	array(
+		'title'    => 'One Fish',
+		'category' => 'common',
+		'icon'     => 'waves',
+		'excluded' => array( 'page' ),
+		'keywords' => array( 'sad', 'glad', 'bad' ),
+		'fields'   => array(
+			'thin' => array(
+				'label'   => 'Thin',
+				'control' => 'toggle',
+				'width'   => '25',
+				'default' => true,
+			),
+			'fat' => array(
+				'label'   => 'Fat',
+				'control' => 'toggle',
+				'width'   => '25',
+				'default' => false,
+			),
+			'hat'  => array(
+				'label'   => 'Hat',
+				'control' => 'select',
+				'width'   => '50',
+				'options' => array(
+					array(
+						'label' => 'Yellow',
+						'value' => 'yellow',
+					),
+					array(
+						'label' => 'Red',
+						'value' => 'red',
+					),
+					array(
+						'label' => 'Blue',
+						'value' => 'blue',
+					),
+				),
+			),
+		),
+	)
+);
+
+block_lab_add_block( 'two-fish', array( 'icon' => 'waves' ) );
+block_lab_add_field( 'two-fish', 'hello-there-ned-how-do-you-do' );
+block_lab_add_field( 'two-fish', 'tell-me-tell-me-what-is-new', array( 'placeholder' => 'My hat is old, my teeth are gold.' ) );
