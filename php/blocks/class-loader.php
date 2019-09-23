@@ -484,8 +484,10 @@ class Loader extends Component_Abstract {
 		$this->blocks = '';
 		$blocks       = [];
 
-		// Retrieve blocks from blocks.json.
-		// Reverse to preserve order of preference when using array_merge.
+		/**
+		 * Retrieve blocks from blocks.json.
+		 * Reverse to preserve order of preference when using array_merge.
+		 */
 		$blocks_files = array_reverse( (array) block_lab()->locate_template( 'blocks/blocks.json', '', false ) );
 		foreach ( $blocks_files as $blocks_file ) {
 			// This is expected to be on the local filesystem, so file_get_contents() is ok to use here.
@@ -498,6 +500,9 @@ class Loader extends Component_Abstract {
 			}
 		}
 
+		/**
+		 * Retrieve blocks stored as posts in the WordPress database.
+		 */
 		$block_posts = new \WP_Query(
 			[
 				'post_type'      => block_lab()->get_post_type_slug(),
@@ -517,6 +522,23 @@ class Loader extends Component_Abstract {
 				}
 			}
 		}
+
+		/**
+		 * Retrieve blocks registered through the block_lab_blocks filter.
+		 *
+		 * Use the block_lab_register_blocks action to register new blocks with the block_lab_add_block helper function.
+		 */
+		do_action( 'block_lab_register_blocks' );
+
+		/**
+		 * Filter the available blocks.
+		 *
+		 * This is used internally by the block_lab_add_block and block_lab_add_field helper functions,
+		 * but it can also be used to hide certain blocks if desired.
+		 *
+		 * @param array $blocks An associative array of blocks.
+		 */
+		$blocks = apply_filters( 'block_lab_blocks', $blocks );
 
 		$this->blocks = wp_json_encode( $blocks );
 	}

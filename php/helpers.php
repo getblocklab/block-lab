@@ -309,3 +309,74 @@ function block_field_config( $name ) {
 	}
 	return (array) $block_lab_config->fields[ $name ];
 }
+
+/**
+ * Add a new block.
+ *
+ * @param string $name The block name (slug), like 'example-block'.
+ * @param array  $config {
+ *     An associative array containing the block configuration.
+ *
+ *     @type string   $title    The block title.
+ *     @type string   $icon     The block icon. See assets/icons.json for a JSON array of all possible values. Default: 'block_lab'.
+ *     @type string   $category The slug of a registered category. Categories include: common, formatting, layout, widgets, embed. Default: 'common'.
+ *     @type array    $excluded Exclude the block in these post types. Default: [].
+ *     @type string[] $keywords An array of up to three keywords. Default: [].
+ *     @type array    $fields {
+ *         An associative array containing block fields. Each key in the array should be the field slug.
+ *
+ *         @type array {$slug} {
+ *             An associative array describing a field.
+ *
+ *             @type string $name    The field name.
+ *             @type string $label   The field label.
+ *             @type string $control The field control type. Default: 'text'.
+ *             @type string $type    The field variable type. Default: 'string'.
+ *             @type int    $order   The order that the field appears in. Default: 0.
+ *             @type array  $settings {
+ *                 An associative array of settings for the field. Each field has a different set of possible settings.
+ *                 Check the register_settings method for the field, found in php/blocks/controls/class-{field name}.php.
+ *             }
+ *         }
+ *     }
+ * }
+ */
+function block_lab_add_block( $name, $config = array() ) {
+	$config['name'] = str_replace( '_', '-', sanitize_title( $name ) );
+
+	if ( ! isset( $config['title'] ) ) {
+		$config['title'] = ucwords( $config['name'], '-' );
+		$config['title'] = str_replace( '-', ' ', $config['title'] );
+	}
+
+	if ( ! isset( $config['icon'] ) ) {
+		$config['icon'] = 'block_lab';
+	}
+
+	if ( ! isset( $config['category'] ) ) {
+		$config['category'] = 'common';
+	}
+
+	if ( ! isset( $config['excluded'] ) ) {
+		$config['excluded'] = array();
+	}
+
+	if ( ! isset( $config['keywords'] ) ) {
+		$config['keywords'] = array();
+	}
+
+	if ( ! isset( $config['fields'] ) ) {
+		$config['fields'] = array();
+	}
+
+	add_filter(
+		'block_lab_blocks',
+		function( $blocks ) use ( $config ) {
+			if ( ! isset( $config['name'] ) ) {
+				return $blocks;
+			}
+			$blocks[ "block-lab/{$config['name']}" ] = $config;
+			return $blocks;
+		}
+	);
+}
