@@ -137,13 +137,7 @@ class TinyMCE extends Component {
 		} );
 
 		editor.on( 'init', () => {
-			const rootNode = this.editor.getBody();
-
-			// Create the toolbar by refocussing the editor.
-			if ( document.activeElement === rootNode ) {
-				rootNode.blur();
-				this.editor.focus();
-			}
+			this.editor.focus();
 		} );
 	}
 
