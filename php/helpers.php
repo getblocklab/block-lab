@@ -313,8 +313,8 @@ function block_field_config( $name ) {
 /**
  * Add a new block.
  *
- * @param string $name The block name (slug), like 'example-block'.
- * @param array  $config {
+ * @param string $block_name   The block name (slug), like 'example-block'.
+ * @param array  $block_config {
  *     An associative array containing the block configuration.
  *
  *     @type string   $title    The block title.
@@ -326,53 +326,53 @@ function block_field_config( $name ) {
  *         An associative array containing block fields. Each key in the array should be the field slug.
  *
  *         @type array {$slug} {
- *             An associative array describing a field. Refer to the $config parameter of block_lab_add_field().
+ *             An associative array describing a field. Refer to the $field_config parameter of block_lab_add_field().
  *         }
  *     }
  * }
  */
-function block_lab_add_block( $name, $config = array() ) {
-	$config['name'] = str_replace( '_', '-', sanitize_title( $name ) );
+function block_lab_add_block( $block_name, $block_config = array() ) {
+	$block_config['name'] = str_replace( '_', '-', sanitize_title( $block_name ) );
 
-	if ( ! isset( $config['title'] ) ) {
-		$config['title'] = ucwords( $config['name'], '-' );
-		$config['title'] = str_replace( '-', ' ', $config['title'] );
+	if ( ! isset( $block_config['title'] ) ) {
+		$block_config['title'] = ucwords( $block_config['name'], '-' );
+		$block_config['title'] = str_replace( '-', ' ', $block_config['title'] );
 	}
 
-	if ( ! isset( $config['icon'] ) ) {
-		$config['icon'] = 'block_lab';
+	if ( ! isset( $block_config['icon'] ) ) {
+		$block_config['icon'] = 'block_lab';
 	}
 
-	if ( ! isset( $config['category'] ) ) {
-		$config['category'] = 'common';
+	if ( ! isset( $block_config['category'] ) ) {
+		$block_config['category'] = 'common';
 	}
 
-	if ( ! isset( $config['excluded'] ) ) {
-		$config['excluded'] = array();
+	if ( ! isset( $block_config['excluded'] ) ) {
+		$block_config['excluded'] = array();
 	}
 
-	if ( ! isset( $config['keywords'] ) ) {
-		$config['keywords'] = array();
+	if ( ! isset( $block_config['keywords'] ) ) {
+		$block_config['keywords'] = array();
 	}
 
-	if ( ! isset( $config['fields'] ) ) {
-		$config['fields'] = array();
+	if ( ! isset( $block_config['fields'] ) ) {
+		$block_config['fields'] = array();
 	}
 
 	add_filter(
 		'block_lab_blocks',
-		function( $blocks ) use ( $config ) {
-			if ( ! isset( $config['name'] ) ) {
+		function( $blocks ) use ( $block_config ) {
+			if ( ! isset( $block_config['name'] ) ) {
 				return $blocks;
 			}
 
-			if ( isset( $config['fields'] ) && is_array( $config['fields'] ) ) {
-				foreach ( $config['fields'] as $field_name => $field ) {
-					block_lab_add_field( $config['name'], $field_name, $field );
+			if ( isset( $block_config['fields'] ) && is_array( $block_config['fields'] ) ) {
+				foreach ( $block_config['fields'] as $field_name => $field ) {
+					block_lab_add_field( $block_config['name'], $field_name, $field );
 				}
 			}
 
-			$blocks[ "block-lab/{$config['name']}" ] = $config;
+			$blocks[ "block-lab/{$block_config['name']}" ] = $block_config;
 			return $blocks;
 		}
 	);
@@ -381,9 +381,9 @@ function block_lab_add_block( $name, $config = array() ) {
 /**
  * Add a field to a block.
  *
- * @param string $block_name The block name (slug), like 'example-block'.
- * @param string $field_name The field name (slug), like 'first-name'.
- * @param array  $config {
+ * @param string $block_name   The block name (slug), like 'example-block'.
+ * @param string $field_name   The field name (slug), like 'first-name'.
+ * @param array  $field_config {
  *     An associative array containing the field configuration.
  *
  *     @type string $name    The field name.
@@ -396,48 +396,48 @@ function block_lab_add_block( $name, $config = array() ) {
  *     }
  * }
  */
-function block_lab_add_field( $block_name, $field_name, $config = array() ) {
-	$config['name'] = str_replace( '_', '-', sanitize_title( $field_name ) );
+function block_lab_add_field( $block_name, $field_name, $field_config = array() ) {
+	$field_config['name'] = str_replace( '_', '-', sanitize_title( $field_name ) );
 
-	if ( ! isset( $config['label'] ) ) {
-		$config['label'] = ucwords( $config['name'], '-' );
-		$config['label'] = str_replace( '-', ' ', $config['label'] );
+	if ( ! isset( $field_config['label'] ) ) {
+		$field_config['label'] = ucwords( $field_config['name'], '-' );
+		$field_config['label'] = str_replace( '-', ' ', $field_config['label'] );
 	}
 
-	if ( ! isset( $config['control'] ) ) {
-		$config['control'] = 'text';
+	if ( ! isset( $field_config['control'] ) ) {
+		$field_config['control'] = 'text';
 	}
 
 	$control_class_name  = 'Block_Lab\\Blocks\\Controls\\';
-	$control_class_name .= ucwords( $config['control'], '_' );
+	$control_class_name .= ucwords( $field_config['control'], '_' );
 	if ( class_exists( $control_class_name ) ) {
 		/**
 		 * An instance of the control, to retrieve the correct type.
 		 *
 		 * @var Control_Abstract $control_class
 		 */
-		$control_class  = new $control_class_name();
-		$config['type'] = $control_class->type;
+		$control_class        = new $control_class_name();
+		$field_config['type'] = $control_class->type;
 	}
 
-	if ( ! isset( $config['order'] ) ) {
-		$config['order'] = 0;
+	if ( ! isset( $field_config['order'] ) ) {
+		$field_config['order'] = 0;
 	}
 
-	if ( ! isset( $config['settings'] ) ) {
-		$config['settings'] = array();
+	if ( ! isset( $field_config['settings'] ) ) {
+		$field_config['settings'] = array();
 	}
 
 	add_filter(
 		'block_lab_blocks',
-		function( $blocks ) use ( $block_name, $config ) {
+		function( $blocks ) use ( $block_name, $field_config ) {
 			if ( ! isset( $blocks[ "block-lab/{$block_name}" ] ) ) {
 				return $blocks;
 			}
-			if ( ! isset( $config['name'] ) ) {
+			if ( ! isset( $field_config['name'] ) ) {
 				return $blocks;
 			}
-			$blocks[ "block-lab/{$block_name}" ]['fields'][ $config['name'] ] = $config;
+			$blocks[ "block-lab/{$block_name}" ]['fields'][ $field_config['name'] ] = $field_config;
 			return $blocks;
 		}
 	);
