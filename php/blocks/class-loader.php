@@ -281,8 +281,6 @@ class Loader extends Component_Abstract {
 	 * @return mixed
 	 */
 	public function render_block_template( $block, $attributes ) {
-		global $block_lab_attributes, $block_lab_config;
-
 		$type = 'block';
 
 		// This is hacky, but the editor doesn't send the original request along.
@@ -332,8 +330,8 @@ class Loader extends Component_Abstract {
 			$this->enqueue_global_styles();
 		}
 
-		$block_lab_attributes = $attributes;
-		$block_lab_config     = $block;
+		block_lab()->data['attributes'] = $attributes;
+		block_lab()->data['config']     = $block;
 
 		if ( ! is_admin() && ( ! defined( 'REST_REQUEST' ) || ! REST_REQUEST ) && ! wp_doing_ajax() ) {
 
