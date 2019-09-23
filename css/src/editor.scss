@@ -177,22 +177,43 @@ div[class^="wp-block-block-lab-"] {
   /* Rich Text Control Component */
   .block-lab-rich-text-control {
 
-    .mce-tinymce {
-      box-shadow: none;
+    .rich-text__toolbar {
+      /* Taken from the styling for the <RichText> component buttons. */
+      .mce-btn:not(:disabled):not([aria-disabled="true"]) {
+
+        &:hover {
+          background-color: $white;
+          color: $dark-gray-900;
+        }
+
+        &.mce-active button {
+          box-shadow: none;
+          background: $dark-gray-500;
+
+          .mce-ico {
+            color: $white;
+          }
+        }
+      }
+
+      .mce-tinymce {
+        box-shadow: none;
+      }
+
+      > .mce-container {
+        margin: 0 auto 2px auto;
+      }
+
+      .mce-btn-group .mce-btn {
+        border-radius: 4px;
+      }
+
+      .mce-toolbar-grp {
+        background-color: $white;
+      }
     }
 
-    .rich-text__toolbar > .mce-container {
-      margin: 0 auto 2px auto;
-    }
-
-    .mce-btn-group .mce-btn {
-      border-radius: 4px;
-    }
-
-    .mce-toolbar-grp {
-      background-color: $white;
-    }
-
+    /* The editing area, not the toolbar. */
     .rich-text__edit {
       background-color: #fff;
       padding: 0.1rem 1rem;
