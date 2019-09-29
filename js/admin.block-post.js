@@ -150,6 +150,55 @@
 					$( '.repeater-has-fields' ).hide();
 				}
 			} )
+			.on( 'click', '.block-fields-actions-duplicate', function() {
+				const currentRow = $( this ).closest( '.block-fields-row' ),
+					currentUid = currentRow.data( 'uid' ),
+					newUid = new Date().getTime(),
+					newRow = currentRow.clone();
+
+				// Replace all the UIDs.
+				newRow.attr( 'data-uid', newUid );
+				newRow.html( function( index, html ) {
+					return html.replace( new RegExp( currentUid, 'g' ), newUid );
+				} );
+
+				// Set the values manually. jQuery's clone method doesn't work for dynamic data.
+				currentRow.find( '[name*="[' + currentUid + ']"]' ).each( function() {
+					const newRowName = $( this ).attr( 'name' ).replace( currentUid, newUid ),
+						newRowInput = newRow.find( '[name="' + newRowName + '"]' );
+
+					// Radio and Checkbox inputs are unique in that multiple can exist with the same name.
+					if ( $( this ).is( '[type="radio"],[type="checkbox"]' ) ) {
+						newRowInput.parent().find( '[value="' + $( this ).val() + '"]' ).prop( 'checked', $( this ).prop( 'checked' ) );
+					} else {
+						newRowInput.val( $( this ).val() );
+					}
+				} );
+
+				// Insert the new row.
+				newRow.insertAfter( currentRow );
+
+				if ( newRow.hasClass( 'block-fields-row-active' ) ) {
+					currentRow.find( '.block-fields-actions-edit' ).trigger( 'click' );
+				} else {
+					newRow.find( '.block-fields-actions-edit' ).trigger( 'click' );
+				}
+
+				// Increment the label.
+				const label = newRow.find( '.block-fields-edit-label input' ),
+					labelNumbers = label.val().match( /\d+$/ );
+
+				if ( labelNumbers ) {
+					const newNumber = parseInt( labelNumbers[ 0 ] ) + 1;
+					label.val( label.val().replace( /\d+$/, newNumber ) );
+				} else {
+					label.val( label.val() + ' 1' );
+				}
+
+				label.trigger( 'change' );
+				label.data( 'defaultValue', label.val() );
+				label.select();
+			} )
 			.on( 'click', '.block-fields-actions-edit, a.row-title', function() {
 				const currentRow = $( this ).closest( '.block-fields-row' );
 
