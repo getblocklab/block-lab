@@ -190,7 +190,7 @@
 				let option = $( 'option:selected', $( this ) ).text();
 				$( '#' + sync ).text( option );
 			})
-			.on( 'change', '.block-fields-edit-control select', function() {
+			.on( 'change', '.block-fields-edit-control input', function() {
 				let fieldRow = $( this ).closest( '.block-fields-row' );
 				fetchFieldSettings( fieldRow, $( this ).val() );
 

@@ -710,11 +710,7 @@ class Block_Post extends Component_Abstract {
 							</label>
 						</th>
 						<td>
-							<select
-								name="block-fields-control[<?php echo esc_attr( $uid ); ?>]"
-								id="block-fields-edit-control-input_<?php echo esc_attr( $uid ); ?>"
-								data-sync="block-fields-control_<?php echo esc_attr( $uid ); ?>"
-								<?php disabled( $is_field_disabled ); ?> >
+							<div class="button-group">
 								<?php
 								$controls_for_select = $this->controls;
 
@@ -728,15 +724,27 @@ class Block_Post extends Component_Abstract {
 									unset( $controls_for_select['repeater'] );
 								}
 
-								foreach ( $controls_for_select as $control_for_select ) :
+								foreach ( $controls_for_select as $control_for_select ) {
 									?>
-									<option
+									<input
+										class="button"
+										name="block-fields-control[<?php echo esc_attr( $uid ); ?>]"
+										type="radio"
 										value="<?php echo esc_attr( $control_for_select->name ); ?>"
-										<?php selected( $field->control, $control_for_select->name ); ?>>
+										data-sync="block-fields-control_<?php echo esc_attr( $uid ); ?>"
+										<?php checked( $field->control, $control_for_select->name ); ?>
+										/>
+									<label>
+										<span class="icon " data-value="block_lab">
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M3.823,5.688c0.034,-0.045 0.075,-0.085 0.126,-0.118l5.211,-3.008c0.085,-0.044 0.178,-0.067 0.278,-0.061c0.057,0.007 0.081,0.002 0.194,0.061l5.212,3.008l5.212,3.01l0.027,0.017l0.028,0.02l0.024,0.021l0.024,0.022l0.022,0.024l0.02,0.027l0.018,0.027l0.017,0.029l0.015,0.029l0.012,0.031l0.01,0.032l0.009,0.031l0.005,0.033l0.003,0.033l0.001,0.032l0,6.018c-0.012,0.248 -0.037,0.28 -0.235,0.409l-10.384,5.994c-0.137,0.105 -0.317,0.127 -0.512,0.024l-5.211,-3.009c-0.027,-0.017 -0.049,-0.032 -0.069,-0.046c-0.125,-0.088 -0.151,-0.139 -0.163,-0.286c-0.009,-0.051 -0.011,-0.101 -0.004,-0.149l0,-11.964c0.006,-0.11 0.046,-0.211 0.11,-0.291Zm5.102,14.518l0,-10.945l-4.268,-2.464l0,10.944l4.268,2.465Zm6.155,-9.026l3.796,-2.192l-3.796,-2.191l0,4.383Z"></path></svg>
+										</span>
+										<br />
 										<?php echo esc_html( $control_for_select->label ); ?>
-									</option>
-								<?php endforeach; ?>
-							</select>
+									</label>
+									<?php
+								}
+								?>
+							</div>
 						</td>
 					</tr>
 					<?php $this->render_field_settings( $field, $uid ); ?>

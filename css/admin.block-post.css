@@ -161,12 +161,30 @@
 	border-bottom: 1px solid #e1e1e1;
 	border-top: 1px solid #e1e1e1;
 }
+#block_fields .block-fields-rows .block-fields-edit-control .button-group {
+	white-space: normal;
+}
+#block_fields .block-fields-rows .block-fields-edit-control .button-group > .button {
+	width: 8em;
+	height: 5em;
+}
+#block_fields .block-fields-rows .block-fields-edit-control .button-group > label {
+	width: 8em;
+	top: auto;
+	margin-top: 9px;
+	margin-left: -8em;
+	line-height: 1.5em;
+}
+#block_fields .block-fields-rows .block-fields-edit-control .button-group > label svg {
+	fill: #555;
+}
 #block_fields .block-fields-rows .block-fields-row .block-fields-edit tbody {
 	background: #f7f7f7;
 }
 #block_fields .block-fields-rows .block-fields-edit td,
 #block_fields .block-fields-rows .block-fields-edit th {
 	padding: 8px 10px;
+	vertical-align: top;
 }
 #block_fields .block-fields-rows .block-fields-edit td.spacer {
 	width: 4%;
