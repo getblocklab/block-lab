@@ -608,6 +608,10 @@ class Block_Post extends Component_Abstract {
 							<?php esc_html_e( 'Edit', 'block-lab' ); ?>
 						</a>
 						&nbsp;|&nbsp;
+						<a class="block-fields-actions-duplicate" href="javascript:">
+							<?php esc_html_e( 'Duplicate', 'block-lab' ); ?>
+						</a>
+						&nbsp;|&nbsp;
 						<a class="block-fields-actions-delete" href="javascript:">
 							<?php esc_html_e( 'Delete', 'block-lab' ); ?>
 						</a>
