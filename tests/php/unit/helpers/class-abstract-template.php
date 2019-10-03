@@ -48,7 +48,7 @@ abstract class Abstract_Template extends \WP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->instance = new Blocks\Loader();
-		$this->instance->set_plugin( block_lab() );
+		$this->invoke_protected_method( 'set_plugin', array( block_lab() ) );
 
 		$this->theme_directory    = get_template_directory();
 		$this->template_locations = block_lab()->get_template_locations( $this->mock_block_name );
@@ -85,6 +85,34 @@ abstract class Abstract_Template extends \WP_UnitTestCase {
 		);
 
 		parent::tearDown();
+	}
+
+	/**
+	 * Invokes a protected method.
+	 *
+	 * @param string $method_name The name of the method.
+	 * @param array  $args The arguments.
+	 * @return mixed The result of invoking the method.
+	 * @throws ReflectionException If invoking this fails.
+	 */
+	public function invoke_protected_method( $method_name, $args = array() ) {
+		$method = new ReflectionMethod( $this->instance, $method_name );
+		$method->setAccessible( true );
+		return $method->invokeArgs( $this->instance, $args );
+	}
+
+	/**
+	 * Gets a protected property's value.
+	 *
+	 * @param string $property The name of the property to get.
+	 * @return mixed The property value
+	 * @throws ReflectionException For a non-accessible property.
+	 */
+	public function get_protected_property( $property ) {
+		$reflection = new \ReflectionObject( $this->instance );
+		$property   = $reflection->getProperty( $property );
+		$property->setAccessible( true );
+		return $property->getValue( $this->instance );
 	}
 
 	/**
