@@ -220,6 +220,7 @@ div[class^="wp-block-block-lab-"] {
       border-radius: 4px;
       border: 1px solid $dark-gray-150;
       outline: none;
+      min-height: 6rem;
 
       &:focus {
         border-color: $blue-medium-500;
