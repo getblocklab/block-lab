@@ -193,7 +193,7 @@ class Test_Repeater_Template_Output extends Abstract_Attribute {
 	public function test_repeater_template() {
 		$block = new Blocks\Block();
 		$block->from_array( $this->get_block_config() );
-		$rendered_template = $this->loader->render_block_template( $block, $this->attributes );
+		$rendered_template = $this->invoke_protected_method( $this->loader, 'render_block_template', array( $block, $this->attributes ) );
 		$actual_template   = str_replace( array( "\t", "\n" ), '', $rendered_template );
 		$rows              = $this->attributes[ self::REPEATER_FIELD_NAME ]['rows'];
 
