@@ -22,7 +22,7 @@ class Classic_Text extends Control_Abstract {
 	public $name = 'classic_text';
 
 	/**
-	 * Textarea constructor.
+	 * Class constructor.
 	 *
 	 * @return void
 	 */
