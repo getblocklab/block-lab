@@ -183,7 +183,7 @@ class TinyMCE extends Component {
 			<div
 				key="toolbar"
 				id={ `toolbar-${ editorId }` }
-				className="rich-text__toolbar"
+				className="classic-text__toolbar"
 				onClick={ this.focus }
 				data-placeholder={ __( 'Rich text', 'block-lab' ) }
 				onKeyDown={ this.onToolbarKeyDown }
@@ -191,7 +191,7 @@ class TinyMCE extends Component {
 			<div
 				key="editor"
 				id={ `editor-${ editorId }` }
-				className="rich-text__edit"
+				className="classic-text__edit"
 			/>,
 		];
 		/* eslint-enable jsx-a11y/no-static-element-interactions */

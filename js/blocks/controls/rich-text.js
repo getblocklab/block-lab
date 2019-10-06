@@ -2,11 +2,7 @@
  * WordPress dependencies
  */
 const { BaseControl } = wp.components;
-
-/**
- * Internal dependencies
- */
-import { TinyMCE } from '../components';
+const { RichText } = wp.blockEditor;
 
 const BlockLabRichTextControl = ( props ) => {
 	const { field, getValue, instanceId, onChange } = props;
@@ -18,10 +14,22 @@ const BlockLabRichTextControl = ( props ) => {
 			className="block-lab-rich-text-control"
 			help={ field.help }
 		>
-			<TinyMCE
-				content={ getValue( props ) }
+			{
+			/*
+			* @todo: Resolve known issue with toolbar not disappearing on blur
+			* @see: https://github.com/WordPress/gutenberg/issues/7463
+			*/
+			}
+			<RichText
+				key={ `block-lab-${ field.name }` }
+				placeholder={ field.placeholder || '' }
+				keepPlaceholderOnFocus={ true }
+				defaultValue={ field.default }
+				value={ getValue( props ) }
+				className="input-control"
+				multiline={ true }
+				inlineToolbar={ true }
 				onChange={ onChange }
-				editorId={ `rich-text-${ field.name }` }
 			/>
 		</BaseControl>
 	);
