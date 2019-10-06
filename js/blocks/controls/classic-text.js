@@ -14,14 +14,14 @@ const BlockLabClassicTextControl = ( props ) => {
 	return (
 		<BaseControl
 			label={ field.label }
-			id={ `bl-rich-text-${ instanceId }` }
+			id={ `bl-classic-text-${ instanceId }` }
 			className="block-lab-classic-text-control"
 			help={ field.help }
 		>
 			<TinyMCE
 				content={ getValue( props ) }
 				onChange={ onChange }
-				editorId={ `rich-text-${ field.name }` }
+				editorId={ `classic-text-${ field.name }` }
 			/>
 		</BaseControl>
 	);

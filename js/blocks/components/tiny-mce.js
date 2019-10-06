@@ -185,7 +185,7 @@ class TinyMCE extends Component {
 				id={ `toolbar-${ editorId }` }
 				className="classic-text__toolbar"
 				onClick={ this.focus }
-				data-placeholder={ __( 'Rich text', 'block-lab' ) }
+				data-placeholder={ __( 'Classic text', 'block-lab' ) }
 				onKeyDown={ this.onToolbarKeyDown }
 			/>,
 			<div
