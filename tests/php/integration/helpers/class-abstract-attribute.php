@@ -120,6 +120,21 @@ abstract class Abstract_Attribute extends \WP_UnitTestCase {
 	}
 
 	/**
+	 * Invokes a protected method.
+	 *
+	 * @param object $instance The instance to invoke the method on.
+	 * @param string $method_name The name of the method.
+	 * @param array  $args The arguments.
+	 * @return mixed The result of invoking the method.
+	 * @throws ReflectionException If invoking this fails.
+	 */
+	public function invoke_protected_method( $instance, $method_name, $args = array() ) {
+		$method = new ReflectionMethod( $instance, $method_name );
+		$method->setAccessible( true );
+		return $method->invokeArgs( $instance, $args );
+	}
+
+	/**
 	 * Sets class properties.
 	 */
 	public function set_properties() {}

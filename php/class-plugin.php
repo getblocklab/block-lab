@@ -29,6 +29,13 @@ class Plugin extends Plugin_Abstract {
 	public $admin;
 
 	/**
+	 * Block loader.
+	 *
+	 * @var Blocks\Loader
+	 */
+	public $loader;
+
+	/**
 	 * The slug of the post type that stores the blocks.
 	 *
 	 * @since 1.3.5
@@ -49,9 +56,10 @@ class Plugin extends Plugin_Abstract {
 	public function init() {
 		$this->util = new Util();
 		$this->register_component( $this->util );
-
 		$this->register_component( new Post_Types\Block_Post() );
-		$this->register_component( new Blocks\Loader() );
+
+		$this->loader = new Blocks\Loader();
+		$this->register_component( $this->loader );
 
 		register_activation_hook(
 			$this->get_file(),
