@@ -131,7 +131,7 @@ class TinyMCE extends Component {
 		} );
 
 		editor.addButton( 'wp_add_media', {
-			tooltip: __( 'Insert Media' ),
+			tooltip: __( 'Insert Media', 'block-lab' ),
 			icon: 'dashicon dashicons-admin-media',
 			cmd: 'WP_Medialib',
 		} );
