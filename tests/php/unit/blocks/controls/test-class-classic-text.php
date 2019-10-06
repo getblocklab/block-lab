@@ -72,18 +72,4 @@ class Test_Classic_Text extends \WP_UnitTestCase {
 
 		$this->assert_correct_settings( $expected_settings, $this->instance->settings );
 	}
-
-	/**
-	 * Test validate.
-	 *
-	 * @covers \Block_Lab\Blocks\Controls\Classic_Text::validate()
-	 */
-	public function test_validate() {
-		$markup_with_br_tags         = '<span>First line<br><br></span>';
-		$expected_markup_with_p_tags = "<p><span>First line</p>\n<p></span></p>\n";
-
-		// This should have the same results, whether the second $echo argument is true or false.
-		$this->assertEquals( $expected_markup_with_p_tags, $this->instance->validate( $markup_with_br_tags, true ) );
-		$this->assertEquals( $expected_markup_with_p_tags, $this->instance->validate( $markup_with_br_tags, false ) );
-	}
 }
