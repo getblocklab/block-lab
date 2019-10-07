@@ -44,13 +44,6 @@ class Plugin extends Plugin_Abstract {
 	public $post_type_slug = 'block_lab';
 
 	/**
-	 * A data store for sharing data statically to helper functions.
-	 *
-	 * @var array
-	 */
-	public $data = array();
-
-	/**
 	 * Execute this as early as possible.
 	 */
 	public function init() {

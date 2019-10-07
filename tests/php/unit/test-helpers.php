@@ -19,7 +19,9 @@ class Test_Helpers extends \WP_UnitTestCase {
 	 */
 	public function tearDown() {
 		remove_all_filters( 'block_lab_default_fields' );
-		block_lab()->data = array();
+		remove_all_filters( 'block_lab_data_attributes' );
+		remove_all_filters( 'block_lab_data_config' );
+
 		parent::tearDown();
 	}
 
@@ -29,22 +31,36 @@ class Test_Helpers extends \WP_UnitTestCase {
 	 * @covers ::block_field()
 	 */
 	public function test_block_field() {
-		$field_name                                    = 'test-user';
-		$class_key                                     = 'className';
-		$expected_class                                = 'baz-class';
-		$mock_text                                     = 'Example text';
-		block_lab()->data['attributes'][ $field_name ] = $mock_text;
-		block_lab()->data['attributes'][ $class_key ]  = $expected_class;
+		$field_name     = 'test-user';
+		$class_key      = 'className';
+		$expected_class = 'baz-class';
+		$mock_text      = 'Example text';
 
-		$field_config = array( 'control' => 'text' );
-		$block_config = array(
-			'fields' => array(
-				$field_name => $field_config,
-			),
+		add_filter(
+			'block_lab_data_attributes',
+			function( $data ) use ( $field_name, $class_key, $mock_text, $expected_class ) {
+				$data[ $field_name ] = $mock_text;
+				$data[ $class_key ]  = $expected_class;
+				return $data;
+			}
 		);
 
-		block_lab()->data['config'] = new Blocks\Block();
-		block_lab()->data['config']->from_array( $block_config );
+		add_filter(
+			'block_lab_data_config',
+			function( $data ) use ( $field_name ) {
+				$field_config = array( 'control' => 'text' );
+				$block_config = array(
+					'fields' => array(
+						$field_name => $field_config,
+					),
+				);
+
+				$data = new Blocks\Block();
+				$data->from_array( $block_config );
+
+				return $data;
+			}
+		);
 
 		// Because block_field() had the second argument of false, this should return the value stored in the field, not echo it.
 		ob_start();
@@ -76,17 +92,25 @@ class Test_Helpers extends \WP_UnitTestCase {
 		$this->assertEquals( $expected_class, $actual_class );
 		$this->assertEquals( $return_value, $actual_class );
 
-		$additional_field_name          = 'example_additional_field';
-		$additional_field_value         = 'Here is some text';
-		block_lab()->data['attributes'] = array(
-			$additional_field_name => $additional_field_value,
+		$additional_field_name  = 'example_additional_field';
+		$additional_field_value = 'Here is some text';
+
+		remove_all_filters( 'block_lab_data_attributes' );
+
+		add_filter(
+			'block_lab_data_attributes',
+			function( $data ) use ( $additional_field_name, $additional_field_value ) {
+				return array(
+					$additional_field_name => $additional_field_value,
+				);
+			}
 		);
 
 		ob_start();
 		$return_value = block_field( $additional_field_name, true );
 		$echoed_value = ob_get_clean();
 
-		// When a field isn't in the block_lab()->data['config'], it should not be echoed or returned.
+		// When a field isn't in the block_lab()->loader->data['config'], it should not be echoed or returned.
 		$this->assertEmpty( $return_value );
 		$this->assertEmpty( $echoed_value );
 

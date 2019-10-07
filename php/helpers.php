@@ -18,23 +18,27 @@ use Block_Lab\Blocks;
  * @return mixed
  */
 function block_field( $name, $echo = true ) {
-	if ( ! isset( block_lab()->data['attributes'] ) || ! is_array( block_lab()->data['attributes'] ) ) {
-		return null;
-	}
-
 	/**
 	 * An array containing the block attributes.
 	 *
 	 * @var array $attributes
 	 */
-	$attributes = block_lab()->data['attributes'];
+	$attributes = block_lab()->loader->get_data( 'attributes' );
+
+	if ( ! $attributes ) {
+		return null;
+	}
 
 	/**
 	 * An instantiated Block.
 	 *
 	 * @var Blocks\Block $config
 	 */
-	$config = block_lab()->data['config'];
+	$config = block_lab()->loader->get_data( 'config' );
+
+	if ( ! $config ) {
+		return null;
+	}
 
 	$default_fields = array( 'className' => 'string' );
 
@@ -138,9 +142,9 @@ function block_rows( $name ) {
 	 *
 	 * @var array $attributes
 	 */
-	$attributes = block_lab()->data['attributes'];
+	$attributes = block_lab()->loader->get_data( 'attributes' );
 
-	if ( ! isset( $attributes[ $name ] ) ) {
+	if ( ! $attributes || ! isset( $attributes[ $name ] ) ) {
 		return false;
 	}
 
@@ -189,9 +193,9 @@ function block_row_count( $name ) {
 	 *
 	 * @var array $attributes
 	 */
-	$attributes = block_lab()->data['attributes'];
+	$attributes = block_lab()->loader->get_data( 'attributes' );
 
-	if ( ! isset( $attributes[ $name ]['rows'] ) ) {
+	if ( ! $attributes || ! isset( $attributes[ $name ]['rows'] ) ) {
 		return false;
 	}
 
@@ -228,23 +232,28 @@ function block_row_index( $name = '' ) {
  * @return mixed
  */
 function block_sub_field( $name, $echo = true ) {
-	if ( ! isset( block_lab()->data['attributes'] ) || ! is_array( block_lab()->data['attributes'] ) ) {
-		return null;
-	}
-
 	/**
 	 * An array containing the block attributes.
 	 *
 	 * @var array $attributes
 	 */
-	$attributes = block_lab()->data['attributes'];
+	$attributes = block_lab()->loader->get_data( 'attributes' );
+
+	if ( ! $attributes || ! is_array( $attributes ) ) {
+		return null;
+	}
 
 	/**
 	 * An instantiated Block.
 	 *
 	 * @var Blocks\Block $config
 	 */
-	$config  = block_lab()->data['config'];
+	$config = block_lab()->loader->get_data( 'config' );
+
+	if ( ! $config ) {
+		return null;
+	}
+
 	$parent  = block_lab()->loop()->active;
 	$pointer = block_lab()->loop()->get_row( $parent );
 
@@ -319,7 +328,11 @@ function block_config() {
 	 *
 	 * @var Blocks\Block $config
 	 */
-	$config = block_lab()->data['config'];
+	$config = block_lab()->loader->get_data( 'config' );
+
+	if ( ! $config ) {
+		return null;
+	}
 
 	return (array) $config;
 }
@@ -337,9 +350,9 @@ function block_field_config( $name ) {
 	 *
 	 * @var Blocks\Block $config
 	 */
-	$config = block_lab()->data['config'];
+	$config = block_lab()->loader->get_data( 'config' );
 
-	if ( ! isset( $config->fields[ $name ] ) ) {
+	if ( ! $config || ! isset( $config->fields[ $name ] ) ) {
 		return null;
 	}
 
