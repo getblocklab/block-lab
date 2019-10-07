@@ -41,8 +41,8 @@ class Block_Post extends Component_Abstract {
 	public $pro_controls = array(
 		'repeater',
 		'post',
-		'classic_text',
 		'rich_text',
+		'classic_text',
 		'taxonomy',
 		'user',
 	);
