@@ -52,9 +52,9 @@ class Rich_Text extends Control_Abstract {
 	public function validate( $value, $echo ) {
 		unset( $echo );
 
-		// For this value, wpautop() returns '</p>', so simply return the value.
+		// If there's no text entered, Rich Text saves '<p></p>', so instead return ''.
 		if ( '<p></p>' === $value ) {
-			return $value;
+			return '';
 		}
 
 		return wpautop( $value );

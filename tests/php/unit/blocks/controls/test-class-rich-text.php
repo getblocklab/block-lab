@@ -97,6 +97,6 @@ class Test_Rich_Text extends \WP_UnitTestCase {
 		$this->assertEquals( $expected_markup_with_p_tags, $this->instance->validate( $markup_with_br_tags, false ) );
 
 		$empty_paragraph = '<p></p>';
-		$this->assertEquals( $empty_paragraph, $this->instance->validate( $empty_paragraph, false ) );
+		$this->assertEquals( '', $this->instance->validate( $empty_paragraph, false ) );
 	}
 }
