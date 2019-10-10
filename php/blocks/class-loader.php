@@ -78,7 +78,7 @@ class Loader extends Component_Abstract {
 	}
 
 	/**
-	 * Retreive data from the Loader's data store.
+	 * Retrieve data from the Loader's data store.
 	 *
 	 * @param string $key The data key to retrieve.
 	 * @return mixed
