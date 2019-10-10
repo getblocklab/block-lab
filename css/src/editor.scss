@@ -204,34 +204,9 @@ div[class^="wp-block-block-lab-"] {
   /* Classic Text Control Component */
   .block-lab-classic-text-control {
     .classic-text__toolbar {
-      /* Taken from the styling for the <RichText> component buttons. */
-      .mce-btn:not(:disabled):not([aria-disabled="true"]) {
-
-        &:hover {
-          background-color: $white;
-          color: $dark-gray-900;
-        }
-
-        &.mce-active button {
-          box-shadow: none;
-          background: $dark-gray-500;
-
-          .mce-ico {
-            color: $white;
-          }
-        }
-      }
-
-      .mce-tinymce {
-        box-shadow: none;
-      }
 
       > .mce-container {
         margin: 0 auto 2px auto;
-      }
-
-      .mce-btn-group .mce-btn {
-        border-radius: 4px;
       }
 
       .mce-toolbar-grp {
