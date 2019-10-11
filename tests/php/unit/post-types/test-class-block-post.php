@@ -157,6 +157,15 @@ class Test_Block_Post extends \WP_UnitTestCase {
 	}
 
 	/**
+	 * Test get_capabilities.
+	 *
+	 * @covers \Block_Lab\Post_Types\Block_Post::get_capabilities()
+	 */
+	public function test_get_capabilities() {
+		$this->assertTrue( is_array( $this->instance->get_capabilities() ) );
+	}
+
+	/**
 	 * Test add_meta_boxes.
 	 *
 	 * @covers \Block_Lab\Post_Types\Block_Post::add_meta_boxes()

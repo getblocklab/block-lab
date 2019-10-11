@@ -205,26 +205,13 @@ class Block_Post extends Component_Abstract {
 			'show_ui'       => true,
 			'show_in_menu'  => true,
 			'menu_position' => 100,
-			// This SVG icon is being included from the plugin directory, so using file_get_contents is okay.
-			// @codingStandardsIgnoreStart
-			'menu_icon'     => 'data:image/svg+xml;base64,' . base64_encode(
-				file_get_contents(
-					$this->plugin->get_assets_path( 'images/admin-menu-icon.svg' )
-				)
+			'menu_icon'     => 'data:image/svg+xml;base64,' . base64_encode( // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
+				file_get_contents( $this->plugin->get_assets_path( 'images/admin-menu-icon.svg' ) ) // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- This SVG icon is being included from the plugin directory, so using file_get_contents is okay.
 			),
-			// @codingStandardsIgnoreEnd
 			'query_var'     => true,
 			'rewrite'       => array( 'slug' => $this->slug ),
 			'hierarchical'  => true,
-			'capabilities'  => array(
-				'edit_post'          => 'block_lab_edit_block',
-				'edit_posts'         => 'block_lab_edit_blocks',
-				'edit_others_posts'  => 'block_lab_edit_others_blocks',
-				'publish_posts'      => 'block_lab_publish_blocks',
-				'read_post'          => 'block_lab_read_block',
-				'read_private_posts' => 'block_lab_read_private_blocks',
-				'delete_post'        => 'block_lab_delete_block',
-			),
+			'capabilities'  => $this->get_capabilities(),
 			'map_meta_cap'  => true,
 			'supports'      => array( 'title' ),
 		);
@@ -238,15 +225,26 @@ class Block_Post extends Component_Abstract {
 	 * @return void
 	 */
 	public function add_caps() {
-		$admins = get_role( 'administrator' );
+		foreach ( $this->get_capabilities() as $capability => $custom_capability ) {
+			wp_roles()->add_cap( 'administrator', $custom_capability );
+		}
+	}
 
-		$admins->add_cap( 'block_lab_edit_block' );
-		$admins->add_cap( 'block_lab_edit_blocks' );
-		$admins->add_cap( 'block_lab_edit_others_blocks' );
-		$admins->add_cap( 'block_lab_publish_blocks' );
-		$admins->add_cap( 'block_lab_read_block' );
-		$admins->add_cap( 'block_lab_read_private_blocks' );
-		$admins->add_cap( 'block_lab_delete_block' );
+	/**
+	 * Gets the mapping of capabilities for the custom post type.
+	 *
+	 * @return array An associative array of capability key => custom capability value.
+	 */
+	public function get_capabilities() {
+		return array(
+			'edit_post'          => 'block_lab_edit_block',
+			'edit_posts'         => 'block_lab_edit_blocks',
+			'edit_others_posts'  => 'block_lab_edit_others_blocks',
+			'publish_posts'      => 'block_lab_publish_blocks',
+			'read_post'          => 'block_lab_read_block',
+			'read_private_posts' => 'block_lab_read_private_blocks',
+			'delete_post'        => 'block_lab_delete_block',
+		);
 	}
 
 	/**
