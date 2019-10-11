@@ -106,7 +106,10 @@ class Test_Capabilities extends \WP_UnitTestCase {
 	 * @param bool   $expected The expected result for those capability and roles.
 	 */
 	public function test_user_capability( $user_role, $capability, $expected ) {
-		wp_set_current_user( $this->factory()->user->create( [ 'role' => $user_role ] ) );
+		$user = wp_get_current_user();
+		if ( ! $user || ! in_array( $user_role, $user->get_role_caps(), true ) ) {
+			wp_set_current_user( $this->factory()->user->create( [ 'role' => $user_role ] ) );
+		}
 		$this->assertEquals( $expected, current_user_can( $capability, $this->post_id ) );
 	}
 }
