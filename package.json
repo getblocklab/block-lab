@@ -14,8 +14,7 @@
     "lint:js": "eslint js/blocks",
     "lint:js:fix": "eslint js/blocks --fix",
     "lint:php": "vendor/bin/phpcs",
-    "lint:php:fix": "vendor/bin/phpcbf",
-    "test:php": "composer test"
+    "lint:php:fix": "vendor/bin/phpcbf"
   },
   "author": "Block Lab",
   "license": "GPL-2.0+",
