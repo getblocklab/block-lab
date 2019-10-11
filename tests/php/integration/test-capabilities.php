@@ -10,6 +10,8 @@ use Block_Lab\Post_Types;
 /**
  * Class Test_Capabilities
  *
+ * Tests the capabilities for the 'block_lab' post type.
+ *
  * @package Block_Lab
  */
 class Test_Capabilities extends \WP_UnitTestCase {
@@ -44,9 +46,9 @@ class Test_Capabilities extends \WP_UnitTestCase {
 	}
 
 	/**
-	 * Gets the users, capabilities, and the expected result.
+	 * Gets the users, capabilities, and the expected results.
 	 *
-	 * @return array[] The users, capabilities, and the expected result.
+	 * @return array[] The users, capabilities, and the expected results.
 	 */
 	public function get_users() {
 		return [
@@ -85,6 +87,13 @@ class Test_Capabilities extends \WP_UnitTestCase {
 			[ 'administrator', 'read_post', true ],
 			[ 'administrator', 'read_private_posts', true ],
 			[ 'administrator', 'delete_post', true ],
+			[ 'administrator', 'block_lab_edit_block', true ],
+			[ 'administrator', 'block_lab_edit_blocks', true ],
+			[ 'administrator', 'block_lab_edit_others_blocks', true ],
+			[ 'administrator', 'block_lab_publish_blocks', true ],
+			[ 'administrator', 'block_lab_read_block', true ],
+			[ 'administrator', 'block_lab_read_private_blocks', true ],
+			[ 'administrator', 'block_lab_delete_block', true ],
 		];
 	}
 
