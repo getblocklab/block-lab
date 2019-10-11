@@ -37,12 +37,9 @@ class Test_Capabilities extends \WP_UnitTestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
-		add_role( 'administrator', 'Administrator' );
 		$this->block_post = new Post_Types\Block_Post();
-		$this->block_post->register_controls();
 		$this->block_post->set_plugin( block_lab() );
 		$this->block_post->register_post_type();
-		$this->block_post->add_caps();
 		$this->post_id = $this->factory()->post->create( [ 'post_type' => $this->block_post->slug ] );
 	}
 
