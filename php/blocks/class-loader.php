@@ -33,7 +33,7 @@ class Loader extends Component_Abstract {
 	 *
 	 * @var array
 	 */
-	protected $data = array();
+	protected $data = [];
 
 	/**
 	 * Load the Loader.
