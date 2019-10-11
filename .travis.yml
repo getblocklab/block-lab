@@ -41,7 +41,7 @@ before_script:
   - |
     if [[ ! -z "$WP_VERSION" ]] ; then
       bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
-      composer global require "phpunit/phpunit=5.7.9"
+      composer install
     fi
   - |
     if [[ "$WP_TRAVISCI" == "lint" ]] ; then
@@ -54,7 +54,7 @@ before_script:
 script:
   - |
     if [[ ! -z "$WP_VERSION" ]] ; then
-      phpunit
+      npm run test:php
       WP_MULTISITE=1 phpunit
     fi
   - |
