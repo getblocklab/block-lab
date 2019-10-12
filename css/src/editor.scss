@@ -204,28 +204,34 @@ div[class^="wp-block-block-lab-"] {
   /* Classic Text Control Component */
   .block-lab-classic-text-control {
     .classic-text__toolbar {
+      position: relative;
+      z-index: 10;
+      top: 2px;
 
       > .mce-container {
-        margin: 0 auto 2px auto;
+        margin: 1px;
+        box-shadow: none;;
       }
 
-      .mce-toolbar-grp {
-        background-color: $white;
+      .mce-container-body {
+        > .mce-container {
+          width: 100% !important;
+        }
       }
     }
 
     /* The editing area, not the toolbar. */
     .classic-text__edit {
-      background-color: #fff;
-      padding: 0.1rem 1rem;
-      border-radius: 4px;
+      background: $white;
+      margin-top: -2.6rem;
+      padding: 2.8rem 1rem 0.2rem;
       border: 1px solid $dark-gray-150;
       outline: none;
       min-height: 6rem;
 
       &:focus {
-        border-color: $blue-medium-500;
-        box-shadow: 0 0 0 1px $blue-medium-500;
+        border-color: $blue-medium-focus;
+        box-shadow: 0 0 0 1px $blue-medium-focus;
       }
 
       /* Clear the float in case an image is floated. */
