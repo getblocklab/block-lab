@@ -334,30 +334,16 @@ function block_field_config( $name ) {
 function block_lab_add_block( $block_name, $block_config = array() ) {
 	$block_config['name'] = str_replace( '_', '-', sanitize_title( $block_name ) );
 
-	if ( ! isset( $block_config['title'] ) ) {
-		$block_config['title'] = ucwords( $block_config['name'], '-' );
-		$block_config['title'] = str_replace( '-', ' ', $block_config['title'] );
-	}
+	$default_config = array(
+		'title'    => str_replace( '-', ' ', ucwords( $block_config['name'], '-' ) ),
+		'icon'     => 'block_lab',
+		'category' => 'common',
+		'excluded' => array(),
+		'keywords' => array(),
+		'fields'   => array(),
+	);
 
-	if ( ! isset( $block_config['icon'] ) ) {
-		$block_config['icon'] = 'block_lab';
-	}
-
-	if ( ! isset( $block_config['category'] ) ) {
-		$block_config['category'] = 'common';
-	}
-
-	if ( ! isset( $block_config['excluded'] ) ) {
-		$block_config['excluded'] = array();
-	}
-
-	if ( ! isset( $block_config['keywords'] ) ) {
-		$block_config['keywords'] = array();
-	}
-
-	if ( ! isset( $block_config['fields'] ) ) {
-		$block_config['fields'] = array();
-	}
+	$block_config = wp_parse_args( $block_config, $default_config );
 
 	add_filter(
 		'block_lab_blocks',
@@ -399,14 +385,14 @@ function block_lab_add_block( $block_name, $block_config = array() ) {
 function block_lab_add_field( $block_name, $field_name, $field_config = array() ) {
 	$field_config['name'] = str_replace( '_', '-', sanitize_title( $field_name ) );
 
-	if ( ! isset( $field_config['label'] ) ) {
-		$field_config['label'] = ucwords( $field_config['name'], '-' );
-		$field_config['label'] = str_replace( '-', ' ', $field_config['label'] );
-	}
+	$default_config = array(
+		'label'    => str_replace( '-', ' ', ucwords( $field_config['name'], '-' ) ),
+		'control'  => 'text',
+		'order'    => 0,
+		'settings' => array(),
+	);
 
-	if ( ! isset( $field_config['control'] ) ) {
-		$field_config['control'] = 'text';
-	}
+	$field_config = wp_parse_args( $field_config, $default_config );
 
 	$control_class_name  = 'Block_Lab\\Blocks\\Controls\\';
 	$control_class_name .= ucwords( $field_config['control'], '_' );
@@ -418,14 +404,6 @@ function block_lab_add_field( $block_name, $field_name, $field_config = array() 
 		 */
 		$control_class        = new $control_class_name();
 		$field_config['type'] = $control_class->type;
-	}
-
-	if ( ! isset( $field_config['order'] ) ) {
-		$field_config['order'] = 0;
-	}
-
-	if ( ! isset( $field_config['settings'] ) ) {
-		$field_config['settings'] = array();
 	}
 
 	add_filter(
