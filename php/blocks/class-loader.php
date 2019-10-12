@@ -22,11 +22,13 @@ class Loader extends Component_Abstract {
 	protected $assets = [];
 
 	/**
-	 * JSON representing last loaded blocks.
+	 * An associative array of block config data for the blocks that will be registered.
 	 *
-	 * @var string
+	 * The key of each item in the array is the block name.
+	 *
+	 * @var array
 	 */
-	protected $blocks = '';
+	protected $blocks = array();
 
 	/**
 	 * Load the Loader.
@@ -100,7 +102,7 @@ class Loader extends Component_Abstract {
 		// Add dynamic Gutenberg blocks.
 		wp_add_inline_script(
 			'block-lab-blocks',
-			'const blockLabBlocks = ' . $this->blocks,
+			'const blockLabBlocks = ' . wp_json_encode( $this->blocks ),
 			'before'
 		);
 
@@ -112,8 +114,7 @@ class Loader extends Component_Abstract {
 			$this->plugin->get_version()
 		);
 
-		$blocks      = json_decode( $this->blocks, true );
-		$block_names = wp_list_pluck( $blocks, 'name' );
+		$block_names = wp_list_pluck( $this->blocks, 'name' );
 
 		foreach ( $block_names as $block_name ) {
 			$this->enqueue_block_styles( $block_name, array( 'preview', 'block' ) );
@@ -155,9 +156,7 @@ class Loader extends Component_Abstract {
 			return;
 		}
 
-		$blocks = json_decode( $this->blocks, true );
-
-		foreach ( $blocks as $block_name => $block_config ) {
+		foreach ( $this->blocks as $block_name => $block_config ) {
 			$block = new Block();
 			$block->from_array( $block_config );
 			$this->register_block( $block_name, $block );
@@ -201,9 +200,7 @@ class Loader extends Component_Abstract {
 	 * @return array
 	 */
 	protected function register_categories( $categories ) {
-		$blocks = json_decode( $this->blocks, true );
-
-		foreach ( $blocks as $block_config ) {
+		foreach ( $this->blocks as $block_config ) {
 			if ( ! isset( $block_config['category'] ) ) {
 				continue;
 			}
@@ -495,9 +492,6 @@ class Loader extends Component_Abstract {
 	 * Load all the published blocks and blocks/block.json files.
 	 */
 	protected function retrieve_blocks() {
-		$this->blocks = '';
-		$blocks       = [];
-
 		/**
 		 * Retrieve blocks from blocks.json.
 		 * Reverse to preserve order of preference when using array_merge.
@@ -510,7 +504,7 @@ class Loader extends Component_Abstract {
 
 			// Merge if no json_decode error occurred.
 			if ( json_last_error() == JSON_ERROR_NONE ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-				$blocks = array_merge( $blocks, $block_data );
+				$this->blocks = array_merge( $this->blocks, $block_data );
 			}
 		}
 
@@ -532,7 +526,7 @@ class Loader extends Component_Abstract {
 
 				// Merge if no json_decode error occurred.
 				if ( json_last_error() == JSON_ERROR_NONE ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-					$blocks = array_merge( $blocks, $block_data );
+					$this->blocks = array_merge( $this->blocks, $block_data );
 				}
 			}
 		}
@@ -552,8 +546,6 @@ class Loader extends Component_Abstract {
 		 *
 		 * @param array $blocks An associative array of blocks.
 		 */
-		$blocks = apply_filters( 'block_lab_blocks', $blocks );
-
-		$this->blocks = wp_json_encode( $blocks );
+		$this->blocks = apply_filters( 'block_lab_blocks', $this->blocks );
 	}
 }
