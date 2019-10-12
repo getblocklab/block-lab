@@ -42,7 +42,7 @@ trait Testing_Helper {
 		if ( $is_valid ) {
 			$transient_value = array(
 				'license' => 'valid',
-				'expires' => date( '+1 month' ),
+				'expires' => date( 'D, d M Y H:i:s', time() + 1000 ),
 			);
 		} else {
 			$transient_value = array(
