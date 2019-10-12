@@ -19,14 +19,14 @@ class Loader extends Component_Abstract {
 	 *
 	 * @var array
 	 */
-	public $assets = [];
+	protected $assets = [];
 
 	/**
 	 * JSON representing last loaded blocks.
 	 *
 	 * @var string
 	 */
-	public $blocks = '';
+	protected $blocks = '';
 
 	/**
 	 * Load the Loader.
@@ -57,24 +57,38 @@ class Loader extends Component_Abstract {
 		/**
 		 * Gutenberg JS block loading.
 		 */
-		add_action( 'enqueue_block_editor_assets', array( $this, 'editor_assets' ) );
+		add_action( 'enqueue_block_editor_assets', $this->get_callback( 'editor_assets' ) );
 
 		/**
 		 * Gutenberg custom categories.
 		 */
-		add_filter( 'block_categories', array( $this, 'register_categories' ) );
+		add_filter( 'block_categories', $this->get_callback( 'register_categories' ) );
 
 		/**
 		 * PHP block loading.
 		 */
-		add_action( 'plugins_loaded', array( $this, 'dynamic_block_loader' ) );
+		add_action( 'plugins_loaded', $this->get_callback( 'dynamic_block_loader' ) );
 	}
 
+	/**
+	 * Gets the callback for an action or filter.
+	 *
+	 * Enables keeping these methods protected,
+	 * while allowing actions and filters to call them.
+	 *
+	 * @param string $method_name The name of the method to get the callback for.
+	 * @return callable An enclosure that calls the function.
+	 */
+	protected function get_callback( $method_name ) {
+		return function( $arg ) use ( $method_name ) {
+			return call_user_func( array( $this, $method_name ), $arg );
+		};
+	}
 
 	/**
 	 * Launch the blocks inside Gutenberg.
 	 */
-	public function editor_assets() {
+	protected function editor_assets() {
 		wp_enqueue_script(
 			'block-lab-blocks',
 			$this->assets['url']['entry'],
@@ -136,7 +150,7 @@ class Loader extends Component_Abstract {
 	/**
 	 * Loads dynamic blocks via render_callback for each block.
 	 */
-	public function dynamic_block_loader() {
+	protected function dynamic_block_loader() {
 		if ( ! function_exists( 'register_block_type' ) ) {
 			return;
 		}
@@ -156,7 +170,7 @@ class Loader extends Component_Abstract {
 	 * @param string $block_name The name of the block, including namespace.
 	 * @param Block  $block      The block to register.
 	 */
-	public function register_block( $block_name, $block ) {
+	protected function register_block( $block_name, $block ) {
 		$attributes = $this->get_block_attributes( $block );
 
 		// sanitize_title() allows underscores, but register_block_type doesn't.
@@ -186,7 +200,7 @@ class Loader extends Component_Abstract {
 	 *
 	 * @return array
 	 */
-	public function register_categories( $categories ) {
+	protected function register_categories( $categories ) {
 		$blocks = json_decode( $this->blocks, true );
 
 		foreach ( $blocks as $block_config ) {
@@ -219,7 +233,7 @@ class Loader extends Component_Abstract {
 	 *
 	 * @return array
 	 */
-	public function get_block_attributes( $block ) {
+	protected function get_block_attributes( $block ) {
 		$attributes = [];
 
 		// Default Editor attributes (applied to all blocks).
@@ -249,7 +263,7 @@ class Loader extends Component_Abstract {
 	 * @param Field  $field      The Field to set the attributes from.
 	 * @return array $attributes The attributes, with the new field value set.
 	 */
-	public function get_attributes_from_field( $attributes, $field_name, $field ) {
+	protected function get_attributes_from_field( $attributes, $field_name, $field ) {
 		$attributes[ $field_name ] = array(
 			'type' => $field->type,
 		);
@@ -280,7 +294,7 @@ class Loader extends Component_Abstract {
 	 *
 	 * @return mixed
 	 */
-	public function render_block_template( $block, $attributes ) {
+	protected function render_block_template( $block, $attributes ) {
 		global $block_lab_attributes, $block_lab_config;
 
 		$type = 'block';
@@ -374,7 +388,7 @@ class Loader extends Component_Abstract {
 	 * @param string       $name The name of the block (slug as defined in UI).
 	 * @param string|array $type The type of template to load.
 	 */
-	public function enqueue_block_styles( $name, $type = 'block' ) {
+	protected function enqueue_block_styles( $name, $type = 'block' ) {
 		$locations = array();
 		$types     = (array) $type;
 
@@ -405,7 +419,7 @@ class Loader extends Component_Abstract {
 	/**
 	 * Enqueues global block styles.
 	 */
-	public function enqueue_global_styles() {
+	protected function enqueue_global_styles() {
 		$locations = array(
 			'blocks/css/blocks.css',
 			'blocks/blocks.css',
@@ -433,7 +447,7 @@ class Loader extends Component_Abstract {
 	 * @param string       $name The name of the block (slug as defined in UI).
 	 * @param string|array $type The type of template to load.
 	 */
-	public function block_template( $name, $type = 'block' ) {
+	protected function block_template( $name, $type = 'block' ) {
 		// Loading async it might not come from a query, this breaks load_template().
 		global $wp_query;
 
@@ -480,7 +494,7 @@ class Loader extends Component_Abstract {
 	/**
 	 * Load all the published blocks and blocks/block.json files.
 	 */
-	public function retrieve_blocks() {
+	protected function retrieve_blocks() {
 		$this->blocks = '';
 		$blocks       = [];
 
