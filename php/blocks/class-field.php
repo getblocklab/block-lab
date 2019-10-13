@@ -125,6 +125,20 @@ class Field {
 			$this->settings = $config['settings'];
 		}
 
+		if ( ! isset( $config['type'] ) ) {
+			$control_class_name  = 'Block_Lab\\Blocks\\Controls\\';
+			$control_class_name .= ucwords( $this->control, '_' );
+			if ( class_exists( $control_class_name ) ) {
+				/**
+				 * An instance of the control, to retrieve the correct type.
+				 *
+				 * @var Control_Abstract $control_class
+				 */
+				$control_class = new $control_class_name();
+				$this->type    = $control_class->type;
+			}
+		}
+
 		// Add any other non-default keys to the settings array.
 		$field_defaults = array( 'name', 'label', 'control', 'type', 'order', 'settings' );
 		$field_settings = array_diff( array_keys( $config ), $field_defaults );
