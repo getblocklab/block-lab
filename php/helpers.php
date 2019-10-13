@@ -18,22 +18,12 @@ use Block_Lab\Blocks;
  * @return mixed
  */
 function block_field( $name, $echo = true ) {
-	/**
-	 * An array containing the block attributes.
-	 *
-	 * @var array $attributes
-	 */
 	$attributes = block_lab()->loader->get_data( 'attributes' );
 
 	if ( ! $attributes ) {
 		return null;
 	}
 
-	/**
-	 * An instantiated Block.
-	 *
-	 * @var Blocks\Block $config
-	 */
 	$config = block_lab()->loader->get_data( 'config' );
 
 	if ( ! $config ) {
@@ -137,11 +127,6 @@ function block_row( $name ) {
  * @return bool
  */
 function block_rows( $name ) {
-	/**
-	 * An array containing the block attributes.
-	 *
-	 * @var array $attributes
-	 */
 	$attributes = block_lab()->loader->get_data( 'attributes' );
 
 	if ( ! $attributes || ! isset( $attributes[ $name ] ) ) {
@@ -188,11 +173,6 @@ function reset_block_rows( $name ) {
  * @return int|bool The total amount of rows. False if the repeater isn't found.
  */
 function block_row_count( $name ) {
-	/**
-	 * An array containing the block attributes.
-	 *
-	 * @var array $attributes
-	 */
 	$attributes = block_lab()->loader->get_data( 'attributes' );
 
 	if ( ! $attributes || ! isset( $attributes[ $name ]['rows'] ) ) {
@@ -232,22 +212,12 @@ function block_row_index( $name = '' ) {
  * @return mixed
  */
 function block_sub_field( $name, $echo = true ) {
-	/**
-	 * An array containing the block attributes.
-	 *
-	 * @var array $attributes
-	 */
 	$attributes = block_lab()->loader->get_data( 'attributes' );
 
 	if ( ! $attributes || ! is_array( $attributes ) ) {
 		return null;
 	}
 
-	/**
-	 * An instantiated Block.
-	 *
-	 * @var Blocks\Block $config
-	 */
 	$config = block_lab()->loader->get_data( 'config' );
 
 	if ( ! $config ) {
@@ -323,11 +293,6 @@ function block_sub_value( $name ) {
  * @return array
  */
 function block_config() {
-	/**
-	 * An instantiated Block.
-	 *
-	 * @var Blocks\Block $config
-	 */
 	$config = block_lab()->loader->get_data( 'config' );
 
 	if ( ! $config ) {
@@ -345,11 +310,6 @@ function block_config() {
  * @return array|null
  */
 function block_field_config( $name ) {
-	/**
-	 * An instantiated Block.
-	 *
-	 * @var Blocks\Block $config
-	 */
 	$config = block_lab()->loader->get_data( 'config' );
 
 	if ( ! $config || ! isset( $config->fields[ $name ] ) ) {
