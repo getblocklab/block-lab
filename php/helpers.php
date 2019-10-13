@@ -344,24 +344,7 @@ function block_lab_add_block( $block_name, $block_config = array() ) {
 	);
 
 	$block_config = wp_parse_args( $block_config, $default_config );
-
-	add_filter(
-		'block_lab_blocks',
-		function( $blocks ) use ( $block_config ) {
-			if ( ! isset( $block_config['name'] ) ) {
-				return $blocks;
-			}
-
-			if ( isset( $block_config['fields'] ) && is_array( $block_config['fields'] ) ) {
-				foreach ( $block_config['fields'] as $field_name => $field ) {
-					block_lab_add_field( $block_config['name'], $field_name, $field );
-				}
-			}
-
-			$blocks[ "block-lab/{$block_config['name']}" ] = $block_config;
-			return $blocks;
-		}
-	);
+	block_lab()->loader->add_block( $block_config );
 }
 
 /**
@@ -393,30 +376,5 @@ function block_lab_add_field( $block_name, $field_name, $field_config = array() 
 	);
 
 	$field_config = wp_parse_args( $field_config, $default_config );
-
-	$control_class_name  = 'Block_Lab\\Blocks\\Controls\\';
-	$control_class_name .= ucwords( $field_config['control'], '_' );
-	if ( class_exists( $control_class_name ) ) {
-		/**
-		 * An instance of the control, to retrieve the correct type.
-		 *
-		 * @var Control_Abstract $control_class
-		 */
-		$control_class        = new $control_class_name();
-		$field_config['type'] = $control_class->type;
-	}
-
-	add_filter(
-		'block_lab_blocks',
-		function( $blocks ) use ( $block_name, $field_config ) {
-			if ( ! isset( $blocks[ "block-lab/{$block_name}" ] ) ) {
-				return $blocks;
-			}
-			if ( ! isset( $field_config['name'] ) ) {
-				return $blocks;
-			}
-			$blocks[ "block-lab/{$block_name}" ]['fields'][ $field_config['name'] ] = $field_config;
-			return $blocks;
-		}
-	);
+	block_lab()->loader->add_field( $block_name, $field_config );
 }

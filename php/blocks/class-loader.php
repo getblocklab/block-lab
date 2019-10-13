@@ -546,4 +546,40 @@ class Loader extends Component_Abstract {
 		 */
 		$this->blocks = apply_filters( 'block_lab_blocks', $this->blocks );
 	}
+
+	/**
+	 * Add a new block.
+	 *
+	 * This method should be called during the block_lab_add_blocks action, to ensure
+	 * that the block isn't added too late.
+	 *
+	 * @param array $block_config The config of the block to add.
+	 */
+	public function add_block( $block_config ) {
+		if ( ! isset( $block_config['name'] ) ) {
+			return;
+		}
+
+		$this->blocks[ "block-lab/{$block_config['name']}" ] = $block_config;
+	}
+
+	/**
+	 * Add a new field to an existing block.
+	 *
+	 * This method should be called during the block_lab_add_blocks action, to ensure
+	 * that the block isn't added too late.
+	 *
+	 * @param array $block_name The name of the block that the field is added to.
+	 * @param array $field_config The config of the field to add.
+	 */
+	public function add_field( $block_name, $field_config ) {
+		if ( ! isset( $this->blocks[ "block-lab/{$block_name}" ] ) ) {
+			return;
+		}
+		if ( ! isset( $field_config['name'] ) ) {
+			return $blocks;
+		}
+
+		$this->blocks[ "block-lab/{$block_name}" ]['fields'][ $field_config['name'] ] = $field_config;
+	}
 }
