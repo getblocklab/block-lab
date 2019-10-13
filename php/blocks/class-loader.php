@@ -532,11 +532,9 @@ class Loader extends Component_Abstract {
 		}
 
 		/**
-		 * Retrieve blocks registered through the block_lab_blocks filter.
-		 *
-		 * Use the block_lab_register_blocks action to register new blocks with the block_lab_add_block helper function.
+		 * Use this action to add new blocks and fields with the block_lab_add_block and block_lab_add_field helper functions.
 		 */
-		do_action( 'block_lab_register_blocks' );
+		do_action( 'block_lab_add_blocks' );
 
 		/**
 		 * Filter the available blocks.
