@@ -129,7 +129,7 @@ function block_row( $name ) {
 function block_rows( $name ) {
 	$attributes = block_lab()->loader->get_data( 'attributes' );
 
-	if ( ! $attributes || ! isset( $attributes[ $name ] ) ) {
+	if ( ! isset( $attributes[ $name ] ) ) {
 		return false;
 	}
 
@@ -175,7 +175,7 @@ function reset_block_rows( $name ) {
 function block_row_count( $name ) {
 	$attributes = block_lab()->loader->get_data( 'attributes' );
 
-	if ( ! $attributes || ! isset( $attributes[ $name ]['rows'] ) ) {
+	if ( ! isset( $attributes[ $name ]['rows'] ) ) {
 		return false;
 	}
 
@@ -214,7 +214,7 @@ function block_row_index( $name = '' ) {
 function block_sub_field( $name, $echo = true ) {
 	$attributes = block_lab()->loader->get_data( 'attributes' );
 
-	if ( ! $attributes || ! is_array( $attributes ) ) {
+	if ( ! is_array( $attributes ) ) {
 		return null;
 	}
 
