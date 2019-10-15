@@ -137,11 +137,18 @@ class TinyMCE extends Component {
 		} );
 
 		editor.on( 'init', () => {
-			const rootNode = this.editor.getBody();
+			const { activeElement } = document;
 
-			// Create the toolbar by refocussing the editor.
-			rootNode.blur();
-			this.editor.focus();
+			// Force focus to the editor, as this seems to be the only way to display the toolbar.
+			// @see https://github.com/WordPress/gutenberg/pull/4948
+			this.editor.fire( 'focus' );
+
+			// Refocus to whatever was in focus before the editor, likely most of the block.
+			editor.once( 'focus', () => {
+				if ( activeElement !== this.editor.getBody() ) {
+					activeElement.focus();
+				}
+			} );
 		} );
 	}
 
