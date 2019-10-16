@@ -29,6 +29,13 @@ class Loader extends Component_Abstract {
 	protected $blocks = '';
 
 	/**
+	 * A data store for sharing data to helper functions.
+	 *
+	 * @var array
+	 */
+	protected $data = [];
+
+	/**
 	 * Load the Loader.
 	 *
 	 * @return $this
@@ -68,6 +75,37 @@ class Loader extends Component_Abstract {
 		 * PHP block loading.
 		 */
 		add_action( 'plugins_loaded', $this->get_callback( 'dynamic_block_loader' ) );
+	}
+
+	/**
+	 * Retrieve data from the Loader's data store.
+	 *
+	 * @param string $key The data key to retrieve.
+	 * @return mixed
+	 */
+	public function get_data( $key ) {
+		$data = false;
+
+		if ( isset( $this->data[ $key ] ) ) {
+			$data = $this->data[ $key ];
+		}
+
+		/**
+		 * Filters the data that gets returned.
+		 *
+		 * @param mixed  $data The data from the Loader's data store.
+		 * @param string $key  The key for the data being retreived.
+		 */
+		$data = apply_filters( 'block_lab_data', $data, $key );
+
+		/**
+		 * Filters the data that gets returned, specifically for a single key.
+		 *
+		 * @param mixed  $data The data from the Loader's data store.
+		 */
+		$data = apply_filters( "block_lab_data_{$key}", $data );
+
+		return $data;
 	}
 
 	/**
@@ -295,8 +333,6 @@ class Loader extends Component_Abstract {
 	 * @return mixed
 	 */
 	protected function render_block_template( $block, $attributes ) {
-		global $block_lab_attributes, $block_lab_config;
-
 		$type = 'block';
 
 		// This is hacky, but the editor doesn't send the original request along.
@@ -346,8 +382,8 @@ class Loader extends Component_Abstract {
 			$this->enqueue_global_styles();
 		}
 
-		$block_lab_attributes = $attributes;
-		$block_lab_config     = $block;
+		$this->data['attributes'] = $attributes;
+		$this->data['config']     = $block;
 
 		if ( ! is_admin() && ( ! defined( 'REST_REQUEST' ) || ! REST_REQUEST ) && ! wp_doing_ajax() ) {
 

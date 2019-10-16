@@ -116,6 +116,20 @@ abstract class Abstract_Template extends \WP_UnitTestCase {
 	}
 
 	/**
+	 * Sets a protected property's value.
+	 *
+	 * @param string $property The name of the property to get.
+	 * @param mixed  $value The value to set.
+	 * @throws ReflectionException For a non-accessible property.
+	 */
+	public function set_protected_property( $property, $value ) {
+		$reflection = new \ReflectionObject( $this->instance );
+		$property   = $reflection->getProperty( $property );
+		$property->setAccessible( true );
+		$property->setValue( $this->instance, $value );
+	}
+
+	/**
 	 * Gets the directories that block templates and CSS files could be in.
 	 */
 	public function create_block_template_directories() {
