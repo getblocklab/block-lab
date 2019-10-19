@@ -196,4 +196,45 @@ class Test_Helpers extends \WP_UnitTestCase {
 		$loader->expects()->add_block( $expected_config );
 		block_lab_add_block( $block_name, $block_config );
 	}
+
+	/**
+	 * Test block_lab_add_field.
+	 *
+	 * @covers ::block_lab_add_field()
+	 */
+	public function test_block_lab_add_field() {
+		// Test calling this without the optional third argument.
+		$block_name              = 'baz-block';
+		$field_name              = 'another-field';
+		$expected_default_config = [
+			'control'  => 'text',
+			'label'    => 'Another Field',
+			'name'     => $field_name,
+			'order'    => 0,
+			'settings' => [],
+		];
+
+		$loader             = Mockery::mock( Blocks\Loader::class );
+		block_lab()->loader = $loader;
+		$loader->expects()->add_field( $block_name, $expected_default_config )->once();
+		block_lab_add_field( $block_name, $field_name );
+
+		// Test passing a full $field_config.
+		$block_name   = 'example-block-name-here';
+		$field_name   = 'here_is_a_long_field_name';
+		$field_config = [
+			'control'  => 'rich_text',
+			'label'    => 'Here Is Another Field',
+			'order'    => 3,
+			'settings' => [ 'foo' => 'baz' ],
+		];
+
+		$expected_field_config = array_merge(
+			$field_config,
+			[ 'name' => 'here-is-a-long-field-name' ]
+		);
+
+		$loader->expects()->add_field( $block_name, $expected_field_config )->once();
+		block_lab_add_field( $block_name, $field_name, $field_config );
+	}
 }
