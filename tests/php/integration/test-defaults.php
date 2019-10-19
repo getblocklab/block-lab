@@ -36,8 +36,6 @@ class Test_Defaults extends Abstract_Attribute {
 	 */
 	public function set_properties() {
 		$this->block_name = 'all-fields-except-repeater';
-		$this->loader     = new Blocks\Loader();
-
 		$this->attributes = array(
 			'className' => $this->class_name,
 		);
@@ -137,7 +135,7 @@ class Test_Defaults extends Abstract_Attribute {
 	public function test_block_template() {
 		$block = new Blocks\Block();
 		$block->from_array( $this->get_block_config() );
-		$rendered_template = $this->invoke_protected_method( $this->loader, 'render_block_template', array( $block, $this->attributes ) );
+		$rendered_template = $this->invoke_protected_method( block_lab()->loader, 'render_block_template', array( $block, $this->attributes ) );
 		$actual_template   = str_replace( array( "\t", "\n" ), '', $rendered_template );
 
 		// The 'className' should be present.

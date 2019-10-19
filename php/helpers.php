@@ -18,14 +18,15 @@ use Block_Lab\Blocks;
  * @return mixed
  */
 function block_field( $name, $echo = true ) {
-	/*
-	 * Defined in Block_Lab\Blocks\Loader->render_block_template().
-	 *
-	 * @var array
-	 */
-	global $block_lab_attributes, $block_lab_config;
+	$attributes = block_lab()->loader->get_data( 'attributes' );
 
-	if ( ! isset( $block_lab_attributes ) || ! is_array( $block_lab_attributes ) ) {
+	if ( ! $attributes ) {
+		return null;
+	}
+
+	$config = block_lab()->loader->get_data( 'config' );
+
+	if ( ! $config ) {
 		return null;
 	}
 
@@ -45,7 +46,7 @@ function block_field( $name, $echo = true ) {
 	 */
 	$default_fields = apply_filters( 'block_lab_default_fields', $default_fields, $name );
 
-	if ( ! isset( $block_lab_config->fields[ $name ] ) && ! isset( $default_fields[ $name ] ) ) {
+	if ( ! isset( $config->fields[ $name ] ) && ! isset( $default_fields[ $name ] ) ) {
 		return null;
 	}
 
@@ -53,13 +54,13 @@ function block_field( $name, $echo = true ) {
 	$value   = false; // This is a good default, it allows us to pick up on unchecked checkboxes.
 	$control = null;
 
-	if ( array_key_exists( $name, $block_lab_attributes ) ) {
-		$value = $block_lab_attributes[ $name ];
+	if ( array_key_exists( $name, $attributes ) ) {
+		$value = $attributes[ $name ];
 	}
 
-	if ( isset( $block_lab_config->fields[ $name ] ) ) {
+	if ( isset( $config->fields[ $name ] ) ) {
 		// Cast the value with the correct type.
-		$field   = $block_lab_config->fields[ $name ];
+		$field   = $config->fields[ $name ];
 		$value   = $field->cast_value( $value );
 		$control = $field->control;
 	} elseif ( isset( $default_fields[ $name ] ) ) {
@@ -126,9 +127,9 @@ function block_row( $name ) {
  * @return bool
  */
 function block_rows( $name ) {
-	global $block_lab_attributes;
+	$attributes = block_lab()->loader->get_data( 'attributes' );
 
-	if ( ! isset( $block_lab_attributes[ $name ] ) ) {
+	if ( ! isset( $attributes[ $name ] ) ) {
 		return false;
 	}
 
@@ -140,7 +141,7 @@ function block_rows( $name ) {
 		$next_row = $current_row + 1;
 	}
 
-	if ( isset( $block_lab_attributes[ $name ]['rows'][ $next_row ] ) ) {
+	if ( isset( $attributes[ $name ]['rows'][ $next_row ] ) ) {
 		return true;
 	}
 
@@ -172,13 +173,13 @@ function reset_block_rows( $name ) {
  * @return int|bool The total amount of rows. False if the repeater isn't found.
  */
 function block_row_count( $name ) {
-	global $block_lab_attributes;
+	$attributes = block_lab()->loader->get_data( 'attributes' );
 
-	if ( ! isset( $block_lab_attributes[ $name ]['rows'] ) ) {
+	if ( ! isset( $attributes[ $name ]['rows'] ) ) {
 		return false;
 	}
 
-	return count( $block_lab_attributes[ $name ]['rows'] );
+	return count( $attributes[ $name ]['rows'] );
 }
 
 /**
@@ -211,21 +212,22 @@ function block_row_index( $name = '' ) {
  * @return mixed
  */
 function block_sub_field( $name, $echo = true ) {
-	/*
-	 * Defined in Block_Lab\Blocks\Loader->render_block_template().
-	 *
-	 * @var array
-	 */
-	global $block_lab_attributes, $block_lab_config;
+	$attributes = block_lab()->loader->get_data( 'attributes' );
 
-	if ( ! isset( $block_lab_attributes ) || ! is_array( $block_lab_attributes ) ) {
+	if ( ! is_array( $attributes ) ) {
+		return null;
+	}
+
+	$config = block_lab()->loader->get_data( 'config' );
+
+	if ( ! $config ) {
 		return null;
 	}
 
 	$parent  = block_lab()->loop()->active;
 	$pointer = block_lab()->loop()->get_row( $parent );
 
-	if ( ! isset( $block_lab_config->fields[ $parent ] ) ) {
+	if ( ! isset( $config->fields[ $parent ] ) ) {
 		return null;
 	}
 
@@ -233,18 +235,18 @@ function block_sub_field( $name, $echo = true ) {
 	$control = null;
 
 	// Get the value from the block attributes, with the correct type.
-	if ( ! array_key_exists( $parent, $block_lab_attributes ) || ! isset( $block_lab_attributes[ $parent ]['rows'] ) ) {
+	if ( ! array_key_exists( $parent, $attributes ) || ! isset( $attributes[ $parent ]['rows'] ) ) {
 		return;
 	}
 
-	$parent_attributes = $block_lab_attributes[ $parent ]['rows'];
+	$parent_attributes = $attributes[ $parent ]['rows'];
 	$row_attributes    = $parent_attributes[ $pointer ];
 
 	if ( ! array_key_exists( $name, $row_attributes ) ) {
 		return;
 	}
 
-	$field   = $block_lab_config->fields[ $parent ]->settings['sub_fields'][ $name ];
+	$field   = $config->fields[ $parent ]->settings['sub_fields'][ $name ];
 	$control = $field->control;
 	$value   = $row_attributes[ $name ];
 	$value   = $field->cast_value( $value );
@@ -291,8 +293,13 @@ function block_sub_value( $name ) {
  * @return array
  */
 function block_config() {
-	global $block_lab_config;
-	return (array) $block_lab_config;
+	$config = block_lab()->loader->get_data( 'config' );
+
+	if ( ! $config ) {
+		return null;
+	}
+
+	return (array) $config;
 }
 
 /**
@@ -303,11 +310,13 @@ function block_config() {
  * @return array|null
  */
 function block_field_config( $name ) {
-	global $block_lab_config;
-	if ( ! isset( $block_lab_config->fields[ $name ] ) ) {
+	$config = block_lab()->loader->get_data( 'config' );
+
+	if ( ! $config || ! isset( $config->fields[ $name ] ) ) {
 		return null;
 	}
-	return (array) $block_lab_config->fields[ $name ];
+
+	return (array) $config->fields[ $name ];
 }
 
 /**
