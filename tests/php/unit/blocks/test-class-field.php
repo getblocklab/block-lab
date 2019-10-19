@@ -94,6 +94,25 @@ class Test_Field extends \WP_UnitTestCase {
 	}
 
 	/**
+	 * Test from_array when there is no 'type' in the $config argument.
+	 *
+	 * @covers \Block_Lab\Blocks\Field::from_array()
+	 */
+	public function test_from_array_without_type() {
+		$this->instance->from_array( [ 'control' => 'rich_text' ] );
+		$this->assertEquals( 'string', $this->instance->type );
+
+		$this->instance = new Blocks\Field( array() );
+		$this->instance->from_array( [ 'control' => 'post' ] );
+		$this->assertEquals( 'object', $this->instance->type );
+
+		// The control class doesn't exist, so this shouldn't change the default value of $type, 'string'.
+		$this->instance = new Blocks\Field( array() );
+		$this->instance->from_array( [ 'control' => 'non-existent' ] );
+		$this->assertEquals( 'string', $this->instance->type );
+	}
+
+	/**
 	 * Test to_array.
 	 *
 	 * @covers \Block_Lab\Blocks\Field::to_array()
