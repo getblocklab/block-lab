@@ -6,11 +6,15 @@
  */
 
 use Block_Lab\Blocks;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
 /**
  * Tests for helpers.php.
  */
 class Test_Helpers extends \WP_UnitTestCase {
+
+	// Shows the assertions as passing.
+	use MockeryPHPUnitIntegration;
 
 	/**
 	 * Teardown.
@@ -148,5 +152,28 @@ class Test_Helpers extends \WP_UnitTestCase {
 		// Now that the filter includes the additional field, the field should be echoed, even though it's not in block_lab()->data['config'].
 		$this->assertEquals( $additional_field_value, $return_value );
 		$this->assertEquals( $additional_field_value, $echoed_value );
+	}
+
+	/**
+	 * Test block_lab_add_block.
+	 *
+	 * @covers ::block_lab_add_block()
+	 */
+	public function test_block_lab_add_block() {
+		$block_name              = 'example-block';
+		$expected_default_config = [
+			'category' => 'common',
+			'excluded' => [],
+			'fields'   => [],
+			'icon'     => 'block_lab',
+			'keywords' => [],
+			'name'     => $block_name,
+			'title'    => 'Example Block',
+		];
+
+		$loader             = Mockery::mock( Blocks\Loader::class );
+		block_lab()->loader = $loader;
+		$loader->shouldReceive( 'add_block' )->once()->with( $expected_default_config );
+		block_lab_add_block( $block_name );
 	}
 }
