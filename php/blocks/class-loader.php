@@ -569,7 +569,7 @@ class Loader extends Component_Abstract {
 	 * This method should be called during the block_lab_add_blocks action, to ensure
 	 * that the block isn't added too late.
 	 *
-	 * @param array $block_name The name of the block that the field is added to.
+	 * @param string $block_name The name of the block that the field is added to.
 	 * @param array $field_config The config of the field to add.
 	 */
 	public function add_field( $block_name, $field_config ) {
@@ -577,7 +577,7 @@ class Loader extends Component_Abstract {
 			return;
 		}
 		if ( ! isset( $field_config['name'] ) ) {
-			return $blocks;
+			return;
 		}
 
 		$this->blocks[ "block-lab/{$block_name}" ]['fields'][ $field_config['name'] ] = $field_config;

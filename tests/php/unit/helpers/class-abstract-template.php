@@ -105,7 +105,7 @@ abstract class Abstract_Template extends \WP_UnitTestCase {
 	 * Gets a protected property's value.
 	 *
 	 * @param string $property The name of the property to get.
-	 * @return mixed The property value
+	 * @return mixed The property value.
 	 * @throws ReflectionException For a non-accessible property.
 	 */
 	public function get_protected_property( $property ) {
@@ -113,6 +113,20 @@ abstract class Abstract_Template extends \WP_UnitTestCase {
 		$property   = $reflection->getProperty( $property );
 		$property->setAccessible( true );
 		return $property->getValue( $this->instance );
+	}
+
+	/**
+	 * Sets a protected property's value.
+	 *
+	 * @param string $property The name of the property to get.
+	 * @param mixed  $value The new property value.
+	 * @throws ReflectionException For a non-accessible property.
+	 */
+	public function set_protected_property( $property, $value ) {
+		$reflection = new \ReflectionObject( $this->instance );
+		$property   = $reflection->getProperty( $property );
+		$property->setAccessible( true );
+		$property->setValue( $this->instance, $value );
 	}
 
 	/**
