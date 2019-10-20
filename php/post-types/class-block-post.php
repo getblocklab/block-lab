@@ -225,9 +225,14 @@ class Block_Post extends Component_Abstract {
 	 * @return void
 	 */
 	public function add_caps() {
-		foreach ( $this->get_capabilities() as $capability => $custom_capability ) {
-			wp_roles()->add_cap( 'administrator', $custom_capability );
-		}
+		$admins = get_role( 'administrator' );
+		$admins->add_cap( 'block_lab_edit_block' );
+		$admins->add_cap( 'block_lab_edit_blocks' );
+		$admins->add_cap( 'block_lab_edit_others_blocks' );
+		$admins->add_cap( 'block_lab_publish_blocks' );
+		$admins->add_cap( 'block_lab_read_block' );
+		$admins->add_cap( 'block_lab_read_private_blocks' );
+		$admins->add_cap( 'block_lab_delete_block' );
 	}
 
 	/**
