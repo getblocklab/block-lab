@@ -1,6 +1,6 @@
 <?php
 /**
- * Test_Capabilities
+ * Test_Post_Capabilities
  *
  * @package Block_Lab
  */
@@ -8,13 +8,13 @@
 use Block_Lab\Post_Types;
 
 /**
- * Class Test_Capabilities
+ * Class Test_Post_Capabilities
  *
  * Tests the capabilities for the 'block_lab' post type.
  *
  * @package Block_Lab
  */
-class Test_Capabilities extends \WP_UnitTestCase {
+class Test_Post_Capabilities extends \WP_UnitTestCase {
 
 	/**
 	 * Instance of Block_Post.
@@ -37,7 +37,10 @@ class Test_Capabilities extends \WP_UnitTestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
-		$this->block_post = new Post_Types\Block_Post();
+		require_once( ABSPATH . 'wp-admin/includes/schema.php' );
+		populate_roles();
+		$GLOBALS['wp_roles'] = new WP_Roles();
+		$this->block_post    = new Post_Types\Block_Post();
 		$this->block_post->set_plugin( block_lab() );
 		$this->block_post->register_post_type();
 		$this->post_id = $this->factory()->post->create( [ 'post_type' => $this->block_post->slug ] );
@@ -106,10 +109,7 @@ class Test_Capabilities extends \WP_UnitTestCase {
 	 * @param bool   $expected The expected result for those capability and roles.
 	 */
 	public function test_user_capability( $user_role, $capability, $expected ) {
-		$user = wp_get_current_user();
-		if ( ! $user || ! in_array( $user_role, $user->get_role_caps(), true ) ) {
-			wp_set_current_user( $this->factory()->user->create( [ 'role' => $user_role ] ) );
-		}
+		wp_set_current_user( $this->factory()->user->create( [ 'role' => $user_role ] ) );
 		$this->assertEquals( $expected, current_user_can( $capability, $this->post_id ) );
 	}
 }
