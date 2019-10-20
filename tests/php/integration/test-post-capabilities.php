@@ -37,12 +37,12 @@ class Test_Post_Capabilities extends \WP_UnitTestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
-		$GLOBALS['wp_roles'] = new WP_Roles();
-		$this->block_post    = new Post_Types\Block_Post();
+		$this->block_post = new Post_Types\Block_Post();
 		$this->block_post->set_plugin( block_lab() );
 		$this->block_post->register_post_type();
 		$this->block_post->add_caps();
 		$this->post_id = $this->factory()->post->create( [ 'post_type' => $this->block_post->slug ] );
+		$GLOBALS['post'] = get_post( $this->post_id );
 	}
 
 	/**
