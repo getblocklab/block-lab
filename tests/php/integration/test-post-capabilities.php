@@ -43,7 +43,7 @@ class Test_Post_Capabilities extends \WP_UnitTestCase {
 		$this->block_post    = new Post_Types\Block_Post();
 		$this->block_post->set_plugin( block_lab() );
 		$this->block_post->register_post_type();
-		$this->post_id = $this->factory()->post->create( [ 'post_type' => $this->block_post->slug ] );
+		$this->post_id = $this->factory()->post->create( [ 'post_type' => 'post' ] );
 	}
 
 	/**
