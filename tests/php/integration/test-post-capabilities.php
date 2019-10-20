@@ -37,13 +37,12 @@ class Test_Post_Capabilities extends \WP_UnitTestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
-		require_once( ABSPATH . 'wp-admin/includes/schema.php' );
-		populate_roles();
 		$GLOBALS['wp_roles'] = new WP_Roles();
 		$this->block_post    = new Post_Types\Block_Post();
 		$this->block_post->set_plugin( block_lab() );
 		$this->block_post->register_post_type();
-		$this->post_id = $this->factory()->post->create( [ 'post_type' => 'post' ] );
+		$this->block_post->add_caps();
+		$this->post_id = $this->factory()->post->create( [ 'post_type' => $this->block_post->slug ] );
 	}
 
 	/**
@@ -53,35 +52,30 @@ class Test_Post_Capabilities extends \WP_UnitTestCase {
 	 */
 	public function get_users() {
 		return [
-			[ 'subscriber', 'edit_post', false ],
 			[ 'subscriber', 'edit_posts', false ],
 			[ 'subscriber', 'edit_others_posts', false ],
 			[ 'subscriber', 'publish_posts', false ],
 			[ 'subscriber', 'read_post', true ],
 			[ 'subscriber', 'read_private_posts', false ],
 			[ 'subscriber', 'delete_post', false ],
-			[ 'contributor', 'edit_post', false ],
 			[ 'contributor', 'edit_posts', true ],
 			[ 'contributor', 'edit_others_posts', false ],
 			[ 'contributor', 'publish_posts', false ],
 			[ 'contributor', 'read_post', true ],
 			[ 'contributor', 'read_private_posts', false ],
 			[ 'contributor', 'delete_post', false ],
-			[ 'author', 'edit_post', false ],
 			[ 'author', 'edit_posts', true ],
 			[ 'author', 'edit_others_posts', false ],
 			[ 'author', 'publish_posts', true ],
 			[ 'author', 'read_post', true ],
 			[ 'author', 'read_private_posts', false ],
 			[ 'author', 'delete_post', false ],
-			[ 'editor', 'edit_post', false ],
 			[ 'editor', 'edit_posts', true ],
 			[ 'editor', 'edit_others_posts', true ],
 			[ 'editor', 'publish_posts', true ],
 			[ 'editor', 'read_post', true ],
 			[ 'editor', 'read_private_posts', true ],
 			[ 'editor', 'delete_post', true ],
-			[ 'administrator', 'edit_post', true ],
 			[ 'administrator', 'edit_posts', true ],
 			[ 'administrator', 'edit_others_posts', true ],
 			[ 'administrator', 'publish_posts', true ],
