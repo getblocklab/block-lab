@@ -20,6 +20,16 @@ class Test_Loader extends Abstract_Template {
 	public $instance;
 
 	/**
+	 * Teardown.
+	 *
+	 * @inheritdoc
+	 */
+	public function tearDown() {
+		remove_all_filters( 'block_lab_data' );
+		parent::tearDown();
+	}
+
+	/**
 	 * Test init.
 	 *
 	 * @covers \Block_Lab\Blocks\Loader::init()
@@ -52,6 +62,54 @@ class Test_Loader extends Abstract_Template {
 		foreach ( $expected_filters as $filter ) {
 			$this->assertNotEmpty( $wp_filter[ $filter ]->callbacks[10] );
 		}
+	}
+
+	/**
+	 * Test get_data.
+	 *
+	 * @covers \Block_Lab\Blocks\Loader::get_data()
+	 */
+	public function test_get_data() {
+		$config_key     = 'config';
+		$attributes_key = 'attributes';
+
+		// When the $data property is empty, get_data() should return false for any argument.
+		$this->assertFalse( $this->instance->get_data( 'non-existent' ) );
+		$this->assertFalse( $this->instance->get_data( $config_key ) );
+		$this->assertFalse( $this->instance->get_data( $attributes_key ) );
+
+		// With the 'config' set, this should return the 'config' when it's passed as an argument.
+		$config = [ 'this' => 'that' ] ;
+		$this->set_protected_property( 'data', [ $config_key => $config ] );
+		$this->assertEquals( $config, $this->instance->get_data( $config_key ) );
+
+		// The 'attributes' aren't present in the data, so this should return false.
+		$this->assertFalse( $this->instance->get_data( $attributes_key ) );
+
+		$attributes    = [ 'bar' => 'baz' ];
+		$data_callback = static function( $data, $key ) use ( $attributes_key, $attributes ) {
+			if ( $attributes_key === $key ) {
+				return $attributes;
+			}
+
+			return $data;
+		};
+		add_filter( 'block_lab_data', $data_callback, 10, 2 );
+
+		// The filter should change the return value.
+		$this->assertEquals( $attributes, $this->instance->get_data( $attributes_key ) );
+		remove_all_filters( 'block_lab_data' );
+
+		$data_callback_for_key = static function( $data ) use ( $attributes ) {
+			unset( $data );
+			return $attributes;
+		};
+		$filter                = "block_lab_data_{$attributes_key}";
+		add_filter( $filter, $data_callback_for_key );
+
+		// The filter specific to the key should also change the return value.
+		$this->assertEquals( $attributes, $this->instance->get_data( $attributes_key ) );
+		remove_all_filters( $filter );
 	}
 
 	/**

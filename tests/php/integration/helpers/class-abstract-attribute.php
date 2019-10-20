@@ -34,13 +34,6 @@ abstract class Abstract_Attribute extends \WP_UnitTestCase {
 	public $object_fields;
 
 	/**
-	 * The instance of Loader, to render the template.
-	 *
-	 * @var Blocks\Loader
-	 */
-	public $loader;
-
-	/**
 	 * The name of the block that tests all fields.
 	 *
 	 * This also controls the template that will be used.
