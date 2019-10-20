@@ -162,7 +162,8 @@ class Test_Block_Post extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Post_Types\Block_Post::get_capabilities()
 	 */
 	public function test_get_capabilities() {
-		$this->assertTrue( is_array( $this->instance->get_capabilities() ) );
+		$capabilities = $this->instance->get_capabilities();
+		$this->assertEquals( 'block_lab_edit_block', $capabilities['edit_post'] );
 	}
 
 	/**
