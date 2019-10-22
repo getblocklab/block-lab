@@ -27,7 +27,6 @@ class Test_Template_Output extends Abstract_Attribute {
 	 */
 	public function set_properties() {
 		$this->block_name = 'all-fields-except-repeater';
-		$this->loader     = new Blocks\Loader();
 
 		$this->attributes = array(
 			'classic-text' => '<h1>Here is a heading</h1><p>This is paragraph text that is <strong>bold</strong> and <em>italic</em></p><ul><li>Here is a li</li><li>And the next</li></ul>',
@@ -141,11 +140,14 @@ class Test_Template_Output extends Abstract_Attribute {
 	 * This sets mock block attributes, like those that would be saved from a block.
 	 * Then, it loads the mock template in the theme's blocks/ directory,
 	 * and ensures that all of these fields appear correctly in it.
+	 *
+	 * @covers \block_field()
+	 * @covers \block_value()
 	 */
 	public function test_block_template() {
 		$block = new Blocks\Block();
 		$block->from_array( $this->get_block_config() );
-		$rendered_template = $this->loader->render_block_template( $block, $this->attributes );
+		$rendered_template = $this->invoke_protected_method( block_lab()->loader, 'render_block_template', array( $block, $this->attributes ) );
 		$actual_template   = str_replace( array( "\t", "\n" ), '', $rendered_template );
 
 		// The 'className' should be present.

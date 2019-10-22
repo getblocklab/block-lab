@@ -34,8 +34,6 @@ class Test_Repeater_Template_Output extends Abstract_Attribute {
 	 */
 	public function set_properties() {
 		$this->block_name = 'repeater-all-fields';
-		$this->loader     = new Blocks\Loader();
-
 		$this->attributes = array(
 			'className'               => $this->class_name,
 			self::REPEATER_FIELD_NAME => array(
@@ -181,19 +179,47 @@ class Test_Repeater_Template_Output extends Abstract_Attribute {
 	 * This has a repeater with 2 rows, and tests every possible field.
 	 * It sets mock block attributes, like those that would be saved from a block.
 	 * Then, it loads the mock template in the theme's blocks/ directory and asserts the values.
+	 *
+	 * @covers \block_rows()
+	 * @covers \block_row()
+	 * @covers \reset_block_row()
+	 * @covers \block_row_field()
+	 * @covers \block_row_value()
+	 * @covers \block_row_index()
+	 * @covers \block_row_count()
 	 */
 	public function test_repeater_template() {
 		$block = new Blocks\Block();
 		$block->from_array( $this->get_block_config() );
-		$rendered_template = $this->loader->render_block_template( $block, $this->attributes );
+		$rendered_template = $this->invoke_protected_method( block_lab()->loader, 'render_block_template', array( $block, $this->attributes ) );
 		$actual_template   = str_replace( array( "\t", "\n" ), '', $rendered_template );
 		$rows              = $this->attributes[ self::REPEATER_FIELD_NAME ]['rows'];
+
+		$this->assertContains(
+			sprintf(
+				'block_row_count() returns %d',
+				count( $rows )
+			),
+			$actual_template
+		);
 
 		// The 'className' should be present.
 		$this->assertContains(
 			sprintf( '<div class="%s">', $this->class_name ),
 			$actual_template
 		);
+
+		// Test that block_row_index() returns the right row index.
+		foreach ( $rows as $row_number => $row ) {
+			$this->assertContains(
+				sprintf(
+					'In row %d, the result of block_row_index() is %d',
+					$row_number,
+					$row_number
+				),
+				$actual_template
+			);
+		}
 
 		// Test the fields that return a string for block_sub_value().
 		foreach ( $rows as $row_number => $row ) {
