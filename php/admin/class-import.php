@@ -277,6 +277,7 @@ class Import extends Component_Abstract {
 				$this->render_block_import_error( $config['title'], 'Import of blocks failed. Existing block content could noe be cached. <br/>\n ' . $e->getMessage() );
       }
       $this->render_choose_blocks($existing);
+      return;
 		}
 
 		$this->render_done();
