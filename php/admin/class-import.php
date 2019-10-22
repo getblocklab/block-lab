@@ -292,10 +292,10 @@ class Import extends Component_Abstract {
     foreach ( $existing_names as $name ) {
       $form .= '<input type="checkbox" name="'.$name.'" checked>'.$name.'<br>';
     }
-    $form .= '<input type="submit" value="Update Selected">';
     $form .= wp_nonce_field();
     $form .= '<input type="hidden" name="import" value="block-lab">';
     $form .= '<input type="hidden" name="step" value="2">';
+    $form .= '<p class="submit"><input type="submit" value="Update Selected" class="button button-primary"></p>';
     $form .= '</form>';
     echo $form;
   }
