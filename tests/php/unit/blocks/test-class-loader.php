@@ -20,6 +20,24 @@ class Test_Loader extends Abstract_Template {
 	public $instance;
 
 	/**
+	 * A mock block config without a name.
+	 *
+	 * @var array
+	 */
+	public $block_config_without_name = array(
+		'foo' => 'Example Value'
+	);
+
+	/**
+	 * A mock block config with a name.
+	 *
+	 * @var array
+	 */
+	public $block_config_with_name = array(
+		'name' => 'Example Block'
+	);
+
+	/**
 	 * Teardown.
 	 *
 	 * @inheritdoc
@@ -374,6 +392,55 @@ class Test_Loader extends Abstract_Template {
 		ob_start();
 		$this->invoke_protected_method( 'block_template', array( $this->mock_block_name ) );
 		$this->assertContains( $expected_overriden_template_contents, ob_get_clean() );
+	}
+
+	/**
+	 * Test add_block.
+	 *
+	 * @covers \Block_Lab\Blocks\Loader::add_block()
+	 */
+	public function test_add_block() {
+		// The block config does not have a name, so it should not be added to the $blocks property.
+		$this->instance->add_block( $this->block_config_without_name );
+		$this->assertEmpty( $this->get_protected_property( 'blocks' ) );
+
+		// Now that the block config has a name, it should be added to the $blocks property.
+		$this->instance->add_block( $this->block_config_with_name );
+		$actual_blocks = $this->get_protected_property( 'blocks' );
+		$this->assertEquals(
+			$this->block_config_with_name,
+			$actual_blocks[ "block-lab/{$this->block_config_with_name['name']}" ]
+		);
+	}
+
+	/**
+	 * Test add_field.
+	 *
+	 * @covers \Block_Lab\Blocks\Loader::add_field()
+	 */
+	public function test_add_field() {
+		$block_name                = 'example-block';
+		$full_block_name           = "block-lab/{$block_name}";
+		$field_name                = 'baz-field';
+		$field_config_with_name    = [ 'name' => $field_name ];
+		$field_config_without_name = [ 'baz' => 'example' ];
+
+		// The block does not exist in the $blocks property, so this should not add anything to it.
+		$this->instance->add_field( $block_name, $field_config_with_name );
+		$this->assertEmpty( $this->get_protected_property( 'blocks' ) );
+
+		// The second argument doesn't have a 'name' value, so this shouldn't add anything to the $blocks property.
+		$this->instance->add_field( $block_name, $field_config_without_name );
+		$this->assertEmpty( $this->get_protected_property( 'blocks' ) );
+
+		// Now that the block name exists in the $blocks property, this should add the field to it.
+		$this->set_protected_property( 'blocks', [ $full_block_name => [] ] );
+		$this->instance->add_field( $block_name, $field_config_with_name );
+		$actual_blocks = $this->get_protected_property( 'blocks' );
+		$this->assertEquals(
+			$field_config_with_name,
+			$actual_blocks[ $full_block_name ]['fields'][ $field_name ]
+		);
 	}
 
 	/**

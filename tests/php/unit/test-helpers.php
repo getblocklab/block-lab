@@ -6,11 +6,15 @@
  */
 
 use Block_Lab\Blocks;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
 /**
  * Tests for helpers.php.
  */
 class Test_Helpers extends \WP_UnitTestCase {
+
+	// Shows the assertions as passing.
+	use MockeryPHPUnitIntegration;
 
 	/**
 	 * Teardown.
@@ -18,6 +22,7 @@ class Test_Helpers extends \WP_UnitTestCase {
 	 * @inheritdoc
 	 */
 	public function tearDown() {
+		block_lab()->loader = new Blocks\Loader();
 		remove_all_filters( 'block_lab_default_fields' );
 		remove_all_filters( 'block_lab_data_attributes' );
 		remove_all_filters( 'block_lab_data_config' );
@@ -148,5 +153,88 @@ class Test_Helpers extends \WP_UnitTestCase {
 		// Now that the filter includes the additional field, the field should be echoed, even though it's not in block_lab()->data['config'].
 		$this->assertEquals( $additional_field_value, $return_value );
 		$this->assertEquals( $additional_field_value, $echoed_value );
+	}
+
+	/**
+	 * Test block_lab_add_block.
+	 *
+	 * @covers ::block_lab_add_block()
+	 */
+	public function test_block_lab_add_block() {
+		// Test calling this without the optional second argument.
+		$block_name              = 'example-block';
+		$expected_default_config = [
+			'category' => 'common',
+			'excluded' => [],
+			'fields'   => [],
+			'icon'     => 'block_lab',
+			'keywords' => [],
+			'name'     => $block_name,
+			'title'    => 'Example Block',
+		];
+
+		$loader             = Mockery::mock( Blocks\Loader::class );
+		block_lab()->loader = $loader;
+		$loader->expects()->add_block( $expected_default_config );
+		block_lab_add_block( $block_name );
+
+		// Test passing a $block_config, with a long name.
+		$block_name   = 'this-is-a-long-block-name';
+		$block_config = [
+			'category' => 'example',
+			'excluded' => [ 'baz', 'another' ],
+			'fields'   => [ 'text' ],
+			'icon'     => 'great_icon',
+			'keywords' => [ 'hero', 'ad' ],
+			'name'  => $block_name,
+		];
+
+		$expected_config = array_merge(
+			$block_config,
+			[ 'title' => 'This Is A Long Block Name' ]
+		);
+		$loader->expects()->add_block( $expected_config );
+		block_lab_add_block( $block_name, $block_config );
+	}
+
+	/**
+	 * Test block_lab_add_field.
+	 *
+	 * @covers ::block_lab_add_field()
+	 */
+	public function test_block_lab_add_field() {
+		// Test calling this without the optional third argument.
+		$block_name              = 'baz-block';
+		$field_name              = 'another-field';
+		$expected_default_config = [
+			'control'  => 'text',
+			'label'    => 'Another Field',
+			'name'     => $field_name,
+			'order'    => 0,
+			'settings' => [],
+		];
+
+		$loader             = Mockery::mock( Blocks\Loader::class );
+		block_lab()->loader = $loader;
+		$loader->expects()->add_field( $block_name, $expected_default_config )->once();
+		block_lab_add_field( $block_name, $field_name );
+
+		// Test passing a full $field_config.
+		$block_name   = 'example-block-name-here';
+		$field_name   = 'here_is_a_long_field_name';
+		$field_config = [
+			'control'  => 'rich_text',
+			'label'    => 'Here Is Another Field',
+			'order'    => 3,
+			'settings' => [ 'foo' => 'baz' ],
+		];
+
+		$expected_field_config = array_merge(
+			$field_config,
+			[ 'name' => 'here-is-a-long-field-name' ]
+		);
+
+		$loader->expects()->add_field( $block_name, $expected_field_config )->once();
+		block_lab_add_field( $block_name, $field_name, $field_config );
 	}
 }

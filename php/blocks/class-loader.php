@@ -22,11 +22,13 @@ class Loader extends Component_Abstract {
 	protected $assets = [];
 
 	/**
-	 * JSON representing last loaded blocks.
+	 * An associative array of block config data for the blocks that will be registered.
 	 *
-	 * @var string
+	 * The key of each item in the array is the block name.
+	 *
+	 * @var array
 	 */
-	protected $blocks = '';
+	protected $blocks = array();
 
 	/**
 	 * A data store for sharing data to helper functions.
@@ -138,7 +140,7 @@ class Loader extends Component_Abstract {
 		// Add dynamic Gutenberg blocks.
 		wp_add_inline_script(
 			'block-lab-blocks',
-			'const blockLabBlocks = ' . $this->blocks,
+			'const blockLabBlocks = ' . wp_json_encode( $this->blocks ),
 			'before'
 		);
 
@@ -150,8 +152,7 @@ class Loader extends Component_Abstract {
 			$this->plugin->get_version()
 		);
 
-		$blocks      = json_decode( $this->blocks, true );
-		$block_names = wp_list_pluck( $blocks, 'name' );
+		$block_names = wp_list_pluck( $this->blocks, 'name' );
 
 		foreach ( $block_names as $block_name ) {
 			$this->enqueue_block_styles( $block_name, array( 'preview', 'block' ) );
@@ -193,9 +194,7 @@ class Loader extends Component_Abstract {
 			return;
 		}
 
-		$blocks = json_decode( $this->blocks, true );
-
-		foreach ( $blocks as $block_name => $block_config ) {
+		foreach ( $this->blocks as $block_name => $block_config ) {
 			$block = new Block();
 			$block->from_array( $block_config );
 			$this->register_block( $block_name, $block );
@@ -239,9 +238,7 @@ class Loader extends Component_Abstract {
 	 * @return array
 	 */
 	protected function register_categories( $categories ) {
-		$blocks = json_decode( $this->blocks, true );
-
-		foreach ( $blocks as $block_config ) {
+		foreach ( $this->blocks as $block_config ) {
 			if ( ! isset( $block_config['category'] ) ) {
 				continue;
 			}
@@ -531,11 +528,10 @@ class Loader extends Component_Abstract {
 	 * Load all the published blocks and blocks/block.json files.
 	 */
 	protected function retrieve_blocks() {
-		$this->blocks = '';
-		$blocks       = [];
-
-		// Retrieve blocks from blocks.json.
-		// Reverse to preserve order of preference when using array_merge.
+		/**
+		 * Retrieve blocks from blocks.json.
+		 * Reverse to preserve order of preference when using array_merge.
+		 */
 		$blocks_files = array_reverse( (array) block_lab()->locate_template( 'blocks/blocks.json', '', false ) );
 		foreach ( $blocks_files as $blocks_file ) {
 			// This is expected to be on the local filesystem, so file_get_contents() is ok to use here.
@@ -544,10 +540,13 @@ class Loader extends Component_Abstract {
 
 			// Merge if no json_decode error occurred.
 			if ( json_last_error() == JSON_ERROR_NONE ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-				$blocks = array_merge( $blocks, $block_data );
+				$this->blocks = array_merge( $this->blocks, $block_data );
 			}
 		}
 
+		/**
+		 * Retrieve blocks stored as posts in the WordPress database.
+		 */
 		$block_posts = new \WP_Query(
 			[
 				'post_type'      => block_lab()->get_post_type_slug(),
@@ -563,11 +562,60 @@ class Loader extends Component_Abstract {
 
 				// Merge if no json_decode error occurred.
 				if ( json_last_error() == JSON_ERROR_NONE ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-					$blocks = array_merge( $blocks, $block_data );
+					$this->blocks = array_merge( $this->blocks, $block_data );
 				}
 			}
 		}
 
-		$this->blocks = wp_json_encode( $blocks );
+		/**
+		 * Use this action to add new blocks and fields with the block_lab_add_block and block_lab_add_field helper functions.
+		 */
+		do_action( 'block_lab_add_blocks' );
+
+		/**
+		 * Filter the available blocks.
+		 *
+		 * This is used internally by the block_lab_add_block and block_lab_add_field helper functions,
+		 * but it can also be used to hide certain blocks if desired.
+		 *
+		 * @param array $blocks An associative array of blocks.
+		 */
+		$this->blocks = apply_filters( 'block_lab_blocks', $this->blocks );
+	}
+
+	/**
+	 * Add a new block.
+	 *
+	 * This method should be called during the block_lab_add_blocks action, to ensure
+	 * that the block isn't added too late.
+	 *
+	 * @param array $block_config The config of the block to add.
+	 */
+	public function add_block( $block_config ) {
+		if ( ! isset( $block_config['name'] ) ) {
+			return;
+		}
+
+		$this->blocks[ "block-lab/{$block_config['name']}" ] = $block_config;
+	}
+
+	/**
+	 * Add a new field to an existing block.
+	 *
+	 * This method should be called during the block_lab_add_blocks action, to ensure
+	 * that the block isn't added too late.
+	 *
+	 * @param string $block_name The name of the block that the field is added to.
+	 * @param array $field_config The config of the field to add.
+	 */
+	public function add_field( $block_name, $field_config ) {
+		if ( ! isset( $this->blocks[ "block-lab/{$block_name}" ] ) ) {
+			return;
+		}
+		if ( ! isset( $field_config['name'] ) ) {
+			return;
+		}
+
+		$this->blocks[ "block-lab/{$block_name}" ]['fields'][ $field_config['name'] ] = $field_config;
 	}
 }
