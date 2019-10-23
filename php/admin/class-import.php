@@ -67,9 +67,30 @@ class Import extends Component_Abstract {
 					$json   = file_get_contents( $file['file'] ); // @codingStandardsIgnoreLine
 					$blocks = json_decode( $json, true );
 
-					$this->import_blocks( $blocks );
+					$this->import_blocks( $blocks, $file );
 				}
 				break;
+      case 2:
+		    $cache_dir = wp_get_upload_dir()['basedir'] . '/block-lab';
+        $file = array( 'file' => $cache_dir . '/cache.json');
+          try {
+          if ( $this->validate_upload( $file ) ) {
+            // This is on the local filesystem, so file_get_contents() is ok to use here.
+            $json   = file_get_contents( $file['file'] ); // @codingStandardsIgnoreLine
+            $blocks = json_decode( $json, true );
+            $update_blocks = array();
+            foreach($blocks as $name => $config){
+              if($_GET[$name] == 'on'){
+                $update_blocks[] = $config;
+              }
+            }
+            $this->import_blocks( $update_blocks, $file, true);
+          }else{
+            throw new Exception('No valid upload cache found during update.');
+          }
+        }catch(Exception $e){
+          $this->render_block_import_error( 'Error updating blocks', $e->getMessage() );
+		    }
 		}
 
 		$html = ob_get_clean();
@@ -204,30 +225,40 @@ class Import extends Component_Abstract {
 	 *
 	 * @param array $blocks An array of Block Lab content blocks.
 	 */
-	public function import_blocks( $blocks ) {
+	public function import_blocks( $blocks, $file, $update_existing=false ) {
+	  $existing = array();
 		foreach ( $blocks as $config ) {
 			if ( ! isset( $config['title'] ) || ! isset( $config['name'] ) ) {
 				continue;
 			}
 
+      $id = false;
 			// Check if block already exists.
 			$registered_blocks = get_dynamic_block_names();
 			if ( in_array( 'block-lab/' . $config['name'], $registered_blocks, true ) ) {
-				$this->render_block_import_error( $config['title'], __( 'A block with this slug already exists.', 'block-lab' ) );
-				continue;
+				if(!$update_existing){
+				  $existing[] = 'block-lab/' . $config['name'];
+          continue;
+				}else{
+          if ( $post = get_page_by_path( $config['name'], OBJECT, block_lab()->get_post_type_slug() ) )
+              $id = $post->ID;
+        }
 			}
 
 			$json = wp_json_encode( array( 'block-lab/' . $config['name'] => $config ), JSON_UNESCAPED_UNICODE );
 
-			$post = wp_insert_post(
-				array(
-					'post_title'   => $config['title'],
-					'post_name'    => $config['name'],
-					'post_content' => wp_slash( $json ),
-					'post_status'  => 'publish',
-					'post_type'    => block_lab()->get_post_type_slug(),
-				)
-			);
+      $post_data = array(
+        'post_title'   => $config['title'],
+        'post_name'    => $config['name'],
+        'post_content' => wp_slash( $json ),
+        'post_status'  => 'publish',
+        'post_type'    => block_lab()->get_post_type_slug(),
+      );
+
+      if( $id ){
+        $post_data['ID']  = $id;
+      }
+			$post = wp_insert_post( $post_data );
 
 			if ( is_wp_error( $post ) ) {
 				$this->render_block_import_error( $config['title'], $post->get_error_message() );
@@ -235,7 +266,38 @@ class Import extends Component_Abstract {
 				$this->render_block_import_success( $config['title'] );
 			}
 		}
+		if( sizeof($existing) > 0 ){
+		  $cache_dir = wp_get_upload_dir()['basedir'] . '/block-lab';
+		  try {
+        if (!file_exists($cache_dir)) {
+            mkdir($cache_dir, 0777, true);
+        }
+        file_put_contents($cache_dir . '/cache.json', file_get_contents($file['file']));
+      } catch(Exception $e) {
+				$this->render_block_import_error( $config['title'], 'Import of blocks failed. Existing block content could noe be cached. <br/>\n ' . $e->getMessage() );
+      }
+      $this->render_choose_blocks($existing);
+      return;
+		}
 
 		$this->render_done();
 	}
+
+  /**
+   * Render the interface for choosing blocks to update.
+   */
+  public function render_choose_blocks($existing_names) {
+    $link = explode('?', $_SERVER['REQUEST_URI'])[0];
+    $form = '<p>Please select the blocks to update with the matching data in your imported file</p><form action="'.$link.'">';
+    foreach ( $existing_names as $name ) {
+      $form .= '<input type="checkbox" name="'.$name.'" checked>'.$name.'<br>';
+    }
+    $form .= wp_nonce_field();
+    $form .= '<input type="hidden" name="import" value="block-lab">';
+    $form .= '<input type="hidden" name="step" value="2">';
+    $form .= '<p class="submit"><input type="submit" value="Update Selected" class="button button-primary"></p>';
+    $form .= '</form>';
+    echo $form;
+  }
+
 }
