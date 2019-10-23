@@ -207,14 +207,17 @@ div[class^="wp-block-block-lab-"] {
       .classic-text__toolbar {
       position: relative;
       z-index: 10;
-      top: 2px;
+      top: 1px;
 
       > .mce-container {
-        margin: 1px;
-        box-shadow: none;;
+        width: 100% !important;
+        border: 1px solid #c5c5c5;
+        box-shadow: none;
+        box-sizing: border-box;
       }
 
       .mce-container-body {
+        width: 100% !important;
         > .mce-container {
           width: 100% !important;
         }
