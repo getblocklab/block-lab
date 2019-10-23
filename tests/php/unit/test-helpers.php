@@ -186,7 +186,7 @@ class Test_Helpers extends \WP_UnitTestCase {
 			'fields'   => [ 'text' ],
 			'icon'     => 'great_icon',
 			'keywords' => [ 'hero', 'ad' ],
-			'name'  => $block_name,
+			'name'     => $block_name,
 		];
 
 		$expected_config = array_merge(
