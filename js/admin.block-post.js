@@ -146,57 +146,27 @@
 					$( '.block-no-fields' ).show();
 				}
 				if ( 0 !== subRows.length && 0 === $( '.block-fields-row', subRows ).length ) {
-					$( '.repeater-no-fields' ).show();
-					$( '.repeater-has-fields' ).hide();
+					subRows.parent().find( '.repeater-no-fields' ).show();
+					subRows.parent().find( '.repeater-has-fields' ).hide();
 				}
 			} )
 			.on( 'click', '.block-fields-actions-duplicate', function() {
-				const currentRow = $( this ).closest( '.block-fields-row' ),
-					currentUid = currentRow.data( 'uid' ),
-					newUid = new Date().getTime(),
-					newRow = currentRow.clone();
-
-				// Replace all the UIDs.
-				newRow.attr( 'data-uid', newUid );
-				newRow.html( function( index, html ) {
-					return html.replace( new RegExp( currentUid, 'g' ), newUid );
-				} );
-
-				// Set the values manually. jQuery's clone method doesn't work for dynamic data.
-				currentRow.find( '[name*="[' + currentUid + ']"]' ).each( function() {
-					const newRowName = $( this ).attr( 'name' ).replace( currentUid, newUid ),
-						newRowInput = newRow.find( '[name="' + newRowName + '"]' );
-
-					// Radio and Checkbox inputs are unique in that multiple can exist with the same name.
-					if ( $( this ).is( '[type="radio"],[type="checkbox"]' ) ) {
-						newRowInput.parent().find( '[value="' + $( this ).val() + '"]' ).prop( 'checked', $( this ).prop( 'checked' ) );
-					} else {
-						newRowInput.val( $( this ).val() );
-					}
-				} );
+				const row = $( this ).closest( '.block-fields-row' ),
+					newRow = cloneRow( row );
 
 				// Insert the new row.
-				newRow.insertAfter( currentRow );
+				newRow.insertAfter( row );
 
+				// Expand the duplicated row.
 				if ( newRow.hasClass( 'block-fields-row-active' ) ) {
-					currentRow.find( '.block-fields-actions-edit' ).trigger( 'click' );
+					row.find( '.block-fields-actions-edit' ).eq( 0 ).trigger( 'click' );
 				} else {
-					newRow.find( '.block-fields-actions-edit' ).trigger( 'click' );
+					newRow.find( '.block-fields-actions-edit' ).eq( 0 ).trigger( 'click' );
 				}
 
-				// Increment the label.
-				const label = newRow.find( '.block-fields-edit-label input' ),
-					labelNumbers = label.val().match( /\d+$/ );
-
-				if ( labelNumbers ) {
-					const newNumber = parseInt( labelNumbers[ 0 ] ) + 1;
-					label.val( label.val().replace( /\d+$/, newNumber ) );
-				} else {
-					label.val( label.val() + ' 1' );
-				}
-
+				// Select the label field of the new row.
+				const label = newRow.find( '.block-fields-edit-label input' );
 				label.trigger( 'change' );
-				label.data( 'defaultValue', label.val() );
 				label.select();
 			} )
 			.on( 'click', '.block-fields-actions-edit, a.row-title', function() {
@@ -446,6 +416,83 @@
 		} );
 
 		$( 'body' ).animate( { scrollTop } );
+	};
+
+	const cloneRow = function( row ) {
+		const uid = row.data( 'uid' ),
+			newUid = Math.floor( Math.random() * 1000000000000 ),
+			newRow = row.clone(),
+			subRows = newRow.find( '.block-fields-sub-rows' ),
+			newSubRows = [];
+
+		// Make a copy of each sub row.
+		if ( subRows.length > 0 ) {
+			subRows.children().each( function() {
+				newSubRows.push( cloneRow( $( this ) ) );
+			} );
+			subRows.empty();
+			newSubRows.forEach( function( newSubRow ) {
+				$( newSubRow ).find( 'input[name^="block-fields-parent"]' ).val( newUid );
+				subRows.append( newSubRow );
+			} );
+		}
+
+		// Replace all the UIDs.
+		newRow.attr( 'data-uid', newUid );
+		newRow.html( function( index, html ) {
+			return html.replace( new RegExp( uid, 'g' ), newUid );
+		} );
+
+		// Set the values manually. jQuery's clone method doesn't work for dynamic data.
+		row.find( '[name*="[' + uid + ']"]' ).each( function() {
+			const newRowName = $( this ).attr( 'name' ).replace( uid, newUid ),
+				newRowInput = newRow.find( '[name="' + newRowName + '"]' );
+
+			// Radio and Checkbox inputs are unique in that multiple can exist with the same name.
+			if ( $( this ).is( '[type="radio"],[type="checkbox"]' ) ) {
+				newRowInput.parent().find( '[value="' + $( this ).val() + '"]' ).prop( 'checked', $( this ).prop( 'checked' ) );
+			} else {
+				newRowInput.val( $( this ).val() );
+			}
+		} );
+
+		incrementRow( newRow );
+
+		return newRow;
+	};
+
+	const incrementRow = function( row ) {
+		const label = row.find( '.block-fields-edit-label input' ).eq( 0 ),
+			name = row.find( '.block-fields-edit-name input' ).eq( 0 ),
+			baseName = name.val().replace( /-\d+$/, '' ),
+			baseLabel = label.val().replace( / \d+$/, '' ),
+			nameMatchRegex = new RegExp( '^' + baseName + '-\\d+$' ),
+			matchedNames = $( 'input[name^="block-fields-name"]' ).filter( function() {
+				// Get all other rows that have the same base name.
+				return $( this ).val().match( nameMatchRegex );
+			} ),
+			numbers = [];
+
+		// Get the number of each row, then sort them.
+		matchedNames.each( function() {
+			numbers.push( $( this ).val().match( /\d+$/ )[ 0 ] );
+		} );
+
+		numbers.sort( function( a, b ) {
+			return b - a;
+		} );
+
+		// Assign the new names.
+		if ( numbers.length > 0 ) {
+			const newNumber = parseInt( numbers[ 0 ] ) + 1;
+			name.val( baseName + '-' + newNumber );
+			label.val( baseLabel + ' ' + newNumber );
+		} else {
+			name.val( name.val() + '-1' );
+			label.val( label.val() + ' 1' );
+		}
+
+		label.data( 'defaultValue', label.val() );
 	};
 
 	const slugify = function( text ) {
