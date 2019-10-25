@@ -154,9 +154,6 @@
 				const row = $( this ).closest( '.block-fields-row' ),
 					newRow = cloneRow( row );
 
-				// Insert the new row.
-				newRow.insertAfter( row );
-
 				// Expand the duplicated row.
 				if ( newRow.hasClass( 'block-fields-row-active' ) ) {
 					row.find( '.block-fields-actions-edit' ).eq( 0 ).trigger( 'click' );
@@ -418,23 +415,22 @@
 		$( 'body' ).animate( { scrollTop } );
 	};
 
-	const cloneRow = function( row ) {
+	/**
+	 * Clone a row, used for row duplication.
+	 *
+	 * @param {jQuery} row The row to clone.
+	 * @param {boolean} append Whether to append the cloned row, or just return it.
+	 * @return {jQuery} The cloned row.
+	 */
+	const cloneRow = function( row, append = true ) {
 		const uid = row.data( 'uid' ),
 			newUid = Math.floor( Math.random() * 1000000000000 ),
 			newRow = row.clone(),
-			subRows = newRow.find( '.block-fields-sub-rows' ),
-			newSubRows = [];
+			subRows = newRow.find( '.block-fields-sub-rows' ).children();
 
-		// Make a copy of each sub row.
+		// Remove the sub rows (we'll add them back again later).
 		if ( subRows.length > 0 ) {
-			subRows.children().each( function() {
-				newSubRows.push( cloneRow( $( this ) ) );
-			} );
-			subRows.empty();
-			newSubRows.forEach( function( newSubRow ) {
-				$( newSubRow ).find( 'input[name^="block-fields-parent"]' ).val( newUid );
-				subRows.append( newSubRow );
-			} );
+			subRows.remove();
 		}
 
 		// Replace all the UIDs.
@@ -457,6 +453,16 @@
 		} );
 
 		incrementRow( newRow );
+
+		// Insert the new row.
+		if ( append ) {
+			newRow.insertAfter( row );
+		}
+
+		subRows.each( function() {
+			$( this ).find( 'input[name^="block-fields-parent"]' ).val( newUid );
+			newRow.find( '.block-fields-sub-rows' ).append( cloneRow( $( this ), false ) );
+		} );
 
 		return newRow;
 	};
