@@ -34,13 +34,6 @@ abstract class Abstract_Attribute extends \WP_UnitTestCase {
 	public $object_fields;
 
 	/**
-	 * The instance of Loader, to render the template.
-	 *
-	 * @var Blocks\Loader
-	 */
-	public $loader;
-
-	/**
 	 * The name of the block that tests all fields.
 	 *
 	 * This also controls the template that will be used.
@@ -117,6 +110,21 @@ abstract class Abstract_Attribute extends \WP_UnitTestCase {
 		if ( is_dir( $this->blocks_directory ) ) {
 			rmdir( $this->blocks_directory );
 		}
+	}
+
+	/**
+	 * Invokes a protected method.
+	 *
+	 * @param object $instance The instance to invoke the method on.
+	 * @param string $method_name The name of the method.
+	 * @param array  $args The arguments.
+	 * @return mixed The result of invoking the method.
+	 * @throws ReflectionException If invoking this fails.
+	 */
+	public function invoke_protected_method( $instance, $method_name, $args = array() ) {
+		$method = new ReflectionMethod( $instance, $method_name );
+		$method->setAccessible( true );
+		return $method->invokeArgs( $instance, $args );
 	}
 
 	/**

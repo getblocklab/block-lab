@@ -18,14 +18,15 @@ use Block_Lab\Blocks;
  * @return mixed
  */
 function block_field( $name, $echo = true ) {
-	/*
-	 * Defined in Block_Lab\Blocks\Loader->render_block_template().
-	 *
-	 * @var array
-	 */
-	global $block_lab_attributes, $block_lab_config;
+	$attributes = block_lab()->loader->get_data( 'attributes' );
 
-	if ( ! isset( $block_lab_attributes ) || ! is_array( $block_lab_attributes ) ) {
+	if ( ! $attributes ) {
+		return null;
+	}
+
+	$config = block_lab()->loader->get_data( 'config' );
+
+	if ( ! $config ) {
 		return null;
 	}
 
@@ -45,7 +46,7 @@ function block_field( $name, $echo = true ) {
 	 */
 	$default_fields = apply_filters( 'block_lab_default_fields', $default_fields, $name );
 
-	if ( ! isset( $block_lab_config->fields[ $name ] ) && ! isset( $default_fields[ $name ] ) ) {
+	if ( ! isset( $config->fields[ $name ] ) && ! isset( $default_fields[ $name ] ) ) {
 		return null;
 	}
 
@@ -53,13 +54,13 @@ function block_field( $name, $echo = true ) {
 	$value   = false; // This is a good default, it allows us to pick up on unchecked checkboxes.
 	$control = null;
 
-	if ( array_key_exists( $name, $block_lab_attributes ) ) {
-		$value = $block_lab_attributes[ $name ];
+	if ( array_key_exists( $name, $attributes ) ) {
+		$value = $attributes[ $name ];
 	}
 
-	if ( isset( $block_lab_config->fields[ $name ] ) ) {
+	if ( isset( $config->fields[ $name ] ) ) {
 		// Cast the value with the correct type.
-		$field   = $block_lab_config->fields[ $name ];
+		$field   = $config->fields[ $name ];
 		$value   = $field->cast_value( $value );
 		$control = $field->control;
 	} elseif ( isset( $default_fields[ $name ] ) ) {
@@ -126,9 +127,9 @@ function block_row( $name ) {
  * @return bool
  */
 function block_rows( $name ) {
-	global $block_lab_attributes;
+	$attributes = block_lab()->loader->get_data( 'attributes' );
 
-	if ( ! isset( $block_lab_attributes[ $name ] ) ) {
+	if ( ! isset( $attributes[ $name ] ) ) {
 		return false;
 	}
 
@@ -140,7 +141,7 @@ function block_rows( $name ) {
 		$next_row = $current_row + 1;
 	}
 
-	if ( isset( $block_lab_attributes[ $name ]['rows'][ $next_row ] ) ) {
+	if ( isset( $attributes[ $name ]['rows'][ $next_row ] ) ) {
 		return true;
 	}
 
@@ -172,13 +173,13 @@ function reset_block_rows( $name ) {
  * @return int|bool The total amount of rows. False if the repeater isn't found.
  */
 function block_row_count( $name ) {
-	global $block_lab_attributes;
+	$attributes = block_lab()->loader->get_data( 'attributes' );
 
-	if ( ! isset( $block_lab_attributes[ $name ]['rows'] ) ) {
+	if ( ! isset( $attributes[ $name ]['rows'] ) ) {
 		return false;
 	}
 
-	return count( $block_lab_attributes[ $name ]['rows'] );
+	return count( $attributes[ $name ]['rows'] );
 }
 
 /**
@@ -211,21 +212,22 @@ function block_row_index( $name = '' ) {
  * @return mixed
  */
 function block_sub_field( $name, $echo = true ) {
-	/*
-	 * Defined in Block_Lab\Blocks\Loader->render_block_template().
-	 *
-	 * @var array
-	 */
-	global $block_lab_attributes, $block_lab_config;
+	$attributes = block_lab()->loader->get_data( 'attributes' );
 
-	if ( ! isset( $block_lab_attributes ) || ! is_array( $block_lab_attributes ) ) {
+	if ( ! is_array( $attributes ) ) {
+		return null;
+	}
+
+	$config = block_lab()->loader->get_data( 'config' );
+
+	if ( ! $config ) {
 		return null;
 	}
 
 	$parent  = block_lab()->loop()->active;
 	$pointer = block_lab()->loop()->get_row( $parent );
 
-	if ( ! isset( $block_lab_config->fields[ $parent ] ) ) {
+	if ( ! isset( $config->fields[ $parent ] ) ) {
 		return null;
 	}
 
@@ -233,18 +235,18 @@ function block_sub_field( $name, $echo = true ) {
 	$control = null;
 
 	// Get the value from the block attributes, with the correct type.
-	if ( ! array_key_exists( $parent, $block_lab_attributes ) || ! isset( $block_lab_attributes[ $parent ]['rows'] ) ) {
+	if ( ! array_key_exists( $parent, $attributes ) || ! isset( $attributes[ $parent ]['rows'] ) ) {
 		return;
 	}
 
-	$parent_attributes = $block_lab_attributes[ $parent ]['rows'];
+	$parent_attributes = $attributes[ $parent ]['rows'];
 	$row_attributes    = $parent_attributes[ $pointer ];
 
 	if ( ! array_key_exists( $name, $row_attributes ) ) {
 		return;
 	}
 
-	$field   = $block_lab_config->fields[ $parent ]->settings['sub_fields'][ $name ];
+	$field   = $config->fields[ $parent ]->settings['sub_fields'][ $name ];
 	$control = $field->control;
 	$value   = $row_attributes[ $name ];
 	$value   = $field->cast_value( $value );
@@ -291,8 +293,13 @@ function block_sub_value( $name ) {
  * @return array
  */
 function block_config() {
-	global $block_lab_config;
-	return (array) $block_lab_config;
+	$config = block_lab()->loader->get_data( 'config' );
+
+	if ( ! $config ) {
+		return null;
+	}
+
+	return (array) $config;
 }
 
 /**
@@ -303,9 +310,80 @@ function block_config() {
  * @return array|null
  */
 function block_field_config( $name ) {
-	global $block_lab_config;
-	if ( ! isset( $block_lab_config->fields[ $name ] ) ) {
+	$config = block_lab()->loader->get_data( 'config' );
+
+	if ( ! $config || ! isset( $config->fields[ $name ] ) ) {
 		return null;
 	}
-	return (array) $block_lab_config->fields[ $name ];
+
+	return (array) $config->fields[ $name ];
+}
+
+/**
+ * Add a new block.
+ *
+ * @param string $block_name   The block name (slug), like 'example-block'.
+ * @param array  $block_config {
+ *     An associative array containing the block configuration.
+ *
+ *     @type string   $title    The block title.
+ *     @type string   $icon     The block icon. See assets/icons.json for a JSON array of all possible values. Default: 'block_lab'.
+ *     @type string   $category The slug of a registered category. Categories include: common, formatting, layout, widgets, embed. Default: 'common'.
+ *     @type array    $excluded Exclude the block in these post types. Default: [].
+ *     @type string[] $keywords An array of up to three keywords. Default: [].
+ *     @type array    $fields {
+ *         An associative array containing block fields. Each key in the array should be the field slug.
+ *
+ *         @type array {$slug} {
+ *             An associative array describing a field. Refer to the $field_config parameter of block_lab_add_field().
+ *         }
+ *     }
+ * }
+ */
+function block_lab_add_block( $block_name, $block_config = array() ) {
+	$block_config['name'] = str_replace( '_', '-', sanitize_title( $block_name ) );
+
+	$default_config = array(
+		'title'    => str_replace( '-', ' ', ucwords( $block_config['name'], '-' ) ),
+		'icon'     => 'block_lab',
+		'category' => 'common',
+		'excluded' => array(),
+		'keywords' => array(),
+		'fields'   => array(),
+	);
+
+	$block_config = wp_parse_args( $block_config, $default_config );
+	block_lab()->loader->add_block( $block_config );
+}
+
+/**
+ * Add a field to a block.
+ *
+ * @param string $block_name   The block name (slug), like 'example-block'.
+ * @param string $field_name   The field name (slug), like 'first-name'.
+ * @param array  $field_config {
+ *     An associative array containing the field configuration.
+ *
+ *     @type string $name    The field name.
+ *     @type string $label   The field label.
+ *     @type string $control The field control type. Default: 'text'.
+ *     @type int    $order   The order that the field appears in. Default: 0.
+ *     @type array  $settings {
+ *         An associative array of settings for the field. Each field has a different set of possible settings.
+ *         Check the register_settings method for the field, found in php/blocks/controls/class-{field name}.php.
+ *     }
+ * }
+ */
+function block_lab_add_field( $block_name, $field_name, $field_config = array() ) {
+	$field_config['name'] = str_replace( '_', '-', sanitize_title( $field_name ) );
+
+	$default_config = array(
+		'label'    => str_replace( '-', ' ', ucwords( $field_config['name'], '-' ) ),
+		'control'  => 'text',
+		'order'    => 0,
+		'settings' => array(),
+	);
+
+	$field_config = wp_parse_args( $field_config, $default_config );
+	block_lab()->loader->add_field( $block_name, $field_config );
 }
