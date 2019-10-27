@@ -18,48 +18,54 @@
 		$( '#block-add-field' ).on( 'click', function() {
 			const template = wp.template( 'field-repeater' ),
 				data = { uid: new Date().getTime() },
-				field = $( template( data ) ),
-				edit = field.find( '.block-fields-actions-edit' ),
-				label = field.find( '.block-fields-edit-label input' );
+				row = $( template( data ) ),
+				edit = row.find( '.block-fields-actions-edit' ),
+				label = row.find( '.block-fields-edit-label input' );
 
-			$( '.block-fields-rows' ).append( field );
+			incrementRow( row );
+
+			$( '.block-fields-rows' ).append( row );
 			$( '.block-no-fields' ).hide();
 			$( '.block-lab-add-fields' ).hide();
 
 			edit.trigger( 'click' );
 			label.data( 'defaultValue', label.val() );
+			label.trigger( 'change' );
 			label.select();
 		} );
 
 		$( '#block_fields' ).on( 'click', '#block-add-sub-field', function() {
 			const template = wp.template( 'field-repeater' ),
 				data = { uid: new Date().getTime() },
-				field = $( template( data ) ),
-				row = $( this ).closest( '.block-fields-row' ),
-				edit = field.find( '.block-fields-actions-edit' ),
-				label = field.find( '.block-fields-edit-label input' );
+				row = $( template( data ) ),
+				parent = $( this ).closest( '.block-fields-row' ),
+				edit = row.find( '.block-fields-actions-edit' ),
+				label = row.find( '.block-fields-edit-label input' );
+
+			incrementRow( row );
 
 			// Prevents adding a repeater, in a repeater, in a repeater…
-			field.find( '.block-fields-edit-control option[value="repeater"]' ).remove();
+			row.find( '.block-fields-edit-control option[value="repeater"]' ).remove();
 
 			// Don't render the location or width settings for sub-fields.
-			field.find( '.block-fields-edit-location-settings' ).remove();
-			field.find( '.block-fields-edit-width-settings' ).remove();
+			row.find( '.block-fields-edit-location-settings' ).remove();
+			row.find( '.block-fields-edit-width-settings' ).remove();
 
 			// Add parent UID as a hidden input
 			const parentInput = $( '<input>' ).attr( {
 				type: 'hidden',
 				name: 'block-fields-parent[' + data.uid + ']',
-				value: row.data( 'uid' ),
+				value: parent.data( 'uid' ),
 			} );
-			field.append( parentInput );
+			row.append( parentInput );
 
-			$( '.block-fields-sub-rows', row ).append( field );
-			$( '.repeater-no-fields', row ).hide();
-			$( '.repeater-has-fields', row ).show();
+			$( '.block-fields-sub-rows', parent ).append( row );
+			$( '.repeater-no-fields', parent ).hide();
+			$( '.repeater-has-fields', parent ).show();
 
 			edit.trigger( 'click' );
 			label.data( 'defaultValue', label.val() );
+			label.trigger( 'change' );
 			label.select();
 		} );
 
@@ -472,7 +478,7 @@
 			name = row.find( '.block-fields-edit-name input' ).eq( 0 ),
 			baseName = name.val().replace( /-\d+$/, '' ),
 			baseLabel = label.val().replace( / \d+$/, '' ),
-			nameMatchRegex = new RegExp( '^' + baseName + '-\\d+$' ),
+			nameMatchRegex = new RegExp( '^' + baseName + '(-\\d)?$' ),
 			matchedNames = $( 'input[name^="block-fields-name"]' ).filter( function() {
 				// Get all other rows that have the same base name.
 				return $( this ).val().match( nameMatchRegex );
@@ -481,7 +487,7 @@
 
 		// Get the number of each row, then sort them.
 		matchedNames.each( function() {
-			numbers.push( $( this ).val().match( /\d+$/ )[ 0 ] );
+			numbers.push( $( this ).val().match( /\d?$/ )[ 0 ] );
 		} );
 
 		numbers.sort( function( a, b ) {
@@ -489,13 +495,16 @@
 		} );
 
 		// Assign the new names.
-		if ( numbers.length > 0 ) {
+		if ( numbers.length > 1 ) {
 			const newNumber = parseInt( numbers[ 0 ] ) + 1;
 			name.val( baseName + '-' + newNumber );
 			label.val( baseLabel + ' ' + newNumber );
-		} else {
+		} else if ( 1 === numbers.length ) {
 			name.val( name.val() + '-1' );
 			label.val( label.val() + ' 1' );
+		} else {
+			name.val( name.val() );
+			label.val( label.val() );
 		}
 
 		label.data( 'defaultValue', label.val() );
