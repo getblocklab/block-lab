@@ -50,7 +50,7 @@
 			const parentInput = $( '<input>' ).attr( {
 				type: 'hidden',
 				name: 'block-fields-parent[' + data.uid + ']',
-				value: row.find( 'input[name^="block-fields-name"]' ).val(),
+				value: row.data( 'uid' ),
 			} );
 			field.append( parentInput );
 
