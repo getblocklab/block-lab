@@ -42,6 +42,7 @@ class Block_Post extends Component_Abstract {
 		'repeater',
 		'post',
 		'rich_text',
+		'classic_text',
 		'taxonomy',
 		'user',
 	);

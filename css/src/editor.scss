@@ -201,6 +201,57 @@ div[class^="wp-block-block-lab-"] {
     }
   }
 
+  /* Classic Text Control Component */
+  .block-lab-classic-text-control {
+
+      .classic-text__toolbar {
+      position: relative;
+      z-index: 10;
+      top: 1px;
+
+      > .mce-container {
+        width: 100% !important;
+        border: 1px solid #c5c5c5;
+        box-shadow: none;
+        box-sizing: border-box;
+      }
+
+      .mce-container-body {
+        width: 100% !important;
+        > .mce-container {
+          width: 100% !important;
+        }
+      }
+    }
+
+    /* The editing area, not the toolbar. */
+    .classic-text__edit {
+
+      background: $white;
+      padding: 0.2rem 1rem;
+      border: 1px solid $dark-gray-150;
+      outline: none;
+      min-height: 6rem;
+
+      /* Clear the float in case an image is floated. */
+      &:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+
+      p {
+        font-size: 13px;
+        margin-top: 0.67rem;
+        margin-bottom: 0.67rem;
+      }
+
+      ul, ol {
+        margin-left: 1rem;
+      }
+    }
+  }
+
   .block-lab-repeater {
 
     .block-lab-repeater__rows {
@@ -455,4 +506,11 @@ div[class^="wp-block-block-lab-"] {
   float: left;
   margin: 0;
   padding-right: 1em;
+}
+
+// In the <ServerSideRender> display, correct an issue where <ul> and <ol> can appear outside (to the left) of their container.
+.editor-styles-wrapper .block-lab-editor__ssr {
+  ul, ol {
+    margin-left: 1rem;
+  }
 }
