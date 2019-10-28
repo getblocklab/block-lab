@@ -478,7 +478,7 @@
 			name = row.find( '.block-fields-edit-name input' ).eq( 0 ),
 			baseName = name.val().replace( /-\d+$/, '' ),
 			baseLabel = label.val().replace( / \d+$/, '' ),
-			nameMatchRegex = new RegExp( '^' + baseName + '(-\\d)?$' ),
+			nameMatchRegex = new RegExp( '^' + baseName + '(-\\d+)?$' ),
 			matchedNames = $( 'input[name^="block-fields-name"]' ).filter( function() {
 				// Get all other rows that have the same base name.
 				return $( this ).val().match( nameMatchRegex );
@@ -487,7 +487,7 @@
 
 		// Get the number of each row, then sort them.
 		matchedNames.each( function() {
-			numbers.push( $( this ).val().match( /\d?$/ )[ 0 ] );
+			numbers.push( $( this ).val().match( /\d*$/ )[ 0 ] );
 		} );
 
 		numbers.sort( function( a, b ) {
