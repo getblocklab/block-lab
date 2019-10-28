@@ -584,12 +584,13 @@ class Block_Post extends Component_Abstract {
 	/**
 	 * Render a single Field as a row.
 	 *
-	 * @param Field $field The Field containing the options to render.
-	 * @param mixed $uid   A unique ID to used to unify the HTML name, for, and id attributes.
+	 * @param Field $field      The Field containing the options to render.
+	 * @param mixed $uid        A unique ID to used to unify the HTML name, for, and id attributes.
+	 * @param mixed $parent_uid The parent's unique ID, if the field has a parent.
 	 *
 	 * @return void
 	 */
-	public function render_fields_meta_box_row( $field, $uid = false ) {
+	public function render_fields_meta_box_row( $field, $uid = false, $parent_uid = false ) {
 		// Use a template placeholder if no UID provided.
 		if ( ! $uid ) {
 			$uid = '{{ data.uid }}';
@@ -609,6 +610,10 @@ class Block_Post extends Component_Abstract {
 					<div class="block-fields-actions">
 						<a class="block-fields-actions-edit" href="javascript:">
 							<?php esc_html_e( 'Edit', 'block-lab' ); ?>
+						</a>
+						&nbsp;|&nbsp;
+						<a class="block-fields-actions-duplicate" href="javascript:">
+							<?php esc_html_e( 'Duplicate', 'block-lab' ); ?>
 						</a>
 						&nbsp;|&nbsp;
 						<a class="block-fields-actions-delete" href="javascript:">
@@ -760,14 +765,14 @@ class Block_Post extends Component_Abstract {
 				if ( ! isset( $field->settings['sub_fields'] ) ) {
 					$field->settings['sub_fields'] = array();
 				}
-				$this->render_fields_sub_rows( $field->settings['sub_fields'] );
+				$this->render_fields_sub_rows( $field->settings['sub_fields'], $uid );
 			}
-			if ( isset( $field->settings['parent'] ) ) {
+			if ( $parent_uid ) {
 				?>
 				<input
 					type="hidden"
 					name="block-fields-parent[<?php echo esc_attr( $uid ); ?>]"
-					value="<?php echo esc_attr( $field->settings['parent'] ); ?>"
+					value="<?php echo esc_attr( $parent_uid ); ?>"
 				/>
 				<?php
 			}
@@ -779,17 +784,18 @@ class Block_Post extends Component_Abstract {
 	/**
 	 * Render the actions row when adding a Repeater field.
 	 *
-	 * @param Field[] $fields The sub fields to render.
+	 * @param Field[] $fields     The sub fields to render.
+	 * @param mixed   $parent_uid The unique ID of the field's parent.
 	 *
 	 * @return void
 	 */
-	public function render_fields_sub_rows( $fields = array() ) {
+	public function render_fields_sub_rows( $fields = array(), $parent_uid = false ) {
 		?>
 		<div class="block-fields-sub-rows">
 			<?php
 			if ( ! empty( $fields ) ) {
 				foreach ( $fields as $field ) {
-					$this->render_fields_meta_box_row( $field, uniqid() );
+					$this->render_fields_meta_box_row( $field, uniqid(), $parent_uid );
 				}
 			}
 			?>
@@ -1146,12 +1152,20 @@ class Block_Post extends Component_Abstract {
 				 * for the specified parent.
 				 */
 				if ( ! empty( $_POST['block-fields-parent'][ $key ] ) ) {
-					$parent = sanitize_key( $_POST['block-fields-parent'][ $key ] );
+					$parent_uid = sanitize_key( $_POST['block-fields-parent'][ $key ] );
 
-					// The parent field should be set by now. We expect it to always preceed the child field.
+					// The parent's name should have been submitted.
+					if ( ! isset( $fields[ $parent_uid ] ) ) {
+						continue;
+					}
+
+					$parent = $fields[ $parent_uid ];
+
+					// The parent field should be set by now. We expect it to always precede the child field.
 					if ( ! isset( $block->fields[ $parent ] ) ) {
 						continue;
 					}
+
 					if ( ! isset( $block->fields[ $parent ]->settings['sub_fields'] ) ) {
 						$block->fields[ $parent ]->settings['sub_fields'] = array();
 					}
