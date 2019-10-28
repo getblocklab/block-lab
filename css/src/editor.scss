@@ -421,7 +421,7 @@ div[class^="wp-block-block-lab-"] {
 
 /* Miscellaneous global styles */
 .edit-post-layout {
-  .components-popover:not(.is-mobile):not(.bl-fetch__popover) .components-popover__content {
+  .components-popover:not(.is-mobile):not(.bl-fetch__popover) .components-popover__content .components-color-picker {
     min-width: 340px;
   }
 }
