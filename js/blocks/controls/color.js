@@ -12,7 +12,7 @@ const BlockLabColorPopover = withState( {
 			newColor = 'rgba(' + value.rgb.r + ', ' + value.rgb.g + ', ' + value.rgb.b + ', ' + value.rgb.a + ')';
 		}
 		setState( () => ( { color: newColor } ) );
-		onUpdate( { color: newColor } );
+		onUpdate( newColor );
 	};
 
 	return (
