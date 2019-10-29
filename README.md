@@ -13,7 +13,7 @@ The easy way to build custom blocks for Gutenberg.
 
 ## Description ##
 
-Gutenberg, the new WordPress editor, opens up a whole new world for the way we build pages, posts, and websites with WordPress. Block Lab makes it easy to harness Gutenberg and build custom blocks the way you want them to be built. Whether you want to implement a custom design, deliver unique functionality, or even remove your dependance on other plugins, Block Lab equips you with the tools you need to hit “Publish” sooner.
+Gutenberg, the new WordPress editor, opens up a whole new world for the way we build pages, posts, and websites with WordPress. Block Lab makes it easy to harness Gutenberg and build custom blocks the way you want them to be built. Whether you want to implement a custom design, deliver unique functionality, or even remove your dependence on other plugins, Block Lab equips you with the tools you need to hit “Publish” sooner.
 
 ## Features ##
 
@@ -33,7 +33,7 @@ Simple to use functions, ready to render and work with the values stored through
 Join The Lab, our free Block Lab Community on Slack. The Lab is our real-time home for sharing resources, learning, and making connections. [Learn more.](https://getblocklab.com/welcome-to-the-lab/)
 
 ### Go Pro ###
-Block Lab Pro is here, with power features to take your block building to the next level. [Learn more.](https://getblocklab.com/block-lab-pro)
+Block Lab Pro is here, with powerful features to take your block building to the next level. [Learn more.](https://getblocklab.com/block-lab-pro)
 
 ## Links ##
 * [WordPress.org](https://wordpress.org/plugins/block-lab)
@@ -58,7 +58,7 @@ Block Lab Pro is here, with power features to take your block building to the ne
 
 ## Frequently Asked Questions ###
 **Q: Do I need to write code to use this plugin?**
-A: Although the plugin handles the majority of the work in building a custom block, you will need to build HTML templates to display the content of the block. You can learn how in the the developer documentation.
+A: Although the plugin handles the majority of the work in building a custom block, you will need to build HTML templates to display the content of the block. You can learn how in the developer documentation.
 
 **Q: I have an idea for the plugin**
 A: This plugin is open source and can only be better through community contribution. The GitHub repo is [here](https://github.com/getblocklab/block-lab).
