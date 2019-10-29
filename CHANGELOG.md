@@ -1,6 +1,6 @@
 ## Changelog #
 
-### 1.5.0 – 2019-10-28 ###
+### 1.5.0 – 2019-10-30 ###
 
 Ready for a big release? We're really happy to be introducing quite a number of highly requested features, including a PHP API for registering blocks with code, a new text field with lists and headings, and some neat workflow efficiencies when building your block. 
 
