@@ -9,7 +9,7 @@
  * Plugin Name: Block Lab
  * Plugin URI: https://getblocklab.com
  * Description: The easy way to build custom blocks for Gutenberg.
- * Version: 1.4.1
+ * Version: 1.5.0
  * Author: Block Lab
  * Author URI: https://getblocklab.com
  * License: GPL2
