@@ -482,15 +482,22 @@
 			matchedNames = $( 'input[name^="block-fields-name"]' ).filter( function() {
 				// Get all other rows that have the same base name.
 				return $( this ).val().match( nameMatchRegex );
-			} ),
-			numbers = [];
+			} );
+
+		let numbers = [];
 
 		// Get the number of each row, then sort them.
 		matchedNames.each( function() {
 			numbers.push( $( this ).val().match( /\d*$/ )[ 0 ] );
 		} );
 
-		numbers.sort( function( a, b ) {
+		// Filter out duplicate numbers.
+		numbers = numbers.filter( function( value, index, self ) {
+			return self.indexOf( value ) === index;
+		} );
+
+		// Put the numbers in ascending order.
+		numbers = numbers.sort( function( a, b ) {
 			return b - a;
 		} );
 
