@@ -418,6 +418,10 @@ div[class^="wp-block-block-lab-"] {
     }
   }
 
+  .block-lab-color-control .components-base-control__label {
+    display: block;
+  }
+
   /* The FetchInput component */
   .bl-fetch--input input[type="text"] {
     width: 100%;
