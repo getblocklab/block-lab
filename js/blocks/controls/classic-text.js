@@ -10,7 +10,7 @@ import { TinyMCE } from '../components';
 
 const BlockLabClassicTextControl = ( props ) => {
 	const { field, getValue, instanceId, onChange, rowIndex } = props;
-	const editorId = rowIndex ? `bl-classic-text-${ field.name }-${ rowIndex }` : `bl-classic-text-${ field.name }`;
+	const editorId = 'number' === typeof rowIndex ? `bl-classic-text-${ field.name }-${ rowIndex }` : `bl-classic-text-${ field.name }`;
 
 	return (
 		<BaseControl
