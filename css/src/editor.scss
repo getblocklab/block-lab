@@ -177,6 +177,10 @@ div[class^="wp-block-block-lab-"] {
 
   /* Rich Text Control Component */
   .block-lab-rich-text-control {
+    .components-base-control__field {
+      margin-top: 20px;
+    }
+
     .input-control {
       background: #fff;
       min-height: 7em;
