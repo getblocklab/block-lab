@@ -158,6 +158,7 @@ div[class^="wp-block-block-lab-"] {
       margin: 1em 0 0;
 
       .components-base-control__label {
+        display: block;
         font-weight: 600;
       }
     }
@@ -167,11 +168,11 @@ div[class^="wp-block-block-lab-"] {
       font-size: 1em;
       color: rgba(0, 0, 0, 0.8);
     }
-  }
 
-  /* FetchInput component */
-  .bl-fetch-input {
-    max-width: $input-width;
+    /* Override a max-width: 25rem style rule in Core that can prevent displaying at the selected with, like 75% */
+    .components-select-control__input {
+      max-width: unset;
+    }
   }
 
   /* Rich Text Control Component */
