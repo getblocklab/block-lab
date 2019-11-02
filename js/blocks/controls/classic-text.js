@@ -9,7 +9,8 @@ const { BaseControl } = wp.components;
 import { TinyMCE } from '../components';
 
 const BlockLabClassicTextControl = ( props ) => {
-	const { field, getValue, instanceId, onChange } = props;
+	const { field, getValue, instanceId, onChange, rowIndex } = props;
+	const editorId = rowIndex ? `bl-classic-text-${ field.name }-${ rowIndex }` : `bl-classic-text-${ field.name }`;
 
 	return (
 		<BaseControl
@@ -21,7 +22,7 @@ const BlockLabClassicTextControl = ( props ) => {
 			<TinyMCE
 				content={ getValue( props ) }
 				onChange={ onChange }
-				editorId={ `classic-text-${ field.name }` }
+				editorId={ editorId }
 			/>
 		</BaseControl>
 	);
