@@ -54,8 +54,6 @@ class Loader extends Component_Abstract {
 			],
 		];
 
-		$this->retrieve_blocks();
-
 		return $this;
 	}
 
@@ -74,9 +72,14 @@ class Loader extends Component_Abstract {
 		add_filter( 'block_categories', $this->get_callback( 'register_categories' ) );
 
 		/**
+		 * Block retrieval.
+		 */
+		add_action( 'init', $this->get_callback( 'retrieve_blocks' ), 1 );
+
+		/**
 		 * PHP block loading.
 		 */
-		add_action( 'plugins_loaded', $this->get_callback( 'dynamic_block_loader' ) );
+		add_action( 'init', $this->get_callback( 'dynamic_block_loader' ) );
 	}
 
 	/**
@@ -606,7 +609,7 @@ class Loader extends Component_Abstract {
 	 * that the block isn't added too late.
 	 *
 	 * @param string $block_name The name of the block that the field is added to.
-	 * @param array $field_config The config of the field to add.
+	 * @param array  $field_config The config of the field to add.
 	 */
 	public function add_field( $block_name, $field_config ) {
 		if ( ! isset( $this->blocks[ "block-lab/{$block_name}" ] ) ) {
