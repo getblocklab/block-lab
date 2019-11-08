@@ -208,7 +208,7 @@ class Onboarding extends Component_Abstract {
 		/*
 		 * We add 4 fields to our Example Block in add_dummy_data().
 		 */
-		if ( count( $block->fields ) > 4 ) {
+		if ( count( $block->fields ) >= 1 ) {
 			return;
 		}
 		?>
@@ -228,7 +228,7 @@ class Onboarding extends Component_Abstract {
 		/**
 		 * We add 4 fields to our Example Block in add_dummy_data().
 		 */
-		if ( count( $block->fields ) > 4 ) {
+		if ( count( $block->fields ) >= 1 ) {
 			return;
 		}
 		?>
