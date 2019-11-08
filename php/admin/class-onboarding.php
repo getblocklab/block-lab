@@ -89,7 +89,7 @@ class Onboarding extends Component_Abstract {
 		/*
 		 * On the edit post screen, editing the draft Example Block.
 		 */
-		if ( $slug === $screen->id && 'post' === $screen->base ) {
+		if ( $slug === $screen->id && 'post' === $screen->base && $post_id === $example_post_id ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 			add_action( 'edit_form_advanced', array( $this, 'show_add_fields_notice' ) );
 			add_action( 'edit_form_before_permalink', array( $this, 'show_publish_notice' ) );
@@ -208,7 +208,7 @@ class Onboarding extends Component_Abstract {
 		/*
 		 * We add 4 fields to our Example Block in add_dummy_data().
 		 */
-		if ( count( $block->fields ) >= 1 ) {
+		if ( count( $block->fields ) > 4 ) {
 			return;
 		}
 		?>
@@ -228,7 +228,7 @@ class Onboarding extends Component_Abstract {
 		/**
 		 * We add 4 fields to our Example Block in add_dummy_data().
 		 */
-		if ( count( $block->fields ) >= 1 ) {
+		if ( count( $block->fields ) > 4 ) {
 			return;
 		}
 		?>
