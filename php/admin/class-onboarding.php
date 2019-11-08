@@ -145,8 +145,8 @@ class Onboarding extends Component_Abstract {
 			<?php
 			edit_post_link(
 				__( 'Let\'s get started!', 'block-lab' ),
-				'',
-				'',
+				'<p>',
+				'</p>',
 				$example_post_id,
 				'button button--white button_cta'
 			);
