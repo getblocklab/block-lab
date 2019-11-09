@@ -4,6 +4,7 @@ $input-padding: 8px;
 $input-width: 300px;
 $default-font-size: 13px;
 $break-small: 600px;
+$font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 
 @mixin break-small() {
 	@media (min-width: #{ ($break-small) }) {
@@ -85,6 +86,10 @@ div[class^="wp-block-block-lab-"],
       position: relative;
     }
 
+    .bl-image__placeholder .components-button.is-button {
+      white-space: normal;
+    }
+
     .components-form-file-upload,
     .components-media-library-button,
     .bl-image__remove {
@@ -129,6 +134,7 @@ div[class^="wp-block-block-lab-"] {
 
     p {
       font-size: 1rem;
+      font-family: $font-family;
     }
 
     .block-lab-control {
@@ -154,10 +160,15 @@ div[class^="wp-block-block-lab-"] {
       }
     }
 
+    .components-base-control {
+      font-family: $font-family;
+    }
+
     .components-base-control__field {
       margin: 1em 0 0;
 
       .components-base-control__label {
+        display: block;
         font-weight: 600;
       }
     }
@@ -167,15 +178,19 @@ div[class^="wp-block-block-lab-"] {
       font-size: 1em;
       color: rgba(0, 0, 0, 0.8);
     }
-  }
 
-  /* FetchInput component */
-  .bl-fetch-input {
-    max-width: $input-width;
+    /* Override a max-width: 25rem style rule in Core that can prevent displaying at the selected with, like 75% */
+    .components-select-control__input {
+      max-width: unset;
+    }
   }
 
   /* Rich Text Control Component */
   .block-lab-rich-text-control {
+    .components-base-control__field {
+      margin-top: 20px;
+    }
+
     .input-control {
       background: #fff;
       min-height: 7em;
@@ -411,6 +426,10 @@ div[class^="wp-block-block-lab-"] {
     .components-spinner {
       float: none;
     }
+  }
+
+  .block-lab-color-control .components-base-control__label {
+    display: block;
   }
 
   /* The FetchInput component */
