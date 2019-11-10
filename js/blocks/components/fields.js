@@ -118,9 +118,8 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 		const Control = getControl( field );
 
 		return !! Control && (
-			<div className={ getClassName( field ) }>
+			<div className={ getClassName( field ) } key={ `${ field.name }-control-${ rowIndex }` }>
 				<Control
-					key={ `${ field.name }-control-${ rowIndex }` }
 					field={ field }
 					getValue={ getValue }
 					onChange={ onChange }
