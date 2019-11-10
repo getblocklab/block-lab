@@ -11,6 +11,8 @@ import { TinyMCE } from '../components';
 const BlockLabClassicTextControl = ( props ) => {
 	const { field, getValue, instanceId, onChange, rowIndex } = props;
 	const editorId = 'number' === typeof rowIndex ? `bl-classic-text-${ field.name }-${ rowIndex }` : `bl-classic-text-${ field.name }`;
+	const initialValue = getValue( props );
+	const value = 'undefined' !== typeof initialValue ? initialValue : field.default;
 
 	return (
 		<BaseControl
@@ -20,7 +22,7 @@ const BlockLabClassicTextControl = ( props ) => {
 			help={ field.help }
 		>
 			<TinyMCE
-				content={ getValue( props ) }
+				content={ value }
 				onChange={ onChange }
 				editorId={ editorId }
 			/>
