@@ -9,8 +9,9 @@ const { BaseControl } = wp.components;
 import { TinyMCE } from '../components';
 
 const BlockLabClassicTextControl = ( props ) => {
-	const { field, getValue, instanceId, onChange, rowIndex } = props;
-	const editorId = 'number' === typeof rowIndex ? `bl-classic-text-${ field.name }-${ rowIndex }` : `bl-classic-text-${ field.name }`;
+	const { field, getValue, instanceId, onChange, parentBlockProps, rowIndex } = props;
+	const { clientId } = parentBlockProps;
+	const editorId = 'number' === typeof rowIndex ? `bl-${ clientId }-${ field.name }-rowIndex-${ rowIndex }` : `bl-${ clientId }-${ field.name }`;
 	const initialValue = getValue( props );
 	const value = 'undefined' !== typeof initialValue ? initialValue : field.default;
 
