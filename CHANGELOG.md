@@ -1,5 +1,14 @@
 ## Changelog #
 
+### 1.5.1 – 2019-11-11 ###
+
+This is a bugfix release, focused mostly on compatibility with WordPress 5.3.
+
+* Fix: Themes can now hook into the `block_lab_add_blocks` action from the `functions.php` file
+* Fix: Classic Text fields now function as expected when inside a repeater
+* Fix: Rare instances of a `NaN` error when duplicating fields
+* Fix: Style fixes for the Block Editor in WordPress 5.3
+
 ### 1.5.0 – 2019-10-30 ###
 
 Ready for a big release? We're really happy to be introducing quite a number of highly requested features, including a PHP API for registering blocks with code, a new text field with lists and headings, and some neat workflow efficiencies when building your block. 
