@@ -6,11 +6,11 @@ const { Component } = wp.element;
 const { __ } = wp.i18n;
 
 /**
- * The Block Lab field editor.
+ * A field row.
  */
 export default class FieldRow extends Component {
 	/**
-	 * Renders the editor.
+	 * Renders the field row.
 	 *
 	 * @return {Function} The rendered component.
 	 */
