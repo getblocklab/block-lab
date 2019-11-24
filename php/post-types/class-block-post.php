@@ -70,7 +70,6 @@ class Block_Post extends Component_Abstract {
 		add_filter( 'enter_title_here', array( $this, 'post_title_placeholder' ) );
 		add_action( 'post_submitbox_misc_actions', array( $this, 'post_type_condition' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-		add_action( 'wp_insert_post_data', array( $this, 'save_block' ), 10, 2 );
 		add_action( 'init', array( $this, 'register_controls' ) );
 		add_filter( 'block_lab_field_value', array( $this, 'get_field_value' ), 10, 3 );
 		add_filter( 'block_lab_sub_field_value', array( $this, 'get_field_value' ), 10, 3 );
@@ -895,130 +894,6 @@ class Block_Post extends Component_Abstract {
 		}
 
 		wp_send_json_success( $data );
-	}
-
-	/**
-	 * Save block meta boxes as a json blob in post content.
-	 *
-	 * @param array $data An array of slashed post data.
-	 *
-	 * @return array
-	 */
-	public function save_block( $data ) {
-		if ( ! isset( $_POST['post_ID'] ) ) {
-			return $data;
-		}
-
-		$post_id = sanitize_key( $_POST['post_ID'] );
-
-		// Exits script depending on save status.
-		if ( wp_is_post_autosave( $post_id ) || wp_is_post_revision( $post_id ) ) {
-			return $data;
-		}
-
-		// Exits script if not the right post type.
-		if ( $this->slug !== $data['post_type'] ) {
-			return $data;
-		}
-
-		check_admin_referer( 'block_lab_save_properties', 'block_lab_properties_nonce' );
-
-		// Strip encoded special characters, like 🖖 (%f0%9f%96%96).
-		$data['post_name'] = preg_replace( '/%[a-f|0-9][a-f|0-9]/', '', $data['post_name'] );
-
-		// sanitize_title() allows underscores, but register_block_type doesn't.
-		$data['post_name'] = str_replace( '_', '-', $data['post_name'] );
-
-		// If only special characters were used, it's possible the post_name is now empty.
-		if ( '' === $data['post_name'] ) {
-			$data['post_name'] = $post_id;
-		}
-
-		// register_block_type doesn't allow slugs starting with a number.
-		if ( is_numeric( $data['post_name'][0] ) ) {
-			$data['post_name'] = 'block-' . $data['post_name'];
-		}
-
-		// Make sure the block slug is still unique.
-		$data['post_name'] = wp_unique_post_slug(
-			$data['post_name'],
-			$post_id,
-			$data['post_status'],
-			$data['post_type'],
-			$data['post_parent']
-		);
-
-		$block = new Block();
-
-		// Block name.
-		$block->name = sanitize_key( $data['post_name'] );
-		if ( '' === $block->name ) {
-			$block->name = $post_id;
-		}
-
-		// Block title.
-		$block->title = sanitize_text_field(
-			wp_unslash( $data['post_title'] )
-		);
-		if ( '' === $block->title ) {
-			$block->title = $post_id;
-		}
-
-		// Block excluded post type.
-		if ( isset( $_POST['block-excluded-post-types'] ) ) {
-			$excluded = sanitize_text_field(
-				wp_unslash( $_POST['block-excluded-post-types'] )
-			);
-			if ( ! empty( $excluded ) ) {
-				$block->excluded = explode( ',', $excluded );
-			}
-		}
-
-		// Block icon.
-		if ( isset( $_POST['block-properties-icon'] ) ) {
-			$block->icon = sanitize_key( $_POST['block-properties-icon'] );
-		}
-
-		// Block category.
-		if ( isset( $_POST['block-properties-category'] ) ) {
-			$category_slug = sanitize_key( $_POST['block-properties-category'] );
-			$categories    = get_block_categories( the_post() );
-
-			if ( '__custom' === $category_slug && isset( $_POST['block-properties-category-name'] ) ) {
-				$category = array(
-					'slug'  => sanitize_key( $_POST['block-properties-category-name'] ),
-					'title' => sanitize_text_field(
-						wp_unslash( $_POST['block-properties-category-name'] )
-					),
-					'icon'  => null,
-				);
-			} else {
-				$category_slugs = wp_list_pluck( $categories, 'slug' );
-				$category_key   = array_search( $category_slug, $category_slugs, true );
-				$category       = $categories[ $category_key ];
-			}
-
-			if ( ! $category ) {
-				$category = isset( $categories[0] ) ? $categories[0] : '';
-			}
-
-			$block->category = $category;
-		}
-
-		// Block keywords.
-		if ( isset( $_POST['block-properties-keywords'] ) ) {
-			$keywords = sanitize_text_field(
-				wp_unslash( $_POST['block-properties-keywords'] )
-			);
-			$keywords = explode( ',', $keywords );
-			$keywords = array_map( 'trim', $keywords );
-			$keywords = array_slice( $keywords, 0, 3 );
-
-			$block->keywords = $keywords;
-		}
-
-		$data['post_content'] = wp_slash( $block->to_json() );
-		return $data;
 	}
 
 	/**

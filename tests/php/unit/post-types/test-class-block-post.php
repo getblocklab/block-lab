@@ -58,7 +58,6 @@ class Test_Block_Post extends \WP_UnitTestCase {
 		$this->assertEquals( 10, has_action( 'post_submitbox_start', array( $this->instance, 'save_draft_button' ) ) );
 		$this->assertEquals( 10, has_action( 'enter_title_here', array( $this->instance, 'post_title_placeholder' ) ) );
 		$this->assertEquals( 10, has_action( 'admin_enqueue_scripts', array( $this->instance, 'enqueue_scripts' ) ) );
-		$this->assertEquals( 10, has_action( 'wp_insert_post_data', array( $this->instance, 'save_block' ) ) );
 		$this->assertEquals( 10, has_action( 'init', array( $this->instance, 'register_controls' ) ) );
 		$this->assertEquals( 10, has_action( 'block_lab_field_value', array( $this->instance, 'get_field_value' ) ) );
 
