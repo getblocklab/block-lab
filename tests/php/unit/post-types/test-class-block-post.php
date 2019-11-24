@@ -213,16 +213,9 @@ class Test_Block_Post extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Post_Types\Block_Post::render_fields_meta_box()
 	 */
 	public function test_render_fields_meta_box() {
-		$this->load_dummy_block();
-
 		ob_start();
 		$this->instance->render_fields_meta_box();
-		$fields_meta_box = ob_get_clean();
-
-		$this->assertNotEmpty( $fields_meta_box );
-		$this->assertGreaterThan( 0, strpos( $fields_meta_box, 'block-fields-list' ) );
-		$this->assertGreaterThan( 0, strpos( $fields_meta_box, 'block-fields-actions-add-field' ) );
-		$this->assertGreaterThan( 0, strpos( $fields_meta_box, 'block_lab_fields_nonce' ) );
+		$this->assertContains( '<div id="bl-block-editor"></div>', ob_get_clean() );
 	}
 
 	/**

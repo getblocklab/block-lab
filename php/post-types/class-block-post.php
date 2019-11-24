@@ -214,7 +214,8 @@ class Block_Post extends Component_Abstract {
 			'hierarchical'  => true,
 			'capabilities'  => $this->get_capabilities(),
 			'map_meta_cap'  => true,
-			'supports'      => array( 'title' ),
+			'supports'      => array( 'title', 'editor' ),
+			'show_in_rest'  => true,
 		);
 
 		register_post_type( $this->slug, $args );
@@ -281,8 +282,8 @@ class Block_Post extends Component_Abstract {
 
 			wp_enqueue_script(
 				'block-post',
-				$this->plugin->get_url( 'js/admin.block-post.js' ),
-				array( 'jquery', 'jquery-ui-sortable', 'wp-util', 'wp-blocks' ),
+				$this->plugin->get_url( 'js/admin.edit-block.js' ),
+				array( 'wp-blocks', 'wp-compose', 'wp-components', 'wp-data', 'wp-element', 'wp-i18n' ),
 				$this->plugin->get_version(),
 				false
 			);
@@ -519,67 +520,9 @@ class Block_Post extends Component_Abstract {
 	 * @return void
 	 */
 	public function render_fields_meta_box() {
-		$post  = get_post();
-		$block = new Block( $post->ID );
-		do_action( 'block_lab_before_fields_list' );
 		?>
-		<div class="block-fields-list">
-			<table class="widefat">
-				<thead>
-					<tr>
-						<th class="block-fields-sort"></th>
-						<th class="block-fields-label">
-							<?php esc_html_e( 'Field Label', 'block-lab' ); ?>
-						</th>
-						<th class="block-fields-name">
-							<?php esc_html_e( 'Field Name', 'block-lab' ); ?>
-						</th>
-						<th class="block-fields-control">
-							<?php esc_html_e( 'Field Type', 'block-lab' ); ?>
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td colspan="4">
-							<div class="block-fields-rows">
-								<p class="block-no-fields">
-									<?php echo wp_kses_post( __( 'Click <strong>Add Field</strong> below to add your first field.', 'block-lab' ) ); ?>
-								</p>
-								<?php
-								if ( count( $block->fields ) > 0 ) {
-									foreach ( $block->fields as $field ) {
-										$this->render_fields_meta_box_row( $field, uniqid() );
-									}
-								}
-								?>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<div class="block-fields-actions-add-field">
-			<button type="button" aria-label="Add Field" class="block-fields-action" id="block-add-field">
-				<span class="dashicons dashicons-plus"></span>
-				<?php esc_attr_e( 'Add Field', 'block-lab' ); ?>
-			</button>
-			<script type="text/html" id="tmpl-field-repeater">
-				<?php
-				$args = array(
-					'name'  => 'new-field',
-					'label' => __( 'New Field', 'block-lab' ),
-				);
-				$this->render_fields_meta_box_row( new Field( $args ) );
-				?>
-			</script>
-			<script type="text/html" id="tmpl-sub-field-rows">
-				<?php $this->render_fields_sub_rows(); ?>
-			</script>
-		</div>
+			<div id="bl-block-editor"></div>
 		<?php
-		do_action( 'block_lab_after_fields_list' );
-		wp_nonce_field( 'block_lab_save_fields', 'block_lab_fields_nonce' );
 	}
 
 	/**
@@ -978,7 +921,6 @@ class Block_Post extends Component_Abstract {
 			return $data;
 		}
 
-		check_admin_referer( 'block_lab_save_fields', 'block_lab_fields_nonce' );
 		check_admin_referer( 'block_lab_save_properties', 'block_lab_properties_nonce' );
 
 		// Strip encoded special characters, like 🖖 (%f0%9f%96%96).
@@ -1073,116 +1015,6 @@ class Block_Post extends Component_Abstract {
 			$keywords = array_slice( $keywords, 0, 3 );
 
 			$block->keywords = $keywords;
-		}
-
-		// Block fields.
-		if ( isset( $_POST['block-fields-name'] ) && is_array( $_POST['block-fields-name'] ) ) {
-			// We loop through this array and sanitize its content according to the content type.
-			$fields = wp_unslash( $_POST['block-fields-name'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			foreach ( $fields as $key => $name ) {
-				// Field name and order.
-				$field_config = array( 'name' => sanitize_key( $name ) );
-
-				// Field label.
-				if ( isset( $_POST['block-fields-label'][ $key ] ) ) {
-					$field_config['label'] = sanitize_text_field(
-						wp_unslash( $_POST['block-fields-label'][ $key ] )
-					);
-				}
-
-				// Field control.
-				if ( isset( $_POST['block-fields-control'][ $key ] ) ) {
-					$field_config['control'] = sanitize_text_field(
-						wp_unslash( $_POST['block-fields-control'][ $key ] )
-					);
-				}
-
-				// Field type.
-				if ( isset( $field_config['control'] ) && isset( $this->controls[ $field_config['control'] ] ) ) {
-					$field_config['type'] = $this->controls[ $field_config['control'] ]->type;
-				}
-
-				/*
-				 * Field settings.
-				 * If the field is a pro field that's no longer available, re-save the previous value of that field.
-				 * This allows saving other new fields, while retaining the previous pro field value in case the user reactivates the license.
-				 */
-				if ( ! empty( $_POST['block-is-disabled-pro-field'][ $key ] ) ) {
-					$previous_block = new Block( $post_id );
-					foreach ( $previous_block->fields as $previous_field ) {
-						if ( $name === $previous_field->name ) {
-							$field = $previous_field;
-							break;
-						}
-					}
-				} elseif ( isset( $field_config['control'] ) && isset( $this->controls[ $field_config['control'] ] ) ) {
-					$control = $this->controls[ $field_config['control'] ];
-					foreach ( $control->settings as $setting ) {
-						$value = false; // This is a good default, it allows us to pick up on unchecked checkboxes.
-
-						if ( isset( $_POST['block-fields-settings'][ $key ][ $setting->name ] ) ) {
-							$value = $_POST['block-fields-settings'][ $key ][ $setting->name ]; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-							$value = wp_unslash( $value );
-						}
-
-						// Sanitize the field options according to their type.
-						if ( is_callable( $setting->sanitize ) ) {
-							$value = call_user_func( $setting->sanitize, $value );
-						}
-
-						// Validate the field options according to their type.
-						if ( is_callable( $setting->validate ) ) {
-							$value = call_user_func(
-								$setting->validate,
-								$value,
-								$field_config['settings']
-							);
-						}
-
-						$field_config['settings'][ $setting->name ] = $value;
-
-						$field = new Field( $field_config );
-					}
-				} else {
-					$field = new Field( $field_config );
-				}
-
-				/*
-				 * Sub-Fields
-				 * If there's a "block-fields-parent" input, include the current field in a "sub-fields" field setting
-				 * for the specified parent.
-				 */
-				if ( ! empty( $_POST['block-fields-parent'][ $key ] ) ) {
-					$parent_uid = sanitize_key( $_POST['block-fields-parent'][ $key ] );
-
-					// The parent's name should have been submitted.
-					if ( ! isset( $fields[ $parent_uid ] ) ) {
-						continue;
-					}
-
-					$parent = $fields[ $parent_uid ];
-
-					// The parent field should be set by now. We expect it to always precede the child field.
-					if ( ! isset( $block->fields[ $parent ] ) ) {
-						continue;
-					}
-
-					if ( ! isset( $block->fields[ $parent ]->settings['sub_fields'] ) ) {
-						$block->fields[ $parent ]->settings['sub_fields'] = array();
-					}
-
-					$field->settings['parent'] = $parent;
-					$field->order              = count(
-						$block->fields[ $parent ]->settings['sub_fields']
-					);
-
-					$block->fields[ $parent ]->settings['sub_fields'][ $name ] = $field;
-				} else {
-					$field->order = count( $block->fields );
-
-					$block->fields[ $name ] = $field;
-				}
-			}
 		}
 
 		$data['post_content'] = wp_slash( $block->to_json() );

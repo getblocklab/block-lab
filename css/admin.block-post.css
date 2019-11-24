@@ -1,3 +1,8 @@
+/* Hide the main block editing area, as that does not apply to this. */
+.post-type-block_lab .editor-block-list__layout {
+	display: none;
+}
+
 #minor-publishing-actions,
 #misc-publishing-actions #visibility,
 #misc-publishing-actions .curtime {

@@ -40,7 +40,7 @@ const extractConfig = {
 module.exports = {
 	entry: {
 		'./js/editor.blocks': './js/blocks/index.js',
-		'./js/scripts': './js/src/index.js',
+		'./js/admin.edit-block': './js/src/edit-block.js',
 	},
 	output: {
 		path: path.resolve( __dirname ),
