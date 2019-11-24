@@ -48,6 +48,15 @@ class Block_Post extends Component_Abstract {
 	);
 
 	/**
+	 * The core registered styles that are loaded before any additional block editor styles.
+	 *
+	 * We need to keep track of this so that we can remove styles that aren't needed.
+	 *
+	 * @var array
+	 */
+	private $core_styles = array();
+
+	/**
 	 * Block Post constructor.
 	 */
 	public function __construct() {
@@ -70,6 +79,8 @@ class Block_Post extends Component_Abstract {
 		add_filter( 'enter_title_here', array( $this, 'post_title_placeholder' ) );
 		add_action( 'post_submitbox_misc_actions', array( $this, 'post_type_condition' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'load_core_styles' ), 1 );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'remove_editor_styles' ), 99 );
 		add_action( 'init', array( $this, 'register_controls' ) );
 		add_filter( 'block_lab_field_value', array( $this, 'get_field_value' ), 10, 3 );
 		add_filter( 'block_lab_sub_field_value', array( $this, 'get_field_value' ), 10, 3 );
@@ -313,6 +324,51 @@ class Block_Post extends Component_Abstract {
 				array(),
 				$this->plugin->get_version()
 			);
+		}
+	}
+
+	/**
+	 * Store the core styles, so that we can remove any extras later.
+	 *
+	 * @return void
+	 */
+	public function load_core_styles() {
+		global $wp_styles;
+		$screen = get_current_screen();
+
+		if ( ! is_object( $screen ) ) {
+			return;
+		}
+
+		// Enqueue scripts and styles on the edit screen of the Block post type.
+		if ( $this->slug === $screen->post_type && 'post' === $screen->base ) {
+			$this->core_styles = array_keys( $wp_styles->registered );
+		}
+	}
+
+	/**
+	 * Removes the editor styles, since we're not doing any content editing on this post type.
+	 *
+	 * @return void
+	 */
+	public function remove_editor_styles() {
+		global $wp_styles;
+		$screen = get_current_screen();
+
+		if ( ! is_object( $screen ) ) {
+			return;
+		}
+
+		// Enqueue scripts and styles on the edit screen of the Block post type.
+		if ( $this->slug === $screen->post_type && 'post' === $screen->base ) {
+			// This removes styles added using add_editor_style(), but not those enqueued with wp_enqueue_style().
+			remove_editor_styles();
+
+			$registered_styles = array_keys( $wp_styles->registered );
+			$additional_styles = array_diff( $registered_styles, $this->core_styles );
+			foreach ( $additional_styles as $style ) {
+				wp_dequeue_style( $style );
+			}
 		}
 	}
 
