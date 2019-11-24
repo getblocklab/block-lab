@@ -8,7 +8,6 @@
 // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaping could interfere with testing block_value().
 
 $non_object_fields = array(
-	'text',
 	'textarea',
 	'url',
 	'email',
@@ -20,7 +19,9 @@ $non_object_fields = array(
 	'range',
 	'checkbox',
 	'radio',
+	'text',
 	'rich-text',
+	'classic-text',
 );
 
 foreach ( $non_object_fields as $field ) :

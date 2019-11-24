@@ -1,3 +1,6 @@
+/**
+ * WordPress dependencies
+ */
 const { BaseControl } = wp.components;
 const { RichText } = wp.blockEditor;
 

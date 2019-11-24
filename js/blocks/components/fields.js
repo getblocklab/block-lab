@@ -2,6 +2,7 @@
  * WordPress dependencies
  */
 const { applyFilters } = wp.hooks;
+const { select } = wp.data;
 
 /**
  * Internal dependencies
@@ -59,14 +60,15 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 		 * the block's setAttributes property, so that the block can save the value.
 		 * This function is passed to the control so that the control can save the value,
 		 * depending on whether the control is in a repeater row or not.
+		 * This gets the latest parentAttributes by using select( 'core/block-editor' ),
+		 * as the parentBlockProps.attributes in the outer scope may be outdated.
 		 *
 		 * @param {*} newValue The new control value.
 		 */
 		const onChange = ( newValue ) => {
-			const attr = { ...parentBlockProps.attributes };
-			const attribute = attr[ field.parent ];
-			const { setAttributes } = parentBlockProps;
-			const defaultRows = [ {} ];
+			const { clientId, setAttributes } = parentBlockProps;
+			const parentAttributes = select( 'core/block-editor' ).getBlockAttributes( clientId );
+			const attr = { ...parentAttributes };
 
 			if ( undefined === rowIndex ) {
 				// This is not in a repeater row.
@@ -74,18 +76,15 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 				setAttributes( attr );
 			} else {
 				// This is in a repeater row.
+				const attribute = attr[ field.parent ];
+				const defaultRows = [ {} ];
 				const rows = ( attribute && attribute.rows ) ? attribute.rows : defaultRows;
 
-				/*
-				 * Copy the rows array, so the change is recognized.
-				 * @see https://github.com/WordPress/gutenberg/issues/7016#issuecomment-396094836
-				 */
-				const rowsCopy = rows.slice();
-				if ( ! rowsCopy[ rowIndex ] ) {
-					rowsCopy[ rowIndex ] = {};
+				if ( ! rows[ rowIndex ] ) {
+					rows[ rowIndex ] = {};
 				}
-				rowsCopy[ rowIndex ][ field.name ] = newValue;
-				attr[ field.parent ] = { rows: rowsCopy };
+				rows[ rowIndex ][ field.name ] = newValue;
+				attr[ field.parent ] = { rows };
 				parentBlockProps.setAttributes( attr );
 			}
 		};
@@ -118,9 +117,8 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 		const Control = getControl( field );
 
 		return !! Control && (
-			<div className={ getClassName( field ) }>
+			<div className={ getClassName( field ) } key={ `${ field.name }-control-${ rowIndex }` }>
 				<Control
-					key={ `${ field.name }-control-${ rowIndex }` }
 					field={ field }
 					getValue={ getValue }
 					onChange={ onChange }

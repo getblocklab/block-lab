@@ -3,6 +3,7 @@
  */
 import BlockLabTextControl from './text';
 import BlockLabTextareaControl from './textarea';
+import BlockLabClassicTextControl from './classic-text';
 import BlockLabRichTextControl from './rich-text';
 import BlockLabURLControl from './url';
 import BlockLabEmailControl from './email';
@@ -23,6 +24,7 @@ import BlockLabUserControl from './user';
 export default {
 	text: BlockLabTextControl,
 	textarea: BlockLabTextareaControl,
+	classic_text: BlockLabClassicTextControl,
 	rich_text: BlockLabRichTextControl,
 	url: BlockLabURLControl,
 	email: BlockLabEmailControl,

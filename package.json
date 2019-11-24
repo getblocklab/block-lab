@@ -1,7 +1,7 @@
 {
   "name": "block-lab",
   "title": "Block Lab",
-  "version": "1.4.1",
+  "version": "1.5.1",
   "homepage": "https://getblocklab.com",
   "repository": {
     "type": "git",
@@ -11,8 +11,8 @@
     "dev": "cross-env BABEL_ENV=default webpack --watch",
     "build": "cross-env BABEL_ENV=default NODE_ENV=production webpack",
     "lint": "npm-run-all --parallel lint:*",
-    "lint:js": "eslint js/blocks",
-    "lint:js:fix": "eslint js/blocks --fix",
+    "lint:js": "eslint js",
+    "lint:js:fix": "eslint js --fix",
     "lint:php": "vendor/bin/phpcs",
     "lint:php:fix": "vendor/bin/phpcbf"
   },

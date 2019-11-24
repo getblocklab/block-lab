@@ -1,5 +1,29 @@
 ## Changelog #
 
+### 1.5.1 – 2019-11-11 ###
+
+This is a bugfix release, focused mostly on compatibility with WordPress 5.3.
+
+* Fix: Themes can now hook into the `block_lab_add_blocks` action from the `functions.php` file
+* Fix: Classic Text fields now function as expected when inside a repeater
+* Fix: Rare instances of a `NaN` error when duplicating fields
+* Fix: Style fixes for the Block Editor in WordPress 5.3
+
+### 1.5.0 – 2019-10-30 ###
+
+Ready for a big release? We're really happy to be introducing quite a number of highly requested features, including a PHP API for registering blocks with code, a new text field with lists and headings, and some neat workflow efficiencies when building your block. 
+
+* New: There's now a PHP API for registering blocks using code (instead of the WP Admin UI). Documentation is [here](https://github.com/getblocklab/block-lab/pull/434) for now, but more on its way soon
+* New: Classic Text control (for Block Lab Pro users)! This field is similar to Rich Text, but has a few extra options for things like lists and headings
+* New: Duplicate fields – building your block is now so much easier, with the ability to duplicate rows
+* New: Repeater Row Count function – a helper function that returns the total amount of rows in a given repeater. Documentation [here](https://github.com/getblocklab/block-lab/pull/429)
+* New: Repeater Row Index function – a helper function that returns the current row, while looping through a repeater. Documentation [here](https://github.com/getblocklab/block-lab/pull/429)
+* Tweak: We've removed our dependency on global variables. This is mostly a best practice thing, not user facing. More details [here](https://github.com/getblocklab/block-lab/pull/435).
+* Tweak: We've refactored quite a lot about our block Loader class, to make it more robust, secure, and maintainable
+* Tweak: Loads of new unit and integration tests - these help prevent us from introducing bugs or regressions in the future
+* Fix: Bug which affected sites which had removed or renamed the admin user role
+* Fix: Empty Rich Text fields now no longer output a single `</p>` tag
+
 ### 1.4.1 – 2019-09-11 ###
 
 You can now add a Minimum and Maximum Rows setting to repeaters, allowing you to specify a lower and upper limit on how many repeater rows can be added.

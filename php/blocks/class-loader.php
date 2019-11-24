@@ -54,8 +54,6 @@ class Loader extends Component_Abstract {
 			],
 		];
 
-		$this->retrieve_blocks();
-
 		return $this;
 	}
 
@@ -74,9 +72,14 @@ class Loader extends Component_Abstract {
 		add_filter( 'block_categories', $this->get_callback( 'register_categories' ) );
 
 		/**
+		 * Block retrieval.
+		 */
+		add_action( 'init', $this->get_callback( 'retrieve_blocks' ), 1 );
+
+		/**
 		 * PHP block loading.
 		 */
-		add_action( 'plugins_loaded', $this->get_callback( 'dynamic_block_loader' ) );
+		add_action( 'init', $this->get_callback( 'dynamic_block_loader' ) );
 	}
 
 	/**

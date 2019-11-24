@@ -29,6 +29,7 @@ class Test_Template_Output extends Abstract_Attribute {
 		$this->block_name = 'all-fields-except-repeater';
 
 		$this->attributes = array(
+			'classic-text' => '<h1>Here is a heading</h1><p>This is paragraph text that is <strong>bold</strong> and <em>italic</em></p><ul><li>Here is a li</li><li>And the next</li></ul>',
 			'className'   => $this->class_name,
 			'checkbox'    => true,
 			'text'        => 'Here is a text field',
@@ -50,6 +51,7 @@ class Test_Template_Output extends Abstract_Attribute {
 		);
 
 		$this->string_fields = array(
+			'classic-text',
 			'text',
 			'textarea',
 			'url',

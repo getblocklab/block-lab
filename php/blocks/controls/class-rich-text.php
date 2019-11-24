@@ -22,7 +22,7 @@ class Rich_Text extends Control_Abstract {
 	public $name = 'rich_text';
 
 	/**
-	 * Textarea constructor.
+	 * Class constructor.
 	 *
 	 * @return void
 	 */
