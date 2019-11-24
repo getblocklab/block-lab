@@ -282,17 +282,17 @@ class Import extends Component_Abstract {
 		<form>
 			<?php
 			foreach ( $blocks as $block_namespace => $block ) {
+				$action = __( 'Import', 'block-lab' );
+				if ( $this->block_exists( $block_namespace ) ) {
+					$action = __( 'Replace', 'block-lab' );
+				}
 				?>
-				<input type="checkbox" name="<?php echo esc_attr( $block_namespace ); ?>" id="<?php echo esc_attr( $block_namespace ); ?>" checked>
-				<label for="<?php echo esc_attr( $block_namespace ); ?>">
-					<strong><?php echo esc_attr( $block['title'] ); ?></strong>
-					<?php
-					if ( $this->block_exists( $block_namespace ) ) {
-						esc_html_e( '(Overwrite existing)', 'block-lab' );
-					}
-					?>
-				</label>
-				<br />
+				<p>
+					<input type="checkbox" name="<?php echo esc_attr( $block_namespace ); ?>" id="<?php echo esc_attr( $block_namespace ); ?>" checked>
+					<label for="<?php echo esc_attr( $block_namespace ); ?>">
+						<?php echo esc_html( $action ); ?> <strong><?php echo esc_attr( $block['title'] ); ?></strong>
+					</label>
+				</p>
 				<?php
 			}
 			wp_nonce_field();
