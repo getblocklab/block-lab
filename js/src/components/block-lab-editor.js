@@ -6,7 +6,13 @@ const { Button } = wp.components;
 const { compose } = wp.compose;
 const { withDispatch, withSelect } = wp.data;
 const { Component } = wp.element;
-const { __, sprintf } = wp.i18n;
+const { __ } = wp.i18n;
+
+/**
+ * Internal dependencies
+ */
+import { getBlockFromContent } from '../helpers';
+import { FieldRow } from '.';
 
 /**
  * The Block Lab field editor.
@@ -18,6 +24,10 @@ class BlockLabEditor extends Component {
 	 * @return {Function} The rendered component.
 	 */
 	render() {
+		const { content } = this.props;
+		const parsedBlock = getBlockFromContent( content );
+		const { fields } = parsedBlock;
+
 		return (
 			<div>
 				<div className="block-fields-list">
@@ -41,9 +51,13 @@ class BlockLabEditor extends Component {
 								<td colSpan="4">
 									<div className="block-fields-rows">
 										<p className="block-no-fields">
-											{ sprintf( __( 'Click %sAdd Field%s below to add your first field.', 'block-lab' ), '<strong>', '</strong' ) }
+											{ __( 'Click Add Field below to add your first field.', 'block-lab' ) }
 										</p>
-										{ /* @todo: implement render_fields_meta_box_row() here. */ }
+										{
+											!! fields && Object.values( fields ).map( ( field, index ) => {
+												return <FieldRow field={ field } uid={ index } key={ `field-row-${ index }` } />;
+											} )
+										}
 									</div>
 								</td>
 							</tr>
@@ -55,7 +69,6 @@ class BlockLabEditor extends Component {
 						<span className="dashicons dashicons-plus"></span>
 						{ __( 'Add Field', 'block-lab' ) }
 					</Button>
-					{ /* @todo: reimplement render_fields_meta_box_row and render_fields_sub_rows() */ }
 				</div>
 			</div>
 		);
