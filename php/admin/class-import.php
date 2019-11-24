@@ -178,6 +178,39 @@ class Import extends Component_Abstract {
 	}
 
 	/**
+	 * Render the interface for choosing blocks to update.
+	 *
+	 * @param array $blocks An array of block names to choose from.
+	 */
+	public function render_choose_blocks( $blocks ) {
+		?>
+		<p><?php esc_html_e( 'Please select the blocks to import:', 'block-lab' ); ?></p>
+		<form>
+			<?php
+			foreach ( $blocks as $block_namespace => $block ) {
+				$action = __( 'Import', 'block-lab' );
+				if ( $this->block_exists( $block_namespace ) ) {
+					$action = __( 'Replace', 'block-lab' );
+				}
+				?>
+				<p>
+					<input type="checkbox" name="<?php echo esc_attr( $block_namespace ); ?>" id="<?php echo esc_attr( $block_namespace ); ?>" checked>
+					<label for="<?php echo esc_attr( $block_namespace ); ?>">
+						<?php echo esc_html( $action ); ?> <strong><?php echo esc_attr( $block['title'] ); ?></strong>
+					</label>
+				</p>
+				<?php
+			}
+			wp_nonce_field();
+			?>
+			<input type="hidden" name="import" value="block-lab">
+			<input type="hidden" name="step" value="2">
+			<p class="submit"><input type="submit" value="<?php esc_attr_e( 'Import Selected', 'block-lab' ); ?>" class="button button-primary"></p>
+		</form>
+		<?php
+	}
+
+	/**
 	 * Handles the JSON upload and initial parsing of the file.
 	 *
 	 * @param array $file The file.
@@ -269,39 +302,6 @@ class Import extends Component_Abstract {
 		}
 
 		$this->render_done();
-	}
-
-	/**
-	 * Render the interface for choosing blocks to update.
-	 *
-	 * @param array $blocks An array of block names to choose from.
-	 */
-	public function render_choose_blocks( $blocks ) {
-		?>
-		<p><?php esc_html_e( 'Please select the blocks to import:', 'block-lab' ); ?></p>
-		<form>
-			<?php
-			foreach ( $blocks as $block_namespace => $block ) {
-				$action = __( 'Import', 'block-lab' );
-				if ( $this->block_exists( $block_namespace ) ) {
-					$action = __( 'Replace', 'block-lab' );
-				}
-				?>
-				<p>
-					<input type="checkbox" name="<?php echo esc_attr( $block_namespace ); ?>" id="<?php echo esc_attr( $block_namespace ); ?>" checked>
-					<label for="<?php echo esc_attr( $block_namespace ); ?>">
-						<?php echo esc_html( $action ); ?> <strong><?php echo esc_attr( $block['title'] ); ?></strong>
-					</label>
-				</p>
-				<?php
-			}
-			wp_nonce_field();
-			?>
-			<input type="hidden" name="import" value="block-lab">
-			<input type="hidden" name="step" value="2">
-			<p class="submit"><input type="submit" value="<?php esc_attr_e( 'Import Selected', 'block-lab' ); ?>" class="button button-primary"></p>
-		</form>
-		<?php
 	}
 
 	/**
