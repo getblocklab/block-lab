@@ -92,6 +92,37 @@ class Import extends Component_Abstract {
 		?>
 		<p><?php esc_html_e( 'Welcome! This importer processes Block Lab JSON files, adding custom blocks to this site.', 'block-lab' ); ?></p>
 		<p><?php esc_html_e( 'Choose a JSON (.json) file to upload, then click Upload file and import.', 'block-lab' ); ?></p>
+		<p>
+			<?php
+			echo wp_kses(
+				sprintf(
+					/* translators: %1$s: an opening anchor tag, %2$s: a closing anchor tag, %3$s: a different opening anchor tag, %4$s: a closing anchor tag */
+					__( 'This JSON file should come from the export link or bulk action in the %1$sContent Blocks screen%2$s, not from the main %3$sExport tool%4$s.', 'block-lab' ),
+					sprintf(
+						'<a href="%1$s">',
+						esc_url(
+							admin_url(
+								add_query_arg(
+									array( 'post_type' => block_lab()->get_post_type_slug() ),
+									'edit.php'
+								)
+							)
+						)
+					),
+					'</a>',
+					sprintf(
+						'<a href="%1$s">',
+						esc_url( admin_url( 'export.php' ) )
+					),
+					'</a>'
+				),
+				array(
+					'a' => array( 'href' => array() )
+				)
+			);
+			?>
+		</p>
+
 		<?php
 		wp_import_upload_form(
 			add_query_arg(
