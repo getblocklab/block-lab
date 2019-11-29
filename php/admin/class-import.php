@@ -60,15 +60,42 @@ class Import extends Component_Abstract {
 			case 1:
 				check_admin_referer( 'import-upload' );
 
-				$file = wp_import_handle_upload();
+				$cache_dir = wp_get_upload_dir()['basedir'] . '/block-lab';
+				$file      = wp_import_handle_upload();
+
+				if ( $this->validate_upload( $file ) ) {
+					if ( ! file_exists( $cache_dir ) ) {
+						mkdir( $cache_dir, 0777, true );
+					}
+
+					// This is on the local filesystem, so file_get_contents() is ok to use here.
+					file_put_contents( $cache_dir . '/import.json', file_get_contents( $file['file'] ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+
+					$json   = file_get_contents( $file['file'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+					$blocks = json_decode( $json, true );
+
+					$this->render_choose_blocks( $blocks );
+				}
+				break;
+			case 2:
+				$cache_dir = wp_get_upload_dir()['basedir'] . '/block-lab';
+				$file      = array( 'file' => $cache_dir . '/import.json' );
 
 				if ( $this->validate_upload( $file ) ) {
 					// This is on the local filesystem, so file_get_contents() is ok to use here.
-					$json   = file_get_contents( $file['file'] ); // @codingStandardsIgnoreLine
+					$json   = file_get_contents( $file['file'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions
 					$blocks = json_decode( $json, true );
 
-					$this->import_blocks( $blocks );
+					$import_blocks = array();
+					foreach ( $blocks as $block_namespace => $block ) {
+						if ( 'on' === filter_input( INPUT_GET, $block_namespace, FILTER_SANITIZE_STRING ) ) {
+							$import_blocks[ $block_namespace ] = $block;
+						}
+					}
+
+					$this->import_blocks( $import_blocks );
 				}
+
 				break;
 		}
 
@@ -151,6 +178,39 @@ class Import extends Component_Abstract {
 	}
 
 	/**
+	 * Render the interface for choosing blocks to update.
+	 *
+	 * @param array $blocks An array of block names to choose from.
+	 */
+	public function render_choose_blocks( $blocks ) {
+		?>
+		<p><?php esc_html_e( 'Please select the blocks to import:', 'block-lab' ); ?></p>
+		<form>
+			<?php
+			foreach ( $blocks as $block_namespace => $block ) {
+				$action = __( 'Import', 'block-lab' );
+				if ( $this->block_exists( $block_namespace ) ) {
+					$action = __( 'Replace', 'block-lab' );
+				}
+				?>
+				<p>
+					<input type="checkbox" name="<?php echo esc_attr( $block_namespace ); ?>" id="<?php echo esc_attr( $block_namespace ); ?>" checked>
+					<label for="<?php echo esc_attr( $block_namespace ); ?>">
+						<?php echo esc_html( $action ); ?> <strong><?php echo esc_attr( $block['title'] ); ?></strong>
+					</label>
+				</p>
+				<?php
+			}
+			wp_nonce_field();
+			?>
+			<input type="hidden" name="import" value="block-lab">
+			<input type="hidden" name="step" value="2">
+			<p class="submit"><input type="submit" value="<?php esc_attr_e( 'Import Selected', 'block-lab' ); ?>" class="button button-primary"></p>
+		</form>
+		<?php
+	}
+
+	/**
 	 * Handles the JSON upload and initial parsing of the file.
 	 *
 	 * @param array $file The file.
@@ -205,37 +265,58 @@ class Import extends Component_Abstract {
 	 * @param array $blocks An array of Block Lab content blocks.
 	 */
 	public function import_blocks( $blocks ) {
-		foreach ( $blocks as $config ) {
-			if ( ! isset( $config['title'] ) || ! isset( $config['name'] ) ) {
+		foreach ( $blocks as $block_namespace => $block ) {
+			if ( ! isset( $block['title'] ) || ! isset( $block['name'] ) ) {
 				continue;
 			}
 
-			// Check if block already exists.
-			$registered_blocks = get_dynamic_block_names();
-			if ( in_array( 'block-lab/' . $config['name'], $registered_blocks, true ) ) {
-				$this->render_block_import_error( $config['title'], __( 'A block with this slug already exists.', 'block-lab' ) );
-				continue;
+			$post_id = false;
+
+			if ( $this->block_exists( $block_namespace ) ) {
+				$post = get_page_by_path( $block['name'], OBJECT, block_lab()->get_post_type_slug() );
+				if ( $post ) {
+					$post_id = $post->ID;
+				}
 			}
 
-			$json = wp_json_encode( array( 'block-lab/' . $config['name'] => $config ), JSON_UNESCAPED_UNICODE );
+			$json = wp_json_encode( array( $block_namespace => $block ), JSON_UNESCAPED_UNICODE );
 
-			$post = wp_insert_post(
-				array(
-					'post_title'   => $config['title'],
-					'post_name'    => $config['name'],
-					'post_content' => wp_slash( $json ),
-					'post_status'  => 'publish',
-					'post_type'    => block_lab()->get_post_type_slug(),
-				)
+			$post_data = array(
+				'post_title'   => $block['title'],
+				'post_name'    => $block['name'],
+				'post_content' => wp_slash( $json ),
+				'post_status'  => 'publish',
+				'post_type'    => block_lab()->get_post_type_slug(),
 			);
 
+			if ( $post_id ) {
+				$post_data['ID'] = $post_id;
+			}
+			$post = wp_insert_post( $post_data );
+
 			if ( is_wp_error( $post ) ) {
-				$this->render_block_import_error( $config['title'], $post->get_error_message() );
+				$this->render_block_import_error( $block['title'], $post->get_error_message() );
 			} else {
-				$this->render_block_import_success( $config['title'] );
+				$this->render_block_import_success( $block['title'] );
 			}
 		}
 
 		$this->render_done();
+	}
+
+	/**
+	 * Check if block already exists.
+	 *
+	 * @param string $block_namespace The JSON key for the block. e.g. block-lab/foo.
+	 *
+	 * @return bool
+	 */
+	private function block_exists( $block_namespace ) {
+		$registered_blocks = get_dynamic_block_names();
+		if ( in_array( $block_namespace, $registered_blocks, true ) ) {
+			return true;
+		}
+
+		return false;
 	}
 }

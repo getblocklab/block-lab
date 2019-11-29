@@ -11,7 +11,7 @@ use Brain\Monkey;
 /**
  * Tests for class Import.
  */
-class Test_Import extends \WP_UnitTestCase {
+class Test_Import extends Abstract_Template {
 
 	/**
 	 * Instance of Import.
@@ -333,6 +333,30 @@ class Test_Import extends \WP_UnitTestCase {
 	}
 
 	/**
+	 * Test render_choose_blocks.
+	 *
+	 * @covers \Block_Lab\Admin\Import::render_choose_blocks()
+	 */
+	public function test_render_choose_blocks() {
+		$name   = 'block-name';
+		$title  = 'Example Block Title';
+		$blocks = array(
+			"block-lab/$name" => array(
+				'name'  => $name,
+				'title' => $title,
+			),
+		);
+		ob_start();
+		$this->instance->render_choose_blocks( $blocks );
+		$output = ob_get_clean();
+
+		$this->assertContains( '<p>Please select the blocks to import:</p>', $output );
+		$this->assertContains( 'name="block-lab/' . $name . '"', $output );
+		$this->assertContains( 'id="block-lab/' . $name . '"', $output );
+		$this->assertContains( '<strong>' . $title . '</strong>', $output );
+	}
+
+	/**
 	 * Test validate_upload.
 	 *
 	 * @covers \Block_Lab\Admin\Import::validate_upload()
@@ -380,10 +404,14 @@ class Test_Import extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Admin\Import::import_blocks()
 	 */
 	public function test_import_blocks() {
-		$title            = 'Example Block Title';
 		$name             = 'block-name';
+		$title            = 'Example Block Title';
 		$success_message  = '<p>Successfully imported';
-		$blocks_to_import = array( compact( 'title' ) );
+		$blocks_to_import = array(
+			"block-lab/$name" => array(
+				'title' => $title,
+			),
+		);
 
 		ob_start();
 		$this->instance->import_blocks( $blocks_to_import );
@@ -395,7 +423,13 @@ class Test_Import extends \WP_UnitTestCase {
 		$this->assertContains( 'All done!', $output );
 		$this->assertNotContains( $success_message, $output );
 
-		$blocks_to_import = array( compact( 'title', 'name' ) );
+		$blocks_to_import = array(
+			"block-lab/$name" => array(
+				'name'  => $name,
+				'title' => $title,
+			),
+		);
+
 		ob_start();
 		$this->instance->import_blocks( $blocks_to_import );
 		$output = ob_get_clean();
@@ -412,5 +446,25 @@ class Test_Import extends \WP_UnitTestCase {
 
 		$this->assertEquals( $name, $block_data->name );
 		$this->assertEquals( $title, $block_data->title );
+	}
+
+	/**
+	 * Test block_exists.
+	 *
+	 * @covers \Block_Lab\Admin\Import::block_exists()
+	 */
+	public function test_block_exists() {
+		$block_namespace = 'block-lab/block-name';
+
+		$this->assertFalse( $this->invoke_protected_method( 'block_exists', array( $block_namespace ) ) );
+
+		register_block_type(
+			$block_namespace,
+			array(
+				'render_callback' => function() {},
+			)
+		);
+
+		$this->assertTrue( $this->invoke_protected_method( 'block_exists', array( $block_namespace ) ) );
 	}
 }

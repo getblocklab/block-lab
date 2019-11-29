@@ -25,7 +25,7 @@ class Test_Loader extends Abstract_Template {
 	 * @var array
 	 */
 	public $block_config_without_name = array(
-		'foo' => 'Example Value'
+		'foo' => 'Example Value',
 	);
 
 	/**
@@ -34,7 +34,7 @@ class Test_Loader extends Abstract_Template {
 	 * @var array
 	 */
 	public $block_config_with_name = array(
-		'name' => 'Example Block'
+		'name' => 'Example Block',
 	);
 
 	/**
@@ -97,7 +97,7 @@ class Test_Loader extends Abstract_Template {
 		$this->assertFalse( $this->instance->get_data( $attributes_key ) );
 
 		// With the 'config' set, this should return the 'config' when it's passed as an argument.
-		$config = [ 'this' => 'that' ] ;
+		$config = [ 'this' => 'that' ];
 		$this->set_protected_property( 'data', [ $config_key => $config ] );
 		$this->assertEquals( $config, $this->instance->get_data( $config_key ) );
 
