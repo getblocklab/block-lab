@@ -60,7 +60,16 @@ class Import extends Component_Abstract {
 			case 1:
 				check_admin_referer( 'import-upload' );
 
-				$cache_dir = wp_get_upload_dir()['basedir'] . '/block-lab';
+				$upload_dir = wp_get_upload_dir();
+
+				if ( ! isset( $upload_dir['basedir'] ) ) {
+					$this->render_import_error(
+						__( 'Sorry, there was an error uploading the file.', 'block-lab' ),
+						__( 'Upload base directory not set.', 'block-lab' )
+					);
+				}
+
+				$cache_dir = $upload_dir['basedir'] . '/block-lab';
 				$file      = wp_import_handle_upload();
 
 				if ( $this->validate_upload( $file ) ) {
@@ -135,7 +144,7 @@ class Import extends Component_Abstract {
 	 *
 	 * @param string $title The title of the block.
 	 */
-	public function render_block_import_success( $title ) {
+	public function render_import_success( $title ) {
 		echo wp_kses_post(
 			sprintf(
 				'<p>%s</p>',
@@ -154,17 +163,9 @@ class Import extends Component_Abstract {
 	 * @param string $title The title of the block.
 	 * @param string $error The error being reported.
 	 */
-	public function render_block_import_error( $title, $error ) {
+	public function render_import_error( $title, $error ) {
 		echo wp_kses_post(
-			sprintf(
-				'<p>%s %s</p>',
-				sprintf(
-					// translators: placeholder refers to title of custom block.
-					__( 'Error importing %s.', 'block-lab' ),
-					'<strong>' . esc_html( $title ) . '</strong>'
-				),
-				esc_html( $error )
-			)
+			sprintf( '<p><strong>%s</strong></p><p>%s</p>', $title, $error )
 		);
 	}
 
@@ -218,24 +219,18 @@ class Import extends Component_Abstract {
 	 */
 	public function validate_upload( $file ) {
 		if ( isset( $file['error'] ) ) {
-			echo wp_kses_post(
-				sprintf(
-					'<p><strong>%1$s</strong></p><p>%2$s</p>',
-					__( 'Sorry, there was an error uploading the file.', 'block-lab' ),
-					esc_html( $file['error'] )
-				)
+			$this->render_import_error(
+				__( 'Sorry, there was an error uploading the file.', 'block-lab' ),
+				$file['error']
 			);
 			return false;
 		} elseif ( ! file_exists( $file['file'] ) ) {
-			echo wp_kses_post(
+			$this->render_import_error(
+				__( 'Sorry, there was an error uploading the file.', 'block-lab' ),
 				sprintf(
-					'<p><strong>%1$s</strong></p><p>%2$s</p>',
-					__( 'Sorry, there was an error uploading the file.', 'block-lab' ),
-					sprintf(
-						// translators: placeholder refers to a file directory.
-						__( 'The export file could not be found at %1$s. It is likely that this was caused by a permissions problem.', 'block-lab' ),
-						'<code>' . esc_html( $file['file'] ) . '</code>'
-					)
+					// translators: placeholder refers to a file directory.
+					__( 'The export file could not be found at %1$s. It is likely that this was caused by a permissions problem.', 'block-lab' ),
+					'<code>' . esc_html( $file['file'] ) . '</code>'
 				)
 			);
 			return false;
@@ -246,12 +241,9 @@ class Import extends Component_Abstract {
 		$data = json_decode( $json, true );
 
 		if ( ! is_array( $data ) ) {
-			echo wp_kses_post(
-				sprintf(
-					'<p><strong>%1$s</strong></p><p>%2$s</p>',
-					__( 'Sorry, there was an error processing the file.', 'block-lab' ),
-					__( 'Invalid JSON.', 'block-lab' )
-				)
+			$this->render_import_error(
+				__( 'Sorry, there was an error processing the file.', 'block-lab' ),
+				__( 'Invalid JSON.', 'block-lab' )
 			);
 			return false;
 		}
@@ -295,9 +287,16 @@ class Import extends Component_Abstract {
 			$post = wp_insert_post( $post_data );
 
 			if ( is_wp_error( $post ) ) {
-				$this->render_block_import_error( $block['title'], $post->get_error_message() );
+				$this->render_import_error(
+					sprintf(
+						// translators: placeholder refers to title of custom block.
+						__( 'Error importing %s.', 'block-lab' ),
+						$block['title']
+					),
+					$post->get_error_message()
+				);
 			} else {
-				$this->render_block_import_success( $block['title'] );
+				$this->render_import_success( $block['title'] );
 			}
 		}
 
