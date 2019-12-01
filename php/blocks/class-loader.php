@@ -554,7 +554,7 @@ class Loader extends Component_Abstract {
 			[
 				'post_type'      => block_lab()->get_post_type_slug(),
 				'post_status'    => 'publish',
-				'posts_per_page' => - 1,
+				'posts_per_page' => 100,
 			]
 		);
 
