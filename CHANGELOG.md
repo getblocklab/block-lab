@@ -1,5 +1,12 @@
 ## Changelog #
 
+### 1.5.2 – 2019-12-02 ###
+
+Some small tweaks to the Block Importer and onboarding dialogs.
+
+* New: Selective import now allows you to choose which of the blocks contained in your export file you'd like to import
+* Fix: Onboarding notices are fixed so that they show in the right places, and at the right times
+
 ### 1.5.1 – 2019-11-11 ###
 
 This is a bugfix release, focused mostly on compatibility with WordPress 5.3.
