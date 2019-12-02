@@ -96,8 +96,8 @@ class Import extends Component_Abstract {
 			<?php
 			echo wp_kses(
 				sprintf(
-					/* translators: %1$s: an opening anchor tag, %2$s: a closing anchor tag, %3$s: a different opening anchor tag, %4$s: a closing anchor tag */
-					__( 'This JSON file should come from the export link or bulk action in the %1$sContent Blocks screen%2$s, not from the main %3$sExport tool%4$s.', 'block-lab' ),
+					/* translators: %1$s: an opening anchor tag, %2$s: a closing anchor tag */
+					__( 'This JSON file should come from the export link or bulk action in the %1$sContent Blocks screen%2$s, not from the main Export tool.', 'block-lab' ),
 					sprintf(
 						'<a href="%1$s">',
 						esc_url(
@@ -108,11 +108,6 @@ class Import extends Component_Abstract {
 								)
 							)
 						)
-					),
-					'</a>',
-					sprintf(
-						'<a href="%1$s">',
-						esc_url( admin_url( 'export.php' ) )
 					),
 					'</a>'
 				),
