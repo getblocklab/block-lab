@@ -285,6 +285,7 @@ class Test_Import extends Abstract_Template {
 
 		$this->assertContains( '<p>Welcome! This importer processes Block Lab JSON files, adding custom blocks to this site.</p>', $output );
 		$this->assertContains( '<label for="upload">Choose a file from your computer:</label>', $output );
+		$this->assertContains( 'This JSON file should come from the export link or bulk action in the', $output );
 	}
 
 	/**
