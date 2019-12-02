@@ -288,14 +288,14 @@ class Test_Import extends Abstract_Template {
 	}
 
 	/**
-	 * Test render_block_import_success.
+	 * Test render_import_success.
 	 *
-	 * @covers \Block_Lab\Admin\Import::render_block_import_success()
+	 * @covers \Block_Lab\Admin\Import::render_import_success()
 	 */
-	public function test_render_block_import_success() {
+	public function test_render_import_success() {
 		$title = 'Example Title';
 		ob_start();
-		$this->instance->render_block_import_success( $title );
+		$this->instance->render_import_success( $title );
 		$output = ob_get_clean();
 
 		$this->assertContains( '<p>Successfully imported <strong>', $output );
@@ -303,20 +303,26 @@ class Test_Import extends Abstract_Template {
 	}
 
 	/**
-	 * Test render_block_import_error.
+	 * Test render_import_error.
 	 *
-	 * @covers \Block_Lab\Admin\Import::render_block_import_error()
+	 * @covers \Block_Lab\Admin\Import::render_import_error()
 	 */
-	public function test_render_block_import_error() {
+	public function test_render_import_error() {
 		$title = 'Baz Title';
 		$error = 'Example Error';
 		ob_start();
-		$this->instance->render_block_import_error( $title, $error );
+		$this->instance->render_import_error( $title, $error );
 		$output = ob_get_clean();
 
-		$this->assertContains( 'Error importing', $output );
 		$this->assertContains( $title, $output );
 		$this->assertContains( $error, $output );
+
+		$disallowed = '<script type="text/javascript;">do_evil();</script>';
+		ob_start();
+		$this->instance->render_import_error( $title, $disallowed );
+		$output = ob_get_clean();
+
+		$this->assertNotContains( $disallowed, $output );
 	}
 
 	/**
