@@ -108,7 +108,7 @@ class Util extends Component_Abstract {
 		$stylesheet_path = get_template_directory();
 		$template_path   = get_stylesheet_directory();
 
-		$located = [];
+		$located = array();
 
 		foreach ( (array) $template_names as $template_name ) {
 

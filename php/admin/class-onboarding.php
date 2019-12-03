@@ -284,7 +284,6 @@ class Onboarding extends Component_Abstract {
 			</a>
 		</div>
 		<?php
-
 		/*
 		 * After we've shown the Add to Post message once, we can delete the option. This will
 		 * ensure that no further onboarding messages are shown.

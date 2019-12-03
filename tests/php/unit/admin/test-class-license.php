@@ -161,7 +161,7 @@ class Test_License extends \WP_UnitTestCase {
 
 		$expected_license = array(
 			'license' => 'valid',
-			'expires' => date( 'Y-m-d', time() + DAY_IN_SECONDS ),
+			'expires' => gmdate( 'Y-m-d', time() + DAY_IN_SECONDS ),
 		);
 		add_filter(
 			self::HTTP_FILTER_NAME,
@@ -202,7 +202,7 @@ class Test_License extends \WP_UnitTestCase {
 			self::LICENSE_TRANSIENT_NAME,
 			array(
 				'license' => 'valid',
-				'expires' => date( 'Y-m-d', time() - DAY_IN_SECONDS ),
+				'expires' => gmdate( 'Y-m-d', time() - DAY_IN_SECONDS ),
 			)
 		);
 
@@ -213,7 +213,7 @@ class Test_License extends \WP_UnitTestCase {
 			self::LICENSE_TRANSIENT_NAME,
 			array(
 				'license' => 'valid',
-				'expires' => date( 'Y-m-d', time() + DAY_IN_SECONDS ),
+				'expires' => gmdate( 'Y-m-d', time() + DAY_IN_SECONDS ),
 			)
 		);
 
@@ -230,7 +230,7 @@ class Test_License extends \WP_UnitTestCase {
 		$this->instance->init();
 		$valid_license_transient_value   = array(
 			'license' => 'valid',
-			'expires' => date( 'Y-m-d', time() + DAY_IN_SECONDS ),
+			'expires' => gmdate( 'Y-m-d', time() + DAY_IN_SECONDS ),
 		);
 		$invalid_license_transient_value = array(
 			'license' => 'expired',
@@ -247,7 +247,7 @@ class Test_License extends \WP_UnitTestCase {
 		delete_transient( self::LICENSE_TRANSIENT_NAME );
 		$this->assertFalse( $this->instance->get_license() );
 
-		$expiration_date  = date( 'Y-m-d', time() + DAY_IN_SECONDS );
+		$expiration_date  = gmdate( 'Y-m-d', time() + DAY_IN_SECONDS );
 		$expected_license = array(
 			'license' => 'valid',
 			'expires' => $expiration_date,
@@ -294,7 +294,7 @@ class Test_License extends \WP_UnitTestCase {
 		remove_all_filters( self::HTTP_FILTER_NAME );
 		$expected_license = array(
 			'license' => 'valid',
-			'expires' => date( 'Y-m-d', time() + DAY_IN_SECONDS ),
+			'expires' => gmdate( 'Y-m-d', time() + DAY_IN_SECONDS ),
 		);
 
 		add_filter(

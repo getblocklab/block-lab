@@ -148,7 +148,7 @@ class Import extends Component_Abstract {
 					'</a>'
 				),
 				array(
-					'a' => array( 'href' => array() )
+					'a' => array( 'href' => array() ),
 				)
 			);
 			?>

@@ -19,7 +19,7 @@ class Loader extends Component_Abstract {
 	 *
 	 * @var array
 	 */
-	protected $assets = [];
+	protected $assets = array();
 
 	/**
 	 * An associative array of block config data for the blocks that will be registered.
@@ -35,7 +35,7 @@ class Loader extends Component_Abstract {
 	 *
 	 * @var array
 	 */
-	protected $data = [];
+	protected $data = array();
 
 	/**
 	 * Load the Loader.
@@ -43,16 +43,16 @@ class Loader extends Component_Abstract {
 	 * @return $this
 	 */
 	public function init() {
-		$this->assets = [
-			'path' => [
+		$this->assets = array(
+			'path' => array(
 				'entry'        => $this->plugin->get_path( 'js/editor.blocks.js' ),
 				'editor_style' => $this->plugin->get_path( 'css/blocks.editor.css' ),
-			],
-			'url'  => [
+			),
+			'url'  => array(
 				'entry'        => $this->plugin->get_url( 'js/editor.blocks.js' ),
 				'editor_style' => $this->plugin->get_url( 'css/blocks.editor.css' ),
-			],
-		];
+			),
+		);
 
 		return $this;
 	}
@@ -272,7 +272,7 @@ class Loader extends Component_Abstract {
 	 * @return array
 	 */
 	protected function get_block_attributes( $block ) {
-		$attributes = [];
+		$attributes = array();
 
 		// Default Editor attributes (applied to all blocks).
 		$attributes['className'] = array( 'type' => 'string' );
@@ -521,7 +521,7 @@ class Loader extends Component_Abstract {
 				'<div class="notice notice-warning">%s</div>',
 				wp_kses_post(
 					// Translators: Placeholder is a file path.
-					sprintf( __( 'Template file %s not found.' ), '<code>' . esc_html( $templates[0] ) . '</code>' )
+					sprintf( __( 'Template file %s not found.', 'block-lab' ), '<code>' . esc_html( $templates[0] ) . '</code>' )
 				)
 			);
 		}
@@ -551,11 +551,11 @@ class Loader extends Component_Abstract {
 		 * Retrieve blocks stored as posts in the WordPress database.
 		 */
 		$block_posts = new \WP_Query(
-			[
+			array(
 				'post_type'      => block_lab()->get_post_type_slug(),
 				'post_status'    => 'publish',
 				'posts_per_page' => 100, // This has to have a limit for this plugin to be scalable.
-			]
+			)
 		);
 
 		if ( 0 < $block_posts->post_count ) {

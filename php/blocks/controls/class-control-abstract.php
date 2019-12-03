@@ -169,7 +169,7 @@ abstract class Control_Abstract {
 			$name    = 'block-fields-settings[' . $uid . '][' . $setting->name . ']';
 			$id      = 'block-fields-edit-settings-' . $this->name . '-' . $setting->name . '_' . $uid;
 			?>
-			<tr class="<?php echo esc_attr( implode( $classes, ' ' ) ); ?>">
+			<tr class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>">
 				<td class="spacer"></td>
 				<th scope="row">
 					<label for="<?php echo esc_attr( $id ); ?>">
