@@ -68,10 +68,10 @@ class Test_Settings extends \WP_UnitTestCase {
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
-		$this->assertEquals( 10, has_action( 'admin_menu', array( $this->instance, 'add_submenu_pages' ) ) );
-		$this->assertEquals( 10, has_action( 'admin_init', array( $this->instance, 'register_settings' ) ) );
-		$this->assertEquals( 10, has_action( 'admin_enqueue_scripts', array( $this->instance, 'enqueue_scripts' ) ) );
-		$this->assertEquals( 10, has_action( 'admin_notices', array( $this->instance, 'show_notices' ) ) );
+		$this->assertEquals( 10, has_action( 'admin_menu', [ $this->instance, 'add_submenu_pages' ] ) );
+		$this->assertEquals( 10, has_action( 'admin_init', [ $this->instance, 'register_settings' ] ) );
+		$this->assertEquals( 10, has_action( 'admin_enqueue_scripts', [ $this->instance, 'enqueue_scripts' ] ) );
+		$this->assertEquals( 10, has_action( 'admin_notices', [ $this->instance, 'show_notices' ] ) );
 	}
 
 	/**
@@ -120,8 +120,8 @@ class Test_Settings extends \WP_UnitTestCase {
 		$this->assertTrue( in_array( $this->instance->slug, $styles->queue, true ) );
 		$this->assertEquals( $this->instance->slug, $style->handle );
 		$this->assertContains( 'block-lab/css/admin.settings.css', $style->src );
-		$this->assertEquals( array(), $style->deps );
-		$this->assertEquals( array(), $style->extra );
+		$this->assertEquals( [], $style->deps );
+		$this->assertEquals( [], $style->extra );
 	}
 
 	/**
@@ -132,24 +132,24 @@ class Test_Settings extends \WP_UnitTestCase {
 	public function test_add_submenu_pages() {
 		global $submenu;
 
-		$expected_submenu_settings = array(
+		$expected_submenu_settings = [
 			'Settings',
 			'manage_options',
 			$this->instance->slug,
 			'Block Lab Settings',
-		);
+		];
 
-		wp_set_current_user( $this->factory()->user->create( array( 'role' => 'author' ) ) );
+		wp_set_current_user( $this->factory()->user->create( [ 'role' => 'author' ] ) );
 		$this->instance->add_submenu_pages();
 
 		// Because the current user doesn't have 'manage_options' permissions, this shouldn't add the submenu.
 		$this->assertFalse( isset( $submenu ) && array_key_exists( self::SUBMENU_PARENT_SLUG, $submenu ) );
 
-		wp_set_current_user( $this->factory()->user->create( array( 'role' => 'administrator' ) ) );
+		wp_set_current_user( $this->factory()->user->create( [ 'role' => 'administrator' ] ) );
 		$this->instance->add_submenu_pages();
 
 		// Now that the user has 'manage_options' permissions, this should add the submenu.
-		$this->assertEquals( array( $expected_submenu_settings ), $submenu[ self::SUBMENU_PARENT_SLUG ] );
+		$this->assertEquals( [ $expected_submenu_settings ], $submenu[ self::SUBMENU_PARENT_SLUG ] );
 	}
 
 	/**
@@ -164,13 +164,13 @@ class Test_Settings extends \WP_UnitTestCase {
 		$expected_option_group = 'block-lab-license-key';
 		$expected_option_name  = 'block_lab_license_key';
 		$this->assertEquals(
-			array(
+			[
 				'description'       => '',
 				'group'             => $expected_option_group,
 				'sanitize_callback' => null,
 				'show_in_rest'      => false,
 				'type'              => 'string',
-			),
+			],
 			$wp_registered_settings[ $expected_option_name ]
 		);
 	}
@@ -212,19 +212,19 @@ class Test_Settings extends \WP_UnitTestCase {
 		$notice = 'There was a problem activating your Block Lab license.';
 		$this->instance->prepare_notice( $notice );
 
-		$this->assertEquals( array( $notice ), get_option( self::NOTICES_OPTION_NAME ) );
+		$this->assertEquals( [ $notice ], get_option( self::NOTICES_OPTION_NAME ) );
 
-		$existing_notices = array(
+		$existing_notices = [
 			'first notice',
 			'second notice',
-		);
+		];
 
 		update_option( self::NOTICES_OPTION_NAME, $existing_notices );
 		$this->instance->prepare_notice( $notice );
 		$this->assertEquals(
 			array_merge(
 				$existing_notices,
-				array( $notice )
+				[ $notice ]
 			),
 			get_option( self::NOTICES_OPTION_NAME )
 		);
@@ -254,10 +254,10 @@ class Test_Settings extends \WP_UnitTestCase {
 		// The option should not have been deleted, as this should have exited from the function.
 		$this->assertEquals( $non_array_notice, get_option( self::NOTICES_OPTION_NAME ) );
 
-		$expected_notices = array(
+		$expected_notices = [
 			'Here is a notice',
 			'This is also a notice',
-		);
+		];
 		update_option( self::NOTICES_OPTION_NAME, $expected_notices );
 		ob_start();
 		$this->instance->show_notices();

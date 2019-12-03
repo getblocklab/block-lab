@@ -46,13 +46,13 @@ class Post extends Control_Abstract {
 		$this->settings[] = new Control_Setting( $this->settings_config['width'] );
 		$this->settings[] = new Control_Setting( $this->settings_config['help'] );
 		$this->settings[] = new Control_Setting(
-			array(
+			[
 				'name'     => 'post_type_rest_slug',
 				'label'    => __( 'Post Type', 'block-lab' ),
 				'type'     => 'post_type_rest_slug',
 				'default'  => 'posts',
-				'sanitize' => array( $this, 'sanitize_post_type_rest_slug' ),
-			)
+				'sanitize' => [ $this, 'sanitize_post_type_rest_slug' ],
+			]
 		);
 	}
 
@@ -81,8 +81,8 @@ class Post extends Control_Abstract {
 	 * }
 	 */
 	public function get_post_type_rest_slugs() {
-		$post_type_rest_slugs = array();
-		foreach ( get_post_types( array( 'public' => true ) ) as $post_type ) {
+		$post_type_rest_slugs = [];
+		foreach ( get_post_types( [ 'public' => true ] ) as $post_type ) {
 			$post_type_object = get_post_type_object( $post_type );
 			if ( ! $post_type_object || empty( $post_type_object->show_in_rest ) ) {
 				continue;

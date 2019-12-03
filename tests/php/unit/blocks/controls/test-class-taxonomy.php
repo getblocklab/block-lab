@@ -55,18 +55,18 @@ class Test_Taxonomy extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Controls\Taxonomy::register_settings()
 	 */
 	public function test_register_settings() {
-		$expected_settings = array(
-			array(
+		$expected_settings = [
+			[
 				'name'     => 'location',
 				'label'    => 'Field Location',
 				'type'     => 'location',
 				'default'  => 'editor',
 				'help'     => '',
-				'sanitize' => array( $this->instance, 'sanitize_location' ),
+				'sanitize' => [ $this->instance, 'sanitize_location' ],
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'width',
 				'label'    => 'Field Width',
 				'type'     => 'width',
@@ -75,8 +75,8 @@ class Test_Taxonomy extends \WP_UnitTestCase {
 				'sanitize' => 'sanitize_text_field',
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'help',
 				'label'    => 'Help Text',
 				'type'     => 'text',
@@ -85,18 +85,18 @@ class Test_Taxonomy extends \WP_UnitTestCase {
 				'sanitize' => 'sanitize_text_field',
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'post_type_rest_slug',
 				'label'    => 'Taxonomy Type',
 				'type'     => 'taxonomy_type_rest_slug',
 				'default'  => 'posts',
 				'help'     => '',
-				'sanitize' => array( $this->instance, 'sanitize_taxonomy_type_rest_slug' ),
+				'sanitize' => [ $this->instance, 'sanitize_taxonomy_type_rest_slug' ],
 				'validate' => '',
 				'value'    => null,
-			),
-		);
+			],
+		];
 
 		$this->assert_correct_settings( $expected_settings, $this->instance->settings );
 	}
@@ -117,7 +117,7 @@ class Test_Taxonomy extends \WP_UnitTestCase {
 		$this->assertContains( $name, $output );
 		$this->assertContains( $id, $output );
 
-		foreach ( array( 'post_tag', 'category' ) as $post_type ) {
+		foreach ( [ 'post_tag', 'category' ] as $post_type ) {
 			$taxonomy = get_taxonomy( $post_type );
 			$this->assertContains( $taxonomy->rest_base, $output );
 			$this->assertContains( $taxonomy->label, $output );
@@ -137,11 +137,11 @@ class Test_Taxonomy extends \WP_UnitTestCase {
 		register_taxonomy(
 			$new_tax_slug,
 			'post',
-			array(
+			[
 				'show_in_rest' => true,
 				'label'        => $new_tax_label,
 				'rest_base'    => $rest_base,
-			)
+			]
 		);
 
 		// If a registered taxonomy doesn't have a rest_base, this should use the slug instead.
@@ -150,19 +150,19 @@ class Test_Taxonomy extends \WP_UnitTestCase {
 		register_taxonomy(
 			$new_tax_slug_without_rest_base,
 			'page',
-			array(
+			[
 				'show_in_rest' => true,
 				'label'        => $new_tax_label_without_rest_base,
-			)
+			]
 		);
 
 		$this->assertEquals(
-			array(
+			[
 				'categories'                    => 'Categories',
 				'tags'                          => 'Tags',
 				$rest_base                      => $new_tax_label,
 				$new_tax_slug_without_rest_base => $new_tax_label_without_rest_base,
-			),
+			],
 			$this->instance->get_taxonomy_type_rest_slugs()
 		);
 	}
@@ -183,11 +183,11 @@ class Test_Taxonomy extends \WP_UnitTestCase {
 		register_taxonomy(
 			$location_taxonomy_type_slug,
 			'post',
-			array(
+			[
 				'public'       => true,
 				'show_in_rest' => true,
 				'rest_base'    => $rest_base,
-			)
+			]
 		);
 
 		// This should recognize the rest_base of the testimonial taxonomy type, even though it's different from its slug.
@@ -206,11 +206,11 @@ class Test_Taxonomy extends \WP_UnitTestCase {
 		$term_name     = $expected_term->name;
 
 		// When there's an invalid term ID, this should return null.
-		$this->assertEquals( null, $this->instance->validate( array( 'id' => $invalid_id ), false ) );
-		$this->assertEquals( $expected_term, $this->instance->validate( array( 'id' => $valid_id ), false ) );
+		$this->assertEquals( null, $this->instance->validate( [ 'id' => $invalid_id ], false ) );
+		$this->assertEquals( $expected_term, $this->instance->validate( [ 'id' => $valid_id ], false ) );
 
 		// If the ID is invalid, this should return ''.
-		$this->assertEquals( '', $this->instance->validate( array( 'id' => $invalid_id ), true ) );
-		$this->assertEquals( $term_name, $this->instance->validate( array( 'id' => $valid_id ), true ) );
+		$this->assertEquals( '', $this->instance->validate( [ 'id' => $invalid_id ], true ) );
+		$this->assertEquals( $term_name, $this->instance->validate( [ 'id' => $valid_id ], true ) );
 	}
 }

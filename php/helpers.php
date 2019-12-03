@@ -30,7 +30,7 @@ function block_field( $name, $echo = true ) {
 		return null;
 	}
 
-	$default_fields = array( 'className' => 'string' );
+	$default_fields = [ 'className' => 'string' ];
 
 	/**
 	 * Filters the default fields that are allowed in addition to Block Lab fields.
@@ -65,7 +65,7 @@ function block_field( $name, $echo = true ) {
 		$control = $field->control;
 	} elseif ( isset( $default_fields[ $name ] ) ) {
 		// Cast default Editor attributes and those added via a filter.
-		$field = new Blocks\Field( array( 'type' => $default_fields[ $name ] ) );
+		$field = new Blocks\Field( [ 'type' => $default_fields[ $name ] ] );
 		$value = $field->cast_value( $value );
 	}
 
@@ -340,17 +340,17 @@ function block_field_config( $name ) {
  *     }
  * }
  */
-function block_lab_add_block( $block_name, $block_config = array() ) {
+function block_lab_add_block( $block_name, $block_config = [] ) {
 	$block_config['name'] = str_replace( '_', '-', sanitize_title( $block_name ) );
 
-	$default_config = array(
+	$default_config = [
 		'title'    => str_replace( '-', ' ', ucwords( $block_config['name'], '-' ) ),
 		'icon'     => 'block_lab',
 		'category' => 'common',
-		'excluded' => array(),
-		'keywords' => array(),
-		'fields'   => array(),
-	);
+		'excluded' => [],
+		'keywords' => [],
+		'fields'   => [],
+	];
 
 	$block_config = wp_parse_args( $block_config, $default_config );
 	block_lab()->loader->add_block( $block_config );
@@ -374,15 +374,15 @@ function block_lab_add_block( $block_name, $block_config = array() ) {
  *     }
  * }
  */
-function block_lab_add_field( $block_name, $field_name, $field_config = array() ) {
+function block_lab_add_field( $block_name, $field_name, $field_config = [] ) {
 	$field_config['name'] = str_replace( '_', '-', sanitize_title( $field_name ) );
 
-	$default_config = array(
+	$default_config = [
 		'label'    => str_replace( '-', ' ', ucwords( $field_config['name'], '-' ) ),
 		'control'  => 'text',
 		'order'    => 0,
-		'settings' => array(),
-	);
+		'settings' => [],
+	];
 
 	$field_config = wp_parse_args( $field_config, $default_config );
 	block_lab()->loader->add_field( $block_name, $field_config );

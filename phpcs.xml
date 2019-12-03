@@ -1,6 +1,10 @@
 <?xml version="1.0"?>
 <ruleset name="WordPress Coding Standards for Plugins">
 
+	<rule ref="WordPress-Core">
+		<exclude name="Generic.Arrays.DisallowShortArraySyntax" />
+	</rule>
+
 	<rule ref="WordPress-Docs" />
 	<rule ref="WordPress-Extra" />
 
@@ -8,9 +12,7 @@
 			<exclude-pattern>tests/*</exclude-pattern>
 	</rule>
 
-	<rule ref="Generic.Arrays.DisallowShortArraySyntax.Found">
-		<exclude-pattern>tests/*</exclude-pattern>
-	</rule>
+	<rule ref="Generic.Arrays.DisallowLongArraySyntax.Found" />
 
 	<rule ref="WordPress.WP.I18n">
 		<properties>
@@ -20,7 +22,6 @@
 			</property>
 		</properties>
 	</rule>
-	<config name="testVersion" value="5.4-"/>
 
 	<config name="testVersion" value="5.6-"/>
 	<rule ref="PHPCompatibilityWP">

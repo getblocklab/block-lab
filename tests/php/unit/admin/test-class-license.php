@@ -104,7 +104,7 @@ class Test_License extends \WP_UnitTestCase {
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
-		$this->assertEquals( 10, has_filter( 'pre_update_option_block_lab_license_key', array( $this->instance, 'save_license_key' ) ) );
+		$this->assertEquals( 10, has_filter( 'pre_update_option_block_lab_license_key', [ $this->instance, 'save_license_key' ] ) );
 	}
 
 	/**
@@ -136,7 +136,7 @@ class Test_License extends \WP_UnitTestCase {
 		// For the request failing, like with a 404, the method should return '', and the notice should be to retry or contact support.
 		$this->assertEquals( '', $returned_key );
 		$this->assertEquals(
-			array( self::EXPECTED_LICENSE_REQUEST_FAILED_NOTICE ),
+			[ self::EXPECTED_LICENSE_REQUEST_FAILED_NOTICE ],
 			get_option( self::NOTICES_OPTION_NAME )
 		);
 		delete_option( self::NOTICES_OPTION_NAME );
@@ -145,7 +145,7 @@ class Test_License extends \WP_UnitTestCase {
 		add_filter(
 			self::HTTP_FILTER_NAME,
 			function() {
-				return array( 'body' => wp_json_encode( array( 'license' => 'invalid' ) ) );
+				return [ 'body' => wp_json_encode( [ 'license' => 'invalid' ] ) ];
 			}
 		);
 		$returned_key = $this->instance->save_license_key( $mock_invalid_license_key );
@@ -153,21 +153,21 @@ class Test_License extends \WP_UnitTestCase {
 		// For an invalid license (not simply the request failing), the method should return '', and the notice should be an error.
 		$this->assertEquals( '', $returned_key );
 		$this->assertEquals(
-			array( self::EXPECTED_LICENSE_INVALID_NOTICE ),
+			[ self::EXPECTED_LICENSE_INVALID_NOTICE ],
 			get_option( self::NOTICES_OPTION_NAME )
 		);
 		delete_option( self::NOTICES_OPTION_NAME );
 		remove_all_filters( self::HTTP_FILTER_NAME );
 
-		$expected_license = array(
+		$expected_license = [
 			'license' => 'valid',
 			'expires' => gmdate( 'Y-m-d', time() + DAY_IN_SECONDS ),
-		);
+		];
 		add_filter(
 			self::HTTP_FILTER_NAME,
 			function( $response ) use ( $expected_license ) {
 				unset( $response );
-				return array( 'body' => wp_json_encode( $expected_license ) );
+				return [ 'body' => wp_json_encode( $expected_license ) ];
 			}
 		);
 
@@ -176,7 +176,7 @@ class Test_License extends \WP_UnitTestCase {
 		$returned_key           = $this->instance->save_license_key( $mock_valid_license_key );
 		$this->assertEquals( $mock_valid_license_key, $returned_key );
 		$this->assertEquals(
-			array( self::EXPECTED_LICENSE_SUCCESS_NOTICE ),
+			[ self::EXPECTED_LICENSE_SUCCESS_NOTICE ],
 			get_option( self::NOTICES_OPTION_NAME )
 		);
 	}
@@ -192,7 +192,7 @@ class Test_License extends \WP_UnitTestCase {
 
 		set_transient(
 			self::LICENSE_TRANSIENT_NAME,
-			array( 'license' => 'valid' )
+			[ 'license' => 'valid' ]
 		);
 
 		// The license only has part of the required data, it is missing an 'expires' value.
@@ -200,10 +200,10 @@ class Test_License extends \WP_UnitTestCase {
 
 		set_transient(
 			self::LICENSE_TRANSIENT_NAME,
-			array(
+			[
 				'license' => 'valid',
 				'expires' => gmdate( 'Y-m-d', time() - DAY_IN_SECONDS ),
-			)
+			]
 		);
 
 		// The license now has an 'expires' value, but it expired a day ago.
@@ -211,10 +211,10 @@ class Test_License extends \WP_UnitTestCase {
 
 		set_transient(
 			self::LICENSE_TRANSIENT_NAME,
-			array(
+			[
 				'license' => 'valid',
 				'expires' => gmdate( 'Y-m-d', time() + DAY_IN_SECONDS ),
-			)
+			]
 		);
 
 		// The license won't expire for one more day, so this should return true.
@@ -228,13 +228,13 @@ class Test_License extends \WP_UnitTestCase {
 	 */
 	public function test_get_license() {
 		$this->instance->init();
-		$valid_license_transient_value   = array(
+		$valid_license_transient_value   = [
 			'license' => 'valid',
 			'expires' => gmdate( 'Y-m-d', time() + DAY_IN_SECONDS ),
-		);
-		$invalid_license_transient_value = array(
+		];
+		$invalid_license_transient_value = [
 			'license' => 'expired',
-		);
+		];
 
 		// If the transient is set, get_license() should simply return it.
 		set_transient( self::LICENSE_TRANSIENT_NAME, $valid_license_transient_value );
@@ -248,16 +248,16 @@ class Test_License extends \WP_UnitTestCase {
 		$this->assertFalse( $this->instance->get_license() );
 
 		$expiration_date  = gmdate( 'Y-m-d', time() + DAY_IN_SECONDS );
-		$expected_license = array(
+		$expected_license = [
 			'license' => 'valid',
 			'expires' => $expiration_date,
-		);
+		];
 
 		add_filter(
 			self::HTTP_FILTER_NAME,
 			function( $response ) use ( $expected_license ) {
 				unset( $response );
-				return array( 'body' => wp_json_encode( $expected_license ) );
+				return [ 'body' => wp_json_encode( $expected_license ) ];
 			}
 		);
 
@@ -287,20 +287,20 @@ class Test_License extends \WP_UnitTestCase {
 		$this->instance->activate_license( $license_key );
 		// If the POST request returns a wp_error(), this should store 'request_failed' in the transient.
 		$this->assertEquals(
-			array( 'license' => 'request_failed' ),
+			[ 'license' => 'request_failed' ],
 			get_transient( self::LICENSE_TRANSIENT_NAME )
 		);
 
 		remove_all_filters( self::HTTP_FILTER_NAME );
-		$expected_license = array(
+		$expected_license = [
 			'license' => 'valid',
 			'expires' => gmdate( 'Y-m-d', time() + DAY_IN_SECONDS ),
-		);
+		];
 
 		add_filter(
 			self::HTTP_FILTER_NAME,
 			function() use ( $expected_license ) {
-				return array( 'body' => wp_json_encode( $expected_license ) );
+				return [ 'body' => wp_json_encode( $expected_license ) ];
 			}
 		);
 		$this->instance->activate_license( $license_key );

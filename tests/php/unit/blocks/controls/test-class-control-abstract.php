@@ -58,51 +58,51 @@ class Test_Control_Abstract extends \WP_UnitTestCase {
 	 */
 	public function test_create_settings_config() {
 		$this->assertArraySubset(
-			array(
-				'location'    => array(
+			[
+				'location'    => [
 					'name'     => 'location',
 					'label'    => __( 'Field Location', 'block-lab' ),
 					'type'     => 'location',
 					'default'  => 'editor',
-					'sanitize' => array( $this->instance, 'sanitize_location' ),
-				),
-				'width'       => array(
+					'sanitize' => [ $this->instance, 'sanitize_location' ],
+				],
+				'width'       => [
 					'name'     => 'width',
 					'label'    => __( 'Field Width', 'block-lab' ),
 					'type'     => 'width',
 					'default'  => '100',
 					'sanitize' => 'sanitize_text_field',
-				),
-				'help'        => array(
+				],
+				'help'        => [
 					'name'     => 'help',
 					'label'    => __( 'Help Text', 'block-lab' ),
 					'type'     => 'text',
 					'default'  => '',
 					'sanitize' => 'sanitize_text_field',
-				),
-				'default'     => array(
+				],
+				'default'     => [
 					'name'     => 'default',
 					'label'    => __( 'Default Value', 'block-lab' ),
 					'type'     => 'text',
 					'default'  => '',
 					'sanitize' => 'sanitize_text_field',
-				),
-				'placeholder' => array(
+				],
+				'placeholder' => [
 					'name'     => 'placeholder',
 					'label'    => __( 'Placeholder Text', 'block-lab' ),
 					'type'     => 'text',
 					'default'  => '',
 					'sanitize' => 'sanitize_text_field',
-				),
-			),
+				],
+			],
 			$this->instance->settings_config
 		);
 
 		$this->assertArraySubset(
-			array(
+			[
 				'editor'    => __( 'Editor', 'block-lab' ),
 				'inspector' => __( 'Inspector', 'block-lab' ),
-			),
+			],
 			$this->instance->locations
 		);
 	}
@@ -167,11 +167,11 @@ class Test_Control_Abstract extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Controls\Control_Abstract::render_select()
 	 */
 	public function test_render_select() {
-		$options = array(
+		$options = [
 			'foo' => 'One',
 			'bar' => 'Two',
 			'baz' => 'Three',
-		);
+		];
 		ob_start();
 		$this->instance->render_select( $this->setting, self::NAME, self::ID, $options );
 		$output = ob_get_clean();
@@ -206,12 +206,12 @@ class Test_Control_Abstract extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Controls\Control_Abstract::sanitize_location()
 	 */
 	public function test_sanitize_location() {
-		$wrong_locations = array( 'incorrect', 'classic-editor', 'foo-baz', false, null );
+		$wrong_locations = [ 'incorrect', 'classic-editor', 'foo-baz', false, null ];
 		foreach ( $wrong_locations as $wrong_location ) {
 			$this->assertEquals( null, $this->instance->sanitize_location( $wrong_location ) );
 		}
 
-		$correct_locations = array( 'editor', 'inspector' );
+		$correct_locations = [ 'editor', 'inspector' ];
 		foreach ( $correct_locations as $correct_location ) {
 			$this->assertEquals( $correct_location, $this->instance->sanitize_location( $correct_location ) );
 		}

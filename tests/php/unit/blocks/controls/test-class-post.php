@@ -55,18 +55,18 @@ class Test_Post extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Controls\Post::register_settings()
 	 */
 	public function test_register_settings() {
-		$expected_settings = array(
-			array(
+		$expected_settings = [
+			[
 				'name'     => 'location',
 				'label'    => 'Field Location',
 				'type'     => 'location',
 				'default'  => 'editor',
 				'help'     => '',
-				'sanitize' => array( $this->instance, 'sanitize_location' ),
+				'sanitize' => [ $this->instance, 'sanitize_location' ],
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'width',
 				'label'    => 'Field Width',
 				'type'     => 'width',
@@ -75,8 +75,8 @@ class Test_Post extends \WP_UnitTestCase {
 				'sanitize' => 'sanitize_text_field',
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'help',
 				'label'    => 'Help Text',
 				'type'     => 'text',
@@ -85,18 +85,18 @@ class Test_Post extends \WP_UnitTestCase {
 				'sanitize' => 'sanitize_text_field',
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'post_type_rest_slug',
 				'label'    => 'Post Type',
 				'type'     => 'post_type_rest_slug',
 				'default'  => 'posts',
 				'help'     => '',
-				'sanitize' => array( $this->instance, 'sanitize_post_type_rest_slug' ),
+				'sanitize' => [ $this->instance, 'sanitize_post_type_rest_slug' ],
 				'validate' => '',
 				'value'    => null,
-			),
-		);
+			],
+		];
 
 		$this->assert_correct_settings( $expected_settings, $this->instance->settings );
 	}
@@ -116,7 +116,7 @@ class Test_Post extends \WP_UnitTestCase {
 		$output = ob_get_clean();
 		$this->assertContains( $name, $output );
 		$this->assertContains( $id, $output );
-		foreach ( array( 'post', 'page' ) as $post_type ) {
+		foreach ( [ 'post', 'page' ] as $post_type ) {
 			$post_type_object = get_post_type_object( $post_type );
 			$this->assertContains( $post_type_object->rest_base, $output );
 		}
@@ -129,10 +129,10 @@ class Test_Post extends \WP_UnitTestCase {
 	 */
 	public function test_get_post_type_rest_slugs() {
 		$this->assertEquals(
-			array(
+			[
 				'posts' => 'Posts',
 				'pages' => 'Pages',
-			),
+			],
 			$this->instance->get_post_type_rest_slugs()
 		);
 	}
@@ -155,12 +155,12 @@ class Test_Post extends \WP_UnitTestCase {
 		$rest_base                  = 'testimonial';
 		register_post_type(
 			$testimonial_post_type_slug,
-			array(
+			[
 				'public'       => true,
 				'show_in_rest' => true,
 				'label'        => 'Testimonials',
 				'rest_base'    => $rest_base,
-			)
+			]
 		);
 
 		// This should recognize the rest_base of the testimonial post type, even though it's different from its slug.
@@ -174,26 +174,26 @@ class Test_Post extends \WP_UnitTestCase {
 	 */
 	public function test_validate() {
 		$post_title       = 'Example Post';
-		$expected_wp_post = $this->factory()->post->create_and_get( array( 'post_title' => $post_title ) );
+		$expected_wp_post = $this->factory()->post->create_and_get( [ 'post_title' => $post_title ] );
 		$valid_id         = $expected_wp_post->ID;
 		$invalid_id       = 10000000;
 
 		// When there's an invalid post ID and the second argument is false, this should return null.
-		$this->assertEquals( null, $this->instance->validate( array( 'id' => $invalid_id ), false ) );
-		$this->assertEquals( $expected_wp_post, $this->instance->validate( array( 'id' => $valid_id ), false ) );
+		$this->assertEquals( null, $this->instance->validate( [ 'id' => $invalid_id ], false ) );
+		$this->assertEquals( $expected_wp_post, $this->instance->validate( [ 'id' => $valid_id ], false ) );
 
 		// If the post ID is invalid and the second argument is true (echo), this should return an empty string.
-		$this->assertEquals( '', $this->instance->validate( array( 'id' => $invalid_id ), true ) );
-		$this->assertEquals( $post_title, $this->instance->validate( array( 'id' => $valid_id ), true ) );
+		$this->assertEquals( '', $this->instance->validate( [ 'id' => $invalid_id ], true ) );
+		$this->assertEquals( $post_title, $this->instance->validate( [ 'id' => $valid_id ], true ) );
 
 		// If the 'post_title' is later changed, this block should output the new post title for block_field().
 		$updated_title = 'New Example Title';
 		wp_update_post(
-			array(
+			[
 				'ID'         => $valid_id,
 				'post_title' => $updated_title,
-			)
+			]
 		);
-		$this->assertEquals( $updated_title, $this->instance->validate( array( 'id' => $valid_id ), true ) );
+		$this->assertEquals( $updated_title, $this->instance->validate( [ 'id' => $valid_id ], true ) );
 	}
 }

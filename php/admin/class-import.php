@@ -27,7 +27,7 @@ class Import extends Component_Abstract {
 	 * Register any hooks that this component needs.
 	 */
 	public function register_hooks() {
-		add_action( 'admin_init', array( $this, 'register_importer' ) );
+		add_action( 'admin_init', [ $this, 'register_importer' ] );
 	}
 
 	/**
@@ -38,7 +38,7 @@ class Import extends Component_Abstract {
 			$this->slug,
 			__( 'Block Lab', 'block-lab' ),
 			__( 'Import custom blocks created with Block Lab.', 'block-lab' ),
-			array( $this, 'render_page' )
+			[ $this, 'render_page' ]
 		);
 	}
 
@@ -88,14 +88,14 @@ class Import extends Component_Abstract {
 				break;
 			case 2:
 				$cache_dir = wp_get_upload_dir()['basedir'] . '/block-lab';
-				$file      = array( 'file' => $cache_dir . '/import.json' );
+				$file      = [ 'file' => $cache_dir . '/import.json' ];
 
 				if ( $this->validate_upload( $file ) ) {
 					// This is on the local filesystem, so file_get_contents() is ok to use here.
 					$json   = file_get_contents( $file['file'] ); // phpcs:ignore WordPress.WP.AlternativeFunctions
 					$blocks = json_decode( $json, true );
 
-					$import_blocks = array();
+					$import_blocks = [];
 					foreach ( $blocks as $block_namespace => $block ) {
 						if ( 'on' === filter_input( INPUT_GET, $block_namespace, FILTER_SANITIZE_STRING ) ) {
 							$import_blocks[ $block_namespace ] = $block;
@@ -139,7 +139,7 @@ class Import extends Component_Abstract {
 						esc_url(
 							admin_url(
 								add_query_arg(
-									array( 'post_type' => block_lab()->get_post_type_slug() ),
+									[ 'post_type' => block_lab()->get_post_type_slug() ],
 									'edit.php'
 								)
 							)
@@ -147,9 +147,9 @@ class Import extends Component_Abstract {
 					),
 					'</a>'
 				),
-				array(
-					'a' => array( 'href' => array() ),
-				)
+				[
+					'a' => [ 'href' => [] ],
+				]
 			);
 			?>
 		</p>
@@ -157,10 +157,10 @@ class Import extends Component_Abstract {
 		<?php
 		wp_import_upload_form(
 			add_query_arg(
-				array(
+				[
 					'import' => $this->slug,
 					'step'   => 1,
-				)
+				]
 			)
 		);
 	}
@@ -297,15 +297,15 @@ class Import extends Component_Abstract {
 				}
 			}
 
-			$json = wp_json_encode( array( $block_namespace => $block ), JSON_UNESCAPED_UNICODE );
+			$json = wp_json_encode( [ $block_namespace => $block ], JSON_UNESCAPED_UNICODE );
 
-			$post_data = array(
+			$post_data = [
 				'post_title'   => $block['title'],
 				'post_name'    => $block['name'],
 				'post_content' => wp_slash( $json ),
 				'post_status'  => 'publish',
 				'post_type'    => block_lab()->get_post_type_slug(),
-			);
+			];
 
 			if ( $post_id ) {
 				$post_data['ID'] = $post_id;

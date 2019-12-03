@@ -40,14 +40,14 @@ trait Testing_Helper {
 	 */
 	public function set_license_validity( $is_valid ) {
 		if ( $is_valid ) {
-			$transient_value = array(
+			$transient_value = [
 				'license' => 'valid',
 				'expires' => gmdate( 'D, d M Y H:i:s', time() + 1000 ),
-			);
+			];
 		} else {
-			$transient_value = array(
+			$transient_value = [
 				'license' => 'expired',
-			);
+			];
 		}
 
 		set_transient( 'block_lab_license', $transient_value );

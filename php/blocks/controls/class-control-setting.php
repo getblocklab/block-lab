@@ -77,7 +77,7 @@ class Control_Setting {
 	 *
 	 * @return void
 	 */
-	public function __construct( $args = array() ) {
+	public function __construct( $args = [] ) {
 		if ( isset( $args['name'] ) ) {
 			$this->name = $args['name'];
 		}

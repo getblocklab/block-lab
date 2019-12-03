@@ -58,7 +58,7 @@ class License extends Component_Abstract {
 	 * Register any hooks that this component needs.
 	 */
 	public function register_hooks() {
-		add_filter( 'pre_update_option_block_lab_license_key', array( $this, 'save_license_key' ) );
+		add_filter( 'pre_update_option_block_lab_license_key', [ $this, 'save_license_key' ] );
 	}
 
 	/**
@@ -129,25 +129,25 @@ class License extends Component_Abstract {
 	 */
 	public function activate_license( $key ) {
 		// Data to send in our API request.
-		$api_params = array(
+		$api_params = [
 			'edd_action' => 'activate_license',
 			'license'    => $key,
 			'item_name'  => rawurlencode( $this->product_slug ),
 			'url'        => home_url(),
-		);
+		];
 
 		// Call the Block Lab store's API.
 		$response = wp_remote_post(
 			$this->store_url,
-			array(
+			[
 				'timeout'   => 10,
 				'sslverify' => true,
 				'body'      => $api_params,
-			)
+			]
 		);
 
 		if ( is_wp_error( $response ) ) {
-			$license = array( 'license' => self::REQUEST_FAILED );
+			$license = [ 'license' => self::REQUEST_FAILED ];
 		} else {
 			$license = json_decode( wp_remote_retrieve_body( $response ), true );
 		}

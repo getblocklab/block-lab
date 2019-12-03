@@ -65,7 +65,7 @@ class Test_Import extends Abstract_Template {
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
-		$this->assertEquals( 10, has_filter( 'admin_init', array( $this->instance, 'register_importer' ) ) );
+		$this->assertEquals( 10, has_filter( 'admin_init', [ $this->instance, 'register_importer' ] ) );
 	}
 
 	/**
@@ -78,11 +78,11 @@ class Test_Import extends Abstract_Template {
 
 		$this->instance->register_importer();
 		$this->assertEquals(
-			array(
+			[
 				'Block Lab',
 				'Import custom blocks created with Block Lab.',
-				array( $this->instance, 'render_page' ),
-			),
+				[ $this->instance, 'render_page' ],
+			],
 			$wp_importers[ $this->instance->slug ]
 		);
 	}
@@ -151,15 +151,15 @@ class Test_Import extends Abstract_Template {
 		$this->assertNotContains( $welcome_text, $output );
 		$this->assertContains( $error_uploading_file, $output );
 
-		$file             = array( 'file' => 'nonexistent-file.xml' );
+		$file             = [ 'file' => 'nonexistent-file.xml' ];
 		$tmp_name         = $this->import_file_invalid_json;
 		$files_import     = array_merge(
 			$file,
-			array(
+			[
 				'name'     => 'foo',
 				'tmp_name' => $tmp_name,
 				'size'     => 10000,
-			)
+			]
 		);
 		$_FILES['import'] = $files_import;
 		add_filter(
@@ -168,10 +168,10 @@ class Test_Import extends Abstract_Template {
 				unset( $upload );
 				return array_merge(
 					$file,
-					array(
+					[
 						'url'  => 'https://example.com/foo',
 						'type' => 'text/plain',
-					)
+					]
 				);
 			}
 		);
@@ -199,7 +199,7 @@ class Test_Import extends Abstract_Template {
 		 */
 		function wp_handle_upload_error( $file, $message ) {
 			unset( $file );
-			return array( 'error' => $message );
+			return [ 'error' => $message ];
 		}
 
 		ob_start();
@@ -212,15 +212,15 @@ class Test_Import extends Abstract_Template {
 		$this->assertNotContains( $welcome_text, $output );
 
 		// The file is now a real file.
-		$file             = array( 'file' => $this->import_file_valid_json );
+		$file             = [ 'file' => $this->import_file_valid_json ];
 		$tmp_name         = $this->import_file_valid_json;
 		$files_import     = array_merge(
 			$file,
-			array(
+			[
 				'name'     => 'mock-import-valid-format',
 				'tmp_name' => $tmp_name,
 				'size'     => 29,
-			)
+			]
 		);
 		$_FILES['import'] = $files_import;
 
@@ -230,10 +230,10 @@ class Test_Import extends Abstract_Template {
 			function() use ( $file ) {
 				return array_merge(
 					$file,
-					array(
+					[
 						'url'  => 'https://example.com/foo',
 						'type' => 'text/plain',
-					)
+					]
 				);
 			}
 		);
@@ -347,12 +347,12 @@ class Test_Import extends Abstract_Template {
 	public function test_render_choose_blocks() {
 		$name   = 'block-name';
 		$title  = 'Example Block Title';
-		$blocks = array(
-			"block-lab/$name" => array(
+		$blocks = [
+			"block-lab/$name" => [
 				'name'  => $name,
 				'title' => $title,
-			),
-		);
+			],
+		];
 		ob_start();
 		$this->instance->render_choose_blocks( $blocks );
 		$output = ob_get_clean();
@@ -383,7 +383,7 @@ class Test_Import extends Abstract_Template {
 		$nonexistent_file = 'does-not-exist.xml';
 
 		ob_start();
-		$this->assertFalse( $this->instance->validate_upload( array( 'file' => $nonexistent_file ) ) );
+		$this->assertFalse( $this->instance->validate_upload( [ 'file' => $nonexistent_file ] ) );
 		$output = ob_get_clean();
 
 		// If the file doesn't exist, this should have a message that reflects that.
@@ -391,14 +391,14 @@ class Test_Import extends Abstract_Template {
 		$this->assertContains( '<p><strong>Sorry, there was an error uploading the file.</strong>', $output );
 
 		ob_start();
-		$this->assertFalse( $this->instance->validate_upload( array( 'file' => $this->import_file_invalid_json ) ) );
+		$this->assertFalse( $this->instance->validate_upload( [ 'file' => $this->import_file_invalid_json ] ) );
 		$output = ob_get_clean();
 
 		// If the file has invalid JSON, the message should reflect that.
 		$this->assertContains( '<p><strong>Sorry, there was an error processing the file.</strong></p><p>Invalid JSON.</p>', $output );
 
 		ob_start();
-		$this->assertTrue( $this->instance->validate_upload( array( 'file' => $this->import_file_valid_json ) ) );
+		$this->assertTrue( $this->instance->validate_upload( [ 'file' => $this->import_file_valid_json ] ) );
 		$output = ob_get_clean();
 
 		// If the file exists and has valid JSON, it shouldn't output a message.
@@ -414,28 +414,28 @@ class Test_Import extends Abstract_Template {
 		$name             = 'block-name';
 		$title            = 'Example Block Title';
 		$success_message  = '<p>Successfully imported';
-		$blocks_to_import = array(
-			"block-lab/$name" => array(
+		$blocks_to_import = [
+			"block-lab/$name" => [
 				'title' => $title,
-			),
-		);
+			],
+		];
 
 		ob_start();
 		$this->instance->import_blocks( $blocks_to_import );
 		$output      = ob_get_clean();
-		$block_query = new \WP_Query( array( 'post_type' => 'block_lab' ) );
+		$block_query = new \WP_Query( [ 'post_type' => 'block_lab' ] );
 
 		// When the 'name' isn't passed to the method, it shouldn't import any block, but should still have the 'All Done!' message.
 		$this->assertEmpty( $block_query->found_posts );
 		$this->assertContains( 'All done!', $output );
 		$this->assertNotContains( $success_message, $output );
 
-		$blocks_to_import = array(
-			"block-lab/$name" => array(
+		$blocks_to_import = [
+			"block-lab/$name" => [
 				'name'  => $name,
 				'title' => $title,
-			),
-		);
+			],
+		];
 
 		ob_start();
 		$this->instance->import_blocks( $blocks_to_import );
@@ -445,7 +445,7 @@ class Test_Import extends Abstract_Template {
 		$this->assertContains( $success_message, $output );
 		$this->assertContains( $title, $output );
 
-		$block_query     = new \WP_Query( array( 'post_type' => 'block_lab' ) );
+		$block_query     = new \WP_Query( [ 'post_type' => 'block_lab' ] );
 		$block           = reset( $block_query->posts );
 		$decoded_block   = json_decode( $block->post_content );
 		$full_block_name = 'block-lab/' . $name;
@@ -463,15 +463,15 @@ class Test_Import extends Abstract_Template {
 	public function test_block_exists() {
 		$block_namespace = 'block-lab/block-name';
 
-		$this->assertFalse( $this->invoke_protected_method( 'block_exists', array( $block_namespace ) ) );
+		$this->assertFalse( $this->invoke_protected_method( 'block_exists', [ $block_namespace ] ) );
 
 		register_block_type(
 			$block_namespace,
-			array(
+			[
 				'render_callback' => function() {},
-			)
+			]
 		);
 
-		$this->assertTrue( $this->invoke_protected_method( 'block_exists', array( $block_namespace ) ) );
+		$this->assertTrue( $this->invoke_protected_method( 'block_exists', [ $block_namespace ] ) );
 	}
 }

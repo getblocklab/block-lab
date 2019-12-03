@@ -28,7 +28,7 @@ class Test_Template_Output extends Abstract_Attribute {
 	public function set_properties() {
 		$this->block_name = 'all-fields-except-repeater';
 
-		$this->attributes = array(
+		$this->attributes = [
 			'classic-text' => '<h1>Here is a heading</h1><p>This is paragraph text that is <strong>bold</strong> and <em>italic</em></p><ul><li>Here is a li</li><li>And the next</li></ul>',
 			'className'    => $this->class_name,
 			'checkbox'     => true,
@@ -40,7 +40,7 @@ class Test_Template_Output extends Abstract_Attribute {
 			'color'        => '#777444',
 			'image'        => $this->get_image_attribute(),
 			'select'       => 'foo',
-			'multiselect'  => array( 'foo' ),
+			'multiselect'  => [ 'foo' ],
 			'toggle'       => true,
 			'range'        => 7,
 			'radio'        => 'baz',
@@ -48,9 +48,9 @@ class Test_Template_Output extends Abstract_Attribute {
 			'rich-text'    => '<p>This is <strong>bold</strong> and this is <em>italic</em></p><p></p><p>Here is a new line with a space above</p>',
 			'taxonomy'     => $this->get_taxonomy_attributes(),
 			'user'         => $this->get_user_attributes(),
-		);
+		];
 
-		$this->string_fields = array(
+		$this->string_fields = [
 			'classic-text',
 			'text',
 			'textarea',
@@ -61,36 +61,36 @@ class Test_Template_Output extends Abstract_Attribute {
 			'select',
 			'range',
 			'radio',
-		);
+		];
 
-		$this->object_fields = array(
+		$this->object_fields = [
 			'multiselect',
 			'post',
 			'taxonomy',
 			'user',
-		);
+		];
 
 		$image     = wp_get_attachment_image_src( $this->attributes['image'], 'full' );
 		$rich_text = '<p>This is <strong>bold</strong> and this is <em>italic</em></p></p><p>Here is a new line with a space above</p></p>';
 
-		$this->special_case_fields = array(
-			'checkbox'  => array(
+		$this->special_case_fields = [
+			'checkbox'  => [
 				'block_field' => 'Yes',
 				'block_value' => 1,
-			),
-			'image'     => array(
+			],
+			'image'     => [
 				'block_field' => $image[0],
 				'block_value' => $this->attributes['image'],
-			),
-			'rich-text' => array(
+			],
+			'rich-text' => [
 				'block_field' => $rich_text,
 				'block_value' => $rich_text,
-			),
-			'toggle'    => array(
+			],
+			'toggle'    => [
 				'block_field' => 'Yes',
 				'block_value' => 1,
-			),
-		);
+			],
+		];
 	}
 
 	/**
@@ -100,7 +100,7 @@ class Test_Template_Output extends Abstract_Attribute {
 	 */
 	public function get_block_config() {
 		$block_post = new Post_Types\Block_Post();
-		$fields     = array();
+		$fields     = [];
 
 		$all_fields = array_merge(
 			$this->string_fields,
@@ -111,26 +111,26 @@ class Test_Template_Output extends Abstract_Attribute {
 		foreach ( $all_fields as $field_name ) {
 			$control_name          = str_replace( '-', '_', $field_name );
 			$control               = $block_post->get_control( $control_name );
-			$fields[ $field_name ] = array(
+			$fields[ $field_name ] = [
 				'control' => str_replace( '-', '_', $field_name ),
 				'name'    => $control_name,
 				'type'    => $control->type,
-			);
+			];
 		}
 
-		return array(
-			'category' => array(
+		return [
+			'category' => [
 				'icon'  => null,
 				'slug'  => '',
 				'title' => '',
-			),
-			'excluded' => array(),
+			],
+			'excluded' => [],
 			'fields'   => $fields,
 			'icon'     => 'block_lab',
-			'keywords' => array( '' ),
+			'keywords' => [ '' ],
 			'name'     => $this->block_name,
 			'title'    => 'All Fields',
-		);
+		];
 	}
 
 	/**
@@ -147,8 +147,8 @@ class Test_Template_Output extends Abstract_Attribute {
 	public function test_block_template() {
 		$block = new Blocks\Block();
 		$block->from_array( $this->get_block_config() );
-		$rendered_template = $this->invoke_protected_method( block_lab()->loader, 'render_block_template', array( $block, $this->attributes ) );
-		$actual_template   = str_replace( array( "\t", "\n" ), '', $rendered_template );
+		$rendered_template = $this->invoke_protected_method( block_lab()->loader, 'render_block_template', [ $block, $this->attributes ] );
+		$actual_template   = str_replace( [ "\t", "\n" ], '', $rendered_template );
 
 		// The 'className' should be present.
 		$this->assertContains(
@@ -177,20 +177,20 @@ class Test_Template_Output extends Abstract_Attribute {
 			);
 		}
 
-		$object_fields = array(
-			'post'     => array(
+		$object_fields = [
+			'post'     => [
 				'object'     => get_post( $this->attributes['post']['id'] ),
-				'properties' => array( 'ID', 'post_name' ),
-			),
-			'taxonomy' => array(
+				'properties' => [ 'ID', 'post_name' ],
+			],
+			'taxonomy' => [
 				'object'     => get_term( $this->attributes['taxonomy']['id'] ),
-				'properties' => array( 'term_id', 'name' ),
-			),
-			'user'     => array(
+				'properties' => [ 'term_id', 'name' ],
+			],
+			'user'     => [
 				'object'     => get_user_by( 'id', $this->attributes['user']['id'] ),
-				'properties' => array( 'ID', 'first_name' ),
-			),
-		);
+				'properties' => [ 'ID', 'first_name' ],
+			],
+		];
 
 		/*
 		 * The fields here return objects for block_value(), so test that some of the properties are correct.

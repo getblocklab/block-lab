@@ -78,7 +78,7 @@
 							sprintf(
 								// translators: Opening and closing anchor and emphasis tags.
 								__( '%1$sGet Block Lab Pro!%2$s', 'block-lab' ),
-								'<a href="' . add_query_arg( array( 'page' => 'block-lab-pro' ) ) . '"><em>',
+								'<a href="' . add_query_arg( [ 'page' => 'block-lab-pro' ] ) . '"><em>',
 								'</em></a>'
 							)
 						)

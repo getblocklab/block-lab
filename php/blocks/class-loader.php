@@ -19,7 +19,7 @@ class Loader extends Component_Abstract {
 	 *
 	 * @var array
 	 */
-	protected $assets = array();
+	protected $assets = [];
 
 	/**
 	 * An associative array of block config data for the blocks that will be registered.
@@ -28,14 +28,14 @@ class Loader extends Component_Abstract {
 	 *
 	 * @var array
 	 */
-	protected $blocks = array();
+	protected $blocks = [];
 
 	/**
 	 * A data store for sharing data to helper functions.
 	 *
 	 * @var array
 	 */
-	protected $data = array();
+	protected $data = [];
 
 	/**
 	 * Load the Loader.
@@ -43,16 +43,16 @@ class Loader extends Component_Abstract {
 	 * @return $this
 	 */
 	public function init() {
-		$this->assets = array(
-			'path' => array(
+		$this->assets = [
+			'path' => [
 				'entry'        => $this->plugin->get_path( 'js/editor.blocks.js' ),
 				'editor_style' => $this->plugin->get_path( 'css/blocks.editor.css' ),
-			),
-			'url'  => array(
+			],
+			'url'  => [
 				'entry'        => $this->plugin->get_url( 'js/editor.blocks.js' ),
 				'editor_style' => $this->plugin->get_url( 'css/blocks.editor.css' ),
-			),
-		);
+			],
+		];
 
 		return $this;
 	}
@@ -124,7 +124,7 @@ class Loader extends Component_Abstract {
 	 */
 	protected function get_callback( $method_name ) {
 		return function( $arg ) use ( $method_name ) {
-			return call_user_func( array( $this, $method_name ), $arg );
+			return call_user_func( [ $this, $method_name ], $arg );
 		};
 	}
 
@@ -135,7 +135,7 @@ class Loader extends Component_Abstract {
 		wp_enqueue_script(
 			'block-lab-blocks',
 			$this->assets['url']['entry'],
-			array( 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-api-fetch' ),
+			[ 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-api-fetch' ],
 			$this->plugin->get_version(),
 			true
 		);
@@ -151,26 +151,26 @@ class Loader extends Component_Abstract {
 		wp_enqueue_style(
 			'block-lab-editor-css',
 			$this->assets['url']['editor_style'],
-			array(),
+			[],
 			$this->plugin->get_version()
 		);
 
 		$block_names = wp_list_pluck( $this->blocks, 'name' );
 
 		foreach ( $block_names as $block_name ) {
-			$this->enqueue_block_styles( $block_name, array( 'preview', 'block' ) );
+			$this->enqueue_block_styles( $block_name, [ 'preview', 'block' ] );
 		}
 
 		$this->enqueue_global_styles();
 
 		// Used to conditionally show notices for blocks belonging to an author.
 		$author_blocks = get_posts(
-			array(
+			[
 				'author'         => get_current_user_id(),
 				'post_type'      => 'block_lab',
 				// We could use -1 here, but that could be dangerous. 99 is more than enough.
 				'posts_per_page' => 99,
-			)
+			]
 		);
 
 		$author_block_slugs = wp_list_pluck( $author_blocks, 'post_name' );
@@ -182,10 +182,10 @@ class Loader extends Component_Abstract {
 		wp_localize_script(
 			'block-lab-blocks',
 			'blockLab',
-			array(
+			[
 				'authorBlocks' => $author_block_slugs,
 				'postType'     => $post_type,
-			)
+			]
 		);
 	}
 
@@ -223,13 +223,13 @@ class Loader extends Component_Abstract {
 
 		register_block_type(
 			$block_name,
-			array(
+			[
 				'attributes'      => $attributes,
 				// @see https://github.com/WordPress/gutenberg/issues/4671
 				'render_callback' => function ( $attributes ) use ( $block ) {
 					return $this->render_block_template( $block, $attributes );
 				},
-			)
+			]
 		);
 	}
 
@@ -272,10 +272,10 @@ class Loader extends Component_Abstract {
 	 * @return array
 	 */
 	protected function get_block_attributes( $block ) {
-		$attributes = array();
+		$attributes = [];
 
 		// Default Editor attributes (applied to all blocks).
-		$attributes['className'] = array( 'type' => 'string' );
+		$attributes['className'] = [ 'type' => 'string' ];
 
 		foreach ( $block->fields as $field_name => $field ) {
 			$attributes = $this->get_attributes_from_field( $attributes, $field_name, $field );
@@ -302,9 +302,9 @@ class Loader extends Component_Abstract {
 	 * @return array $attributes The attributes, with the new field value set.
 	 */
 	protected function get_attributes_from_field( $attributes, $field_name, $field ) {
-		$attributes[ $field_name ] = array(
+		$attributes[ $field_name ] = [
 			'type' => $field->type,
-		);
+		];
 
 		if ( ! empty( $field->settings['default'] ) ) {
 			$attributes[ $field_name ]['default'] = $field->settings['default'];
@@ -318,7 +318,7 @@ class Loader extends Component_Abstract {
 			 */
 			unset( $attributes[ $field_name ]['default'] );
 			$items_type                         = 'repeater' === $field->control ? 'object' : 'string';
-			$attributes[ $field_name ]['items'] = array( 'type' => $items_type );
+			$attributes[ $field_name ]['items'] = [ 'type' => $items_type ];
 		}
 
 		return $attributes;
@@ -339,7 +339,7 @@ class Loader extends Component_Abstract {
 		$context = filter_input( INPUT_GET, 'context', FILTER_SANITIZE_STRING );
 
 		if ( 'edit' === $context ) {
-			$type = array( 'preview', 'block' );
+			$type = [ 'preview', 'block' ];
 		}
 
 		if ( ! is_admin() ) {
@@ -425,7 +425,7 @@ class Loader extends Component_Abstract {
 	 * @param string|array $type The type of template to load.
 	 */
 	protected function enqueue_block_styles( $name, $type = 'block' ) {
-		$locations = array();
+		$locations = [];
 		$types     = (array) $type;
 
 		foreach ( $types as $type ) {
@@ -446,7 +446,7 @@ class Loader extends Component_Abstract {
 			wp_enqueue_style(
 				"block-lab__block-{$name}",
 				$stylesheet_url,
-				array(),
+				[],
 				wp_get_theme()->get( 'Version' )
 			);
 		}
@@ -456,10 +456,10 @@ class Loader extends Component_Abstract {
 	 * Enqueues global block styles.
 	 */
 	protected function enqueue_global_styles() {
-		$locations = array(
+		$locations = [
 			'blocks/css/blocks.css',
 			'blocks/blocks.css',
-		);
+		];
 
 		$stylesheet_path = block_lab()->locate_template( $locations );
 		$stylesheet_url  = block_lab()->get_url_from_path( $stylesheet_path );
@@ -471,7 +471,7 @@ class Loader extends Component_Abstract {
 			wp_enqueue_style(
 				'block-lab__global-styles',
 				$stylesheet_url,
-				array(),
+				[],
 				wp_get_theme()->get( 'Version' )
 			);
 		}
@@ -551,11 +551,11 @@ class Loader extends Component_Abstract {
 		 * Retrieve blocks stored as posts in the WordPress database.
 		 */
 		$block_posts = new \WP_Query(
-			array(
+			[
 				'post_type'      => block_lab()->get_post_type_slug(),
 				'post_status'    => 'publish',
 				'posts_per_page' => 100, // This has to have a limit for this plugin to be scalable.
-			)
+			]
 		);
 
 		if ( 0 < $block_posts->post_count ) {

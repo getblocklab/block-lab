@@ -22,7 +22,7 @@ class Loop {
 	 *
 	 * @var array
 	 */
-	public $loops = array();
+	public $loops = [];
 
 	/**
 	 * Currently active loop

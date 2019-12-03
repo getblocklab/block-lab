@@ -27,8 +27,8 @@ class Upgrade extends Component_Abstract {
 	 * Register any hooks that this component needs.
 	 */
 	public function register_hooks() {
-		add_action( 'admin_menu', array( $this, 'add_submenu_pages' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'admin_menu', [ $this, 'add_submenu_pages' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 	}
 
 	/**
@@ -44,7 +44,7 @@ class Upgrade extends Component_Abstract {
 			wp_enqueue_style(
 				$this->slug,
 				$this->plugin->get_url( 'css/admin.upgrade.css' ),
-				array(),
+				[],
 				$this->plugin->get_version()
 			);
 		}
@@ -60,7 +60,7 @@ class Upgrade extends Component_Abstract {
 			__( 'Go Pro', 'block-lab' ),
 			'manage_options',
 			$this->slug,
-			array( $this, 'render_page' )
+			[ $this, 'render_page' ]
 		);
 	}
 

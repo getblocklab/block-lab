@@ -36,15 +36,15 @@ class Test_Defaults extends Abstract_Attribute {
 	 */
 	public function set_properties() {
 		$this->block_name = 'all-fields-except-repeater';
-		$this->attributes = array(
+		$this->attributes = [
 			'className' => $this->class_name,
-		);
+		];
 
-		$this->defaults = array(
+		$this->defaults = [
 			'checkbox'    => 1,
 			'color'       => '#777777',
 			'email'       => 'yourname@example.com',
-			'multiselect' => array( 'example-default' ),
+			'multiselect' => [ 'example-default' ],
 			'number'      => '56',
 			'radio'       => 'baz',
 			'range'       => 5,
@@ -54,9 +54,9 @@ class Test_Defaults extends Abstract_Attribute {
 			'textarea'    => 'And this is the Textarea default',
 			'toggle'      => 1,
 			'url'         => 'https://example.com/this-is-a-default',
-		);
+		];
 
-		$this->string_fields = array(
+		$this->string_fields = [
 			'color',
 			'email',
 			'number',
@@ -66,26 +66,26 @@ class Test_Defaults extends Abstract_Attribute {
 			'text',
 			'textarea',
 			'url',
-		);
+		];
 
 		$rich_text_value           = sprintf( '<p>%s</p></p>', $this->defaults['rich-text'] );
-		$this->special_case_fields = array(
-			'checkbox'    => array(
+		$this->special_case_fields = [
+			'checkbox'    => [
 				'block_field' => $this->defaults['checkbox'] ? 'Yes' : 'No',
 				'block_value' => $this->defaults['checkbox'] ? '1' : '',
-			),
-			'multiselect' => array(
+			],
+			'multiselect' => [
 				'block_field' => 'example-default',
-			),
-			'rich-text'   => array(
+			],
+			'rich-text'   => [
 				'block_field' => $rich_text_value,
 				'block_value' => $rich_text_value,
-			),
-			'toggle'      => array(
+			],
+			'toggle'      => [
 				'block_field' => $this->defaults['toggle'] ? 'Yes' : 'No',
 				'block_value' => $this->defaults['toggle'] ? '1' : '',
-			),
-		);
+			],
+		];
 	}
 
 	/**
@@ -95,34 +95,34 @@ class Test_Defaults extends Abstract_Attribute {
 	 */
 	public function get_block_config() {
 		$block_post = new Post_Types\Block_Post();
-		$fields     = array();
+		$fields     = [];
 
 		foreach ( $this->defaults as $field_name => $default_value ) {
 			$control_name          = str_replace( '-', '_', $field_name );
 			$control               = $block_post->get_control( $control_name );
-			$fields[ $field_name ] = array(
+			$fields[ $field_name ] = [
 				'control'  => str_replace( '-', '_', $field_name ),
 				'name'     => $control_name,
 				'type'     => $control->type,
-				'settings' => array(
+				'settings' => [
 					'default' => $this->defaults[ $field_name ],
-				),
-			);
+				],
+			];
 		}
 
-		return array(
-			'category' => array(
+		return [
+			'category' => [
 				'icon'  => null,
 				'slug'  => '',
 				'title' => '',
-			),
-			'excluded' => array(),
+			],
+			'excluded' => [],
 			'fields'   => $fields,
 			'icon'     => 'block_lab',
-			'keywords' => array( '' ),
+			'keywords' => [ '' ],
 			'name'     => $this->block_name,
 			'title'    => 'All Fields',
-		);
+		];
 	}
 
 	/**
@@ -135,8 +135,8 @@ class Test_Defaults extends Abstract_Attribute {
 	public function test_block_template() {
 		$block = new Blocks\Block();
 		$block->from_array( $this->get_block_config() );
-		$rendered_template = $this->invoke_protected_method( block_lab()->loader, 'render_block_template', array( $block, $this->attributes ) );
-		$actual_template   = str_replace( array( "\t", "\n" ), '', $rendered_template );
+		$rendered_template = $this->invoke_protected_method( block_lab()->loader, 'render_block_template', [ $block, $this->attributes ] );
+		$actual_template   = str_replace( [ "\t", "\n" ], '', $rendered_template );
 
 		// The 'className' should be present.
 		$this->assertContains(

@@ -47,18 +47,18 @@ class Test_Image extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Controls\Image::register_settings()
 	 */
 	public function test_register_settings() {
-		$expected_settings = array(
-			array(
+		$expected_settings = [
+			[
 				'name'     => 'location',
 				'label'    => 'Field Location',
 				'type'     => 'location',
 				'default'  => 'editor',
 				'help'     => '',
-				'sanitize' => array( $this->instance, 'sanitize_location' ),
+				'sanitize' => [ $this->instance, 'sanitize_location' ],
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'width',
 				'label'    => 'Field Width',
 				'type'     => 'width',
@@ -67,8 +67,8 @@ class Test_Image extends \WP_UnitTestCase {
 				'sanitize' => 'sanitize_text_field',
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'help',
 				'label'    => 'Help Text',
 				'type'     => 'text',
@@ -77,8 +77,8 @@ class Test_Image extends \WP_UnitTestCase {
 				'sanitize' => 'sanitize_text_field',
 				'validate' => '',
 				'value'    => null,
-			),
-		);
+			],
+		];
 
 		$this->assert_correct_settings( $expected_settings, $this->instance->settings );
 	}
@@ -91,15 +91,15 @@ class Test_Image extends \WP_UnitTestCase {
 	public function test_validate() {
 		$image_file             = 'bar.jpeg';
 		$expected_attachment_id = $this->factory()->attachment->create_object(
-			array( 'file' => $image_file ),
+			[ 'file' => $image_file ],
 			0,
-			array(
+			[
 				'post_mime_type' => 'image/jpeg',
-			)
+			]
 		);
 
 		// This is needed because attachments seem to usually have this kind of metadata.
-		wp_update_attachment_metadata( $expected_attachment_id, array( 'file' => $image_file ) );
+		wp_update_attachment_metadata( $expected_attachment_id, [ 'file' => $image_file ] );
 		$valid_attachment_url   = wp_get_attachment_url( $expected_attachment_id );
 		$wp_upload              = wp_get_upload_dir();
 		$invalid_attachment_url = $wp_upload['url'] . '/invalid.jpeg';

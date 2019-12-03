@@ -56,11 +56,11 @@ class Util extends Component_Abstract {
 	 * @return array
 	 */
 	public function get_template_locations( $name, $type = 'block' ) {
-		return array(
+		return [
 			"blocks/{$name}/{$type}.php",
 			"blocks/{$type}-{$name}.php",
 			"blocks/{$type}.php",
-		);
+		];
 	}
 
 	/**
@@ -72,11 +72,11 @@ class Util extends Component_Abstract {
 	 * @return array
 	 */
 	public function get_stylesheet_locations( $name, $type = 'block' ) {
-		return array(
+		return [
 			"blocks/{$name}/{$type}.css",
 			"blocks/css/{$type}-{$name}.css",
 			"blocks/{$type}-{$name}.css",
-		);
+		];
 	}
 
 	/**
@@ -108,7 +108,7 @@ class Util extends Component_Abstract {
 		$stylesheet_path = get_template_directory();
 		$template_path   = get_stylesheet_directory();
 
-		$located = array();
+		$located = [];
 
 		foreach ( (array) $template_names as $template_name ) {
 
@@ -185,27 +185,27 @@ class Util extends Component_Abstract {
 	 * @return array
 	 */
 	public function allowed_svg_tags() {
-		$allowed_tags = array(
-			'svg'    => array(
+		$allowed_tags = [
+			'svg'    => [
 				'xmlns'   => true,
 				'width'   => true,
 				'height'  => true,
 				'viewbox' => true,
-			),
-			'g'      => array( 'fill' => true ),
-			'title'  => array( 'title' => true ),
-			'path'   => array(
+			],
+			'g'      => [ 'fill' => true ],
+			'title'  => [ 'title' => true ],
+			'path'   => [
 				'd'       => true,
 				'fill'    => true,
 				'opacity' => true,
-			),
-			'circle' => array(
+			],
+			'circle' => [
 				'cx'   => true,
 				'cy'   => true,
 				'r'    => true,
 				'fill' => true,
-			),
-		);
+			],
+		];
 
 		/**
 		 * The tags that an <svg> allows.

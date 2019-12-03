@@ -91,11 +91,11 @@ class Test_Plugin extends \WP_UnitTestCase {
 	public function test_get_template_locations() {
 		$name = 'foo-baz';
 		$this->assertEquals(
-			array(
+			[
 				'blocks/foo-baz/block.php',
 				'blocks/block-foo-baz.php',
 				'blocks/block.php',
-			),
+			],
 			$this->instance->get_template_locations( $name )
 		);
 	}

@@ -42,7 +42,7 @@ abstract class Control_Abstract {
 	 *
 	 * @var Control_Setting[]
 	 */
-	public $settings = array();
+	public $settings = [];
 
 	/**
 	 * Configurations for common settings, like 'help' and 'placeholder'.
@@ -54,14 +54,14 @@ abstract class Control_Abstract {
 	 *     @type array  $setting_config The default configuration of the setting.
 	 * }
 	 */
-	public $settings_config = array();
+	public $settings_config = [];
 
 	/**
 	 * The possible editor locations, either in the main block editor, or the inspector controls.
 	 *
 	 * @var array
 	 */
-	public $locations = array();
+	public $locations = [];
 
 	/**
 	 * Control constructor.
@@ -82,48 +82,48 @@ abstract class Control_Abstract {
 	 * @return void
 	 */
 	public function create_settings_config() {
-		$this->settings_config = array(
-			'location'    => array(
+		$this->settings_config = [
+			'location'    => [
 				'name'     => 'location',
 				'label'    => __( 'Field Location', 'block-lab' ),
 				'type'     => 'location',
 				'default'  => 'editor',
-				'sanitize' => array( $this, 'sanitize_location' ),
-			),
-			'width'       => array(
+				'sanitize' => [ $this, 'sanitize_location' ],
+			],
+			'width'       => [
 				'name'     => 'width',
 				'label'    => __( 'Field Width', 'block-lab' ),
 				'type'     => 'width',
 				'default'  => '100',
 				'sanitize' => 'sanitize_text_field',
-			),
-			'help'        => array(
+			],
+			'help'        => [
 				'name'     => 'help',
 				'label'    => __( 'Help Text', 'block-lab' ),
 				'type'     => 'text',
 				'default'  => '',
 				'sanitize' => 'sanitize_text_field',
-			),
-			'default'     => array(
+			],
+			'default'     => [
 				'name'     => 'default',
 				'label'    => __( 'Default Value', 'block-lab' ),
 				'type'     => 'text',
 				'default'  => '',
 				'sanitize' => 'sanitize_text_field',
-			),
-			'placeholder' => array(
+			],
+			'placeholder' => [
 				'name'     => 'placeholder',
 				'label'    => __( 'Placeholder Text', 'block-lab' ),
 				'type'     => 'text',
 				'default'  => '',
 				'sanitize' => 'sanitize_text_field',
-			),
-		);
+			],
+		];
 
-		$this->locations = array(
+		$this->locations = [
 			'editor'    => __( 'Editor', 'block-lab' ),
 			'inspector' => __( 'Inspector', 'block-lab' ),
-		);
+		];
 	}
 
 	/**
@@ -159,13 +159,13 @@ abstract class Control_Abstract {
 				$setting->value = $setting->default;
 			}
 
-			$classes = array(
+			$classes = [
 				"block-fields-edit-settings-{$this->name}-{$setting->name}",
 				"block-fields-edit-{$setting->name}-settings",
 				"block-fields-edit-settings-{$this->name}",
 				"block-fields-edit-{$setting->name}-settings",
 				'block-fields-edit-settings',
-			);
+			];
 			$name    = 'block-fields-settings[' . $uid . '][' . $setting->name . ']';
 			$id      = 'block-fields-edit-settings-' . $this->name . '-' . $setting->name . '_' . $uid;
 			?>
@@ -359,12 +359,12 @@ abstract class Control_Abstract {
 	 * @return void
 	 */
 	public function render_settings_width( $setting, $name, $id ) {
-		$widths = array(
+		$widths = [
 			'25'  => '25%',
 			'50'  => '50%',
 			'75'  => '75%',
 			'100' => '100%',
-		);
+		];
 		?>
 		<div class="button-group">
 		<?php
@@ -451,7 +451,7 @@ abstract class Control_Abstract {
 	 */
 	public function sanitize_textarea_assoc_array( $value ) {
 		$rows    = preg_split( '/\r\n|[\r\n]/', $value );
-		$options = array();
+		$options = [];
 
 		foreach ( $rows as $key => $option ) {
 			if ( '' === $option ) {
@@ -484,7 +484,7 @@ abstract class Control_Abstract {
 	 */
 	public function sanitize_textarea_array( $value ) {
 		$rows    = preg_split( '/\r\n|[\r\n]/', $value );
-		$options = array();
+		$options = [];
 
 		foreach ( $rows as $key => $option ) {
 			if ( '' === $option ) {
@@ -538,7 +538,7 @@ abstract class Control_Abstract {
 			return $value;
 		}
 
-		$options = array();
+		$options = [];
 
 		// Reindex the options into a more workable format.
 		array_walk(
