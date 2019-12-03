@@ -109,7 +109,7 @@ class Test_Repeater_Template_Output extends Abstract_Attribute {
 					'block_sub_value' => $row['checkbox'] ? '1' : '',
 				],
 				'image'     => [
-					'block_sub_field' => $image[0],
+					'block_sub_field' => isset( $image[0] ) ? $image[0] : '',
 					'block_sub_value' => $row['image'],
 				],
 				'rich-text' => [

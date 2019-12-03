@@ -79,7 +79,7 @@ class Test_Template_Output extends Abstract_Attribute {
 				'block_value' => 1,
 			],
 			'image'     => [
-				'block_field' => $image[0],
+				'block_field' => isset( $image[0] ) ? $image[0] : '',
 				'block_value' => $this->attributes['image'],
 			],
 			'rich-text' => [
