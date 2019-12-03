@@ -104,10 +104,8 @@ class Test_Helpers extends \WP_UnitTestCase {
 
 		add_filter(
 			'block_lab_data_attributes',
-			function( $data ) use ( $additional_field_name, $additional_field_value ) {
-				return [
-					$additional_field_name => $additional_field_value,
-				];
+			function() use ( $additional_field_name, $additional_field_value ) {
+				return [ $additional_field_name => $additional_field_value ];
 			}
 		);
 
