@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ruleset name="WordPress Coding Standards for Plugins">
+<ruleset name="WordPress Coding Standards for Block Lab">
 
 	<rule ref="WordPress-Core">
 		<exclude name="Generic.Arrays.DisallowShortArraySyntax" />
@@ -9,7 +9,7 @@
 	<rule ref="WordPress-Extra" />
 
 	<rule ref="WordPress.Files.FileName.InvalidClassFileName">
-			<exclude-pattern>tests/*</exclude-pattern>
+		<exclude-pattern>tests/*</exclude-pattern>
 	</rule>
 
 	<rule ref="Generic.Arrays.DisallowLongArraySyntax.Found" />
