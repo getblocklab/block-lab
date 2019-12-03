@@ -147,9 +147,7 @@ class Import extends Component_Abstract {
 					),
 					'</a>'
 				),
-				[
-					'a' => [ 'href' => [] ],
-				]
+				[ 'a' => [ 'href' => [] ] ]
 			);
 			?>
 		</p>
