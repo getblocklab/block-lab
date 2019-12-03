@@ -15,7 +15,7 @@ cache:
 matrix:
   include:
     - php: 7.4snapshot
-      env: WP_VERSION=latest PHPUNIT_VERSION=8.4.3
+      env: WP_VERSION=latest PHPUNIT_VERSION=7.5.17
     - php: 7.3
       env: WP_VERSION=latest
     - php: 7.2
