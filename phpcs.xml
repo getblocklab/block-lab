@@ -18,7 +18,6 @@
 		<properties>
 			<property name="text_domain" type="array">
 				<element value="block-lab"/>
-				<element value="default"/>
 			</property>
 		</properties>
 	</rule>
