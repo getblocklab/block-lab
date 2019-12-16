@@ -37,7 +37,7 @@ class Classic_Text extends Control_Abstract {
 	 * @return void
 	 */
 	public function register_settings() {
-		foreach ( array( 'help', 'default' ) as $setting ) {
+		foreach ( [ 'help', 'default' ] as $setting ) {
 			$this->settings[] = new Control_Setting( $this->settings_config[ $setting ] );
 		}
 	}

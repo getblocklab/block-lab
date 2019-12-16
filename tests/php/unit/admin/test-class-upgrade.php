@@ -68,8 +68,8 @@ class Test_Upgrade extends \WP_UnitTestCase {
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
-		$this->assertEquals( 10, has_action( 'admin_menu', array( $this->instance, 'add_submenu_pages' ) ) );
-		$this->assertEquals( 10, has_action( 'admin_enqueue_scripts', array( $this->instance, 'enqueue_scripts' ) ) );
+		$this->assertEquals( 10, has_action( 'admin_menu', [ $this->instance, 'add_submenu_pages' ] ) );
+		$this->assertEquals( 10, has_action( 'admin_enqueue_scripts', [ $this->instance, 'enqueue_scripts' ] ) );
 	}
 
 	/**
@@ -118,8 +118,8 @@ class Test_Upgrade extends \WP_UnitTestCase {
 		$this->assertTrue( in_array( $this->instance->slug, $styles->queue, true ) );
 		$this->assertEquals( $this->instance->slug, $style->handle );
 		$this->assertContains( 'block-lab/css/admin.upgrade.css', $style->src );
-		$this->assertEquals( array(), $style->deps );
-		$this->assertEquals( array(), $style->extra );
+		$this->assertEquals( [], $style->deps );
+		$this->assertEquals( [], $style->extra );
 	}
 
 	/**
@@ -130,24 +130,24 @@ class Test_Upgrade extends \WP_UnitTestCase {
 	public function test_add_submenu_pages() {
 		global $submenu;
 
-		$expected_submenu_settings = array(
+		$expected_submenu_settings = [
 			'Go Pro',
 			'manage_options',
 			$this->instance->slug,
 			'Block Lab Pro',
-		);
+		];
 
-		wp_set_current_user( $this->factory()->user->create( array( 'role' => 'subscriber' ) ) );
+		wp_set_current_user( $this->factory()->user->create( [ 'role' => 'subscriber' ] ) );
 		$this->instance->add_submenu_pages();
 
 		// Because the current user doesn't have 'manage_options' permissions, this shouldn't add the submenu.
 		$this->assertFalse( isset( $submenu ) && array_key_exists( self::SUBMENU_PARENT_SLUG, $submenu ) );
 
-		wp_set_current_user( $this->factory()->user->create( array( 'role' => 'administrator' ) ) );
+		wp_set_current_user( $this->factory()->user->create( [ 'role' => 'administrator' ] ) );
 		$this->instance->add_submenu_pages();
 
 		// Now that the user has 'manage_options' permissions, this should add the submenu.
-		$this->assertEquals( array( $expected_submenu_settings ), $submenu[ self::SUBMENU_PARENT_SLUG ] );
+		$this->assertEquals( [ $expected_submenu_settings ], $submenu[ self::SUBMENU_PARENT_SLUG ] );
 	}
 
 	/**

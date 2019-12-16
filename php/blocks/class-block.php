@@ -33,7 +33,7 @@ class Block {
 	 *
 	 * @var array
 	 */
-	public $excluded = array();
+	public $excluded = [];
 
 	/**
 	 * Icon.
@@ -47,25 +47,25 @@ class Block {
 	 *
 	 * @var array
 	 */
-	public $category = array(
+	public $category = [
 		'slug'  => '',
 		'title' => '',
 		'icon'  => '',
-	);
+	];
 
 	/**
 	 * Block keywords.
 	 *
 	 * @var string[]
 	 */
-	public $keywords = array();
+	public $keywords = [];
 
 	/**
 	 * Block fields.
 	 *
 	 * @var Field[]
 	 */
-	public $fields = array();
+	public $fields = [];
 
 	/**
 	 * Block constructor.
@@ -163,12 +163,12 @@ class Block {
 		$config['category'] = $this->category;
 		$config['keywords'] = $this->keywords;
 
-		$config['fields'] = array();
+		$config['fields'] = [];
 		foreach ( $this->fields as $key => $field ) {
 			$config['fields'][ $key ] = $field->to_array();
 		}
 
-		return wp_json_encode( array( 'block-lab/' . $this->name => $config ), JSON_UNESCAPED_UNICODE );
+		return wp_json_encode( [ 'block-lab/' . $this->name => $config ], JSON_UNESCAPED_UNICODE );
 	}
 
 	/**
@@ -185,10 +185,10 @@ class Block {
 	 * @return array
 	 */
 	public function get_category_array_from_slug( $slug ) {
-		return array(
+		return [
 			'slug'  => $slug,
 			'title' => ucwords( $slug, '-' ),
 			'icon'  => null,
-		);
+		];
 	}
 }

@@ -41,7 +41,7 @@ class Radio extends Control_Abstract {
 		$this->settings[] = new Control_Setting( $this->settings_config['width'] );
 		$this->settings[] = new Control_Setting( $this->settings_config['help'] );
 		$this->settings[] = new Control_Setting(
-			array(
+			[
 				'name'     => 'options',
 				'label'    => __( 'Choices', 'block-lab' ),
 				'type'     => 'textarea_array',
@@ -53,18 +53,18 @@ class Radio extends Control_Abstract {
 					_x( 'foo : Foo', 'Format for the menu values. option_value : Option Name', 'block-lab' ),
 					_x( 'bar : Bar', 'Format for the menu values. option_value : Option Name', 'block-lab' )
 				),
-				'sanitize' => array( $this, 'sanitize_textarea_assoc_array' ),
-			)
+				'sanitize' => [ $this, 'sanitize_textarea_assoc_array' ],
+			]
 		);
 		$this->settings[] = new Control_Setting(
-			array(
+			[
 				'name'     => 'default',
 				'label'    => __( 'Default Value', 'block-lab' ),
 				'type'     => 'text',
 				'default'  => '',
 				'sanitize' => 'sanitize_text_field',
-				'validate' => array( $this, 'validate_options' ),
-			)
+				'validate' => [ $this, 'validate_options' ],
+			]
 		);
 	}
 }

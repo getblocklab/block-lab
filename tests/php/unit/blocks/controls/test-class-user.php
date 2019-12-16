@@ -47,18 +47,18 @@ class Test_User extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Controls\User::register_settings()
 	 */
 	public function test_register_settings() {
-		$expected_settings = array(
-			array(
+		$expected_settings = [
+			[
 				'name'     => 'location',
 				'label'    => 'Field Location',
 				'type'     => 'location',
 				'default'  => 'editor',
 				'help'     => '',
-				'sanitize' => array( $this->instance, 'sanitize_location' ),
+				'sanitize' => [ $this->instance, 'sanitize_location' ],
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'width',
 				'label'    => 'Field Width',
 				'type'     => 'width',
@@ -67,8 +67,8 @@ class Test_User extends \WP_UnitTestCase {
 				'sanitize' => 'sanitize_text_field',
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'help',
 				'label'    => 'Help Text',
 				'type'     => 'text',
@@ -77,8 +77,8 @@ class Test_User extends \WP_UnitTestCase {
 				'sanitize' => 'sanitize_text_field',
 				'validate' => '',
 				'value'    => null,
-			),
-		);
+			],
+		];
 
 		$this->assert_correct_settings( $expected_settings, $this->instance->settings );
 	}
@@ -93,10 +93,10 @@ class Test_User extends \WP_UnitTestCase {
 		$valid_user_id    = $expected_wp_user->ID;
 		$invalid_user_id  = 11111111;
 
-		$this->assertFalse( $this->instance->validate( array( 'id' => $invalid_user_id ), false ) );
-		$this->assertEquals( $expected_wp_user, $this->instance->validate( array( 'id' => $valid_user_id ), false ) );
-		$this->assertEquals( '', $this->instance->validate( array( 'id' => $invalid_user_id ), true ) );
-		$this->assertEquals( $expected_wp_user->get( 'display_name' ), $this->instance->validate( array( 'id' => $valid_user_id ), true ) );
+		$this->assertFalse( $this->instance->validate( [ 'id' => $invalid_user_id ], false ) );
+		$this->assertEquals( $expected_wp_user, $this->instance->validate( [ 'id' => $valid_user_id ], false ) );
+		$this->assertEquals( '', $this->instance->validate( [ 'id' => $invalid_user_id ], true ) );
+		$this->assertEquals( $expected_wp_user->get( 'display_name' ), $this->instance->validate( [ 'id' => $valid_user_id ], true ) );
 
 		// If the value is a string, instead of the expected object, assert the proper values.
 		$this->assertFalse( $this->instance->validate( 'Example username', false ) );

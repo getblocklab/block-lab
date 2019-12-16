@@ -77,12 +77,12 @@ abstract class Abstract_Attribute extends \WP_UnitTestCase {
 	 *
 	 * @var string[]
 	 */
-	public $special_case_field_names = array(
+	public $special_case_field_names = [
 		'checkbox',
 		'image',
 		'rich-text',
 		'toggle',
-	);
+	];
 
 	/**
 	 * Setup.
@@ -121,7 +121,7 @@ abstract class Abstract_Attribute extends \WP_UnitTestCase {
 	 * @return mixed The result of invoking the method.
 	 * @throws ReflectionException If invoking this fails.
 	 */
-	public function invoke_protected_method( $instance, $method_name, $args = array() ) {
+	public function invoke_protected_method( $instance, $method_name, $args = [] ) {
 		$method = new ReflectionMethod( $instance, $method_name );
 		$method->setAccessible( true );
 		return $method->invokeArgs( $instance, $args );
@@ -160,10 +160,10 @@ abstract class Abstract_Attribute extends \WP_UnitTestCase {
 	public function get_post_attributes() {
 		$id = $this->factory()->post->create();
 
-		return array(
+		return [
 			'id'   => $id,
 			'name' => get_the_title( $id ),
-		);
+		];
 	}
 
 	/**
@@ -174,10 +174,10 @@ abstract class Abstract_Attribute extends \WP_UnitTestCase {
 	public function get_taxonomy_attributes() {
 		$term = $this->factory()->tag->create_and_get();
 
-		return array(
+		return [
 			'id'   => $term->term_id,
 			'name' => $term->name,
-		);
+		];
 	}
 
 	/**
@@ -188,10 +188,10 @@ abstract class Abstract_Attribute extends \WP_UnitTestCase {
 	public function get_user_attributes() {
 		$user = $this->factory()->user->create_and_get();
 
-		return array(
+		return [
 			'id'       => $user->ID,
 			'userName' => $user->display_name,
-		);
+		];
 	}
 
 	/**
@@ -201,9 +201,9 @@ abstract class Abstract_Attribute extends \WP_UnitTestCase {
 	 */
 	public function get_image_attribute() {
 		return $this->factory()->attachment->create_object(
-			array( 'file' => 'baz.jpeg' ),
+			[ 'file' => 'baz.jpeg' ],
 			0,
-			array( 'post_mime_type' => 'image/jpeg' )
+			[ 'post_mime_type' => 'image/jpeg' ]
 		);
 	}
 }

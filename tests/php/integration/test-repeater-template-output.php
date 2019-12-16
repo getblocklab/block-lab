@@ -27,18 +27,18 @@ class Test_Repeater_Template_Output extends Abstract_Attribute {
 	 *
 	 * @var array[]
 	 */
-	public $special_case_fields = array();
+	public $special_case_fields = [];
 
 	/**
 	 * Sets class properties.
 	 */
 	public function set_properties() {
 		$this->block_name = 'repeater-all-fields';
-		$this->attributes = array(
+		$this->attributes = [
 			'className'               => $this->class_name,
-			self::REPEATER_FIELD_NAME => array(
-				'rows' => array(
-					array(
+			self::REPEATER_FIELD_NAME => [
+				'rows' => [
+					[
 						'checkbox'    => true,
 						'text'        => 'Here is a text field',
 						'textarea'    => 'This is the first lineAnd here is another',
@@ -48,7 +48,7 @@ class Test_Repeater_Template_Output extends Abstract_Attribute {
 						'color'       => 'rgba(68, 34, 65, 0.26666666666666666)',
 						'image'       => $this->get_image_attribute(),
 						'select'      => 'bar',
-						'multiselect' => array( 'bar' ),
+						'multiselect' => [ 'bar' ],
 						'toggle'      => true,
 						'range'       => 6,
 						'radio'       => 'bar',
@@ -56,8 +56,8 @@ class Test_Repeater_Template_Output extends Abstract_Attribute {
 						'rich-text'   => '<p>This is <strong>bold</strong></p><p>And this is <em>italic</em></p>',
 						'taxonomy'    => $this->get_taxonomy_attributes(),
 						'user'        => $this->get_user_attributes(),
-					),
-					array(
+					],
+					[
 						''            => '',
 						'checkbox'    => false,
 						'text'        => 'This is the second row',
@@ -68,7 +68,7 @@ class Test_Repeater_Template_Output extends Abstract_Attribute {
 						'color'       => 'rgba(53, 158, 53, 0.26666666666666666)',
 						'image'       => $this->get_image_attribute(),
 						'select'      => 'foo',
-						'multiselect' => array( 'bar' ),
+						'multiselect' => [ 'bar' ],
 						'toggle'      => false,
 						'range'       => 9,
 						'radio'       => 'bar',
@@ -76,12 +76,12 @@ class Test_Repeater_Template_Output extends Abstract_Attribute {
 						'rich-text'   => '<p>This is the first line</p><p>Here is <em>italic</em> and here is <strong>bold</strong></p>',
 						'taxonomy'    => $this->get_taxonomy_attributes(),
 						'user'        => $this->get_user_attributes(),
-					),
-				),
-			),
-		);
+					],
+				],
+			],
+		];
 
-		$this->string_fields = array(
+		$this->string_fields = [
 			'text',
 			'textarea',
 			'url',
@@ -91,36 +91,36 @@ class Test_Repeater_Template_Output extends Abstract_Attribute {
 			'select',
 			'range',
 			'radio',
-		);
+		];
 
-		$this->object_fields = array(
+		$this->object_fields = [
 			'multiselect',
 			'post',
 			'taxonomy',
 			'user',
-		);
+		];
 
 		foreach ( $this->attributes[ self::REPEATER_FIELD_NAME ]['rows'] as $row ) {
 			$image = wp_get_attachment_image_src( $row['image'], 'full' );
 
-			$this->special_case_fields[] = array(
-				'checkbox'  => array(
+			$this->special_case_fields[] = [
+				'checkbox'  => [
 					'block_sub_field' => $row['checkbox'] ? 'Yes' : 'No',
 					'block_sub_value' => $row['checkbox'] ? '1' : '',
-				),
-				'image'     => array(
-					'block_sub_field' => $image[0],
+				],
+				'image'     => [
+					'block_sub_field' => isset( $image[0] ) ? $image[0] : '',
 					'block_sub_value' => $row['image'],
-				),
-				'rich-text' => array(
+				],
+				'rich-text' => [
 					'block_sub_field' => $row['rich-text'],
 					'block_sub_value' => $row['rich-text'],
-				),
-				'toggle'    => array(
+				],
+				'toggle'    => [
 					'block_sub_field' => $row['toggle'] ? 'Yes' : 'No',
 					'block_sub_value' => $row['toggle'] ? '1' : '',
-				),
-			);
+				],
+			];
 		}
 	}
 
@@ -137,40 +137,40 @@ class Test_Repeater_Template_Output extends Abstract_Attribute {
 			$this->special_case_field_names
 		);
 
-		$sub_fields = array();
+		$sub_fields = [];
 		foreach ( $all_fields as $field_name ) {
 			$control_name              = str_replace( '-', '_', $field_name );
 			$control                   = $block_post->get_control( $control_name );
-			$sub_fields[ $field_name ] = array(
+			$sub_fields[ $field_name ] = [
 				'control' => str_replace( '-', '_', $field_name ),
 				'name'    => $control_name,
 				'type'    => $control->type,
 				'parent'  => self::REPEATER_FIELD_NAME,
-			);
+			];
 		}
 
-		$fields = array(
-			self::REPEATER_FIELD_NAME => array(
+		$fields = [
+			self::REPEATER_FIELD_NAME => [
 				'control'    => 'repeater',
 				'name'       => 'repeater',
 				'type'       => 'object',
 				'sub_fields' => $sub_fields,
-			),
-		);
+			],
+		];
 
-		return array(
-			'category' => array(
+		return [
+			'category' => [
 				'icon'  => null,
 				'slug'  => '',
 				'title' => '',
-			),
-			'excluded' => array(),
+			],
+			'excluded' => [],
 			'fields'   => $fields,
 			'icon'     => 'block_lab',
-			'keywords' => array( 'Repeater' ),
+			'keywords' => [ 'Repeater' ],
 			'name'     => $this->block_name,
 			'title'    => 'Repeater With All Fields',
-		);
+		];
 	}
 
 	/**
@@ -191,8 +191,8 @@ class Test_Repeater_Template_Output extends Abstract_Attribute {
 	public function test_repeater_template() {
 		$block = new Blocks\Block();
 		$block->from_array( $this->get_block_config() );
-		$rendered_template = $this->invoke_protected_method( block_lab()->loader, 'render_block_template', array( $block, $this->attributes ) );
-		$actual_template   = str_replace( array( "\t", "\n" ), '', $rendered_template );
+		$rendered_template = $this->invoke_protected_method( block_lab()->loader, 'render_block_template', [ $block, $this->attributes ] );
+		$actual_template   = str_replace( [ "\t", "\n" ], '', $rendered_template );
 		$rows              = $this->attributes[ self::REPEATER_FIELD_NAME ]['rows'];
 
 		$this->assertContains(
@@ -246,23 +246,23 @@ class Test_Repeater_Template_Output extends Abstract_Attribute {
 			}
 		}
 
-		$object_fields = array();
+		$object_fields = [];
 
 		foreach ( $rows as $row ) {
-			$object_fields[] = array(
-				'post'     => array(
+			$object_fields[] = [
+				'post'     => [
 					'object'     => get_post( $row['post']['id'] ),
-					'properties' => array( 'ID', 'post_name' ),
-				),
-				'taxonomy' => array(
+					'properties' => [ 'ID', 'post_name' ],
+				],
+				'taxonomy' => [
 					'object'     => get_term( $row['taxonomy']['id'] ),
-					'properties' => array( 'term_id', 'name' ),
-				),
-				'user'     => array(
+					'properties' => [ 'term_id', 'name' ],
+				],
+				'user'     => [
 					'object'     => get_user_by( 'id', $row['user']['id'] ),
-					'properties' => array( 'ID', 'first_name' ),
-				),
-			);
+					'properties' => [ 'ID', 'first_name' ],
+				],
+			];
 		}
 
 		/*

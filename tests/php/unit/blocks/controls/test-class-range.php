@@ -49,18 +49,18 @@ class Test_Range extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Controls\Range::register_settings()
 	 */
 	public function test_register_settings() {
-		$expected_settings = array(
-			array(
+		$expected_settings = [
+			[
 				'name'     => 'location',
 				'label'    => 'Field Location',
 				'type'     => 'location',
 				'default'  => 'editor',
 				'help'     => '',
-				'sanitize' => array( $this->instance, 'sanitize_location' ),
+				'sanitize' => [ $this->instance, 'sanitize_location' ],
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'width',
 				'label'    => 'Field Width',
 				'type'     => 'width',
@@ -69,8 +69,8 @@ class Test_Range extends \WP_UnitTestCase {
 				'sanitize' => 'sanitize_text_field',
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'help',
 				'label'    => 'Help Text',
 				'type'     => 'text',
@@ -79,48 +79,48 @@ class Test_Range extends \WP_UnitTestCase {
 				'sanitize' => 'sanitize_text_field',
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'min',
 				'label'    => 'Minimum Value',
 				'type'     => 'number',
 				'default'  => '',
 				'help'     => '',
-				'sanitize' => array( $this->instance, 'sanitize_number' ),
+				'sanitize' => [ $this->instance, 'sanitize_number' ],
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'max',
 				'label'    => 'Maximum Value',
 				'type'     => 'number',
 				'default'  => '',
 				'help'     => '',
-				'sanitize' => array( $this->instance, 'sanitize_number' ),
+				'sanitize' => [ $this->instance, 'sanitize_number' ],
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'step',
 				'label'    => 'Step Size',
 				'type'     => 'number_non_negative',
 				'default'  => 1,
 				'help'     => '',
-				'sanitize' => array( $this->instance, 'sanitize_number' ),
+				'sanitize' => [ $this->instance, 'sanitize_number' ],
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'default',
 				'label'    => 'Default Value',
 				'type'     => 'number',
 				'default'  => '',
 				'help'     => '',
-				'sanitize' => array( $this->instance, 'sanitize_number' ),
+				'sanitize' => [ $this->instance, 'sanitize_number' ],
 				'validate' => '',
 				'value'    => null,
-			),
-		);
+			],
+		];
 
 		$this->assert_correct_settings( $expected_settings, $this->instance->settings );
 	}

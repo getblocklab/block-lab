@@ -7,7 +7,7 @@
 
 // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaping could interfere with testing block_value().
 
-$non_object_fields = array(
+$non_object_fields = [
 	'textarea',
 	'url',
 	'email',
@@ -22,7 +22,7 @@ $non_object_fields = array(
 	'text',
 	'rich-text',
 	'classic-text',
-);
+];
 
 foreach ( $non_object_fields as $field ) :
 	?>
@@ -48,11 +48,11 @@ foreach ( $non_object_fields as $field ) :
 	<?php
 endforeach;
 
-$non_string_fields = array(
-	'post'     => array( 'ID', 'post_name' ),
-	'taxonomy' => array( 'term_id', 'name' ),
-	'user'     => array( 'ID', 'first_name' ),
-);
+$non_string_fields = [
+	'post'     => [ 'ID', 'post_name' ],
+	'taxonomy' => [ 'term_id', 'name' ],
+	'user'     => [ 'ID', 'first_name' ],
+];
 
 foreach ( $non_string_fields as $name => $value ) :
 	printf(

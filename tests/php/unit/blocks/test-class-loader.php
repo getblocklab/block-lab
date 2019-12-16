@@ -24,18 +24,18 @@ class Test_Loader extends Abstract_Template {
 	 *
 	 * @var array
 	 */
-	public $block_config_without_name = array(
+	public $block_config_without_name = [
 		'foo' => 'Example Value',
-	);
+	];
 
 	/**
 	 * A mock block config with a name.
 	 *
 	 * @var array
 	 */
-	public $block_config_with_name = array(
+	public $block_config_with_name = [
 		'name' => 'Example Block',
-	);
+	];
 
 	/**
 	 * Teardown.
@@ -71,11 +71,11 @@ class Test_Loader extends Abstract_Template {
 		global $wp_filter;
 
 		$this->instance->register_hooks();
-		$expected_filters = array(
+		$expected_filters = [
 			'enqueue_block_editor_assets',
 			'block_categories',
 			'plugins_loaded',
-		);
+		];
 
 		foreach ( $expected_filters as $filter ) {
 			$this->assertNotEmpty( $wp_filter[ $filter ]->callbacks[10] );
@@ -141,19 +141,19 @@ class Test_Loader extends Abstract_Template {
 		$block_name = 'test-image';
 		$block      = new Blocks\Block();
 
-		$block->from_array( array( 'name' => $block_name ) );
+		$block->from_array( [ 'name' => $block_name ] );
 
 		// Test that the do_action() call with this action runs, and that it allows enqueuing a script.
 		add_action(
 			'block_lab_render_template',
 			function( $block ) use ( $block_name, $slug, $script_url ) {
 				if ( $block_name === $block->name ) {
-					wp_enqueue_script( $slug, $script_url, array(), '0.1', true );
+					wp_enqueue_script( $slug, $script_url, [], '0.1', true );
 				}
 			}
 		);
 
-		$this->invoke_protected_method( 'render_block_template', array( $block, array() ) );
+		$this->invoke_protected_method( 'render_block_template', [ $block, [] ] );
 		$scripts = wp_scripts();
 		$script  = $scripts->registered[ $slug ];
 
@@ -168,11 +168,11 @@ class Test_Loader extends Abstract_Template {
 		add_action(
 			"block_lab_render_template_{$block_name}",
 			function() use ( $block_name, $slug, $script_url ) {
-				wp_enqueue_script( $slug, $script_url, array(), '0.1', true );
+				wp_enqueue_script( $slug, $script_url, [], '0.1', true );
 			}
 		);
 
-		$this->invoke_protected_method( 'render_block_template', array( $block, array() ) );
+		$this->invoke_protected_method( 'render_block_template', [ $block, [] ] );
 		$scripts = wp_scripts();
 		$script  = $scripts->registered[ $slug ];
 
@@ -195,7 +195,7 @@ class Test_Loader extends Abstract_Template {
 			$this->file_put_contents( $file, '' );
 			$file_url = str_replace( untrailingslashit( ABSPATH ), '', $file );
 
-			$this->invoke_protected_method( 'enqueue_block_styles', array( $this->mock_block_name, array( 'preview', 'block' ) ) );
+			$this->invoke_protected_method( 'enqueue_block_styles', [ $this->mock_block_name, [ 'preview', 'block' ] ] );
 			$this->assertContains( $block_handle, $wp_styles->queue );
 			$this->assertArrayHasKey( $block_handle, $wp_styles->registered );
 			$this->assertSame( $wp_styles->registered[ $block_handle ]->src, $file_url, "Trying to enqueue file #{$key} ({$file_url})." );
@@ -205,7 +205,7 @@ class Test_Loader extends Abstract_Template {
 		}
 
 		// Check that nothing is enqueued if the file doesn't exist.
-		$this->invoke_protected_method( 'enqueue_block_styles', array( 'does-not-exist', 'block' ) );
+		$this->invoke_protected_method( 'enqueue_block_styles', [ 'does-not-exist', 'block' ] );
 		$this->assertNotContains( $block_handle, $wp_styles->queue );
 		$this->assertArrayNotHasKey( $block_handle, $wp_styles->registered );
 	}
@@ -219,62 +219,62 @@ class Test_Loader extends Abstract_Template {
 		$text_name         = 'example-text';
 		$text_type         = 'text';
 		$text_default      = 'Title';
-		$text_field_config = array(
+		$text_field_config = [
 			'type'    => $text_type,
 			'default' => $text_default,
-		);
+		];
 
 		$image_name    = 'testing-image';
 		$image_type    = 'image';
 		$image_default = 'https://example/image';
 
-		$image_field_config = array(
+		$image_field_config = [
 			'type'    => $image_type,
 			'default' => $image_default,
-		);
+		];
 
-		$sub_fields = array(
+		$sub_fields = [
 			$text_name  => $text_field_config,
 			$image_name => $image_field_config,
-		);
+		];
 
 		$repeater_name         = 'baz-repeater';
 		$repeater_type         = 'repeater';
-		$repeater_field_config = array(
+		$repeater_field_config = [
 			'type'       => $repeater_type,
 			'sub_fields' => $sub_fields,
-		);
+		];
 
 		$taxonomy_name         = 'foo-taxonomy';
 		$taxonomy_type         = 'taxonomy';
-		$taxonomy_field_config = array(
+		$taxonomy_field_config = [
 			'type' => $taxonomy_type,
-		);
+		];
 
 		$block = new Blocks\Block();
 		$block->from_array(
-			array(
-				'fields' => array(
+			[
+				'fields' => [
 					$repeater_name => $repeater_field_config,
 					$taxonomy_name => $taxonomy_field_config,
-				),
-			)
+				],
+			]
 		);
 
-		$expected_attributes = array(
-			$repeater_name => array(
+		$expected_attributes = [
+			$repeater_name => [
 				'type' => $repeater_type,
-			),
-			'className'    => array(
+			],
+			'className'    => [
 				'type' => 'string',
-			),
-			$taxonomy_name => array(
+			],
+			$taxonomy_name => [
 				'type' => $taxonomy_type,
-			),
-		);
+			],
+		];
 
 		// Repeater sub-fields should not be returned, as they're not added as block attributes.
-		$actual_attributes = $this->invoke_protected_method( 'get_block_attributes', array( $block ) );
+		$actual_attributes = $this->invoke_protected_method( 'get_block_attributes', [ $block ] );
 		$this->assertEquals( $expected_attributes, $actual_attributes );
 	}
 
@@ -288,21 +288,21 @@ class Test_Loader extends Abstract_Template {
 		$image_type    = 'image';
 		$image_default = 'https://example/image';
 
-		$image_field_config = array(
+		$image_field_config = [
 			'type'    => $image_type,
 			'default' => $image_default,
-		);
+		];
 
 		$image_field = new Blocks\Field( $image_field_config );
 
-		$actual_attributes_with_image = $this->invoke_protected_method( 'get_attributes_from_field', array( array(), $image_name, $image_field ) );
+		$actual_attributes_with_image = $this->invoke_protected_method( 'get_attributes_from_field', [ [], $image_name, $image_field ] );
 		$this->assertEquals(
-			array(
-				$image_name => array(
+			[
+				$image_name => [
 					'default' => $image_default,
 					'type'    => $image_type,
-				),
-			),
+				],
+			],
 			$actual_attributes_with_image
 		);
 	}
@@ -315,10 +315,10 @@ class Test_Loader extends Abstract_Template {
 	public function test_enqueue_global_styles() {
 		$wp_styles          = wp_styles();
 		$enqueue_handle     = 'block-lab__global-styles';
-		$global_style_paths = array(
+		$global_style_paths = [
 			"{$this->theme_directory}/blocks/blocks.css",
 			"{$this->theme_directory}/blocks/css/blocks.css",
-		);
+		];
 
 		// Check that the correct stylesheet is enqueued.
 		foreach ( $global_style_paths as $key => $file ) {
@@ -344,14 +344,14 @@ class Test_Loader extends Abstract_Template {
 	 */
 	public function test_block_template() {
 		ob_start();
-		$this->invoke_protected_method( 'block_template', array( $this->mock_block_name ) );
+		$this->invoke_protected_method( 'block_template', [ $this->mock_block_name ] );
 
 		// If there is no template and the user does not have 'edit_posts' permissions, this should not output anything.
 		$this->assertEmpty( ob_get_clean() );
 
-		wp_set_current_user( $this->factory()->user->create( array( 'role' => 'administrator' ) ) );
+		wp_set_current_user( $this->factory()->user->create( [ 'role' => 'administrator' ] ) );
 		ob_start();
-		$this->invoke_protected_method( 'block_template', array( $this->mock_block_name ) );
+		$this->invoke_protected_method( 'block_template', [ $this->mock_block_name ] );
 		$output = ob_get_clean();
 
 		// There is still no template, but the user has the correct permissions, so this should output a warning.
@@ -372,7 +372,7 @@ class Test_Loader extends Abstract_Template {
 			$this->file_put_contents( $template_location, $expected_template_contents );
 
 			ob_start();
-			$this->invoke_protected_method( 'block_template', array( $this->mock_block_name ) );
+			$this->invoke_protected_method( 'block_template', [ $this->mock_block_name ] );
 			$this->assertContains( $expected_template_contents, ob_get_clean() );
 		}
 
@@ -390,7 +390,7 @@ class Test_Loader extends Abstract_Template {
 		);
 
 		ob_start();
-		$this->invoke_protected_method( 'block_template', array( $this->mock_block_name ) );
+		$this->invoke_protected_method( 'block_template', [ $this->mock_block_name ] );
 		$this->assertContains( $expected_overriden_template_contents, ob_get_clean() );
 	}
 
@@ -449,13 +449,13 @@ class Test_Loader extends Abstract_Template {
 	 * @return array The paths of the template CSS files.
 	 */
 	public function get_template_css_paths() {
-		return array(
+		return [
 			"{$this->theme_directory}/blocks/block-{$this->mock_block_name}.css",
 			"{$this->theme_directory}/blocks/css/block-{$this->mock_block_name}.css",
 			"{$this->theme_directory}/blocks/{$this->mock_block_name}/block.css",
 			"{$this->theme_directory}/blocks/preview-{$this->mock_block_name}.css",
 			"{$this->theme_directory}/blocks/css/preview-{$this->mock_block_name}.css",
 			"{$this->theme_directory}/blocks/{$this->mock_block_name}/preview.css",
-		);
+		];
 	}
 }

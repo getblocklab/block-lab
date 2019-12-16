@@ -41,13 +41,13 @@ class Email extends Control_Abstract {
 		$this->settings[] = new Control_Setting( $this->settings_config['width'] );
 		$this->settings[] = new Control_Setting( $this->settings_config['help'] );
 		$this->settings[] = new Control_Setting(
-			array(
+			[
 				'name'     => 'default',
 				'label'    => __( 'Default Value', 'block-lab' ),
 				'type'     => 'email',
 				'default'  => '',
 				'sanitize' => 'sanitize_email',
-			)
+			]
 		);
 		$this->settings[] = new Control_Setting( $this->settings_config['placeholder'] );
 	}
