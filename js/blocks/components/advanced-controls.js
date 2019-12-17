@@ -20,7 +20,7 @@ const AdvancedControls = ( { block } ) => {
 
 	const tip = sprintf(
 		__( 'The Additional CSS Class can be included in your block template with the %1$s field.', 'block-lab' ),
-		'<code>className</code>'
+		'<code>className</code>',
 	);
 
 	return (
