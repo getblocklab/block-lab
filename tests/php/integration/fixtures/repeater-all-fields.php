@@ -8,7 +8,7 @@
 // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaping could interfere with testing block_sub_value().
 
 $repeater_name     = 'repeater';
-$non_object_fields = array(
+$non_object_fields = [
 	'text',
 	'textarea',
 	'url',
@@ -22,7 +22,7 @@ $non_object_fields = array(
 	'checkbox',
 	'radio',
 	'rich-text',
-);
+];
 
 ?>
 <div class="<?php block_field( 'className' ); ?>">
@@ -64,11 +64,11 @@ if ( block_rows( $repeater_name ) ) :
 			<?php
 		endforeach;
 
-		$non_string_fields = array(
-			'post'     => array( 'ID', 'post_name' ),
-			'taxonomy' => array( 'term_id', 'name' ),
-			'user'     => array( 'ID', 'first_name' ),
-		);
+		$non_string_fields = [
+			'post'     => [ 'ID', 'post_name' ],
+			'taxonomy' => [ 'term_id', 'name' ],
+			'user'     => [ 'ID', 'first_name' ],
+		];
 
 		foreach ( $non_string_fields as $name => $value ) :
 			printf(

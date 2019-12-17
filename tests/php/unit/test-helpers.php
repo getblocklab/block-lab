@@ -53,12 +53,12 @@ class Test_Helpers extends \WP_UnitTestCase {
 		add_filter(
 			'block_lab_data_config',
 			function( $data ) use ( $field_name ) {
-				$field_config = array( 'control' => 'text' );
-				$block_config = array(
-					'fields' => array(
+				$field_config = [ 'control' => 'text' ];
+				$block_config = [
+					'fields' => [
 						$field_name => $field_config,
-					),
-				);
+					],
+				];
 
 				$data = new Blocks\Block();
 				$data->from_array( $block_config );
@@ -104,10 +104,8 @@ class Test_Helpers extends \WP_UnitTestCase {
 
 		add_filter(
 			'block_lab_data_attributes',
-			function( $data ) use ( $additional_field_name, $additional_field_value ) {
-				return array(
-					$additional_field_name => $additional_field_value,
-				);
+			function() use ( $additional_field_name, $additional_field_value ) {
+				return [ $additional_field_name => $additional_field_value ];
 			}
 		);
 
@@ -186,7 +184,7 @@ class Test_Helpers extends \WP_UnitTestCase {
 			'fields'   => [ 'text' ],
 			'icon'     => 'great_icon',
 			'keywords' => [ 'hero', 'ad' ],
-			'name'  => $block_name,
+			'name'     => $block_name,
 		];
 
 		$expected_config = array_merge(

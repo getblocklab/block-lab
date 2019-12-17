@@ -57,18 +57,18 @@ class Test_Textarea extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Controls\Textarea::register_settings()
 	 */
 	public function test_register_settings() {
-		$expected_settings = array(
-			array(
+		$expected_settings = [
+			[
 				'name'     => 'location',
 				'label'    => 'Field Location',
 				'type'     => 'location',
 				'default'  => 'editor',
 				'help'     => '',
-				'sanitize' => array( $this->instance, 'sanitize_location' ),
+				'sanitize' => [ $this->instance, 'sanitize_location' ],
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'width',
 				'label'    => 'Field Width',
 				'type'     => 'width',
@@ -77,8 +77,8 @@ class Test_Textarea extends \WP_UnitTestCase {
 				'sanitize' => 'sanitize_text_field',
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'help',
 				'label'    => 'Help Text',
 				'type'     => 'text',
@@ -87,8 +87,8 @@ class Test_Textarea extends \WP_UnitTestCase {
 				'sanitize' => 'sanitize_text_field',
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'default',
 				'label'    => 'Default Value',
 				'type'     => 'textarea',
@@ -97,8 +97,8 @@ class Test_Textarea extends \WP_UnitTestCase {
 				'sanitize' => 'sanitize_textarea_field',
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'placeholder',
 				'label'    => 'Placeholder Text',
 				'type'     => 'text',
@@ -107,38 +107,38 @@ class Test_Textarea extends \WP_UnitTestCase {
 				'sanitize' => 'sanitize_text_field',
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'maxlength',
 				'label'    => 'Character Limit',
 				'type'     => 'number_non_negative',
 				'default'  => '',
 				'help'     => '',
-				'sanitize' => array( $this->instance, 'sanitize_number' ),
+				'sanitize' => [ $this->instance, 'sanitize_number' ],
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'number_rows',
 				'label'    => 'Number of Rows',
 				'type'     => 'number_non_negative',
 				'default'  => 4,
 				'help'     => '',
-				'sanitize' => array( $this->instance, 'sanitize_number' ),
+				'sanitize' => [ $this->instance, 'sanitize_number' ],
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'new_lines',
 				'label'    => 'New Lines',
 				'type'     => 'new_line_format',
 				'default'  => 'autop',
 				'help'     => '',
-				'sanitize' => array( $this->instance, 'sanitize_new_line_format' ),
+				'sanitize' => [ $this->instance, 'sanitize_new_line_format' ],
 				'validate' => '',
 				'value'    => null,
-			),
-		);
+			],
+		];
 
 		$this->assert_correct_settings( $expected_settings, $this->instance->settings );
 	}

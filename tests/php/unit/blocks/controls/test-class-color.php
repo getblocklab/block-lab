@@ -49,18 +49,18 @@ class Test_Color extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Controls\Color::register_settings()
 	 */
 	public function test_register_settings() {
-		$expected_settings = array(
-			array(
+		$expected_settings = [
+			[
 				'name'     => 'location',
 				'label'    => 'Field Location',
 				'type'     => 'location',
 				'default'  => 'editor',
 				'help'     => '',
-				'sanitize' => array( $this->instance, 'sanitize_location' ),
+				'sanitize' => [ $this->instance, 'sanitize_location' ],
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'width',
 				'label'    => 'Field Width',
 				'type'     => 'width',
@@ -69,8 +69,8 @@ class Test_Color extends \WP_UnitTestCase {
 				'sanitize' => 'sanitize_text_field',
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'help',
 				'label'    => 'Help Text',
 				'type'     => 'text',
@@ -79,8 +79,8 @@ class Test_Color extends \WP_UnitTestCase {
 				'sanitize' => 'sanitize_text_field',
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'default',
 				'label'    => 'Default Value',
 				'type'     => 'text',
@@ -89,8 +89,8 @@ class Test_Color extends \WP_UnitTestCase {
 				'sanitize' => 'sanitize_text_field',
 				'validate' => '',
 				'value'    => null,
-			),
-		);
+			],
+		];
 
 		$this->assert_correct_settings( $expected_settings, $this->instance->settings );
 	}

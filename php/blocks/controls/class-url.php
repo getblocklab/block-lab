@@ -41,13 +41,13 @@ class Url extends Control_Abstract {
 		$this->settings[] = new Control_Setting( $this->settings_config['width'] );
 		$this->settings[] = new Control_Setting( $this->settings_config['help'] );
 		$this->settings[] = new Control_Setting(
-			array(
+			[
 				'name'     => 'default',
 				'label'    => __( 'Default Value', 'block-lab' ),
 				'type'     => 'url',
 				'default'  => '',
 				'sanitize' => 'esc_url_raw',
-			)
+			]
 		);
 		$this->settings[] = new Control_Setting( $this->settings_config['placeholder'] );
 	}

@@ -33,9 +33,9 @@
 						$count = $license['site_count'];
 					}
 
-					$expiry = date( get_option( 'date_format' ) );
+					$expiry = gmdate( get_option( 'date_format' ) );
 					if ( isset( $license['expires'] ) ) {
-						$expiry = date( get_option( 'date_format' ), strtotime( $license['expires'] ) );
+						$expiry = gmdate( get_option( 'date_format' ), strtotime( $license['expires'] ) );
 					}
 
 					echo wp_kses_post(
@@ -78,7 +78,7 @@
 							sprintf(
 								// translators: Opening and closing anchor and emphasis tags.
 								__( '%1$sGet Block Lab Pro!%2$s', 'block-lab' ),
-								'<a href="' . add_query_arg( array( 'page' => 'block-lab-pro' ) ) . '"><em>',
+								'<a href="' . add_query_arg( [ 'page' => 'block-lab-pro' ] ) . '"><em>',
 								'</em></a>'
 							)
 						)

@@ -31,14 +31,14 @@ abstract class Abstract_Template extends \WP_UnitTestCase {
 	 *
 	 * @var string[]
 	 */
-	public $directories_created = array();
+	public $directories_created = [];
 
 	/**
 	 * The files that were created, in order to later remove them in tearDown().
 	 *
 	 * @var string[]
 	 */
-	public $files_created = array();
+	public $files_created = [];
 
 	/**
 	 * Setup.
@@ -48,7 +48,7 @@ abstract class Abstract_Template extends \WP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->instance = new Blocks\Loader();
-		$this->invoke_protected_method( 'set_plugin', array( block_lab() ) );
+		$this->invoke_protected_method( 'set_plugin', [ block_lab() ] );
 
 		$this->theme_directory    = get_template_directory();
 		$this->template_locations = block_lab()->get_template_locations( $this->mock_block_name );
@@ -95,7 +95,7 @@ abstract class Abstract_Template extends \WP_UnitTestCase {
 	 * @return mixed The result of invoking the method.
 	 * @throws ReflectionException If invoking this fails.
 	 */
-	public function invoke_protected_method( $method_name, $args = array() ) {
+	public function invoke_protected_method( $method_name, $args = [] ) {
 		$method = new ReflectionMethod( $this->instance, $method_name );
 		$method->setAccessible( true );
 		return $method->invokeArgs( $this->instance, $args );
@@ -137,11 +137,11 @@ abstract class Abstract_Template extends \WP_UnitTestCase {
 			function( $directory ) {
 				$this->mkdir( $directory );
 			},
-			array(
+			[
 				"{$this->theme_directory}/blocks/",
 				"{$this->theme_directory}/blocks/css/",
 				"{$this->theme_directory}/blocks/{$this->mock_block_name}/",
-			)
+			]
 		);
 	}
 

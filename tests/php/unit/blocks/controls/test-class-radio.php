@@ -49,18 +49,18 @@ class Test_Radio extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Controls\Radio::register_settings()
 	 */
 	public function test_register_settings() {
-		$expected_settings = array(
-			array(
+		$expected_settings = [
+			[
 				'name'     => 'location',
 				'label'    => 'Field Location',
 				'type'     => 'location',
 				'default'  => 'editor',
 				'help'     => '',
-				'sanitize' => array( $this->instance, 'sanitize_location' ),
+				'sanitize' => [ $this->instance, 'sanitize_location' ],
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'width',
 				'label'    => 'Field Width',
 				'type'     => 'width',
@@ -69,8 +69,8 @@ class Test_Radio extends \WP_UnitTestCase {
 				'sanitize' => 'sanitize_text_field',
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'help',
 				'label'    => 'Help Text',
 				'type'     => 'text',
@@ -79,28 +79,28 @@ class Test_Radio extends \WP_UnitTestCase {
 				'sanitize' => 'sanitize_text_field',
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'options',
 				'label'    => 'Choices',
 				'type'     => 'textarea_array',
 				'default'  => '',
 				'help'     => 'Enter each choice on a new line. To specify the value and label separately, use this format:<br />foo : Foo<br />bar : Bar',
-				'sanitize' => array( $this->instance, 'sanitize_textarea_assoc_array' ),
+				'sanitize' => [ $this->instance, 'sanitize_textarea_assoc_array' ],
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'default',
 				'label'    => 'Default Value',
 				'type'     => 'text',
 				'default'  => '',
 				'help'     => '',
 				'sanitize' => 'sanitize_text_field',
-				'validate' => array( $this->instance, 'validate_options' ),
+				'validate' => [ $this->instance, 'validate_options' ],
 				'value'    => null,
-			),
-		);
+			],
+		];
 
 		$this->assert_correct_settings( $expected_settings, $this->instance->settings );
 	}

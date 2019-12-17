@@ -55,8 +55,8 @@ class Test_Repeater extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Controls\Repeater::register_settings()
 	 */
 	public function test_register_settings() {
-		$expected_settings = array(
-			array(
+		$expected_settings = [
+			[
 				'name'     => 'help',
 				'label'    => 'Help Text',
 				'type'     => 'text',
@@ -65,28 +65,28 @@ class Test_Repeater extends \WP_UnitTestCase {
 				'sanitize' => 'sanitize_text_field',
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'min',
 				'label'    => 'Minimum Rows',
 				'type'     => 'number_non_negative',
 				'default'  => '',
 				'help'     => '',
-				'sanitize' => array( $this->instance, 'sanitize_number' ),
+				'sanitize' => [ $this->instance, 'sanitize_number' ],
 				'validate' => '',
 				'value'    => null,
-			),
-			array(
+			],
+			[
 				'name'     => 'max',
 				'label'    => 'Maximum Rows',
 				'type'     => 'number_non_negative',
 				'default'  => '',
 				'help'     => '',
-				'sanitize' => array( $this->instance, 'sanitize_number' ),
+				'sanitize' => [ $this->instance, 'sanitize_number' ],
 				'validate' => '',
 				'value'    => null,
-			),
-		);
+			],
+		];
 
 		$this->assert_correct_settings( $expected_settings, $this->instance->settings );
 	}

@@ -19,7 +19,7 @@ abstract class Plugin_Abstract implements Plugin_Interface {
 	 *
 	 * @var array
 	 */
-	protected $components = array();
+	protected $components = [];
 
 	/**
 	 * Plugin basename.
@@ -83,7 +83,7 @@ abstract class Plugin_Abstract implements Plugin_Interface {
 	 */
 	public function __call( $name, $arguments ) {
 		if ( method_exists( $this->util, $name ) ) {
-			return call_user_func_array( array( $this->util, $name ), $arguments );
+			return call_user_func_array( [ $this->util, $name ], $arguments );
 		}
 
 		if ( ! method_exists( $this, $name ) ) {
@@ -230,7 +230,7 @@ abstract class Plugin_Abstract implements Plugin_Interface {
 	 * @return Plugin_Abstract The plugin instance.
 	 */
 	public function set_version( $file ) {
-		$headers   = array( 'Version' => 'Version' );
+		$headers   = [ 'Version' => 'Version' ];
 		$file_data = get_file_data( $file, $headers, 'plugin' );
 
 		if ( isset( $file_data['Version'] ) ) {

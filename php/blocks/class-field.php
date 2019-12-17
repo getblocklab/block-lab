@@ -54,14 +54,14 @@ class Field {
 	 *
 	 * @var array
 	 */
-	public $settings = array();
+	public $settings = [];
 
 	/**
 	 * Field constructor.
 	 *
 	 * @param array $config An associative array with keys corresponding to the Field's properties.
 	 */
-	public function __construct( $config = array() ) {
+	public function __construct( $config = [] ) {
 		$this->from_array( $config );
 	}
 
@@ -71,13 +71,13 @@ class Field {
 	 * @return array
 	 */
 	public function to_array() {
-		$config = array(
+		$config = [
 			'name'    => $this->name,
 			'label'   => $this->label,
 			'control' => $this->control,
 			'type'    => $this->type,
 			'order'   => $this->order,
-		);
+		];
 
 		$config = array_merge(
 			$config,
@@ -140,7 +140,7 @@ class Field {
 		}
 
 		// Add any other non-default keys to the settings array.
-		$field_defaults = array( 'name', 'label', 'control', 'type', 'order', 'settings' );
+		$field_defaults = [ 'name', 'label', 'control', 'type', 'order', 'settings' ];
 		$field_settings = array_diff( array_keys( $config ), $field_defaults );
 
 		foreach ( $field_settings as $settings_key ) {
@@ -190,7 +190,7 @@ class Field {
 				break;
 			case 'array':
 				if ( ! $value ) {
-					$value = array();
+					$value = [];
 				} else {
 					$value = (array) $value;
 				}

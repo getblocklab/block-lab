@@ -82,7 +82,7 @@ class Admin extends Component_Abstract {
 	 * Register any hooks that this component needs.
 	 */
 	public function register_hooks() {
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 	}
 
 	/**
@@ -94,7 +94,7 @@ class Admin extends Component_Abstract {
 		wp_enqueue_style(
 			'block-lab',
 			$this->plugin->get_url( 'css/admin.css' ),
-			array(),
+			[],
 			$this->plugin->get_version()
 		);
 	}
@@ -108,11 +108,11 @@ class Admin extends Component_Abstract {
 		if ( 'block-lab-pro' === $page ) {
 			wp_safe_redirect(
 				add_query_arg(
-					array(
+					[
 						'post_type' => 'block_lab',
 						'page'      => 'block-lab-settings',
 						'tab'       => 'license',
-					),
+					],
 					admin_url( 'edit.php' )
 				)
 			);

@@ -99,7 +99,7 @@ class Test_Admin extends \WP_UnitTestCase {
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
-		$this->assertEquals( 10, has_action( 'admin_enqueue_scripts', array( $this->instance, 'enqueue_scripts' ) ) );
+		$this->assertEquals( 10, has_action( 'admin_enqueue_scripts', [ $this->instance, 'enqueue_scripts' ] ) );
 	}
 
 	/**
@@ -117,8 +117,8 @@ class Test_Admin extends \WP_UnitTestCase {
 
 		$this->assertEquals( $handle, $stylesheet->handle );
 		$this->assertContains( 'css/admin.css', $stylesheet->src );
-		$this->assertEquals( array(), $stylesheet->deps );
-		$this->assertEquals( array(), $stylesheet->extra );
+		$this->assertEquals( [], $stylesheet->deps );
+		$this->assertEquals( [], $stylesheet->extra );
 		$this->assertTrue( in_array( $handle, $styles->queue, true ) );
 	}
 
@@ -169,11 +169,11 @@ class Test_Admin extends \WP_UnitTestCase {
 		}
 
 		$expected_url = add_query_arg(
-			array(
+			[
 				'post_type' => 'block_lab',
 				'page'      => 'block-lab-settings',
 				'tab'       => 'license',
-			),
+			],
 			admin_url( 'edit.php' )
 		);
 

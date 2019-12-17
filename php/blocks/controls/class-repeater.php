@@ -47,20 +47,20 @@ class Repeater extends Control_Abstract {
 	public function register_settings() {
 		$this->settings[] = new Control_Setting( $this->settings_config['help'] );
 		$this->settings[] = new Control_Setting(
-			array(
+			[
 				'name'     => 'min',
 				'label'    => __( 'Minimum Rows', 'block-lab' ),
 				'type'     => 'number_non_negative',
-				'sanitize' => array( $this, 'sanitize_number' ),
-			)
+				'sanitize' => [ $this, 'sanitize_number' ],
+			]
 		);
 		$this->settings[] = new Control_Setting(
-			array(
+			[
 				'name'     => 'max',
 				'label'    => __( 'Maximum Rows', 'block-lab' ),
 				'type'     => 'number_non_negative',
-				'sanitize' => array( $this, 'sanitize_number' ),
-			)
+				'sanitize' => [ $this, 'sanitize_number' ],
+			]
 		);
 	}
 

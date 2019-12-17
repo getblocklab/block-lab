@@ -46,13 +46,13 @@ class Taxonomy extends Control_Abstract {
 		$this->settings[] = new Control_Setting( $this->settings_config['width'] );
 		$this->settings[] = new Control_Setting( $this->settings_config['help'] );
 		$this->settings[] = new Control_Setting(
-			array(
+			[
 				'name'     => 'post_type_rest_slug',
 				'label'    => __( 'Taxonomy Type', 'block-lab' ),
 				'type'     => 'taxonomy_type_rest_slug',
 				'default'  => 'posts',
-				'sanitize' => array( $this, 'sanitize_taxonomy_type_rest_slug' ),
-			)
+				'sanitize' => [ $this, 'sanitize_taxonomy_type_rest_slug' ],
+			]
 		);
 	}
 
@@ -81,8 +81,8 @@ class Taxonomy extends Control_Abstract {
 	 * }
 	 */
 	public function get_taxonomy_type_rest_slugs() {
-		$taxonomy_rest_slugs = array();
-		foreach ( get_taxonomies( array( 'show_in_rest' => true ) ) as $taxonomy_slug ) {
+		$taxonomy_rest_slugs = [];
+		foreach ( get_taxonomies( [ 'show_in_rest' => true ] ) as $taxonomy_slug ) {
 			$taxonomy_object                   = get_taxonomy( $taxonomy_slug );
 			$rest_slug                         = ! empty( $taxonomy_object->rest_base ) ? $taxonomy_object->rest_base : $taxonomy_slug;
 			$taxonomy_rest_slugs[ $rest_slug ] = $taxonomy_object->label;

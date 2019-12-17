@@ -100,11 +100,11 @@ class Test_Block extends \WP_UnitTestCase {
 		parent::setUp();
 
 		$post = $this->factory()->post->create(
-			array(
+			[
 				'post_title' => 'Simple Test Block',
 				'post_name'  => 'simple-test-block',
 				'post_type'  => 'block_lab',
-			)
+			]
 		);
 
 		$this->instance = new Blocks\Block( $post );
@@ -131,14 +131,14 @@ class Test_Block extends \WP_UnitTestCase {
 		$this->assertEquals( 'Simple Test Block', $this->instance->title );
 		$this->assertEquals( 'block_lab', $this->instance->icon );
 		$this->assertEquals(
-			array(
+			[
 				'icon'  => null,
 				'slug'  => 'common',
 				'title' => 'Common',
-			),
+			],
 			$this->instance->category
 		);
-		$this->assertEquals( array( 'keywords', 'go', 'here' ), $this->instance->keywords );
+		$this->assertEquals( [ 'keywords', 'go', 'here' ], $this->instance->keywords );
 
 		// Check that we've got three fields.
 		$this->assertCount( 3, $this->instance->fields );

@@ -88,22 +88,22 @@ class Test_Util extends Abstract_Template {
 	public function test_get_template_locations() {
 		$name = 'foo-baz';
 		$this->assertEquals(
-			array(
+			[
 				'blocks/foo-baz/block.php',
 				'blocks/block-foo-baz.php',
 				'blocks/block.php',
-			),
+			],
 			$this->instance->get_template_locations( $name )
 		);
 
 		$name = 'example';
 		$type = 'another-type';
 		$this->assertEquals(
-			array(
+			[
 				'blocks/example/another-type.php',
 				'blocks/another-type-example.php',
 				'blocks/another-type.php',
-			),
+			],
 			$this->instance->get_template_locations( $name, $type )
 		);
 	}
@@ -116,22 +116,22 @@ class Test_Util extends Abstract_Template {
 	public function test_get_stylesheet_locations() {
 		$name = 'foo-baz';
 		$this->assertEquals(
-			array(
+			[
 				'blocks/foo-baz/block.css',
 				'blocks/css/block-foo-baz.css',
 				'blocks/block-foo-baz.css',
-			),
+			],
 			$this->instance->get_stylesheet_locations( $name )
 		);
 
 		$name = 'example';
 		$type = 'another-type';
 		$this->assertEquals(
-			array(
+			[
 				'blocks/example/another-type.css',
 				'blocks/css/another-type-example.css',
 				'blocks/another-type-example.css',
-			),
+			],
 			$this->instance->get_stylesheet_locations( $name, $type )
 		);
 	}
@@ -234,32 +234,32 @@ class Test_Util extends Abstract_Template {
 	 */
 	public function test_allowed_svg_tags() {
 		$this->assertEquals(
-			array(
-				'svg'    => array(
+			[
+				'svg'    => [
 					'xmlns'   => true,
 					'width'   => true,
 					'height'  => true,
 					'viewbox' => true,
-				),
-				'g'      => array( 'fill' => true ),
-				'title'  => array( 'title' => true ),
-				'path'   => array(
+				],
+				'g'      => [ 'fill' => true ],
+				'title'  => [ 'title' => true ],
+				'path'   => [
 					'd'       => true,
 					'fill'    => true,
 					'opacity' => true,
-				),
-				'circle' => array(
+				],
+				'circle' => [
 					'cx'   => true,
 					'cy'   => true,
 					'r'    => true,
 					'fill' => true,
-				),
-			),
+				],
+			],
 			$this->instance->allowed_svg_tags()
 		);
 
 		$additional_tag_name       = 'example';
-		$additional_tag_attributes = array( 'bax' => true );
+		$additional_tag_attributes = [ 'bax' => true ];
 
 		add_filter(
 			'block_lab_allowed_svg_tags',

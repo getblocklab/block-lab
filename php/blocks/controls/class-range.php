@@ -48,40 +48,40 @@ class Range extends Control_Abstract {
 		$this->settings[] = new Control_Setting( $this->settings_config['width'] );
 		$this->settings[] = new Control_Setting( $this->settings_config['help'] );
 		$this->settings[] = new Control_Setting(
-			array(
+			[
 				'name'     => 'min',
 				'label'    => __( 'Minimum Value', 'block-lab' ),
 				'type'     => 'number',
 				'default'  => '',
-				'sanitize' => array( $this, 'sanitize_number' ),
-			)
+				'sanitize' => [ $this, 'sanitize_number' ],
+			]
 		);
 		$this->settings[] = new Control_Setting(
-			array(
+			[
 				'name'     => 'max',
 				'label'    => __( 'Maximum Value', 'block-lab' ),
 				'type'     => 'number',
 				'default'  => '',
-				'sanitize' => array( $this, 'sanitize_number' ),
-			)
+				'sanitize' => [ $this, 'sanitize_number' ],
+			]
 		);
 		$this->settings[] = new Control_Setting(
-			array(
+			[
 				'name'     => 'step',
 				'label'    => __( 'Step Size', 'block-lab' ),
 				'type'     => 'number_non_negative',
 				'default'  => 1,
-				'sanitize' => array( $this, 'sanitize_number' ),
-			)
+				'sanitize' => [ $this, 'sanitize_number' ],
+			]
 		);
 		$this->settings[] = new Control_Setting(
-			array(
+			[
 				'name'     => 'default',
 				'label'    => __( 'Default Value', 'block-lab' ),
 				'type'     => 'number',
 				'default'  => '',
-				'sanitize' => array( $this, 'sanitize_number' ),
-			)
+				'sanitize' => [ $this, 'sanitize_number' ],
+			]
 		);
 	}
 }

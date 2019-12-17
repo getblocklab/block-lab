@@ -24,26 +24,26 @@ class Test_Field extends \WP_UnitTestCase {
 	 *
 	 * @var array
 	 */
-	public $config = array(
+	public $config = [
 		'name'     => 'foo',
 		'label'    => 'Foo',
 		'control'  => 'number',
 		'type'     => 'integer',
 		'order'    => 1,
-		'settings' => array(
+		'settings' => [
 			'custom'     => 'Custom Setting',
-			'sub_fields' => array(
-				'baz' => array(
+			'sub_fields' => [
+				'baz' => [
 					'name'    => 'baz',
 					'label'   => 'Baz',
 					'control' => 'text',
 					'type'    => 'string',
 					'order'   => 0,
 					'parent'  => 'foo',
-				),
-			),
-		),
-	);
+				],
+			],
+		],
+	];
 
 	/**
 	 * Setup.
@@ -53,7 +53,7 @@ class Test_Field extends \WP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->instance = new Blocks\Field( array() );
+		$this->instance = new Blocks\Field( [] );
 	}
 
 	/**
@@ -67,7 +67,7 @@ class Test_Field extends \WP_UnitTestCase {
 		$this->assertEquals( 'text', $this->instance->control );
 		$this->assertEquals( 'string', $this->instance->type );
 		$this->assertEquals( 0, $this->instance->order );
-		$this->assertEquals( array(), $this->instance->settings );
+		$this->assertEquals( [], $this->instance->settings );
 	}
 
 	/**
@@ -102,12 +102,12 @@ class Test_Field extends \WP_UnitTestCase {
 		$this->instance->from_array( [ 'control' => 'rich_text' ] );
 		$this->assertEquals( 'string', $this->instance->type );
 
-		$this->instance = new Blocks\Field( array() );
+		$this->instance = new Blocks\Field( [] );
 		$this->instance->from_array( [ 'control' => 'post' ] );
 		$this->assertEquals( 'object', $this->instance->type );
 
 		// The control class doesn't exist, so this shouldn't change the default value of $type, 'string'.
-		$this->instance = new Blocks\Field( array() );
+		$this->instance = new Blocks\Field( [] );
 		$this->instance->from_array( [ 'control' => 'non-existent' ] );
 		$this->assertEquals( 'string', $this->instance->type );
 	}

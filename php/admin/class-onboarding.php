@@ -28,7 +28,7 @@ class Onboarding extends Component_Abstract {
 	 * Register any hooks that this component needs.
 	 */
 	public function register_hooks() {
-		add_action( 'current_screen', array( $this, 'admin_notices' ) );
+		add_action( 'current_screen', [ $this, 'admin_notices' ] );
 	}
 
 	/**
@@ -62,8 +62,8 @@ class Onboarding extends Component_Abstract {
 		 * On the edit post screen, editing the Example Block.
 		 */
 		if ( $slug === $screen->id && 'post' === $screen->base && $post_id === $example_post_id ) {
-			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-			add_action( 'block_lab_before_fields_list', array( $this, 'show_add_to_post_notice' ) );
+			add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
+			add_action( 'block_lab_before_fields_list', [ $this, 'show_add_to_post_notice' ] );
 		}
 
 		if ( 'draft' !== get_post_status( $example_post_id ) ) {
@@ -74,25 +74,25 @@ class Onboarding extends Component_Abstract {
 		 * On the plugins screen, immediately after activating Block Lab.
 		 */
 		if ( 'plugins' === $screen->id && 'true' === get_transient( 'block_lab_show_welcome' ) ) {
-			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-			add_action( 'admin_notices', array( $this, 'show_welcome_notice' ) );
+			add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
+			add_action( 'admin_notices', [ $this, 'show_welcome_notice' ] );
 		}
 
 		/*
 		 * On the All Blocks screen, when a draft Example Block exists.
 		 */
 		if ( "edit-$slug" === $screen->id ) {
-			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-			add_action( 'admin_notices', array( $this, 'show_edit_block_notice' ) );
+			add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
+			add_action( 'admin_notices', [ $this, 'show_edit_block_notice' ] );
 		}
 
 		/*
 		 * On the edit post screen, editing the draft Example Block.
 		 */
-		if ( $slug === $screen->id && 'post' === $screen->base ) {
-			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-			add_action( 'edit_form_advanced', array( $this, 'show_add_fields_notice' ) );
-			add_action( 'edit_form_before_permalink', array( $this, 'show_publish_notice' ) );
+		if ( $slug === $screen->id && 'post' === $screen->base && $post_id === $example_post_id ) {
+			add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
+			add_action( 'edit_form_advanced', [ $this, 'show_add_fields_notice' ] );
+			add_action( 'edit_form_before_permalink', [ $this, 'show_publish_notice' ] );
 
 			add_action(
 				'add_meta_boxes',
@@ -123,7 +123,7 @@ class Onboarding extends Component_Abstract {
 		wp_enqueue_style(
 			'block-lab-onboarding-css',
 			$this->plugin->get_url( 'css/admin.onboarding.css' ),
-			array(),
+			[],
 			$this->plugin->get_version()
 		);
 	}
@@ -145,8 +145,8 @@ class Onboarding extends Component_Abstract {
 			<?php
 			edit_post_link(
 				__( 'Let\'s get started!', 'block-lab' ),
-				'',
-				'',
+				'<p>',
+				'</p>',
 				$example_post_id,
 				'button button--white button_cta'
 			);
@@ -284,7 +284,6 @@ class Onboarding extends Component_Abstract {
 			</a>
 		</div>
 		<?php
-
 		/*
 		 * After we've shown the Add to Post message once, we can delete the option. This will
 		 * ensure that no further onboarding messages are shown.
@@ -301,12 +300,12 @@ class Onboarding extends Component_Abstract {
 		 * Note: wp_count_posts() does not work here.
 		 */
 		$blocks = get_posts(
-			array(
+			[
 				'post_type'   => block_lab()->get_post_type_slug(),
 				'numberposts' => '1',
 				'post_status' => 'any',
 				'fields'      => 'ids',
-			)
+			]
 		);
 
 		if ( count( $blocks ) > 0 ) {
@@ -316,25 +315,25 @@ class Onboarding extends Component_Abstract {
 		$categories = get_block_categories( the_post() );
 
 		$example_post_id = wp_insert_post(
-			array(
+			[
 				'post_title'   => __( 'Example Block', 'block-lab' ),
 				'post_name'    => 'example-block',
 				'post_status'  => 'draft',
 				'post_type'    => block_lab()->get_post_type_slug(),
 				'post_content' => wp_json_encode(
-					array(
-						'block-lab\/example-block' => array(
+					[
+						'block-lab\/example-block' => [
 							'name'     => 'example-block',
 							'title'    => __( 'Example Block', 'block-lab' ),
 							'icon'     => 'block_lab',
-							'category' => isset( $categories[0] ) ? $categories[0] : array(),
-							'keywords' => array(
+							'category' => isset( $categories[0] ) ? $categories[0] : [],
+							'keywords' => [
 								__( 'sample', 'block-lab' ), // translators: A keyword, used for search.
 								__( 'tutorial', 'block-lab' ), // translators: A keyword, used for search.
 								__( 'template', 'block-lab' ), // translators: A keyword, used for search.
-							),
-							'fields'   => array(
-								'title'       => array(
+							],
+							'fields'   => [
+								'title'       => [
 									'name'        => 'title',
 									'label'       => __( 'Title', 'block-lab' ),
 									'control'     => 'text',
@@ -345,8 +344,8 @@ class Onboarding extends Component_Abstract {
 									'default'     => '',
 									'placeholder' => '',
 									'maxlength'   => null,
-								),
-								'description' => array(
+								],
+								'description' => [
 									'name'        => 'description',
 									'label'       => __( 'Description', 'block-lab' ),
 									'control'     => 'textarea',
@@ -358,8 +357,8 @@ class Onboarding extends Component_Abstract {
 									'placeholder' => '',
 									'maxlength'   => null,
 									'number_rows' => 4,
-								),
-								'button-text' => array(
+								],
+								'button-text' => [
 									'name'        => 'button-text',
 									'label'       => __( 'Button Text', 'block-lab' ),
 									'control'     => 'text',
@@ -370,8 +369,8 @@ class Onboarding extends Component_Abstract {
 									'default'     => '',
 									'placeholder' => '',
 									'maxlength'   => null,
-								),
-								'button-link' => array(
+								],
+								'button-link' => [
 									'name'        => 'button-link',
 									'label'       => __( 'Button Link', 'block-lab' ),
 									'control'     => 'url',
@@ -381,12 +380,12 @@ class Onboarding extends Component_Abstract {
 									'help'        => __( 'The destination URL', 'block-lab' ),
 									'default'     => '',
 									'placeholder' => '',
-								),
-							),
-						),
-					)
+								],
+							],
+						],
+					]
 				),
-			)
+			]
 		);
 
 		update_option( $this->option, $example_post_id );
