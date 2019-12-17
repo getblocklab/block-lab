@@ -62,6 +62,7 @@ before_script:
     fi
   - |
     if [[ "$WP_TRAVISCI" == "test-js" ]] ; then
+      npm install
       npm run test:js
     fi
 
