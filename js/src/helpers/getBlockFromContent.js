@@ -2,9 +2,9 @@
  * Parses the block from the post content into an object.
  *
  * @param {string} content The post content, probably containing JSON.
- * @return {Object|boolean} The block parsed into an object.
+ * @return {Object|boolean} The block parsed into an object, or false.
  */
-export const getBlockFromContent = ( content ) => {
+const getBlockFromContent = ( content ) => {
 	try {
 		const parsedContent = JSON.parse( content );
 		const values = Object.values( parsedContent );
@@ -13,3 +13,5 @@ export const getBlockFromContent = ( content ) => {
 		return false;
 	}
 };
+
+export default getBlockFromContent;

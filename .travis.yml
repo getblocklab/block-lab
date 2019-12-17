@@ -30,6 +30,8 @@ matrix:
       env: WP_VERSION=trunk
     - php: 5.6
       env: WP_TRAVISCI=lint
+    - php: 7.3
+      env: WP_TRAVISCI=test-js
 
 install:
   - composer install
@@ -57,6 +59,10 @@ before_script:
       phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
       npm install
       npm run lint:js
+    fi
+  - |
+    if [[ "$WP_TRAVISCI" == "test-js" ]] ; then
+      npm run test:js
     fi
 
 script:

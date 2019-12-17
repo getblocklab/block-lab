@@ -11,7 +11,7 @@ const { __ } = wp.i18n;
 /**
  * Internal dependencies
  */
-import { getBlockFromContent } from '../helpers';
+import getBlockFromContent from '../helpers/getBlockFromContent';
 import { FieldRow } from '.';
 
 /**
