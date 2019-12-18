@@ -21,12 +21,12 @@
   "devDependencies": {
     "@wordpress/babel-preset-default": "4.7.0",
     "@wordpress/eslint-plugin": "3.2.0",
+    "autoprefixer": "9.7.3",
     "babel-core": "6.26.3",
     "babel-eslint": "10.0.3",
     "babel-loader": "8.0.6",
-    "classnames": "^2.2.6",
     "cross-env": "6.0.3",
-    "css-loader": "3.3.2",
+    "css-loader": "3.4.0",
     "del": "^5.1.0",
     "eslint": "6.7.2",
     "eslint-plugin-eslint-comments": "3.1.2",
@@ -35,16 +35,20 @@
     "gulp-run": "^1.7.1",
     "gulp-string-replace": "^1.1.2",
     "merge-stream": "^2.0.0",
+    "mini-css-extract-plugin": "0.8.2",
     "node-sass": "^4.13.0",
     "npm-run-all": "4.1.5",
     "postcss-loader": "^3.0.0",
     "raw-loader": "^4.0.0",
     "re-resizable": "6.1.1",
-    "react": "16.9.0",
+    "react": "16.12.0",
     "sass-loader": "8.0.0",
-    "style-loader": "^1.0.1",
+    "style-loader": "^1.0.2",
     "uglifyjs-webpack-plugin": "2.2.0",
-    "webpack": "4.41.3"
+    "webpack": "4.41.3",
+    "webpack-cli": "3.3.10"
   },
-  "dependencies": {}
+  "dependencies": {
+    "classnames": "^2.2.6"
+  }
 }

@@ -1,23 +1,23 @@
 const path = require( 'path' );
-const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
+const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
 const UglifyJSPlugin = require( 'uglifyjs-webpack-plugin' );
 
 // Set different CSS extraction for editor only and common block styles
-const blocksCSSPlugin = new ExtractTextPlugin( {
+const blocksCSSPlugin = new MiniCssExtractPlugin( {
 	filename: './css/blocks.style.css',
 } );
-const editBlocksCSSPlugin = new ExtractTextPlugin( {
+const editBlocksCSSPlugin = new MiniCssExtractPlugin( {
 	filename: './css/blocks.editor.css',
 } );
 const uglifyJSPlugin = new UglifyJSPlugin( {
 	uglifyOptions: {
 		mangle: {},
-		compress: true
+		compress: true,
 	},
-	sourceMap: false
+	sourceMap: false,
 } );
 
-// Configuration for the ExtractTextPlugin.
+// Configuration for the MiniCssExtractPlugin.
 const extractConfig = {
 	use: [
 		{ loader: 'raw-loader' },
@@ -29,13 +29,9 @@ const extractConfig = {
 		},
 		{
 			loader: 'sass-loader',
-			query: {
-				outputStyle: 'compressed',
-			},
 		},
 	],
 };
-
 
 module.exports = {
 	entry: {
@@ -48,6 +44,7 @@ module.exports = {
 	},
 	watch: false,
 	// devtool: 'cheap-eval-source-map',
+	mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
 	module: {
 		rules: [
 			{
@@ -59,11 +56,11 @@ module.exports = {
 			},
 			{
 				test: /style\.s?css$/,
-				use: blocksCSSPlugin.extract( extractConfig ),
+				...extractConfig,
 			},
 			{
 				test: /editor\.s?css$/,
-				use: editBlocksCSSPlugin.extract( extractConfig ),
+				...extractConfig,
 			},
 		],
 	},
