@@ -11,8 +11,8 @@
     "dev": "wp-scripts start",
     "build": "wp-scripts build",
     "lint": "npm-run-all --parallel lint:*",
-    "lint:js": "eslint js",
-    "lint:js:fix": "eslint js --fix",
+    "lint:js": "wp-scripts lint-js js",
+    "lint:js:fix": "npm run lint:js js -- --fix",
     "lint:php": "vendor/bin/phpcs",
     "lint:php:fix": "vendor/bin/phpcbf"
   },
