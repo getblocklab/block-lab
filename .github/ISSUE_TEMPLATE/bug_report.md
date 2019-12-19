@@ -17,7 +17,7 @@ about: Report a problem
 
 ## Expected behavior
 
-## Actual behaviour
+## Actual behavior
 <!-- Please include screenshots of the behavior and the JS console, if there was an error or warning there --> 
 
 ## Additional information
