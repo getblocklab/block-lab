@@ -38,7 +38,7 @@ const simplifiedFields = ( fields ) => {
 			{
 				...field,
 				name: fieldName,
-			},
+			}
 		);
 	}
 

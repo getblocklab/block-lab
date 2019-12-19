@@ -352,7 +352,7 @@
 			const postType = $( input ).val();
 			if ( -1 === excludedPostTypes.indexOf( postType ) ) {
 				displayList.push(
-					$( input ).next( 'label' ).text(),
+					$( input ).next( 'label' ).text()
 				);
 			}
 		}

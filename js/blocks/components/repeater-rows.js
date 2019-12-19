@@ -122,7 +122,7 @@ class RepeaterRows extends Component {
 				setTimeout( () => { /* eslint-disable-line @wordpress/react-no-unsafe-timeout */
 					rowRefTo.classList.remove( 'row-to' );
 					rowRefFrom.classList.remove( 'row-from' );
-				}, 1000 ),
+				}, 1000 )
 			);
 
 			scrollContainer.scroll( { top: scrollTop, behavior: 'smooth' } );

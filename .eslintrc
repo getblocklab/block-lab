@@ -11,6 +11,16 @@
   "rules": {
     "@wordpress/dependency-group": "error",
     "@wordpress/react-no-unsafe-timeout": "error",
+    "comma-dangle": [
+      "error",
+      {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "only-multiline",
+        "exports": "only-multiline",
+        "functions": "never"
+      }
+    ],
     "no-unused-vars": [
       "error",
       {
