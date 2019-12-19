@@ -55,12 +55,5 @@ module.exports = {
 		new MiniCssExtractPlugin( {
 			filename: './css/blocks.editor.css',
 		} ),
-		new UglifyJSPlugin( {
-			uglifyOptions: {
-				mangle: {},
-				compress: true,
-			},
-			sourceMap: ! isProduction,
-		} ),
 	],
 };
