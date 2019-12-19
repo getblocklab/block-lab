@@ -1,5 +1,5 @@
 ---
-name: Support Request
+name: Support request
 about: Please direct support requests to the support forum
 
 ---
