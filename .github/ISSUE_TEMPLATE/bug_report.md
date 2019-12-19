@@ -28,8 +28,7 @@ about: Report a problem
 ## Versions
 
  - WordPress version:
- - Block Lab version:
-<!-- Please ensure the latest version of Block Lab is running: https://github.com/getblocklab/block-lab/releases -->
+ - Block Lab version: <!-- Please ensure the latest version of Block Lab is running: https://github.com/getblocklab/block-lab/releases -->
  - Gutenberg plugin version (if active):
  - OS:
  - Browser:
