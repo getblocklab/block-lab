@@ -2,22 +2,25 @@
   "name": "block-lab",
   "title": "Block Lab",
   "version": "1.5.2",
+  "description": "WordPress plugin with a simple templating system for building custom blocks.",
+  "author": "Block Lab",
+  "license": "GPL-2.0-or-later",
+  "keywords": [
+    "block-editor",
+    "wordpress",
+    "wordpress-plugin"
+  ],
   "homepage": "https://getblocklab.com",
   "repository": {
     "type": "git",
     "url": "https://github.com/getblocklab/block-lab"
   },
-  "scripts": {
-    "dev": "wp-scripts start",
-    "build": "wp-scripts build",
-    "lint": "npm-run-all --parallel lint:*",
-    "lint:js": "wp-scripts lint-js js",
-    "lint:js:fix": "npm run lint:js js -- --fix",
-    "lint:php": "vendor/bin/phpcs",
-    "lint:php:fix": "vendor/bin/phpcbf"
+  "bugs": {
+    "url": "https://github.com/getblocklab/block-lab/issues"
   },
-  "author": "Block Lab",
-  "license": "GPL-2.0+",
+  "dependencies": {
+    "classnames": "^2.2.6"
+  },
   "devDependencies": {
     "@wordpress/babel-preset-default": "4.7.0",
     "@wordpress/eslint-plugin": "3.2.0",
@@ -49,7 +52,14 @@
     "webpack": "^4.41.3",
     "webpack-cli": "3.3.10"
   },
-  "dependencies": {
-    "classnames": "^2.2.6"
+  "scripts": {
+    "dev": "wp-scripts start",
+    "build": "wp-scripts build",
+    "lint": "npm-run-all --parallel lint:*",
+    "lint:js": "wp-scripts lint-js js",
+    "lint:js:fix": "npm run lint:js js -- --fix",
+    "lint:pkg-json": "wp-scripts lint-pkg-json",
+    "lint:php": "vendor/bin/phpcs",
+    "lint:php:fix": "vendor/bin/phpcbf"
   }
 }
