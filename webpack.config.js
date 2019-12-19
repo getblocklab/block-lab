@@ -1,6 +1,5 @@
 const path = require( 'path' );
 const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
-const UglifyJSPlugin = require( 'uglifyjs-webpack-plugin' );
 const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
 const isProduction = process.env.NODE_ENV === 'production';
 
