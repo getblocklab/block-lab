@@ -43,13 +43,6 @@ Please describe in detail the enhancement and your use case for it.
 
 ### Pull Requests
 
-The process described here has several goals:
-
-- Maintain Block Lab's quality
-- Fix problems that are important to users
-- Engage the community in working toward the best possible Block Lab
-- Enable a sustainable system for Block Lab's maintainers to review contributions
-
 Please follow these steps to have your contribution considered by the maintainers:
 
 1. Follow all instructions in [the template](.github/PULL_REQUEST_TEMPLATE.md)
@@ -81,7 +74,7 @@ While the prerequisites above must be satisfied prior to having your pull reques
 
 ### Local Setup
 
-Block Lab development requires Node.js and follows the WordPress coding standards for PHP and JavaScript. In order to get your development enviorment setup quickly, simply run the following commands after cloning the plugin from Github:
+Block Lab development requires Node.js and follows the WordPress coding standards for PHP and JavaScript. In order to get your development environment setup quickly, simply run the following commands after cloning the plugin from Github:
 
 #### Node
 
@@ -106,8 +99,6 @@ While developing, it is a best practice to watch for changes. This command will 
 ```
 composer install
 ```
-
-Also while developing, it is advantageous to install the Composer dependencies to ensure adherence to PHP WordPress coding standards.
 
 ## Additional Notes
 
