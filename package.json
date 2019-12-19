@@ -53,6 +53,7 @@
     "webpack-cli": "3.3.10"
   },
   "scripts": {
+    "check-licenses": "wp-scripts check-licenses --prod --gpl2",
     "dev": "wp-scripts start",
     "build": "wp-scripts build",
     "lint": "npm-run-all --parallel lint:*",
