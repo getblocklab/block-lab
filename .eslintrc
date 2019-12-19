@@ -10,6 +10,12 @@
   },
   "rules": {
     "@wordpress/dependency-group": "error",
-    "@wordpress/react-no-unsafe-timeout": "error"
+    "@wordpress/react-no-unsafe-timeout": "error",
+    "no-unused-vars": [
+      "error",
+      {
+        "ignoreRestSiblings": true
+      }
+    ]
   }
 }
