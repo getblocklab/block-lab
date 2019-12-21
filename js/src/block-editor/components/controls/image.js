@@ -1,7 +1,7 @@
 /**
  * Internal dependencies
  */
-import { Image } from '../components';
+import { Image } from '../';
 
 const BlockLabImageControl = ( props ) => {
 	return (

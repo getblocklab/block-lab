@@ -113,7 +113,6 @@ tests/includes/
 coverage/html/
 
 # Builds
-js/editor.blocks.js
-js/admin.edit-block.js
+js/build/*
 css/blocks.editor.css
 package/

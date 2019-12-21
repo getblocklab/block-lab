@@ -6,7 +6,7 @@ const { BaseControl } = wp.components;
 /**
  * Internal dependencies
  */
-import { TinyMCE } from '../components';
+import { TinyMCE } from '../';
 
 const BlockLabClassicTextControl = ( props ) => {
 	const { field, getValue, instanceId, onChange, parentBlockProps, rowIndex } = props;

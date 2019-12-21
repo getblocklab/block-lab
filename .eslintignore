@@ -1,2 +1,2 @@
-js/editor.blocks.js
-js/admin.edit-block.js
+js/build/block-editor.js
+js/build/block-lab-editor.js

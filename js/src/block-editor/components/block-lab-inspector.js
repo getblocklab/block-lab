@@ -8,8 +8,8 @@ const { applyFilters } = wp.hooks;
 /**
  * Internal dependencies
  */
-import simplifiedFields from '../loader/fields';
-import controls from '../controls';
+import getSimplifiedFields from '../helpers/getSimplifiedFields';
+import controls from './controls';
 
 /**
  * Gets the rendered controls for the Inspector Controls, based on the field values.
@@ -20,7 +20,7 @@ import controls from '../controls';
  * @return {Function|null} The inspector controls.
  */
 const BlockLabInspector = ( { blockProps, block } ) => {
-	const fields = simplifiedFields( block.fields ).map( ( field ) => {
+	const fields = getSimplifiedFields( block.fields ).map( ( field ) => {
 		// If it's not meant for the inspector, continue (return null).
 		if ( ! field.location || ! field.location.includes( 'inspector' ) ) {
 			return null;

@@ -7,8 +7,8 @@ const { select } = wp.data;
 /**
  * Internal dependencies
  */
-import simplifiedFields from '../loader/fields';
-import controls from '../controls';
+import getSimplifiedFields from '../helpers/getSimplifiedFields';
+import controls from './controls';
 
 /**
  * Gets the control function for the field.
@@ -48,7 +48,7 @@ const getClassName = ( field ) => {
  * @return {Function} fields The rendered fields.
  */
 const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
-	return simplifiedFields( fields ).map( ( field ) => {
+	return getSimplifiedFields( fields ).map( ( field ) => {
 		if ( field.location && ! field.location.includes( 'editor' ) ) {
 			return null; // This is not meant for the editor.
 		}

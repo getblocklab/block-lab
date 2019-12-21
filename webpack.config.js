@@ -36,11 +36,10 @@ const extractConfig = {
 	],
 };
 
-
 module.exports = {
 	entry: {
-		'./js/editor.blocks': './js/blocks/index.js',
-		'./js/admin.edit-block': './js/src/edit-block.js',
+		'./js/build/block-lab-editor': './js/src/block-editor/index.js',
+		'./js/build/block-editor': './js/src/block-lab-editor/index.js',
 	},
 	output: {
 		path: path.resolve( __dirname ),

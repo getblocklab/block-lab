@@ -21,7 +21,7 @@ const compare = ( a, b ) => {
  * @param {Array} fields The fields to simplify.
  * @return {Array} The simplified fields.
  */
-const simplifiedFields = ( fields ) => {
+const getSimplifiedFields = ( fields ) => {
 	const fieldList = [];
 
 	for ( const fieldName in fields ) {
@@ -47,4 +47,4 @@ const simplifiedFields = ( fields ) => {
 	return fieldList;
 };
 
-export default simplifiedFields;
+export default getSimplifiedFields;

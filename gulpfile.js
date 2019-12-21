@@ -75,7 +75,6 @@ gulp.task( 'clean:bundle', function () {
 		'package/trunk/package',
 		'package/trunk/assets/wporg',
 		'package/trunk/coverage',
-		'package/trunk/js/blocks',
 		'package/trunk/js/src',
 		'package/trunk/bin',
 		'package/trunk/node_modules',

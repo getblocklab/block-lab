@@ -281,7 +281,7 @@ class Block_Post extends Component_Abstract {
 
 			wp_enqueue_script(
 				'block-post',
-				$this->plugin->get_url( 'js/admin.edit-block.js' ),
+				$this->plugin->get_url( 'js/build/block-lab-editor.js' ),
 				[ 'wp-blocks', 'wp-compose', 'wp-components', 'wp-data', 'wp-element', 'wp-i18n' ],
 				$this->plugin->get_version(),
 				false

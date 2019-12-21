@@ -1,7 +1,7 @@
 /**
  * Internal dependencies
  */
-import { ContentControl } from '../components';
+import { ContentControl } from '../';
 
 const BlockLabTaxonomyControl = ( props ) => {
 	/**

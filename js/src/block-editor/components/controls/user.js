@@ -1,7 +1,7 @@
 /**
  * Internal dependencies
  */
-import { FetchInput } from '../components';
+import { FetchInput } from '../';
 
 const BlockLabUserControl = ( props ) => {
 	const { field, getValue, onChange } = props;

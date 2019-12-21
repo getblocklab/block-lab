@@ -8,10 +8,9 @@ const { registerBlockType } = wp.blocks;
 /**
  * Internal dependencies
  */
-import icons from '../../../assets/icons.json';
-import getBlockAttributes from './attributes';
+import icons from '../../../../assets/icons.json';
+import getBlockAttributes from './getBlockAttributes';
 import { Edit } from '../components';
-import '../../../css/src/editor.scss';
 
 const registerBlocks = () => {
 	// Loop through all the blocks.
@@ -57,4 +56,4 @@ const registerBlocks = () => {
 	}
 };
 
-export default registerBlocks();
+export default registerBlocks;
