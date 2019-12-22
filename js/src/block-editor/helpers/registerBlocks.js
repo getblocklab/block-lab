@@ -9,7 +9,7 @@ const { registerBlockType } = wp.blocks;
  * Internal dependencies
  */
 import icons from '../../../../assets/icons.json';
-import getBlockAttributes from './getBlockAttributes';
+import getBlockLabAttributes from './getBlockLabAttributes';
 import { Edit } from '../components';
 
 const registerBlocks = () => {
@@ -45,7 +45,7 @@ const registerBlocks = () => {
 			category: 'object' === typeof block.category ? block.category.slug : block.category,
 			icon,
 			keywords: block.keywords,
-			attributes: getBlockAttributes( block.fields ),
+			attributes: getBlockLabAttributes( block.fields ),
 			edit: ( props ) => {
 				return <Edit blockProps={ props } block={ block } />;
 			},
