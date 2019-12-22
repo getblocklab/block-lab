@@ -16,11 +16,11 @@ const getBlockLabAttributes = ( fields ) => {
 
 		attributes[ fieldName ] = {};
 
-		if ( field.type ) {
+		if ( field.hasOwnProperty( 'type' ) ) {
 			attributes[ fieldName ].type = field.type;
 		}
 
-		if ( field.default ) {
+		if ( field.hasOwnProperty( 'default' ) ) {
 			attributes[ fieldName ].default = field.default;
 		}
 	}
