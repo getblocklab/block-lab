@@ -7,9 +7,11 @@ module.exports = {
 	testPathIgnorePatterns: [
 		'<rootDir>/.git',
 		'<rootDir>/node_modules',
+		'<rootDir>/js/build',
 	],
 	coveragePathIgnorePatterns: [
 		'<rootDir>/node_modules',
+		'<rootDir>/js/build',
 	],
 	coverageReporters: [ 'lcov' ],
 	coverageDirectory: '<rootDir>/coverage',
