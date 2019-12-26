@@ -1,3 +1,5 @@
+/* global blockLab, blockLabBlocks */
+
 /**
  * WordPress dependencies
  */
@@ -7,6 +9,7 @@ const { i18n } = wp;
  * Internal dependencies
  */
 import registerBlocks from './helpers/registerBlocks';
+import { Edit } from './components';
 
 i18n.setLocaleData( { '': {} }, 'block-lab' );
-registerBlocks();
+registerBlocks( blockLab, blockLabBlocks, Edit );

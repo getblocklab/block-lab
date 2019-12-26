@@ -13,7 +13,6 @@ const getBlockLabAttributes = ( fields ) => {
 		}
 
 		const field = fields[ fieldName ];
-
 		attributes[ fieldName ] = {};
 
 		if ( field.hasOwnProperty( 'type' ) ) {
