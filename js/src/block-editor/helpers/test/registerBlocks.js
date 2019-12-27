@@ -36,21 +36,23 @@ describe( 'registerBlocks', () => {
 	} );
 
 	it( 'should register two blocks', () => {
-		const firstBlockName = 'test_post';
-		const secondBlockName = 'test_email';
-		const blockLabBlocks = {};
-		blockLabBlocks[ firstBlockName ] = {
-			title: 'example-post',
-			category: 'widget',
-			keywords: [ 'foobaz', 'example' ],
-		};
-		blockLabBlocks[ firstBlockName ] = {
-			title: 'example-email',
-			category: 'widget',
-			keywords: [ 'example-keyword', 'another' ],
-		};
+		registerBlocks(
+			{},
+			{
+				test_text: {
+					title: 'example-post',
+					category: 'widget',
+					keywords: [ 'foobaz', 'example' ],
+				},
+				test_email: {
+					title: 'example-email',
+					category: 'widget',
+					keywords: [ 'example-keyword', 'another' ],
+				},
+			},
+			Edit
+		);
 
-		registerBlocks( {}, blockLabBlocks, Edit );
 		expect( global.wp.blocks.registerBlockType ).toHaveBeenNthCalledWith(
 			2,
 			expect.any( String ),
