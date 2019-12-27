@@ -6,7 +6,7 @@ import registerBlocks from '../registerBlocks';
 describe( 'registerBlocks', () => {
 	const Edit = () => {};
 
-	it( 'should not register any block if there are no Block Lab blocks passed', () => {
+	it( 'should not register any block if there is no Block Lab block passed', () => {
 		registerBlocks( {}, {}, Edit );
 		expect( global.wp.blocks.registerBlockType ).toHaveBeenCalledTimes( 0 );
 	} );
