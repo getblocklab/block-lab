@@ -135,7 +135,7 @@ class Loader extends Component_Abstract {
 		wp_enqueue_script(
 			'block-lab-blocks',
 			$this->assets['url']['entry'],
-			[ 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-api-fetch' ],
+			[ 'wp-i18n', 'wp-editor', 'wp-element', 'wp-blocks', 'wp-components', 'wp-api-fetch' ],
 			$this->plugin->get_version(),
 			true
 		);

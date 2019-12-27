@@ -1,8 +1,317 @@
 /* Hide the main block editing area, as that does not apply to this. */
-.post-type-block_lab .editor-block-list__layout {
+.post-type-block_lab .editor-post-text-editor {
 	display: none;
 }
 
+/* Copied from Rob's work in react-ui repo */
+:root {
+    --color-body: #545E6A;
+    --color-heading: #32373C;
+    --color-blue: #027CBA;
+    --color-blue-light: #DAECF5;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    color: var(--color-body );
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.wp-admin {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    min-height: 100vh;
+}
+
+.wp-side-bar {
+    height: 100%;
+    background-color: #23282D;
+}
+
+.block-builder {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    grid-template-rows: 56px 1fr;
+}
+
+.header {
+    height: 100%;
+    grid-column: 1 / 3;
+    grid-row: 1 / 2;
+    border-bottom: 1px solid #e2e4e7;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+.header-nav {
+    height: 100%;
+    display: flex;
+    align-self: stretch;
+}
+
+.header-nav-item {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+    padding-right: 30px;
+    text-decoration: none;
+    color: var( --color-heading );
+}
+
+.header-nav-item--active {
+    font-weight: 700;
+    border-bottom: 3px solid var( --color-blue );
+}
+
+.main {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 50px;
+}
+
+.side {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    border-left: 1px solid #e2e4e7;
+}
+
+.fields {
+    width: 610px;
+    background-color: #F3F3F4;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat( 4, calc( 25% - 15px ) );
+    grid-gap: 20px;
+}
+
+.field-selector {
+    display: none;
+}
+
+.field:not(.dragging) .field-selector:checked + .field-container {
+    box-shadow: 0 0 0 2px var( --color-blue );
+}
+
+.field:not(.dragging) .field-selector:checked + .field-container .field-icon-container {
+    background-color: var( --color-blue-light );
+}
+
+.field:not(.dragging) .field-selector:checked + .field-container .field-icon{
+    fill: var( --color-blue );
+}
+
+.field {
+    position: relative;
+    grid-column: 1 / 5;
+    min-height: 40px;
+    cursor: w-resize;
+}
+
+.field--1\/4 {
+    grid-column: span 1;
+    cursor: e-resize;
+}
+
+.field--1\/2 {
+    grid-column: span 2;
+    cursor: ew-resize;
+}
+
+.field--3\/4 {
+    grid-column: span 3;
+    cursor: ew-resize;
+}
+
+.field:not(.sub-field)::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: -10px;
+    width: 20px;
+}
+
+.field-container {
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 40px;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #fff;
+    padding: 10px 12px 10px 30px;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.field.dragging .field-container {
+    background: transparent;
+    padding: 9px 11px 9px 29px;
+    border: 1px dashed var( --color-body );
+}
+
+.field-icon-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    flex-shrink: 0;
+    height: 100%;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #E4E4E7;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.field:not(.dragging) > .field-selector:not(:checked) + .field-container:not(.child-hover):hover {
+    box-shadow: 0 0 0 2px var( --color-blue-light );
+}
+
+.field:not(.dragging) > .field-container:not(.child-hover):hover > .field-icon-container {
+    background-color: var( --color-blue-light );
+}
+
+.field:not(.dragging) > .field-container:not(.child-hover):hover > .field-icon-container .field-icon {
+    fill: var( --color-blue );
+}
+
+.field-icon-container:hover {
+    cursor: grab;
+}
+
+.field-icon-container:active {
+    cursor: grabbing;
+}
+
+.field-icon {
+    width: 16px;
+    fill: var( --color-body );
+}
+
+.field-grab-indicator {
+    width: 18px;
+    fill: var( --color-blue );
+    display: none;
+    transform: rotate( 90deg );
+}
+
+.field:not(.dragging) .field-icon-container:hover .field-icon {
+    display: none;
+}
+
+.field:not(.dragging) .field-icon-container:hover .field-grab-indicator {
+    display: block;
+}
+
+.field-title {
+    margin-left: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1 1 0;
+}
+
+.field-copy-pill {
+    position: relative;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    padding-left: 6px;
+    padding-right: 4px;
+    background-color: var( --color-blue-light );
+    margin-left: auto;
+    border-radius: 3px;
+}
+
+.field-copy-pill:hover {
+    cursor: pointer;
+}
+
+.field-copy-pill span {
+    font-family: monospace;
+    color: var( --color-blue );
+}
+
+.field--1\/4 .field-copy-pill {
+    padding-left: 4px;
+}
+
+.field--1\/4 .field-copy-pill span {
+    display: none;
+}
+
+.field--1\/4 .field-copy-pill svg {
+    margin-left: 0;
+}
+
+.field-copy-pill svg {
+    width: 12px;
+    fill: var( --color-blue);
+    margin-left: 6px;
+}
+
+.sub-fields {
+    flex: 1 1 100%;
+    padding: 12px 10px 0 20px
+}
+
+.sub-fields .field {
+    cursor: default;
+    display: block;
+    padding: 5px 0;
+}
+
+.sub-fields .field:last-of-type {
+    margin-bottom: 8px;
+}
+
+.sub-fields .field-container {
+    background: #f3f3f4;
+}
+
+.add-field-container {
+    grid-column: 1 / 5;
+    display: flex;
+    justify-content: center;
+}
+
+.add-field-container svg {
+    fill: var( --color-blue );
+    width: 20px;
+    margin-right: 4px;
+}
+
+.add-field-container button {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    border: none;
+    background-color: transparent;
+    font-weight: 700;
+    color: var( --color-blue );
+}
+
+.add-field-container button:hover {
+    cursor: pointer;
+    filter: brightness( 0.8 );
+}
+
+/* @todo: reconsider this, as it's from the old UI */
 #minor-publishing-actions,
 #misc-publishing-actions #visibility,
 #misc-publishing-actions .curtime {

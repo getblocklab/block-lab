@@ -8,12 +8,12 @@ const { render } = wp.element;
 /**
  * Internal dependencies
  */
-import { BlockLabEditor } from './components';
+import { Editor } from './components';
 
 domReady( () => {
 	dispatch( 'core/editor' ).updateEditorSettings( { richEditingEnabled: false } );
 	render(
-		<BlockLabEditor />,
+		<Editor />,
 		document.getElementById( 'bl-block-editor' ),
 	);
 } );

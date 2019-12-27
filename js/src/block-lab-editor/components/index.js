@@ -1,2 +1,3 @@
-export { default as BlockLabEditor } from './block-lab-editor';
-export { default as FieldRow } from './field-row';
+export { default as Editor } from './editor';
+export { default as Field } from './field';
+export { default as FieldEdit } from './field-edit';
