@@ -1,5 +1,5 @@
 // Mock wp object.
 
 global.wp = {
-	blocks: {},
+	blocks: { registerBlockType: jest.fn() },
 };

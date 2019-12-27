@@ -49,7 +49,7 @@ const registerBlocks = ( blockLab, blockLabBlocks, EditComponent ) => {
 			icon,
 			keywords: block.keywords,
 			attributes: getBlockLabAttributes( block.fields ),
-			edit: ( props ) => {
+			edit( props ) {
 				return <EditComponent blockProps={ props } block={ block } />;
 			},
 			save() {
