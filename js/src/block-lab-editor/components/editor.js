@@ -1,10 +1,9 @@
 /**
  * WordPress dependencies
  */
-const { blocks } = wp;
 const { Button } = wp.components;
 const { compose } = wp.compose;
-const { withDispatch, withSelect } = wp.data;
+const { withSelect } = wp.data;
 const { Component } = wp.element;
 const { __ } = wp.i18n;
 
@@ -65,15 +64,5 @@ export default compose( [
 		return {
 			content: select( 'core/editor' ).getEditedPostContent(),
 		};
-	} ),
-	withDispatch( ( dispatch ) => {
-		const store = dispatch( 'core/editor' );
-
-		return {
-			onChange( content ) {
-				store.editPost( { content } );
-				store.resetEditorBlocks( blocks.parse( content ) );
-			},
-		};
-	} ),
+	} )
 ] )( Editor );
