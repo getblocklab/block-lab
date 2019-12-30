@@ -2,6 +2,7 @@
  * WordPress dependencies
  */
 const { dispatch, select } = wp.data;
+const { blocks } = wp;
 
 /**
  * Internal dependencies
@@ -32,8 +33,10 @@ const saveFieldValue = ( fieldSlug, key, value ) => {
 	}
 
 	block.fields[ fieldSlug ][ key ] = value;
-	dispatch( 'core/editor' ).editPost( { content: JSON.stringify( [ block ] ) } );
-	dispatch( 'core/block-editor' ).resetBlocks( [] ); // Prevent the block editor from overwriting the saved content.
+	const jsonContent = JSON.stringify( [ block ] );
+	dispatch( 'core/editor' ).editPost( { content: jsonContent } );
+	dispatch( 'core/block-editor' ).resetBlocks( blocks.parse( jsonContent ) ); // Prevent the block editor from overwriting the saved content.
+
 	return true;
 };
 
