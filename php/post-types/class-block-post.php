@@ -1040,7 +1040,7 @@ class Block_Post extends Component_Abstract {
 		// Block category.
 		if ( isset( $_POST['block-properties-category'] ) ) {
 			$category_slug = sanitize_key( $_POST['block-properties-category'] );
-			$categories    = get_block_categories( the_post() );
+			$categories    = get_block_categories( get_post() );
 
 			if ( '__custom' === $category_slug && isset( $_POST['block-properties-category-name'] ) ) {
 				$category = [
