@@ -18,7 +18,7 @@ class Field extends Component {
 	 * @return {Function} The rendered component.
 	 */
 	render() {
-		const { field } = this.props;
+		const { field, uiud } = this.props;
 
 		return (
 			<div className="field">
@@ -44,7 +44,7 @@ class Field extends Component {
 						</svg>
 					</div>
 				</div>
-				<FieldEdit field={ field } />
+				<FieldEdit field={ field } uiud={ uiud } />
 			</div>
 		);
 	}

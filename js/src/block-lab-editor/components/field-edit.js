@@ -6,16 +6,21 @@ const { Button, TextControl } = wp.components;
 const { Component } = wp.element;
 
 /**
- * A field row.
+ * Internal dependencies
+ */
+import saveFieldValue from '../helpers/saveFieldValue';
+
+/**
+ * A field's editing section.
  */
 class FieldEdit extends Component {
 	/**
-	 * Renders the field row.
+	 * Renders the field's editing section.
 	 *
 	 * @return {Function} The rendered component.
 	 */
 	render() {
-		const { field, uid } = this.props;
+		const { field, uiud } = this.props;
 		const isFieldDisabled = false;
 
 		return (
@@ -24,7 +29,7 @@ class FieldEdit extends Component {
 					<tr className="block-fields-edit-label">
 						<td className="spacer"></td>
 						<th scope="row">
-							<label htmlFor={ `block-fields-edit-label-input_${ uid } ` }>
+							<label htmlFor={ `block-fields-edit-label-input_${ uiud } ` }>
 								{ __( 'Field Label', 'block-lab' ) }
 							</label>
 							<p className="description">
@@ -34,10 +39,13 @@ class FieldEdit extends Component {
 						<td>
 							<TextControl
 								type="text"
-								id={ `block-fields-edit-label-input_${ uid }` }
+								id={ `block-fields-edit-label-input_${ uiud }` }
 								className="regular-text"
 								value={ field.label }
-								data-sync={ `block-fields-label_${ uid }` }
+								onChange={ ( newValue ) => {
+									saveFieldValue( field.name, 'label', newValue );
+								} }
+								data-sync={ `block-fields-label_${ uiud }` }
 								readOnly={ isFieldDisabled }
 							/>
 						</td>
@@ -45,7 +53,7 @@ class FieldEdit extends Component {
 					<tr className="block-fields-edit-name">
 						<td className="spacer"></td>
 						<th scope="row">
-							<label id={ `block-fields-edit-name-${ uid }` } htmlFor={ `block-fields-edit-name-input_${ uid }` }>
+							<label id={ `block-fields-edit-name-${ uiud }` } htmlFor={ `block-fields-edit-name-input_${ uiud }` }>
 								{ __( 'Field Name', 'block-lab' ) }
 							</label>
 							<p className="description">
@@ -54,9 +62,12 @@ class FieldEdit extends Component {
 						</th>
 						<td>
 							<TextControl
-								id={ `block-fields-edit-name-input_${ uid }` }
+								id={ `block-fields-edit-name-input_${ uiud }` }
 								className="regular-text"
 								value={ field.name }
+								onChange={ ( newValue ) => {
+									saveFieldValue( field.name, 'name', newValue );
+								} }
 								data-sync="block-fields-name-code"
 								readOnly={ isFieldDisabled }
 							/>
@@ -65,14 +76,14 @@ class FieldEdit extends Component {
 					<tr className="block-fields-edit-control">
 						<td className="spacer"></td>
 						<th scope="row">
-							<label htmlFor={ `block-fields-edit-control-input_${ uid }` }>
+							<label htmlFor={ `block-fields-edit-control-input_${ uiud }` }>
 								{ __( 'Field Type', 'block-lab' ) }
 							</label>
 						</th>
 						<td>
 							<select
-								id={ `block-fields-edit-control-input_${ uid }` }
-								data-sync={ `block-fields-control_${ uid }` }
+								id={ `block-fields-edit-control-input_${ uiud }` }
+								data-sync={ `block-fields-control_${ uiud }` }
 								disabled={ isFieldDisabled }
 							>
 								{

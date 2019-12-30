@@ -132,6 +132,12 @@ class Loader extends Component_Abstract {
 	 * Launch the blocks inside Gutenberg.
 	 */
 	protected function editor_assets() {
+		// There's no need to for these assets on the Block Lab block editor (the 'Edit Block' UI).
+		$screen = get_current_screen();
+		if ( is_object( $screen ) && block_lab()->get_post_type_slug() === $screen->post_type ) {
+			return;
+		}
+
 		wp_enqueue_script(
 			'block-lab-blocks',
 			$this->assets['url']['entry'],

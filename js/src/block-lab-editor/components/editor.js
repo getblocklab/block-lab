@@ -40,7 +40,7 @@ class Editor extends Component {
 					<div className="fields">
 						{
 							!! fields && Object.values( fields ).map( ( field, index ) => {
-								return <Field field={ field } uid={ index } key={ `field-row-${ index }` } />;
+								return <Field field={ field } uiud={ index } key={ `field-row-${ index }` } />;
 							} )
 						}
 						<div className="add-field-container">
