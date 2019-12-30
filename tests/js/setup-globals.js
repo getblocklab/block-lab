@@ -3,17 +3,25 @@
 global.wp = {
 	blocks: {
 		registerBlockType: jest.fn(),
+		parse: jest.fn(),
 	},
 	data: {
-		dispatch: ( store ) => {
+		dispatch: jest.fn( ( store ) => {
 			if ( 'core/editor' === store ) {
-				return { editPost: jest.fn() };
+				return {
+					editPost: jest.fn(),
+					getEditedPostContent: jest.fn(),
+				};
 			}
-		},
-		select: ( store ) => {
+
+			if ( 'core/block-editor' === store ) {
+				return { resetBlocks: jest.fn() };
+			}
+		} ),
+		select: jest.fn( ( store ) => {
 			if ( 'core/editor' === store ) {
-				return { getEditedPostContent: jest.fn() };
+				return { getEditedPostContent: jest.fn() }
 			}
-		},
-	}
+		} ),
+	},
 };
