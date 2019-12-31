@@ -9,11 +9,31 @@ const { Component } = wp.element;
  * Internal dependencies
  */
 import saveFieldValue from '../helpers/saveFieldValue';
+import { NEW_FIELD_NAME } from '../constants';
 
 /**
  * A field's editing section.
  */
 class FieldEdit extends Component {
+	/**
+	 * Constructs the class.
+	 *
+	 * @param {*} args The arguments.
+	 */
+	constructor( ...args ) {
+		super( ...args );
+		const { field } = this.props;
+		this.state = { wasLabelEdited: field.name && NEW_FIELD_NAME !== field.name };
+	}
+
+	/**
+	 * Whether or not the field label should be 'slugified' and set as the name.
+	 */
+	doSlugify() {
+		const { field } = this.props;
+		return ! this.state.wasLabelEdited || ! field.name || NEW_FIELD_NAME === field.name;
+	}
+
 	/**
 	 * Renders the field's editing section.
 	 *
@@ -43,7 +63,10 @@ class FieldEdit extends Component {
 								className="regular-text"
 								value={ field.label }
 								onChange={ ( newValue ) => {
-									saveFieldValue( field.name, 'label', newValue );
+									saveFieldValue( field.name, 'label', newValue, this.doSlugify() );
+								} }
+								onBlur={ () => {
+									this.setState( { wasLabelEdited: true } );
 								} }
 								data-sync={ `block-fields-label_${ uiud }` }
 								readOnly={ isFieldDisabled }
