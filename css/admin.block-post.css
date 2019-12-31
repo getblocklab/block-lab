@@ -218,7 +218,7 @@ body {
     display: block;
 }
 
-.field-title {
+.field-label {
     margin-left: 12px;
     white-space: nowrap;
     overflow: hidden;

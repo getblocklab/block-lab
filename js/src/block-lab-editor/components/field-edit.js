@@ -39,7 +39,7 @@ class FieldEdit extends Component {
 	 * @return {Function} The rendered component.
 	 */
 	render() {
-		const { field, uiud } = this.props;
+		const { field, onClose, uiud } = this.props;
 		const isFieldDisabled = false;
 
 		return (
@@ -142,7 +142,11 @@ class FieldEdit extends Component {
 						<th scope="row">
 						</th>
 						<td>
-							<Button className="button" title={ __( 'Close Field', 'block-lab' ) } >
+							<Button
+								className="button"
+								title={ __( 'Close Field', 'block-lab' ) }
+								onClick={ onClose }
+							>
 								{ __( 'Close Field', 'block-lab' ) }
 							</Button>
 						</td>

@@ -2,6 +2,7 @@
  * WordPress dependencies
  */
 const { Component } = wp.element;
+const { __ } = wp.i18n;
 
 /**
  * Internal dependencies
@@ -13,16 +14,46 @@ import { FieldEdit } from './';
  */
 class Field extends Component {
 	/**
+	 * Constructs the class.
+	 *
+	 * @param {*} args The constructor arguments.
+	 */
+	constructor( ...args ) {
+		super( ...args );
+		this.state = { isOpen: false };
+	}
+
+	/**
+	 * Toggles the field edit area open or closed.
+	 */
+	toggleEditArea() {
+		const { isOpen } = this.state;
+		this.setState( { isOpen: ! isOpen } );
+	}
+
+	/**
 	 * Renders the field row.
 	 *
 	 * @return {Function} The rendered component.
 	 */
 	render() {
 		const { field, uiud } = this.props;
+		const { isOpen } = this.state;
 
 		return (
 			<div className="field">
-				<div className="field-container">
+				<div
+					role="button"
+					className="field-container"
+					label={ __( 'Toggle the edit area of the field', 'block-lab' ) }
+					tabIndex={ uiud }
+					onClick={ () => {
+						this.toggleEditArea();
+					} }
+					onKeyPress={ () => {
+						this.toggleEditArea();
+					} }
+				>
 					<div className="field-icon-container">
 						<svg className="field-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 							<path fill="none" d="M0 0h24v24H0V0z" />
@@ -34,17 +65,25 @@ class Field extends Component {
 						</svg>
 					</div>
 					<span className="field-title">
-						{ field.name }
+						{ field.label }
 					</span>
 					<div className="field-copy-pill">
-						<span>{ field.label }</span>
+						<span>{ field.name }</span>
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
 							<path fill="none" d="M0 0h24v24H0V0z" />
 							<path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm-1 4H8c-1.1 0-1.99.9-1.99 2L6 21c0 1.1.89 2 1.99 2H19c1.1 0 2-.9 2-2V11l-6-6zM8 21V7h6v5h5v9H8z" />
 						</svg>
 					</div>
 				</div>
-				<FieldEdit field={ field } uiud={ uiud } />
+				{ isOpen && (
+					<FieldEdit
+						field={ field }
+						uiud={ uiud }
+						onClose={ () => {
+							this.setState( { isOpen: false } );
+						} }
+					/>
+				) }
 			</div>
 		);
 	}
