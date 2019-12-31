@@ -9,7 +9,7 @@ const { Component } = wp.element;
  * Internal dependencies
  */
 import saveFieldValue from '../helpers/saveFieldValue';
-import { NEW_FIELD_NAME } from '../constants';
+import isNewFieldName from '../helpers/isNewFieldName';
 
 /**
  * A field's editing section.
@@ -23,7 +23,7 @@ class FieldEdit extends Component {
 	constructor( ...args ) {
 		super( ...args );
 		const { field } = this.props;
-		this.state = { wasLabelEdited: field.name && NEW_FIELD_NAME !== field.name };
+		this.state = { wasLabelEdited: ! isNewFieldName( field.name ) };
 	}
 
 	/**
@@ -31,7 +31,7 @@ class FieldEdit extends Component {
 	 */
 	doSlugify() {
 		const { field } = this.props;
-		return ! this.state.wasLabelEdited || ! field.name || NEW_FIELD_NAME === field.name;
+		return ! this.state.wasLabelEdited || ! field.name || isNewFieldName( field.name );
 	}
 
 	/**
