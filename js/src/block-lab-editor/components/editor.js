@@ -10,8 +10,7 @@ const { __ } = wp.i18n;
 /**
  * Internal dependencies
  */
-import getBlockFromContent from '../helpers/getBlockFromContent';
-import addNewField from '../helpers/addNewField';
+import { addNewField, getBlockFromContent } from '../helpers';
 import { Field } from '.';
 
 /**

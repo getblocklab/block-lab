@@ -1,7 +1,7 @@
 /**
  * Internal dependencies
  */
-import saveFieldValue from '../saveFieldValue';
+import { saveFieldValue } from '../';
 
 describe( 'saveFieldValue', () => {
 	it( 'should have used the store', () => {

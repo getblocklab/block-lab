@@ -1,7 +1,7 @@
 /**
  * Internal dependencies
  */
-import renameField from '../renameField';
+import { renameField } from '../';
 
 describe( 'renameField', () => {
 	it.each( [

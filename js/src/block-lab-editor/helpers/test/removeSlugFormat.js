@@ -1,7 +1,7 @@
 /**
  * Internal dependencies
  */
-import removeSlugFormat from '../removeSlugFormat';
+import { removeSlugFormat } from '../';
 
 describe( 'removeSlugFormat', () => {
 	it.each( [

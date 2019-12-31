@@ -1,7 +1,7 @@
 /**
  * Internal dependencies
  */
-import getSimplifiedFields from '../getSimplifiedFields';
+import { getSimplifiedFields } from '../';
 
 describe( 'getBlockFromContent', () => {
 	it( 'should return an empty array if passed an empty object', () => {

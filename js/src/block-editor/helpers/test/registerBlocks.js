@@ -1,7 +1,7 @@
 /**
  * Internal dependencies
  */
-import registerBlocks from '../registerBlocks';
+import { registerBlocks } from '../';
 
 describe( 'registerBlocks', () => {
 	const Edit = () => {};

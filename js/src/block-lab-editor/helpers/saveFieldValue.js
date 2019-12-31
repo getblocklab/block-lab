@@ -6,10 +6,7 @@ const { select } = wp.data;
 /**
  * Internal dependencies
  */
-import getBlockFromContent from './getBlockFromContent';
-import saveBlock from './saveBlock';
-import slugify from '../helpers/slugify';
-import renameField from '../helpers/renameField';
+import { getBlockFromContent, renameField, saveBlock, slugify } from './';
 
 /**
  * Parses the block from the post content into an object.

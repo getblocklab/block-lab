@@ -1,7 +1,7 @@
 /**
  * Internal dependencies
  */
-import saveBlock from '../saveBlock';
+import { saveBlock } from '../';
 
 describe( 'saveBlock', () => {
 	it( 'should save an empty block correctly', () => {

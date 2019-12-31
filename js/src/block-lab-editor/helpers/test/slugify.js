@@ -1,7 +1,7 @@
 /**
  * Internal dependencies
  */
-import slugify from '../slugify';
+import { slugify } from '../';
 
 describe( 'slugify', () => {
 	it.each( [

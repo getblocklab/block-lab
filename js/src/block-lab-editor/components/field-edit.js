@@ -8,8 +8,7 @@ const { Component } = wp.element;
 /**
  * Internal dependencies
  */
-import saveFieldValue from '../helpers/saveFieldValue';
-import isNewFieldName from '../helpers/isNewFieldName';
+import { isNewFieldName, saveFieldValue } from '../helpers';
 
 /**
  * A field's editing section.

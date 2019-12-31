@@ -1,7 +1,7 @@
 /**
  * Internal dependencies
  */
-import addNewField from '../addNewField';
+import { addNewField } from '../';
 
 describe( 'addNewField', () => {
 	it( 'should not update the post if the post does not have a block', () => {

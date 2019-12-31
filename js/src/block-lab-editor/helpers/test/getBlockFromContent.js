@@ -1,7 +1,7 @@
 /**
  * Internal dependencies
  */
-import getBlockFromContent from '../getBlockFromContent';
+import { getBlockFromContent } from '../';
 
 describe( 'getBlockFromContent', () => {
 	const mockValue = { foo: 'example', bar: 'baz' };

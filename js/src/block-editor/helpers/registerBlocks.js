@@ -8,7 +8,7 @@ const { registerBlockType } = wp.blocks;
  * Internal dependencies
  */
 import icons from '../../../../assets/icons.json';
-import getBlockLabAttributes from './getBlockLabAttributes';
+import { getBlockLabAttributes } from './';
 
 /**
  * Loops through all of the blocks, but not guaranteed to be sequential.

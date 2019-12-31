@@ -8,7 +8,7 @@ const { applyFilters } = wp.hooks;
 /**
  * Internal dependencies
  */
-import getSimplifiedFields from '../helpers/getSimplifiedFields';
+import { getSimplifiedFields } from '../helpers';
 import controls from './controls';
 
 /**

@@ -1,7 +1,7 @@
 /**
  * Internal dependencies
  */
-import getBlockLabAttributes from '../getBlockLabAttributes';
+import { getBlockLabAttributes } from '../';
 
 describe( 'getBlockFromContent', () => {
 	const fieldsWithOnlyType = {

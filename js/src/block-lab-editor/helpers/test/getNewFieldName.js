@@ -1,7 +1,7 @@
 /**
  * Internal dependencies
  */
-import getNewFieldName from '../getNewFieldName';
+import { getNewFieldName } from '../';
 
 describe( 'getNewFieldName', () => {
 	it.each( [
