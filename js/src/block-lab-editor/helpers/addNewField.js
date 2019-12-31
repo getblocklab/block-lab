@@ -9,6 +9,7 @@ const { select } = wp.data;
 import getBlockFromContent from './getBlockFromContent';
 import getNewFieldName from './getNewFieldName';
 import saveBlock from './saveBlock';
+import removeSlugFormat from './removeSlugFormat';
 
 /**
  * Parses the block from the post content into an object.
@@ -23,7 +24,10 @@ const addNewField = () => {
 	}
 
 	const newFieldName = getNewFieldName( block );
-	block.fields[ newFieldName ] = { name: newFieldName };
+	block.fields[ newFieldName ] = {
+		name: newFieldName,
+		label: removeSlugFormat( newFieldName ),
+	};
 	saveBlock( block );
 
 	return true;
