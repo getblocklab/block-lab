@@ -1,7 +1,4 @@
 /**
- * WordPres dependencies
- */
-/**
  * WordPress dependencies
  */
 import { CheckboxControl } from '@wordpress/components';
