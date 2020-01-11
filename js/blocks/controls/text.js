@@ -1,4 +1,7 @@
-const { TextControl } = wp.components;
+/**
+ * WordPress dependencies
+ */
+import { TextControl } from '@wordpress/components';
 
 const BlockLabTextControl = ( props ) => {
 	const { field, getValue, onChange } = props;

@@ -1,8 +1,8 @@
 /**
  * WordPress dependencies
  */
-const { BaseControl } = wp.components;
-const { RichText } = wp.blockEditor;
+import { BaseControl } from '@wordpress/components';
+import { RichText } from '@wordpress/block-editor';
 
 const BlockLabRichTextControl = ( props ) => {
 	const { field, getValue, instanceId, onChange } = props;

@@ -1,4 +1,10 @@
-const { CheckboxControl } = wp.components;
+/**
+ * WordPres dependencies
+ */
+/**
+ * WordPress dependencies
+ */
+import { CheckboxControl } from '@wordpress/components';
 
 const BlockLabCheckboxControl = ( props ) => {
 	const { field, getValue, onChange } = props;

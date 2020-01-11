@@ -132,11 +132,14 @@ class Loader extends Component_Abstract {
 	 * Launch the blocks inside Gutenberg.
 	 */
 	protected function editor_assets() {
+		$asset_config_file = $this->plugin->get_path( 'js/editor.blocks.asset.php' );
+		$asset_config      = require $asset_config_file;
+
 		wp_enqueue_script(
 			'block-lab-blocks',
 			$this->assets['url']['entry'],
-			[ 'wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-api-fetch' ],
-			$this->plugin->get_version(),
+			$asset_config['dependencies'],
+			$asset_config['version'],
 			true
 		);
 

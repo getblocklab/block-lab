@@ -1,8 +1,7 @@
 /**
  * WordPress dependencies
  */
-const { ServerSideRender } = wp.editor;
-const { Fragment } = wp.element;
+import ServerSideRender from '@wordpress/server-side-render';
 
 /**
  * Internal dependencies
@@ -26,7 +25,7 @@ const Edit = ( { blockProps, block } ) => {
 	}
 
 	return (
-		<Fragment>
+		<>
 			<BlockLabInspector blockProps={ blockProps } block={ block } />
 			<AdvancedControls block={ block } />
 			<div className={ className } key={ `form-controls-${ block.name }` } >
@@ -43,7 +42,7 @@ const Edit = ( { blockProps, block } ) => {
 					/>
 				) }
 			</div>
-		</Fragment>
+		</>
 	);
 };
 

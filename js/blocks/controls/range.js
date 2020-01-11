@@ -1,4 +1,7 @@
-const { RangeControl } = wp.components;
+/**
+ * WordPress dependencies
+ */
+import { RangeControl } from '@wordpress/components';
 
 const BlockLabRangeControl = ( props ) => {
 	const { field, getValue, onChange } = props;

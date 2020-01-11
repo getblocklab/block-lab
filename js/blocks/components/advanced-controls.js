@@ -3,9 +3,9 @@
 /**
  * WordPress dependencies
  */
-const { InspectorAdvancedControls } = wp.editor;
-const { DotTip } = wp.nux;
-const { sprintf, __ } = wp.i18n;
+import { InspectorAdvancedControls } from '@wordpress/editor';
+import { Guide } from '@wordpress/components';
+import { sprintf, __ } from '@wordpress/i18n';
 
 /**
  * Renders the inspector advanced controls.
@@ -25,12 +25,12 @@ const AdvancedControls = ( { block } ) => {
 
 	return (
 		<InspectorAdvancedControls key={ `inspector-advanced-controls-${ block.name }` }>
-			<DotTip tipId="block-lab/additional-css-class">
+			<Guide tipId="block-lab/additional-css-class">
 				<p className="bl-dot-tip" dangerouslySetInnerHTML={ { __html: tip } }></p>
 				<p className="bl-dot-tip read-more">
 					<a href="https://getblocklab.com/docs/faqs/" target="_blank" rel="noopener noreferrer">{ __( 'Read more', 'block-lab' ) }</a>
 				</p>
-			</DotTip>
+			</Guide>
 		</InspectorAdvancedControls>
 	);
 };

@@ -117,3 +117,4 @@ js/editor.blocks.js
 js/scripts.js
 css/blocks.editor.css
 package/
+*.asset.php

@@ -1,9 +1,9 @@
 /**
  * WordPress dependencies
  */
-const { BaseControl, IconButton } = wp.components;
-const { Component, Fragment, createRef } = wp.element;
-const { __ } = wp.i18n;
+import { BaseControl, IconButton } from '@wordpress/components';
+import { Component, createRef } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 const { getScrollContainer } = wp.dom;
 
 /**
@@ -166,7 +166,7 @@ class RepeaterRows extends Component {
 		const { rows, field, subFields, parentBlockProps, parentBlock } = this.props;
 
 		return (
-			<Fragment>
+			<>
 				<div className="block-lab-repeater__rows" ref={ this.repeaterRows }>
 					{
 						rows.map( ( row, rowIndex ) => {
@@ -214,7 +214,7 @@ class RepeaterRows extends Component {
 						} )
 					}
 				</div>
-			</Fragment>
+			</>
 		);
 	}
 }
