@@ -3,7 +3,7 @@
 /**
  * WordPress dependencies
  */
-import { InspectorAdvancedControls } from '@wordpress/editor';
+import { InspectorAdvancedControls } from '@wordpress/block-editor';
 import { Guide } from '@wordpress/components';
 import { sprintf, __ } from '@wordpress/i18n';
 

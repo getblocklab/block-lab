@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 import { PanelBody } from '@wordpress/components';
-import { InspectorControls } from '@wordpress/editor';
+import { InspectorControls } from '@wordpress/block-editor';
 import { applyFilters } from '@wordpress/hooks';
 
 /**
