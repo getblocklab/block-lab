@@ -312,7 +312,7 @@ class Onboarding extends Component_Abstract {
 			return;
 		}
 
-		$categories = get_block_categories( the_post() );
+		$categories = get_block_categories( get_post() );
 
 		$example_post_id = wp_insert_post(
 			[
