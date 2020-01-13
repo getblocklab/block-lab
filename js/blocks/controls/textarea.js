@@ -1,4 +1,7 @@
-const { TextareaControl } = wp.components;
+/**
+ * WordPress dependencies
+ */
+import { TextareaControl } from '@wordpress/components';
 
 const BlockLabTextareaControl = ( props ) => {
 	const { getValue, field, onChange } = props;

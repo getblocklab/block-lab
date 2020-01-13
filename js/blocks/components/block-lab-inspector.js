@@ -1,9 +1,9 @@
 /**
  * WordPress dependencies
  */
-const { PanelBody } = wp.components;
-const { InspectorControls } = wp.editor;
-const { applyFilters } = wp.hooks;
+import { PanelBody } from '@wordpress/components';
+import { InspectorControls } from '@wordpress/block-editor';
+import { applyFilters } from '@wordpress/hooks';
 
 /**
  * Internal dependencies

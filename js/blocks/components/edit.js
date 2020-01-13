@@ -1,13 +1,12 @@
 /**
  * WordPress dependencies
  */
-const { ServerSideRender } = wp.editor;
-const { Fragment } = wp.element;
+import ServerSideRender from '@wordpress/server-side-render';
 
 /**
  * Internal dependencies
  */
-import { AdvancedControls, BlockLabInspector, FormControls } from './';
+import { BlockLabInspector, FormControls } from './';
 import icons from '../../../assets/icons.json';
 
 /**
@@ -26,9 +25,8 @@ const Edit = ( { blockProps, block } ) => {
 	}
 
 	return (
-		<Fragment>
+		<>
 			<BlockLabInspector blockProps={ blockProps } block={ block } />
-			<AdvancedControls block={ block } />
 			<div className={ className } key={ `form-controls-${ block.name }` } >
 				{ isSelected ? (
 					<div className="block-form">
@@ -43,7 +41,7 @@ const Edit = ( { blockProps, block } ) => {
 					/>
 				) }
 			</div>
-		</Fragment>
+		</>
 	);
 };
 

@@ -1,9 +1,8 @@
 /**
- * WordPress dependendies
+ * WordPress dependencies
  */
-const { __ } = wp.i18n;
-const { BaseControl, IconButton } = wp.components;
-
+import { __ } from '@wordpress/i18n';
+import { BaseControl, IconButton } from '@wordpress/components';
 /**
  * Internal dependencies
  */

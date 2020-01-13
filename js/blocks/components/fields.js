@@ -1,8 +1,8 @@
 /**
  * WordPress dependencies
  */
-const { applyFilters } = wp.hooks;
-const { select } = wp.data;
+import { applyFilters } from '@wordpress/hooks';
+import { select } from '@wordpress/data';
 
 /**
  * Internal dependencies

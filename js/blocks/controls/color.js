@@ -1,5 +1,8 @@
-const { BaseControl, TextControl, Popover, ColorIndicator, ColorPicker } = wp.components;
-const { withState } = wp.compose;
+/**
+ * WordPress dependencies
+ */
+import { BaseControl, TextControl, Popover, ColorIndicator, ColorPicker } from '@wordpress/components';
+import { withState } from '@wordpress/compose';
 
 const BlockLabColorPopover = withState( {
 } )( ( { isVisible, color, onUpdate, setState } ) => {

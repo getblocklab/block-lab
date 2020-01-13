@@ -1,43 +1,12 @@
 const path = require( 'path' );
-const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
-const UglifyJSPlugin = require( 'uglifyjs-webpack-plugin' );
-
-// Set different CSS extraction for editor only and common block styles
-const blocksCSSPlugin = new ExtractTextPlugin( {
-	filename: './css/blocks.style.css',
-} );
-const editBlocksCSSPlugin = new ExtractTextPlugin( {
-	filename: './css/blocks.editor.css',
-} );
-const uglifyJSPlugin = new UglifyJSPlugin( {
-	uglifyOptions: {
-		mangle: {},
-		compress: true
-	},
-	sourceMap: false
-} );
-
-// Configuration for the ExtractTextPlugin.
-const extractConfig = {
-	use: [
-		{ loader: 'raw-loader' },
-		{
-			loader: 'postcss-loader',
-			options: {
-				plugins: [ require( 'autoprefixer' ) ],
-			},
-		},
-		{
-			loader: 'sass-loader',
-			query: {
-				outputStyle: 'compressed',
-			},
-		},
-	],
-};
-
+const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
+const DependencyExtractionWebpackPlugin = require( '@wordpress/dependency-extraction-webpack-plugin' );
+const { defaultRequestToExternal, defaultRequestToHandle } = require( '@wordpress/dependency-extraction-webpack-plugin/util' );
+const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
+const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
+	...defaultConfig,
 	entry: {
 		'./js/editor.blocks': './js/blocks/index.js',
 		'./js/scripts': './js/src/index.js',
@@ -47,7 +16,7 @@ module.exports = {
 		filename: '[name].js',
 	},
 	watch: false,
-	// devtool: 'cheap-eval-source-map',
+	mode: isProduction ? 'production' : 'development',
 	module: {
 		rules: [
 			{
@@ -58,18 +27,61 @@ module.exports = {
 				},
 			},
 			{
-				test: /style\.s?css$/,
-				use: blocksCSSPlugin.extract( extractConfig ),
-			},
-			{
 				test: /editor\.s?css$/,
-				use: editBlocksCSSPlugin.extract( extractConfig ),
+				use: [
+					{
+						loader: MiniCssExtractPlugin.loader,
+						options: {
+							// Only allow hot module reloading in development.
+							hmr: process.env.NODE_ENV === 'development',
+							// Force reloading if hot module reloading does not work.
+							reloadAll: true,
+						},
+					},
+					'css-loader',
+					{
+						loader: 'postcss-loader',
+						options: {
+							plugins: [ require( 'autoprefixer' ) ],
+						},
+					},
+					{
+						loader: 'sass-loader',
+					},
+				],
 			},
 		],
 	},
 	plugins: [
-		blocksCSSPlugin,
-		editBlocksCSSPlugin,
-		uglifyJSPlugin,
+		new MiniCssExtractPlugin( {
+			filename: './css/blocks.editor.css',
+		} ),
+		new DependencyExtractionWebpackPlugin( {
+			useDefaults: false,
+			requestToHandle: ( request ) => {
+				switch ( request ) {
+					case '@wordpress/dom-ready':
+					case '@wordpress/i18n':
+					case '@wordpress/server-side-render':
+					case '@wordpress/url':
+						return undefined;
+
+					default:
+						return defaultRequestToHandle( request );
+				}
+			},
+			requestToExternal: ( request ) => {
+				switch ( request ) {
+					case '@wordpress/dom-ready':
+					case '@wordpress/i18n':
+					case '@wordpress/server-side-render':
+					case '@wordpress/url':
+						return undefined;
+
+					default:
+						return defaultRequestToExternal( request );
+				}
+			},
+		} ),
 	],
 };

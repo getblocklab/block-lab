@@ -77,6 +77,8 @@ gulp.task( 'clean:bundle', function () {
 		'package/trunk/coverage',
 		'package/trunk/js/blocks',
 		'package/trunk/js/src',
+		'package/trunk/js/*.map',
+		'package/trunk/css/*.map',
 		'package/trunk/bin',
 		'package/trunk/node_modules',
 		'package/trunk/vendor',

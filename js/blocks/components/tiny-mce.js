@@ -1,9 +1,9 @@
 /**
  * WordPress dependencies
  */
-const { Component } = wp.element;
-const { __ } = wp.i18n;
-const { F10 } = wp.keycodes;
+import { Component } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
+import { F10 } from '@wordpress/keycodes';
 
 /**
  * Forked from the Core Classic Editor's Edit component.
