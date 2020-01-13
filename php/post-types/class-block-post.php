@@ -3,7 +3,7 @@
  * Block Post Type.
  *
  * @package   Block_Lab
- * @copyright Copyright(c) 2019, Block Lab
+ * @copyright Copyright(c) 2020, Block Lab
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
@@ -1040,7 +1040,7 @@ class Block_Post extends Component_Abstract {
 		// Block category.
 		if ( isset( $_POST['block-properties-category'] ) ) {
 			$category_slug = sanitize_key( $_POST['block-properties-category'] );
-			$categories    = get_block_categories( the_post() );
+			$categories    = get_block_categories( get_post() );
 
 			if ( '__custom' === $category_slug && isset( $_POST['block-properties-category-name'] ) ) {
 				$category = [
