@@ -104,7 +104,6 @@ node_modules
 .ackrc
 
 # Composer
-composer.lock
 vendor
 
 # Tests
