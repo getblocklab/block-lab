@@ -89,6 +89,7 @@ gulp.task( 'clean:bundle', function () {
 		'package/trunk/README.md',
 		'package/trunk/CHANGELOG.md',
 		'package/trunk/webpack.config.js',
+		'package/trunk/.github',
 		'package/prepare',
 	] );
 } );
