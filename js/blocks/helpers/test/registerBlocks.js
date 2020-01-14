@@ -11,6 +11,15 @@ jest.mock( '@wordpress/blocks', () => {
 	};
 } );
 const Edit = () => {};
+const expectedArgs = {
+	title: expect.any( String ),
+	category: expect.any( String ),
+	icon: expect.any( String ),
+	keywords: expect.any( Array ),
+	attributes: expect.any( Object ),
+	edit: expect.any( Function ),
+	save: expect.any( Function ),
+};
 
 describe( 'registerBlocks', () => {
 	it( 'should not register any block if there is no Block Lab block passed', () => {
@@ -30,15 +39,7 @@ describe( 'registerBlocks', () => {
 		registerBlocks( {}, blockLabBlocks, Edit );
 		expect( mockRegisterBlockType ).toHaveBeenCalledWith(
 			blockName,
-			expect.objectContaining( {
-				title: expect.any( String ),
-				category: expect.any( String ),
-				icon: expect.any( String ),
-				keywords: expect.any( Array ),
-				attributes: expect.any( Object ),
-				edit: expect.any( Function ),
-				save: expect.any( Function ),
-			} )
+			expect.objectContaining( expectedArgs )
 		);
 	} );
 
@@ -63,15 +64,7 @@ describe( 'registerBlocks', () => {
 		expect( mockRegisterBlockType ).toHaveBeenNthCalledWith(
 			2,
 			expect.any( String ),
-			expect.objectContaining( {
-				title: expect.any( String ),
-				category: expect.any( String ),
-				icon: expect.any( String ),
-				keywords: expect.any( Array ),
-				attributes: expect.any( Object ),
-				edit: expect.any( Function ),
-				save: expect.any( Function ),
-			} )
+			expect.objectContaining( expectedArgs )
 		);
 	} );
 } );
