@@ -3,7 +3,7 @@
 /**
  * WordPress dependencies
  */
-const { i18n } = wp;
+import { setLocaleData } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -11,5 +11,5 @@ const { i18n } = wp;
 import { registerBlocks } from './helpers';
 import { Edit } from './components';
 
-i18n.setLocaleData( { '': {} }, 'block-lab' );
+setLocaleData( { '': {} }, 'block-lab' );
 registerBlocks( blockLab, blockLabBlocks, Edit );

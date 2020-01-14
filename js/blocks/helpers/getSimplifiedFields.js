@@ -21,7 +21,7 @@ const compare = ( a, b ) => {
  * @param {Array} fields The fields to simplify.
  * @return {Array} The simplified fields.
  */
-const simplifiedFields = ( fields ) => {
+const getSimplifiedFields = ( fields ) => {
 	const fieldList = [];
 
 	for ( const fieldName in fields ) {
@@ -42,9 +42,9 @@ const simplifiedFields = ( fields ) => {
 		);
 	}
 
-	fieldList.sort( compare );
+	fieldList.sort( compare ); // @todo: is this needed? Even then, it should only affect the Block Lab editor UI.
 
 	return fieldList;
 };
 
-export default simplifiedFields;
+export default getSimplifiedFields;
