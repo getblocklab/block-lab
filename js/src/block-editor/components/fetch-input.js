@@ -12,14 +12,14 @@ import classNames from 'classnames';
 /**
  * WordPress dependencies
  */
-const { __, sprintf, _n } = wp.i18n;
-const { Component, createRef } = wp.element;
-const { decodeEntities } = wp.htmlEntities;
-const { UP, DOWN, ENTER } = wp.keycodes;
-const { BaseControl, Spinner, withSpokenMessages, Popover } = wp.components;
-const { withInstanceId } = wp.compose;
-const apiFetch = wp.apiFetch;
-const { addQueryArgs } = wp.url;
+import { __, sprintf, _n } from '@wordpress/i18n';
+import { Component, createRef } from '@wordpress/element';
+import { decodeEntities } from '@wordpress/html-entities';
+import { UP, DOWN, ENTER } from '@wordpress/keycodes';
+import { BaseControl, Spinner, withSpokenMessages, Popover } from '@wordpress/components';
+import { withInstanceId } from '@wordpress/compose';
+import { addQueryArgs } from '@wordpress/url';
+const { apiFetch } = wp;
 
 // Since FetchInput is rendered in the context of other inputs, but should be
 // considered a separate modal node, prevent keyboard events from propagating
@@ -133,7 +133,7 @@ class FetchInput extends Component {
 					'%d result found, use up and down arrow keys to navigate.',
 					'%d results found, use up and down arrow keys to navigate.',
 					results.length,
-					'block-lab',
+					'block-lab'
 				), results.length ), 'assertive' );
 
 				if ( null === this.state.selectedSuggestion && '' !== this.getInputValue() ) {

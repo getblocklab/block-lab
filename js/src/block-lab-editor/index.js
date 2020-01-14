@@ -13,7 +13,7 @@ import { Editor } from './components';
 domReady( () => {
 	render(
 		<Editor />,
-		document.getElementById( 'bl-block-editor' ),
+		document.getElementById( 'bl-block-editor' )
 	);
 	dispatch( 'core/editor' ).updateEditorSettings( { richEditingEnabled: false } );
 } );

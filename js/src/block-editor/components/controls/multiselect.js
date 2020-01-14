@@ -1,4 +1,7 @@
-const { SelectControl } = wp.components;
+/**
+ * WordPress dependencies
+ */
+import { SelectControl } from '@wordpress/components';
 
 const BlockLabMultiselectControl = ( props ) => {
 	const { field, getValue, onChange } = props;

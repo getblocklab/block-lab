@@ -1,4 +1,7 @@
-const { RadioControl } = wp.components;
+/**
+ * WordPress dependencies
+ */
+import { RadioControl } from '@wordpress/components';
 
 const BlockLabRadioControl = ( props ) => {
 	const { field, getValue, onChange } = props;

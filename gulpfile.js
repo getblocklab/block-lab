@@ -76,6 +76,8 @@ gulp.task( 'clean:bundle', function () {
 		'package/trunk/assets/wporg',
 		'package/trunk/coverage',
 		'package/trunk/js/src',
+		'package/trunk/js/*.map',
+		'package/trunk/css/*.map',
 		'package/trunk/bin',
 		'package/trunk/node_modules',
 		'package/trunk/vendor',
@@ -88,6 +90,7 @@ gulp.task( 'clean:bundle', function () {
 		'package/trunk/README.md',
 		'package/trunk/CHANGELOG.md',
 		'package/trunk/webpack.config.js',
+		'package/trunk/.github',
 		'package/prepare',
 	] );
 } );

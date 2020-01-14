@@ -74,7 +74,6 @@ tmp/
 #######
 .npmignore
 node_modules
-package-lock.json
 
 # Always-ignore extensions #
 ########################
@@ -88,6 +87,7 @@ package-lock.json
 *.swp
 *.tmp
 *.bak
+*.map
 
 # Sass #
 #######
@@ -116,3 +116,4 @@ coverage/html/
 js/build/*
 css/blocks.editor.css
 package/
+*.asset.php

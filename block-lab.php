@@ -3,7 +3,7 @@
  * Block Lab
  *
  * @package   Block_Lab
- * @copyright Copyright(c) 2019, Block Lab
+ * @copyright Copyright(c) 2020, Block Lab
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  *
  * Plugin Name: Block Lab

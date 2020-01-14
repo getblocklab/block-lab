@@ -2,7 +2,7 @@
 /**
  * WordPress dependencies
  */
-const { registerBlockType } = wp.blocks;
+import { registerBlockType } from '@wordpress/blocks';
 
 /**
  * Internal dependencies

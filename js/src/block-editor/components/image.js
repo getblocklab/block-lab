@@ -1,9 +1,12 @@
-const { BaseControl, Button, Placeholder, DropZone, FormFileUpload, Spinner } = wp.components;
-const { withState } = wp.compose;
-const { withSelect } = wp.data;
-const { mediaUpload, MediaUpload, MediaUploadCheck } = wp.editor;
-const { Fragment } = wp.element;
-const { __, sprintf } = wp.i18n;
+/**
+ * WordPress dependencies
+ */
+import { BaseControl, Button, Placeholder, DropZone, FormFileUpload, Spinner } from '@wordpress/components';
+import { withState } from '@wordpress/compose';
+import { withSelect } from '@wordpress/data';
+import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
+import { mediaUpload } from '@wordpress/editor';
+import { __, sprintf } from '@wordpress/i18n';
 
 const ALLOWED_TYPES = [ 'image' ];
 const DEFAULT_IMG_ID = 0;
@@ -96,7 +99,7 @@ const Image = withSelect( ( select, ownProps ) => {
 							<Spinner />
 						) }
 						{ ! isUploading && (
-							<Fragment>
+							<>
 								<FormFileUpload
 									isLarge
 									disabled={ !! isUploading }
@@ -129,7 +132,7 @@ const Image = withSelect( ( select, ownProps ) => {
 										</div>
 									) }
 								/>
-							</Fragment>
+							</>
 						) }
 					</MediaUploadCheck>
 				</Placeholder>

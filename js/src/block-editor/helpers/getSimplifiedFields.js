@@ -38,7 +38,7 @@ const getSimplifiedFields = ( fields ) => {
 			{
 				...field,
 				name: fieldName,
-			},
+			}
 		);
 	}
 

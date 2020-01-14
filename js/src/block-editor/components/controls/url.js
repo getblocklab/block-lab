@@ -3,7 +3,10 @@
  */
 import classNames from 'classnames';
 
-const { TextControl } = wp.components;
+/**
+ * WordPress dependencies
+ */
+import { TextControl } from '@wordpress/components';
 
 const BlockLabURLControl = ( props ) => {
 	const { field, getValue, onChange } = props;

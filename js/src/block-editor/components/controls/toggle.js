@@ -1,4 +1,7 @@
-const { ToggleControl } = wp.components;
+/**
+ * WordPress dependencies
+ */
+import { ToggleControl } from '@wordpress/components';
 
 const BlockLabToggleControl = ( props ) => {
 	const { field, onChange, getValue } = props;
