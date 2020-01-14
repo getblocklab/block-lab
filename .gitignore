@@ -106,6 +106,7 @@ node_modules
 # Composer
 composer.lock
 vendor
+cghooks.lock
 
 # Tests
 tests/data/
