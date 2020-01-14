@@ -1,8 +1,15 @@
-// Import localization. Need to import for global context.
+/* global blockLab, blockLabBlocks */
+
+/**
+ * WordPress dependencies
+ */
+const { i18n } = wp;
+
 /**
  * Internal dependencies
  */
-import './i18n';
+import { registerBlocks } from './helpers';
+import { Edit } from './components';
 
-// Import Block Lab loader.
-import './loader';
+i18n.setLocaleData( { '': {} }, 'block-lab' );
+registerBlocks( blockLab, blockLabBlocks, Edit );
