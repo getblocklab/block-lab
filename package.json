@@ -51,6 +51,7 @@
     "gulp": "^4.0.2",
     "gulp-run": "^1.7.1",
     "gulp-string-replace": "^1.1.2",
+    "jest-silent-reporter": "0.1.2",
     "merge-stream": "^2.0.0",
     "mini-css-extract-plugin": "0.8.2",
     "node-sass": "^4.13.0",
@@ -59,7 +60,7 @@
     "raw-loader": "^4.0.0",
     "re-resizable": "6.1.1",
     "react": "16.12.0",
-    "sass-loader": "^8.0.0",
+    "sass-loader": "^8.0.2",
     "style-loader": "^1.0.2",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.41.3",
@@ -74,6 +75,7 @@
     "lint:js:fix": "npm run lint:js -- --fix",
     "lint:pkg-json": "wp-scripts lint-pkg-json",
     "lint:php": "vendor/bin/phpcs",
-    "lint:php:fix": "vendor/bin/phpcbf"
+    "lint:php:fix": "vendor/bin/phpcbf",
+    "test:js": "wp-scripts test-unit-js --config=tests/js/jest.config.js"
   }
 }

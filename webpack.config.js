@@ -9,7 +9,6 @@ module.exports = {
 	...defaultConfig,
 	entry: {
 		'./js/editor.blocks': './js/blocks/index.js',
-		'./js/scripts': './js/src/index.js',
 	},
 	output: {
 		path: path.resolve( __dirname ),

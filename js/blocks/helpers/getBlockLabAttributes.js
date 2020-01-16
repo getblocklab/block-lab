@@ -4,7 +4,7 @@
  * @param {Object} fields The fields to get the attributes from.
  * @return {Object} attributes The attributes for the fields.
  */
-const getBlockAttributes = ( fields ) => {
+const getBlockLabAttributes = ( fields ) => {
 	const attributes = {};
 
 	for ( const fieldName in fields ) {
@@ -13,7 +13,6 @@ const getBlockAttributes = ( fields ) => {
 		}
 
 		const field = fields[ fieldName ];
-
 		attributes[ fieldName ] = {};
 
 		if ( field.type ) {
@@ -28,4 +27,4 @@ const getBlockAttributes = ( fields ) => {
 	return attributes;
 };
 
-export default getBlockAttributes;
+export default getBlockLabAttributes;

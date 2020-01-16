@@ -1,5 +1,3 @@
-/* global blockLab, blockLabBlocks */
-
 /**
  * WordPress dependencies
  */
@@ -9,13 +7,16 @@ import { registerBlockType } from '@wordpress/blocks';
  * Internal dependencies
  */
 import icons from '../../../assets/icons.json';
-import getBlockAttributes from './attributes';
-import { Edit } from '../components';
-import '../../../css/src/editor.scss';
+import { getBlockLabAttributes } from './';
 
-const registerBlocks = () => {
-	// Loop through all the blocks.
-	// Note: This is not guaranteed to be sequential.
+/**
+ * Loops through all of the blocks, but not guaranteed to be sequential.
+ *
+ * @param {Object} blockLab Block Lab properties, available via wp_localize_script().
+ * @param {Object} blockLabBlocks The registered Block Lab blocks, available via wp_add_inline_script().
+ * @param {Function} EditComponent The edit component to render the blocks.
+ */
+const registerBlocks = ( blockLab, blockLabBlocks, EditComponent ) => {
 	for ( const blockName in blockLabBlocks ) {
 		// Avoid weird inheritance issues. Which should not happen because the backend is safe.
 		if ( ! blockLabBlocks.hasOwnProperty( blockName ) ) {
@@ -46,9 +47,9 @@ const registerBlocks = () => {
 			category: 'object' === typeof block.category ? block.category.slug : block.category,
 			icon,
 			keywords: block.keywords,
-			attributes: getBlockAttributes( block.fields ),
-			edit: ( props ) => {
-				return <Edit blockProps={ props } block={ block } />;
+			attributes: getBlockLabAttributes( block.fields ),
+			edit( props ) {
+				return <EditComponent blockProps={ props } block={ block } />;
 			},
 			save() {
 				return null;
@@ -57,4 +58,4 @@ const registerBlocks = () => {
 	}
 };
 
-export default registerBlocks();
+export default registerBlocks;
