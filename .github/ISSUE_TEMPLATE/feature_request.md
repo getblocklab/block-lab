@@ -7,7 +7,7 @@ about: Request an enhancement, not a bug fix
 ## Feature description
 <!-- In as much detail as possible -->
 
-## Screenshot
+## Image
 <!-- Even a simple sketch of the feature would help -->
 
 ## Use case
