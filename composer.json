@@ -9,7 +9,7 @@
     },
     "require-dev": {
         "brain/monkey": "^2",
-        "brainmaestro/composer-git-hooks": "^2.8",
+        "brainmaestro/composer-git-hooks": "2.8",
         "dealerdirect/phpcodesniffer-composer-installer": "0.5.0",
         "mockery/mockery": "^1.2.4",
         "phpcompatibility/phpcompatibility-wp": "2.1.0",
