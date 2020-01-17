@@ -1,5 +1,14 @@
 ## Changelog #
 
+### 1.5.3 – 2020-01-20 ###
+
+Some UI improvements, bugfixes, and improved stability.
+
+* Fix: Improved import error feedback, and cleaner methods
+* Fix: Editor bug from `@wordpress/nux` package being deprecated
+* New: Improved stability, including JS tests and query limit
+* New: Pre-commit hook to lint only staged files
+
 ### 1.5.2 – 2019-12-02 ###
 
 Some small tweaks to the Block Importer and onboarding dialogs.
