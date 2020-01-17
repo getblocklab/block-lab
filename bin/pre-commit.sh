@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Lint staged PHP files
 php_files=$( git diff --diff-filter=d --staged --name-only | grep -E '/*\.php$' )
 if [ ! -z "$php_files" ]; then
@@ -15,3 +17,6 @@ if [ ! -z "$js_files" ]; then
         exit 1
     fi
 fi
+
+# Lint package.json
+npm run lint:pkg-json
