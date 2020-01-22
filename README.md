@@ -51,7 +51,7 @@ Block Lab Pro is here, with powerful features to take your block building to the
 
 ### Manually ###
 * Clone Block Lab into a working directory with `https://github.com/getblocklab/block-lab.git`
-* `cd` into the `block-lab` directory, and run `npm install`
+* `cd` into the `block-lab` directory, and run `npm install && composer install`
 * Next, build the scripts and styles with `npm build`
 * Move the `block-lab` folder to your `/wp-content/plugins/` directory
 * Activate the Block Lab plugin through the Plugins menu in WordPress
