@@ -1,7 +1,7 @@
 # Block Lab #
 
 Contributors: lukecarbis, ryankienstra, Stino11, rheinardkorf
-Tags: Gutenberg, Blocks
+Tags: gutenberg, blocks, block editor, fields, template
 Requires at least: 5.0
 Tested up to: 5.3
 Requires PHP: 5.6
