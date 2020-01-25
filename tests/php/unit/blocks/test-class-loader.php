@@ -131,6 +131,31 @@ class Test_Loader extends Abstract_Template {
 	}
 
 	/**
+	 * Test editor_assets.
+	 *
+	 * @covers \Block_Lab\Blocks\Loader::editor_assets()
+	 */
+	public function test_editor_assets() {
+		$script_handle = 'block-lab-blocks';
+		$style_handle  = 'block-lab-editor-css';
+
+		$this->instance->init();
+		$this->invoke_protected_method( 'editor_assets' );
+
+		$this->assertTrue( wp_script_is( $script_handle ) );
+		$this->assertContains(
+			'var blockLab = {"authorBlocks"',
+			wp_scripts()->registered[ $script_handle ]->extra['data']
+		);
+		$this->assertContains(
+			'const blockLabBlocks =',
+			wp_scripts()->registered[ $script_handle ]->extra['before'][1]
+		);
+
+		$this->assertTrue( wp_style_is( $style_handle ) );
+	}
+
+	/**
 	 * Test render_block_template.
 	 *
 	 * @covers \Block_Lab\Blocks\Loader::render_block_template()
