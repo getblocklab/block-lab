@@ -9,7 +9,7 @@ Some UI improvements, bugfixes, and improved stability.
 * New: Improved stability, including JS tests and query limit
 * New: Pre-commit hook to lint only staged files
 
-### 1.5.2 – 2019-12-02 ###
+### 1.5.2 – 2020-02-04 ###
 
 Some small tweaks to the Block Importer and onboarding dialogs.
 
