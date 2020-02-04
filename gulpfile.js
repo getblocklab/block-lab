@@ -88,11 +88,13 @@ gulp.task( 'clean:bundle', function () {
 		'package/trunk/Makefile',
 		'package/trunk/package*.json',
 		'package/trunk/phpunit.xml',
+		'package/trunk/phpcs.xml',
 		'package/trunk/README.md',
 		'package/trunk/CHANGELOG.md',
+		'package/trunk/CODE_OF_CONDUCT.md',
+		'package/trunk/CONTRIBUTING.md',
 		'package/trunk/webpack.config.js',
 		'package/trunk/.github',
-		'package/trunk/cghooks.lock',
 		'package/prepare',
 	] );
 } );
