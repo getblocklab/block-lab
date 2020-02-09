@@ -1,14 +1,9 @@
 /**
- * External dependencies
- */
-import classNames from 'classnames';
-
-/**
  * WordPress dependencies
  */
 import { TextControl } from '@wordpress/components';
 
-const BlockLabEmailControl = ( props ) => {
+const Email = ( props ) => {
 	const { field, getValue, onChange } = props;
 	const initialValue = getValue( props );
 	const value = 'undefined' !== typeof initialValue ? initialValue : field.default;
@@ -21,9 +16,7 @@ const BlockLabEmailControl = ( props ) => {
 	 * @return {void}
 	 */
 	const setErrorClass = ( element, valid ) => {
-		element.className = classNames( 'components-text-control__input', {
-			'text-control__error': valid,
-		} );
+		element.classList.toggle( 'text-control__error', valid );
 	};
 
 	return (
@@ -45,4 +38,4 @@ const BlockLabEmailControl = ( props ) => {
 	);
 };
 
-export default BlockLabEmailControl;
+export default Email;

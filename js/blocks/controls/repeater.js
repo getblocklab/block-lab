@@ -8,7 +8,7 @@ import { BaseControl, IconButton } from '@wordpress/components';
  */
 import { RepeaterRows } from '../components';
 
-const BlockLabRepeaterControl = ( props ) => {
+const Repeater = ( props ) => {
 	const { field, instanceId, onChange, parentBlock, parentBlockProps } = props;
 	const { attributes, setAttributes } = parentBlockProps;
 	const attr = { ...attributes };
@@ -58,4 +58,4 @@ const BlockLabRepeaterControl = ( props ) => {
 	);
 };
 
-export default BlockLabRepeaterControl;
+export default Repeater;
