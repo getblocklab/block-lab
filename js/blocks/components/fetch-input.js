@@ -13,7 +13,7 @@ import classNames from 'classnames';
  * WordPress dependencies
  */
 import { __, sprintf, _n } from '@wordpress/i18n';
-import { Component, createRef } from '@wordpress/element';
+import { createRef, useEffect, useState } from '@wordpress/element';
 import { decodeEntities } from '@wordpress/html-entities';
 import { UP, DOWN, ENTER } from '@wordpress/keycodes';
 import { BaseControl, Spinner, withSpokenMessages, Popover } from '@wordpress/components';
@@ -26,30 +26,16 @@ import apiFetch from '@wordpress/api-fetch';
 // as being considered from the input.
 const stopEventPropagation = ( event ) => event.stopPropagation();
 
-class FetchInput extends Component {
-	/**
-	 * Constructs the component class.
-	 */
-	constructor( { autocompleteRef } ) {
-		super( ...arguments );
-
-		this.onBlur = this.onBlur.bind( this );
-		this.onChange = this.onChange.bind( this );
-		this.onKeyDown = this.onKeyDown.bind( this );
-		this.autocompleteRef = autocompleteRef || createRef();
-		this.inputRef = createRef();
-		this.updateSuggestions = this.updateSuggestions.bind( this );
-		this.setInputValidity = this.setInputValidity.bind( this );
-
-		this.suggestionNodes = [];
-
-		this.state = {
-			loading: false,
-			results: [],
-			showSuggestions: false,
-			selectedSuggestion: null,
-		};
-	}
+const FetchInput = ( props ) => {
+	const { apiSlug, autoFocus = false, className, debouncedSpeak, displayValue, getDisplayValueFromAPI, getValueFromAPI, field, instanceId, onChange, value } = props;
+	const getButtonValue = getDisplayValueFromAPI ? getDisplayValueFromAPI : getValueFromAPI;
+	const inputRef = createRef();
+	const suggestionNodes = [];
+	const [ loading, setLoading ] = useState( false );
+	const [ results, setResults ] = useState( [] );
+	const [ showSuggestions, setShowSuggestions ] = useState( false );
+	const [ selectedSuggestion, setSelectedSuggestion ] = useState( null );
+	let suggestionsRequest = null;
 
 	/**
 	 * Conditionally sets the validity of the <input>.
@@ -59,26 +45,11 @@ class FetchInput extends Component {
 	 * @param {Object} prevProps The previous props.
 	 * @param {Object} prevState The previous state.
 	 */
-	componentDidUpdate( prevProps, prevState ) {
-		const { results, showSuggestions } = this.state;
-		const { prevResults, prevShowSuggestions } = prevState;
-
-		// Exit if the relevant state values didn't update.
-		if ( results === prevResults && showSuggestions === prevShowSuggestions ) {
-			return;
-		}
-
+	useEffect( () => {
 		if ( showSuggestions ) {
-			this.setInputValidity( !! results.length );
+			setInputValidity( !! results.length );
 		}
-	}
-
-	/**
-	 * Deletes the request for suggestions in the Popover before this component unmounts.
-	 */
-	componentWillUnmount() {
-		delete this.suggestionsRequest;
-	}
+	} );
 
 	/**
 	 * Binds the suggestion node to the ref of the button.
@@ -86,69 +57,61 @@ class FetchInput extends Component {
 	 * @param {number} index The index of the suggestion.
 	 * @return {Function} A function wrapping the ref.
 	 */
-	bindSuggestionNode( index ) {
+	const bindSuggestionNode = ( index ) => {
 		return ( ref ) => {
-			this.suggestionNodes[ index ] = ref;
+			suggestionNodes[ index ] = ref;
 		};
-	}
+	};
 
 	/**
 	 * Updates the suggested items in the Popover.
 	 *
-	 * @param {string} value The <input> value.
+	 * @param {string} newValue The new <input> value.
 	 */
-	updateSuggestions( value ) {
-		this.setState( {
-			loading: true,
-		} );
+	const updateSuggestions = ( newValue ) => {
+		setLoading( true );
 
 		const request = apiFetch( {
-			path: addQueryArgs( '/wp/v2/' + this.props.apiSlug, {
-				search: value,
+			path: addQueryArgs( '/wp/v2/' + apiSlug, {
+				search: newValue,
 				per_page: 5,
 			} ),
 		} );
 
-		request.then( ( results ) => {
+		request.then( ( newResults ) => {
 			// A fetch Promise doesn't have an abort option. It's mimicked by
 			// comparing the request reference in on the instance, which is
 			// reset or deleted on subsequent requests or unmounting.
-			if ( this.suggestionsRequest !== request ) {
+			if ( suggestionsRequest !== request ) {
 				return;
 			}
 
-			this.setState( {
-				results,
-				showSuggestions: true,
-				loading: false,
-			} );
+			setResults( newResults );
+			setShowSuggestions( true );
+			setLoading( false );
 
-			if ( !! results.length ) {
-				this.props.debouncedSpeak( sprintf( _n(
+			if ( !! newResults.length ) {
+				debouncedSpeak( sprintf( _n(
 					'%d result found, use up and down arrow keys to navigate.',
 					'%d results found, use up and down arrow keys to navigate.',
-					results.length,
+					newResults.length,
 					'block-lab'
-				), results.length ), 'assertive' );
+				), newResults.length ), 'assertive' );
 
-				if ( null === this.state.selectedSuggestion && '' !== this.getInputValue() ) {
-					this.setState( {
-						selectedSuggestion: 0,
-					} );
+				if ( null === selectedSuggestion && '' !== getInputValue() ) {
+					setSelectedSuggestion( 0 );
 				}
 			} else {
-				this.props.debouncedSpeak( __( 'No results.', 'block-lab' ), 'assertive' );
+				debouncedSpeak( __( 'No results.', 'block-lab' ), 'assertive' );
 			}
 		} ).catch( () => {
-			if ( this.suggestionsRequest === request ) {
-				this.setState( {
-					loading: false,
-				} );
+			if ( suggestionsRequest === request ) {
+				setLoading( false );
 			}
 		} );
 
-		this.suggestionsRequest = request;
-	}
+		suggestionsRequest = request;
+	};
 
 	/**
 	 * Sets the validity message and state of the <input>.
@@ -158,18 +121,18 @@ class FetchInput extends Component {
 	 *
 	 * @param {boolean} isValid Whether the value in the <input> is valid.
 	 */
-	setInputValidity( isValid ) {
-		if ( ! this.inputRef.current || ! this.inputRef.current.setCustomValidity ) {
+	const setInputValidity = ( isValid ) => {
+		if ( ! inputRef.current || ! inputRef.current.setCustomValidity ) {
 			return;
 		}
 
 		if ( ! isValid ) {
-			this.inputRef.current.setCustomValidity( sprintf( __( 'Invalid %s', 'block-lab' ), this.props.field.control ) );
-			this.inputRef.current.reportValidity();
+			inputRef.current.setCustomValidity( sprintf( __( 'Invalid %s', 'block-lab' ), field.control ) );
+			inputRef.current.reportValidity();
 		} else {
-			this.inputRef.current.setCustomValidity( '' );
+			inputRef.current.setCustomValidity( '' );
 		}
-	}
+	};
 
 	/**
 	 * On clicking outside the <input>, hide the Popover.
@@ -180,47 +143,44 @@ class FetchInput extends Component {
 	 *
 	 * @param {Object} event The event.
 	 */
-	onBlur( event ) {
+	const onBlur = ( event ) => {
 		if (
 			event.relatedTarget &&
 			! event.relatedTarget.classList.contains( 'components-popover__content' ) &&
 			! event.relatedTarget.classList.contains( 'bl-fetch-input__suggestion' )
 		) {
-			this.setState( {
-				showSuggestions: false,
-			} );
+			setShowSuggestions( false );
 
-			if ( '' === this.getInputValue() ) {
+			if ( '' === getInputValue() ) {
 				return;
 			}
 
-			if ( false === this.inputRef.current.checkValidity() ) {
-				this.handlePopoverButton( '' );
+			if ( false === inputRef.current.checkValidity() ) {
+				handlePopoverButton( '' );
 			} else {
-				this.handlePopoverButton( this.state.results[ this.state.selectedSuggestion ] );
+				handlePopoverButton( results[ selectedSuggestion ] );
 			}
 		}
-	}
+	};
 
 	/**
 	 * Handles a change event by calling the component's onChange property and updating suggestions.
 	 *
 	 * @param {Object} event The DOM change event.
 	 */
-	onChange( event ) {
+	const handleOnChange = ( event ) => {
 		const inputValue = event.target.value;
-		this.props.onChange( inputValue );
-		this.updateSuggestions( inputValue );
-	}
+		onChange( inputValue );
+		updateSuggestions( inputValue );
+	};
 
 	/**
 	 * Handles a DOM keydown event.
 	 *
 	 * @param {Object} event The DOM keydown event.
 	 */
-	onKeyDown( event ) {
-		const { showSuggestions, selectedSuggestion, results, loading } = this.state;
-		const inputValue = this.getInputValue();
+	const onKeyDown = ( event ) => {
+		const inputValue = getInputValue();
 		// If the suggestions are not shown or loading, we shouldn't handle the arrow keys
 		// We shouldn't preventDefault to allow block arrow keys navigation.
 		if ( ! showSuggestions || ! results.length || loading ) {
@@ -259,37 +219,33 @@ class FetchInput extends Component {
 			return;
 		}
 
-		const result = this.state.results[ this.state.selectedSuggestion ];
+		const result = results[ selectedSuggestion ];
 
 		switch ( event.keyCode ) {
 			case UP: {
 				event.stopPropagation();
 				event.preventDefault();
 				const previousIndex = ! selectedSuggestion ? results.length - 1 : selectedSuggestion - 1;
-				this.setState( {
-					selectedSuggestion: previousIndex,
-				} );
+				setSelectedSuggestion( previousIndex );
 				break;
 			}
 			case DOWN: {
 				event.stopPropagation();
 				event.preventDefault();
 				const nextIndex = selectedSuggestion === null || ( selectedSuggestion === results.length - 1 ) ? 0 : selectedSuggestion + 1;
-				this.setState( {
-					selectedSuggestion: nextIndex,
-				} );
+				setSelectedSuggestion( nextIndex );
 				break;
 			}
 			case ENTER: {
-				if ( this.state.selectedSuggestion !== null ) {
+				if ( selectedSuggestion !== null ) {
 					event.stopPropagation();
-					this.handlePopoverButton( result );
-					this.inputRef.current.blur();
+					handlePopoverButton( result );
+					inputRef.current.blur();
 				}
 				break;
 			}
 		}
-	}
+	};
 
 	/**
 	 * Handles actions associated with the Popover button.
@@ -299,103 +255,92 @@ class FetchInput extends Component {
 	 *
 	 * @param {Object|string} result The result associated with the selected link, or '' to clear the <input>.
 	 */
-	handlePopoverButton( result ) {
-		this.setState( {
-			selectedSuggestion: null,
-			showSuggestions: false,
-		} );
-		this.props.onChange( result );
-	}
+	const handlePopoverButton = ( result ) => {
+		setSelectedSuggestion( null );
+		setShowSuggestions( false );
+		onChange( result );
+	};
 
 	/**
 	 * Gets the value to be used in the <input>.
 	 *
-	 * This isn't simply this.props.value because sometimes this needs to also save an ID.
+	 * This isn't always props.value because sometimes this needs to also save an ID.
 	 * For example, the Post control needs to save the post ID, and display the post title in the <input>.
 	 *
 	 * @return {string} The value of the <input>
 	 */
-	getInputValue() {
-		return this.props.hasOwnProperty( 'displayValue' ) ? this.props.displayValue : this.props.value;
-	}
+	const getInputValue = () => {
+		return props.hasOwnProperty( 'displayValue' ) ? displayValue : value;
+	};
 
-	render() {
-		const { autoFocus = false, className, getDisplayValueFromAPI, getValueFromAPI, field, instanceId } = this.props;
-		const { showSuggestions, results, selectedSuggestion, loading } = this.state;
-		const shouldDisplayPopover = showSuggestions && !! results.length;
-		const inputValue = this.getInputValue();
-		const getButtonValue = getDisplayValueFromAPI ? getDisplayValueFromAPI : getValueFromAPI;
+	/* eslint-disable jsx-a11y/no-autofocus */
+	return (
+		<BaseControl label={ field.label } id={ `fetch-input-${ instanceId }` } className={ classNames( 'bl-fetch-input', className ) } help={ field.help }>
+			<input
+				autoFocus={ autoFocus }
+				className={ classNames( 'bl-fetch__input', {
+					'text-control__error': showSuggestions && ! results.length,
+				} ) }
+				type="text"
+				aria-label={ field.label }
+				value={ getInputValue() }
+				onBlur={ onBlur }
+				onFocus={ () => updateSuggestions( getInputValue() ) }
+				onChange={ handleOnChange }
+				onInput={ stopEventPropagation }
+				onKeyDown={ onKeyDown }
+				role="combobox"
+				aria-expanded={ showSuggestions }
+				aria-autocomplete="list"
+				aria-owns={ `bl-fetch-input-suggestions-${ instanceId }` }
+				aria-activedescendant={ selectedSuggestion !== null ? `editor-url-input-suggestion-${ instanceId }-${ selectedSuggestion }` : undefined }
+				ref={ inputRef }
+				autoComplete="off"
+				autoCorrect="off"
+				autoCapitalize="off"
+				spellCheck="false"
+			/>
 
-		/* eslint-disable jsx-a11y/no-autofocus */
-		return (
-			<BaseControl label={ field.label } id={ `fetch-input-${ instanceId }` } className={ classNames( 'bl-fetch-input', className ) } help={ field.help }>
-				<input
-					autoFocus={ autoFocus }
-					className={ classNames( 'bl-fetch__input', {
-						'text-control__error': showSuggestions && ! results.length,
-					} ) }
-					type="text"
-					aria-label={ field.label }
-					value={ inputValue }
-					onBlur={ this.onBlur }
-					onFocus={ () => this.updateSuggestions( this.getInputValue() ) }
-					onChange={ this.onChange }
-					onInput={ stopEventPropagation }
-					onKeyDown={ this.onKeyDown }
-					role="combobox"
-					aria-expanded={ showSuggestions }
-					aria-autocomplete="list"
-					aria-owns={ `bl-fetch-input-suggestions-${ instanceId }` }
-					aria-activedescendant={ selectedSuggestion !== null ? `editor-url-input-suggestion-${ instanceId }-${ selectedSuggestion }` : undefined }
-					ref={ this.inputRef }
-					autoComplete="off"
-					autoCorrect="off"
-					autoCapitalize="off"
-					spellCheck="false"
-				/>
+			{ !! loading && <Spinner /> }
 
-				{ !! loading && <Spinner /> }
-
-				{ shouldDisplayPopover &&
-					<Popover
-						position="bottom center"
-						noArrow
-						focusOnMount={ false }
-						className={ classNames( 'bl-fetch__popover', field.location ) }
+			{ showSuggestions && !! results.length &&
+				<Popover
+					position="bottom center"
+					noArrow
+					focusOnMount={ false }
+					className={ classNames( 'bl-fetch__popover', field.location ) }
+				>
+					<div
+						className="bl-fetch-input__suggestions"
+						id={ `bl-fetch-input-suggestions-${ instanceId }` }
+						role="listbox"
 					>
-						<div
-							className="bl-fetch-input__suggestions"
-							id={ `bl-fetch-input-suggestions-${ instanceId }` }
-							ref={ this.autocompleteRef }
-							role="listbox"
-						>
-							{ results.map( ( result, index ) => {
-								const buttonValue = getButtonValue( result );
+						{ results.map( ( result, index ) => {
+							const buttonValue = getButtonValue( result );
 
-								return !! buttonValue && (
-									<button
-										key={ `bl-fetch-suggestion-${ index }` }
-										id={ `bl-fetch-input-suggestion-${ instanceId }-${ index }` }
-										role="option"
-										tabIndex="-1"
-										ref={ this.bindSuggestionNode( index ) }
-										className={ classNames( 'bl-fetch-input__suggestion', {
-											'is-selected': index === selectedSuggestion,
-										} ) }
-										onClick={ () => this.handlePopoverButton( result ) }
-										aria-selected={ index === selectedSuggestion }
-									>
-										{ decodeEntities( buttonValue ) }
-									</button>
-								);
-							} ) }
-						</div>
-					</Popover>
-				}
-			</BaseControl>
-		);
-		/* eslint-enable jsx-a11y/no-autofocus */
-	}
-}
+							return !! buttonValue && (
+								<button
+									key={ `bl-fetch-suggestion-${ index }` }
+									id={ `bl-fetch-input-suggestion-${ instanceId }-${ index }` }
+									role="option"
+									tabIndex="-1"
+									ref={ bindSuggestionNode( index ) }
+									className={ classNames( 'bl-fetch-input__suggestion', {
+										'is-selected': index === selectedSuggestion,
+									} ) }
+									onClick={ () => handlePopoverButton( result ) }
+									aria-selected={ index === selectedSuggestion }
+								>
+									{ decodeEntities( buttonValue ) }
+								</button>
+							);
+						} ) }
+					</div>
+				</Popover>
+			}
+		</BaseControl>
+	);
+	/* eslint-enable jsx-a11y/no-autofocus */
+};
 
 export default withSpokenMessages( withInstanceId( FetchInput ) );
