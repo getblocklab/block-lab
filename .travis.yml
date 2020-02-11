@@ -36,7 +36,6 @@ matrix:
 install:
   - composer install
   - npm install
-  - npm run build
 
 before_script:
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
@@ -63,6 +62,7 @@ before_script:
     fi
 
 script:
+  - npm run build
   - |
     if [[ ! -z "$WP_VERSION" ]] ; then
       phpunit
