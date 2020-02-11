@@ -28,10 +28,10 @@ const getControl = ( field ) => {
  * @return {string} The class name.
  */
 const getClassName = ( field ) => {
-	let className = 'block-lab-control';
+	const className = 'block-lab-control';
 
 	if ( field.width ) {
-		className += ' width-' + field.width;
+		return `${ className } width-${ field.width }`;
 	}
 
 	return className;
