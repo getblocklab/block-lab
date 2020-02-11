@@ -59,7 +59,7 @@ describe( 'FetchInput', () => {
 		fireEvent.focus( input );
 
 		const suggestion = await screen.findByText( exampleResult );
-		await expect( suggestion ).not.toBe( null );
+		expect( suggestion ).not.toBe( null );
 	} );
 
 	it.each( [
