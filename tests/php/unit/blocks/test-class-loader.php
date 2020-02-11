@@ -74,7 +74,7 @@ class Test_Loader extends Abstract_Template {
 		$expected_filters = [
 			'enqueue_block_editor_assets',
 			'block_categories',
-			'plugins_loaded',
+			'init',
 		];
 
 		foreach ( $expected_filters as $filter ) {

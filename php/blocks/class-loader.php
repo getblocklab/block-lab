@@ -72,9 +72,9 @@ class Loader extends Component_Abstract {
 		add_filter( 'block_categories', $this->get_callback( 'register_categories' ) );
 
 		/**
-		 * Block retrieval.
+		 * Block retrieval, must run before dynamic_block_loader().
 		 */
-		add_action( 'init', $this->get_callback( 'retrieve_blocks' ), 1 );
+		add_action( 'init', $this->get_callback( 'retrieve_blocks' ) );
 
 		/**
 		 * PHP block loading.
