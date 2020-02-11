@@ -132,8 +132,7 @@ class Loader extends Component_Abstract {
 	 * Launch the blocks inside Gutenberg.
 	 */
 	protected function editor_assets() {
-		$asset_config_file = $this->plugin->get_path( 'js/editor.blocks.asset.php' );
-		$asset_config      = require $asset_config_file;
+		$asset_config = require $this->plugin->get_path( 'js/editor.blocks.asset.php' );
 
 		wp_enqueue_script(
 			'block-lab-blocks',
@@ -148,6 +147,26 @@ class Loader extends Component_Abstract {
 			'block-lab-blocks',
 			'const blockLabBlocks = ' . wp_json_encode( $this->blocks ),
 			'before'
+		);
+
+		// Used to conditionally show notices for blocks belonging to an author.
+		$author_blocks = get_posts(
+			[
+				'author'         => get_current_user_id(),
+				'post_type'      => 'block_lab',
+				// We could use -1 here, but that could be dangerous. 99 is more than enough.
+				'posts_per_page' => 99,
+			]
+		);
+
+		$author_block_slugs = wp_list_pluck( $author_blocks, 'post_name' );
+		wp_localize_script(
+			'block-lab-blocks',
+			'blockLab',
+			[
+				'authorBlocks' => $author_block_slugs,
+				'postType'     => get_post_type(), // To conditionally exclude blocks from certain post types.
+			]
 		);
 
 		// Enqueue optional editor only styles.
@@ -165,31 +184,6 @@ class Loader extends Component_Abstract {
 		}
 
 		$this->enqueue_global_styles();
-
-		// Used to conditionally show notices for blocks belonging to an author.
-		$author_blocks = get_posts(
-			[
-				'author'         => get_current_user_id(),
-				'post_type'      => 'block_lab',
-				// We could use -1 here, but that could be dangerous. 99 is more than enough.
-				'posts_per_page' => 99,
-			]
-		);
-
-		$author_block_slugs = wp_list_pluck( $author_blocks, 'post_name' );
-
-		// Used to conditionally exclude blocks from certain post types.
-		$post      = get_post();
-		$post_type = $post->post_type;
-
-		wp_localize_script(
-			'block-lab-blocks',
-			'blockLab',
-			[
-				'authorBlocks' => $author_block_slugs,
-				'postType'     => $post_type,
-			]
-		);
 	}
 
 	/**
