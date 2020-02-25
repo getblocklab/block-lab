@@ -5,6 +5,8 @@
  * @package Block_Lab
  */
 
+use org\bovigo\vfs\vfsStream;
+
 /**
  * Class Abstract_Attribute
  *
@@ -45,25 +47,11 @@ abstract class Abstract_Attribute extends \WP_UnitTestCase {
 	public $block_name;
 
 	/**
-	 * The name of the block with the prefix.
-	 *
-	 * @var string
-	 */
-	public $prefixed_block_name;
-
-	/**
 	 * The path to the blocks/ directory in the theme.
 	 *
 	 * @var string
 	 */
 	public $blocks_directory;
-
-	/**
-	 * The location of the block template.
-	 *
-	 * @var string
-	 */
-	public $template_location;
 
 	/**
 	 * The block class name.
@@ -97,22 +85,6 @@ abstract class Abstract_Attribute extends \WP_UnitTestCase {
 	}
 
 	/**
-	 * Teardown.
-	 *
-	 * @inheritdoc
-	 */
-	public function tearDown() {
-		parent::setUp();
-
-		if ( file_exists( $this->template_location ) ) {
-			unlink( $this->template_location );
-		}
-		if ( is_dir( $this->blocks_directory ) ) {
-			rmdir( $this->blocks_directory );
-		}
-	}
-
-	/**
 	 * Invokes a protected method.
 	 *
 	 * @param object $instance The instance to invoke the method on.
@@ -139,17 +111,32 @@ abstract class Abstract_Attribute extends \WP_UnitTestCase {
 	 * this puts an include statement in it, pointing to the fixture.
 	 */
 	public function create_block_template() {
-		$this->prefixed_block_name = "block-lab/{$this->block_name}";
-		$theme_directory           = get_template_directory();
+		$mock_theme                = 'example-theme';
+		$blocks_directory          = 'blocks';
 		$template_path_in_fixtures = dirname( __DIR__ ) . "/fixtures/{$this->block_name}.php";
-		$this->blocks_directory    = "{$theme_directory}/blocks";
-		$this->template_location   = "{$this->blocks_directory}/block-{$this->block_name}.php";
+		$block_file_name           = "block-{$this->block_name}.php";
 
-		if ( ! is_dir( $this->blocks_directory ) ) {
-			mkdir( $this->blocks_directory );
-		}
-		$template_contents = sprintf( "<?php include '%s';", $template_path_in_fixtures );
-		file_put_contents( $this->template_location, $template_contents ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents
+		// Create a template file in the virtual filesystem.
+		$virtual_file_root    = vfsStream::setup(
+			'root',
+			null,
+			[
+				$mock_theme => [
+					$blocks_directory => [
+						$block_file_name => sprintf( '<?php require "%s";', $template_path_in_fixtures ),
+					],
+				],
+			]
+		);
+		$mock_theme_directory = $virtual_file_root->getChild( $mock_theme )->url();
+
+		// Ensure that get_stylesheet_directory() returns the theme in the mock filesystem.
+		add_filter(
+			'stylesheet_directory',
+			function() use ( $mock_theme_directory ) {
+				return $mock_theme_directory;
+			}
+		);
 	}
 
 	/**

@@ -35,6 +35,7 @@ matrix:
 
 install:
   - composer install
+  - npm install
 
 before_script:
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
@@ -57,11 +58,11 @@ before_script:
     if [[ "$WP_TRAVISCI" == "lint" ]] ; then
       composer global require wp-coding-standards/wpcs
       phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
-      npm install
       npm run lint:js
     fi
 
 script:
+  - npm run build
   - |
     if [[ ! -z "$WP_VERSION" ]] ; then
       phpunit

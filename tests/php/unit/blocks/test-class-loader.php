@@ -74,7 +74,7 @@ class Test_Loader extends Abstract_Template {
 		$expected_filters = [
 			'enqueue_block_editor_assets',
 			'block_categories',
-			'plugins_loaded',
+			'init',
 		];
 
 		foreach ( $expected_filters as $filter ) {
@@ -128,6 +128,31 @@ class Test_Loader extends Abstract_Template {
 		// The filter specific to the key should also change the return value.
 		$this->assertEquals( $attributes, $this->instance->get_data( $attributes_key ) );
 		remove_all_filters( $filter );
+	}
+
+	/**
+	 * Test editor_assets.
+	 *
+	 * @covers \Block_Lab\Blocks\Loader::editor_assets()
+	 */
+	public function test_editor_assets() {
+		$script_handle = 'block-lab-blocks';
+		$style_handle  = 'block-lab-editor-css';
+
+		$this->instance->init();
+		$this->invoke_protected_method( 'editor_assets' );
+
+		$this->assertTrue( wp_script_is( $script_handle ) );
+		$this->assertContains(
+			'var blockLab = {"authorBlocks"',
+			wp_scripts()->registered[ $script_handle ]->extra['data']
+		);
+		$this->assertContains(
+			'const blockLabBlocks =',
+			wp_scripts()->registered[ $script_handle ]->extra['before'][1]
+		);
+
+		$this->assertTrue( wp_style_is( $style_handle ) );
 	}
 
 	/**
