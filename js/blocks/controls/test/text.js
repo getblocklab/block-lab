@@ -8,14 +8,14 @@ import { render, fireEvent } from '@testing-library/react';
 /**
  * Internal dependencies
  */
-import Text from '../text';
+import BlockLabTextControl from '../text';
 
 const label = 'text-label';
 const defaultValue = 'example';
 const mockOnChange = jest.fn();
 const setup = () => {
 	const utils = render(
-		<Text
+		<BlockLabTextControl
 			field={ { label, default: defaultValue } }
 			getValue={ jest.fn() }
 			onChange={ mockOnChange }

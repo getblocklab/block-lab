@@ -8,14 +8,14 @@ import { fireEvent, render } from '@testing-library/react';
 /**
  * Internal dependencies
  */
-import Email from '../email';
+import BlockLabEmailControl from '../email';
 
 const label = 'text-label';
 const defaultValue = 'example';
 const mockOnChange = jest.fn();
 const setup = () => {
 	const utils = render(
-		<Email
+		<BlockLabEmailControl
 			field={ { label, default: defaultValue } }
 			getValue={ jest.fn() }
 			onChange={ mockOnChange }

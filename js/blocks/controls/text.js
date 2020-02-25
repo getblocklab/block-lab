@@ -3,7 +3,7 @@
  */
 import { TextControl } from '@wordpress/components';
 
-const Text = ( props ) => {
+const BlockLabTextControl = ( props ) => {
 	const { field, getValue, onChange } = props;
 	const initialValue = getValue( props );
 	const value = 'undefined' !== typeof initialValue ? initialValue : field.default;
@@ -20,4 +20,4 @@ const Text = ( props ) => {
 	);
 };
 
-export default Text;
+export default BlockLabTextControl;
