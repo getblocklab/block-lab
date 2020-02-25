@@ -73,6 +73,6 @@ script:
       phpcs
     fi
   - |
-    if [[ "$WP_TRAVISCI" == "lint-js" ]] ; then
+    if [[ "$WP_TRAVISCI" == "test-js" ]] ; then
       npm run test:js
     fi
