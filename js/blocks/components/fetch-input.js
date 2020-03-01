@@ -359,6 +359,7 @@ class FetchInput extends Component {
 					role="combobox"
 					aria-expanded={ showSuggestions }
 					aria-autocomplete="list"
+					aria-controls={ `bl-fetch-input-suggestions-${ instanceId }` }
 					aria-owns={ `bl-fetch-input-suggestions-${ instanceId }` }
 					aria-activedescendant={ selectedSuggestion !== null ? `editor-url-input-suggestion-${ instanceId }-${ selectedSuggestion }` : undefined }
 					ref={ this.inputRef }

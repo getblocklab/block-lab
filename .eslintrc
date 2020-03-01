@@ -3,11 +3,15 @@
   "extends": [
     "plugin:@wordpress/eslint-plugin/recommended",
     "plugin:import/recommended",
-    "plugin:eslint-comments/recommended"
+    "plugin:eslint-comments/recommended",
+    "plugin:jsx-a11y/recommended"
   ],
   "globals": {
     "wp": "readonly"
   },
+  "plugins": [
+    "jsx-a11y"
+  ],
   "rules": {
     "@wordpress/dependency-group": "error",
     "@wordpress/react-no-unsafe-timeout": "error",
@@ -26,6 +30,7 @@
       {
         "ignoreRestSiblings": true
       }
-    ]
+    ],
+    "jsx-a11y/alt-text": "warn"
   }
 }
