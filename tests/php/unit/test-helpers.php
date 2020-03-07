@@ -85,7 +85,7 @@ class Test_Helpers extends \WP_UnitTestCase {
 		$return_value      = block_field( $field_name, true );
 		$actual_user_login = ob_get_clean();
 
-		// Because block_field() has a second argument of true, this should echo the user login and return it.
+		// Because block_field() has a second argument of true, this should echo the user login and return null.
 		$this->assertEquals( $mock_text, $actual_user_login );
 		$this->assertEquals( null, $return_value );
 
