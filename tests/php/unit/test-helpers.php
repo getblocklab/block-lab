@@ -87,7 +87,7 @@ class Test_Helpers extends \WP_UnitTestCase {
 
 		// Because block_field() has a second argument of true, this should echo the user login and return it.
 		$this->assertEquals( $mock_text, $actual_user_login );
-		$this->assertEquals( $return_value, $actual_user_login );
+		$this->assertEquals( null, $return_value );
 
 		ob_start();
 		$return_value = block_field( $class_key, true );
@@ -95,7 +95,7 @@ class Test_Helpers extends \WP_UnitTestCase {
 
 		// Test the same scenario as above, but for 'className'.
 		$this->assertEquals( $expected_class, $actual_class );
-		$this->assertEquals( $return_value, $actual_class );
+		$this->assertEquals( null, $return_value );
 
 		$additional_field_name  = 'example_additional_field';
 		$additional_field_value = 'Here is some text';
@@ -149,7 +149,7 @@ class Test_Helpers extends \WP_UnitTestCase {
 		$echoed_value = ob_get_clean();
 
 		// Now that the filter includes the additional field, the field should be echoed, even though it's not in block_lab()->data['config'].
-		$this->assertEquals( $additional_field_value, $return_value );
+		$this->assertEquals( null, $return_value );
 		$this->assertEquals( $additional_field_value, $echoed_value );
 	}
 
