@@ -74,7 +74,5 @@ foreach ( $non_string_fields as $name => $value ) :
 	endforeach;
 endforeach;
 
-printf(
-	'Here is the result of block_field() for multiselect: %s',
-	block_field( 'multiselect' )
-);
+echo 'Here is the result of block_field() for multiselect: ';
+block_field( 'multiselect' );

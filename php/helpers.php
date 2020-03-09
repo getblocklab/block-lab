@@ -89,6 +89,8 @@ function block_field( $name, $echo = true ) {
 		 * and then output the field with a more suitable escaping function.
 		 */
 		echo wp_kses_post( $value );
+
+		return null;
 	}
 
 	return $value;
