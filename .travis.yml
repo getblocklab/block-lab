@@ -72,3 +72,7 @@ script:
     if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
       phpcs
     fi
+  - |
+    if [[ "$WP_TRAVISCI" == "test-js" ]] ; then
+      npm run test:js
+    fi

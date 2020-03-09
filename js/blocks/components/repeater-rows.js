@@ -4,7 +4,7 @@
 import { BaseControl, IconButton } from '@wordpress/components';
 import { Component, createRef } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
-const { getScrollContainer } = wp.dom;
+const { getScrollContainer } = '@wordpress/dom';
 
 /**
  * Internal dependencies

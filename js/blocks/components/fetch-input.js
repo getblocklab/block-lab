@@ -19,7 +19,7 @@ import { UP, DOWN, ENTER } from '@wordpress/keycodes';
 import { BaseControl, Spinner, withSpokenMessages, Popover } from '@wordpress/components';
 import { withInstanceId } from '@wordpress/compose';
 import { addQueryArgs } from '@wordpress/url';
-const { apiFetch } = wp;
+import apiFetch from '@wordpress/api-fetch';
 
 // Since FetchInput is rendered in the context of other inputs, but should be
 // considered a separate modal node, prevent keyboard events from propagating
@@ -388,7 +388,7 @@ class FetchInput extends Component {
 
 								return !! buttonValue && (
 									<button
-										key={ result.id }
+										key={ `bl-fetch-suggestion-${ index }` }
 										role="option"
 										tabIndex="-1"
 										id={ `bl-fetch-input-suggestion-${ instanceId }-${ index }` }
