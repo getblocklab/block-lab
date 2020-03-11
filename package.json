@@ -39,7 +39,7 @@
     "@wordpress/html-entities": "2.5.0",
     "@wordpress/i18n": "3.7.0",
     "@wordpress/keycodes": "2.7.0",
-    "@wordpress/scripts": "6.1.1",
+    "@wordpress/scripts": "7.1.2",
     "@wordpress/server-side-render": "1.8.3",
     "@wordpress/url": "2.9.0",
     "autoprefixer": "9.7.3",
