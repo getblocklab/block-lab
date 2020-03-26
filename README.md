@@ -3,7 +3,7 @@
 Contributors: lukecarbis, ryankienstra, Stino11, rheinardkorf
 Tags: gutenberg, blocks, block editor, fields, template
 Requires at least: 5.0
-Tested up to: 5.3
+Tested up to: 5.4
 Requires PHP: 5.6
 Stable tag: trunk
 License: GPLv2 or later

@@ -1,5 +1,13 @@
 ## Changelog #
 
+### 1.5.4 – 2020-03-26 ###
+
+Improved stability, small bugfixes.
+
+* Fix: Now block_field() returns null if second argument is false, preventing confusion.
+* New: JavaScript component tests, improving reliability.
+* New: Linting for accessibility issues.
+
 ### 1.5.3 – 2020-01-20 ###
 
 Some UI improvements, bugfixes, and improved stability.
