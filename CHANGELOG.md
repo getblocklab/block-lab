@@ -4,7 +4,7 @@
 
 Improved stability, small bugfixes.
 
-* Fix: Now block_field() returns null if second argument is true, preventing confusion.
+* Fix: Now block_field() returns null if the second argument is true, preventing confusion.
 * New: JavaScript component tests, improving reliability.
 * New: Linting for accessibility issues.
 
