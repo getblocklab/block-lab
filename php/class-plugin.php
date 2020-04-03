@@ -50,6 +50,7 @@ class Plugin extends Plugin_Abstract {
 		$this->util = new Util();
 		$this->register_component( $this->util );
 		$this->register_component( new Post_Types\Block_Post() );
+		$this->register_component( new Blocks\Rest() );
 
 		$this->loader = new Blocks\Loader();
 		$this->register_component( $this->loader );

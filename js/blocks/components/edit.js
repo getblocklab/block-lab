@@ -1,12 +1,7 @@
 /**
- * WordPress dependencies
- */
-import ServerSideRender from '@wordpress/server-side-render';
-
-/**
  * Internal dependencies
  */
-import { BlockLabInspector, FormControls } from './';
+import { BlockLabInspector, FormControls, ServerSideRender } from './';
 import icons from '../../../assets/icons.json';
 
 /**
@@ -38,6 +33,7 @@ const Edit = ( { blockProps, block } ) => {
 						block={ `block-lab/${ block.name }` }
 						attributes={ attributes }
 						className="block-lab-editor__ssr"
+						requestBody={ true }
 					/>
 				) }
 			</div>
