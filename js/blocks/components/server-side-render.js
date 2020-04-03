@@ -156,13 +156,13 @@ export class ServerSideRender extends Component {
 ServerSideRender.defaultProps = {
 	EmptyResponsePlaceholder: ( { className } ) => (
 		<Placeholder className={ className }>
-			{ __( 'Block rendered as empty.' ) }
+			{ __( 'Block rendered as empty.', 'block-lab' ) }
 		</Placeholder>
 	),
 	ErrorResponsePlaceholder: ( { response, className } ) => {
 		const errorMessage = sprintf(
 			// translators: %s: error message describing the problem
-			__( 'Error loading block: %s' ),
+			__( 'Error loading block: %s', 'block-lab' ),
 			response.errorMsg
 		);
 		return (
