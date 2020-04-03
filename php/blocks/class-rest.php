@@ -32,7 +32,7 @@ class Rest extends Component_Abstract {
 	public function filter_block_endpoints( $endpoints ) {
 		foreach ( $endpoints as $route => $handler ) {
 			if ( 0 === strpos( $route, '/wp/v2/block-renderer/(?P<name>block-lab/' ) && isset( $endpoints[ $route ][0] ) ) {
-				$endpoints[ $route ][0]['methods']  = [ 'GET', 'POST' ];
+				$endpoints[ $route ][0]['methods']  = [ \WP_REST_Server::READABLE, \WP_REST_Server::CREATABLE ];
 				$endpoints[ $route ][0]['callback'] = [ $this, 'get_item' ];
 			}
 		}
@@ -72,7 +72,8 @@ class Rest extends Component_Abstract {
 			);
 		}
 
-		$attributes = $request->get_param( 'attributes' );
+		// In a POST request, the attributes appear as JSON in the request body.
+		$attributes = \WP_REST_Server::CREATABLE === $request->get_method() ? json_decode( $request->get_body(), true ) : $request->get_param( 'attributes' );
 
 		// Create an array representation simulating the output of parse_blocks.
 		$block = [
