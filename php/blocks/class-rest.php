@@ -20,7 +20,7 @@ class Rest extends Component_Abstract {
 	 * Register all the hooks.
 	 */
 	public function register_hooks() {
-		add_action( 'rest_endpoints', [ $this, 'filter_block_endpoints' ] );
+		add_filter( 'rest_endpoints', [ $this, 'filter_block_endpoints' ] );
 	}
 
 	/**
