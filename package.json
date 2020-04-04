@@ -57,6 +57,7 @@
     "gulp-string-replace": "^1.1.2",
     "husky": "^4.0.10",
     "jest-silent-reporter": "0.1.2",
+    "lodash": "4.17.15",
     "merge-stream": "^2.0.0",
     "mini-css-extract-plugin": "0.8.2",
     "node-sass": "^4.13.1",

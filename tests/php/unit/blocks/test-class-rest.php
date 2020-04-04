@@ -46,7 +46,7 @@ class Test_Rest extends \WP_UnitTestCase {
 	];
 
 	/**
-	 * Set up each test.
+	 * Sets up each test.
 	 *
 	 * @inheritdoc
 	 */
@@ -145,7 +145,7 @@ class Test_Rest extends \WP_UnitTestCase {
 	}
 
 	/**
-	 * Gets the test data for test_get_item_post_request().
+	 * Gets the test data for test_get_item().
 	 *
 	 * @return array The test data.
 	 */
