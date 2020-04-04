@@ -107,7 +107,7 @@ class Test_Rest extends \WP_UnitTestCase {
 	}
 
 	/**
-	 * Test filter_block_endpoints, when there is a non-Block Lab block.
+	 * Test filter_block_endpoints, when there is no Block Lab block.
 	 *
 	 * @covers \Block_Lab\Blocks\Rest::filter_block_endpoints()
 	 */

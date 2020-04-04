@@ -45,7 +45,7 @@ class Rest extends Component_Abstract {
 	 *
 	 * Forked from WP_REST_Block_Renderer_Controller::get_item(), with a simple change to process POST requests.
 	 *
-	 * @todo: revert this if this has been merged and enough version of Core have passed: https://github.com/WordPress/wordpress-develop/pull/196/
+	 * @todo: revert if this has been merged and enough version of Core have passed: https://github.com/WordPress/wordpress-develop/pull/196/
 	 * @see https://github.com/WordPress/wordpress-develop/blob/dfa959bbd58f13b504e269aad45412a85f74e491/src/wp-includes/rest-api/endpoints/class-wp-rest-block-renderer-controller.php#L121
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
