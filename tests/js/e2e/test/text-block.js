@@ -78,15 +78,13 @@ describe( 'TextBlock', () => {
 		const blockButton = getByText( blockResults, blockTitle );
 
 		// Mock window.getSelection(), as a dependency uses it, and Jest doesn't seem to have it.
-		window.getSelection = () => {
-			return {
-				rangeCount: 1,
-				getRangeAt: () => {
-					return { startContainer: document.querySelector( `.editor-block-list-item-block-lab-${ blockSlug }` ) };
-				},
-				removeAllRanges: () => {},
-			};
-		};
+		window.getSelection = () => ( {
+			rangeCount: 1,
+			getRangeAt: () => {
+				return { startContainer: document.querySelector( `.editor-block-list-item-block-lab-${ blockSlug }` ) };
+			},
+			removeAllRanges: () => {},
+		} );
 
 		// Click the tested block, to add it to the editor.
 		fireEvent.click( blockButton );
