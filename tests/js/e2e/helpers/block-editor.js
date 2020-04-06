@@ -1,5 +1,5 @@
 /**
- * Mainly taken from the playground/index.js in Gutenber.
+ * Mainly taken from the playground/index.js in Gutenberg.
  *
  * @see https://github.com/WordPress/gutenberg/blob/3dc8ebb8c933e7d1095863994b2a1f375c98c0ff/storybook/stories/playground/index.js
  */
@@ -23,6 +23,12 @@ import {
 	DropZoneProvider,
 } from '@wordpress/components';
 
+/**
+ * Bootstraps the block editor.
+ *
+ * @param {Object} props The component props.
+ * @param {Function} props.blockRegistration A function to register a tested block(s).
+ */
 const BlockEditor = ( { blockRegistration } ) => {
 	const [ blocks, updateBlocks ] = useState( [] );
 
