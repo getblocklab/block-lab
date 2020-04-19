@@ -67,12 +67,12 @@ describe( 'FetchInput', () => {
 		[ [ 'a-result' ], false ],
 		[ [ 'first-result', 'another-result' ], false ],
 	] )( 'should only have the error class if there are no results after focusing',
-		( apiResults, expected ) => {
+		async ( apiResults, expected ) => {
 			apiFetch.mockImplementationOnce( () => new Promise( ( resolve ) => resolve( apiResults ) ) );
 			const { input } = setup( baseProps );
 			fireEvent.focus( input );
 
-			waitForDomChange( { container: input } ).then( () => {
+			await waitForDomChange( { container: input } ).then( () => {
 				expect( input.classList.contains( 'text-control__error' ) ).toStrictEqual( expected );
 			} );
 		}
