@@ -6,6 +6,11 @@ import React from 'react';
 import { fireEvent, getByText, render } from '@testing-library/react';
 
 /**
+ * WordPress dependencies
+ */
+import '@wordpress/blocks';
+
+/**
  * Internal dependencies
  */
 import BlockEditor from '../helpers/block-editor';
