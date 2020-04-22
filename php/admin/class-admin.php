@@ -64,7 +64,7 @@ class Admin extends Component_Abstract {
 		$this->onboarding = new Onboarding();
 		block_lab()->register_component( $this->onboarding );
 
-		$show_pro_nag = apply_filters( 'block_lab_show_pro_nag', true );
+		$show_pro_nag = apply_filters( 'block_lab_show_pro_nag', false );
 		if ( $show_pro_nag && ! block_lab()->is_pro() ) {
 			$this->upgrade = new Upgrade();
 			block_lab()->register_component( $this->upgrade );
