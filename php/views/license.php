@@ -74,7 +74,7 @@
 					echo wp_kses_post(
 						sprintf(
 							'<p>%1$s</p>',
-							__( 'No Pro license was found for this installation.', 'block-lab' )
+							__( 'No license was found for this installation.', 'block-lab' )
 						)
 					);
 				}
