@@ -70,7 +70,7 @@
     "style-loader": "^1.0.2",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.41.3",
-    "webpack-cli": "3.3.10"
+    "webpack-cli": "3.3.11"
   },
   "scripts": {
     "check-licenses": "wp-scripts check-licenses --prod --gpl2",
