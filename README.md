@@ -32,15 +32,11 @@ Simple to use functions, ready to render and work with the values stored through
 ### Connect with Community ###
 Join The Lab, our free Block Lab Community on Slack. The Lab is our real-time home for sharing resources, learning, and making connections. [Learn more.](https://getblocklab.com/welcome-to-the-lab/)
 
-### Go Pro ###
-Block Lab Pro is here, with powerful features to take your block building to the next level. [Learn more.](https://getblocklab.com/block-lab-pro)
-
 ## Links ##
 * [WordPress.org](https://wordpress.org/plugins/block-lab)
 * [Github](https://github.com/getblocklab/block-lab)
 * [Documentation](https://getblocklab.com/docs)
 * [Support](https://wordpress.org/support/plugin/block-lab)
-* [Block Lab Pro](https://getblocklab.com/block-lab-pro)
 
 ## Installation ##
 ### From Within WordPress ###

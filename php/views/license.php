@@ -73,14 +73,8 @@
 				} else {
 					echo wp_kses_post(
 						sprintf(
-							'<p>%1$s %2$s</p>',
-							__( 'No Pro license was found for this installation.', 'block-lab' ),
-							sprintf(
-								// translators: Opening and closing anchor and emphasis tags.
-								__( '%1$sGet Block Lab Pro!%2$s', 'block-lab' ),
-								'<a href="' . add_query_arg( [ 'page' => 'block-lab-pro' ] ) . '"><em>',
-								'</em></a>'
-							)
+							'<p>%1$s</p>',
+							__( 'No license was found for this installation.', 'block-lab' )
 						)
 					);
 				}
