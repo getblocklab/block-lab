@@ -35,7 +35,7 @@ matrix:
 
 install:
   - composer install
-  - nvm install 12.16.2
+  - nvm install --lts
   - npm install
 
 before_script:
