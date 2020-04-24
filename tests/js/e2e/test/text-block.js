@@ -73,11 +73,10 @@ describe( 'TextBlock', () => {
 			'core/blocks',
 			{ reducer: combineReducers( { getBlockStyles: () => {} } ) }
 		);
-
 	} );
 
 	it( 'displays the block in the inserter and the block has the expected values when added', () => {
-		const { debug, getByLabelText, getAllByPlaceholderText } = render( <BlockEditor blockRegistration={ () => registerBlocks( blockLab, blockLabBlocks, Edit ) } /> );
+		const { getByLabelText, getAllByPlaceholderText } = render( <BlockEditor blockRegistration={ () => registerBlocks( blockLab, blockLabBlocks, Edit ) } /> );
 		const button = document.querySelector( '.editor-inserter__toggle' );
 
 		// Click the inserter button to see the available blocks.
