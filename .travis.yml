@@ -1,9 +1,7 @@
 sudo: false
 dist: trusty
 
-language: node_js
-node_js:
-  - "lts/*"
+language: php
 
 notifications:
   email:
@@ -37,6 +35,7 @@ matrix:
 
 install:
   - composer install
+  - nvm use
   - npm install
 
 before_script:
