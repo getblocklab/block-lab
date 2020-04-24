@@ -1,7 +1,7 @@
 sudo: false
 dist: trusty
 
-language: php
+language: node_js
 node_js:
   - "lts/*"
 
