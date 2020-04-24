@@ -1,5 +1,12 @@
 ## Changelog #
 
+### 1.5.5 – 2020-04-23 ###
+
+Removed upgrade screen, dependency updates
+
+* Tweak: By default, the upgrade screen is hidden
+* Tweak: Minor package.json dependency updates for security and reliability
+
 ### 1.5.4 – 2020-03-26 ###
 
 Improved stability, small bugfixes.

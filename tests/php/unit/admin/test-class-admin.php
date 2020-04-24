@@ -73,12 +73,6 @@ class Test_Admin extends \WP_UnitTestCase {
 		$this->assertArrayHasKey( $settings_class, $components_value );
 		$this->assertArrayHasKey( $license_class, $components_value );
 
-		// Because the Pro license isn't active, there should be an Upgrade class instantiated.
-		$upgrade_class = 'Block_Lab\Admin\Upgrade';
-		$this->assertEquals( $upgrade_class, get_class( $this->instance->upgrade ) );
-		$this->assertArrayHasKey( $upgrade_class, $components_value );
-		$this->assertFalse( $this->did_settings_redirect_occur() );
-
 		// With an active Pro license, this should redirect from the Pro page to the settings page.
 		$this->set_license_validity( true );
 		Monkey\Functions\expect( 'filter_input' )
