@@ -2,14 +2,7 @@
  * External dependencies
  */
 import '@testing-library/jest-dom/extend-expect';
-import React from 'react';
 import { fireEvent, getByText, render } from '@testing-library/react';
-
-/**
- * WordPress dependencies
- */
-import '@wordpress/blocks';
-import { combineReducers, registerStore } from '@wordpress/data';
 
 /**
  * Internal dependencies
@@ -67,14 +60,6 @@ const blockLab = {
 const hasText = ( nodeToSearch, text ) => -1 !== nodeToSearch.textContent.indexOf( text );
 
 describe( 'TextBlock', () => {
-	beforeEach( () => {
-		// Register this store, as it's not registered by simply importing from '@wordpress/blocks'.
-		registerStore(
-			'core/blocks',
-			{ reducer: combineReducers( { getBlockStyles: () => {} } ) }
-		);
-	} );
-
 	it( 'displays the block in the inserter and the block has the expected values when added', () => {
 		const { getByLabelText, getAllByPlaceholderText } = render( <BlockEditor blockRegistration={ () => registerBlocks( blockLab, blockLabBlocks, Edit ) } /> );
 		const button = document.querySelector( '.editor-inserter__toggle' );

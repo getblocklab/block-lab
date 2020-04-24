@@ -15,4 +15,7 @@ module.exports = {
 	coverageReporters: [ 'lcov' ],
 	coverageDirectory: '<rootDir>/coverage',
 	reporters: [ [ 'jest-silent-reporter', { useDots: true } ] ],
+	transformIgnorePatterns: [
+		'node_modules/(?!@wordpress/blocks/src/store)',
+	],
 };
