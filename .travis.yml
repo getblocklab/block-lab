@@ -2,6 +2,8 @@ sudo: false
 dist: trusty
 
 language: php
+node_js:
+  - "lts/*"
 
 notifications:
   email:
