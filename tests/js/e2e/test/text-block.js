@@ -61,7 +61,9 @@ const hasText = ( nodeToSearch, text ) => -1 !== nodeToSearch.textContent.indexO
 
 describe( 'TextBlock', () => {
 	it( 'displays the block in the inserter and the block has the expected values when added', () => {
-		const { getByLabelText, getAllByPlaceholderText } = render( <BlockEditor blockRegistration={ () => registerBlocks( blockLab, blockLabBlocks, Edit ) } /> );
+		const { getByLabelText, getAllByPlaceholderText } = render(
+			<BlockEditor blockRegistration={ () => registerBlocks( blockLab, blockLabBlocks, Edit ) } />
+		);
 		const button = document.querySelector( '.editor-inserter__toggle' );
 
 		// Click the inserter button to see the available blocks.
@@ -76,22 +78,24 @@ describe( 'TextBlock', () => {
 		expect( hasText( blockResults, blockTitle ) ).toStrictEqual( true );
 		const blockButton = getByText( blockResults, blockTitle );
 
-		// Mock window.getSelection(), as a dependency uses it, and Jest doesn't seem to have it.
-		window.getSelection = () => ( {
-			rangeCount: 1,
-			getRangeAt: () => {
-				return { startContainer: document.querySelector( `.editor-block-list-item-block-lab-${ blockSlug }` ) };
-			},
-			removeAllRanges: () => {},
-		} );
-
 		// Click the tested block, to add it to the editor.
 		fireEvent.click( blockButton );
 		const blockEdit = document.querySelector( '.editor-block-list__block-edit' );
+		const textInput = blockEdit.querySelector( 'input' );
 
 		// The block should have the values from blockLabBlocks.
 		expect( hasText( blockEdit, help ) ).toStrictEqual( true );
 		expect( getAllByPlaceholderText( placeholder ) ).toHaveLength( 1 );
-		expect( blockEdit.querySelector( 'input' ).value ).toStrictEqual( defaultValue );
+		expect( textInput.value ).toStrictEqual( defaultValue );
+
+		const enteredText = 'This is some entered text';
+		fireEvent.input( textInput, { target: { value: enteredText } } );
+
+		// Click away from the block.
+		fireEvent.click( document.querySelector( '.test-sidebar' ) );
+		fireEvent.click( blockEdit );
+
+		// The text entered in the <input> should still be there.
+		expect( textInput.value ).toStrictEqual( enteredText );
 	} );
 } );
