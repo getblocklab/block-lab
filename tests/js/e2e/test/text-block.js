@@ -2,7 +2,7 @@
  * External dependencies
  */
 import '@testing-library/jest-dom/extend-expect';
-import { fireEvent, getByText, render } from '@testing-library/react';
+import { fireEvent, getByText, render, waitFor } from '@testing-library/react';
 
 /**
  * Internal dependencies
@@ -91,8 +91,14 @@ describe( 'TextBlock', () => {
 		const enteredText = 'This is some entered text';
 		fireEvent.input( textInput, { target: { value: enteredText } } );
 
-		// Click away from the block.
-		fireEvent.click( document.querySelector( '.test-sidebar' ) );
+		// Click inside and outside the block.
+		fireEvent.click( textInput );
+		fireEvent.click( document.querySelector( '.editor-default-block-appender__content' ) );
+
+		// The <ServerSideRender> should now display, instead of the block's field.
+		waitFor( () => expect( document.querySelector( '.block-lab-editor__ssr' ) ).toBeInTheDocument() );
+
+		// Click the block again.
 		fireEvent.click( blockEdit );
 
 		// The text entered in the <input> should still be there.
