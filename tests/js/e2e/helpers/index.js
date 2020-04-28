@@ -29,12 +29,20 @@ import { registerStore } from '@wordpress/data';
 import { useEffect, useState } from '@wordpress/element';
 
 /**
+ * Whether the node has the text in its textContent.
+ *
+ * @param {Object} nodeToSearch The element in which to search for the text.
+ * @param {string} text The text to search the node for.
+ */
+export const hasText = ( nodeToSearch, text ) => -1 !== nodeToSearch.textContent.indexOf( text );
+
+/**
  * Bootstraps the block editor.
  *
  * @param {Object} props The component props.
  * @param {Function} props.blockRegistration A function to register a tested block(s).
  */
-const BlockEditor = ( { blockRegistration } ) => {
+export const BlockEditor = ( { blockRegistration } ) => {
 	const [ blocks, updateBlocks ] = useState( [] );
 
 	useEffect( () => {
@@ -71,5 +79,3 @@ const BlockEditor = ( { blockRegistration } ) => {
 		</div>
 	);
 };
-
-export default BlockEditor;

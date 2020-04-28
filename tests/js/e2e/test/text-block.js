@@ -7,7 +7,7 @@ import { fireEvent, getByText, render, waitFor } from '@testing-library/react';
 /**
  * Internal dependencies
  */
-import BlockEditor from '../helpers/block-editor';
+import { BlockEditor, hasText } from '../helpers';
 import { registerBlocks } from '../../../../js/blocks/helpers';
 import { Edit } from '../../../../js/blocks/components';
 
@@ -50,14 +50,6 @@ const blockLab = {
 	authorBlocks: [ blockSlug ],
 	postType: 'post',
 };
-
-/**
- * Whether the node has the text in its textContent.
- *
- * @param {Object} nodeToSearch The element in which to search for the text.
- * @param {string} text The text to search the node for.
- */
-const hasText = ( nodeToSearch, text ) => -1 !== nodeToSearch.textContent.indexOf( text );
 
 describe( 'TextBlock', () => {
 	it( 'displays the block in the inserter and the block has the expected values when added', () => {
