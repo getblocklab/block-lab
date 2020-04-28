@@ -44,7 +44,7 @@
     "@wordpress/url": "2.13.0",
     "autoprefixer": "9.7.3",
     "babel-core": "6.26.3",
-    "babel-eslint": "10.0.3",
+    "babel-eslint": "10.1.0",
     "babel-loader": "8.0.6",
     "cross-env": "6.0.3",
     "css-loader": "3.4.0",
