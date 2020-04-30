@@ -2,7 +2,7 @@
  * External dependencies
  */
 import '@testing-library/jest-dom/extend-expect';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 
 /**
  * Internal dependencies
@@ -10,8 +10,9 @@ import { fireEvent, render, waitFor } from '@testing-library/react';
 import BlockLabColorControl from '../color';
 
 const field = {
-	label: 'This is an example label',
 	default: '#bef5cb',
+	help: 'This is some help text',
+	label: 'This is an example label',
 };
 const mockOnChange = jest.fn();
 const setup = () => {
@@ -37,21 +38,20 @@ describe( 'Color', () => {
 		expect( input.value ).toBe( field.default );
 	} );
 
+	it( 'has the help text', () => {
+		const { getByText } = setup();
+		expect( getByText( field.help ) ).toBeInTheDocument();
+	} );
+
+	it( 'has the label text', () => {
+		const { getByText } = setup();
+		expect( getByText( field.help ) ).toBeInTheDocument();
+	} );
+
 	it( 'sends a value entered in the text input to the onChange handler', () => {
 		const enteredColor = '#fff';
 		const { input } = setup();
 		fireEvent.change( input, { target: { value: enteredColor } } );
 		expect( mockOnChange ).toHaveBeenCalledWith( enteredColor );
-	} );
-
-	it( 'sends a value entered in the color popover to the onChange handler', () => {
-		const newColor = '#afdefd';
-		const { getByLabelText, input } = setup();
-
-		fireEvent.click( document.querySelector( '.component-color-indicator' ) );
-		fireEvent.change( getByLabelText( 'Color value in hexadecimal' ), { target: { value: newColor } } );
-		waitFor( () => {
-			expect( input.value ).toStrictEqual( newColor );
-		} );
 	} );
 } );
