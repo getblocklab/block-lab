@@ -2,60 +2,56 @@
  * External dependencies
  */
 import '@testing-library/jest-dom/extend-expect';
-import { fireEvent, render } from '@testing-library/react';
-
-/**
- * WordPress dependencies
- */
-import { Popover } from '@wordpress/components';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 
 /**
  * Internal dependencies
  */
-import BlockLabColorControl from '../textarea';
+import BlockLabColorControl from '../color';
 
 const field = {
 	label: 'This is an example label',
 	default: '#bef5cb',
-	placeholder: 'This is a color field',
 };
 const mockOnChange = jest.fn();
 const setup = () => {
 	const utils = render(
-		<>
-			<Popover.Slot />
-			<div>
-				<BlockLabColorControl
-					field={ field }
-					getValue={ jest.fn() }
-					onChange={ mockOnChange }
-				/>
-			</div>
-		</>
+		<BlockLabColorControl
+			field={ field }
+			getValue={ jest.fn() }
+			onChange={ mockOnChange }
+			instanceId="7e8f32c1-f1dd-3151"
+		/>
 	);
-	const control = utils.getByLabelText( field.label );
+
+	const input = document.querySelector( 'input' );
 	return {
-		control,
+		input,
 		...utils,
 	};
 };
 
 describe( 'Color', () => {
 	it( 'has the default value at first', () => {
-		const { control } = setup();
-		expect( control.value ).toBe( field.default );
+		const { input } = setup();
+		expect( input.value ).toBe( field.default );
 	} );
 
-	it( 'has the placeholder', () => {
-		const { getByPlaceholderText } = setup();
-		expect( getByPlaceholderText( field.placeholder ) ).toBeInTheDocument();
+	it( 'sends a value entered in the text input to the onChange handler', () => {
+		const enteredColor = '#fff';
+		const { input } = setup();
+		fireEvent.change( input, { target: { value: enteredColor } } );
+		expect( mockOnChange ).toHaveBeenCalledWith( enteredColor );
 	} );
 
-	it.each( 'sends a value entered in the text input to the onChange handler',
-		( enteredColor ) => {
-			const { control } = setup();
-			fireEvent.change( control, { target: { value: enteredColor } } );
-			expect( mockOnChange ).toHaveBeenCalledWith( enteredColor );
-		}
-	);
+	it( 'sends a value entered in the color popover to the onChange handler', () => {
+		const newColor = '#afdefd';
+		const { getByLabelText, input } = setup();
+
+		fireEvent.click( document.querySelector( '.component-color-indicator' ) );
+		fireEvent.change( getByLabelText( 'Color value in hexadecimal' ), { target: { value: newColor } } );
+		waitFor( () => {
+			expect( input.value ).toStrictEqual( newColor );
+		} );
+	} );
 } );
