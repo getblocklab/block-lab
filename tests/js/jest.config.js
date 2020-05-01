@@ -14,7 +14,4 @@ module.exports = {
 	coverageReporters: [ 'lcov' ],
 	coverageDirectory: '<rootDir>/coverage',
 	reporters: [ [ 'jest-silent-reporter', { useDots: true } ] ],
-	transformIgnorePatterns: [
-		'node_modules/(?!@wordpress/edit-post/src)',
-	],
 };
