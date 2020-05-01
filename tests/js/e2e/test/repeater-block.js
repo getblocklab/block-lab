@@ -1,19 +1,21 @@
 /**
  * External dependencies
  */
-import '@testing-library/jest-dom/extend-expect';
-import { fireEvent, getByLabelText, getByText, render, waitFor } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
+import { mount } from 'enzyme';
 
 /**
  * WordPress dependencies
  */
-const { initializeEditor } = require( '@wordpress/edit-post/src' );
+import { registerCoreBlocks } from '@wordpress/block-library';
+// Force register 'core/editor' store.
+import { store } from '@wordpress/editor'; // eslint-disable-line no-unused-vars
+require( '@wordpress/blocks' );
+require( '@wordpress/core-data' );
+require( '@wordpress/edit-post' );
+import Editor from '@wordpress/edit-post/src/editor';
 
-/**
- * Internal dependencies
- */
-// import { registerBlocks } from '../../../../js/blocks/helpers';
-// import { Edit } from '../../../../js/blocks/components';
+jest.mock( '@wordpress/edit-post/src/components/layout', () => () => 'Layout' );
 
 /**
  * Whether the node has the text in its textContent.
@@ -137,8 +139,10 @@ const editorSettings = {
 };
 
 describe( 'RepeaterBlock', () => {
-	const originalFetch = window.fetch;
 
+	beforeAll( registerCoreBlocks );
+	/*
+	const originalFetch = window.fetch;
 	beforeEach( () => {
 		window.fetch = jest.fn();
 		window.fetch.mockReturnValue(
@@ -154,27 +158,36 @@ describe( 'RepeaterBlock', () => {
 	afterAll( () => {
 		window.fetch = originalFetch;
 	} );
-
+*/
 	it( 'displays the repeater block in the inserter and the block has the expected values', () => {
-		const container = document.createElement( 'div' );
-		const containerId = 'test-container';
-		container.id = containerId;
-		document.body.appendChild( container );
+		jest.useFakeTimers();
+
+		mount(
+			<Editor
+				settings={ editorSettings }
+				onError={ () => {} }
+				postId={ 888 }
+				postType="post"
+				initialEdits=""
+			/>
+		);
+
+		// for some reason resetEditorBlocks() is asynchronous when dispatching editEntityRecord
+		act( () => {
+			jest.runAllTicks();
+		} );
 
 		/*
 		const { debug, getAllByPlaceholderText, getAllByLabelText, getByLabelText } = render(
 			<div id={ containerId } ></div>
 		);
-		*/
 
-		initializeEditor( containerId, 'post', 499, editorSettings, null );
 		waitFor( () => {
 			const renderContainer = document.getElementById( containerId );
 			const childDiv = renderContainer.querySelector( 'div' );
 			fireEvent.click( childDiv );
 		} );
 
-		/*
 		// Click the inserter button to see the available blocks.
 		const button = document.querySelector( '.editor-inserter__toggle' );
 		fireEvent.click( button );
