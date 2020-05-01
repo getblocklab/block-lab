@@ -4,7 +4,6 @@ module.exports = {
 	transform: {
 		'^.+\\.[jt]sx?$': '<rootDir>/node_modules/@wordpress/scripts/config/babel-transform',
 	},
-	testEnvironment: 'jest-environment-jsdom-sixteen',
 	testPathIgnorePatterns: [
 		'<rootDir>/.git',
 		'<rootDir>/node_modules',
@@ -16,6 +15,6 @@ module.exports = {
 	coverageDirectory: '<rootDir>/coverage',
 	reporters: [ [ 'jest-silent-reporter', { useDots: true } ] ],
 	transformIgnorePatterns: [
-		'node_modules/(?!@wordpress/blocks/src/store)',
+		'node_modules/(?!@wordpress/edit-post/src)',
 	],
 };

@@ -2,14 +2,26 @@
  * External dependencies
  */
 import '@testing-library/jest-dom/extend-expect';
-import { fireEvent, getByText, render, waitFor } from '@testing-library/react';
+import { fireEvent, getByLabelText, getByText, render, waitFor } from '@testing-library/react';
+
+/**
+ * WordPress dependencies
+ */
+const { initializeEditor } = require( '@wordpress/edit-post/src' );
 
 /**
  * Internal dependencies
  */
-import { BlockEditor, hasText } from '../helpers';
-import { registerBlocks } from '../../../../js/blocks/helpers';
-import { Edit } from '../../../../js/blocks/components';
+// import { registerBlocks } from '../../../../js/blocks/helpers';
+// import { Edit } from '../../../../js/blocks/components';
+
+/**
+ * Whether the node has the text in its textContent.
+ *
+ * @param {Object} nodeToSearch The element in which to search for the text.
+ * @param {string} text The text to search the node for.
+ */
+const hasText = ( nodeToSearch, text ) => -1 !== nodeToSearch.textContent.indexOf( text );
 
 const blockSlug = 'test-repeater';
 const blockName = `block-lab/${ blockSlug }`;
@@ -84,14 +96,87 @@ const blockLab = {
 	postType: 'post',
 };
 
-describe( 'RepeaterBlock', () => {
-	it( 'displays the repeater block in the inserter and the block has the expected values', () => {
-		const { getAllByPlaceholderText, getAllByLabelText, getByLabelText } = render(
-			<BlockEditor blockRegistration={ () => registerBlocks( blockLab, blockLabBlocks, Edit ) } />
-		);
-		const button = document.querySelector( '.editor-inserter__toggle' );
+const editorSettings = {
+	alignWide: true,
+	availableTemplates: {
+		'': 'Default template',
+		'templates/template-cover.php': 'Cover Template',
+	},
+	allowedBlockTypes: true,
+	disableCustomColors: false,
+	disableCustomFontSizes: false,
+	disableCustomGradients: false,
+	disablePostFormats: true,
+	titlePlaceholder: 'Add title',
+	bodyPlaceholder: 'Start writing or type to choose a block',
+	isRTL: false,
+	autosaveInterval: 60,
+	maxUploadFileSize: 134217728,
+	allowedMimeTypes: {
+		'jpg|jpeg|jpe': 'image/jpeg',
+	},
+	styles: [
+		{ css: "\/**\n * Colors\n *\/\n\/**\n * Breakpoints & Media Queries\n *\/\n\/**\n * Colors\n *\/\n\/**\n * Often re-used variables\n *\/\n\/**\n * Grid System.\n * https:\/\/make.wordpress.org\/design\/2019\/10\/31\/proposal-a-consistent-spacing-system-for-wordpress\/\n *\/\n\/**\n * Breakpoint mixins\n *\/\n\/**\n * Long content fade mixin\n *\n * Creates a fading overlay to signify that the content is longer\n * than the space allows.\n *\/\n\/**\n * Button states and focus styles\n *\/\n\/**\n * Applies editor left position to the selector passed as argument\n *\/\n\/**\n * Styles that are reused verbatim in a few places\n *\/\n\/**\n * Allows users to opt-out of animations via OS-level preferences.\n *\/\n\/**\n * Reset default styles for JavaScript UI based pages.\n * This is a WP-admin agnostic reset\n *\/\n\/**\n * Reset the WP Admin page styles for Gutenberg-like pages.\n *\/\n\/**\n * Editor Normalization Styles\n *\n * These are only output in the editor, but styles here are prefixed .editor-styles-wrapper and affect the theming\n * of the editor by themes.\n * Why do these exist? Why not rely on browser defaults?\n * These styles are necessary so long as CSS can bleed from the wp-admin into the editing canvas itself.\n * Let's continue working to refactor these away, whether through Shadow DOM or better scoping of upstream styles.\n *\/\nbody {\n  font-family: \"Noto Serif\", serif;\n  font-size: 16px;\n  line-height: 1.8;\n  color: #191e23; }\n\n\/* Headings *\/\nh1 {\n  font-size: 2.44em; }\n\nh2 {\n  font-size: 1.95em; }\n\nh3 {\n  font-size: 1.56em; }\n\nh4 {\n  font-size: 1.25em; }\n\nh5 {\n  font-size: 1em; }\n\nh6 {\n  font-size: 0.8em; }\n\nh1,\nh2,\nh3 {\n  line-height: 1.4; }\n\nh4 {\n  line-height: 1.5; }\n\nh1 {\n  margin-top: 0.67em;\n  margin-bottom: 0.67em; }\n\nh2 {\n  margin-top: 0.83em;\n  margin-bottom: 0.83em; }\n\nh3 {\n  margin-top: 1em;\n  margin-bottom: 1em; }\n\nh4 {\n  margin-top: 1.33em;\n  margin-bottom: 1.33em; }\n\nh5 {\n  margin-top: 1.67em;\n  margin-bottom: 1.67em; }\n\nh6 {\n  margin-top: 2.33em;\n  margin-bottom: 2.33em; }\n\nh1,\nh2,\nh3,\nh4,\nh5,\nh6 {\n  color: inherit; }\n\np {\n  font-size: inherit;\n  line-height: inherit;\n  margin-top: 28px;\n  margin-bottom: 28px; }\n\nul,\nol {\n  margin-bottom: 28px;\n  padding: inherit;\n  padding-left: 1.3em;\n  margin-left: 1.3em; }\n  ul ul,\n  ul ol,\n  ol ul,\n  ol ol {\n    margin-bottom: 0; }\n  ul li,\n  ol li {\n    margin-bottom: initial; }\n\nul {\n  list-style-type: disc; }\n\nol {\n  list-style-type: decimal; }\n\nul ul,\nol ul {\n  list-style-type: circle; }\n" }, { "css": "body { font-family: 'Noto Serif' }" }], "imageSizes": [{ "slug": "thumbnail", "name": "Thumbnail" }, { "slug": "medium", "name": "Medium" }, { "slug": "large", "name": "Large" }, { "slug": "full", "name": "Full Size" }], "imageDimensions": { "thumbnail": { "width": 150, "height": 150, "crop": true },
+		"medium": { "width": 300, "height": 300, "crop": false },
+		"large": { "width": 1024, "height": 1024, "crop": false } },
+		"richEditingEnabled": true, "postLock": { "isLocked": false, "activePostLock": "1588290621:1" },
+		"postLockUtils": { "nonce": "5506e92159", "unlockNonce": "6024870438", "ajaxUrl": "https:\/\/bl.test\/wp-admin\/admin-ajax.php" },
+		"enableCustomFields": false,
+		"colors": [{ "name": "Accent Color", "slug": "accent", "color": "#cd2653" },
+		{ "name": "Primary", "slug": "primary", "color": "#000000" },
+		{ "name": "Secondary", "slug": "secondary", "color": "#6d6d6d" },
+		{ "name": "Subtle Background", "slug": "subtle-background", "color": "#dcd7ca" },
+		{ "name": "Background Color", "slug": "background", "color": "#f5efe0" },
+	],
+	fontSizes: [
+		{ "name": "Small", "shortName": "S", "size": 18, "slug": "small" },
+		{ "name": "Regular", "shortName": "M", "size": 21, "slug": "normal" },
+		{ "name": "Large", "shortName": "L", "size": 26.25, "slug": "large" },
+		{ "name": "Larger", "shortName": "XL", "size": 32, "slug": "larger" },
+	],
+};
 
+describe( 'RepeaterBlock', () => {
+	const originalFetch = window.fetch;
+
+	beforeEach( () => {
+		window.fetch = jest.fn();
+		window.fetch.mockReturnValue(
+			Promise.resolve( {
+				status: 200,
+				json() {
+					return Promise.resolve( {} );
+				},
+			} ).catch( () => {} )
+		);
+	} );
+
+	afterAll( () => {
+		window.fetch = originalFetch;
+	} );
+
+	it( 'displays the repeater block in the inserter and the block has the expected values', () => {
+		const container = document.createElement( 'div' );
+		const containerId = 'test-container';
+		container.id = containerId;
+		document.body.appendChild( container );
+
+		/*
+		const { debug, getAllByPlaceholderText, getAllByLabelText, getByLabelText } = render(
+			<div id={ containerId } ></div>
+		);
+		*/
+
+		initializeEditor( containerId, 'post', 499, editorSettings, null );
+		waitFor( () => {
+			const renderContainer = document.getElementById( containerId );
+			const childDiv = renderContainer.querySelector( 'div' );
+			fireEvent.click( childDiv );
+		} );
+
+		/*
 		// Click the inserter button to see the available blocks.
+		const button = document.querySelector( '.editor-inserter__toggle' );
 		fireEvent.click( button );
 		const searchInput = getByLabelText( 'Search for a block' );
 
@@ -154,5 +239,6 @@ describe( 'RepeaterBlock', () => {
 
 		// There should not be less than the minimum number of subfields, no matter how many times 'Delete' is pressed.
 		expect( getAllByPlaceholderText( textarea.placeholder ) ).toHaveLength( minSubFields );
+*/
 	} );
 } );

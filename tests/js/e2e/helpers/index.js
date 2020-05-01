@@ -7,14 +7,6 @@
 /**
  * WordPress dependencies
  */
-import {
-	BlockEditorKeyboardShortcuts,
-	BlockEditorProvider,
-	BlockList,
-	BlockInspector,
-	WritingFlow,
-	ObserveTyping,
-} from '@wordpress/block-editor';
 import { registerCoreBlocks } from '@wordpress/block-library';
 import reducer from '@wordpress/blocks/src/store/reducer';
 import * as selectors from '@wordpress/blocks/src/store/selectors';
@@ -27,14 +19,6 @@ import {
 
 import { registerStore } from '@wordpress/data';
 import { useEffect, useState } from '@wordpress/element';
-
-/**
- * Whether the node has the text in its textContent.
- *
- * @param {Object} nodeToSearch The element in which to search for the text.
- * @param {string} text The text to search the node for.
- */
-export const hasText = ( nodeToSearch, text ) => -1 !== nodeToSearch.textContent.indexOf( text );
 
 /**
  * Bootstraps the block editor.
