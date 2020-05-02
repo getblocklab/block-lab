@@ -86,3 +86,8 @@ script:
       npm run test:e2e
       npm run env stop
     fi
+
+addons:
+  apt:
+    packages:
+      - docker-ce
