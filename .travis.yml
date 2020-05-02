@@ -33,7 +33,7 @@ matrix:
     - php: 7.3
       env: WP_TRAVISCI=test-js
     - php: 7.3
-      env: WP_TRAVISCI=test-e2e DOCKER_ENGINE_VERSION=19.03.8
+      env: WP_TRAVISCI=test-e2e DOCKER_VERSION=19.03.8
 
 install:
   - composer install
