@@ -27,7 +27,7 @@ const insertBlockFromInserter = async ( blockName ) => {
 };
 
 describe( 'TextBlock', () => {
-	it( 'initial', async () => {
+	it( 'creates the block and makes it available in the block editor', async () => {
 		const blockName = 'New Testing Block';
 		const fieldName = 'Test Text';
 
