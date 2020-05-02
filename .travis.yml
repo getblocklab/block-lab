@@ -75,6 +75,7 @@ install:
       cd ..
       # Connect Gutenberg to WordPress.
       npm run env connect
+      npm run env cli plugin activate block-lab
     fi
 
 before_script:
