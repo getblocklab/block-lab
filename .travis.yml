@@ -47,7 +47,7 @@ install:
       chmod +x docker-compose
       sudo mv docker-compose /usr/local/bin
 
-      npm run env:start
+      npm run env start
       sleep 10
       npm run env:install
       # Connect Gutenberg to WordPress.
