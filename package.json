@@ -97,7 +97,6 @@
   },
   "wp-env": {
     "plugin-dir": "block-lab",
-    "plugin-name": "Block Lab",
-    "docker-template": "./tests/e2e/config/docker-compose.override.yml.template"
+    "plugin-name": "Block Lab"
   }
 }
