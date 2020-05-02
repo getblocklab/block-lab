@@ -41,7 +41,7 @@ matrix:
 before_install:
   # Upgrade docker-compose, copied from Gutenberg.
   sudo rm /usr/local/bin/docker-compose
-  curl -sL https://github.com/docker/compose/releases/download/1.24.0/docker-compose-`uname -s`-`uname -m` > docker-compose
+  curl -sL https://github.com/docker/compose/releases/download/1.24.0/docker-compose-Linux-x86_64 > docker-compose
   chmod +x docker-compose
   sudo mv docker-compose /usr/local/bin
   docker --version
