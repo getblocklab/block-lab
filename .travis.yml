@@ -82,6 +82,7 @@ script:
   - |
     if [[ "$WP_TRAVISCI" == "test-e2e" ]] ; then
       npm run env start
+      npm run env connect
       npm run test:e2e
       npm run env stop
     fi
