@@ -39,6 +39,43 @@ install:
   - composer install
   - nvm install --lts
   - npm install
+  - |
+    if [[ "$WP_TRAVISCI" == "test-e2e" ]] ; then
+      # Upgrade docker-compose, copied from Gutenberg.
+      sudo rm /usr/local/bin/docker-compose
+      curl -sL https://github.com/docker/compose/releases/download/1.24.0/docker-compose-Linux-x86_64 > docker-compose
+      chmod +x docker-compose
+      sudo mv docker-compose /usr/local/bin
+
+      # Download and unpack WordPress.
+      curl -sL https://github.com/WordPress/WordPress/archive/master.zip -o /tmp/wordpress-latest.zip
+      unzip -q /tmp/wordpress-latest.zip -d /tmp
+      mkdir -p wordpress/src
+      mv /tmp/WordPress-master/* wordpress/src
+      # Create the upload directory with permissions that Travis can handle.
+      mkdir -p wordpress/src/wp-content/uploads
+      chmod 767 wordpress/src/wp-content/uploads
+      # Grab the tools we need for WordPress' local-env.
+      curl -sL https://github.com/WordPress/wordpress-develop/archive/master.zip -o /tmp/wordpress-develop.zip
+      unzip -q /tmp/wordpress-develop.zip -d /tmp
+      mv \
+        /tmp/wordpress-develop-master/tools \
+        /tmp/wordpress-develop-master/tests \
+        /tmp/wordpress-develop-master/.env \
+        /tmp/wordpress-develop-master/docker-compose.yml \
+        /tmp/wordpress-develop-master/wp-cli.yml \
+        /tmp/wordpress-develop-master/*config-sample.php \
+        /tmp/wordpress-develop-master/package.json wordpress
+      # Install WordPress. The additional dependencies are required by the copied `wordpress-develop` tools.
+      cd wordpress
+      npm install dotenv wait-on
+      npm run env:start
+      sleep 10
+      npm run env:install
+      cd ..
+      # Connect Gutenberg to WordPress.
+      npm run env connect
+    fi
 
 before_script:
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
@@ -81,41 +118,6 @@ script:
     fi
   - |
     if [[ "$WP_TRAVISCI" == "test-e2e" ]] ; then
-      # Upgrade docker-compose, copied from Gutenberg.
-      sudo rm /usr/local/bin/docker-compose
-      curl -sL https://github.com/docker/compose/releases/download/1.24.0/docker-compose-Linux-x86_64 > docker-compose
-      chmod +x docker-compose
-      chmod -R +w /var/www/
-      sudo mv docker-compose /usr/local/bin
-
-      # Download and unpack WordPress.
-      curl -sL https://github.com/WordPress/WordPress/archive/master.zip -o /tmp/wordpress-latest.zip
-      unzip -q /tmp/wordpress-latest.zip -d /tmp
-      mkdir -p wordpress/src
-      mv /tmp/WordPress-master/* wordpress/src
-      # Create the upload directory with permissions that Travis can handle.
-      mkdir -p wordpress/src/wp-content/uploads
-      chmod 767 wordpress/src/wp-content/uploads
-      # Grab the tools we need for WordPress' local-env.
-      curl -sL https://github.com/WordPress/wordpress-develop/archive/master.zip -o /tmp/wordpress-develop.zip
-      unzip -q /tmp/wordpress-develop.zip -d /tmp
-      mv \
-        /tmp/wordpress-develop-master/tools \
-        /tmp/wordpress-develop-master/tests \
-        /tmp/wordpress-develop-master/.env \
-        /tmp/wordpress-develop-master/docker-compose.yml \
-        /tmp/wordpress-develop-master/wp-cli.yml \
-        /tmp/wordpress-develop-master/*config-sample.php \
-        /tmp/wordpress-develop-master/package.json wordpress
-      # Install WordPress. The additional dependencies are required by the copied `wordpress-develop` tools.
-      cd wordpress
-      npm install dotenv wait-on
-      npm run env:start
-      sleep 10
-      npm run env:install
-      cd ..
-      # Connect Gutenberg to WordPress.
-      npm run env connect
       npm run test:e2e
       npm run env stop
     fi
