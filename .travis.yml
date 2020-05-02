@@ -32,6 +32,8 @@ matrix:
       env: WP_TRAVISCI=lint
     - php: 7.3
       env: WP_TRAVISCI=test-js
+    - php: 7.3
+      env: WP_TRAVISCI=test-e2e
 
 install:
   - composer install
@@ -76,4 +78,10 @@ script:
   - |
     if [[ "$WP_TRAVISCI" == "test-js" ]] ; then
       npm run test:js
+    fi
+  - |
+    if [[ "$WP_TRAVISCI" == "test-e2e" ]] ; then
+      npm run env:start
+      npm run test:e2e
+      npm run env:stop
     fi
