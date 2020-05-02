@@ -1,7 +1,7 @@
 sudo: false
 dist: trusty
 
-language: generic
+language: php
 
 services:
   - docker
@@ -89,6 +89,7 @@ script:
       curl -sL https://github.com/docker/compose/releases/download/1.24.0/docker-compose-Linux-x86_64 > docker-compose
       chmod +x docker-compose
       sudo mv docker-compose /usr/local/bin
+      npm run env install
       npm run env connect
       npm run env start
       npm run test:e2e
