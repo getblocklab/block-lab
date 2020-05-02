@@ -46,10 +46,9 @@ install:
       curl -sL https://github.com/docker/compose/releases/download/1.24.0/docker-compose-Linux-x86_64 > docker-compose
       chmod +x docker-compose
       sudo mv docker-compose /usr/local/bin
-
+      npm run env install
       npm run env start
-      sleep 10
-      npm run env:install
+
       # Connect Gutenberg to WordPress.
       npm run env connect
       npm run env cli plugin activate block-lab
