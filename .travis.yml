@@ -39,19 +39,6 @@ install:
   - composer install
   - nvm install --lts
   - npm install
-  - |
-    if [[ "$WP_TRAVISCI" == "test-e2e" ]] ; then
-      # Upgrade docker-compose, copied from Gutenberg.
-      sudo rm /usr/local/bin/docker-compose
-      curl -sL https://github.com/docker/compose/releases/download/1.24.0/docker-compose-Linux-x86_64 > docker-compose
-      chmod +x docker-compose
-      sudo mv docker-compose /usr/local/bin
-      npm install dotenv wait-on
-      PHP_FPM_UID=$(id -u) PHP_FPM_GID=$(id -g) npm run env install
-
-      # Connect Gutenberg to WordPress.
-      npm run env connect
-    fi
 
 before_script:
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
@@ -75,6 +62,19 @@ before_script:
       composer global require wp-coding-standards/wpcs
       phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
       npm run lint:js
+    fi
+  - |
+    if [[ "$WP_TRAVISCI" == "test-e2e" ]] ; then
+      # Upgrade docker-compose, copied from Gutenberg.
+      sudo rm /usr/local/bin/docker-compose
+      curl -sL https://github.com/docker/compose/releases/download/1.24.0/docker-compose-Linux-x86_64 > docker-compose
+      chmod +x docker-compose
+      sudo mv docker-compose /usr/local/bin
+      npm install dotenv wait-on
+      PHP_FPM_UID=$(id -u) PHP_FPM_GID=$(id -g) npm run env install
+
+      # Connect Gutenberg to WordPress.
+      npm run env connect
     fi
 
 script:
