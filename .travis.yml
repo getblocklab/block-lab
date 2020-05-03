@@ -41,7 +41,8 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
     packages:
-      - libstdc++6
+      - libstdc++-4.9-dev
+      - ppa-purge
 
 before_install:
   - |
@@ -59,7 +60,6 @@ install:
   - npm install
   - |
     if [[ "$WP_TRAVISCI" == "test-e2e" ]] ; then
-      sudo apt-get install ppa-purge
       sudo ppa-purge ppa:ubuntu-toolchain-r/test
       echo '{ "config": { "SCRIPT_DEBUG": false } }' > .wp-env.override.json
       npm run wp-env -- start
