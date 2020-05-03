@@ -60,7 +60,7 @@ install:
   - |
     if [[ "$WP_TRAVISCI" == "test-e2e" ]] ; then
       echo '{ "config": { "SCRIPT_DEBUG": false } }' > .wp-env.override.json
-      npm run wp-env -- start
+      LDFLAGS="-static-libstdc++" npm run wp-env -- start
     fi
 
 before_script:
