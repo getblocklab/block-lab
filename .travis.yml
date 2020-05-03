@@ -70,11 +70,8 @@ before_script:
       curl -sL https://github.com/docker/compose/releases/download/1.24.0/docker-compose-Linux-x86_64 > docker-compose
       chmod +x docker-compose
       sudo mv docker-compose /usr/local/bin
-      npm install dotenv wait-on
-      PHP_FPM_UID=$(id -u) PHP_FPM_GID=$(id -g) npm run env install
-
-      # Connect Gutenberg to WordPress.
-      npm run env connect
+      echo '{ "config": { "SCRIPT_DEBUG": false } }' > .wp-env.override.json
+      npm run wp-env start
     fi
 
 script:
