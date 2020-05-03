@@ -59,8 +59,9 @@ install:
   - npm install
   - |
     if [[ "$WP_TRAVISCI" == "test-e2e" ]] ; then
+      sudo ppa-purge ppa:ubuntu-toolchain-r/test
       echo '{ "config": { "SCRIPT_DEBUG": false } }' > .wp-env.override.json
-      LDFLAGS="-static-libstdc++" npm run wp-env -- start
+      npm run wp-env -- start
     fi
 
 before_script:
