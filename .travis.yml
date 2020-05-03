@@ -9,6 +9,10 @@ cache:
   directories:
     - $HOME/.composer/cache
 
+env:
+  global:
+    - WP_DEVELOP_DIR: ./wordpress
+
 matrix:
   include:
     - php: 7.4snapshot
