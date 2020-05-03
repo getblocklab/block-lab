@@ -91,7 +91,7 @@
     "lint:php": "vendor/bin/phpcs",
     "lint:php:fix": "vendor/bin/phpcbf",
     "precommit": "./bin/pre-commit.sh",
-    "test:e2e": "wp-scripts test-e2e --config=tests/e2e/jest.config.js",
+    "test:e2e": "wp-scripts test-e2e --runInBand --config=tests/e2e/jest.config.js",
     "test:e2e:interactive": "npm run test:e2e -- --puppeteer-interactive",
     "test:js": "wp-scripts test-unit-js --config=tests/js/jest.config.js"
   },
