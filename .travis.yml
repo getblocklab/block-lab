@@ -36,7 +36,6 @@ matrix:
       env: WP_TRAVISCI=test-e2e
 
 install:
-  - set -e
   - composer install
   - nvm install --lts
   - npm install
@@ -53,10 +52,8 @@ install:
       # Connect Gutenberg to WordPress.
       npm run env connect
     fi
-    - set +e
 
 before_script:
-  - set -e
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
   - |
     if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
@@ -75,11 +72,12 @@ before_script:
     fi
   - |
     if [[ "$WP_TRAVISCI" == "lint" ]] ; then
+      set -e
       composer global require wp-coding-standards/wpcs
       phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
       npm run lint:js
+      set +e
     fi
-  - set +e
 
 script:
   - set -e
