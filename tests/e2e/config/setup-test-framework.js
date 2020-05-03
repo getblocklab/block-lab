@@ -59,6 +59,7 @@ const OBSERVED_CONSOLE_MESSAGE_TYPES = {
 };
 
 const PLUGIN = 'block-lab';
+const BLOCK_LAB_POST_SLUG = 'block_lab';
 
 /**
  * Array of page event tuples of [ eventName, handler ].
@@ -255,16 +256,16 @@ beforeAll( async () => {
 	await simulateAdverseConditions();
 
 	await trashExistingPosts();
-	await trashExistingPosts( 'block_lab' );
+	await trashExistingPosts( BLOCK_LAB_POST_SLUG );
 	await setupBrowser();
 	await activatePlugin( PLUGIN );
 } );
 
 afterEach( async () => {
 	await setupBrowser();
-	await trashExistingPosts( 'block_lab' );
 } );
 
-afterAll( () => {
+afterAll( async () => {
 	removePageEvents();
+	await trashExistingPosts( BLOCK_LAB_POST_SLUG );
 } );
