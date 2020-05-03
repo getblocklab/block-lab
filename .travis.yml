@@ -48,7 +48,6 @@ install:
       sudo mv docker-compose /usr/local/bin
       npm install dotenv wait-on
       PHP_FPM_UID=$(id -u) PHP_FPM_GID=$(id -g) npm run env install
-      npm run env start
 
       # Connect Gutenberg to WordPress.
       npm run env connect
