@@ -83,7 +83,7 @@
     "check-licenses": "wp-scripts check-licenses --prod --gpl2",
     "build": "wp-scripts build",
     "dev": "wp-scripts start",
-    "wp-env": "wp-env ",
+    "wp-env": "wp-env",
     "lint": "npm-run-all --parallel lint:*",
     "lint:js": "wp-scripts lint-js js tests/e2e",
     "lint:js:files": "wp-scripts lint-js",
