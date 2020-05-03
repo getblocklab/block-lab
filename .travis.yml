@@ -80,8 +80,8 @@ before_script:
     fi
 
 script:
-  - set -e
   - npm run build
+  - set -e
   - |
     if [[ ! -z "$WP_VERSION" ]] ; then
       phpunit
@@ -98,6 +98,5 @@ script:
   - |
     if [[ "$WP_TRAVISCI" == "test-e2e" ]] ; then
       npm run test:e2e
-      npm run env stop
     fi
   - set +e
