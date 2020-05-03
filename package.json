@@ -90,6 +90,7 @@
     "lint:pkg-json": "wp-scripts lint-pkg-json",
     "lint:php": "vendor/bin/phpcs",
     "lint:php:fix": "vendor/bin/phpcbf",
+    "packages-update": "wp-scripts packages-update",
     "precommit": "./bin/pre-commit.sh",
     "test:e2e": "wp-scripts test-e2e --config=tests/e2e/jest.config.js --runInBand",
     "test:e2e:interactive": "npm run test:e2e -- --puppeteer-interactive",
