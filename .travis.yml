@@ -35,6 +35,14 @@ matrix:
     - php: 7.3
       env: WP_TRAVISCI=test-e2e
 
+# Make sure NodeGit gets the correct C libs, copied from Gutenberg.
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - libstdc++-4.9-dev
+
 before_install:
   - |
     if [[ "$WP_TRAVISCI" == "test-e2e" ]] ; then
@@ -96,5 +104,5 @@ script:
     fi
   - |
     if [[ "$WP_TRAVISCI" == "test-e2e" ]] ; then
-      npm run test:e2e
+      FORCE_REDUCED_MOTION=true npm run test:e2e
     fi
