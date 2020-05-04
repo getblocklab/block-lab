@@ -57,10 +57,6 @@ install:
   - composer install
   - nvm install --lts
   - npm install
-  - |
-    if [[ "$WP_TRAVISCI" == "test-e2e" ]] ; then
-      npm run env start
-    fi
 
 before_script:
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
@@ -103,5 +99,6 @@ script:
     fi
   - |
     if [[ "$WP_TRAVISCI" == "test-e2e" ]] ; then
+      npm run env start
       npm run test:e2e
     fi

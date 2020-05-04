@@ -110,7 +110,6 @@ vendor
 tests/data/
 tests/includes/
 coverage/html/
-wordpress/
 
 # Builds
 js/editor.blocks.js
