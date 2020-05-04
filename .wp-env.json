@@ -1,8 +1,0 @@
-{
-	"config": {
-		"SCRIPT_DEBUG": false,
-		"WP_DEBUG": true
-	},
-	"core": null,
-	"plugins": [ "." ]
-}

@@ -2,7 +2,7 @@
  * Used for editing Blocks.
  *
  * @copyright Copyright(c) 2020, Block Lab
- * @license   GPL-2.0-only
+ * @license GPL-2.0-only
  */
 
 /* global blockLab, jQuery */
