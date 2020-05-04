@@ -14,7 +14,6 @@ import { get } from 'lodash';
  */
 import {
 	activatePlugin,
-	clearLocalStorage,
 	enablePageDialogAccept,
 	isOfflineMode,
 	setBrowserViewport,
@@ -72,7 +71,6 @@ const pageEvents = [];
 jest.setTimeout( PUPPETEER_TIMEOUT || 100000 );
 
 async function setupBrowser() {
-	await clearLocalStorage();
 	await setBrowserViewport( 'large' );
 }
 
@@ -253,12 +251,11 @@ beforeAll( async () => {
 	capturePageEventsForTearDown();
 	enablePageDialogAccept();
 	observeConsoleLogging();
-	await simulateAdverseConditions();
-
-	await trashExistingPosts();
-	await trashExistingPosts( BLOCK_LAB_POST_SLUG );
 	await setupBrowser();
 	await activatePlugin( PLUGIN );
+	await trashExistingPosts();
+	await trashExistingPosts( BLOCK_LAB_POST_SLUG );
+
 } );
 
 afterEach( async () => {
@@ -267,5 +264,4 @@ afterEach( async () => {
 
 afterAll( async () => {
 	removePageEvents();
-	await trashExistingPosts( BLOCK_LAB_POST_SLUG );
 } );
