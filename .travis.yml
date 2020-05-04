@@ -104,5 +104,5 @@ script:
     fi
   - |
     if [[ "$WP_TRAVISCI" == "test-e2e" ]] ; then
-      PUPPETEER_HEADLESS=false npm run test:e2e
+      npm run test:e2e
     fi
