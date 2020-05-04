@@ -7,11 +7,9 @@ module.exports = {
 	testPathIgnorePatterns: [
 		'<rootDir>/.git',
 		'<rootDir>/node_modules',
-		'<rootDir>/wordpress',
 	],
 	coveragePathIgnorePatterns: [
 		'<rootDir>/node_modules',
-		'<rootDir>/wordpress',
 	],
 	coverageReporters: [ 'lcov' ],
 	coverageDirectory: '<rootDir>/coverage',
