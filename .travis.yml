@@ -105,5 +105,5 @@ script:
     fi
   - |
     if [[ "$WP_TRAVISCI" == "test-e2e" ]] ; then
-      FORCE_REDUCED_MOTION=true npm run test:e2e
+      PUPPETEER_HEADLESS=false npm run test:e2e
     fi
