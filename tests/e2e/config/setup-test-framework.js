@@ -44,6 +44,7 @@ const OBSERVED_CONSOLE_MESSAGE_TYPES = {
 };
 
 const PLUGIN = 'block-lab';
+const TESTING_PLUGIN = 'testing-blocks';
 const BLOCK_LAB_POST_SLUG = 'block_lab';
 
 /**
@@ -213,6 +214,7 @@ beforeAll( async () => {
 	observeConsoleLogging();
 	await setupBrowser();
 	await activatePlugin( PLUGIN );
+	await activatePlugin( TESTING_PLUGIN );
 	await trashExistingPosts();
 	await trashExistingPosts( BLOCK_LAB_POST_SLUG );
 } );
