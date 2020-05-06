@@ -42,7 +42,7 @@ window.tinymce = {
 };
 
 describe( 'ClassicText', () => {
-	it( 'displays the default value if no value is entered', () => {
+	it( 'has the help text', () => {
 		render( <BlockLabClassicTextControl { ...props } /> );
 		expect( getByText( document, props.field.help ) ).toBeInTheDocument();
 	} );
