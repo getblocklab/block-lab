@@ -9,7 +9,6 @@ const BlockLabSelectControl = ( props ) => {
 
 	if ( '' === field.default ) {
 		field.options = [
-			// @see https://github.com/WordPress/gutenberg/issues/11270 Disabled attribute not currently supported.
 			{ label: __( '– Select –', 'block-lab' ), value: '', disabled: true },
 			...field.options,
 		];
