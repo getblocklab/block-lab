@@ -67,7 +67,7 @@ describe( 'FetchInput', () => {
 		fireEvent.focus( input );
 
 		waitFor( () =>
-			expect( screen.getByText( exampleResult ) ).not.toBe( null )
+			expect( screen.getByText( exampleResult ) ).toBeInTheDocument()
 		);
 	} );
 
