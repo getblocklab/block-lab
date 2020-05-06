@@ -2,12 +2,13 @@
  * External dependencies
  */
 import '@testing-library/jest-dom/extend-expect';
-import { render, fireEvent } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 
 /**
  * Internal dependencies
  */
 import BlockLabNumberControl from '../number';
+import { setupControl } from './helpers';
 
 const field = {
 	label: 'This is a label for the number field',
@@ -15,29 +16,16 @@ const field = {
 	placeholder: 'This is a placeholder for the number',
 };
 const mockOnChange = jest.fn();
-const setup = () => {
-	const utils = render(
-		<BlockLabNumberControl
-			field={ field }
-			getValue={ jest.fn() }
-			onChange={ mockOnChange }
-		/>
-	);
-	const input = utils.getByLabelText( field.label );
-	return {
-		input,
-		...utils,
-	};
-};
+const props = { field, mockOnChange };
 
 describe( 'Number', () => {
 	it( 'displays the default value if no value is entered', () => {
-		const { input } = setup();
-		expect( input.value ).toBe( field.default );
+		const { control } = setupControl( BlockLabNumberControl, props );
+		expect( control.value ).toBe( field.default );
 	} );
 
 	it( 'has the placeholder', () => {
-		const { getByPlaceholderText } = setup();
+		const { getByPlaceholderText } = setupControl( BlockLabNumberControl, props );
 		expect( getByPlaceholderText( field.placeholder ) ).toBeInTheDocument();
 	} );
 
@@ -47,8 +35,8 @@ describe( 'Number', () => {
 		9523342951313513414,
 	] )( 'sends a number to the onChange handler when it is entered',
 		( enteredText ) => {
-			const { input } = setup();
-			fireEvent.change( input, { target: { value: enteredText } } );
+			const { control } = setupControl( BlockLabNumberControl, props );
+			fireEvent.change( control, { target: { value: enteredText } } );
 			expect( mockOnChange ).toHaveBeenCalledWith( enteredText );
 		}
 	);

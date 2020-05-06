@@ -7,40 +7,35 @@ import { fireEvent } from '@testing-library/react';
 /**
  * Internal dependencies
  */
-import BlockLabEmailControl from '../email';
+import BlockLabURLControl from '../url';
 import { setupControl } from './helpers';
 
 const field = {
-	label: 'text-label',
-	default: 'This is an example default value',
+	label: 'This is an example label',
+	default: 'https://example.com/here-is-something',
 };
 const mockOnChange = jest.fn();
 const props = { field, mockOnChange };
 
-describe( 'Email', () => {
+describe( 'Url', () => {
 	it( 'displays the default value if no value is entered', () => {
-		const { control } = setupControl( BlockLabEmailControl, props );
+		const { control } = setupControl( BlockLabURLControl, props );
 		expect( control.value ).toBe( field.default );
 	} );
 
-	it.each( [
-		'you@example.com',
-		'not-a-valid-email',
-		')$@$%*)#$*@)#$',
-	] )( 'should send any entered text to the onChange handler, even if it is not a valid email',
-		( enteredText ) => {
-			const { control } = setupControl( BlockLabEmailControl, props );
-			fireEvent.change( control, { target: { value: enteredText } } );
-			expect( mockOnChange ).toHaveBeenCalledWith( enteredText );
-		}
-	);
+	it( 'sends the text that is entered to the onChange handler', () => {
+		const { control } = setupControl( BlockLabURLControl, props );
+		const enteredUrl = 'https://example.com/baz';
+		fireEvent.change( control, { target: { value: enteredUrl } } );
+		expect( mockOnChange ).toHaveBeenCalledWith( enteredUrl );
+	} );
 
 	it.each( [
 		true,
 		false,
 	] )( 'should have an invalid class if the event object finds it is invalid',
 		( isInputValid ) => {
-			const { control } = setupControl( BlockLabEmailControl, props );
+			const { control } = setupControl( BlockLabURLControl, props );
 			const mockEvent = { target: { checkValidity: jest.fn() } };
 			mockEvent.target.checkValidity.mockReturnValueOnce( isInputValid );
 			fireEvent.blur( control, mockEvent );

@@ -2,12 +2,13 @@
  * External dependencies
  */
 import '@testing-library/jest-dom/extend-expect';
-import { render, fireEvent } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 
 /**
  * Internal dependencies
  */
 import BlockLabTextareaControl from '../textarea';
+import { setupControl } from './helpers';
 
 const field = {
 	label: 'This is an example label',
@@ -15,29 +16,16 @@ const field = {
 	placeholder: 'This is a placeholder for the Textarea',
 };
 const mockOnChange = jest.fn();
-const setup = () => {
-	const utils = render(
-		<BlockLabTextareaControl
-			field={ field }
-			getValue={ jest.fn() }
-			onChange={ mockOnChange }
-		/>
-	);
-	const input = utils.getByLabelText( field.label );
-	return {
-		input,
-		...utils,
-	};
-};
+const props = { field, mockOnChange };
 
 describe( 'Textarea', () => {
 	it( 'displays the default value if no value is entered', () => {
-		const { input } = setup();
-		expect( input.value ).toBe( field.default );
+		const { control } = setupControl( BlockLabTextareaControl, props );
+		expect( control.value ).toBe( field.default );
 	} );
 
 	it( 'has the placeholder', () => {
-		const { getByPlaceholderText } = setup();
+		const { getByPlaceholderText } = setupControl( BlockLabTextareaControl, props );
 		expect( getByPlaceholderText( field.placeholder ) ).toBeInTheDocument();
 	} );
 
@@ -48,8 +36,8 @@ describe( 'Textarea', () => {
 		'This is long text that is entered into a textarea, it keeps going longer than one might normally type',
 	] )( 'Any text entered is sent to the onChange handler',
 		( enteredText ) => {
-			const { input } = setup();
-			fireEvent.change( input, { target: { value: enteredText } } );
+			const { control } = setupControl( BlockLabTextareaControl, props );
+			fireEvent.change( control, { target: { value: enteredText } } );
 			expect( mockOnChange ).toHaveBeenCalledWith( enteredText );
 		}
 	);
