@@ -2,10 +2,10 @@
  * WordPress dependencies
  */
 import { SelectControl } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
 
 const BlockLabSelectControl = ( props ) => {
 	const { field, getValue, onChange } = props;
-	const { __ } = wp.i18n;
 
 	if ( '' === field.default ) {
 		field.options = [

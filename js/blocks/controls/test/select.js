@@ -7,21 +7,21 @@ import { render, fireEvent } from '@testing-library/react';
 /**
  * Internal dependencies
  */
-import BlockLabMultiselectControl from '../multiselect';
+import BlockLabSelectControl from '../select';
 
-const firstValue = 'foo';
-const secondValue = 'baz';
+const firstValue = 'first';
+const secondValue = 'second';
 const field = {
-	label: 'Here is a multiselect label',
-	help: 'Here is some help text',
-	default: [ firstValue ],
+	label: 'Here is an example label',
+	help: 'This is some help text',
+	default: firstValue,
 	options: [
 		{
-			label: 'Foo',
+			label: 'First',
 			value: firstValue,
 		},
 		{
-			label: 'Baz',
+			label: 'Second',
 			value: secondValue,
 		},
 	],
@@ -29,7 +29,7 @@ const field = {
 const mockOnChange = jest.fn();
 const setup = () => {
 	const utils = render(
-		<BlockLabMultiselectControl
+		<BlockLabSelectControl
 			field={ field }
 			getValue={ jest.fn() }
 			onChange={ mockOnChange }
@@ -42,7 +42,7 @@ const setup = () => {
 	};
 };
 
-describe( 'Multiselect', () => {
+describe( 'Select', () => {
 	it( 'has the help text', () => {
 		const { getByText } = setup();
 		expect( getByText( field.help ) ).toBeInTheDocument();
@@ -50,7 +50,7 @@ describe( 'Multiselect', () => {
 
 	it( 'sends the new value to the onChange handler', () => {
 		const { select } = setup();
-		fireEvent.change( select, { target: { value: [ secondValue ] } } );
-		expect( mockOnChange ).toHaveBeenCalledWith( [ secondValue ] );
+		fireEvent.change( select, { target: { value: secondValue } } );
+		expect( mockOnChange ).toHaveBeenCalledWith( secondValue );
 	} );
 } );
