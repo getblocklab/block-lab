@@ -27,8 +27,10 @@ const field = {
 		},
 	],
 };
-const mockOnChange = jest.fn();
-const props = { field, mockOnChange };
+const props = {
+	field,
+	onChange: jest.fn(),
+};
 
 describe( 'Select', () => {
 	it( 'has the help text', () => {
@@ -39,6 +41,6 @@ describe( 'Select', () => {
 	it( 'sends the new value to the onChange handler', () => {
 		const { control } = setupControl( BlockLabSelectControl, props );
 		fireEvent.change( control, { target: { value: secondValue } } );
-		expect( mockOnChange ).toHaveBeenCalledWith( secondValue );
+		expect( props.onChange ).toHaveBeenCalledWith( secondValue );
 	} );
 } );

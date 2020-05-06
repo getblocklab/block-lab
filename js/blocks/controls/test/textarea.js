@@ -15,8 +15,10 @@ const field = {
 	default: 'Here is a default value',
 	placeholder: 'This is a placeholder for the Textarea',
 };
-const mockOnChange = jest.fn();
-const props = { field, mockOnChange };
+const props = {
+	field,
+	onChange: jest.fn(),
+};
 
 describe( 'Textarea', () => {
 	it( 'displays the default value if no value is entered', () => {
@@ -38,7 +40,7 @@ describe( 'Textarea', () => {
 		( enteredText ) => {
 			const { control } = setupControl( BlockLabTextareaControl, props );
 			fireEvent.change( control, { target: { value: enteredText } } );
-			expect( mockOnChange ).toHaveBeenCalledWith( enteredText );
+			expect( props.onChange ).toHaveBeenCalledWith( enteredText );
 		}
 	);
 } );

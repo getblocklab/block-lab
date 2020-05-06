@@ -15,8 +15,10 @@ const field = {
 	default: '52344',
 	placeholder: 'This is a placeholder for the number',
 };
-const mockOnChange = jest.fn();
-const props = { field, mockOnChange };
+const props = {
+	field,
+	onChange: jest.fn(),
+};
 
 describe( 'Number', () => {
 	it( 'displays the default value if no value is entered', () => {
@@ -37,7 +39,7 @@ describe( 'Number', () => {
 		( enteredText ) => {
 			const { control } = setupControl( BlockLabNumberControl, props );
 			fireEvent.change( control, { target: { value: enteredText } } );
-			expect( mockOnChange ).toHaveBeenCalledWith( enteredText );
+			expect( props.onChange ).toHaveBeenCalledWith( enteredText );
 		}
 	);
 } );

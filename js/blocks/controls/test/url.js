@@ -14,8 +14,10 @@ const field = {
 	label: 'This is an example label',
 	default: 'https://example.com/here-is-something',
 };
-const mockOnChange = jest.fn();
-const props = { field, mockOnChange };
+const props = {
+	field,
+	onChange: jest.fn(),
+};
 
 describe( 'Url', () => {
 	it( 'displays the default value if no value is entered', () => {
@@ -27,7 +29,7 @@ describe( 'Url', () => {
 		const { control } = setupControl( BlockLabURLControl, props );
 		const enteredUrl = 'https://example.com/baz';
 		fireEvent.change( control, { target: { value: enteredUrl } } );
-		expect( mockOnChange ).toHaveBeenCalledWith( enteredUrl );
+		expect( props.onChange ).toHaveBeenCalledWith( enteredUrl );
 	} );
 
 	it.each( [

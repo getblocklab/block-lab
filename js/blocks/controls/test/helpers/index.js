@@ -11,11 +11,10 @@ import { render } from '@testing-library/react';
  * @return {Object} The control and testing utility functions.
  */
 export const setupControl = ( Control, props ) => {
-	const { field, mockOnChange } = props;
+	const { field } = props;
 	const utils = render(
 		<Control
-			field={ field }
-			onChange={ mockOnChange }
+			{ ...props }
 			getValue={ jest.fn() }
 		/>
 	);

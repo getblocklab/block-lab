@@ -14,8 +14,10 @@ const field = {
 	label: 'text-label',
 	default: 'This is an example default value',
 };
-const mockOnChange = jest.fn();
-const props = { field, mockOnChange };
+const props = {
+	field,
+	onChange: jest.fn(),
+};
 
 describe( 'Email', () => {
 	it( 'displays the default value if no value is entered', () => {
@@ -31,7 +33,7 @@ describe( 'Email', () => {
 		( enteredText ) => {
 			const { control } = setupControl( BlockLabEmailControl, props );
 			fireEvent.change( control, { target: { value: enteredText } } );
-			expect( mockOnChange ).toHaveBeenCalledWith( enteredText );
+			expect( props.onChange ).toHaveBeenCalledWith( enteredText );
 		}
 	);
 
