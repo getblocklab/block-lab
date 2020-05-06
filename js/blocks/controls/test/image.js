@@ -2,7 +2,7 @@
  * External dependencies
  */
 import '@testing-library/jest-dom/extend-expect';
-import { getByText, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 /**
  * Internal dependencies
@@ -22,12 +22,11 @@ const props = {
 
 describe( 'Image', () => {
 	it( 'has the label', () => {
-		const { getByLabelText } = render( <BlockLabImageControl { ...props } /> );
-		expect( getByLabelText( props.field.label ) ).toBeInTheDocument();
+		const { getByText } = render( <BlockLabImageControl { ...props } /> );
+		expect( getByText( props.field.label ) ).toBeInTheDocument();
 	} );
 	it( 'has the help text', () => {
-		const { debug } = render( <BlockLabImageControl { ...props } /> );
-		debug();
-		expect( getByText( document, props.field.help ) ).toBeInTheDocument();
+		const { getByText } = render( <BlockLabImageControl { ...props } /> );
+		expect( getByText( props.field.help ) ).toBeInTheDocument();
 	} );
 } );
