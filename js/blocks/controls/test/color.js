@@ -2,21 +2,22 @@
  * External dependencies
  */
 import '@testing-library/jest-dom/extend-expect';
-import { fireEvent, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
+import user from '@testing-library/user-event';
 
 /**
  * Internal dependencies
  */
 import BlockLabColorControl from '../color';
 
-const field = {
-	default: '#bef5cb',
-	help: 'This is some help text',
-	label: 'This is an example label',
-};
-const mockOnChange = jest.fn();
-const setup = () => {
-	const utils = render(
+test( 'color control', () => {
+	const field = {
+		default: '#bef5cb',
+		help: 'This is some help text',
+		label: 'This is an example label',
+	};
+	const mockOnChange = jest.fn();
+	const { getByText, getByRole } = render(
 		<BlockLabColorControl
 			field={ field }
 			getValue={ jest.fn() }
@@ -24,34 +25,15 @@ const setup = () => {
 			instanceId="7e8f32c1-f1dd-3151"
 		/>
 	);
+	const input = getByRole( 'textbox' );
 
-	const input = document.querySelector( 'input' );
-	return {
-		input,
-		...utils,
-	};
-};
+	expect( input.value ).toBe( field.default );
+	getByText( field.help );
+	getByText( field.label );
 
-describe( 'Color', () => {
-	it( 'has the default value at first', () => {
-		const { input } = setup();
-		expect( input.value ).toBe( field.default );
-	} );
-
-	it( 'has the help text', () => {
-		const { getByText } = setup();
-		expect( getByText( field.help ) ).toBeInTheDocument();
-	} );
-
-	it( 'has the label text', () => {
-		const { getByText } = setup();
-		expect( getByText( field.help ) ).toBeInTheDocument();
-	} );
-
-	it( 'sends a value entered in the text input to the onChange handler', () => {
-		const enteredColor = '#fff';
-		const { input } = setup();
-		fireEvent.change( input, { target: { value: enteredColor } } );
-		expect( mockOnChange ).toHaveBeenCalledWith( enteredColor );
-	} );
+	// On entering a new color, it should be sent to the onChange handler.
+	const enteredColor = '#fff';
+	user.clear( input );
+	user.type( input, enteredColor );
+	expect( mockOnChange ).toHaveBeenCalledWith( enteredColor );
 } );
