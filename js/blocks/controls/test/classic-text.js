@@ -27,7 +27,7 @@ window.tinymce = {
 	},
 };
 
-test( 'classic text control', () => {
+test( 'classic text control', async () => {
 	const props = {
 		field: {
 			label: 'This is an example label',
@@ -42,6 +42,8 @@ test( 'classic text control', () => {
 		},
 	};
 
-	const { getByText } = render( <BlockLabClassicTextControl { ...props } /> );
-	expect( getByText( props.field.help ) ).toBeInTheDocument();
+	const { findByText } = render( <BlockLabClassicTextControl { ...props } /> );
+	const control = await findByText( props.field.help );
+
+	expect( control ).toBeInTheDocument();
 } );

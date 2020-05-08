@@ -10,14 +10,14 @@ import user from '@testing-library/user-event';
  */
 import BlockLabColorControl from '../color';
 
-test( 'color control', () => {
+test( 'color control', async () => {
 	const field = {
 		default: '#bef5cb',
 		help: 'This is some help text',
 		label: 'This is an example label',
 	};
 	const mockOnChange = jest.fn();
-	const { getByText, getByRole } = render(
+	const { findByText, getByRole } = render(
 		<BlockLabColorControl
 			field={ field }
 			getValue={ jest.fn() }
@@ -28,8 +28,8 @@ test( 'color control', () => {
 	const input = getByRole( 'textbox' );
 
 	expect( input.value ).toBe( field.default );
-	getByText( field.help );
-	getByText( field.label );
+	await findByText( field.help );
+	await findByText( field.label );
 
 	// On entering a new color, it should be sent to the onChange handler.
 	const enteredColor = '#fff';

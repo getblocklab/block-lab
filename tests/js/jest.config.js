@@ -15,4 +15,5 @@ module.exports = {
 	coverageReporters: [ 'lcov' ],
 	coverageDirectory: '<rootDir>/coverage',
 	reporters: [ [ 'jest-silent-reporter', { useDots: true } ] ],
+	setupFilesAfterEnv: [ '<rootDir>/tests/js/jest.setup.js' ],
 };

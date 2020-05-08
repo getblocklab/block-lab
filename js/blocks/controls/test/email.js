@@ -10,19 +10,26 @@ import { fireEvent } from '@testing-library/react';
 import BlockLabEmailControl from '../email';
 import { setupControl } from './helpers';
 
-const field = {
-	label: 'text-label',
-	default: 'This is an example default value',
-};
-const props = {
-	field,
-	onChange: jest.fn(),
-};
+/**
+ * Gets the props for the tested component.
+ *
+ * @return {Object} The props to pass to the component.
+ */
+function getProps() {
+	return {
+		field: {
+			label: 'Here is an example label',
+			default: 'This is an example default value',
+		},
+		onChange: jest.fn(),
+	};
+}
 
-describe( 'Email', () => {
+describe( 'email control', () => {
 	it( 'displays the default value if no value is entered', () => {
+		const props = getProps();
 		const { control } = setupControl( BlockLabEmailControl, props );
-		expect( control.value ).toBe( field.default );
+		expect( control ).toHaveAttribute( 'value', props.field.default );
 	} );
 
 	it.each( [
@@ -31,9 +38,10 @@ describe( 'Email', () => {
 		')$@$%*)#$*@)#$',
 	] )( 'should send any entered text to the onChange handler, even if it is not a valid email',
 		( enteredText ) => {
+			const props = getProps();
 			const { control } = setupControl( BlockLabEmailControl, props );
 			fireEvent.change( control, { target: { value: enteredText } } );
-			expect( props.onChange ).toHaveBeenCalledWith( enteredText );
+			expect( props.onChange ).toHaveBeenLastCalledWith( enteredText );
 		}
 	);
 
@@ -42,10 +50,12 @@ describe( 'Email', () => {
 		false,
 	] )( 'should have an invalid class if the event object finds it is invalid',
 		( isInputValid ) => {
+			const props = getProps();
 			const { control } = setupControl( BlockLabEmailControl, props );
-			const mockEvent = { target: { checkValidity: jest.fn() } };
-			mockEvent.target.checkValidity.mockReturnValueOnce( isInputValid );
-			fireEvent.blur( control, mockEvent );
+			const mockCheckValidity = jest.fn();
+			mockCheckValidity.mockReturnValueOnce( isInputValid );
+
+			fireEvent.blur( control, { target: { checkValidity: mockCheckValidity } } );
 			expect( control.classList.contains( 'text-control__error' ) ).toStrictEqual( ! isInputValid );
 		}
 	);

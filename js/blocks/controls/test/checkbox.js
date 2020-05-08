@@ -10,13 +10,13 @@ import user from '@testing-library/user-event';
  */
 import BlockLabCheckboxControl from '../checkbox';
 
-test( 'checkbox control', () => {
+test( 'checkbox control', async () => {
 	const field = {
 		help: 'Here is help text for the checkbox field',
 		default: '1',
 	};
 	const mockOnChange = jest.fn();
-	const { getByRole, getByText } = render(
+	const { getByRole, findByText } = render(
 		<BlockLabCheckboxControl
 			field={ field }
 			getValue={ jest.fn() }
@@ -25,7 +25,7 @@ test( 'checkbox control', () => {
 	);
 	const checkbox = getByRole( 'checkbox' );
 
-	getByText( field.help );
+	await findByText( field.help );
 	expect( checkbox ).toBeChecked( !! field.default );
 
 	// Click the bock to uncheck it, and verify that false is sent to the onChange handler.
