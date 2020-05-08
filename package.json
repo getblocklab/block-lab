@@ -19,6 +19,7 @@
     "url": "https://github.com/getblocklab/block-lab/issues"
   },
   "dependencies": {
+    "@testing-library/user-event": "^10.1.1",
     "classnames": "^2.2.6"
   },
   "devDependencies": {
