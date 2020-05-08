@@ -57,7 +57,7 @@ describe( 'FetchInput', () => {
 		expect( input.value ).toBe( displayValue );
 	} );
 
-	it( 'displays the popover when there are search results to show', () => {
+	it( 'displays the popover when there are search results to show', async () => {
 		const exampleResult = 'this-is-a-result';
 		const results = [ exampleResult ];
 		apiFetch.mockImplementationOnce(
@@ -66,9 +66,7 @@ describe( 'FetchInput', () => {
 		const { input } = setup( baseProps );
 		fireEvent.focus( input );
 
-		waitFor( () =>
-			expect( screen.getByText( exampleResult ) ).toBeInTheDocument()
-		);
+		await waitFor( () => expect( screen.getByText( exampleResult ) ).toBeInTheDocument() );
 	} );
 
 	it.each( [
@@ -77,18 +75,14 @@ describe( 'FetchInput', () => {
 		[ [ 'first-result', 'another-result' ], false ],
 	] )(
 		'should only have the error class if there are no results after focusing',
-		( apiResults, expected ) => {
+		async ( apiResults, expected ) => {
 			apiFetch.mockImplementationOnce(
 				() => new Promise( ( resolve ) => resolve( apiResults ) )
 			);
 			const { input } = setup( baseProps );
 			fireEvent.focus( input );
 
-			waitFor( () =>
-				expect(
-					input.classList.contains( 'text-control__error' )
-				).toStrictEqual( expected )
-			);
+			await waitFor( () => expect( input.classList.contains( 'text-control__error' ) ).toStrictEqual( expected ) );
 		}
 	);
 } );
