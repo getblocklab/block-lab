@@ -1,7 +1,6 @@
 /**
  * External dependencies
  */
-import '@testing-library/jest-dom/extend-expect';
 import { fireEvent, getByText, render, waitFor } from '@testing-library/react';
 
 /**
