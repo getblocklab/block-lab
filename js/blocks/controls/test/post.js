@@ -2,6 +2,7 @@
  * External dependencies
  */
 import { fireEvent, getByText, render, waitFor } from '@testing-library/react';
+import user from '@testing-library/user-event';
 
 /**
  * WordPress dependencies
@@ -15,7 +16,12 @@ import BlockLabPostControl from '../post';
 
 jest.mock( '@wordpress/api-fetch' );
 
-const props = {
+/**
+ * Gets testing props for the component.
+ *
+ * @return {Object} The props.
+ */
+const getProps = () => ( {
 	field: {
 		label: 'Here is an example label',
 		help: 'And here is some help text',
@@ -24,43 +30,35 @@ const props = {
 	getValue: jest.fn(),
 	onChange: jest.fn(),
 	instanceId: '243256134-e891-4ba1-8fca-01b825c11cfe',
-};
+} );
 
-describe( 'Post', () => {
-	it( 'has the label', () => {
-		const { getByLabelText } = render( <BlockLabPostControl { ...props } /> );
-		expect( getByLabelText( props.field.label ) ).toBeInTheDocument();
-	} );
+test( 'post control', async () => {
+	const props = getProps();
+	const { findByRole, findByText, findByLabelText } = render( <BlockLabPostControl { ...props } /> );
+	await findByLabelText( props.field.label );
+	await findByText( props.field.help );
 
-	it( 'has the help text', () => {
-		render( <BlockLabPostControl { ...props } /> );
-		expect( getByText( document, props.field.help ) ).toBeInTheDocument();
-	} );
+	const input = await findByRole( 'combobox' );
+	const post = {
+		id: 921,
+		title: {
+			rendered: 'Here Is An Example Post',
+		},
+	};
 
-	it( 'sends a new value to the onChange handler', async () => {
-		render( <BlockLabPostControl { ...props } /> );
-		const input = document.querySelector( 'input' );
-		const post = {
-			id: 921,
-			title: {
-				rendered: 'Here Is An Example Post',
-			},
-		};
+	// Mock the API fetch function that gets the posts.
+	apiFetch.mockImplementationOnce(
+		() => new Promise( ( resolve ) => resolve( [ post ] ) )
+	);
 
-		// Mock the API fetch function that gets the posts.
-		apiFetch.mockImplementationOnce(
-			() => new Promise( ( resolve ) => resolve( [ post ] ) )
-		);
+	// Focus the <input>, so the popover appears with post suggestion(s).
+	user.click( input );
 
-		// Focus the <input>, so the popover appears with post suggestion(s).
-		fireEvent.focus( input );
+	// Click to select a post.
+	await waitFor( () =>
+		fireEvent.click( getByText( document, post.title.rendered ) )
+	);
 
-		// Click to select a post.
-		await waitFor( () =>
-			fireEvent.click( getByText( document, post.title.rendered ) )
-		);
-
-		// The onChange handler should be called with the selected post.
-		expect( props.onChange ).toHaveBeenCalledWith( { id: post.id, name: post.title.rendered } );
-	} );
+	// The onChange handler should be called with the selected post.
+	expect( props.onChange ).toHaveBeenCalledWith( { id: post.id, name: post.title.rendered } );
 } );

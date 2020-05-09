@@ -15,14 +15,14 @@ test( 'checkbox control', async () => {
 		default: '1',
 	};
 	const mockOnChange = jest.fn();
-	const { getByRole, findByText } = render(
+	const { findByRole, findByText } = render(
 		<BlockLabCheckboxControl
 			field={ field }
 			getValue={ jest.fn() }
 			onChange={ mockOnChange }
 		/>
 	);
-	const checkbox = getByRole( 'checkbox' );
+	const checkbox = await findByRole( 'checkbox' );
 
 	await findByText( field.help );
 	expect( checkbox ).toBeChecked( !! field.default );

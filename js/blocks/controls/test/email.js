@@ -14,7 +14,7 @@ import { setupControl } from './helpers';
  *
  * @return {Object} The props to pass to the component.
  */
-function getProps() {
+const getProps = () => {
 	return {
 		field: {
 			label: 'Here is an example label',
@@ -22,7 +22,7 @@ function getProps() {
 		},
 		onChange: jest.fn(),
 	};
-}
+};
 
 describe( 'email control', () => {
 	it( 'displays the default value if no value is entered', () => {
