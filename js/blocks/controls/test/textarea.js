@@ -23,7 +23,7 @@ const getProps = () => ( {
 	onChange: jest.fn(),
 } );
 
-describe( 'Textarea', () => {
+describe( 'textarea control', () => {
 	it( 'displays the default value if no value is entered', () => {
 		const props = getProps();
 		const { control } = setupControl( BlockLabTextareaControl, props );

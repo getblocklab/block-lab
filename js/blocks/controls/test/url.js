@@ -22,7 +22,7 @@ const getProps = () => ( {
 	onChange: jest.fn(),
 } );
 
-describe( 'Url', () => {
+describe( 'url control', () => {
 	it( 'displays the default value if no value is entered', () => {
 		const props = getProps();
 		const { control } = setupControl( BlockLabURLControl, props );

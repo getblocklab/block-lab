@@ -10,7 +10,7 @@ import user from '@testing-library/user-event';
 import BlockLabSelectControl from '../select';
 import { setupControl } from './helpers';
 
-test( 'has the help text', async () => {
+test( 'select control', async () => {
 	const firstValue = 'first';
 	const secondValue = 'second';
 	const secondLabel = 'Second';
