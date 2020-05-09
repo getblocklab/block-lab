@@ -1,7 +1,8 @@
 /**
  * External dependencies
  */
-import { fireEvent } from '@testing-library/react';
+import { waitFor } from '@testing-library/react';
+import user from '@testing-library/user-event';
 
 /**
  * Internal dependencies
@@ -9,37 +10,36 @@ import { fireEvent } from '@testing-library/react';
 import BlockLabSelectControl from '../select';
 import { setupControl } from './helpers';
 
-const firstValue = 'first';
-const secondValue = 'second';
-const field = {
-	label: 'Here is an example label',
-	help: 'This is some help text',
-	default: firstValue,
-	options: [
-		{
-			label: 'First',
-			value: firstValue,
-		},
-		{
-			label: 'Second',
-			value: secondValue,
-		},
-	],
-};
-const props = {
-	field,
-	onChange: jest.fn(),
-};
+test( 'has the help text', async () => {
+	const firstValue = 'first';
+	const secondValue = 'second';
+	const secondLabel = 'Second';
+	const field = {
+		label: 'Here is an example label',
+		help: 'This is some help text',
+		default: firstValue,
+		options: [
+			{
+				label: 'First',
+				value: firstValue,
+			},
+			{
+				label: secondLabel,
+				value: secondValue,
+			},
+		],
+	};
+	const props = {
+		field,
+		onChange: jest.fn(),
+	};
 
-describe( 'Select', () => {
-	it( 'has the help text', () => {
-		const { getByText } = setupControl( BlockLabSelectControl, props );
-		expect( getByText( field.help ) ).toBeInTheDocument();
-	} );
+	const { findByRole, findByText } = setupControl( BlockLabSelectControl, props );
+	await findByText( field.help );
+	const control = await findByRole( 'combobox' );
 
-	it( 'sends the new value to the onChange handler', () => {
-		const { control } = setupControl( BlockLabSelectControl, props );
-		fireEvent.change( control, { target: { value: secondValue } } );
-		expect( props.onChange ).toHaveBeenCalledWith( secondValue );
-	} );
+	// This should send the new value to the onChange handler.
+	user.selectOptions( control, secondValue );
+	//fireEvent.change( control, { target: { value: secondValue } } );
+	await waitFor( () => expect( props.onChange ).toHaveBeenCalledWith( secondValue ) );
 } );
