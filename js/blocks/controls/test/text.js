@@ -9,19 +9,25 @@ import { fireEvent } from '@testing-library/react';
 import BlockLabTextControl from '../text';
 import { setupControl } from './helpers';
 
-const field = {
-	label: 'Here is an example label',
-	default: 'This is a default value',
-};
-const props = {
-	field,
+/**
+ * Gets the testing props.
+ *
+ * @return {Object} Testing props.
+ */
+const getProps = () => ( {
+	field: {
+		label: 'Here is an example label',
+		default: 'This is a default value',
+	},
 	onChange: jest.fn(),
-};
+} );
 
-describe( 'Text', () => {
+describe( 'text control', () => {
 	it( 'displays the default value if no value is entered', () => {
+		const props = getProps();
 		const { control } = setupControl( BlockLabTextControl, props );
-		expect( control.value ).toBe( field.default );
+
+		expect( control ).toHaveAttribute( 'value', props.field.default );
 	} );
 
 	it.each( [
@@ -31,8 +37,10 @@ describe( 'Text', () => {
 		'Very long text that keeps going on and on and on and it continues longer than you would normally expect',
 	] )( 'Any text entered is sent to the onChange handler',
 		( enteredText ) => {
+			const props = getProps();
 			const { control } = setupControl( BlockLabTextControl, props );
 			fireEvent.change( control, { target: { value: enteredText } } );
+
 			expect( props.onChange ).toHaveBeenCalledWith( enteredText );
 		}
 	);
