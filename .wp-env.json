@@ -1,0 +1,4 @@
+{
+	"core": null,
+	"plugins": [ ".", "./tests/e2e/plugins/testing-blocks" ]
+}
