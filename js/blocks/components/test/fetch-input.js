@@ -1,6 +1,7 @@
 /**
  * External dependencies
  */
+import '@testing-library/jest-dom/extend-expect';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 /**
@@ -72,16 +73,17 @@ describe( 'FetchInput', () => {
 		[ [], true ],
 		[ [ 'a-result' ], false ],
 		[ [ 'first-result', 'another-result' ], false ],
-	] )(
-		'should only have the error class if there are no results after focusing',
+	] )( 'should only have the error class if there are no results after focusing',
 		async ( apiResults, expected ) => {
-			apiFetch.mockImplementationOnce(
-				() => new Promise( ( resolve ) => resolve( apiResults ) )
-			);
+			apiFetch.mockImplementationOnce( () => new Promise( ( resolve ) => resolve( apiResults ) ) );
 			const { input } = setup( baseProps );
 			fireEvent.focus( input );
 
-			await waitFor( () => expect( input.classList.contains( 'text-control__error' ) ).toStrictEqual( expected ) );
+			await waitFor( () =>
+				expect(
+					input.classList.contains( 'text-control__error' )
+				).toStrictEqual( expected )
+			);
 		}
 	);
 } );
