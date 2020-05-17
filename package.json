@@ -21,6 +21,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "5.7.0",
     "@testing-library/react": "10.0.4",
+    "@testing-library/user-event": "10.3.0",
     "@wordpress/api-fetch": "3.14.0",
     "@wordpress/babel-preset-default": "4.12.1",
     "@wordpress/block-editor": "3.11.0",
@@ -54,11 +55,15 @@
     "eslint": "6.8.0",
     "eslint-plugin-eslint-comments": "3.1.2",
     "eslint-plugin-import": "2.20.2",
+    "eslint-plugin-jest-dom": "^2.1.0",
     "eslint-plugin-jsx-a11y": "6.2.3",
+    "eslint-plugin-testing-library": "^3.1.1",
     "gulp": "4.0.2",
     "gulp-run": "1.7.1",
     "gulp-string-replace": "1.1.2",
     "husky": "4.2.5",
+    "jest-axe": "3.4.0",
+    "jest-environment-jsdom-sixteen": "1.0.3",
     "jest-silent-reporter": "0.2.1",
     "lodash": "4.17.15",
     "merge-stream": "2.0.0",
@@ -92,7 +97,9 @@
     "precommit": "./bin/pre-commit.sh",
     "test:e2e": "wp-scripts test-e2e --config=tests/e2e/jest.config.js --runInBand",
     "test:e2e:interactive": "npm run test:e2e -- --puppeteer-interactive",
-    "test:js": "wp-scripts test-unit-js --config=tests/js/jest.config.js"
+    "test:js": "wp-scripts test-unit-js --config=tests/js/jest.config.js",
+    "test:js:coverage": "npm run test:js -- --coverage --coverageDirectory=tests/coverage/js",
+    "test:js:watch": "npm run test:js -- --watch"
   },
   "wp-env": {
     "plugin-dir": "block-lab",

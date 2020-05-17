@@ -13,6 +13,7 @@ fi
 js_files=$( git diff --diff-filter=d --staged --name-only | grep -E '^js\/\S*\.js$' )
 if [ ! -z "$js_files" ]; then
     npm run lint:js:files $js_files
+    npm run test:js $js_files -- --findRelatedTests
     if [ $? != 0 ]; then
         exit 1
     fi

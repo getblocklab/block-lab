@@ -1,37 +1,34 @@
 /**
  * External dependencies
  */
-import '@testing-library/jest-dom/extend-expect';
-import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 
 /**
  * Internal dependencies
  */
 import BlockLabEmailControl from '../email';
+import { setupControl } from './helpers';
 
-const label = 'text-label';
-const defaultValue = 'example';
-const mockOnChange = jest.fn();
-const setup = () => {
-	const utils = render(
-		<BlockLabEmailControl
-			field={ { label, default: defaultValue } }
-			getValue={ jest.fn() }
-			onChange={ mockOnChange }
-		/>
-	);
-	const input = utils.getByLabelText( label );
+/**
+ * Gets the props for the tested component.
+ *
+ * @return {Object} The props to pass to the component.
+ */
+const getProps = () => {
 	return {
-		input,
-		...utils,
+		field: {
+			label: 'Here is an example label',
+			default: 'This is an example default value',
+		},
+		onChange: jest.fn(),
 	};
 };
 
-describe( 'Email', () => {
+describe( 'email control', () => {
 	it( 'displays the default value if no value is entered', () => {
-		const { input } = setup();
-		expect( input.value ).toBe( defaultValue );
+		const props = getProps();
+		const { control } = setupControl( BlockLabEmailControl, props );
+		expect( control ).toHaveAttribute( 'value', props.field.default );
 	} );
 
 	it.each( [
@@ -40,9 +37,10 @@ describe( 'Email', () => {
 		')$@$%*)#$*@)#$',
 	] )( 'should send any entered text to the onChange handler, even if it is not a valid email',
 		( enteredText ) => {
-			const { input } = setup();
-			fireEvent.change( input, { target: { value: enteredText } } );
-			expect( mockOnChange ).toHaveBeenCalledWith( enteredText );
+			const props = getProps();
+			const { control } = setupControl( BlockLabEmailControl, props );
+			fireEvent.change( control, { target: { value: enteredText } } );
+			expect( props.onChange ).toHaveBeenLastCalledWith( enteredText );
 		}
 	);
 
@@ -51,11 +49,13 @@ describe( 'Email', () => {
 		false,
 	] )( 'should have an invalid class if the event object finds it is invalid',
 		( isInputValid ) => {
-			const { input } = setup();
-			const mockEvent = { target: { checkValidity: jest.fn() } };
-			mockEvent.target.checkValidity.mockReturnValueOnce( isInputValid );
-			fireEvent.blur( input, mockEvent );
-			expect( input.classList.contains( 'text-control__error' ) ).toStrictEqual( ! isInputValid );
+			const props = getProps();
+			const { control } = setupControl( BlockLabEmailControl, props );
+			const mockCheckValidity = jest.fn();
+			mockCheckValidity.mockReturnValueOnce( isInputValid );
+
+			fireEvent.blur( control, { target: { checkValidity: mockCheckValidity } } );
+			expect( control.classList.contains( 'text-control__error' ) ).toStrictEqual( ! isInputValid );
 		}
 	);
 } );
