@@ -28,7 +28,7 @@
     "@wordpress/components": "9.5.0",
     "@wordpress/compose": "3.14.0",
     "@wordpress/core-data": "2.15.0",
-    "@wordpress/data": "4.17.0",
+    "@wordpress/data": "4.18.0",
     "@wordpress/dependency-extraction-webpack-plugin": "2.6.0",
     "@wordpress/dom": "2.9.0",
     "@wordpress/e2e-test-utils": "4.6.0",
