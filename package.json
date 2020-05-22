@@ -36,7 +36,7 @@
     "@wordpress/editor": "9.15.0",
     "@wordpress/element": "2.14.0",
     "@wordpress/env": "1.3.0",
-    "@wordpress/eslint-plugin": "3.3.0",
+    "@wordpress/eslint-plugin": "6.0.0",
     "@wordpress/hooks": "2.8.0",
     "@wordpress/html-entities": "2.7.0",
     "@wordpress/i18n": "3.12.0",
