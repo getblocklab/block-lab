@@ -66,7 +66,10 @@ final class Post_Type {
 	}
 
 	/**
-	 * Migrates all of the custom posts post to the new slug and block namespace.
+	 * Migrates all of the custom post type posts to the new slug and block namespace.
+	 *
+	 * These each store a config for a custom block,
+	 * they aren't actual posts as entered into the block editor.
 	 */
 	public function migrate_all() {
 		$offset = 0;
