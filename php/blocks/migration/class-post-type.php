@@ -15,7 +15,7 @@ use WP_Query;
 /**
  * Class Post_Type
  */
-final class Post_Type {
+class Post_Type {
 
 	/**
 	 * The previous slug of the custom post type (in Block Lab).
