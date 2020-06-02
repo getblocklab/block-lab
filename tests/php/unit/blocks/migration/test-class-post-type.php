@@ -99,6 +99,7 @@ class Test_Post_Type extends WP_UnitTestCase {
 	 * @inheritDoc
 	 */
 	public function setUp() {
+		parent::setUp();
 		$this->instance = new Post_Type( self::NEW_POST_TYPE_SLUG, self::NEW_BLOCK_NAMESPACE );
 	}
 
@@ -144,6 +145,97 @@ class Test_Post_Type extends WP_UnitTestCase {
 		$query = new WP_Query( [ 'post_type' => self::NEW_POST_TYPE_SLUG ] );
 		foreach ( $query->posts as $post ) {
 			$this->assertTrue( in_array( $post->post_content, $expected_block_content, true ) );
+		}
+	}
+
+	/**
+	 * Test migrate_all with many posts.
+	 *
+	 * @covers \Block_Lab\Blocks\Migration\Post_Type::migrate_all()
+	 */
+	public function test_migrate_all_many_posts() {
+		$number_of_block_lab_posts = 203;
+		$block_lab_posts           = [];
+		for ( $i = 0; $i < $number_of_block_lab_posts; $i++ ) {
+			$block_lab_posts[] = $this->create_block_post( $this->post_block_initial_content );
+		}
+
+		$non_block_lab_posts           = [];
+		$non_block_lab_post_content    = 'This is example content';
+		$number_of_non_block_lab_posts = 21;
+		for ( $i = 0; $i < $number_of_non_block_lab_posts; $i++ ) {
+			$non_block_lab_posts[] = $this->factory()->post->create_and_get(
+				[ 'post_content' => $non_block_lab_post_content ]
+			);
+		}
+
+		$this->instance->migrate_all();
+
+		$queried_block_lab_post_type = new WP_Query(
+			[
+				'post_type'      => self::PREVIOUS_POST_TYPE_SLUG,
+				'posts_per_page' => -1,
+			]
+		);
+
+		// All block_lab CPT posts should have been migrated, so there should be none here.
+		$this->assertEquals( 0, $queried_block_lab_post_type->post_count );
+
+		$queried_new_cpt_posts = new WP_Query(
+			[
+				'post_type'      => self::NEW_POST_TYPE_SLUG,
+				'posts_per_page' => -1,
+			]
+		);
+
+		// The block_lab CPT posts should now have the new post_type and migrated post_content.
+		$this->assertEquals( $number_of_block_lab_posts, $queried_new_cpt_posts->post_count );
+		foreach ( $queried_new_cpt_posts->posts as $cpt_post ) {
+			$this->assertEquals( self::NEW_POST_TYPE_SLUG, $cpt_post->post_type );
+			$this->assertEquals( $this->post_block_expected_content, $cpt_post->post_content );
+		}
+
+		// Posts of type 'post' should not have been migrated.
+		$queried_non_block_lab_posts = new WP_Query( [ 'posts_per_page' => -1 ] );
+		$this->assertEquals( $number_of_non_block_lab_posts, $queried_non_block_lab_posts->post_count );
+		foreach ( $queried_non_block_lab_posts->posts as $non_block_lab_post ) {
+			$this->assertEquals( $non_block_lab_post_content, $non_block_lab_post->post_content );
+			$this->assertEquals( 'post', $non_block_lab_post->post_type );
+		}
+	}
+
+	/**
+	 * Test that migrate_all does not affect a custom post type other than block_lab.
+	 *
+	 * @covers \Block_Lab\Blocks\Migration\Post_Type::migrate_all()
+	 */
+	public function test_migrate_all_other_post_type() {
+		$other_post_type_slug = 'testimonial';
+		register_post_type( $other_post_type_slug );
+		$post_content    = 'This is the content of an example post';
+		$posts           = [];
+		$number_of_posts = 15;
+		for ( $i = 0; $i < $number_of_posts; $i++ ) {
+			$posts[] = $this->factory()->post->create_and_get(
+				[
+					'post_type'    => $other_post_type_slug,
+					'post_content' => $post_content,
+				]
+			);
+		}
+
+		$this->instance->migrate_all();
+
+		$queried_posts = new WP_Query(
+			[
+				'post_type'      => $other_post_type_slug,
+				'posts_per_page' => -1,
+			]
+		);
+
+		foreach ( $queried_posts->posts as $post ) {
+			$this->assertEquals( $post_content, $post->post_content );
+			$this->assertEquals( $other_post_type_slug, $post->post_type );
 		}
 	}
 
@@ -212,6 +304,7 @@ class Test_Post_Type extends WP_UnitTestCase {
 
 		$post = $this->create_block_post( $initial_post_content );
 		$this->assertEquals( $expected_return, $this->instance->migrate_single( $post ) );
+
 		$new_post = get_post( $post->ID );
 		$this->assertEquals( $expected_post_content, $new_post->post_content );
 		$this->assertEquals( $expected_post_type, $new_post->post_type );

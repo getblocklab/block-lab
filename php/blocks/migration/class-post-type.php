@@ -46,13 +46,6 @@ class Post_Type {
 	private $new_block_namespace;
 
 	/**
-	 * The batch size (posts_per_page) for the post queries.
-	 *
-	 * @var int
-	 */
-	private $query_batch_size = 10;
-
-	/**
 	 * Post_Type constructor.
 	 *
 	 * @param string $new_post_type_slug  The new slug of the custom post type.
@@ -66,47 +59,30 @@ class Post_Type {
 	}
 
 	/**
-	 * Migrates all of the custom post type posts to the new slug and block namespace.
+	 * Migrates all of the custom post type posts to the new post_type slug and block namespace.
 	 *
 	 * These each store a config for a custom block,
-	 * they aren't actual posts as entered into the block editor.
+	 * they aren't blocks that users entered into the block editor.
 	 */
 	public function migrate_all() {
-		$offset = 0;
-		$posts  = $this->query_for_posts( $offset );
+		$posts = $this->query_for_posts();
 
 		while ( ! empty( $posts ) ) {
 			foreach ( $posts as $post ) {
 				$this->migrate_single( $post );
 			}
 
-			$offset += $this->query_batch_size;
-			$posts   = $this->query_for_posts( $offset );
+			$posts = $this->query_for_posts();
 		}
 	}
 
 	/**
-	 * Gets the posts at the given offset.
-	 *
-	 * @param int $offset The offset at which to query the posts.
-	 * @return array Posts found starting at that offset.
-	 */
-	public function query_for_posts( $offset ) {
-		$query = new WP_Query(
-			[
-				'post_type'      => $this->previous_post_type_slug,
-				'posts_per_page' => $this->query_batch_size,
-				'offset'         => $offset,
-			]
-		);
-
-		return $query->posts;
-	}
-
-	/**
-	 * Migrates the custom post type post to the new slug and block namespace.
+	 * Migrates the custom post type post to the new post_type slug and block namespace.
 	 *
 	 * Inspired by the work of Weston Ruter: https://github.com/ampproject/amp-wp/blob/4880f0f58daaf07685854be8574ff25d76ff583e/includes/validation/class-amp-validated-url-post-type.php#L165-L170
+	 * The post_content of the CPT has a configuration for a block like:
+	 * '{"block-lab\/test-image":{"name":"test-image","title":"Test Image","excluded":[],"icon":"block_lab","category":{"slug":"common","title":"Common Blocks","icon":null},"keywords":[""],"fields":{"image":{"name":"image","label":"Image","control":"image","type":"integer","order":0,"location":"editor","width":"50","help":"Here is some help text"}}}}'
+	 * The beginning of this has the 'block-lab' namespace, which this changes to the new namespace.
 	 *
 	 * @param WP_Post $post The post to convert.
 	 * @return bool Whether migrating the post was successful.
@@ -132,7 +108,7 @@ class Post_Type {
 		$rows_updated = $wpdb->update(
 			$wpdb->posts,
 			[
-				'post_type'    => $this->new_post_type_slug,
+				'post_type'    => sanitize_key( $this->new_post_type_slug ),
 				'post_content' => wp_json_encode( $new_block ),
 			],
 			[
@@ -142,5 +118,21 @@ class Post_Type {
 		clean_post_cache( $post->ID );
 
 		return ! empty( $rows_updated );
+	}
+
+	/**
+	 * Gets the posts of the previous post_type.
+	 *
+	 * @return WP_Post[] The posts that were found.
+	 */
+	private function query_for_posts() {
+		$query = new WP_Query(
+			[
+				'post_type'      => $this->previous_post_type_slug,
+				'posts_per_page' => 10,
+			]
+		);
+
+		return $query->posts;
 	}
 }
