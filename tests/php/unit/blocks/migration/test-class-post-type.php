@@ -1,6 +1,6 @@
 <?php
 /**
- * Test_Migrate_Custom_Post_Type
+ * Test_Post_Type
  *
  * @package Block_Lab
  */
@@ -8,7 +8,7 @@
 use Block_Lab\Blocks\Migration\Post_Type;
 
 /**
- * Class Test_Migrate_Custom_Post_Type
+ * Class Test_Post_Type
  *
  * @package Block_Lab
  */
