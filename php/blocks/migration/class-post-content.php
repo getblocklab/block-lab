@@ -10,6 +10,7 @@
 namespace Block_Lab\Blocks\Migration;
 
 use WP_Post;
+use WP_Error;
 
 /**
  * Class Post_Content
@@ -52,8 +53,7 @@ class Post_Content {
 	 * @see https://github.com/WordPress/wordpress-develop/blob/78d1ab2ed40093a5bd2a75b01ceea37811739f55/src/wp-includes/class-wp-block-parser.php#L413
 	 *
 	 * @param WP_Post $post The post to convert.
-	 * @return int|
-	 * On success: the post ID that was changed, on failure: 0 or WP_Error.
+	 * @return int|WP_Error On success: the post ID that was changed, on failure: 0 or WP_Error.
 	 */
 	public function migrate_single( WP_Post $post ) {
 		$new_post_content = preg_replace(
