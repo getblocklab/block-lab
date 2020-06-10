@@ -53,7 +53,7 @@ class Post_Content {
 	 * @see https://github.com/WordPress/wordpress-develop/blob/78d1ab2ed40093a5bd2a75b01ceea37811739f55/src/wp-includes/class-wp-block-parser.php#L413
 	 *
 	 * @param WP_Post $post The post to convert.
-	 * @return int|WP_Error On success: the post ID that was changed, on failure: 0 or WP_Error.
+	 * @return int|WP_Error The post ID that was changed, or a WP_Error on failure.
 	 */
 	public function migrate_single( WP_Post $post ) {
 		$new_post_content = preg_replace(
@@ -65,8 +65,9 @@ class Post_Content {
 		return wp_update_post(
 			[
 				'ID'           => $post->ID,
-				'post_content' => $new_post_content,
-			]
+				'post_content' => wp_slash( $new_post_content ),
+			],
+			true
 		);
 	}
 }
