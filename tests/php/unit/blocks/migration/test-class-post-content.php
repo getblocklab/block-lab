@@ -208,6 +208,16 @@ class Test_Post_Content extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Test migrate_single with an invalid post ID.
+	 *
+	 * @covers \Block_Lab\Blocks\Migration\Post_Content::migrate_single()
+	 */
+	public function test_migrate_single_invalid_post_id() {
+		$invalid_post_id = 5000000000;
+		$this->assertEquals( 'WP_Error', get_class( $this->instance->migrate_single( $invalid_post_id ) ) );
+	}
+
+	/**
 	 * Test migrate_all.
 	 *
 	 * @covers \Block_Lab\Blocks\Migration\Post_Content::migrate_all()

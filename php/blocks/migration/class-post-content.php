@@ -77,6 +77,7 @@ class Post_Content {
 		if ( ! isset( $post->ID ) ) {
 			return new WP_Error( 'Invalid post ID' );
 		}
+
 		$new_post_content = preg_replace(
 			'#(<!--\s+wp:)(' . sanitize_key( $this->previous_block_namespace ) . ')(/[a-z][a-z0-9_-]*)#s',
 			'$1' . sanitize_key( $this->new_block_namespace ) . '$3',
