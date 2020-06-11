@@ -42,6 +42,23 @@ class Post_Content {
 	}
 
 	/**
+	 * Migrates all of the block namespaces in all of the posts that have Block Lab blocks.
+	 */
+	public function migrate_all() {
+		$posts = $this->query_for_posts();
+
+		while ( $posts ) {
+			foreach ( $posts as $post ) {
+				if ( isset( $post->ID ) ) {
+					$this->migrate_single( $post->ID );
+				}
+			}
+
+			$posts = $this->query_for_posts();
+		}
+	}
+
+	/**
 	 * Migrates the block namespaces in post_content.
 	 *
 	 * Blocks are stored in the post_content of a post with a namespace,
@@ -52,10 +69,14 @@ class Post_Content {
 	 *
 	 * @see https://github.com/WordPress/wordpress-develop/blob/78d1ab2ed40093a5bd2a75b01ceea37811739f55/src/wp-includes/class-wp-block-parser.php#L413
 	 *
-	 * @param WP_Post $post The post to convert.
+	 * @param int $post_id The ID of the post to convert.
 	 * @return int|WP_Error The post ID that was changed, or a WP_Error on failure.
 	 */
-	public function migrate_single( WP_Post $post ) {
+	public function migrate_single( $post_id ) {
+		$post = get_post( $post_id );
+		if ( ! isset( $post->ID ) ) {
+			return new WP_Error( 'Invalid post ID' );
+		}
 		$new_post_content = preg_replace(
 			'#(<!--\s+wp:)(' . sanitize_key( $this->previous_block_namespace ) . ')(/[a-z][a-z0-9_-]*)#s',
 			'$1' . sanitize_key( $this->new_block_namespace ) . '$3',
@@ -68,6 +89,28 @@ class Post_Content {
 				'post_content' => wp_slash( $new_post_content ),
 			],
 			true
+		);
+	}
+
+	/**
+	 * Gets posts that have Block Lab blocks in their post_content.
+	 *
+	 * The queries for the posts that have wp:block-lab/ in the post content,
+	 * meaning they probably have a Block Lab block.
+	 * This doesn't query for every post that can possibly have a block.
+	 *
+	 * @return array The posts that were found.
+	 */
+	private function query_for_posts() {
+		global $wpdb;
+
+		$query_limit = 10;
+		return $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT * FROM {$wpdb->posts} WHERE post_content LIKE %s LIMIT %d",
+				'%' . $wpdb->esc_like( 'wp:' . $this->previous_block_namespace . '/' ) . '%',
+				absint( $query_limit )
+			)
 		);
 	}
 }

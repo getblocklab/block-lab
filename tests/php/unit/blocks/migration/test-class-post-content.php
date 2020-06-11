@@ -66,6 +66,25 @@ class Test_Post_Content extends WP_UnitTestCase {
 		<!-- wp:genesis-custom-blocks/test-range {"range":32} /-->';
 
 	/**
+	 * Blocks from Core that should not be migrated.
+	 *
+	 * @var string
+	 */
+	public $unrelated_blocks = '<!-- wp:image {"id":145,"sizeSlug":"large"} -->
+		<figure class="wp-block-image size-large"><img src="https://example.test/wp-content/uploads/2020/01/81-600x400-1.jpg" alt="" class="wp-image-145" /></figure>
+		<!-- /wp:image -->
+
+		<!-- wp:paragraph -->
+		<p>Here is some text</p>
+		<!-- /wp:paragraph -->
+
+		<!-- wp:core-embed/youtube {"url":"https://www.youtube.com/watch?v=gS6_xOABTWo","type":"video","providerNameSlug":"youtube","className":"wp-embed-aspect-16-9 wp-has-aspect-ratio"} -->
+		<figure class="wp-block-embed-youtube wp-block-embed is-type-video is-provider-youtube wp-embed-aspect-16-9 wp-has-aspect-ratio"><div class="wp-block-embed__wrapper">
+		https://www.youtube.com/watch?v=gS6_xOABTWo
+		</div></figure>
+		<!-- /wp:core-embed/youtube -->';
+
+	/**
 	 * Sets up each test.
 	 *
 	 * @inheritDoc
@@ -78,12 +97,12 @@ class Test_Post_Content extends WP_UnitTestCase {
 	/**
 	 * Creates a block post with the previous post_type.
 	 *
-	 * @param string $content   The post content.
+	 * @param string $content   The post_content.
 	 * @param string $post_type The post_type.
-	 * @return WP_Post The post with the content.
+	 * @return int The ID of the post.
 	 */
 	public function create_block_post( $content, $post_type = 'post' ) {
-		return $this->factory()->post->create_and_get(
+		return $this->factory()->post->create(
 			[
 				'post_type'    => $post_type,
 				'post_content' => wp_slash( $content ),
@@ -101,20 +120,8 @@ class Test_Post_Content extends WP_UnitTestCase {
 			'no_block'                               => [
 				'This post content does not have a block <p>Here is a paragraph</p>',
 			],
-			'no_block_lab_block'                     => [
-				'<!-- wp:image {"id":145,"sizeSlug":"large"} -->
-					<figure class="wp-block-image size-large"><img src="https://example.test/wp-content/uploads/2020/01/81-600x400-1.jpg" alt="" class="wp-image-145" /></figure>
-					<!-- /wp:image -->
-
-					<!-- wp:paragraph -->
-					<p>Here is some text</p>
-					<!-- /wp:paragraph -->
-
-					<!-- wp:core-embed/youtube {"url":"https://www.youtube.com/watch?v=gS6_xOABTWo","type":"video","providerNameSlug":"youtube","className":"wp-embed-aspect-16-9 wp-has-aspect-ratio"} -->
-					<figure class="wp-block-embed-youtube wp-block-embed is-type-video is-provider-youtube wp-embed-aspect-16-9 wp-has-aspect-ratio"><div class="wp-block-embed__wrapper">
-					https://www.youtube.com/watch?v=gS6_xOABTWo
-					</div></figure>
-					<!-- /wp:core-embed/youtube -->',
+			'unrelated_blocks_are_not_affected'      => [
+				$this->unrelated_blocks,
 			],
 			'simple_image_block'                     => [
 				$this->image_block_initial_content,
@@ -192,11 +199,64 @@ class Test_Post_Content extends WP_UnitTestCase {
 			$expected_post_content = $initial_post_content;
 		}
 
-		$post         = $this->create_block_post( $initial_post_content );
-		$return_value = $this->instance->migrate_single( $post );
+		$post_id      = $this->create_block_post( $initial_post_content );
+		$return_value = $this->instance->migrate_single( $post_id );
 		$this->assertInternalType( 'int', $return_value );
 
-		$new_post = get_post( $post->ID );
+		$new_post = get_post( $post_id );
 		$this->assertEquals( $expected_post_content, $new_post->post_content );
+	}
+
+	/**
+	 * Test migrate_all.
+	 *
+	 * @covers \Block_Lab\Blocks\Migration\Post_Content::migrate_all()
+	 */
+	public function test_migrate_all() {
+		$post_id = $this->create_block_post( $this->image_block_initial_content );
+		$this->instance->migrate_all();
+		$migrated_post = get_post( $post_id );
+
+		$this->assertEquals( $this->image_block_expected_content, $migrated_post->post_content );
+	}
+
+	/**
+	 * Test migrate_all with non-Block Lab blocks.
+	 *
+	 * @covers \Block_Lab\Blocks\Migration\Post_Content::migrate_all()
+	 */
+	public function test_migrate_all_non_block_lab_blocks_not_affected() {
+		remove_filter( 'content_save_pre', 'wp_filter_post_kses' );
+
+		$post_id = $this->create_block_post( $this->unrelated_blocks );
+		$this->instance->migrate_all();
+		$migrated_post = get_post( $post_id );
+
+		$this->assertEquals( $this->unrelated_blocks, $migrated_post->post_content );
+	}
+
+	/**
+	 * Test migrate_all with many posts.
+	 *
+	 * @covers \Block_Lab\Blocks\Migration\Post_Type::migrate_all()
+	 */
+	public function test_migrate_all_many_posts() {
+		remove_filter( 'content_save_pre', 'wp_filter_post_kses' );
+
+		$number_of_posts = 217;
+		for ( $i = 0; $i < $number_of_posts; $i++ ) {
+			$this->create_block_post( $this->two_blocks_initial_content );
+		}
+
+		$this->instance->migrate_all();
+		$queried_posts = new WP_Query( [ 'posts_per_page' => -1 ] );
+
+		// There should still be the same number of posts.
+		$this->assertEquals( $number_of_posts, $queried_posts->post_count );
+
+		// All of the posts should have their 'block-lab' blocks migrated to 'genesis-custom-blocks' namespaces.
+		foreach ( $queried_posts->posts as $post ) {
+			$this->assertEquals( $this->two_blocks_expected_content, $post->post_content );
+		}
 	}
 }
