@@ -102,9 +102,8 @@ class Post_Content {
 	/**
 	 * Gets posts that have Block Lab blocks in their post_content.
 	 *
-	 * The queries for the posts that have wp:block-lab/ in the post content,
+	 * Queries for the posts that have wp:block-lab/ in the post content,
 	 * meaning they probably have a Block Lab block.
-	 * This doesn't query for every post that can possibly have a block.
 	 *
 	 * @return array The posts that were found.
 	 */
