@@ -265,8 +265,7 @@ class Test_Post_Content extends WP_UnitTestCase {
 		$this->assertEquals( $number_of_posts, $queried_posts->post_count );
 
 		// All of the posts should have their 'block-lab' blocks migrated to 'genesis-custom-blocks' namespaces.
-		foreach ( $queried_posts->posts as $post ) {
-			$this->assertEquals( $this->two_blocks_expected_content, $post->post_content );
-		}
+		$actual_post_content = wp_list_pluck( $queried_posts->posts, 'post_content' );
+		$this->assertEmpty( array_diff( $actual_post_content, [ $this->two_blocks_expected_content ] ) );
 	}
 }
