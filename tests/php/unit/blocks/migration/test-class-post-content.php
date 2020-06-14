@@ -119,9 +119,13 @@ class Test_Post_Content extends WP_UnitTestCase {
 		return [
 			'no_block'                               => [
 				'This post content does not have a block <p>Here is a paragraph</p>',
+				null,
+				'object', // This should return a WP_Error.
 			],
 			'unrelated_blocks_are_not_affected'      => [
 				$this->unrelated_blocks,
+				null,
+				'object',
 			],
 			'simple_image_block'                     => [
 				$this->image_block_initial_content,
@@ -190,8 +194,9 @@ class Test_Post_Content extends WP_UnitTestCase {
 	 *
 	 * @param string $initial_post_content  Initial post_content.
 	 * @param string $expected_post_content Expected post_content of the new post.
+	 * @param string $expected_return_type  Expected return type of the tested method.
 	 */
-	public function test_migrate_single( $initial_post_content, $expected_post_content = null ) {
+	public function test_migrate_single( $initial_post_content, $expected_post_content = null, $expected_return_type = 'int' ) {
 		// Prevent sanitization of post_content.
 		remove_filter( 'content_save_pre', 'wp_filter_post_kses' );
 
@@ -201,7 +206,7 @@ class Test_Post_Content extends WP_UnitTestCase {
 
 		$post_id      = $this->create_block_post( $initial_post_content );
 		$return_value = $this->instance->migrate_single( $post_id );
-		$this->assertInternalType( 'int', $return_value );
+		$this->assertInternalType( $expected_return_type, $return_value );
 
 		$new_post = get_post( $post_id );
 		$this->assertEquals( $expected_post_content, $new_post->post_content );
