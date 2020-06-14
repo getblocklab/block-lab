@@ -9,7 +9,6 @@
 
 namespace Block_Lab\Blocks\Migration;
 
-use WP_Post;
 use WP_Error;
 
 /**
