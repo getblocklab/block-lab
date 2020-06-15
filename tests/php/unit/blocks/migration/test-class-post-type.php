@@ -122,6 +122,7 @@ class Test_Post_Type extends WP_UnitTestCase {
 	 * Test migrate_all.
 	 *
 	 * @covers \Block_Lab\Blocks\Migration\Post_Type::migrate_all()
+	 * @covers \Block_Lab\Blocks\Migration\Post_Type::query_for_posts()
 	 */
 	public function test_migrate_all() {
 		$initial_block_content = [

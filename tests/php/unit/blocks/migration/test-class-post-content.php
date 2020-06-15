@@ -226,6 +226,7 @@ class Test_Post_Content extends WP_UnitTestCase {
 	 * Test migrate_all.
 	 *
 	 * @covers \Block_Lab\Blocks\Migration\Post_Content::migrate_all()
+	 * @covers \Block_Lab\Blocks\Migration\Post_Content::query_for_posts()
 	 */
 	public function test_migrate_all() {
 		$post_id = $this->create_block_post( $this->image_block_initial_content );
