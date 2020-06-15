@@ -140,7 +140,7 @@ class Test_Post_Content extends WP_UnitTestCase {
 
 					<!-- wp:group -->
 					<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:image {"id":149,"sizeSlug":"large"} -->
-					<figure class="wp-block-image size-large"><img src="https://bl.test/wp-content/uploads/2020/01/858-600x400-1.jpg" alt="" class="wp-image-149"/></figure>
+					<figure class="wp-block-image size-large"><img src="https://block.test/wp-content/uploads/2020/01/858-600x400-1.jpg" alt="" class="wp-image-149"/></figure>
 					<!-- /wp:image --></div></div>
 					<!-- /wp:group -->
 					
@@ -151,7 +151,7 @@ class Test_Post_Content extends WP_UnitTestCase {
 
 					<!-- wp:group -->
 					<div class="wp-block-group"><div class="wp-block-group__inner-container"><!-- wp:image {"id":149,"sizeSlug":"large"} -->
-					<figure class="wp-block-image size-large"><img src="https://bl.test/wp-content/uploads/2020/01/858-600x400-1.jpg" alt="" class="wp-image-149"/></figure>
+					<figure class="wp-block-image size-large"><img src="https://block.test/wp-content/uploads/2020/01/858-600x400-1.jpg" alt="" class="wp-image-149"/></figure>
 					<!-- /wp:image --></div></div>
 					<!-- /wp:group -->
 					
@@ -165,7 +165,7 @@ class Test_Post_Content extends WP_UnitTestCase {
 					<!-- wp:archives /-->
 
 					<!-- wp:gallery {"ids":[154,147,148]} -->
-					<figure class="wp-block-gallery columns-3 is-cropped"><ul class="blocks-gallery-grid"><li class="blocks-gallery-item"><figure><img src="https://bl.test/wp-content/uploads/2020/01/979-200x400-2.jpg" alt="" data-id="154" data-full-url="https://bl.test/wp-content/uploads/2020/01/979-200x400-2.jpg" data-link="https://bl.test/?attachment_id=154" class="wp-image-154"/></figure></li><li class="blocks-gallery-item"><figure><img src="https://bl.test/wp-content/uploads/2020/01/568-1000x1000-1.jpg" alt="" data-id="147" data-full-url="https://bl.test/wp-content/uploads/2020/01/568-1000x1000-1.jpg" data-link="https://bl.test/?attachment_id=147" class="wp-image-147"/></figure></li><li class="blocks-gallery-item"><figure><img src="https://bl.test/wp-content/uploads/2020/01/726-300x300-1.jpg" alt="" data-id="148" data-full-url="https://bl.test/wp-content/uploads/2020/01/726-300x300-1.jpg" data-link="https://bl.test/?attachment_id=148" class="wp-image-148"/></figure></li></ul></figure>
+					<figure class="wp-block-gallery columns-3 is-cropped"><ul class="blocks-gallery-grid"><li class="blocks-gallery-item"><figure><img src="https://block.test/wp-content/uploads/2020/01/979-200x400-2.jpg" alt="" data-id="154" data-full-url="https://block.test/wp-content/uploads/2020/01/979-200x400-2.jpg" data-link="https://block.test/?attachment_id=154" class="wp-image-154"/></figure></li><li class="blocks-gallery-item"><figure><img src="https://block.test/wp-content/uploads/2020/01/568-1000x1000-1.jpg" alt="" data-id="147" data-full-url="https://block.test/wp-content/uploads/2020/01/568-1000x1000-1.jpg" data-link="https://block.test/?attachment_id=147" class="wp-image-147"/></figure></li><li class="blocks-gallery-item"><figure><img src="https://block.test/wp-content/uploads/2020/01/726-300x300-1.jpg" alt="" data-id="148" data-full-url="https://block.test/wp-content/uploads/2020/01/726-300x300-1.jpg" data-link="https://block.test/?attachment_id=148" class="wp-image-148"/></figure></li></ul></figure>
 					<!-- /wp:gallery -->
 
 					<!-- wp:block-lab/test-post-2 {"post":{"id":606,"name":"Testing"}} /-->
@@ -176,7 +176,7 @@ class Test_Post_Content extends WP_UnitTestCase {
 					<!-- wp:archives /-->
 
 					<!-- wp:gallery {"ids":[154,147,148]} -->
-					<figure class="wp-block-gallery columns-3 is-cropped"><ul class="blocks-gallery-grid"><li class="blocks-gallery-item"><figure><img src="https://bl.test/wp-content/uploads/2020/01/979-200x400-2.jpg" alt="" data-id="154" data-full-url="https://bl.test/wp-content/uploads/2020/01/979-200x400-2.jpg" data-link="https://bl.test/?attachment_id=154" class="wp-image-154"/></figure></li><li class="blocks-gallery-item"><figure><img src="https://bl.test/wp-content/uploads/2020/01/568-1000x1000-1.jpg" alt="" data-id="147" data-full-url="https://bl.test/wp-content/uploads/2020/01/568-1000x1000-1.jpg" data-link="https://bl.test/?attachment_id=147" class="wp-image-147"/></figure></li><li class="blocks-gallery-item"><figure><img src="https://bl.test/wp-content/uploads/2020/01/726-300x300-1.jpg" alt="" data-id="148" data-full-url="https://bl.test/wp-content/uploads/2020/01/726-300x300-1.jpg" data-link="https://bl.test/?attachment_id=148" class="wp-image-148"/></figure></li></ul></figure>
+					<figure class="wp-block-gallery columns-3 is-cropped"><ul class="blocks-gallery-grid"><li class="blocks-gallery-item"><figure><img src="https://block.test/wp-content/uploads/2020/01/979-200x400-2.jpg" alt="" data-id="154" data-full-url="https://block.test/wp-content/uploads/2020/01/979-200x400-2.jpg" data-link="https://block.test/?attachment_id=154" class="wp-image-154"/></figure></li><li class="blocks-gallery-item"><figure><img src="https://block.test/wp-content/uploads/2020/01/568-1000x1000-1.jpg" alt="" data-id="147" data-full-url="https://block.test/wp-content/uploads/2020/01/568-1000x1000-1.jpg" data-link="https://block.test/?attachment_id=147" class="wp-image-147"/></figure></li><li class="blocks-gallery-item"><figure><img src="https://block.test/wp-content/uploads/2020/01/726-300x300-1.jpg" alt="" data-id="148" data-full-url="https://block.test/wp-content/uploads/2020/01/726-300x300-1.jpg" data-link="https://block.test/?attachment_id=148" class="wp-image-148"/></figure></li></ul></figure>
 					<!-- /wp:gallery -->
 
 					<!-- wp:genesis-custom-blocks/test-post-2 {"post":{"id":606,"name":"Testing"}} /-->
