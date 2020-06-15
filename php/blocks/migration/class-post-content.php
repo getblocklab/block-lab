@@ -15,6 +15,7 @@ use WP_Error;
  * Class Post_Content
  */
 class Post_Content {
+
 	/**
 	 * The previous namespace of the block.
 	 *
@@ -32,8 +33,8 @@ class Post_Content {
 	/**
 	 * Post_Content constructor.
 	 *
-	 * @param string $previous_block_namespace  Previous namespace of the blocks.
-	 * @param string $new_block_namespace       New namespace of the blocks.
+	 * @param string $previous_block_namespace Previous namespace of the blocks.
+	 * @param string $new_block_namespace      New namespace of the blocks.
 	 */
 	public function __construct( $previous_block_namespace, $new_block_namespace ) {
 		$this->previous_block_namespace = $previous_block_namespace;
