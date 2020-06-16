@@ -43,19 +43,24 @@ class Post_Content {
 
 	/**
 	 * Migrates all of the block namespaces in all of the posts that have Block Lab blocks.
+	 *
+	 * @return array The results of migration, either int or WP_Error.
 	 */
 	public function migrate_all() {
-		$posts = $this->query_for_posts();
+		$posts   = $this->query_for_posts();
+		$results = [];
 
 		while ( $posts ) {
 			foreach ( $posts as $post ) {
 				if ( isset( $post->ID ) ) {
-					$this->migrate_single( $post->ID );
+					$results[] = $this->migrate_single( $post->ID );
 				}
 			}
 
 			$posts = $this->query_for_posts();
 		}
+
+		return $results;
 	}
 
 	/**
@@ -103,8 +108,10 @@ class Post_Content {
 	/**
 	 * Gets posts that have Block Lab blocks in their post_content.
 	 *
-	 * Queries for the posts that have wp:block-lab/ in the post content,
+	 * Queries for posts that have wp:block-lab/ in the post content,
 	 * meaning they probably have a Block Lab block.
+	 * Excludes revision posts, as this could overwrite the entire history.
+	 * This will allow users to go back to the content before it was migrated.
 	 *
 	 * @return array The posts that were found.
 	 */
@@ -114,7 +121,8 @@ class Post_Content {
 		$query_limit = 10;
 		return $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT * FROM {$wpdb->posts} WHERE post_content LIKE %s LIMIT %d",
+				"SELECT * FROM {$wpdb->posts} WHERE post_type != %s AND post_content LIKE %s LIMIT %d",
+				'revision',
 				'%' . $wpdb->esc_like( 'wp:' . $this->previous_block_namespace . '/' ) . '%',
 				absint( $query_limit )
 			)

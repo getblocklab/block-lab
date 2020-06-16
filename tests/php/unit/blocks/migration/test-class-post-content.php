@@ -229,11 +229,12 @@ class Test_Post_Content extends WP_UnitTestCase {
 	 * @covers \Block_Lab\Blocks\Migration\Post_Content::query_for_posts()
 	 */
 	public function test_migrate_all() {
-		$post_id = $this->create_block_post( $this->image_block_initial_content );
-		$this->instance->migrate_all();
+		$post_id       = $this->create_block_post( $this->image_block_initial_content );
+		$results       = $this->instance->migrate_all();
 		$migrated_post = get_post( $post_id );
 
 		$this->assertEquals( $this->image_block_expected_content, $migrated_post->post_content );
+		$this->assertCount( 1, $results );
 	}
 
 	/**
@@ -244,11 +245,12 @@ class Test_Post_Content extends WP_UnitTestCase {
 	public function test_migrate_all_non_block_lab_blocks_not_affected() {
 		remove_filter( 'content_save_pre', 'wp_filter_post_kses' );
 
-		$post_id = $this->create_block_post( $this->unrelated_blocks );
-		$this->instance->migrate_all();
+		$post_id       = $this->create_block_post( $this->unrelated_blocks );
+		$results       = $this->instance->migrate_all();
 		$migrated_post = get_post( $post_id );
 
 		$this->assertEquals( $this->unrelated_blocks, $migrated_post->post_content );
+		$this->assertEmpty( $results );
 	}
 
 	/**
@@ -264,11 +266,12 @@ class Test_Post_Content extends WP_UnitTestCase {
 			$this->create_block_post( $this->two_blocks_initial_content );
 		}
 
-		$this->instance->migrate_all();
+		$results       = $this->instance->migrate_all();
 		$queried_posts = new WP_Query( [ 'posts_per_page' => -1 ] );
 
 		// There should still be the same number of posts.
 		$this->assertEquals( $number_of_posts, $queried_posts->post_count );
+		$this->assertCount( $number_of_posts, $results );
 
 		// All of the posts should have their 'block-lab' blocks migrated to 'genesis-custom-blocks' namespaces.
 		$actual_post_content = wp_list_pluck( $queried_posts->posts, 'post_content' );
