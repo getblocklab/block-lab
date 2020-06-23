@@ -101,7 +101,13 @@ class Post_Type {
 			return false;
 		}
 
-		$block_contents = $block[ $old_block_name ];
+		$block_contents        = $block[ $old_block_name ];
+		$previous_default_icon = 'block_lab';
+		$new_default_icon      = 'genesis_custom_blocks';
+		if ( isset( $block_contents['icon'] ) && $previous_default_icon === $block_contents['icon'] ) {
+			$block_contents['icon'] = $new_default_icon;
+		}
+
 		$new_block_name = preg_replace( '#^' . $this->previous_block_namespace . '(?=/)#', $this->new_block_namespace, $old_block_name );
 		$new_block      = [ $new_block_name => $block_contents ];
 
