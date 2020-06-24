@@ -86,7 +86,10 @@ class Post_Content {
 	public function migrate_single( $post_id ) {
 		$post = get_post( $post_id );
 		if ( ! isset( $post->ID ) ) {
-			return new WP_Error( 'Invalid post ID' );
+			return new WP_Error(
+				'invalid_post_id',
+				__( 'Invalid post ID', 'block-lab' )
+			);
 		}
 
 		$replacement_count = 0;
@@ -99,7 +102,10 @@ class Post_Content {
 		);
 
 		if ( 0 === $replacement_count ) {
-			return new WP_Error( 'Post content did not have blocks with the namespace' );
+			return new WP_Error(
+				'no_block_namespace_found',
+				__( 'Post content did not have blocks with the namespace', 'block-lab' )
+			);
 		}
 
 		return wp_update_post(
