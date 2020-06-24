@@ -8,7 +8,7 @@
 use Block_Lab\Blocks\Migration\Post_Type;
 
 /**
- * Class Test_Migrate_Custom_Post_Type
+ * Class Test_Post_Type
  *
  * @package Block_Lab
  */
@@ -136,6 +136,7 @@ class Test_Post_Type extends WP_UnitTestCase {
 	 * Test migrate_all.
 	 *
 	 * @covers \Block_Lab\Blocks\Migration\Post_Type::migrate_all()
+	 * @covers \Block_Lab\Blocks\Migration\Post_Type::query_for_posts()
 	 */
 	public function test_migrate_all() {
 		$initial_block_content = [
