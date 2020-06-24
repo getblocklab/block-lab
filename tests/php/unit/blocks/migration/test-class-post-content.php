@@ -277,4 +277,31 @@ class Test_Post_Content extends WP_UnitTestCase {
 		$actual_post_content = wp_list_pluck( $queried_posts->posts, 'post_content' );
 		$this->assertEmpty( array_diff( $actual_post_content, [ $this->two_blocks_expected_content ] ) );
 	}
+
+	/**
+	 * Test migrate_all when there are only errors.
+	 *
+	 * @covers \Block_Lab\Blocks\Migration\Post_Type::migrate_all()
+	 */
+	public function test_migrate_all_errors() {
+		$number_of_posts = 22;
+		for ( $i = 0; $i < $number_of_posts; $i++ ) {
+			$this->create_block_post( $this->two_blocks_initial_content );
+		}
+
+		// Cause a WP_Error return from wp_update_post(), and therefore migrate_single().
+		// This causes every migration in migrate_all() to be a WP_Error, which should make it exit early.
+		add_filter( 'wp_insert_post_empty_content', '__return_true' );
+		$migration_results = $this->instance->migrate_all();
+		$wp_errors         = array_filter(
+			$migration_results,
+			static function( $result ) {
+				return is_wp_error( $result );
+			}
+		);
+
+		// This should have returned on reaching the limit of 20.
+		$this->assertCount( 20, $migration_results );
+		$this->assertCount( 20, $wp_errors );
+	}
 }

@@ -47,13 +47,19 @@ class Post_Content {
 	 * @return array The results of migration, either int or WP_Error.
 	 */
 	public function migrate_all() {
-		$posts   = $this->query_for_posts();
-		$results = [];
+		$results            = [];
+		$error_count        = 0;
+		$max_allowed_errors = 20;
+		$posts              = $this->query_for_posts();
 
-		while ( $posts ) {
+		while ( $posts && $error_count < $max_allowed_errors ) {
 			foreach ( $posts as $post ) {
 				if ( isset( $post->ID ) ) {
-					$results[] = $this->migrate_single( $post->ID );
+					$migrated_post = $this->migrate_single( $post->ID );
+					$results[]     = $migrated_post;
+					if ( is_wp_error( $migrated_post ) ) {
+						$error_count++;
+					}
 				}
 			}
 
