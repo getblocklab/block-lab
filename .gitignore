@@ -113,7 +113,7 @@ coverage/html/
 
 # Builds
 js/editor.blocks.js
-js/scripts.js
+js/admin.migration.js
 css/blocks.editor.css
 package/
 *.asset.php

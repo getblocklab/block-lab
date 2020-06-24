@@ -55,6 +55,15 @@ class Submenu {
 				[],
 				block_lab()->get_version()
 			);
+
+			$script_config = require block_lab()->get_path( 'js/admin.migration.asset.php' );
+			wp_enqueue_script(
+				self::MENU_SLUG,
+				block_lab()->get_url( 'js/admin.migration.js' ),
+				$script_config['dependencies'],
+				$script_config['version'],
+				true
+			);
 		}
 	}
 }

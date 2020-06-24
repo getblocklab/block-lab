@@ -85,6 +85,7 @@ class Test_Submenu extends WP_UnitTestCase {
 	public function test_enqueue_scripts_not_on_page() {
 		$this->instance->enqueue_scripts();
 		$this->assertFalse( wp_style_is( 'block-lab-migration' ) );
+		$this->assertFalse( wp_script_is( 'block-lab-migration' ) );
 	}
 
 	/**
@@ -104,6 +105,7 @@ class Test_Submenu extends WP_UnitTestCase {
 
 		$this->instance->enqueue_scripts();
 		$this->assertFalse( wp_style_is( 'block-lab-migration' ) );
+		$this->assertFalse( wp_script_is( 'block-lab-migration' ) );
 	}
 
 	/**
@@ -123,5 +125,6 @@ class Test_Submenu extends WP_UnitTestCase {
 
 		$this->instance->enqueue_scripts();
 		$this->assertTrue( wp_style_is( 'block-lab-migration' ) );
+		$this->assertTrue( wp_script_is( 'block-lab-migration' ) );
 	}
 }
