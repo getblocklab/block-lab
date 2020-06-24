@@ -1,6 +1,6 @@
 <?php
 /**
- * Test_Migrate_Custom_Post_Type
+ * Test_Post_Type
  *
  * @package Block_Lab
  */
