@@ -1,17 +1,21 @@
-.bl-migration-notice {
+.bl-notice-migration {
 	display: flex;
 	flex-flow: row;
 	justify-content: flex-start;
 }
 
-.bl-migration-notice .bl-migration-copy {
+.bl-notice-migration .bl-migration-copy {
 	margin-right: auto;
 }
 
-.bl-migration-notice .bl-notice-option {
+.bl-notice-migration .bl-notice-option {
 	text-decoration: none;
 	width: 5rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+.bl-notice-migration.bl-hidden {
+	display: none;
 }

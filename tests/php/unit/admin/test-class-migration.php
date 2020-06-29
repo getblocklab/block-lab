@@ -54,6 +54,7 @@ class Test_Migration extends \WP_UnitTestCase {
 		$this->instance->register_hooks();
 		$this->assertEquals( 10, has_action( 'admin_notices', [ $this->instance, 'render_migration_notice' ] ) );
 		$this->assertEquals( 10, has_action( 'admin_enqueue_scripts', [ $this->instance, 'enqueue_assets' ] ) );
+		$this->assertEquals( 10, has_action( 'wp_ajax_bl_dismiss_migration_notice', [ $this->instance, 'ajax_handler_migration_notice' ] ) );
 	}
 
 	/**
@@ -99,11 +100,54 @@ class Test_Migration extends \WP_UnitTestCase {
 	}
 
 	/**
+	 * Test ajax_handler_migration_notice.
+	 *
+	 * @covers \Block_Lab\Admin\Migration::ajax_handler_migration_notice()
+	 */
+	public function test_ajax_handler_migration_notice() {
+		wp_set_current_user( $this->factory()->user->create( [ 'role' => 'administrator' ] ) );
+		expect( 'check_ajax_referer' )
+			->once()
+			->with(
+				'bl-migration-nonce',
+				'bl-migration-nonce-name'
+			)
+			->andReturn( true );
+
+		try {
+			$this->instance->ajax_handler_migration_notice();
+		} catch ( Exception $e ) {
+			$exception = $e;
+		}
+
+		unset( $exception );
+		$this->assertEquals( 0, get_user_meta( get_current_user_id(), 'block_lab_show_migration_notice', true ) );
+	}
+
+	/**
 	 * Test migration_notice when on a page where it shouldn't appear.
 	 *
 	 * @covers \Block_Lab\Admin\Migration::should_display_migration_notice()
 	 */
 	public function test_migration_notice_wrong_page() {
+		$this->assertFalse( $this->instance->should_display_migration_notice() );
+	}
+
+	/**
+	 * Test migration_notice when the user has dismissed it.
+	 *
+	 * @covers \Block_Lab\Admin\Migration::render_migration_notice()
+	 */
+	public function test_migration_notice_dismissed() {
+		wp_set_current_user( $this->factory()->user->create( [ 'role' => 'administrator' ] ) );
+		$mock_current_screen       = new stdClass();
+		$mock_current_screen->base = 'block_lab_page_block-lab-settings';
+
+		expect( 'get_current_screen' )
+			->andReturn( $mock_current_screen );
+
+		add_user_meta( get_current_user_id(), Migration::NOTICE_USER_META_KEY, Migration::NOTICE_DISMISSED_META_VALUE );
+
 		$this->assertFalse( $this->instance->should_display_migration_notice() );
 	}
 
