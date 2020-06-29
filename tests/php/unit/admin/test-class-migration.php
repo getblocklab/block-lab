@@ -121,7 +121,7 @@ class Test_Migration extends \WP_UnitTestCase {
 		}
 
 		unset( $exception );
-		$this->assertEquals( 0, get_user_meta( get_current_user_id(), 'block_lab_show_migration_notice', true ) );
+		$this->assertEquals( 'dismissed', get_user_meta( get_current_user_id(), 'block_lab_show_migration_notice', true ) );
 	}
 
 	/**

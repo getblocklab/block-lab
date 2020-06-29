@@ -1,7 +1,5 @@
 .bl-notice-migration {
 	display: flex;
-	flex-flow: row;
-	justify-content: flex-start;
 }
 
 .bl-notice-migration .bl-migration-copy {

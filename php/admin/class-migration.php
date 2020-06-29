@@ -43,14 +43,14 @@ class Migration extends Component_Abstract {
 	const NOTICE_STYLE_SLUG = 'block-lab-migration-notice-style';
 
 	/**
-	 * The slug of the stylesheet for the migration notice.
+	 * The slug of the script for the migration notice.
 	 *
 	 * @var string
 	 */
 	const NOTICE_SCRIPT_SLUG = 'block-lab-migration-notice-script';
 
 	/**
-	 * The user meta key to store if a user has dismissed the migration notice.
+	 * The user meta key to store whether a user has dismissed the migration notice.
 	 *
 	 * @var string
 	 */
@@ -61,7 +61,14 @@ class Migration extends Component_Abstract {
 	 *
 	 * @var string
 	 */
-	const NOTICE_DISMISSED_META_VALUE = '0';
+	const NOTICE_DISMISSED_META_VALUE = 'dismissed';
+
+	/**
+	 * The capability required to see the notice.
+	 *
+	 * @var string
+	 */
+	const NOTICE_CAPABILITY = 'install_plugins';
 
 	/**
 	 * Adds an action for the notice.
@@ -161,7 +168,7 @@ class Migration extends Component_Abstract {
 	 * @return bool Whether the migration notice should display.
 	 */
 	public function should_display_migration_notice() {
-		if ( ! current_user_can( 'install_plugins' ) ) {
+		if ( ! current_user_can( self::NOTICE_CAPABILITY ) ) {
 			return false;
 		}
 
@@ -180,11 +187,14 @@ class Migration extends Component_Abstract {
 
 	/**
 	 * Handles an AJAX request to not display the notice.
+	 *
+	 * This stores in the user meta the fact that the notice was dismissed,
+	 * so it's not displayed again.
 	 */
 	public function ajax_handler_migration_notice() {
 		check_ajax_referer( self::NOTICE_NONCE_ACTION, self::NOTICE_NONCE_NAME );
 
-		if ( ! current_user_can( 'edit_theme_options' ) ) {
+		if ( ! current_user_can( self::NOTICE_CAPABILITY ) ) {
 			wp_die( -1 );
 		}
 
