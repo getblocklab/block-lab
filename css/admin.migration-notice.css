@@ -1,0 +1,17 @@
+.bl-migration-notice {
+	display: flex;
+	flex-flow: row;
+	justify-content: flex-start;
+}
+
+.bl-migration-notice .bl-migration-copy {
+	margin-right: auto;
+}
+
+.bl-migration-notice .bl-notice-option {
+	text-decoration: none;
+	width: 5rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}

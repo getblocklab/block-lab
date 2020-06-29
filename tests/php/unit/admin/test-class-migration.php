@@ -17,18 +17,6 @@ class Test_Migration extends \WP_UnitTestCase {
 	use Testing_Helper;
 
 	/**
-	 * The migration notice.
-	 *
-	 * @var string
-	 */
-	public $expected_migration_notice = '<div class="notice updated is-dismissible">
-		<p>
-			The Block Lab team have moved. For future updates and improvements, migrate now to the new home of custom blocks: <strong>Genesis Custom Blocks.</strong>
-		</p>
-		<p><a target="_blank" href="https://getblocklab.com/docs/genesis-custom-blocks">Learn more</a></p>
-	</div>';
-
-	/**
 	 * Instance of Migration.
 	 *
 	 * @var Migration
@@ -64,39 +52,16 @@ class Test_Migration extends \WP_UnitTestCase {
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
-		$this->assertEquals( 10, has_action( 'admin_notices', [ $this->instance, 'migration_notice' ] ) );
+		$this->assertEquals( 10, has_action( 'admin_notices', [ $this->instance, 'render_migration_notice' ] ) );
+		$this->assertEquals( 10, has_action( 'admin_enqueue_scripts', [ $this->instance, 'enqueue_assets' ] ) );
 	}
 
 	/**
-	 * Test migration_notice when on a page where it shouldn't appear.
+	 * Test render_migration_notice.
 	 *
-	 * @covers \Block_Lab\Admin\Migration::migration_notice()
+	 * @covers \Block_Lab\Admin\Migration::render_migration_notice()
 	 */
-	public function test_migration_notice_wrong_page() {
-		ob_start();
-		$this->instance->migration_notice();
-
-		$this->assertEmpty( ob_get_clean() );
-	}
-
-	/**
-	 * Test migration_notice when a user does not have the right permission to see the notice.
-	 *
-	 * @covers \Block_Lab\Admin\Migration::migration_notice()
-	 */
-	public function test_migration_notice_wrong_user() {
-		ob_start();
-		$this->instance->migration_notice();
-
-		$this->assertEmpty( ob_get_clean() );
-	}
-
-	/**
-	 * Test migration_notice on the Block Lab settings page.
-	 *
-	 * @covers \Block_Lab\Admin\Migration::migration_notice()
-	 */
-	public function test_migration_notice_appears_on_settings_page() {
+	public function test_render_migration_notice() {
 		wp_set_current_user( $this->factory()->user->create( [ 'role' => 'administrator' ] ) );
 		$mock_current_screen       = new stdClass();
 		$mock_current_screen->base = 'block_lab_page_block-lab-settings';
@@ -106,20 +71,65 @@ class Test_Migration extends \WP_UnitTestCase {
 			->andReturn( $mock_current_screen );
 
 		ob_start();
-		$this->instance->migration_notice();
+		$this->instance->render_migration_notice();
 
-		$this->assert_equal_markup(
-			$this->expected_migration_notice,
+		$this->assertContains(
+			'The Block Lab team have moved. For future updates and improvements, migrate now to the new home of custom blocks: <strong>Genesis Custom Blocks.</strong>',
 			ob_get_clean()
 		);
 	}
 
 	/**
+	 * Test enqueue_assets.
+	 *
+	 * @covers \Block_Lab\Admin\Migration::enqueue_assets()
+	 */
+	public function test_enqueue_assets() {
+		wp_set_current_user( $this->factory()->user->create( [ 'role' => 'administrator' ] ) );
+		$mock_current_screen       = new stdClass();
+		$mock_current_screen->base = 'block_lab_page_block-lab-settings';
+
+		expect( 'get_current_screen' )
+			->once()
+			->andReturn( $mock_current_screen );
+
+		$this->instance->enqueue_assets();
+		$this->assertTrue( wp_style_is( 'block-lab-migration-notice-style' ) );
+		$this->assertTrue( wp_script_is( 'block-lab-migration-notice-script' ) );
+	}
+
+	/**
+	 * Test migration_notice when on a page where it shouldn't appear.
+	 *
+	 * @covers \Block_Lab\Admin\Migration::should_display_migration_notice()
+	 */
+	public function test_migration_notice_wrong_page() {
+		$this->assertFalse( $this->instance->should_display_migration_notice() );
+	}
+
+	/**
+	 * Test migration_notice on the Block Lab settings page.
+	 *
+	 * @covers \Block_Lab\Admin\Migration::render_migration_notice()
+	 */
+	public function test_migration_notice_on_settings_page() {
+		wp_set_current_user( $this->factory()->user->create( [ 'role' => 'administrator' ] ) );
+		$mock_current_screen       = new stdClass();
+		$mock_current_screen->base = 'block_lab_page_block-lab-settings';
+
+		expect( 'get_current_screen' )
+			->once()
+			->andReturn( $mock_current_screen );
+
+		$this->assertTrue( $this->instance->should_display_migration_notice() );
+	}
+
+	/**
 	 * Test migration_notice on the Content Blocks page.
 	 *
-	 * @covers \Block_Lab\Admin\Migration::migration_notice()
+	 * @covers \Block_Lab\Admin\Migration::should_display_migration_notice()
 	 */
-	public function test_migration_notice_appears_on_content_blocks_page() {
+	public function test_migration_notice_on_content_blocks_page() {
 		wp_set_current_user( $this->factory()->user->create( [ 'role' => 'administrator' ] ) );
 		$mock_current_screen            = new stdClass();
 		$mock_current_screen->post_type = 'block_lab';
@@ -129,21 +139,15 @@ class Test_Migration extends \WP_UnitTestCase {
 			->once()
 			->andReturn( $mock_current_screen );
 
-		ob_start();
-		$this->instance->migration_notice();
-
-		$this->assert_equal_markup(
-			$this->expected_migration_notice,
-			ob_get_clean()
-		);
+		$this->assertTrue( $this->instance->should_display_migration_notice() );
 	}
 
 	/**
 	 * Test migration_notice on the plugins page.
 	 *
-	 * @covers \Block_Lab\Admin\Migration::migration_notice()
+	 * @covers \Block_Lab\Admin\Migration::should_display_migration_notice()
 	 */
-	public function test_migration_notice_appears_on_plugins_page() {
+	public function test_migration_notice_on_plugins_page() {
 		wp_set_current_user( $this->factory()->user->create( [ 'role' => 'administrator' ] ) );
 		$mock_current_screen       = new stdClass();
 		$mock_current_screen->base = 'plugins';
@@ -152,21 +156,15 @@ class Test_Migration extends \WP_UnitTestCase {
 			->once()
 			->andReturn( $mock_current_screen );
 
-		ob_start();
-		$this->instance->migration_notice();
-
-		$this->assert_equal_markup(
-			$this->expected_migration_notice,
-			ob_get_clean()
-		);
+		$this->assertTrue( $this->instance->should_display_migration_notice() );
 	}
 
 	/**
 	 * Test migration_notice on the plugins page.
 	 *
-	 * @covers \Block_Lab\Admin\Migration::migration_notice()
+	 * @covers \Block_Lab\Admin\Migration::should_display_migration_notice()
 	 */
-	public function test_migration_notice_appears_on_dashboard() {
+	public function test_migration_notice_on_dashboard() {
 		wp_set_current_user( $this->factory()->user->create( [ 'role' => 'administrator' ] ) );
 		$mock_current_screen       = new stdClass();
 		$mock_current_screen->base = 'dashboard';
@@ -175,12 +173,6 @@ class Test_Migration extends \WP_UnitTestCase {
 			->once()
 			->andReturn( $mock_current_screen );
 
-		ob_start();
-		$this->instance->migration_notice();
-
-		$this->assert_equal_markup(
-			$this->expected_migration_notice,
-			ob_get_clean()
-		);
+		$this->assertTrue( $this->instance->should_display_migration_notice() );
 	}
 }
