@@ -146,7 +146,7 @@ class Test_Migration extends \WP_UnitTestCase {
 		expect( 'get_current_screen' )
 			->andReturn( $mock_current_screen );
 
-		add_user_meta( get_current_user_id(), Migration::NOTICE_USER_META_KEY, Migration::NOTICE_DISMISSED_META_VALUE );
+		update_user_meta( get_current_user_id(), Migration::NOTICE_USER_META_KEY, Migration::NOTICE_DISMISSED_META_VALUE );
 
 		$this->assertFalse( $this->instance->should_display_migration_notice() );
 	}
