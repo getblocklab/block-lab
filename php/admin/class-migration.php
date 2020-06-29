@@ -18,6 +18,8 @@ class Migration extends Component_Abstract {
 
 	/**
 	 * The AJAX action to dismiss the migration notice.
+	 *
+	 * @var string
 	 */
 	const NOTICE_AJAX_ACTION = 'bl_dismiss_migration_notice';
 
@@ -103,8 +105,8 @@ class Migration extends Component_Abstract {
 					<?php
 					printf(
 						/* translators: %1$s: the plugin name */
-						esc_html__( 'The Block Lab team have moved. For future updates and improvements, migrate now to the new home of custom blocks: %1$s', 'block-lab' ),
-						'<strong>Genesis Custom Blocks.</strong>'
+						esc_html__( 'The Block Lab team have moved. For future updates and improvements, migrate now to the new home of custom blocks: %1$s.', 'block-lab' ),
+						'<strong>Genesis Custom Blocks</strong>'
 					);
 					?>
 				</p>

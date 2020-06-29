@@ -3,7 +3,7 @@
 document.addEventListener( 'DOMContentLoaded', function() {
 	const hiddenClass = 'bl-hidden';
 
-	// In the main migration notice, On clicking 'Not Now',
+	// In the main migration notice, on clicking 'Not Now',
 	// make an AJAX request to store the user meta to not display the notice again.
 	// Also, remove this notice and display another.
 	document.querySelector( '#bl-notice-not-now' ).addEventListener( 'click', function() {
@@ -15,6 +15,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
 		request.open( 'POST', ajaxurl, true );
 		request.send( data );
 
+		// Remove this notice.
 		const notice = document.querySelector( '#bl-migration-notice' );
 		notice.parentNode.removeChild( notice );
 

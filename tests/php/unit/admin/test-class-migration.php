@@ -75,7 +75,7 @@ class Test_Migration extends \WP_UnitTestCase {
 		$this->instance->render_migration_notice();
 
 		$this->assertContains(
-			'The Block Lab team have moved. For future updates and improvements, migrate now to the new home of custom blocks: <strong>Genesis Custom Blocks.</strong>',
+			'The Block Lab team have moved. For future updates and improvements, migrate now to the new home of custom blocks: <strong>Genesis Custom Blocks</strong>.',
 			ob_get_clean()
 		);
 	}
@@ -221,7 +221,7 @@ class Test_Migration extends \WP_UnitTestCase {
 	}
 
 	/**
-	 * Give the user permissions to see the notice.
+	 * Gives the user permissions to see the notice.
 	 */
 	public function give_user_permissions() {
 		$user_id = $this->factory()->user->create( [ 'role' => 'administrator' ] );
