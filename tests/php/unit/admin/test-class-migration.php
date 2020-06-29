@@ -63,7 +63,7 @@ class Test_Migration extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Admin\Migration::render_migration_notice()
 	 */
 	public function test_render_migration_notice() {
-		wp_set_current_user( $this->factory()->user->create( [ 'role' => 'administrator' ] ) );
+		$this->give_user_permissions();
 		$mock_current_screen       = new stdClass();
 		$mock_current_screen->base = 'block_lab_page_block-lab-settings';
 
@@ -86,7 +86,7 @@ class Test_Migration extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Admin\Migration::enqueue_assets()
 	 */
 	public function test_enqueue_assets() {
-		wp_set_current_user( $this->factory()->user->create( [ 'role' => 'administrator' ] ) );
+		$this->give_user_permissions();
 		$mock_current_screen       = new stdClass();
 		$mock_current_screen->base = 'block_lab_page_block-lab-settings';
 
@@ -105,7 +105,7 @@ class Test_Migration extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Admin\Migration::ajax_handler_migration_notice()
 	 */
 	public function test_ajax_handler_migration_notice() {
-		wp_set_current_user( $this->factory()->user->create( [ 'role' => 'administrator' ] ) );
+		$this->give_user_permissions();
 		expect( 'check_ajax_referer' )
 			->once()
 			->with(
@@ -139,7 +139,7 @@ class Test_Migration extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Admin\Migration::render_migration_notice()
 	 */
 	public function test_migration_notice_dismissed() {
-		wp_set_current_user( $this->factory()->user->create( [ 'role' => 'administrator' ] ) );
+		$this->give_user_permissions();
 		$mock_current_screen       = new stdClass();
 		$mock_current_screen->base = 'block_lab_page_block-lab-settings';
 
@@ -157,7 +157,7 @@ class Test_Migration extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Admin\Migration::render_migration_notice()
 	 */
 	public function test_migration_notice_on_settings_page() {
-		wp_set_current_user( $this->factory()->user->create( [ 'role' => 'administrator' ] ) );
+		$this->give_user_permissions();
 		$mock_current_screen       = new stdClass();
 		$mock_current_screen->base = 'block_lab_page_block-lab-settings';
 
@@ -174,7 +174,7 @@ class Test_Migration extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Admin\Migration::should_display_migration_notice()
 	 */
 	public function test_migration_notice_on_content_blocks_page() {
-		wp_set_current_user( $this->factory()->user->create( [ 'role' => 'administrator' ] ) );
+		$this->give_user_permissions();
 		$mock_current_screen            = new stdClass();
 		$mock_current_screen->post_type = 'block_lab';
 		$mock_current_screen->base      = 'edit';
@@ -192,7 +192,7 @@ class Test_Migration extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Admin\Migration::should_display_migration_notice()
 	 */
 	public function test_migration_notice_on_plugins_page() {
-		wp_set_current_user( $this->factory()->user->create( [ 'role' => 'administrator' ] ) );
+		$this->give_user_permissions();
 		$mock_current_screen       = new stdClass();
 		$mock_current_screen->base = 'plugins';
 
@@ -209,7 +209,7 @@ class Test_Migration extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Admin\Migration::should_display_migration_notice()
 	 */
 	public function test_migration_notice_on_dashboard() {
-		wp_set_current_user( $this->factory()->user->create( [ 'role' => 'administrator' ] ) );
+		$this->give_user_permissions();
 		$mock_current_screen       = new stdClass();
 		$mock_current_screen->base = 'dashboard';
 
@@ -218,5 +218,17 @@ class Test_Migration extends \WP_UnitTestCase {
 			->andReturn( $mock_current_screen );
 
 		$this->assertTrue( $this->instance->should_display_migration_notice() );
+	}
+
+	/**
+	 * Give the user permissions to see the notice.
+	 */
+	public function give_user_permissions() {
+		$user_id = $this->factory()->user->create( [ 'role' => 'administrator' ] );
+		if ( is_multisite() ) {
+			grant_super_admin( $user_id );
+		}
+
+		wp_set_current_user( $user_id );
 	}
 }

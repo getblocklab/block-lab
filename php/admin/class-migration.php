@@ -1,6 +1,6 @@
 <?php
 /**
- * Enable and validate Pro version licensing.
+ * Handles migration to the new plugin.
  *
  * @package   Block_Lab
  * @copyright Copyright(c) 2020, Block Lab
@@ -111,7 +111,7 @@ class Migration extends Component_Abstract {
 				</p>
 			</div>
 			<a href="#" id="bl-notice-not-now" class="bl-notice-option">
-				<?php esc_html_e( 'Not now', 'block-lab' ); ?>
+				<?php esc_html_e( 'Not Now', 'block-lab' ); ?>
 			</a>
 			<a href="<?php echo esc_url( $migration_url ); ?>" class="bl-notice-option">
 				<?php esc_html_e( 'Migrate', 'block-lab' ); ?>
@@ -122,7 +122,7 @@ class Migration extends Component_Abstract {
 				<p><?php esc_html_e( "When you're ready, our migration tool is available in the main menu, under Block Lab > Migrate.", 'block-lab' ); ?></p>
 			</div>
 			<a href="#" id="bl-notice-ok" class="bl-notice-option">
-				<?php esc_html_e( 'OK', 'block-lab' ); ?>
+				<?php esc_html_e( 'Okay', 'block-lab' ); ?>
 			</a>
 		</div>
 		<?php
