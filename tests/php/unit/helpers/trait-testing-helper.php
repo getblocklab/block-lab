@@ -1,12 +1,12 @@
 <?php
 /**
- * Trait with a helper method for testing controls.
+ * Trait with testing helper methods.
  *
  * @package Block_Lab
  */
 
 /**
- * Trait with a helper method.
+ * Trait with helper methods.
  */
 trait Testing_Helper {
 
@@ -51,5 +51,26 @@ trait Testing_Helper {
 		}
 
 		set_transient( 'block_lab_license', $transient_value );
+	}
+
+	/**
+	 * Asserts that markup is the same.
+	 *
+	 * Forked from Alain Schlesser's work:
+	 * https://github.com/ampproject/amp-wp/blob/b11c04cba3b97ebcfb40dc5833cbdb70a4cf2186/lib/optimizer/tests/src/MarkupComparison.php#L13-L30
+	 *
+	 * @param string $expected Expected markup.
+	 * @param string $actual   Actual markup.
+	 */
+	public function assert_equal_markup( $expected, $actual ) {
+		$actual   = preg_replace( '/\s+/', ' ', $actual );
+		$expected = preg_replace( '/\s+/', ' ', $expected );
+		$actual   = preg_replace( '/(?<=>)\s+(?=<)/', '', trim( $actual ) );
+		$expected = preg_replace( '/(?<=>)\s+(?=<)/', '', trim( $expected ) );
+
+		$this->assertEquals(
+			array_filter( preg_split( '#(<[^>]+>|[^<>]+)#', $expected, -1, PREG_SPLIT_DELIM_CAPTURE ) ),
+			array_filter( preg_split( '#(<[^>]+>|[^<>]+)#', $actual, -1, PREG_SPLIT_DELIM_CAPTURE ) )
+		);
 	}
 }
