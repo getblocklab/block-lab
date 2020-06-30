@@ -106,7 +106,10 @@ class Migration extends Component_Abstract {
 					printf(
 						/* translators: %1$s: the plugin name */
 						esc_html__( 'The Block Lab team have moved. For future updates and improvements, migrate now to the new home of custom blocks: %1$s.', 'block-lab' ),
-						'<strong>Genesis Custom Blocks</strong>'
+						sprintf(
+							 '<strong>%1$s</strong>',
+							esc_html__( 'Genesis Custom Blocks', 'block-lab' )
+						)
 					);
 					?>
 				</p>
@@ -197,7 +200,7 @@ class Migration extends Component_Abstract {
 		check_ajax_referer( self::NOTICE_NONCE_ACTION, self::NOTICE_NONCE_NAME );
 
 		if ( ! current_user_can( self::NOTICE_CAPABILITY ) ) {
-			wp_die( -1 );
+			wp_send_json_error();
 		}
 
 		update_user_meta( get_current_user_id(), self::NOTICE_USER_META_KEY, self::NOTICE_DISMISSED_META_VALUE );
