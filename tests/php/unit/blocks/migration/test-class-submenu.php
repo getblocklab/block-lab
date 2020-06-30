@@ -135,6 +135,8 @@ class Test_Submenu extends WP_UnitTestCase {
 	 */
 	public function test_render_page() {
 		ob_start();
+		$this->instance->render_page();
+
 		$this->assertContains(
 			'<div id="bl-migration"></div>',
 			ob_get_clean()
