@@ -10,11 +10,19 @@
 namespace Block_Lab\Admin;
 
 use Block_Lab\Component_Abstract;
+use Block_Lab\Blocks\Migration\Submenu;
 
 /**
  * Class Admin
  */
 class Admin extends Component_Abstract {
+
+	/**
+	 * Migration submenu.
+	 *
+	 * @var Submenu
+	 */
+	public $submenu;
 
 	/**
 	 * Plugin settings.
@@ -55,6 +63,10 @@ class Admin extends Component_Abstract {
 	 * Initialise the Admin component.
 	 */
 	public function init() {
+		// @todo remove this when this is merged: https://github.com/getblocklab/block-lab/pull/635
+		$this->submenu = new Submenu();
+		block_lab()->register_component( $this->submenu );
+
 		$this->settings = new Settings();
 		block_lab()->register_component( $this->settings );
 

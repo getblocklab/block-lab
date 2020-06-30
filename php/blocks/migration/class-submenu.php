@@ -9,10 +9,12 @@
 
 namespace Block_Lab\Blocks\Migration;
 
+use Block_Lab\Component_Abstract;
+
 /**
  * Class Post_Type
  */
-class Submenu {
+class Submenu extends Component_Abstract {
 
 	/**
 	 * The menu slug for the migration menu.
@@ -22,7 +24,7 @@ class Submenu {
 	/**
 	 * Adds the actions.
 	 */
-	public function init() {
+	public function register_hooks() {
 		add_action( 'admin_menu', [ $this, 'add_submenu_page' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 	}
@@ -65,5 +67,12 @@ class Submenu {
 				true
 			);
 		}
+	}
+
+	/**
+	 * Renders the submenu page.
+	 */
+	public function render_page() {
+		echo '<div id="bl-migration"></div>';
 	}
 }

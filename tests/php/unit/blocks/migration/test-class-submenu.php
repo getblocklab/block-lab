@@ -49,10 +49,10 @@ class Test_Submenu extends WP_UnitTestCase {
 	/**
 	 * Test init.
 	 *
-	 * @covers Block_Lab\Blocks\Migration\Submenu::init()
+	 * @covers Block_Lab\Blocks\Migration\Submenu::register_hooks()
 	 */
-	public function test_init() {
-		$this->instance->init();
+	public function test_register_hooks() {
+		$this->instance->register_hooks();
 		$this->assertEquals( 10, has_action( 'admin_menu', [ $this->instance, 'add_submenu_page' ] ) );
 		$this->assertEquals( 10, has_action( 'admin_enqueue_scripts', [ $this->instance, 'enqueue_scripts' ] ) );
 	}
@@ -126,5 +126,18 @@ class Test_Submenu extends WP_UnitTestCase {
 		$this->instance->enqueue_scripts();
 		$this->assertTrue( wp_style_is( 'block-lab-migration' ) );
 		$this->assertTrue( wp_script_is( 'block-lab-migration' ) );
+	}
+
+	/**
+	 * Test render_page.
+	 *
+	 * @covers Block_Lab\Blocks\Migration\Submenu::render_page()
+	 */
+	public function test_render_page() {
+		ob_start();
+		$this->assertContains(
+			'<div id="bl-migration"></div>',
+			ob_get_clean()
+		);
 	}
 }
