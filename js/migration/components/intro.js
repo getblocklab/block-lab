@@ -14,11 +14,13 @@ import { __ } from '@wordpress/i18n';
  * @return {React.ReactElement} The introduction to the migration.
  */
 const Intro = () => {
+	const announcementUrl = 'https://getblocklab.com/the-block-lab-team-are-joining-wp-engine/';
+
 	return (
 		<>
 			<div>
 				<h1>{ __( 'Migrating to Genesis Custom Blocks', 'block-lab' ) }</h1>
-				<p>{ __( 'In April, the Block Lab team joined the Genesis team at WP Engine. With our full-time focus, we’re very excited about the future of custom block tooling in WordPress. You can read more about that moment in this', 'block-lab' ) } <a className="text-purple-600 underline hover:text-purple-700" href="https://getblocklab.com/the-block-lab-team-are-joining-wp-engine/">{ __( 'announcement post', 'block-lab' ) }.</a></p>
+				<p>{ __( 'In April, the Block Lab team joined the Genesis team at WP Engine. With our full-time focus, we’re very excited about the future of custom block tooling in WordPress. You can read more about that moment in this', 'block-lab' ) } <a target="_blank" rel="noopener noreferrer" className="text-purple-600 underline hover:text-purple-700" href={ announcementUrl }>{ __( 'announcement post', 'block-lab' ) }.</a></p>
 				<p>
 					{ __( 'As part of this move, we have been working on a new plugin that is based on what we developed at Block Lab.', 'block-lab' ) }
 					{ __( 'Genesis Custom Blocks is now the home of all our custom block efforts and what we have planned is very very cool!', 'block-lab' ) }
