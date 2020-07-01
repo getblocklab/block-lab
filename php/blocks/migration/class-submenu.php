@@ -73,6 +73,6 @@ class Submenu extends Component_Abstract {
 	 * Renders the submenu page.
 	 */
 	public function render_page() {
-		echo '<div id="bl-migration"></div>';
+		echo '<div class="bl-migration__content"></div>';
 	}
 }

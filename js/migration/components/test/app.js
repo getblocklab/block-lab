@@ -10,5 +10,7 @@ import App from '../app';
 
 test( 'migration app', async () => {
 	const { getByText } = render( <App /> );
-	expect( getByText( 'This is the beginning of the migration UI' ) ).toBeInTheDocument();
+
+	expect( getByText( 'Migrating to Genesis Custom Blocks' ) ).toBeInTheDocument();
+	expect( getByText( 'Need to let the developer for this site know about this? Send them this link.' ) ).toBeInTheDocument();
 } );

@@ -1,10 +1,16 @@
 /**
- * WordPress dependencies
+ * Internal dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { Intro } from './';
 
 const App = () => {
-	return <div>{ __( 'This is the beginning of the migration UI', 'block-lab' ) }</div>;
+	return (
+		<div className="bl-migration__content-wrapper">
+			<div className="container bl-migration__content-container">
+				<Intro />
+			</div>
+		</div>
+	);
 };
 
 export default App;
