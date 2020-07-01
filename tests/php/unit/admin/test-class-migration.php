@@ -106,6 +106,9 @@ class Test_Migration extends \WP_UnitTestCase {
 	 */
 	public function test_ajax_handler_migration_notice() {
 		$this->give_user_permissions();
+		add_filter( 'wp_doing_ajax', '__return_true' );
+		add_filter( 'wp_die_ajax_handler', '__return_false' );
+
 		expect( 'check_ajax_referer' )
 			->once()
 			->with(
