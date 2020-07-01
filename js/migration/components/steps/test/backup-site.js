@@ -7,9 +7,9 @@ import user from '@testing-library/user-event';
 /**
  * Internal dependencies
  */
-import BackupSite from '../backup-site';
+import { BackupSite } from '../';
 
-test( 'backup site step', async () => {
+test( 'backup site migration step', async () => {
 	const props = {
 		currentStepIndex: 1,
 		stepIndex: 1,

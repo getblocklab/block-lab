@@ -7,7 +7,7 @@ import { useState } from '@wordpress/element';
  * Internal dependencies
  */
 import { Intro } from './';
-import { BackupSite } from './steps';
+import { BackupSite, UpdateHooks } from './steps';
 
 const App = () => {
 	const initialStepNumber = 1;
@@ -27,7 +27,10 @@ const App = () => {
 		updateStepIndex( currentStepIndex + 1 );
 	};
 
-	const steps = [ BackupSite ];
+	const steps = [
+		BackupSite,
+		UpdateHooks,
+	];
 
 	return (
 		<div className="bl-migration__content-wrapper">

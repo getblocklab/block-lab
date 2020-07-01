@@ -86,6 +86,10 @@ a {
 	background-color: var(--color-gray);
 }
 
+.bl-migration__content ul {
+	list-style-type: disc;
+}
+
 .bl-migration__content-wrapper {
 	padding: 1rem;
 	overflow: auto;
