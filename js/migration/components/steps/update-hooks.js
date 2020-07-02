@@ -63,6 +63,7 @@ const UpdateHooks = ( { currentStepIndex, stepIndex, goToNext, goToPrevious } ) 
 					<ButtonNext
 						checkboxLabel={ __( "I'm all ok on the Hooks & API front.", 'block-lab' ) }
 						onClick={ goToNext }
+						stepIndex={ stepIndex }
 					/>
 				</StepFooter>
 			</StepContent>

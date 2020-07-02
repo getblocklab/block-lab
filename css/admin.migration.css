@@ -66,6 +66,11 @@ a {
 	padding-left: 0;
 }
 
+#wpfooter {
+	/* @todo: remove this */
+	position: fixed;
+}
+
 .wp-admin {
 	width: 100vw;
 	height: 100vw;

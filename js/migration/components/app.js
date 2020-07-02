@@ -7,11 +7,11 @@ import { useState } from '@wordpress/element';
  * Internal dependencies
  */
 import { Intro } from './';
-import { BackupSite, UpdateHooks } from './steps';
+import { BackupSite, GetGenesisPro, UpdateHooks } from './steps';
+import { FIRST_STEP_NUMBER } from '../constants';
 
 const App = () => {
-	const initialStepNumber = 1;
-	const [ currentStepIndex, updateStepIndex ] = useState( initialStepNumber );
+	const [ currentStepIndex, updateStepIndex ] = useState( FIRST_STEP_NUMBER );
 
 	/**
 	 * Sets the step index to the previous step.
@@ -28,6 +28,7 @@ const App = () => {
 	};
 
 	const steps = [
+		GetGenesisPro,
 		BackupSite,
 		UpdateHooks,
 	];
@@ -38,8 +39,15 @@ const App = () => {
 				<Intro />
 				{
 					steps.map( ( MigrationStep, index ) => {
-						const stepNumber = initialStepNumber + index;
-						return <MigrationStep key={ stepNumber } stepIndex={ stepNumber } { ...{ currentStepIndex, goToPrevious, goToNext } } />;
+						const stepNumber = FIRST_STEP_NUMBER + index;
+
+						return (
+							<MigrationStep
+								key={ `bl-migration-step-${ stepNumber }` }
+								stepIndex={ stepNumber }
+								{ ...{ currentStepIndex, goToPrevious, goToNext } }
+							/>
+						);
 					} )
 				}
 			</div>
