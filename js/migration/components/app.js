@@ -9,7 +9,7 @@ import { useState } from '@wordpress/element';
  * Internal dependencies
  */
 import { Intro } from './';
-import { BackupSite, GetGenesisPro, UpdateHooks } from './steps';
+import { BackupSite, GetGenesisPro, MigrateBlocks, UpdateHooks } from './steps';
 import { FIRST_STEP_NUMBER } from '../constants';
 
 const App = () => {
@@ -32,6 +32,7 @@ const App = () => {
 	const steps = [
 		BackupSite,
 		UpdateHooks,
+		MigrateBlocks,
 	];
 
 	// Conditionally add the step to get Genesis Pro.
