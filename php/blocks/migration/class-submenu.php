@@ -67,9 +67,26 @@ class Submenu extends Component_Abstract {
 				true
 			);
 
+			$plugin_file  = 'genesis-custom-blocks/genesis-custom-blocks.php';
+			$activate_url = add_query_arg(
+				[
+					'action'        => 'activate',
+					'plugin'        => rawurlencode( $plugin_file ),
+					'plugin_status' => 'all',
+					'paged'         => 1,
+					'_wpnonce'      => wp_create_nonce( 'activate-plugin_' . $plugin_file ),
+				],
+				admin_url( 'plugins.php' )
+			);
+
 			wp_add_inline_script(
 				self::MENU_SLUG,
-				'const blockLabMigration = ' . wp_json_encode( [ 'isPro' => block_lab()->is_pro() ] ),
+				'const blockLabMigration = ' . wp_json_encode(
+					[
+						'isPro'       => block_lab()->is_pro(),
+						'activateUrl' => $activate_url,
+					]
+				),
 				'before'
 			);
 		}

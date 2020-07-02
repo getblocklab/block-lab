@@ -1,4 +1,5 @@
 /* global blockLabMigration */
+// @ts-check
 
 /**
  * WordPress dependencies
@@ -9,7 +10,7 @@ import { useState } from '@wordpress/element';
  * Internal dependencies
  */
 import { Intro } from './';
-import { BackupSite, GetGenesisPro, MigrateBlocks, UpdateHooks } from './steps';
+import { ActivateGcb, BackupSite, GetGenesisPro, MigrateBlocks, UpdateHooks } from './steps';
 import { FIRST_STEP_NUMBER } from '../constants';
 
 const App = () => {
@@ -33,6 +34,7 @@ const App = () => {
 		BackupSite,
 		UpdateHooks,
 		MigrateBlocks,
+		ActivateGcb,
 	];
 
 	// Conditionally add the step to get Genesis Pro.
