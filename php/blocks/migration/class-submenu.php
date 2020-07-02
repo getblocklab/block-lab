@@ -66,6 +66,12 @@ class Submenu extends Component_Abstract {
 				$script_config['version'],
 				true
 			);
+
+			wp_add_inline_script(
+				self::MENU_SLUG,
+				'const blockLabMigration = ' . wp_json_encode( [ 'isPro' => block_lab()->is_pro() ] ),
+				'before'
+			);
 		}
 	}
 

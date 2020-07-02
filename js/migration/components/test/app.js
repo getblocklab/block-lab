@@ -8,6 +8,10 @@ import { render } from '@testing-library/react';
  */
 import App from '../app';
 
+global.blockLabMigration = {
+	isPro: true,
+};
+
 test( 'migration app', async () => {
 	const { getByText } = render( <App /> );
 

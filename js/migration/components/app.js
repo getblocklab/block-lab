@@ -1,3 +1,5 @@
+/* global blockLabMigration */
+
 /**
  * WordPress dependencies
  */
@@ -28,10 +30,14 @@ const App = () => {
 	};
 
 	const steps = [
-		GetGenesisPro,
 		BackupSite,
 		UpdateHooks,
 	];
+
+	// Conditionally add the step to get Genesis Pro.
+	if ( blockLabMigration.isPro ) {
+		steps.unshift( GetGenesisPro );
+	}
 
 	return (
 		<div className="bl-migration__content-wrapper">
