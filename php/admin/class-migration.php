@@ -89,7 +89,9 @@ class Migration extends Component_Abstract {
 			return;
 		}
 
-		$migration_url = add_query_arg(
+		// @todo: verify that this doc page exists, or change it to one that does exist.
+		$learn_more_link = 'https://getblocklab.com/docs/genesis-custom-blocks';
+		$migration_url   = add_query_arg(
 			[
 				'post_type' => block_lab()->get_slug(),
 				'page'      => 'block-lab-migration',
@@ -112,20 +114,15 @@ class Migration extends Component_Abstract {
 						)
 					);
 					?>
-				</p>
-				<p>
-					<?php
-					printf(
-						'<a target="_blank" href="https://getblocklab.com/docs/genesis-custom-blocks">%1$s</a>',
-						esc_html__( 'Learn more', 'block-lab' )
-					);
-					?>
+					<a target="_blank" rel="noopener noreferrer" class="bl-notice-migration__learn-more" href="<?php echo esc_url( $learn_more_link ); ?>">
+						<?php esc_html_e( 'Learn more', 'block-lab' ); ?>
+					</a>
 				</p>
 			</div>
-			<a href="#" id="bl-notice-not-now" class="bl-notice-option">
+			<button id="bl-notice-not-now" href="#" class="bl-notice-option button button-secondary">
 				<?php esc_html_e( 'Not Now', 'block-lab' ); ?>
-			</a>
-			<a href="<?php echo esc_url( $migration_url ); ?>" class="bl-notice-option">
+			</button>
+			<a href="<?php echo esc_url( $migration_url ); ?>" class="bl-notice-option button button-primary">
 				<?php esc_html_e( 'Migrate', 'block-lab' ); ?>
 			</a>
 		</div>

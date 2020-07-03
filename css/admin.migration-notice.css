@@ -6,12 +6,12 @@
 	margin-right: auto;
 }
 
+.bl-notice-migration__learn-more {
+	display: block;
+}
+
 .bl-notice-migration .bl-notice-option {
-	text-decoration: none;
-	width: 5rem;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	margin: auto 0.2rem;
 }
 
 .bl-notice-migration.bl-hidden {
