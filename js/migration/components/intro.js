@@ -23,7 +23,9 @@ const Intro = () => {
 				<p>{ __( 'In April, the Block Lab team joined the Genesis team at WP Engine. With our full-time focus, we’re very excited about the future of custom block tooling in WordPress. You can read more about that moment in this', 'block-lab' ) } <a target="_blank" rel="noopener noreferrer" className="text-purple-600 underline hover:text-purple-700" href={ announcementUrl }>{ __( 'announcement post', 'block-lab' ) }.</a></p>
 				<p>
 					{ __( 'As part of this move, we have been working on a new plugin that is based on what we developed at Block Lab.', 'block-lab' ) }
+					&nbsp;
 					{ __( 'Genesis Custom Blocks is now the home of all our custom block efforts and what we have planned is very very cool!', 'block-lab' ) }
+					&nbsp;
 					{ __( 'Version 1.0 of this plugin is now released and has full feature parity with Block Lab.', 'block-lab' ) }
 				</p>
 				<p>{ __( 'To continue receiving the best of what our team is building, we encourage you to migrate over. Our migration tool makes this nice and easy, and for the majority of use cases, completely automated.', 'block-lab' ) }</p>
