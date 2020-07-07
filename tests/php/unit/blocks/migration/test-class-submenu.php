@@ -55,6 +55,7 @@ class Test_Submenu extends WP_UnitTestCase {
 		$this->instance->register_hooks();
 		$this->assertEquals( 10, has_action( 'admin_menu', [ $this->instance, 'add_submenu_page' ] ) );
 		$this->assertEquals( 10, has_action( 'admin_enqueue_scripts', [ $this->instance, 'enqueue_scripts' ] ) );
+		$this->assertEquals( 10, has_action( 'admin_bar_init', [ $this->instance, 'maybe_activate_plugin' ] ) );
 	}
 
 	/**
@@ -141,5 +142,81 @@ class Test_Submenu extends WP_UnitTestCase {
 			'<div class="bl-migration__content"></div>',
 			ob_get_clean()
 		);
+	}
+
+	/**
+	 * Test maybe_activate_plugin with no query var.
+	 *
+	 * @covers Block_Lab\Blocks\Migration\Submenu::maybe_activate_plugin()
+	 */
+	public function test_maybe_activate_plugin_no_query_var() {
+		$error = $this->get_plugin_activation_error();
+		$this->assertFalse( isset( $error ) );
+	}
+
+	/**
+	 * Test maybe_activate_plugin with the correct query var.
+	 *
+	 * @covers Block_Lab\Blocks\Migration\Submenu::maybe_activate_plugin()
+	 */
+	public function test_maybe_activate_plugin_correct_query_var() {
+		$_GET['bl_deactivate_and_activate'] = true;
+
+		$error = $this->get_plugin_activation_error();
+		$this->assertEquals( 'Sorry, you are not allowed to deactivate this plugin.', $error->getMessage() );
+	}
+
+	/**
+	 * Test maybe_activate_plugin with the correct user.
+	 *
+	 * @covers Block_Lab\Blocks\Migration\Submenu::maybe_activate_plugin()
+	 */
+	public function test_maybe_activate_plugin_correct_user() {
+		$_GET['bl_deactivate_and_activate'] = true;
+		$user_id                            = $this->factory()->user->create( [ 'role' => 'administrator' ] );
+		wp_set_current_user( $user_id );
+		if ( is_multisite() ) {
+			grant_super_admin( $user_id );
+		}
+
+		// The nonce is not present, so there should be an error.
+		$error = $this->get_plugin_activation_error();
+		$this->assertEquals( 'The link you followed has expired.', $error->getMessage() );
+	}
+
+	/**
+	 * Test maybe_activate_plugin with the nonce present.
+	 *
+	 * @covers Block_Lab\Blocks\Migration\Submenu::maybe_activate_plugin()
+	 */
+	public function test_maybe_activate_plugin_nonce_present() {
+		$_GET['bl_deactivate_and_activate'] = true;
+		$user_id                            = $this->factory()->user->create( [ 'role' => 'administrator' ] );
+		wp_set_current_user( $user_id );
+		$_REQUEST = [ '_wpnonce' => wp_create_nonce( 'deactivate_bl_and_activate_new' ) ];
+		if ( is_multisite() ) {
+			grant_super_admin( $user_id );
+		}
+
+		// Now that the nonce is correct, this should redirect to the URL to activate the plugin.
+		Monkey\Functions\expect( 'wp_safe_redirect' )
+			->once();
+
+		$this->get_plugin_activation_error();
+	}
+
+	/**
+	 * Gets the error from activating the plugin, if any.
+	 *
+	 * @return Exception|null The error if there was one, or null.
+	 */
+	public function get_plugin_activation_error() {
+		try {
+			$this->instance->maybe_activate_plugin();
+		} catch ( Exception $e ) {
+			$error = $e;
+		}
+
+		return isset( $error ) ? $error : null;
 	}
 }

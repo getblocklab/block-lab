@@ -48,6 +48,7 @@ const ActivateGcb = ( { currentStepIndex, stepIndex } ) => {
 					<sub>{ __( 'FUTURE', 'block-lab' ) }</sub>.
 				</p>
 				<StepFooter>
+					{ /* @ts-ignore */ }
 					<a href={ blockLabMigration.activateUrl } className="btn">
 						{ __( 'Activate Genesis Custom Blocks', 'block-lab' ) }
 					</a>

@@ -22,11 +22,26 @@ class Submenu extends Component_Abstract {
 	const MENU_SLUG = 'block-lab-migration';
 
 	/**
+	 * The query var to deactivate this plugin and activate the new one.
+	 *
+	 * @var string
+	 */
+	const QUERY_VAR_DEACTIVATE_AND_ACTIVATE = 'bl_deactivate_and_activate';
+
+	/**
+	 * The query var to deactivate this plugin and activate the new one.
+	 *
+	 * @var string
+	 */
+	const NONCE_ACTION_DEACTIVATE_AND_ACTIVATE = 'deactivate_bl_and_activate_new';
+
+	/**
 	 * Adds the actions.
 	 */
 	public function register_hooks() {
 		add_action( 'admin_menu', [ $this, 'add_submenu_page' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
+		add_action( 'admin_bar_init', [ $this, 'maybe_activate_plugin' ] );
 	}
 
 	/**
@@ -67,16 +82,12 @@ class Submenu extends Component_Abstract {
 				true
 			);
 
-			$plugin_file  = 'genesis-custom-blocks/genesis-custom-blocks.php';
 			$activate_url = add_query_arg(
 				[
-					'action'        => 'activate',
-					'plugin'        => rawurlencode( $plugin_file ),
-					'plugin_status' => 'all',
-					'paged'         => 1,
-					'_wpnonce'      => wp_create_nonce( 'activate-plugin_' . $plugin_file ),
+					self::QUERY_VAR_DEACTIVATE_AND_ACTIVATE => true,
+					'_wpnonce' => wp_create_nonce( self::NONCE_ACTION_DEACTIVATE_AND_ACTIVATE ),
 				],
-				admin_url( 'plugins.php' )
+				admin_url()
 			);
 
 			wp_add_inline_script(
@@ -97,5 +108,52 @@ class Submenu extends Component_Abstract {
 	 */
 	public function render_page() {
 		echo '<div class="bl-migration__content"></div>';
+	}
+
+	/**
+	 * Conditionally deactivates this plugin and activates Genesis Custom Blocks.
+	 *
+	 * The logic to deactivate the plugin was mainly copied from Core.
+	 * https://github.com/WordPress/wordpress-develop/blob/61803a37a41eca95efe964c7e02c768de6df75fa/src/wp-admin/plugins.php#L196-L221
+	 */
+	public function maybe_activate_plugin() {
+		$previous_plugin_file = 'block-lab/block-lab.php';
+		$new_plugin_file      = 'genesis-custom-blocks/genesis-custom-blocks.php';
+
+		if ( empty( $_GET[ self::QUERY_VAR_DEACTIVATE_AND_ACTIVATE ] ) ) {
+			return;
+		}
+
+		if ( ! current_user_can( 'deactivate_plugin', $previous_plugin_file ) ) {
+			wp_die( esc_html__( 'Sorry, you are not allowed to deactivate this plugin.', 'block-lab' ) );
+		}
+
+		check_admin_referer( self::NONCE_ACTION_DEACTIVATE_AND_ACTIVATE );
+
+		if ( ! is_network_admin() && is_plugin_active_for_network( $previous_plugin_file ) ) {
+			wp_die( esc_html__( 'Sorry, you are not allowed to deactivate this network-active plugin.', 'block-lab' ) );
+		}
+
+		deactivate_plugins( $previous_plugin_file, false, is_network_admin() );
+
+		if ( ! is_network_admin() ) {
+			update_option( 'recently_activated', [ $previous_plugin_file => time() ] + (array) get_option( 'recently_activated' ) );
+		} else {
+			update_site_option( 'recently_activated', [ $previous_plugin_file => time() ] + (array) get_site_option( 'recently_activated' ) );
+		}
+
+		// Activate the new plugin.
+		wp_safe_redirect(
+			add_query_arg(
+				[
+					'action'        => 'activate',
+					'plugin'        => rawurlencode( $new_plugin_file ),
+					'plugin_status' => 'all',
+					'paged'         => 1,
+					'_wpnonce'      => wp_create_nonce( 'activate-plugin_' . $new_plugin_file ),
+				],
+				admin_url( 'plugins.php' )
+			)
+		);
 	}
 }

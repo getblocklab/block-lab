@@ -48,7 +48,7 @@ const GetGenesisPro = ( { currentStepIndex, stepIndex, goToNext } ) => {
 				<p></p>
 				<div className="pro-box">
 					<h3>{ __( 'Migrating from Block Lab Pro', 'block-lab' ) }</h3>
-					<p>{ __( "It looks like you’re a Block Lab Pro customer! Thank you so much for your support. We wouldn't be here without you! Rest assured, your Block Lab Pro license will continue to receive security updates and support for the duration of its term.*", 'block-lab' ) }</p>
+					<p>{ __( "It looks like you’re a Block Lab Pro customer! Thank you so much for your support. We wouldn't be here without you! Rest assured, your Block Lab Pro license will continue to receive security updates and support for the duration of its term.", 'block-lab' ) }*</p>
 					<div className="pro-box-tiles">
 						<div className="pro-box-tile">
 							<div className="pro-box-tile__icon">

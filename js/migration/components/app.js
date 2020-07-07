@@ -38,6 +38,7 @@ const App = () => {
 	];
 
 	// Conditionally add the step to get Genesis Pro.
+	// @ts-ignore
 	if ( blockLabMigration.isPro ) {
 		steps.unshift( GetGenesisPro );
 	}
