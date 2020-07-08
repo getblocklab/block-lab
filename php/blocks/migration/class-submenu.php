@@ -9,6 +9,7 @@
 
 namespace Block_Lab\Blocks\Migration;
 
+use WP_REST_Response;
 use Block_Lab\Component_Abstract;
 
 /**
@@ -18,8 +19,17 @@ class Submenu extends Component_Abstract {
 
 	/**
 	 * The menu slug for the migration menu.
+	 *
+	 * @var string
 	 */
 	const MENU_SLUG = 'block-lab-migration';
+
+	/**
+	 * The user capability to migrate posts and post content.
+	 *
+	 * @var string
+	 */
+	const MIGRATION_CAPABILITY = 'edit_others_posts';
 
 	/**
 	 * The query var to deactivate this plugin and activate the new one.
@@ -42,20 +52,24 @@ class Submenu extends Component_Abstract {
 		add_action( 'admin_menu', [ $this, 'add_submenu_page' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 		add_action( 'admin_bar_init', [ $this, 'maybe_activate_plugin' ] );
+		add_action( 'rest_api_init', [ $this, 'register_route_migrate_post_content' ] );
+		add_action( 'rest_api_init', [ $this, 'register_route_migrate_post_type' ] );
 	}
 
 	/**
 	 * Adds the submenu page for migration.
 	 */
 	public function add_submenu_page() {
-		add_submenu_page(
-			'edit.php?post_type=block_lab',
-			__( 'Migrate to Genesis Custom Blocks', 'block-lab' ),
-			__( 'Migrate', 'block-lab' ),
-			'manage_options',
-			self::MENU_SLUG,
-			[ $this, 'render_page' ]
-		);
+		if ( $this->user_can_view_migration_page() ) {
+			add_submenu_page(
+				'edit.php?post_type=block_lab',
+				__( 'Migrate to Genesis Custom Blocks', 'block-lab' ),
+				__( 'Migrate', 'block-lab' ),
+				'manage_options',
+				self::MENU_SLUG,
+				[ $this, 'render_page' ]
+			);
+		}
 	}
 
 	/**
@@ -65,7 +79,7 @@ class Submenu extends Component_Abstract {
 		$page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
 
 		// Only enqueue if on the migration page.
-		if ( self::MENU_SLUG === $page ) {
+		if ( self::MENU_SLUG === $page && $this->user_can_view_migration_page() ) {
 			wp_enqueue_style(
 				self::MENU_SLUG,
 				block_lab()->get_url( 'css/admin.migration.css' ),
@@ -101,6 +115,13 @@ class Submenu extends Component_Abstract {
 				'before'
 			);
 		}
+	}
+
+	/**
+	 * Gets whether the current user can view the migration page.
+	 */
+	public function user_can_view_migration_page() {
+		return current_user_can( 'install_plugins' ) && current_user_can( self::MIGRATION_CAPABILITY );
 	}
 
 	/**
@@ -155,5 +176,57 @@ class Submenu extends Component_Abstract {
 				admin_url( 'plugins.php' )
 			)
 		);
+	}
+
+	/**
+	 * Registers a route to migrate the post content to the new namespace.
+	 */
+	public function register_route_migrate_post_content() {
+		register_rest_route(
+			block_lab()->get_slug(),
+			'migrate-post-content',
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'get_migrate_post_content_response' ],
+				'permission_callback' => function() {
+					return current_user_can( self::MIGRATION_CAPABILITY );
+				},
+			]
+		);
+	}
+
+	/**
+	 * Gets the REST API response for the post content migration.
+	 *
+	 * @return WP_REST_Response The response to the request.
+	 */
+	public function get_migrate_post_content_response() {
+		return rest_ensure_response( ( new Post_Content( 'block-lab', 'genesis-custom-blocks' ) )->migrate_all() );
+	}
+
+	/**
+	 * Registers a route to migrate the post type.
+	 */
+	public function register_route_migrate_post_type() {
+		register_rest_route(
+			block_lab()->get_slug(),
+			'migrate-post-type',
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'get_migrate_post_type_response' ],
+				'permission_callback' => function() {
+					return current_user_can( self::MIGRATION_CAPABILITY );
+				},
+			]
+		);
+	}
+
+	/**
+	 * Gets the REST API response for the post type migration.
+	 *
+	 * @return WP_REST_Response The response to the request.
+	 */
+	public function get_migrate_post_type_response() {
+		return rest_ensure_response( ( new Post_Type( 'genesis_custom_block', 'genesis-custom-blocks' ) )->migrate_all() );
 	}
 }

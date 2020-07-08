@@ -47,7 +47,7 @@ class Test_Submenu extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Test init.
+	 * Test register_hooks.
 	 *
 	 * @covers Block_Lab\Blocks\Migration\Submenu::register_hooks()
 	 */
@@ -56,6 +56,8 @@ class Test_Submenu extends WP_UnitTestCase {
 		$this->assertEquals( 10, has_action( 'admin_menu', [ $this->instance, 'add_submenu_page' ] ) );
 		$this->assertEquals( 10, has_action( 'admin_enqueue_scripts', [ $this->instance, 'enqueue_scripts' ] ) );
 		$this->assertEquals( 10, has_action( 'admin_bar_init', [ $this->instance, 'maybe_activate_plugin' ] ) );
+		$this->assertEquals( 10, has_action( 'rest_api_init', [ $this->instance, 'register_route_migrate_post_content' ] ) );
+		$this->assertEquals( 10, has_action( 'rest_api_init', [ $this->instance, 'register_route_migrate_post_type' ] ) );
 	}
 
 	/**
@@ -64,6 +66,7 @@ class Test_Submenu extends WP_UnitTestCase {
 	 * @covers Block_Lab\Blocks\Migration\Submenu::add_submenu_page()
 	 */
 	public function test_add_submenu_pages() {
+		wp_set_current_user( $this->factory()->user->create( [ 'role' => 'administrator' ] ) );
 		Functions\expect( 'add_submenu_page' )
 			->once()
 			->with(
@@ -84,6 +87,7 @@ class Test_Submenu extends WP_UnitTestCase {
 	 * @covers Block_Lab\Blocks\Migration\Submenu::enqueue_scripts()
 	 */
 	public function test_enqueue_scripts_not_on_page() {
+		wp_set_current_user( $this->factory()->user->create( [ 'role' => 'administrator' ] ) );
 		$this->instance->enqueue_scripts();
 		$this->assertFalse( wp_style_is( 'block-lab-migration' ) );
 		$this->assertFalse( wp_script_is( 'block-lab-migration' ) );
@@ -95,6 +99,7 @@ class Test_Submenu extends WP_UnitTestCase {
 	 * @covers Block_Lab\Blocks\Migration\Submenu::enqueue_scripts()
 	 */
 	public function test_enqueue_scripts_wrong_page() {
+		wp_set_current_user( $this->factory()->user->create( [ 'role' => 'administrator' ] ) );
 		Monkey\Functions\expect( 'filter_input' )
 			->once()
 			->with(
@@ -115,6 +120,7 @@ class Test_Submenu extends WP_UnitTestCase {
 	 * @covers Block_Lab\Blocks\Migration\Submenu::enqueue_scripts()
 	 */
 	public function test_enqueue_scripts_right_page() {
+		wp_set_current_user( $this->factory()->user->create( [ 'role' => 'administrator' ] ) );
 		Monkey\Functions\expect( 'filter_input' )
 			->once()
 			->with(
@@ -127,6 +133,25 @@ class Test_Submenu extends WP_UnitTestCase {
 		$this->instance->enqueue_scripts();
 		$this->assertTrue( wp_style_is( 'block-lab-migration' ) );
 		$this->assertTrue( wp_script_is( 'block-lab-migration' ) );
+	}
+
+	/**
+	 * Test user_can_view_migration_page with a non-admin user.
+	 *
+	 * @covers Block_Lab\Blocks\Migration\Submenu::user_can_view_migration_page()
+	 */
+	public function test_user_can_view_migration_page_non_admin() {
+		$this->assertFalse( $this->instance->user_can_view_migration_page() );
+	}
+
+	/**
+	 * Test user_can_view_migration_page with an admin user.
+	 *
+	 * @covers Block_Lab\Blocks\Migration\Submenu::user_can_view_migration_page()
+	 */
+	public function test_user_can_view_migration_page_admin() {
+		wp_set_current_user( $this->factory()->user->create( [ 'role' => 'administrator' ] ) );
+		$this->assertTrue( $this->instance->user_can_view_migration_page() );
 	}
 
 	/**
@@ -204,6 +229,51 @@ class Test_Submenu extends WP_UnitTestCase {
 
 		$this->get_plugin_activation_error();
 	}
+
+	/**
+	 * Test register_route_migrate_post_content.
+	 *
+	 * @covers Block_Lab\Blocks\Migration\Submenu::register_route_migrate_post_content()
+	 */
+	public function test_register_route_migrate_post_content() {
+		do_action( 'rest_api_init' );
+		$this->instance->register_route_migrate_post_content();
+		$routes = rest_get_server()->get_routes();
+
+		$this->assertArrayHasKey( '/block-lab/migrate-post-content', $routes );
+	}
+
+	/**
+	 * Test get_migrate_post_content_response.
+	 *
+	 * @covers Block_Lab\Blocks\Migration\Submenu::get_migrate_post_content_response()
+	 */
+	public function test_get_migrate_post_content_response() {
+		$this->assertEquals( 'WP_REST_Response', get_class( $this->instance->get_migrate_post_content_response() ) );
+	}
+
+	/**
+	 * Test register_route_migrate_post_type.
+	 *
+	 * @covers Block_Lab\Blocks\Migration\Submenu::register_route_migrate_post_type()
+	 */
+	public function test_register_route_migrate_post_type() {
+		do_action( 'rest_api_init' );
+		$this->instance->register_route_migrate_post_type();
+		$routes = rest_get_server()->get_routes();
+
+		$this->assertArrayHasKey( '/block-lab/migrate-post-type', $routes );
+	}
+
+	/**
+	 * Test get_migrate_post_type_response.
+	 *
+	 * @covers Block_Lab\Blocks\Migration\Submenu::get_migrate_post_type_response()
+	 */
+	public function test_get_migrate_post_type_response() {
+		$this->assertEquals( 'WP_REST_Response', get_class( $this->instance->get_migrate_post_type_response() ) );
+	}
+
 
 	/**
 	 * Gets the error from activating the plugin, if any.

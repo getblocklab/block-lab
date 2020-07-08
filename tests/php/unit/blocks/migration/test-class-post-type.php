@@ -24,10 +24,9 @@ class Test_Post_Type extends WP_UnitTestCase {
 	/**
 	 * The new slug of the custom post type.
 	 *
-	 * @todo Change this when there is a new name.
 	 * @var string
 	 */
-	const NEW_POST_TYPE_SLUG = 'placeholder';
+	const NEW_POST_TYPE_SLUG = 'genesis_custom_block';
 
 	/**
 	 * The previous namespace of the block.
@@ -39,10 +38,9 @@ class Test_Post_Type extends WP_UnitTestCase {
 	/**
 	 * The new namespace of the block.
 	 *
-	 * @todo Change this when there is a new name.
 	 * @var string
 	 */
-	const NEW_BLOCK_NAMESPACE = 'placeholder';
+	const NEW_BLOCK_NAMESPACE = 'genesis-custom-blocks';
 
 	/**
 	 * The instance of the migration class.
@@ -63,7 +61,7 @@ class Test_Post_Type extends WP_UnitTestCase {
 	 *
 	 * @var string
 	 */
-	public $simple_block_expected_content = '{"placeholder\/test-image":{"name":"test-image","title":"Test Image","excluded":[],"icon":"genesis_custom_blocks","category":{"slug":"common","title":"Common Blocks","icon":null},"keywords":[""],"fields":{"image":{"name":"image","label":"Image","control":"image","type":"integer","order":0,"location":"editor","width":"50","help":"Here is some help text"}}}}';
+	public $simple_block_expected_content = '{"genesis-custom-blocks\/test-image":{"name":"test-image","title":"Test Image","excluded":[],"icon":"genesis_custom_blocks","category":{"slug":"common","title":"Common Blocks","icon":null},"keywords":[""],"fields":{"image":{"name":"image","label":"Image","control":"image","type":"integer","order":0,"location":"editor","width":"50","help":"Here is some help text"}}}}';
 
 	/**
 	 * Initial content for a repeater block.
@@ -77,7 +75,7 @@ class Test_Post_Type extends WP_UnitTestCase {
 	 *
 	 * @var string
 	 */
-	public $repeater_block_expected_content = '{"placeholder\/test-repeater":{"name":"test-repeater","title":"Test Repeater","excluded":[],"icon":"genesis_custom_blocks","category":{"slug":"layout","title":"Layout Elements","icon":null},"keywords":["repeater","panel","example"],"fields":{"repeater":{"name":"repeater","label":"Repeater","control":"repeater","type":"object","order":0,"help":"","min":1,"max":4,"sub_fields":{"textarea":{"name":"textarea","label":"Textarea","control":"textarea","type":"textarea","order":0,"location":null,"width":"","help":"This is more help text","default":"This is an example default value","placeholder":"Here is some placeholder text","maxlength":4,"number_rows":4,"new_lines":"autop","parent":"repeater"},"color":{"name":"color","label":"This is a label","control":"color","type":"string","order":1,"location":null,"width":"","help":"Here is some help text","default":"#ffffff","parent":"repeater"},"select":{"name":"select","label":"Select","control":"select","type":"string","order":2,"location":null,"width":"","help":"Here is some help text","options":[{"label":"First","value":"first"},{"label":"Second","value":"second"},{"label":"Third","value":"third"}],"default":"second","parent":"repeater"}}},"number":{"name":"number","label":"Number","control":"number","type":"integer","order":1,"location":"editor","width":"100","help":"This is example help text","default":"52","placeholder":"Enter a number"}}}}';
+	public $repeater_block_expected_content = '{"genesis-custom-blocks\/test-repeater":{"name":"test-repeater","title":"Test Repeater","excluded":[],"icon":"genesis_custom_blocks","category":{"slug":"layout","title":"Layout Elements","icon":null},"keywords":["repeater","panel","example"],"fields":{"repeater":{"name":"repeater","label":"Repeater","control":"repeater","type":"object","order":0,"help":"","min":1,"max":4,"sub_fields":{"textarea":{"name":"textarea","label":"Textarea","control":"textarea","type":"textarea","order":0,"location":null,"width":"","help":"This is more help text","default":"This is an example default value","placeholder":"Here is some placeholder text","maxlength":4,"number_rows":4,"new_lines":"autop","parent":"repeater"},"color":{"name":"color","label":"This is a label","control":"color","type":"string","order":1,"location":null,"width":"","help":"Here is some help text","default":"#ffffff","parent":"repeater"},"select":{"name":"select","label":"Select","control":"select","type":"string","order":2,"location":null,"width":"","help":"Here is some help text","options":[{"label":"First","value":"first"},{"label":"Second","value":"second"},{"label":"Third","value":"third"}],"default":"second","parent":"repeater"}}},"number":{"name":"number","label":"Number","control":"number","type":"integer","order":1,"location":"editor","width":"100","help":"This is example help text","default":"52","placeholder":"Enter a number"}}}}';
 
 	/**
 	 * Initial content for a post block.
@@ -91,7 +89,7 @@ class Test_Post_Type extends WP_UnitTestCase {
 	 *
 	 * @var string
 	 */
-	public $post_block_expected_content = '{"placeholder\/test-post-2":{"name":"test-post-2","title":"Test Post","excluded":[],"icon":"genesis_custom_blocks","category":{"slug":"common","title":"Common Blocks","icon":null},"keywords":[""],"fields":{"post":{"name":"post","label":"Post","control":"post","type":"object","order":0,"location":"editor","width":"75","help":"This is a post","post_type_rest_slug":"posts"}}}}';
+	public $post_block_expected_content = '{"genesis-custom-blocks\/test-post-2":{"name":"test-post-2","title":"Test Post","excluded":[],"icon":"genesis_custom_blocks","category":{"slug":"common","title":"Common Blocks","icon":null},"keywords":[""],"fields":{"post":{"name":"post","label":"Post","control":"post","type":"object","order":0,"location":"editor","width":"75","help":"This is a post","post_type_rest_slug":"posts"}}}}';
 
 	/**
 	 * Initial content for a block with a non-default icon.
@@ -105,7 +103,7 @@ class Test_Post_Type extends WP_UnitTestCase {
 	 *
 	 * @var string
 	 */
-	public $different_icon_block_expected_content = '{"placeholder\/test-post-2":{"name":"test-post-2","title":"Test Post","excluded":[],"icon":"bookmark_border","category":{"slug":"common","title":"Common Blocks","icon":null},"keywords":[""],"fields":{"post":{"name":"post","label":"Post","control":"post","type":"object","order":0,"location":"editor","width":"75","help":"This is a post","post_type_rest_slug":"posts"}}}}';
+	public $different_icon_block_expected_content = '{"genesis-custom-blocks\/test-post-2":{"name":"test-post-2","title":"Test Post","excluded":[],"icon":"bookmark_border","category":{"slug":"common","title":"Common Blocks","icon":null},"keywords":[""],"fields":{"post":{"name":"post","label":"Post","control":"post","type":"object","order":0,"location":"editor","width":"75","help":"This is a post","post_type_rest_slug":"posts"}}}}';
 
 	/**
 	 * Sets up each test.
@@ -155,7 +153,14 @@ class Test_Post_Type extends WP_UnitTestCase {
 			$this->create_block_post( $content );
 		}
 
-		$this->instance->migrate_all();
+		$result = $this->instance->migrate_all();
+		$this->assertEquals(
+			[
+				'successCount' => count( $initial_block_content ),
+				'errorCount'   => 0,
+			],
+			$result
+		);
 
 		$query = new WP_Query( [ 'post_type' => self::NEW_POST_TYPE_SLUG ] );
 		foreach ( $query->posts as $post ) {
@@ -184,7 +189,14 @@ class Test_Post_Type extends WP_UnitTestCase {
 			);
 		}
 
-		$this->instance->migrate_all();
+		$result = $this->instance->migrate_all();
+		$this->assertEquals(
+			[
+				'successCount' => $number_of_block_lab_posts,
+				'errorCount'   => 0,
+			],
+			$result
+		);
 
 		$queried_block_lab_post_type = new WP_Query(
 			[
@@ -239,7 +251,14 @@ class Test_Post_Type extends WP_UnitTestCase {
 			);
 		}
 
-		$this->instance->migrate_all();
+		$result = $this->instance->migrate_all();
+		$this->assertEquals(
+			[
+				'successCount' => 0,
+				'errorCount'   => 0,
+			],
+			$result
+		);
 
 		$queried_posts = new WP_Query(
 			[

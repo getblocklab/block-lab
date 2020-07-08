@@ -63,17 +63,31 @@ class Post_Type {
 	 *
 	 * These each store a config for a custom block,
 	 * they aren't blocks that users entered into the block editor.
+	 *
+	 * @return array The migration result: counts of success and errors.
 	 */
 	public function migrate_all() {
-		$posts = $this->query_for_posts();
+		$posts         = $this->query_for_posts();
+		$success_count = 0;
+		$error_count   = 0;
 
 		while ( ! empty( $posts ) ) {
 			foreach ( $posts as $post ) {
-				$this->migrate_single( $post );
+				$was_migration_successful = $this->migrate_single( $post );
+				if ( $was_migration_successful ) {
+					$success_count++;
+				} else {
+					$error_count++;
+				}
 			}
 
 			$posts = $this->query_for_posts();
 		}
+
+		return [
+			'successCount' => $success_count,
+			'errorCount'   => $error_count,
+		];
 	}
 
 	/**

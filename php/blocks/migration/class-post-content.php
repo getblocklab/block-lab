@@ -44,11 +44,12 @@ class Post_Content {
 	/**
 	 * Migrates all of the block namespaces in all of the posts that have Block Lab blocks.
 	 *
-	 * @return array The results of migration, either int or WP_Error.
+	 * @return array The result of the migration, including counts of successes and errors.
 	 */
 	public function migrate_all() {
-		$results            = [];
+		$success_count      = 0;
 		$error_count        = 0;
+		$errors             = [];
 		$max_allowed_errors = 20;
 		$posts              = $this->query_for_posts();
 
@@ -56,14 +57,27 @@ class Post_Content {
 			foreach ( $posts as $post ) {
 				if ( isset( $post->ID ) ) {
 					$migrated_post = $this->migrate_single( $post->ID );
-					$results[]     = $migrated_post;
 					if ( is_wp_error( $migrated_post ) ) {
 						$error_count++;
+						$errors[] = $migrated_post->get_error_message();
+					} else {
+						$success_count++;
 					}
 				}
 			}
 
 			$posts = $this->query_for_posts();
+		}
+
+		$is_success = count( $errors ) < $max_allowed_errors;
+		$results    = [
+			'success'      => $is_success,
+			'successCount' => $success_count,
+			'errorCount'   => $error_count,
+		];
+
+		if ( ! empty( $errors ) ) {
+			$results['errorMessages'] = array_unique( $errors );
 		}
 
 		return $results;
@@ -76,7 +90,7 @@ class Post_Content {
 	 * like '<!-- wp:block-lab/test-image {"example-image":8} /-->'.
 	 * In that case, 'block-lab' needs to be changed to the new namespace.
 	 * But nothing else in the block should be changed.
-	 * The block pattern is mainly taken from Gutenberg.
+	 * The block pattern is mainly taken from Core.
 	 *
 	 * @see https://github.com/WordPress/wordpress-develop/blob/78d1ab2ed40093a5bd2a75b01ceea37811739f55/src/wp-includes/class-wp-block-parser.php#L413
 	 *
