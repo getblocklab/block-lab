@@ -17,3 +17,7 @@
 .bl-notice-migration.bl-hidden {
 	display: none;
 }
+
+#bl-notice-not-now {
+	margin-left: 16px;
+}
