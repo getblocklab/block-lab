@@ -227,6 +227,6 @@ class Submenu extends Component_Abstract {
 	 * @return WP_REST_Response The response to the request.
 	 */
 	public function get_migrate_post_type_response() {
-		return rest_ensure_response( ( new Post_Type( 'genesis_custom_block', 'genesis-custom-blocks' ) )->migrate_all() );
+		return rest_ensure_response( ( new Post_Type( 'block_lab', 'block-lab', 'block_lab', 'genesis_custom_block', 'genesis-custom-blocks', 'genesis_custom_blocks' ) )->migrate_all() );
 	}
 }

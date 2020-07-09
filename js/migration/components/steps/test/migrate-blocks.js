@@ -5,9 +5,20 @@ import { render } from '@testing-library/react';
 import user from '@testing-library/user-event';
 
 /**
+ * WordPress dependencies
+ */
+import apiFetch from '@wordpress/api-fetch';
+
+/**
  * Internal dependencies
  */
 import { MigrateBlocks } from '../';
+
+jest.mock( '@wordpress/api-fetch' );
+
+apiFetch.mockImplementationOnce(
+	() => new Promise( ( resolve ) => resolve( {} ) )
+);
 
 test( 'migrate blocks step', async () => {
 	const props = {

@@ -119,13 +119,9 @@ class Test_Post_Content extends WP_UnitTestCase {
 		return [
 			'no_block'                               => [
 				'This post content does not have a block <p>Here is a paragraph</p>',
-				null,
-				'object', // This should return a WP_Error.
 			],
 			'unrelated_blocks_are_not_affected'      => [
 				$this->unrelated_blocks,
-				null,
-				'object',
 			],
 			'simple_image_block'                     => [
 				$this->image_block_initial_content,

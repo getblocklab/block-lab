@@ -10,6 +10,7 @@ import * as React from 'react';
  */
 import { __ } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
+import apiFetch from '@wordpress/api-fetch';
 
 /**
  * Internal dependencies
@@ -20,20 +21,19 @@ import { Step, StepContent, StepIcon } from '../';
  * @typedef {Object} MigrateBlocksProps The component props.
  * @property {number} currentStepIndex The current step in the migration process.
  * @property {number} stepIndex The step index of this step.
- * @property {React.MouseEventHandler} goToNext Goes to the next step.
- * @property {React.MouseEventHandler} goToPrevious Goes to the next step.
+ * @property {Function} goToNext Goes to the next step.
  */
 
 /**
  * The step that prompts to back up the site.
  *
  * @param {MigrateBlocksProps} Props The component props.
- * @return {React.ReactElement} The component to prompt to back up the site.
+ * @return {React.ReactElement} The component to prompt to migrate the post content.
  */
-const MigrateBlocks = ( { currentStepIndex, stepIndex } ) => {
+const MigrateBlocks = ( { currentStepIndex, stepIndex, goToNext } ) => {
 	const isStepActive = currentStepIndex === stepIndex;
 	const isStepComplete = currentStepIndex > stepIndex;
-	const [ currentBlockMigrationStep ] = useState( 0 );
+	const [ currentBlockMigrationStep, setCurrentBlockMigrationStep ] = useState( 0 );
 	const [ isMigrationInProgress, setIsMigrationInProgress ] = useState( false );
 
 	const migrationLabels = [
@@ -48,10 +48,25 @@ const MigrateBlocks = ( { currentStepIndex, stepIndex } ) => {
 	/**
 	 * Migrates the blocks, going through each migration step.
 	 *
-	 * @todo Add the API calls and advance through the 3 migration steps.
+	 * @todo Refactor this, and handle the 'Intall GCB' step.
 	 */
-	const migrateBlocks = () => {
+	const migrateBlocks = async () => {
 		setIsMigrationInProgress( true );
+		await apiFetch( {
+			path: '/block-lab/migrate-post-type',
+			method: 'POST',
+		} );
+		setCurrentBlockMigrationStep( 1 );
+
+		const contentMigrationResult = await apiFetch( {
+			path: '/block-lab/migrate-post-content',
+			method: 'POST',
+		} );
+
+		// @ts-ignore
+		if ( contentMigrationResult.success ) {
+			goToNext();
+		}
 	};
 
 	return (

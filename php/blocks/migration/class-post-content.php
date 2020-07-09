@@ -115,13 +115,6 @@ class Post_Content {
 			$replacement_count
 		);
 
-		if ( 0 === $replacement_count ) {
-			return new WP_Error(
-				'no_block_namespace_found',
-				__( 'Post content did not have blocks with the namespace', 'block-lab' )
-			);
-		}
-
 		return wp_update_post(
 			[
 				'ID'           => $post->ID,

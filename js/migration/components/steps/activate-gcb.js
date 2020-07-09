@@ -26,7 +26,7 @@ import { Step, StepContent, StepFooter, StepIcon } from '../';
  * The step that prompts to back up the site.
  *
  * @param {ActivateGcbProps} Props The component props.
- * @return {React.ReactElement} The component to prompt to back up the site.
+ * @return {React.ReactElement} The component to activate Genesis Custom Blocks.
  */
 const ActivateGcb = ( { currentStepIndex, stepIndex } ) => {
 	const isStepActive = currentStepIndex === stepIndex;

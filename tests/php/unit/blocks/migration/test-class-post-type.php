@@ -112,7 +112,7 @@ class Test_Post_Type extends WP_UnitTestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
-		$this->instance = new Post_Type( self::NEW_POST_TYPE_SLUG, self::NEW_BLOCK_NAMESPACE );
+		$this->instance = new Post_Type( 'block_lab', 'block-lab', 'block_lab', self::NEW_POST_TYPE_SLUG, self::NEW_BLOCK_NAMESPACE, 'genesis_custom_blocks' );
 	}
 
 	/**

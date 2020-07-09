@@ -25,18 +25,18 @@ class Post_Type {
 	private $previous_post_type_slug;
 
 	/**
-	 * The new slug of the custom post type (not in Block Lab).
-	 *
-	 * @var string
-	 */
-	private $new_post_type_slug;
-
-	/**
 	 * The previous namespace of the block.
 	 *
 	 * @var string
 	 */
 	private $previous_block_namespace;
+
+	/**
+	 * The previous default block icon.
+	 *
+	 * @var string
+	 */
+	private $previous_default_icon;
 
 	/**
 	 * The new namespace of the block.
@@ -46,16 +46,36 @@ class Post_Type {
 	private $new_block_namespace;
 
 	/**
+	 * The new slug of the custom post type (not in Block Lab).
+	 *
+	 * @var string
+	 */
+	private $new_post_type_slug;
+
+	/**
+	 * The new default block icon.
+	 *
+	 * @var string
+	 */
+	private $new_default_icon;
+
+	/**
 	 * Post_Type constructor.
 	 *
-	 * @param string $new_post_type_slug  The new slug of the custom post type.
-	 * @param string $new_block_namespace The new namespace of the block.
+	 * @param string $previous_post_type_slug  Previous slug of the post type.
+	 * @param string $previous_block_namespace Previous block namespace.
+	 * @param string $previous_default_icon    Previous default block icon.
+	 * @param string $new_post_type_slug       New slug of the custom post type.
+	 * @param string $new_block_namespace      New namespace of the block.
+	 * @param string $new_default_icon         New default block icon.
 	 */
-	public function __construct( $new_post_type_slug, $new_block_namespace ) {
-		$this->previous_post_type_slug  = block_lab()->get_post_type_slug();
+	public function __construct( $previous_post_type_slug, $previous_block_namespace, $previous_default_icon, $new_post_type_slug, $new_block_namespace, $new_default_icon ) {
+		$this->previous_post_type_slug  = $previous_post_type_slug;
+		$this->previous_block_namespace = $previous_block_namespace;
+		$this->previous_default_icon    = $previous_default_icon;
 		$this->new_post_type_slug       = $new_post_type_slug;
-		$this->previous_block_namespace = 'block-lab';
 		$this->new_block_namespace      = $new_block_namespace;
+		$this->new_default_icon         = $new_default_icon;
 	}
 
 	/**
@@ -115,11 +135,13 @@ class Post_Type {
 			return false;
 		}
 
-		$block_contents        = $block[ $old_block_name ];
-		$previous_default_icon = 'block_lab';
-		$new_default_icon      = 'genesis_custom_blocks';
-		if ( isset( $block_contents['icon'] ) && $previous_default_icon === $block_contents['icon'] ) {
-			$block_contents['icon'] = $new_default_icon;
+		$block_contents = $block[ $old_block_name ];
+		if ( isset( $block_contents['icon'] ) && $this->previous_default_icon === $block_contents['icon'] ) {
+			$block_contents['icon'] = $this->new_default_icon;
+		}
+
+		if ( empty( $block_contents['icon'] ) ) {
+			$block_contents['icon'] = $this->new_default_icon;
 		}
 
 		$new_block_name = preg_replace( '#^' . $this->previous_block_namespace . '(?=/)#', $this->new_block_namespace, $old_block_name );
