@@ -10,6 +10,7 @@
 namespace Block_Lab\Admin\Migration;
 
 use Block_Lab\Component_Abstract;
+use Block_Lab\Admin\License;
 
 /**
  * Class Post_Type
@@ -101,14 +102,19 @@ class Submenu extends Component_Abstract {
 				admin_url()
 			);
 
+			$is_pro      = block_lab()->is_pro();
+			$script_data = [
+				'isPro'       => $is_pro,
+				'activateUrl' => $activate_url,
+			];
+
+			if ( $is_pro ) {
+				$script_data['discountCode'] = $this->get_discount_code();
+			}
+
 			wp_add_inline_script(
 				self::MENU_SLUG,
-				'const blockLabMigration = ' . wp_json_encode(
-					[
-						'isPro'       => block_lab()->is_pro(),
-						'activateUrl' => $activate_url,
-					]
-				),
+				'const blockLabMigration = ' . wp_json_encode( $script_data ) . ';',
 				'before'
 			);
 		}
@@ -173,5 +179,19 @@ class Submenu extends Component_Abstract {
 				admin_url( 'plugins.php' )
 			)
 		);
+	}
+
+	/**
+	 * Gets the discount code for a Pro user.
+	 *
+	 * @return string|false The discount code.
+	 */
+	public function get_discount_code() {
+		$license_key = get_option( License::LICENSE_KEY_OPTION_NAME );
+		if ( empty( $license_key ) ) {
+			return false;
+		}
+
+		return hash( 'adler32', $license_key );
 	}
 }

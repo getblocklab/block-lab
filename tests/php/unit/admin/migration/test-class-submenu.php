@@ -6,6 +6,7 @@
  */
 
 use Block_Lab\Admin\Migration\Submenu;
+use Block_Lab\Admin\License;
 use Brain\Monkey;
 use Brain\Monkey\Functions;
 
@@ -49,7 +50,7 @@ class Test_Submenu extends WP_UnitTestCase {
 	/**
 	 * Test register_hooks.
 	 *
-	 * @covers Block_Lab\Blocks\Migration\Submenu::register_hooks()
+	 * @covers Block_Lab\Admin\Migration\Submenu::register_hooks()
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -61,7 +62,7 @@ class Test_Submenu extends WP_UnitTestCase {
 	/**
 	 * Test add_submenu_page.
 	 *
-	 * @covers Block_Lab\Blocks\Migration\Submenu::add_submenu_page()
+	 * @covers Block_Lab\Admin\Migration\Submenu::add_submenu_page()
 	 */
 	public function test_add_submenu_pages() {
 		$this->set_admin_user();
@@ -82,7 +83,7 @@ class Test_Submenu extends WP_UnitTestCase {
 	/**
 	 * Test enqueue_scripts when not on a page.
 	 *
-	 * @covers Block_Lab\Blocks\Migration\Submenu::enqueue_scripts()
+	 * @covers Block_Lab\Admin\Migration\Submenu::enqueue_scripts()
 	 */
 	public function test_enqueue_scripts_not_on_page() {
 		$this->set_admin_user();
@@ -94,7 +95,7 @@ class Test_Submenu extends WP_UnitTestCase {
 	/**
 	 * Test enqueue_scripts when on the wrong page.
 	 *
-	 * @covers Block_Lab\Blocks\Migration\Submenu::enqueue_scripts()
+	 * @covers Block_Lab\Admin\Migration\Submenu::enqueue_scripts()
 	 */
 	public function test_enqueue_scripts_wrong_page() {
 		$this->set_admin_user();
@@ -115,7 +116,7 @@ class Test_Submenu extends WP_UnitTestCase {
 	/**
 	 * Test enqueue_scripts on the right page.
 	 *
-	 * @covers Block_Lab\Blocks\Migration\Submenu::enqueue_scripts()
+	 * @covers Block_Lab\Admin\Migration\Submenu::enqueue_scripts()
 	 */
 	public function test_enqueue_scripts_right_page() {
 		$this->set_admin_user();
@@ -136,7 +137,7 @@ class Test_Submenu extends WP_UnitTestCase {
 	/**
 	 * Test user_can_view_migration_page with a non-admin user.
 	 *
-	 * @covers Block_Lab\Blocks\Migration\Submenu::user_can_view_migration_page()
+	 * @covers Block_Lab\Admin\Migration\Submenu::user_can_view_migration_page()
 	 */
 	public function test_user_can_view_migration_page_non_admin() {
 		$this->assertFalse( $this->instance->user_can_view_migration_page() );
@@ -145,7 +146,7 @@ class Test_Submenu extends WP_UnitTestCase {
 	/**
 	 * Test user_can_view_migration_page with an admin user.
 	 *
-	 * @covers Block_Lab\Blocks\Migration\Submenu::user_can_view_migration_page()
+	 * @covers Block_Lab\Admin\Migration\Submenu::user_can_view_migration_page()
 	 */
 	public function test_user_can_view_migration_page_admin() {
 		$this->set_admin_user();
@@ -155,7 +156,7 @@ class Test_Submenu extends WP_UnitTestCase {
 	/**
 	 * Test render_page.
 	 *
-	 * @covers Block_Lab\Blocks\Migration\Submenu::render_page()
+	 * @covers Block_Lab\Admin\Migration\Submenu::render_page()
 	 */
 	public function test_render_page() {
 		ob_start();
@@ -170,7 +171,7 @@ class Test_Submenu extends WP_UnitTestCase {
 	/**
 	 * Test maybe_activate_plugin with no query var.
 	 *
-	 * @covers Block_Lab\Blocks\Migration\Submenu::maybe_activate_plugin()
+	 * @covers Block_Lab\Admin\Migration\Submenu::maybe_activate_plugin()
 	 */
 	public function test_maybe_activate_plugin_no_query_var() {
 		$error = $this->get_plugin_activation_error();
@@ -180,7 +181,7 @@ class Test_Submenu extends WP_UnitTestCase {
 	/**
 	 * Test maybe_activate_plugin with the correct query var.
 	 *
-	 * @covers Block_Lab\Blocks\Migration\Submenu::maybe_activate_plugin()
+	 * @covers Block_Lab\Admin\Migration\Submenu::maybe_activate_plugin()
 	 */
 	public function test_maybe_activate_plugin_correct_query_var() {
 		$_GET['bl_deactivate_and_activate'] = true;
@@ -192,7 +193,7 @@ class Test_Submenu extends WP_UnitTestCase {
 	/**
 	 * Test maybe_activate_plugin with the correct user.
 	 *
-	 * @covers Block_Lab\Blocks\Migration\Submenu::maybe_activate_plugin()
+	 * @covers Block_Lab\Admin\Migration\Submenu::maybe_activate_plugin()
 	 */
 	public function test_maybe_activate_plugin_correct_user() {
 		$_GET['bl_deactivate_and_activate'] = true;
@@ -210,7 +211,7 @@ class Test_Submenu extends WP_UnitTestCase {
 	/**
 	 * Test maybe_activate_plugin with the nonce present.
 	 *
-	 * @covers Block_Lab\Blocks\Migration\Submenu::maybe_activate_plugin()
+	 * @covers Block_Lab\Admin\Migration\Submenu::maybe_activate_plugin()
 	 */
 	public function test_maybe_activate_plugin_nonce_present() {
 		$_GET['bl_deactivate_and_activate'] = true;
@@ -226,6 +227,33 @@ class Test_Submenu extends WP_UnitTestCase {
 			->once();
 
 		$this->get_plugin_activation_error();
+	}
+
+	/**
+	 * Gets the test data for test_get_discount_code.
+	 *
+	 * @return array The test data.
+	 */
+	public function get_data_discount_code() {
+		return [
+			'empty_string'   => [ '', false ],
+			'false_license'  => [ false, false ],
+			'string_license' => [ '98765432123456789', '1fe2038a' ],
+		];
+	}
+
+	/**
+	 * Test get_discount_code.
+	 *
+	 * @dataProvider get_data_discount_code
+	 * @covers Block_Lab\Admin\Migration\Submenu::get_discount_code()
+	 *
+	 * @param string      $license_key The Block Lab license key.
+	 * @param string|bool $expected    The expected return value.
+	 */
+	public function test_get_discount_code( $license_key, $expected ) {
+		add_option( License::LICENSE_KEY_OPTION_NAME, $license_key );
+		$this->assertEquals( $expected, $this->instance->get_discount_code() );
 	}
 
 	/**

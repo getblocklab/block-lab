@@ -186,7 +186,7 @@ class Test_Post_Content extends WP_UnitTestCase {
 	 * Test migrate_single.
 	 *
 	 * @dataProvider get_data_migrate_single
-	 * @covers \Block_Lab\Blocks\Migration\Post_Content::migrate_single()
+	 * @covers \Block_Lab\Admin\Migration\Post_Content::migrate_single()
 	 *
 	 * @param string $initial_post_content  Initial post_content.
 	 * @param string $expected_post_content Expected post_content of the new post.
@@ -211,7 +211,7 @@ class Test_Post_Content extends WP_UnitTestCase {
 	/**
 	 * Test migrate_single with an invalid post ID.
 	 *
-	 * @covers \Block_Lab\Blocks\Migration\Post_Content::migrate_single()
+	 * @covers \Block_Lab\Admin\Migration\Post_Content::migrate_single()
 	 */
 	public function test_migrate_single_invalid_post_id() {
 		$invalid_post_id = 5000000000;
@@ -221,8 +221,8 @@ class Test_Post_Content extends WP_UnitTestCase {
 	/**
 	 * Test migrate_all.
 	 *
-	 * @covers \Block_Lab\Blocks\Migration\Post_Content::migrate_all()
-	 * @covers \Block_Lab\Blocks\Migration\Post_Content::query_for_posts()
+	 * @covers \Block_Lab\Admin\Migration\Post_Content::migrate_all()
+	 * @covers \Block_Lab\Admin\Migration\Post_Content::query_for_posts()
 	 */
 	public function test_migrate_all() {
 		$post_id       = $this->create_block_post( $this->image_block_initial_content );
@@ -243,7 +243,7 @@ class Test_Post_Content extends WP_UnitTestCase {
 	/**
 	 * Test migrate_all with non-Block Lab blocks.
 	 *
-	 * @covers \Block_Lab\Blocks\Migration\Post_Content::migrate_all()
+	 * @covers \Block_Lab\Admin\Migration\Post_Content::migrate_all()
 	 */
 	public function test_migrate_all_non_block_lab_blocks_not_affected() {
 		remove_filter( 'content_save_pre', 'wp_filter_post_kses' );
@@ -266,7 +266,7 @@ class Test_Post_Content extends WP_UnitTestCase {
 	/**
 	 * Test migrate_all with many posts.
 	 *
-	 * @covers \Block_Lab\Blocks\Migration\Post_Type::migrate_all()
+	 * @covers \Block_Lab\Admin\Migration\Post_Type::migrate_all()
 	 */
 	public function test_migrate_all_many_posts() {
 		remove_filter( 'content_save_pre', 'wp_filter_post_kses' );
@@ -298,7 +298,7 @@ class Test_Post_Content extends WP_UnitTestCase {
 	/**
 	 * Test migrate_all when there are only errors.
 	 *
-	 * @covers \Block_Lab\Blocks\Migration\Post_Type::migrate_all()
+	 * @covers \Block_Lab\Admin\Migration\Post_Type::migrate_all()
 	 */
 	public function test_migrate_all_errors() {
 		$number_of_posts = 22;

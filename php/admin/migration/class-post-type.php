@@ -167,7 +167,7 @@ class Post_Type {
 	 * Gets the posts of the previous post_type.
 	 *
 	 * This query won't find posts that were already migrated, as the migration changes the 'post_type'.
-	 * So this doesn't have an 'offset' parameter.
+	 * So this doesn't need an 'offset' parameter.
 	 *
 	 * @return WP_Post[] The posts that were found.
 	 */

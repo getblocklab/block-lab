@@ -133,8 +133,8 @@ class Test_Post_Type extends WP_UnitTestCase {
 	/**
 	 * Test migrate_all.
 	 *
-	 * @covers \Block_Lab\Blocks\Migration\Post_Type::migrate_all()
-	 * @covers \Block_Lab\Blocks\Migration\Post_Type::query_for_posts()
+	 * @covers \Block_Lab\Admin\Migration\Post_Type::migrate_all()
+	 * @covers \Block_Lab\Admin\Migration\Post_Type::query_for_posts()
 	 */
 	public function test_migrate_all() {
 		$initial_block_content = [
@@ -172,7 +172,7 @@ class Test_Post_Type extends WP_UnitTestCase {
 	/**
 	 * Test migrate_all with many posts.
 	 *
-	 * @covers \Block_Lab\Blocks\Migration\Post_Type::migrate_all()
+	 * @covers \Block_Lab\Admin\Migration\Post_Type::migrate_all()
 	 */
 	public function test_migrate_all_many_posts() {
 		$number_of_block_lab_posts = 203;
@@ -236,7 +236,7 @@ class Test_Post_Type extends WP_UnitTestCase {
 	/**
 	 * Test that migrate_all does not affect a custom post type other than block_lab.
 	 *
-	 * @covers \Block_Lab\Blocks\Migration\Post_Type::migrate_all()
+	 * @covers \Block_Lab\Admin\Migration\Post_Type::migrate_all()
 	 */
 	public function test_migrate_all_other_post_type() {
 		$other_post_type_slug = 'testimonial';
@@ -332,7 +332,7 @@ class Test_Post_Type extends WP_UnitTestCase {
 	 * Test migrate_single.
 	 *
 	 * @dataProvider get_data_migrate_single
-	 * @covers \Block_Lab\Blocks\Migration\Post_Type::migrate_single()
+	 * @covers \Block_Lab\Admin\Migration\Post_Type::migrate_single()
 	 *
 	 * @param string $initial_post_content  Initial post_content.
 	 * @param string $expected_post_content Expected post_content of the new post.

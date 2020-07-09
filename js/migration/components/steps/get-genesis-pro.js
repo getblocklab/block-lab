@@ -1,4 +1,5 @@
 // @ts-check
+/* global blockLabMigration */
 
 /**
  * External dependencies
@@ -130,7 +131,9 @@ const GetGenesisPro = ( { currentStepIndex, stepIndex, goToNext } ) => {
 				</div>
 				<p>
 					{ __( 'To migrate and maintain your Block Lab Pro feature set with Genesis Custom Blocks, you will need a Genesis Pro subscription key. Your personal discount code for one free year of Genesis Pro is', 'block-lab' ) }
-					<code className="bg-gray-200 rounded-sm cursor-pointer hover:bg-gray-300">foobarbaz</code>.
+					&nbsp;
+					{ /* @ts-ignore global */ }
+					<code className="bg-gray-200 rounded-sm cursor-pointer hover:bg-gray-300">{ blockLabMigration.discountCode }</code>.
 				</p>
 				<ul>
 					<li>{ __( 'Already have one? Enter the subscription key below to continue migrating.', 'block-lab' ) }</li>
