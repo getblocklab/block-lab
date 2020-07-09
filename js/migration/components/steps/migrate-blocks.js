@@ -52,11 +52,17 @@ const MigrateBlocks = ( { currentStepIndex, stepIndex, goToNext } ) => {
 	 */
 	const migrateBlocks = async () => {
 		setIsMigrationInProgress( true );
-		await apiFetch( {
+		const postTypeMigrationResult = await apiFetch( {
 			path: '/block-lab/migrate-post-type',
 			method: 'POST',
 		} );
-		setCurrentBlockMigrationStep( 1 );
+
+		// @ts-ignore
+		if ( postTypeMigrationResult.success ) {
+			setCurrentBlockMigrationStep( 1 );
+		} else {
+			return;
+		}
 
 		const contentMigrationResult = await apiFetch( {
 			path: '/block-lab/migrate-post-content',

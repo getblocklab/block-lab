@@ -10,6 +10,7 @@ import * as React from 'react';
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import apiFetch from '@wordpress/api-fetch';
 import { useState } from '@wordpress/element';
 
 /**
@@ -36,7 +37,48 @@ const GetGenesisPro = ( { currentStepIndex, stepIndex, goToNext } ) => {
 
 	// @todo: replace this.
 	const urlMigrateWithoutGenPro = 'https://example.com';
-	const [ keySubmittedSuccessfully ] = useState( false );
+	const [ keySubmittedSuccessfully, setKeySubmittedSuccessfully ] = useState( false );
+	const [ subscriptionKey, updateSubscriptionKey ] = useState( false );
+	const [ submissionMessage, setSubmissionMessage ] = useState( '' );
+
+	/**
+	 * The handler for changing the subscription key.
+	 *
+	 * @param {React.ChangeEvent<HTMLInputElement>} event The change event.
+	 */
+	const onChangeSubscriptionKey = ( event ) => {
+		updateSubscriptionKey( event.target.value );
+	};
+
+	/**
+	 * Submits the subscription key to the endpoint.
+	 *
+	 * @param {React.MouseEvent<HTMLButtonElement, MouseEvent>} event The click event.
+	 */
+	const submitSubscriptionKey = async ( event ) => {
+		event.preventDefault();
+		if ( ! subscriptionKey ) {
+			setSubmissionMessage( __( 'The subscription key is empty', 'block-lab' ) );
+			setKeySubmittedSuccessfully( false );
+			return;
+		}
+
+		const submitResult = await apiFetch( {
+			path: '/block-lab/update-subscription-key',
+			method: 'POST',
+			data: { subscriptionKey },
+		} );
+
+		// @ts-ignore
+		if ( submitResult.success ) {
+			setSubmissionMessage( __( 'Thanks, the key was saved', 'block-lab' ) );
+		} else {
+			setSubmissionMessage( __( 'There was an error saving the key', 'block-lab' ) );
+		}
+
+		// @ts-ignore
+		setKeySubmittedSuccessfully( !! submitResult.success );
+	};
 
 	return (
 		<Step isActive={ isStepActive } isComplete={ isStepComplete }>
@@ -140,11 +182,15 @@ const GetGenesisPro = ( { currentStepIndex, stepIndex, goToNext } ) => {
 					<li>{ __( 'Don’t have one yet? Set up your Genesis Pro account, then return here to enter your subscription key and continue migrating.', 'block-lab' ) }</li>
 				</ul>
 				<div className="genesis-pro-form">
-					<form action="">
-						<input type="text" placeholder={ __( 'Enter your Genesis Pro subscrption key...', 'block-lab' ) } />
-						<button>Submit</button>
-					</form>
-					<p>or</p>
+					<input
+						type="text"
+						placeholder={ __( 'Enter your Genesis Pro subscrption key...', 'block-lab' ) }
+						onChange={ onChangeSubscriptionKey }
+					/>
+					<button onClick={ submitSubscriptionKey } >
+						{ __( 'Submit', 'block-lab' ) }
+					</button>
+					<p>{ __( 'or', 'block-lab' ) }</p>
 					<a
 						href="https://www.studiopress.com/genesis-pro/"
 						className="btn"
@@ -154,6 +200,7 @@ const GetGenesisPro = ( { currentStepIndex, stepIndex, goToNext } ) => {
 						{ __( 'Get Genesis Pro', 'block-lab' ) }
 					</a>
 				</div>
+				<p className="pro-submission-message">{ submissionMessage }</p>
 				<p className="help-text">
 					{ __( 'Want to migrate but not set up Genesis Pro just now?', 'block-lab' ) }
 					&nbsp;

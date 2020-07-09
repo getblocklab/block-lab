@@ -298,6 +298,10 @@ a {
 	margin-right: 1rem;
 }
 
+.step-footer button:only-child {
+	margin-left: auto;
+}
+
 label {
 	font-size: .875rem;
 	margin-left: .25rem;
@@ -348,7 +352,8 @@ label {
 	background-color: var(--color-purple-200);
 }
 
-.genesis-pro-form p {
+.genesis-pro-form p,
+.pro-submission-message {
 	margin-left: 1rem;
 	margin-right: 1rem;
 	margin-bottom: 0;
@@ -356,6 +361,10 @@ label {
 	font-style: italic;
 	color: var(--color-purple-600);
 	font-weight: 500;
+}
+
+.pro-submission-message {
+	margin-top: 0.5rem;
 }
 
 .pro-box {
