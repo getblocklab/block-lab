@@ -5,7 +5,7 @@
  * @package Block_Lab
  */
 
-use Block_Lab\Blocks\Migration\Post_Content;
+use Block_Lab\Admin\Migration\Post_Content;
 
 /**
  * Class Test_Post_Content

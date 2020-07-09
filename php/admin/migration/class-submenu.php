@@ -7,7 +7,7 @@
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace Block_Lab\Blocks\Migration;
+namespace Block_Lab\Admin\Migration;
 
 use WP_REST_Response;
 use Block_Lab\Component_Abstract;
@@ -49,7 +49,7 @@ class Submenu extends Component_Abstract {
 	 * Adds the actions.
 	 */
 	public function register_hooks() {
-		add_action( 'admin_menu', [ $this, 'add_submenu_page' ] );
+		add_action( 'admin_menu', [ $this, 'add_submenu_page' ], 9 );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 		add_action( 'admin_bar_init', [ $this, 'maybe_activate_plugin' ] );
 		add_action( 'rest_api_init', [ $this, 'register_route_migrate_post_content' ] );

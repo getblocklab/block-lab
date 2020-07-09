@@ -10,19 +10,11 @@
 namespace Block_Lab\Admin;
 
 use Block_Lab\Component_Abstract;
-use Block_Lab\Blocks\Migration\Submenu;
 
 /**
  * Class Admin
  */
 class Admin extends Component_Abstract {
-
-	/**
-	 * Migration submenu.
-	 *
-	 * @var Submenu
-	 */
-	public $submenu;
 
 	/**
 	 * Plugin settings.
@@ -39,18 +31,18 @@ class Admin extends Component_Abstract {
 	public $license;
 
 	/**
-	 * User onboarding.
-	 *
-	 * @var Onboarding
-	 */
-	public $onboarding;
-
-	/**
 	 * Migration to the new plugin.
 	 *
 	 * @var Migration
 	 */
 	public $migration;
+
+	/**
+	 * User onboarding.
+	 *
+	 * @var Onboarding
+	 */
+	public $onboarding;
 
 	/**
 	 * Plugin upgrade.
@@ -70,21 +62,17 @@ class Admin extends Component_Abstract {
 	 * Initialise the Admin component.
 	 */
 	public function init() {
-		// @todo remove this when this is merged: https://github.com/getblocklab/block-lab/pull/635
-		$this->submenu = new Submenu();
-		block_lab()->register_component( $this->submenu );
-
 		$this->settings = new Settings();
 		block_lab()->register_component( $this->settings );
 
 		$this->license = new License();
 		block_lab()->register_component( $this->license );
 
-		$this->onboarding = new Onboarding();
-		block_lab()->register_component( $this->onboarding );
-
 		$this->migration = new Migration();
 		block_lab()->register_component( $this->migration );
+
+		$this->onboarding = new Onboarding();
+		block_lab()->register_component( $this->onboarding );
 
 		$show_pro_nag = apply_filters( 'block_lab_show_pro_nag', false );
 		if ( $show_pro_nag && ! block_lab()->is_pro() ) {

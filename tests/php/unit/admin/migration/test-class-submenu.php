@@ -5,7 +5,7 @@
  * @package Block_Lab
  */
 
-use Block_Lab\Blocks\Migration\Submenu;
+use Block_Lab\Admin\Migration\Submenu;
 use Brain\Monkey;
 use Brain\Monkey\Functions;
 
@@ -53,7 +53,7 @@ class Test_Submenu extends WP_UnitTestCase {
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
-		$this->assertEquals( 10, has_action( 'admin_menu', [ $this->instance, 'add_submenu_page' ] ) );
+		$this->assertEquals( 9, has_action( 'admin_menu', [ $this->instance, 'add_submenu_page' ] ) );
 		$this->assertEquals( 10, has_action( 'admin_enqueue_scripts', [ $this->instance, 'enqueue_scripts' ] ) );
 		$this->assertEquals( 10, has_action( 'admin_bar_init', [ $this->instance, 'maybe_activate_plugin' ] ) );
 		$this->assertEquals( 10, has_action( 'rest_api_init', [ $this->instance, 'register_route_migrate_post_content' ] ) );

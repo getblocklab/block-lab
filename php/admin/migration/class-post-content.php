@@ -7,7 +7,7 @@
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace Block_Lab\Blocks\Migration;
+namespace Block_Lab\Admin\Migration;
 
 use WP_Error;
 
