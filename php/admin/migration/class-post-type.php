@@ -175,6 +175,7 @@ class Post_Type {
 			[
 				'post_type'      => $this->previous_post_type_slug,
 				'posts_per_page' => 10,
+				'post_status'    => 'any',
 			]
 		);
 
