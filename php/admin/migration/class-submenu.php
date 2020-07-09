@@ -46,6 +46,29 @@ class Submenu extends Component_Abstract {
 	const NONCE_ACTION_DEACTIVATE_AND_ACTIVATE = 'deactivate_bl_and_activate_new';
 
 	/**
+	 * The query var to disable onboarding in Genesis Custom Blocks.
+	 *
+	 * The user will have already created blocks, so onboarding doesn't seem useful.
+	 *
+	 * @var string
+	 */
+	const QUERY_VAR_DISABLE_ONBOARDING = 'disabled_gcb_onboarding';
+
+	/**
+	 * The nonce query var to disable onboarding.
+	 *
+	 * @var string
+	 */
+	const NONCE_QUERY_VAR_DISABLE_ONBOARDING = '_wpnonce_disable_onboarding';
+
+	/**
+	 * The nonce name to disable onboarding in Genesis Custom Blocks.
+	 *
+	 * @var string
+	 */
+	const NONCE_ACTION_DISABLE_ONBOARDING = 'nonce_disable_gcb_onboarding';
+
+	/**
 	 * Adds the actions.
 	 */
 	public function register_hooks() {
@@ -170,11 +193,13 @@ class Submenu extends Component_Abstract {
 		wp_safe_redirect(
 			add_query_arg(
 				[
-					'action'        => 'activate',
-					'plugin'        => rawurlencode( $new_plugin_file ),
-					'plugin_status' => 'all',
-					'paged'         => 1,
-					'_wpnonce'      => wp_create_nonce( 'activate-plugin_' . $new_plugin_file ),
+					'action'                           => 'activate',
+					'plugin'                           => rawurlencode( $new_plugin_file ),
+					'plugin_status'                    => 'all',
+					'paged'                            => 1,
+					'_wpnonce'                         => wp_create_nonce( 'activate-plugin_' . $new_plugin_file ),
+					self::QUERY_VAR_DISABLE_ONBOARDING => true,
+					self::NONCE_QUERY_VAR_DISABLE_ONBOARDING => wp_create_nonce( self::NONCE_ACTION_DISABLE_ONBOARDING ),
 				],
 				admin_url( 'plugins.php' )
 			)
