@@ -158,6 +158,7 @@ class Test_Post_Type extends WP_UnitTestCase {
 			[
 				'successCount' => count( $initial_block_content ),
 				'errorCount'   => 0,
+				'success'      => true,
 			],
 			$result
 		);
@@ -194,6 +195,7 @@ class Test_Post_Type extends WP_UnitTestCase {
 			[
 				'successCount' => $number_of_block_lab_posts,
 				'errorCount'   => 0,
+				'success'      => true,
 			],
 			$result
 		);
@@ -256,6 +258,7 @@ class Test_Post_Type extends WP_UnitTestCase {
 			[
 				'successCount' => 0,
 				'errorCount'   => 0,
+				'success'      => false,
 			],
 			$result
 		);

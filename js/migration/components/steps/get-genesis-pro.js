@@ -122,22 +122,23 @@ const GetGenesisPro = ( { currentStepIndex, stepIndex, goToNext } ) => {
 									</g>
 								</svg>
 							</div>
-							<h4>New License Key</h4>
-							<p>To migrate and maintain your Block Lab Pro feature set, you will need a Genesis Pro license key. Step number 1 below will walk you through setting up your account.</p>
+							<h4>{ __( 'New Subscription Key', 'block-lab' ) }</h4>
+							<p>{ __( 'To migrate and maintain your Block Lab Pro feature set, you will need a Genesis Pro subscription key. Step number 1 below will walk you through setting up your account.', 'block-lab' ) }</p>
 						</div>
 					</div>
 					<p>{ __( '* Block Lab Pro licenses will not be renewing and Pro updates / support will end when your current license expires.', 'block-lab' ) }</p>
 				</div>
-				<p>To migrate and maintain your Block Lab Pro feature set with Genesis Custom Blocks, you will need a Genesis Pro license key. Your personal discount code for one free year of Genesis Pro is
+				<p>
+					{ __( 'To migrate and maintain your Block Lab Pro feature set with Genesis Custom Blocks, you will need a Genesis Pro subscription key. Your personal discount code for one free year of Genesis Pro is', 'block-lab' ) }
 					<code className="bg-gray-200 rounded-sm cursor-pointer hover:bg-gray-300">foobarbaz</code>.
 				</p>
 				<ul>
-					<li>{ __( 'Already have one? Enter the license key below to continue migrating.', 'block-lab' ) }</li>
-					<li>{ __( 'Don’t have one yet? Set up your Genesis Pro account, then return here to enter your license key and continue migrating.', 'block-lab' ) }</li>
+					<li>{ __( 'Already have one? Enter the subscription key below to continue migrating.', 'block-lab' ) }</li>
+					<li>{ __( 'Don’t have one yet? Set up your Genesis Pro account, then return here to enter your subscription key and continue migrating.', 'block-lab' ) }</li>
 				</ul>
 				<div className="genesis-pro-form">
 					<form action="">
-						<input type="text" placeholder="Enter your Genesis Pro license key…" />
+						<input type="text" placeholder={ __( 'Enter your Genesis Pro subscrption key...', 'block-lab' ) } />
 						<button>Submit</button>
 					</form>
 					<p>or</p>

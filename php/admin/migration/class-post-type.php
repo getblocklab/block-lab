@@ -62,7 +62,7 @@ class Post_Type {
 	/**
 	 * Post_Type constructor.
 	 *
-	 * @param string $previous_post_type_slug  Previous slug of the post type.
+	 * @param string $previous_post_type_slug  Previous slug of the custom post type.
 	 * @param string $previous_block_namespace Previous block namespace.
 	 * @param string $previous_default_icon    Previous default block icon.
 	 * @param string $new_post_type_slug       New slug of the custom post type.
@@ -105,6 +105,7 @@ class Post_Type {
 		}
 
 		return [
+			'success'      => ! empty( $success_count ),
 			'successCount' => $success_count,
 			'errorCount'   => $error_count,
 		];
@@ -165,8 +166,8 @@ class Post_Type {
 	/**
 	 * Gets the posts of the previous post_type.
 	 *
-	 * This doesn't have an 'offset' parameter, as the migration changes the post_type.
-	 * So this query won't find posts that were already migrated.
+	 * This query won't find posts that were already migrated, as the migration changes the 'post_type'.
+	 * So this doesn't have an 'offset' parameter.
 	 *
 	 * @return WP_Post[] The posts that were found.
 	 */

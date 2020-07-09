@@ -18,13 +18,6 @@ use Block_Lab\Component_Abstract;
 class Api extends Component_Abstract {
 
 	/**
-	 * The user capability to migrate posts and post content.
-	 *
-	 * @var string
-	 */
-	const MIGRATION_CAPABILITY = 'edit_others_posts';
-
-	/**
 	 * Adds the actions.
 	 */
 	public function register_hooks() {
@@ -43,7 +36,7 @@ class Api extends Component_Abstract {
 				'methods'             => 'POST',
 				'callback'            => [ $this, 'get_migrate_post_content_response' ],
 				'permission_callback' => function() {
-					return current_user_can( self::MIGRATION_CAPABILITY );
+					return current_user_can( Submenu::MIGRATION_CAPABILITY );
 				},
 			]
 		);
@@ -69,7 +62,7 @@ class Api extends Component_Abstract {
 				'methods'             => 'POST',
 				'callback'            => [ $this, 'get_migrate_post_type_response' ],
 				'permission_callback' => function() {
-					return current_user_can( self::MIGRATION_CAPABILITY );
+					return current_user_can( Submenu::MIGRATION_CAPABILITY );
 				},
 			]
 		);
