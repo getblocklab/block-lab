@@ -290,7 +290,7 @@ class Test_Submenu extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Set the current user as an administrator, and a super admin in multisite.
+	 * Sets the current user as an administrator, and a super admin in multisite.
 	 */
 	public function set_admin_user() {
 		$user_id = $this->factory()->user->create( [ 'role' => 'administrator' ] );
