@@ -46,6 +46,13 @@ class Admin extends Component_Abstract {
 	public $onboarding;
 
 	/**
+	 * Migration to the new plugin.
+	 *
+	 * @var Migration
+	 */
+	public $migration;
+
+	/**
 	 * Plugin upgrade.
 	 *
 	 * @var Upgrade
@@ -75,6 +82,9 @@ class Admin extends Component_Abstract {
 
 		$this->onboarding = new Onboarding();
 		block_lab()->register_component( $this->onboarding );
+
+		$this->migration = new Migration();
+		block_lab()->register_component( $this->migration );
 
 		$show_pro_nag = apply_filters( 'block_lab_show_pro_nag', false );
 		if ( $show_pro_nag && ! block_lab()->is_pro() ) {

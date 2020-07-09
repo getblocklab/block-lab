@@ -1,12 +1,12 @@
 <?php
 /**
- * Trait with a helper method for testing controls.
+ * Trait with testing helper methods.
  *
  * @package Block_Lab
  */
 
 /**
- * Trait with a helper method.
+ * Trait with helper methods.
  */
 trait Testing_Helper {
 
