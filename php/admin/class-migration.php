@@ -10,6 +10,7 @@
 namespace Block_Lab\Admin;
 
 use Block_Lab\Component_Abstract;
+use Block_Lab\Admin\Migration\Api;
 use Block_Lab\Admin\Migration\Notice;
 use Block_Lab\Admin\Migration\Submenu;
 
@@ -17,6 +18,13 @@ use Block_Lab\Admin\Migration\Submenu;
  * Class Migration
  */
 class Migration extends Component_Abstract {
+
+	/**
+	 * The migration notice.
+	 *
+	 * @var Notice
+	 */
+	private $api;
 
 	/**
 	 * The migration notice.
@@ -36,6 +44,9 @@ class Migration extends Component_Abstract {
 	 * Adds an action for the notice.
 	 */
 	public function init() {
+		$this->api = new Api();
+		block_lab()->register_component( $this->api );
+
 		$this->notice = new Notice();
 		block_lab()->register_component( $this->notice );
 

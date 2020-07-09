@@ -56,8 +56,6 @@ class Test_Submenu extends WP_UnitTestCase {
 		$this->assertEquals( 9, has_action( 'admin_menu', [ $this->instance, 'add_submenu_page' ] ) );
 		$this->assertEquals( 10, has_action( 'admin_enqueue_scripts', [ $this->instance, 'enqueue_scripts' ] ) );
 		$this->assertEquals( 10, has_action( 'admin_bar_init', [ $this->instance, 'maybe_activate_plugin' ] ) );
-		$this->assertEquals( 10, has_action( 'rest_api_init', [ $this->instance, 'register_route_migrate_post_content' ] ) );
-		$this->assertEquals( 10, has_action( 'rest_api_init', [ $this->instance, 'register_route_migrate_post_type' ] ) );
 	}
 
 	/**
@@ -228,50 +226,6 @@ class Test_Submenu extends WP_UnitTestCase {
 			->once();
 
 		$this->get_plugin_activation_error();
-	}
-
-	/**
-	 * Test register_route_migrate_post_content.
-	 *
-	 * @covers Block_Lab\Blocks\Migration\Submenu::register_route_migrate_post_content()
-	 */
-	public function test_register_route_migrate_post_content() {
-		do_action( 'rest_api_init' );
-		$this->instance->register_route_migrate_post_content();
-		$routes = rest_get_server()->get_routes();
-
-		$this->assertArrayHasKey( '/block-lab/migrate-post-content', $routes );
-	}
-
-	/**
-	 * Test get_migrate_post_content_response.
-	 *
-	 * @covers Block_Lab\Blocks\Migration\Submenu::get_migrate_post_content_response()
-	 */
-	public function test_get_migrate_post_content_response() {
-		$this->assertEquals( 'WP_REST_Response', get_class( $this->instance->get_migrate_post_content_response() ) );
-	}
-
-	/**
-	 * Test register_route_migrate_post_type.
-	 *
-	 * @covers Block_Lab\Blocks\Migration\Submenu::register_route_migrate_post_type()
-	 */
-	public function test_register_route_migrate_post_type() {
-		do_action( 'rest_api_init' );
-		$this->instance->register_route_migrate_post_type();
-		$routes = rest_get_server()->get_routes();
-
-		$this->assertArrayHasKey( '/block-lab/migrate-post-type', $routes );
-	}
-
-	/**
-	 * Test get_migrate_post_type_response.
-	 *
-	 * @covers Block_Lab\Blocks\Migration\Submenu::get_migrate_post_type_response()
-	 */
-	public function test_get_migrate_post_type_response() {
-		$this->assertEquals( 'WP_REST_Response', get_class( $this->instance->get_migrate_post_type_response() ) );
 	}
 
 	/**
