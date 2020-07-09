@@ -66,7 +66,7 @@ class Test_Submenu extends WP_UnitTestCase {
 	 * @covers Block_Lab\Blocks\Migration\Submenu::add_submenu_page()
 	 */
 	public function test_add_submenu_pages() {
-		wp_set_current_user( $this->factory()->user->create( [ 'role' => 'administrator' ] ) );
+		$this->set_admin_user();
 		Functions\expect( 'add_submenu_page' )
 			->once()
 			->with(
@@ -87,7 +87,7 @@ class Test_Submenu extends WP_UnitTestCase {
 	 * @covers Block_Lab\Blocks\Migration\Submenu::enqueue_scripts()
 	 */
 	public function test_enqueue_scripts_not_on_page() {
-		wp_set_current_user( $this->factory()->user->create( [ 'role' => 'administrator' ] ) );
+		$this->set_admin_user();
 		$this->instance->enqueue_scripts();
 		$this->assertFalse( wp_style_is( 'block-lab-migration' ) );
 		$this->assertFalse( wp_script_is( 'block-lab-migration' ) );
@@ -99,7 +99,7 @@ class Test_Submenu extends WP_UnitTestCase {
 	 * @covers Block_Lab\Blocks\Migration\Submenu::enqueue_scripts()
 	 */
 	public function test_enqueue_scripts_wrong_page() {
-		wp_set_current_user( $this->factory()->user->create( [ 'role' => 'administrator' ] ) );
+		$this->set_admin_user();
 		Monkey\Functions\expect( 'filter_input' )
 			->once()
 			->with(
@@ -120,7 +120,7 @@ class Test_Submenu extends WP_UnitTestCase {
 	 * @covers Block_Lab\Blocks\Migration\Submenu::enqueue_scripts()
 	 */
 	public function test_enqueue_scripts_right_page() {
-		wp_set_current_user( $this->factory()->user->create( [ 'role' => 'administrator' ] ) );
+		$this->set_admin_user();
 		Monkey\Functions\expect( 'filter_input' )
 			->once()
 			->with(
@@ -150,7 +150,7 @@ class Test_Submenu extends WP_UnitTestCase {
 	 * @covers Block_Lab\Blocks\Migration\Submenu::user_can_view_migration_page()
 	 */
 	public function test_user_can_view_migration_page_admin() {
-		wp_set_current_user( $this->factory()->user->create( [ 'role' => 'administrator' ] ) );
+		$this->set_admin_user();
 		$this->assertTrue( $this->instance->user_can_view_migration_page() );
 	}
 
@@ -274,7 +274,6 @@ class Test_Submenu extends WP_UnitTestCase {
 		$this->assertEquals( 'WP_REST_Response', get_class( $this->instance->get_migrate_post_type_response() ) );
 	}
 
-
 	/**
 	 * Gets the error from activating the plugin, if any.
 	 *
@@ -288,5 +287,16 @@ class Test_Submenu extends WP_UnitTestCase {
 		}
 
 		return isset( $error ) ? $error : null;
+	}
+
+	/**
+	 * Set the current user as an administrator, and a super admin in multisite.
+	 */
+	public function set_admin_user() {
+		$user_id = $this->factory()->user->create( [ 'role' => 'administrator' ] );
+		wp_set_current_user( $user_id );
+		if ( is_multisite() ) {
+			grant_super_admin( $user_id );
+		}
 	}
 }
