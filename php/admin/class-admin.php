@@ -10,6 +10,9 @@
 namespace Block_Lab\Admin;
 
 use Block_Lab\Component_Abstract;
+use Block_Lab\Admin\Migration\Api;
+use Block_Lab\Admin\Migration\Notice;
+use Block_Lab\Admin\Migration\Submenu;
 
 /**
  * Class Admin
@@ -17,11 +20,11 @@ use Block_Lab\Component_Abstract;
 class Admin extends Component_Abstract {
 
 	/**
-	 * Plugin settings.
+	 * JSON import.
 	 *
-	 * @var Settings
+	 * @var Import
 	 */
-	public $settings;
+	public $import;
 
 	/**
 	 * Plugin license.
@@ -31,18 +34,18 @@ class Admin extends Component_Abstract {
 	public $license;
 
 	/**
-	 * Migration to the new plugin.
-	 *
-	 * @var Migration
-	 */
-	public $migration;
-
-	/**
 	 * User onboarding.
 	 *
 	 * @var Onboarding
 	 */
 	public $onboarding;
+
+	/**
+	 * Plugin settings.
+	 *
+	 * @var Settings
+	 */
+	public $settings;
 
 	/**
 	 * Plugin upgrade.
@@ -52,11 +55,25 @@ class Admin extends Component_Abstract {
 	public $upgrade;
 
 	/**
-	 * JSON import.
+	 * The migration notice.
 	 *
-	 * @var Import
+	 * @var Api
 	 */
-	public $import;
+	private $api;
+
+	/**
+	 * The migration notice.
+	 *
+	 * @var Notice
+	 */
+	private $notice;
+
+	/**
+	 * The migration submenu under the Block Lab menu item.
+	 *
+	 * @var Submenu
+	 */
+	private $submenu;
 
 	/**
 	 * Initialise the Admin component.
@@ -68,11 +85,17 @@ class Admin extends Component_Abstract {
 		$this->license = new License();
 		block_lab()->register_component( $this->license );
 
-		$this->migration = new Migration();
-		block_lab()->register_component( $this->migration );
-
 		$this->onboarding = new Onboarding();
 		block_lab()->register_component( $this->onboarding );
+
+		$this->api = new Api();
+		block_lab()->register_component( $this->api );
+
+		$this->notice = new Notice();
+		block_lab()->register_component( $this->notice );
+
+		$this->submenu = new Submenu();
+		block_lab()->register_component( $this->submenu );
 
 		$show_pro_nag = apply_filters( 'block_lab_show_pro_nag', false );
 		if ( $show_pro_nag && ! block_lab()->is_pro() ) {
