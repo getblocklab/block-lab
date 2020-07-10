@@ -137,6 +137,11 @@ a {
 	background-color: var(--color-purple-800);
 }
 
+.btn[disabled] {
+	color: var(--color-purple-700);
+	background-color: var(--color-purple-200);
+}
+
 .btn-secondary {
 	color: var(--color-purple-600);
 	border-color: var(--color-purple-200);
