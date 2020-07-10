@@ -63,6 +63,7 @@ const GetGenesisPro = ( { currentStepIndex, stepIndex, goToNext } ) => {
 			return;
 		}
 
+		// @ts-ignore global
 		if ( subscriptionKey === blockLabMigration.couponCode ) {
 			setSubmissionMessage( __( "That looks like your coupon code. Please click 'Get Genesis Pro' and enter your coupon code there.", 'block-lab' ) );
 			setKeySubmittedSuccessfully( false );
@@ -77,9 +78,9 @@ const GetGenesisPro = ( { currentStepIndex, stepIndex, goToNext } ) => {
 
 		// @ts-ignore
 		if ( submitResult.success ) {
-			setSubmissionMessage( __( 'Thanks, the key was saved', 'block-lab' ) );
+			setSubmissionMessage( __( 'Thanks, the key was saved.', 'block-lab' ) );
 		} else {
-			setSubmissionMessage( __( 'There was an error saving the key', 'block-lab' ) );
+			setSubmissionMessage( __( 'There was an error saving the key.', 'block-lab' ) );
 		}
 
 		// @ts-ignore
@@ -190,7 +191,7 @@ const GetGenesisPro = ( { currentStepIndex, stepIndex, goToNext } ) => {
 				<div className="genesis-pro-form">
 					<input
 						type="text"
-						placeholder={ __( 'Enter your Genesis Pro subscrption key...', 'block-lab' ) }
+						placeholder={ __( 'Genesis Pro subscrption key', 'block-lab' ) }
 						onChange={ onChangeSubscriptionKey }
 					/>
 					<button onClick={ submitSubscriptionKey } >

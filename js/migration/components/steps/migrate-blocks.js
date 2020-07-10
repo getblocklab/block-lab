@@ -8,7 +8,7 @@ import * as React from 'react';
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, _n } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 
@@ -35,6 +35,8 @@ const MigrateBlocks = ( { currentStepIndex, stepIndex, goToNext } ) => {
 	const isStepComplete = currentStepIndex > stepIndex;
 	const [ currentBlockMigrationStep, setCurrentBlockMigrationStep ] = useState( 0 );
 	const [ isMigrationInProgress, setIsMigrationInProgress ] = useState( false );
+	const [ isMigrationError, setIsMigrationError ] = useState( false );
+	const [ errorMessages, setErrorMessages ] = useState( [] );
 
 	const migrationLabels = [
 		__( 'Migrating your blocks...', 'block-lab' ),
@@ -48,10 +50,12 @@ const MigrateBlocks = ( { currentStepIndex, stepIndex, goToNext } ) => {
 	/**
 	 * Migrates the blocks, going through each migration step.
 	 *
-	 * @todo Refactor this, and handle the 'Intall GCB' step.
+	 * @todo Add the 'Install GCB' step.
 	 */
 	const migrateBlocks = async () => {
 		setIsMigrationInProgress( true );
+		setErrorMessages( [] );
+
 		const postTypeMigrationResult = await apiFetch( {
 			path: '/block-lab/migrate-post-type',
 			method: 'POST',
@@ -61,6 +65,9 @@ const MigrateBlocks = ( { currentStepIndex, stepIndex, goToNext } ) => {
 		if ( postTypeMigrationResult.success ) {
 			setCurrentBlockMigrationStep( 1 );
 		} else {
+			setErrorMessages( [ __( 'Migrating the post type failed.', 'block-lab' ) ] );
+			setIsMigrationError( true );
+			setIsMigrationInProgress( false );
 			return;
 		}
 
@@ -72,6 +79,11 @@ const MigrateBlocks = ( { currentStepIndex, stepIndex, goToNext } ) => {
 		// @ts-ignore
 		if ( contentMigrationResult.success ) {
 			goToNext();
+		} else {
+			// @ts-ignore
+			setErrorMessages( contentMigrationResult.errorMessages );
+			setIsMigrationError( true );
+			setIsMigrationInProgress( false );
 		}
 	};
 
@@ -84,6 +96,12 @@ const MigrateBlocks = ( { currentStepIndex, stepIndex, goToNext } ) => {
 			<StepContent>
 				<h3>{ __( 'Migrate your Blocks', 'block-lab' ) }</h3>
 				<p>{ __( "Ok! Everything is ready. Let's do this. While the migration is underway, don't leave this page.", 'block-lab' ) }</p>
+				{ !! errorMessages.length && (
+					<div className="bl-migration__error">
+						<p>{ _n( 'The following error ocurred:', 'The following errors ocurred:', errorMessages.length, 'block-lab' ) }</p>
+						{ errorMessages.map( ( message, index ) => <p key={ `bl-error-message-${ index }` }>{ message }</p> ) }
+					</div>
+				) }
 				{ isMigrationInProgress ? (
 					<div>
 						<progress
@@ -97,7 +115,7 @@ const MigrateBlocks = ( { currentStepIndex, stepIndex, goToNext } ) => {
 						className="btn"
 						onClick={ migrateBlocks }
 					>
-						{ __( 'Migrate Now', 'block-lab' ) }
+						{ isMigrationError ? __( 'Try Again', 'block-lab' ) : __( 'Migrate Now', 'block-lab' ) }
 					</button>
 				) }
 			</StepContent>

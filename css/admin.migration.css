@@ -62,13 +62,13 @@ a {
 	text-decoration: underline;
 }
 
-#wpcontent {
-	padding-left: 0;
+/* So #wpfooter stays at the bottom. */
+#wpwrap {
+	height: max-content;
 }
 
-#wpfooter {
-	/* @todo: remove this */
-	position: fixed;
+#wpcontent {
+	padding-left: 0;
 }
 
 .wp-admin {
@@ -352,18 +352,17 @@ label {
 	background-color: var(--color-purple-200);
 }
 
-.genesis-pro-form p,
-.pro-submission-message {
+.genesis-pro-form p {
 	margin-left: 1rem;
 	margin-right: 1rem;
 	margin-bottom: 0;
 	margin-top: 0;
-	font-style: italic;
-	color: var(--color-purple-600);
 	font-weight: 500;
 }
 
 .pro-submission-message {
+	font-style: italic;
+	color: var(--color-purple-600);
 	margin-top: 0.5rem;
 }
 
@@ -436,6 +435,18 @@ progress::-webkit-progress-value {
 	background-size: 40.00px 40.00px;
 	animation: barberpole 2s linear infinite;
 	background-position: 100% 100%;
+}
+
+.bl-migration__error {
+	background-color: var(--color-purple-100);
+	padding: 0.1rem 1rem;
+	margin-bottom: 1rem;
+}
+
+.bl-migration__error p:first-child {
+	color: var(--color-purple-700);
+	font-size: .875rem;
+	font-weight: 500;
 }
 
 @keyframes barberpole {

@@ -49,12 +49,12 @@ const App = () => {
 				<Intro />
 				{
 					steps.map( ( MigrationStep, index ) => {
-						const stepNumber = FIRST_STEP_NUMBER + index;
+						const stepIndex = FIRST_STEP_NUMBER + index;
 
 						return (
 							<MigrationStep
-								key={ `bl-migration-step-${ stepNumber }` }
-								stepIndex={ stepNumber }
+								key={ `bl-migration-step-${ stepIndex }` }
+								stepIndex={ stepIndex }
 								{ ...{ currentStepIndex, goToPrevious, goToNext } }
 							/>
 						);
