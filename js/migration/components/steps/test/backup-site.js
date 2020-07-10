@@ -11,9 +11,10 @@ import { BackupSite } from '../';
 
 test( 'backup site migration step', async () => {
 	const props = {
-		currentStepIndex: 1,
-		stepIndex: 1,
 		goToNext: jest.fn(),
+		isStepActive: true,
+		isStepComplete: false,
+		stepIndex: 1,
 	};
 	const { getByLabelText, getByText } = render( <BackupSite { ...props } /> );
 

@@ -14,7 +14,8 @@ global.blockLabMigration = {
 
 test( 'activate gcb migration step', async () => {
 	const props = {
-		currentStepIndex: 5,
+		isStepActive: true,
+		isStepComplete: false,
 		stepIndex: 5,
 	};
 	const { getByText } = render( <ActivateGcb { ...props } /> );

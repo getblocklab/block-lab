@@ -11,10 +11,11 @@ import { UpdateHooks } from '../';
 
 test( 'update hooks migration step', async () => {
 	const props = {
-		currentStepIndex: 2,
-		stepIndex: 2,
 		goToNext: jest.fn(),
 		goToPrevious: jest.fn(),
+		isStepActive: true,
+		isStepComplete: false,
+		stepIndex: 2,
 	};
 	const { getByText } = render( <UpdateHooks { ...props } /> );
 

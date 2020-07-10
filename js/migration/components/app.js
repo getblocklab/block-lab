@@ -60,11 +60,13 @@ const App = () => {
 				{
 					steps.map( ( MigrationStep, index ) => {
 						const stepIndex = FIRST_STEP_NUMBER + index;
+						const isStepActive = currentStepIndex === stepIndex;
+						const isStepComplete = currentStepIndex > stepIndex;
 
 						return (
 							<MigrationStep
 								key={ `bl-migration-step-${ stepIndex }` }
-								{ ...{ currentStepIndex, goToPrevious, goToNext, stepIndex } }
+								{ ...{ currentStepIndex, goToNext, goToPrevious, isStepActive, isStepComplete, stepIndex } }
 							/>
 						);
 					} )

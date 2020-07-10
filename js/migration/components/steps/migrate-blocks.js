@@ -19,9 +19,10 @@ import { Step, StepContent, StepIcon } from '../';
 
 /**
  * @typedef {Object} MigrateBlocksProps The component props.
- * @property {number} currentStepIndex The current step in the migration process.
- * @property {number} stepIndex The step index of this step.
  * @property {Function} goToNext Goes to the next step.
+ * @property {boolean} isStepActive Whether this step is active.
+ * @property {boolean} isStepComplete Whether this step is complete.
+ * @property {number} stepIndex The step index of this step.
  */
 
 /**
@@ -30,9 +31,7 @@ import { Step, StepContent, StepIcon } from '../';
  * @param {MigrateBlocksProps} Props The component props.
  * @return {React.ReactElement} The component to prompt to migrate the post content.
  */
-const MigrateBlocks = ( { currentStepIndex, stepIndex, goToNext } ) => {
-	const isStepActive = currentStepIndex === stepIndex;
-	const isStepComplete = currentStepIndex > stepIndex;
+const MigrateBlocks = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) => {
 	const [ currentBlockMigrationStep, setCurrentBlockMigrationStep ] = useState( 0 );
 	const [ isMigrationInProgress, setIsMigrationInProgress ] = useState( false );
 	const [ isMigrationError, setIsMigrationError ] = useState( false );

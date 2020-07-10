@@ -23,10 +23,11 @@ test( 'get Genesis Pro migration step', async () => {
 	apiFetch.mockImplementation( () => new Promise( ( resolve ) => resolve( { success: true } ) ) );
 
 	const props = {
-		currentStepIndex: 1,
-		stepIndex: 1,
 		goToNext: jest.fn(),
 		goToPrevious: jest.fn(),
+		isStepActive: true,
+		isStepComplete: false,
+		stepIndex: 1,
 	};
 	const { getByText, getByRole } = render( <GetGenesisPro { ...props } /> );
 

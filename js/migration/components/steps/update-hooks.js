@@ -17,7 +17,8 @@ import { ButtonNext, ButtonPrevious, Step, StepContent, StepFooter, StepIcon } f
 
 /**
  * @typedef {Object} UpdateHooksProps The component props.
- * @property {number} currentStepIndex The current step in the migration process.
+ * @property {boolean} isStepActive Whether this step is active.
+ * @property {boolean} isStepComplete Whether this step is complete.
  * @property {number} stepIndex The step index of this step.
  * @property {React.EventHandler<React.MouseEvent<HTMLButtonElement, MouseEvent>>} goToNext Goes to the next step.
  * @property {React.EventHandler<React.MouseEvent<HTMLButtonElement, MouseEvent>>} goToPrevious Goes to the next step.
@@ -29,10 +30,7 @@ import { ButtonNext, ButtonPrevious, Step, StepContent, StepFooter, StepIcon } f
  * @param {UpdateHooksProps} Props The component props.
  * @return {React.ReactElement} The component to prompt to back up the site.
  */
-const UpdateHooks = ( { currentStepIndex, stepIndex, goToNext, goToPrevious } ) => {
-	const isStepActive = currentStepIndex === stepIndex;
-	const isStepComplete = currentStepIndex > stepIndex;
-
+const UpdateHooks = ( { isStepActive, isStepComplete, stepIndex, goToNext, goToPrevious } ) => {
 	// @todo: replace this.
 	const hooksDetailsUrl = 'https://example.com/';
 	const phpApiDetailsUrl = 'https://developer.wpengine.com/genesis-custom-blocks/functions/';

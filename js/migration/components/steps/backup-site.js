@@ -18,7 +18,8 @@ import { FIRST_STEP_NUMBER } from '../../constants';
 
 /**
  * @typedef {Object} BackupSiteProps The component props.
- * @property {number} currentStepIndex The current step in the migration process.
+ * @property {boolean} isStepActive Whether this step is active.
+ * @property {boolean} isStepComplete Whether this step is complete.
  * @property {number} stepIndex The step index of this step.
  * @property {React.EventHandler<React.MouseEvent<HTMLButtonElement, MouseEvent>>} goToNext Goes to the next step.
  * @property {React.EventHandler<React.MouseEvent<HTMLButtonElement, MouseEvent>>} goToPrevious Goes to the previous step.
@@ -30,9 +31,7 @@ import { FIRST_STEP_NUMBER } from '../../constants';
  * @param {BackupSiteProps} Props The component props.
  * @return {React.ReactElement} The component to prompt to back up the site.
  */
-const BackupSite = ( { currentStepIndex, stepIndex, goToNext, goToPrevious } ) => {
-	const isStepActive = currentStepIndex === stepIndex;
-	const isStepComplete = currentStepIndex > stepIndex;
+const BackupSite = ( { isStepActive, isStepComplete, goToNext, goToPrevious, stepIndex } ) => {
 	const isFirstStep = FIRST_STEP_NUMBER === stepIndex;
 
 	return (

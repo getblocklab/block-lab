@@ -20,8 +20,10 @@ test( 'migrate blocks step', async () => {
 	apiFetch.mockImplementation( () => new Promise( ( resolve ) => resolve( { success: true } ) ) );
 	const props = {
 		currentStepIndex: 4,
-		stepIndex: 4,
 		goToNext: jest.fn(),
+		isStepActive: true,
+		isStepComplete: false,
+		stepIndex: 4,
 	};
 
 	const { getByText } = render( <MigrateBlocks { ...props } /> );

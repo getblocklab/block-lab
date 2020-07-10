@@ -18,7 +18,8 @@ import { Step, StepContent, StepFooter, StepIcon } from '../';
 
 /**
  * @typedef {Object} ActivateGcbProps The component props.
- * @property {number} currentStepIndex The current step in the migration process.
+ * @property {boolean} isStepActive Whether this step is active.
+ * @property {boolean} isStepComplete Whether this step is complete.
  * @property {number} stepIndex The step index of this step.
  */
 
@@ -28,10 +29,7 @@ import { Step, StepContent, StepFooter, StepIcon } from '../';
  * @param {ActivateGcbProps} Props The component props.
  * @return {React.ReactElement} The component to activate Genesis Custom Blocks.
  */
-const ActivateGcb = ( { currentStepIndex, stepIndex } ) => {
-	const isStepActive = currentStepIndex === stepIndex;
-	const isStepComplete = currentStepIndex > stepIndex;
-
+const ActivateGcb = ( { isStepActive, isStepComplete, stepIndex } ) => {
 	return (
 		<Step isActive={ isStepActive } isComplete={ isStepComplete }>
 			<StepIcon

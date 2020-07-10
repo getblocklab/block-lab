@@ -20,9 +20,10 @@ import { ButtonNext, Step, StepContent, StepFooter, StepIcon } from '../';
 
 /**
  * @typedef {Object} GetGenesisProProps The component props.
- * @property {number} currentStepIndex The current step in the migration process.
- * @property {number} stepIndex The step index of this step.
  * @property {React.EventHandler<React.MouseEvent<HTMLButtonElement, MouseEvent>>} goToNext Goes to the next step.
+ * @property {boolean} isStepActive Whether this step is active.
+ * @property {boolean} isStepComplete Whether this step is complete.
+ * @property {number} stepIndex The step index of this step.
  */
 
 /**
@@ -31,10 +32,7 @@ import { ButtonNext, Step, StepContent, StepFooter, StepIcon } from '../';
  * @param {GetGenesisProProps} Props The component props.
  * @return {React.ReactElement} The component to get Genesis Pro.
  */
-const GetGenesisPro = ( { currentStepIndex, stepIndex, goToNext } ) => {
-	const isStepActive = currentStepIndex === stepIndex;
-	const isStepComplete = currentStepIndex > stepIndex;
-
+const GetGenesisPro = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) => {
 	// @todo: replace this.
 	const urlMigrateWithoutGenPro = 'https://example.com';
 
