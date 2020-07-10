@@ -8,7 +8,7 @@
 use Block_Lab\Admin\Migration\Submenu;
 use Block_Lab\Admin\License;
 use Brain\Monkey;
-use Brain\Monkey\Functions;
+use function Brain\Monkey\Functions\expect;
 
 /**
  * Class Test_Submenu
@@ -66,7 +66,7 @@ class Test_Submenu extends WP_UnitTestCase {
 	 */
 	public function test_add_submenu_pages() {
 		$this->set_admin_user();
-		Functions\expect( 'add_submenu_page' )
+		expect( 'add_submenu_page' )
 			->once()
 			->with(
 				'edit.php?post_type=block_lab',
@@ -99,7 +99,7 @@ class Test_Submenu extends WP_UnitTestCase {
 	 */
 	public function test_enqueue_scripts_wrong_page() {
 		$this->set_admin_user();
-		Monkey\Functions\expect( 'filter_input' )
+		expect( 'filter_input' )
 			->once()
 			->with(
 				INPUT_GET,
@@ -120,7 +120,7 @@ class Test_Submenu extends WP_UnitTestCase {
 	 */
 	public function test_enqueue_scripts_right_page() {
 		$this->set_admin_user();
-		Monkey\Functions\expect( 'filter_input' )
+		expect( 'filter_input' )
 			->once()
 			->with(
 				INPUT_GET,
@@ -175,7 +175,7 @@ class Test_Submenu extends WP_UnitTestCase {
 	 */
 	public function test_maybe_activate_plugin_no_query_var() {
 		$error = $this->get_plugin_activation_error();
-		$this->assertFalse( isset( $error ) );
+		$this->assertEmpty( $error );
 	}
 
 	/**
@@ -223,7 +223,7 @@ class Test_Submenu extends WP_UnitTestCase {
 		}
 
 		// Now that the nonce is correct, this should redirect to the URL to activate the plugin.
-		Monkey\Functions\expect( 'wp_safe_redirect' )
+		expect( 'wp_safe_redirect' )
 			->once();
 
 		$this->get_plugin_activation_error();

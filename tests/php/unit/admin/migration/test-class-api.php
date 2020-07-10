@@ -6,7 +6,6 @@
  */
 
 use Block_Lab\Admin\Migration\Api;
-use Brain\Monkey;
 
 /**
  * Class Test_Api

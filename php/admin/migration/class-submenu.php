@@ -145,6 +145,8 @@ class Submenu extends Component_Abstract {
 
 	/**
 	 * Gets whether the current user can view the migration page.
+	 *
+	 * @return bool Whether the user can view the migration page.
 	 */
 	public function user_can_view_migration_page() {
 		return current_user_can( 'install_plugins' ) && current_user_can( self::MIGRATION_CAPABILITY );
@@ -209,7 +211,7 @@ class Submenu extends Component_Abstract {
 	/**
 	 * Gets the coupon code for a Pro user.
 	 *
-	 * @return string|false The coupon code.
+	 * @return string|false The coupon code, if it's possible to get one.
 	 */
 	public function get_coupon_code() {
 		$license_key = get_option( License::LICENSE_KEY_OPTION_NAME );
