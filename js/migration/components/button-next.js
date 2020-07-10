@@ -13,7 +13,7 @@ import { useState } from '@wordpress/element';
 
 /**
  * @typedef ButtonNextProps
- * @property {React.MouseEventHandler} onClick The click handler.
+ * @property {React.EventHandler<React.MouseEvent<HTMLButtonElement, MouseEvent>>} onClick The click handler.
  * @property {string} checkboxLabel The label of the checkbox, if there should be one.
  * @property {number} stepIndex The index of this button's step.
  */

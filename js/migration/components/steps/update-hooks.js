@@ -19,8 +19,8 @@ import { ButtonNext, ButtonPrevious, Step, StepContent, StepFooter, StepIcon } f
  * @typedef {Object} UpdateHooksProps The component props.
  * @property {number} currentStepIndex The current step in the migration process.
  * @property {number} stepIndex The step index of this step.
- * @property {React.MouseEventHandler} goToNext Goes to the next step.
- * @property {React.MouseEventHandler} goToPrevious Goes to the next step.
+ * @property {React.EventHandler<React.MouseEvent<HTMLButtonElement, MouseEvent>>} goToNext Goes to the next step.
+ * @property {React.EventHandler<React.MouseEvent<HTMLButtonElement, MouseEvent>>} goToPrevious Goes to the next step.
  */
 
 /**
@@ -45,17 +45,29 @@ const UpdateHooks = ( { currentStepIndex, stepIndex, goToNext, goToPrevious } ) 
 			/>
 			<StepContent>
 				<h3 className="font-semibold mt-1">{ __( 'Update Hooks & API', 'block-lab' ) }</h3>
-				<p>In most cases, you won’t have to worry about this step. However, there are some instances that will require manual edits to your custom block related files. These are:</p>
+				<p>{ __( 'In most cases, you won’t have to worry about this step. However, there are some instances that will require manual edits to your custom block related files. These are:', 'block-lab' ) }</p>
 				<ul className="list-disc list-inside mt-2">
 					<li>
 						<b>{ __( 'Hooks', 'block-lab' ) }</b> - { __( 'The Block Lab hook names have changed. If you’ve extended Block Lab with custom functionality using these, you’ll need to make some small changes.', 'block-lab' ) }
 						&nbsp;
-						<a href={ hooksDetailsUrl }>{ __( 'More details here.', 'block-lab' ) }</a>
+						<a
+							href={ hooksDetailsUrl }
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							{ __( 'More details here.', 'block-lab' ) }
+						</a>
 					</li>
 					<li>
 						<b>{ __( 'API', 'block-lab' ) }</b> - { __( 'If you use Block Lab’s PHP API or JSON API to register & configure your custom blocks, you’ll need to make some small changes.', 'block-lab' ) }
 						&nbsp;
-						<a href={ phpApiDetailsUrl }>{ __( 'More details here.', 'block-lab' ) }</a>
+						<a
+							href={ phpApiDetailsUrl }
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							{ __( 'More details here.', 'block-lab' ) }
+						</a>
 					</li>
 				</ul>
 				<StepFooter>

@@ -22,7 +22,7 @@ import { ButtonNext, Step, StepContent, StepFooter, StepIcon } from '../';
  * @typedef {Object} GetGenesisProProps The component props.
  * @property {number} currentStepIndex The current step in the migration process.
  * @property {number} stepIndex The step index of this step.
- * @property {React.MouseEventHandler} goToNext Goes to the next step.
+ * @property {React.EventHandler<React.MouseEvent<HTMLButtonElement, MouseEvent>>} goToNext Goes to the next step.
  */
 
 /**
@@ -37,6 +37,10 @@ const GetGenesisPro = ( { currentStepIndex, stepIndex, goToNext } ) => {
 
 	// @todo: replace this.
 	const urlMigrateWithoutGenPro = 'https://example.com';
+
+	// @todo: Is this a stable URL? Or should it be changed to https://www.studiopress.com/genesis-pro/
+	const urlGetGenesisPro = 'https://my.wpengine.com/signup?plan=genesis-pro';
+
 	const [ keySubmittedSuccessfully, setKeySubmittedSuccessfully ] = useState( false );
 	const [ subscriptionKey, updateSubscriptionKey ] = useState( false );
 	const [ submissionMessage, setSubmissionMessage ] = useState( '' );
@@ -58,7 +62,7 @@ const GetGenesisPro = ( { currentStepIndex, stepIndex, goToNext } ) => {
 	const submitSubscriptionKey = async ( event ) => {
 		event.preventDefault();
 		if ( ! subscriptionKey ) {
-			setSubmissionMessage( __( 'The subscription key is empty', 'block-lab' ) );
+			setSubmissionMessage( __( 'The subscription key is empty.', 'block-lab' ) );
 			setKeySubmittedSuccessfully( false );
 			return;
 		}
@@ -199,7 +203,7 @@ const GetGenesisPro = ( { currentStepIndex, stepIndex, goToNext } ) => {
 					</button>
 					<p>{ __( 'or', 'block-lab' ) }</p>
 					<a
-						href="https://www.studiopress.com/genesis-pro/"
+						href={ urlGetGenesisPro }
 						className="btn"
 						target="_blank"
 						rel="noopener noreferrer"
@@ -211,7 +215,13 @@ const GetGenesisPro = ( { currentStepIndex, stepIndex, goToNext } ) => {
 				<p className="help-text">
 					{ __( 'Want to migrate but not set up Genesis Pro just now?', 'block-lab' ) }
 					&nbsp;
-					<a href={ urlMigrateWithoutGenPro }>{ __( 'Read here for what that means.', 'block-lab' ) }</a>
+					<a
+						href={ urlMigrateWithoutGenPro }
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						{ __( 'Read here for what that means.', 'block-lab' ) }
+					</a>
 				</p>
 				<StepFooter>
 					<ButtonNext

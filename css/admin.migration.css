@@ -115,13 +115,13 @@
 
 }
 
-.container {
+.bl-migration__content .container {
 	max-width: 1200px;
 	margin-left: auto;
 	margin-right: auto;
 }
 
-.btn {
+.bl-migration__content .btn {
 	appearance: none;
 	border: none;
 	display: flex;
@@ -139,17 +139,17 @@
 	text-decoration: none;
 }
 
-.btn:hover {
+.bl-migration__content .btn:hover {
 	cursor: pointer;
 	background-color: var(--color-purple-800);
 }
 
-.btn[disabled] {
+.bl-migration__content .btn[disabled] {
 	color: var(--color-purple-700);
 	background-color: var(--color-purple-200);
 }
 
-.btn-secondary {
+.bl-migration__content .btn-secondary {
 	color: var(--color-purple-600);
 	border-color: var(--color-purple-200);
 	background-color: var(--color-purple-100);
@@ -158,7 +158,7 @@
 	border-style: solid;
 }
 
-.btn-secondary:hover {
+.bl-migration__content .btn-secondary:hover {
 	color: var(--color-purple-700);
 	background-color: var(--color-purple-200);
 }
@@ -314,6 +314,10 @@
 	margin-left: auto;
 }
 
+.step-footer input[type="checkbox"] {
+	margin: 0;
+}
+
 label {
 	font-size: .875rem;
 	margin-left: .25rem;
@@ -457,7 +461,6 @@ progress::-webkit-progress-value {
 
 .bl-migration__error p:first-child {
 	color: var(--color-purple-700);
-	font-size: .875rem;
 	font-weight: 500;
 }
 

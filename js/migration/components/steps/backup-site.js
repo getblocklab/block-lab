@@ -20,8 +20,8 @@ import { FIRST_STEP_NUMBER } from '../../constants';
  * @typedef {Object} BackupSiteProps The component props.
  * @property {number} currentStepIndex The current step in the migration process.
  * @property {number} stepIndex The step index of this step.
- * @property {React.MouseEventHandler} goToNext Goes to the next step.
- * @property {React.MouseEventHandler} goToPrevious Goes to the previous step.
+ * @property {React.EventHandler<React.MouseEvent<HTMLButtonElement, MouseEvent>>} goToNext Goes to the next step.
+ * @property {React.EventHandler<React.MouseEvent<HTMLButtonElement, MouseEvent>>} goToPrevious Goes to the previous step.
  */
 
 /**

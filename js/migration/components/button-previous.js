@@ -12,7 +12,7 @@ import { __ } from '@wordpress/i18n';
 
 /**
  * @typedef ButtonPreviousProps
- * @property {React.MouseEventHandler} onClick The click handler.
+ * @property {React.EventHandler<React.MouseEvent<HTMLButtonElement, MouseEvent>>} onClick The click handler.
  */
 
 /**
