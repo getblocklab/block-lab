@@ -132,7 +132,7 @@ class Submenu extends Component_Abstract {
 			];
 
 			if ( $is_pro ) {
-				$script_data['couponCode'] = $this->get_discount_code();
+				$script_data['couponCode'] = $this->get_coupon_code();
 			}
 
 			wp_add_inline_script(
@@ -207,11 +207,11 @@ class Submenu extends Component_Abstract {
 	}
 
 	/**
-	 * Gets the discount code for a Pro user.
+	 * Gets the coupon code for a Pro user.
 	 *
-	 * @return string|false The discount code.
+	 * @return string|false The coupon code.
 	 */
-	public function get_discount_code() {
+	public function get_coupon_code() {
 		$license_key = get_option( License::LICENSE_KEY_OPTION_NAME );
 		if ( empty( $license_key ) ) {
 			return false;

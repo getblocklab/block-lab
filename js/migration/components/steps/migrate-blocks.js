@@ -8,9 +8,9 @@ import * as React from 'react';
 /**
  * WordPress dependencies
  */
-import { __, _n } from '@wordpress/i18n';
 import { useState } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
+import { __, _n } from '@wordpress/i18n';
 
 /**
  * Internal dependencies

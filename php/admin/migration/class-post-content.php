@@ -69,7 +69,7 @@ class Post_Content {
 			$posts = $this->query_for_posts();
 		}
 
-		$is_success = count( $errors ) < $max_allowed_errors;
+		$is_success = $error_count < $max_allowed_errors;
 		$results    = [
 			'success'      => $is_success,
 			'successCount' => $success_count,

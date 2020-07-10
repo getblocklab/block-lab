@@ -230,7 +230,7 @@ class Test_Submenu extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Gets the test data for test_get_discount_code.
+	 * Gets the test data for test_get_coupon_code.
 	 *
 	 * @return array The test data.
 	 */
@@ -243,17 +243,17 @@ class Test_Submenu extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Test get_discount_code.
+	 * Test get_coupon_code.
 	 *
 	 * @dataProvider get_data_discount_code
-	 * @covers Block_Lab\Admin\Migration\Submenu::get_discount_code()
+	 * @covers Block_Lab\Admin\Migration\Submenu::get_coupon_code()
 	 *
 	 * @param string      $license_key The Block Lab license key.
 	 * @param string|bool $expected    The expected return value.
 	 */
-	public function test_get_discount_code( $license_key, $expected ) {
+	public function test_get_coupon_code( $license_key, $expected ) {
 		add_option( License::LICENSE_KEY_OPTION_NAME, $license_key );
-		$this->assertEquals( $expected, $this->instance->get_discount_code() );
+		$this->assertEquals( $expected, $this->instance->get_coupon_code() );
 	}
 
 	/**

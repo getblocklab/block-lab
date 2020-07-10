@@ -9,9 +9,9 @@ import * as React from 'react';
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { useState } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -35,8 +35,6 @@ import { ButtonNext, Step, StepContent, StepFooter, StepIcon } from '../';
 const GetGenesisPro = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) => {
 	// @todo: replace this.
 	const urlMigrateWithoutGenPro = 'https://example.com';
-
-	// @todo: Is this a stable URL? Or should it be changed to https://www.studiopress.com/genesis-pro/
 	const urlGetGenesisPro = 'https://my.wpengine.com/signup?plan=genesis-pro';
 
 	const [ keySubmittedSuccessfully, setKeySubmittedSuccessfully ] = useState( false );
