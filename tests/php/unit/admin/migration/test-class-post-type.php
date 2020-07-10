@@ -258,7 +258,7 @@ class Test_Post_Type extends WP_UnitTestCase {
 			[
 				'successCount' => 0,
 				'errorCount'   => 0,
-				'success'      => false,
+				'success'      => true,
 			],
 			$result
 		);

@@ -104,8 +104,10 @@ class Post_Type {
 			$posts = $this->query_for_posts();
 		}
 
+		$is_success = ! empty( $success_count ) || ( empty( $success_count ) && empty( $error_count ) );
+
 		return [
-			'success'      => ! empty( $success_count ),
+			'success'      => $is_success,
 			'successCount' => $success_count,
 			'errorCount'   => $error_count,
 		];

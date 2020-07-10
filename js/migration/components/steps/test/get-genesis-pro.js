@@ -9,8 +9,8 @@ import user from '@testing-library/user-event';
  */
 import { GetGenesisPro } from '../';
 
-const discountCode = '13543234';
-window.blockLabMigration = { discountCode };
+const couponCode = '13543234';
+window.blockLabMigration = { couponCode };
 
 test( 'get Genesis Pro migration step', async () => {
 	const props = {
@@ -21,7 +21,7 @@ test( 'get Genesis Pro migration step', async () => {
 	};
 	const { getByLabelText, getByText } = render( <GetGenesisPro { ...props } /> );
 
-	getByText( discountCode );
+	getByText( couponCode );
 
 	// Because the checkbox isn't checked, the 'next' button should be disabled.
 	user.click( getByText( 'Next Step' ) );

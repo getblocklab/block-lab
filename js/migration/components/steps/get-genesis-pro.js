@@ -63,6 +63,12 @@ const GetGenesisPro = ( { currentStepIndex, stepIndex, goToNext } ) => {
 			return;
 		}
 
+		if ( subscriptionKey === blockLabMigration.couponCode ) {
+			setSubmissionMessage( __( "That looks like your coupon code. Please click 'Get Genesis Pro' and enter your coupon code there.", 'block-lab' ) );
+			setKeySubmittedSuccessfully( false );
+			return;
+		}
+
 		const submitResult = await apiFetch( {
 			path: '/block-lab/update-subscription-key',
 			method: 'POST',
@@ -172,10 +178,10 @@ const GetGenesisPro = ( { currentStepIndex, stepIndex, goToNext } ) => {
 					<p>{ __( '* Block Lab Pro licenses will not be renewing and Pro updates / support will end when your current license expires.', 'block-lab' ) }</p>
 				</div>
 				<p>
-					{ __( 'To migrate and maintain your Block Lab Pro feature set with Genesis Custom Blocks, you will need a Genesis Pro subscription key. Your personal discount code for one free year of Genesis Pro is', 'block-lab' ) }
+					{ __( 'To migrate and maintain your Block Lab Pro feature set with Genesis Custom Blocks, you will need a Genesis Pro subscription key. Your personal coupon code for one free year of Genesis Pro is', 'block-lab' ) }
 					&nbsp;
 					{ /* @ts-ignore global */ }
-					<code className="bg-gray-200 rounded-sm cursor-pointer hover:bg-gray-300">{ blockLabMigration.discountCode }</code>.
+					<code className="bg-gray-200 rounded-sm cursor-pointer hover:bg-gray-300">{ blockLabMigration.couponCode }</code>.
 				</p>
 				<ul>
 					<li>{ __( 'Already have one? Enter the subscription key below to continue migrating.', 'block-lab' ) }</li>

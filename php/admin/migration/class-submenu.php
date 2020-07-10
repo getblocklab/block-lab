@@ -132,7 +132,7 @@ class Submenu extends Component_Abstract {
 			];
 
 			if ( $is_pro ) {
-				$script_data['discountCode'] = $this->get_discount_code();
+				$script_data['couponCode'] = $this->get_discount_code();
 			}
 
 			wp_add_inline_script(
