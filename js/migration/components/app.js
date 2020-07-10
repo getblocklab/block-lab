@@ -2,6 +2,11 @@
 // @ts-check
 
 /**
+ * External dependencies
+ */
+import * as React from 'react';
+
+/**
  * WordPress dependencies
  */
 import { useState } from '@wordpress/element';
@@ -13,21 +18,26 @@ import { Intro } from './';
 import { ActivateGcb, BackupSite, GetGenesisPro, MigrateBlocks, UpdateHooks } from './steps';
 import { FIRST_STEP_NUMBER } from '../constants';
 
+/**
+ * The migration admin page.
+ *
+ * @return {React.ReactElement} The component for the admin page.
+ */
 const App = () => {
-	const [ currentStepIndex, updateStepIndex ] = useState( FIRST_STEP_NUMBER );
+	const [ currentStepIndex, setStepIndex ] = useState( FIRST_STEP_NUMBER );
 
 	/**
 	 * Sets the step index to the previous step.
 	 */
 	const goToPrevious = () => {
-		updateStepIndex( currentStepIndex - 1 );
+		setStepIndex( currentStepIndex - 1 );
 	};
 
 	/**
 	 * Sets the step index to the next step.
 	 */
 	const goToNext = () => {
-		updateStepIndex( currentStepIndex + 1 );
+		setStepIndex( currentStepIndex + 1 );
 	};
 
 	const steps = [
@@ -54,8 +64,7 @@ const App = () => {
 						return (
 							<MigrationStep
 								key={ `bl-migration-step-${ stepIndex }` }
-								stepIndex={ stepIndex }
-								{ ...{ currentStepIndex, goToPrevious, goToNext } }
+								{ ...{ currentStepIndex, goToPrevious, goToNext, stepIndex } }
 							/>
 						);
 					} )

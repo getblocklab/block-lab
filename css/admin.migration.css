@@ -34,26 +34,8 @@
 	--box-shadow-small: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);
 }
 
-/* So #wpfooter stays at the bottom. */
-#wpwrap {
-	height: max-content;
-}
-
 #wpcontent {
 	padding-left: 0;
-}
-
-.wp-admin {
-	width: 100vw;
-	height: 100vw;
-	display: flex;
-}
-
-.wp-admin__menu {
-	width: 12rem;
-	height: 100%;
-	flex-shrink: 0;
-	background-color: var(--color-body);
 }
 
 .bl-migration__content {
@@ -431,7 +413,7 @@ label {
 	fill: currentColor;
 }
 
- progress {
+progress {
 	-webkit-appearance: none;
 	height: 40px;
 	width: 100%;

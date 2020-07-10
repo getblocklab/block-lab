@@ -11,6 +11,8 @@ import * as React from 'react';
 import { __ } from '@wordpress/i18n';
 
 /**
+ * The introduction to the migration.
+ *
  * @return {React.ReactElement} The introduction to the migration.
  */
 const Intro = () => {

@@ -14,6 +14,7 @@ import * as React from 'react';
  */
 
 /**
+ * Migration step.
  *
  * @param {StepProps} props The component props.
  */
