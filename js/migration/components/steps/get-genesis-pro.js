@@ -195,7 +195,7 @@ const GetGenesisPro = ( { currentStepIndex, stepIndex, goToNext } ) => {
 				<div className="genesis-pro-form">
 					<input
 						type="text"
-						placeholder={ __( 'Genesis Pro subscrption key', 'block-lab' ) }
+						placeholder={ __( 'Genesis Pro subscription key', 'block-lab' ) }
 						onChange={ onChangeSubscriptionKey }
 					/>
 					<button onClick={ submitSubscriptionKey } >

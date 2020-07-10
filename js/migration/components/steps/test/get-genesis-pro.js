@@ -1,25 +1,34 @@
 /**
  * External dependencies
  */
-import { render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import user from '@testing-library/user-event';
+
+/**
+ * WordPress dependencies
+ */
+import apiFetch from '@wordpress/api-fetch';
 
 /**
  * Internal dependencies
  */
 import { GetGenesisPro } from '../';
 
+jest.mock( '@wordpress/api-fetch' );
+
 const couponCode = '13543234';
 window.blockLabMigration = { couponCode };
 
 test( 'get Genesis Pro migration step', async () => {
+	apiFetch.mockImplementation( () => new Promise( ( resolve ) => resolve( { success: true } ) ) );
+
 	const props = {
 		currentStepIndex: 1,
 		stepIndex: 1,
 		goToNext: jest.fn(),
 		goToPrevious: jest.fn(),
 	};
-	const { getByLabelText, getByText } = render( <GetGenesisPro { ...props } /> );
+	const { getByText, getByRole } = render( <GetGenesisPro { ...props } /> );
 
 	getByText( couponCode );
 
@@ -27,8 +36,19 @@ test( 'get Genesis Pro migration step', async () => {
 	user.click( getByText( 'Next Step' ) );
 	expect( props.goToNext ).not.toHaveBeenCalled();
 
-	// Now that the 'confirm' checkbox is checked, the 'next' button should work.
-	user.click( getByLabelText( 'Migrate without Genesis Pro.' ) );
+	user.click( getByText( 'Submit' ) );
+	getByText( 'The subscription key is empty.' );
+
+	fireEvent.change(
+		getByRole( 'textbox' ),
+		{ target: { value: '1234567' } }
+	);
+
+	await waitFor( () =>
+		user.click( getByText( 'Submit' ) )
+	);
+	getByText( 'Thanks, the key was saved.' );
+
 	user.click( getByText( 'Next Step' ) );
 	expect( props.goToNext ).toHaveBeenCalled();
 } );
