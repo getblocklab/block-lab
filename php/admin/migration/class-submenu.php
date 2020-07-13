@@ -52,21 +52,7 @@ class Submenu extends Component_Abstract {
 	 *
 	 * @var string
 	 */
-	const QUERY_VAR_DISABLE_ONBOARDING = 'disable_gcb_onboarding';
-
-	/**
-	 * The nonce query var to disable onboarding.
-	 *
-	 * @var string
-	 */
-	const NONCE_QUERY_VAR_DISABLE_ONBOARDING = '_wpnonce_disable_onboarding';
-
-	/**
-	 * The nonce action to disable onboarding in Genesis Custom Blocks.
-	 *
-	 * @var string
-	 */
-	const NONCE_ACTION_DISABLE_ONBOARDING = 'nonce_disable_gcb_onboarding';
+	const QUERY_VAR_DISABLE_ONBOARDING = 'disable_onboarding';
 
 	/**
 	 * Adds the actions.
@@ -201,7 +187,6 @@ class Submenu extends Component_Abstract {
 					'paged'                            => 1,
 					'_wpnonce'                         => wp_create_nonce( 'activate-plugin_' . $new_plugin_file ),
 					self::QUERY_VAR_DISABLE_ONBOARDING => true,
-					self::NONCE_QUERY_VAR_DISABLE_ONBOARDING => wp_create_nonce( self::NONCE_ACTION_DISABLE_ONBOARDING ),
 				],
 				admin_url( 'plugins.php' )
 			)
