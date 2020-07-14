@@ -8,6 +8,7 @@ import * as React from 'react';
 /**
  * WordPress dependencies
  */
+import { speak } from '@wordpress/a11y';
 import apiFetch from '@wordpress/api-fetch';
 import { Spinner } from '@wordpress/components';
 import { useState } from '@wordpress/element';
@@ -50,6 +51,7 @@ const MigrateBlocks = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 	 * @todo Add the 'Install GCB' step.
 	 */
 	const migrateBlocks = async () => {
+		speak( __( 'The migration is now in progress', 'block-lab' ) );
 		setIsMigrationInProgress( true );
 		setErrorMessages( [] );
 
@@ -75,8 +77,10 @@ const MigrateBlocks = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 
 		// @ts-ignore
 		if ( contentMigrationResult.success ) {
+			speak( __( 'The migration was successful!', 'block-lab' ) );
 			goToNext();
 		} else {
+			speak( __( 'The migration failed', 'block-lab' ) );
 			// @ts-ignore
 			setErrorMessages( contentMigrationResult.errorMessages );
 			setIsMigrationError( true );
