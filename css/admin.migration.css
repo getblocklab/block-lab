@@ -220,7 +220,7 @@
 	border-top-width: 1px;
 	border-top-style: solid;
 	border-top-color: var(--color-gray-400);
-	height: 2.4rem;
+	max-height: 2.4rem;
 	overflow: hidden;
 	transition-duration: 200ms;
 }
@@ -260,7 +260,9 @@
 }
 
 .step--active {
-	height: auto;
+	overflow: hidden;
+	transition: max-height 1s ease-in-out;
+	max-height: 200rem;
 	background-color: var(--color-white);
 	padding-top: 2rem;
 	padding-bottom: 2rem;
