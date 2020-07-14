@@ -48,6 +48,12 @@
 	font-size: 16px;
 }
 
+.bl-migration__content .get-genesis-pro {
+	border-top: solid 1px var(--color-gray-300);
+	padding-top: 2rem;
+	font-size: 18px;
+}
+
 .bl-migration__content p {
 	margin-bottom: 1em;
 	font-size: 16px;
@@ -82,6 +88,7 @@
 .bl-migration__content ul {
 	list-style-type: disc;
 	padding-left: 2rem;
+	margin-bottom: 2rem;
 }
 
 .bl-migration__content-wrapper {
@@ -132,6 +139,11 @@
 	background-color: var(--color-gray-200);
 	box-shadow: none;
 	cursor: not-allowed;
+}
+
+.bl-migration__content .get-genesis-pro .btn {
+	display: inline-flex;
+	margin-right: 1rem;
 }
 
 .bl-migration__content .btn-secondary {
@@ -311,7 +323,6 @@ label {
 }
 
 .genesis-pro-form {
-	margin-top: 3rem;
 	display: flex;
 	align-items: center;
 }
@@ -323,7 +334,7 @@ label {
 
 .genesis-pro-form input {
 	appearance: none;
-	width: 16rem;
+	width: 19rem;
 	box-shadow: var(--box-shadow-small);
 	padding-left: 1rem;
 	padding-right: 1rem;
@@ -331,8 +342,7 @@ label {
 	height: 2.5rem;
 	border-style: solid;
 	border-width: 1px;
-	border-bottom-left-radius: .25rem;
-	border-top-left-radius: .25rem;
+	border-radius: 0.25rem 0 0 0.25rem;
 	border-color: var(--color-gray-400)
 }
 
@@ -370,7 +380,7 @@ label {
 .pro-box {
 	background-color: var(--color-gray-800);
 	color: var(--color-gray-200);
-	padding: 2.5rem;
+	padding: 2.5rem 2.5rem 1rem 2.5rem;
 	margin-top: 2.5rem;
 	border-radius: .25rem;
 	box-shadow: var(--box-shadow);

@@ -38,7 +38,7 @@ const GetGenesisPro = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 	const urlGetGenesisPro = 'https://my.wpengine.com/signup?plan=genesis-pro';
 
 	const [ keySubmittedSuccessfully, setKeySubmittedSuccessfully ] = useState( false );
-	const [ subscriptionKey, updateSubscriptionKey ] = useState( false );
+	const [ subscriptionKey, updateSubscriptionKey ] = useState( '' );
 	const [ submissionMessage, setSubmissionMessage ] = useState( '' );
 
 	/**
@@ -178,26 +178,12 @@ const GetGenesisPro = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 					</div>
 					<p>{ __( '* Block Lab Pro licenses will not be renewing and Pro updates / support will end when your current license expires.', 'block-lab' ) }</p>
 				</div>
-				<p>
-					{ __( 'To migrate and maintain your Block Lab Pro feature set with Genesis Custom Blocks, you will need a Genesis Pro subscription key. Your personal coupon code for one free year of Genesis Pro is', 'block-lab' ) }
-					&nbsp;
-					{ /* @ts-ignore global */ }
-					<code className="bg-gray-200 rounded-sm cursor-pointer hover:bg-gray-300">{ blockLabMigration.couponCode }</code>.
-				</p>
+				<p>{ __( 'To migrate and maintain your Block Lab Pro feature set with Genesis Custom Blocks, you will need a Genesis Pro subscription key.', 'block-lab' ) }</p>
 				<ul>
 					<li>{ __( 'Already have one? Enter the subscription key below to continue migrating.', 'block-lab' ) }</li>
 					<li>{ __( 'Don’t have one yet? Set up your Genesis Pro account, then return here to enter your subscription key and continue migrating.', 'block-lab' ) }</li>
 				</ul>
-				<div className="genesis-pro-form">
-					<input
-						type="text"
-						placeholder={ __( 'Genesis Pro subscription key', 'block-lab' ) }
-						onChange={ onChangeSubscriptionKey }
-					/>
-					<button onClick={ submitSubscriptionKey } >
-						{ __( 'Submit', 'block-lab' ) }
-					</button>
-					<p>{ __( 'or', 'block-lab' ) }</p>
+				<div className="get-genesis-pro">
 					<a
 						href={ urlGetGenesisPro }
 						className="btn"
@@ -206,6 +192,24 @@ const GetGenesisPro = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 					>
 						{ __( 'Get Genesis Pro', 'block-lab' ) }
 					</a>
+					&nbsp;
+					{ __( 'Use the coupon code', 'genesis-custom-blocks' ) }
+					&nbsp;
+					{ /* @ts-ignore global */ }
+					<code className="bg-gray-200 rounded-sm cursor-pointer hover:bg-gray-300">{ blockLabMigration.couponCode }</code>
+					&nbsp;
+					{ __( 'for 12 months free on unlimited sites.', 'genesis-custom-blocks' ) }
+				</div>
+				<p>{ __( 'then', 'block-lab' ) }</p>
+				<div className="genesis-pro-form">
+					<input
+						type="text"
+						placeholder={ __( 'Save your Genesis Pro subscription key', 'block-lab' ) }
+						onChange={ onChangeSubscriptionKey }
+					/>
+					<button onClick={ submitSubscriptionKey } >
+						{ __( 'Submit', 'block-lab' ) }
+					</button>
 				</div>
 				<p className="pro-submission-message">{ submissionMessage }</p>
 				<p className="help-text">
