@@ -8,8 +8,9 @@ import * as React from 'react';
 /**
  * WordPress dependencies
  */
-import { useState } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
+import { Spinner } from '@wordpress/components';
+import { useState } from '@wordpress/element';
 import { __, _n } from '@wordpress/i18n';
 
 /**
@@ -42,9 +43,6 @@ const MigrateBlocks = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 		__( 'Migrating your post content...', 'block-lab' ),
 		__( 'Installing Genesis Custom Blocks...', 'block-lab' ),
 	];
-	const numberOfBlockMigrationSteps = migrationLabels.length;
-	const progressStep = 1 / numberOfBlockMigrationSteps;
-	const progressRatio = progressStep + ( currentBlockMigrationStep / numberOfBlockMigrationSteps );
 
 	/**
 	 * Migrates the blocks, going through each migration step.
@@ -102,13 +100,10 @@ const MigrateBlocks = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 					</div>
 				) }
 				{ isMigrationInProgress ? (
-					<div>
-						<progress
-							value={ progressRatio * 100 }
-							max="100"
-						/>
-						<label>{ migrationLabels[ currentBlockMigrationStep ] }</label>
-					</div>
+					<>
+						<Spinner />
+						<p>{ migrationLabels[ currentBlockMigrationStep ] }</p>
+					</>
 				) : (
 					<button
 						className="btn"
