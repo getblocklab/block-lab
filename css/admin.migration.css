@@ -108,6 +108,7 @@
 	border: none;
 	display: flex;
 	color: var(--color-purple-100);
+	cursor: pointer;
 	box-shadow: var(--box-shadow-small);
 	padding-left: 1.25rem;
 	padding-right: 1.25rem;
@@ -127,8 +128,10 @@
 }
 
 .bl-migration__content .btn[disabled] {
-	color: var(--color-purple-700);
-	background-color: var(--color-purple-200);
+	color: var(--color-gray-500);
+	background-color: var(--color-gray-200);
+	box-shadow: none;
+	cursor: not-allowed;
 }
 
 .bl-migration__content .btn-secondary {
