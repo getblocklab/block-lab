@@ -52,6 +52,7 @@ const UpdateHooks = ( { isStepActive, isStepComplete, stepIndex, goToNext, goToP
 							href={ hooksDetailsUrl }
 							target="_blank"
 							rel="noopener noreferrer"
+							aria-label={ __( 'More details on the hooks', 'genesis-custom-blocks' ) }
 						>
 							{ __( 'More details here.', 'block-lab' ) }
 						</a>
@@ -63,6 +64,7 @@ const UpdateHooks = ( { isStepActive, isStepComplete, stepIndex, goToNext, goToP
 							href={ phpApiDetailsUrl }
 							target="_blank"
 							rel="noopener noreferrer"
+							aria-label={ __( 'More details on the PHP API', 'genesis-custom-blocks' ) }
 						>
 							{ __( 'More details here.', 'block-lab' ) }
 						</a>

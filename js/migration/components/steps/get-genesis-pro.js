@@ -215,6 +215,7 @@ const GetGenesisPro = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 						href={ urlMigrateWithoutGenPro }
 						target="_blank"
 						rel="noopener noreferrer"
+						aria-label={ __( 'More information about migrating but not setting up Genesis Pro', 'genesis-custom-blocks' ) }
 					>
 						{ __( 'Read here for what that means.', 'block-lab' ) }
 					</a>
