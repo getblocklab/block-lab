@@ -484,3 +484,13 @@ label {
 		transform: rotate(360deg);
 	}
 }
+
+@media (max-width: 1000px) {
+	.step .pro-box-tiles {
+		flex-direction: column;
+	}
+
+	.step .pro-box-tile {
+		width: auto;
+	}
+}
