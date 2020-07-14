@@ -43,7 +43,9 @@ const ActivateGcb = ( { isStepActive, isStepComplete, stepIndex } ) => {
 				<p>
 					<span role="img" aria-label={ __( 'party emoji', 'block-lab' ) }>🎉</span>
 					&nbsp;
-					{ __( 'The migration completed successfully! Time to say goodbye to Block Lab (it’s been fun!) and step into the FUTURE ꜰᴜᴛᴜʀᴇ', 'block-lab' ) }
+					{ __( 'The migration completed successfully! Time to say goodbye to Block Lab (it’s been fun!) and step into the FUTURE', 'block-lab' ) }
+					&nbsp;
+					<span className="message-future">{ __( 'FUTURE', 'block-lab' ) }</span>
 					&nbsp;
 					<sub>{ __( 'FUTURE', 'block-lab' ) }</sub>.
 				</p>

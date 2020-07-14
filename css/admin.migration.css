@@ -439,13 +439,8 @@ label {
 	font-weight: 500;
 }
 
-@keyframes barberpole {
-	0% {
-		background-position: 100% 100%;
-	}
-	100% {
-		background-position: 50% 50%;
-	}
+.message-future {
+	font-size: 12px;
 }
 
 /*
