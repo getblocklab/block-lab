@@ -93,8 +93,10 @@ const GetGenesisPro = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 				index={ stepIndex }
 				isComplete={ isStepComplete }
 			/>
-			<StepContent>
-				<h3>{ __( 'Get Genesis Pro', 'block-lab' ) }</h3>
+			<StepContent
+				heading={ __( 'Get Genesis Pro', 'block-lab' ) }
+				isStepActive={ isStepActive }
+			>
 				<p></p>
 				<div className="pro-box">
 					<h3>{ __( 'Migrating from Block Lab Pro', 'block-lab' ) }</h3>

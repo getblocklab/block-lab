@@ -41,8 +41,10 @@ const UpdateHooks = ( { isStepActive, isStepComplete, stepIndex, goToNext, goToP
 				index={ stepIndex }
 				isComplete={ isStepComplete }
 			/>
-			<StepContent>
-				<h3 className="font-semibold mt-1">{ __( 'Update Hooks & API', 'block-lab' ) }</h3>
+			<StepContent
+				heading={ __( 'Update Hooks & API', 'block-lab' ) }
+				isStepActive={ isStepActive }
+			>
 				<p>{ __( 'In most cases, you won’t have to worry about this step. However, there are some instances that will require manual edits to your custom block related files. These are:', 'block-lab' ) }</p>
 				<ul className="list-disc list-inside mt-2">
 					<li>

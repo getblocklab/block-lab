@@ -36,8 +36,10 @@ const ActivateGcb = ( { isStepActive, isStepComplete, stepIndex } ) => {
 				index={ stepIndex }
 				isComplete={ isStepComplete }
 			/>
-			<StepContent>
-				<h3>{ __( 'Activate Genesis Custom Blocks', 'block-lab' ) }</h3>
+			<StepContent
+				heading={ __( 'Activate Genesis Custom Blocks', 'block-lab' ) }
+				isStepActive={ isStepActive }
+			>
 				<p>
 					<span role="img" aria-label={ __( 'party emoji', 'block-lab' ) }>🎉</span>
 					&nbsp;

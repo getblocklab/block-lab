@@ -90,8 +90,10 @@ const MigrateBlocks = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 				index={ stepIndex }
 				isComplete={ isStepComplete }
 			/>
-			<StepContent>
-				<h3>{ __( 'Migrate your Blocks', 'block-lab' ) }</h3>
+			<StepContent
+				heading={ __( 'Migrate your Blocks', 'block-lab' ) }
+				isStepActive={ isStepActive }
+			>
 				<p>{ __( "Ok! Everything is ready. Let's do this. While the migration is underway, don't leave this page.", 'block-lab' ) }</p>
 				{ !! errorMessages.length && (
 					<div className="bl-migration__error">
