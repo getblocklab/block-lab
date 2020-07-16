@@ -15,7 +15,7 @@ import { useState } from '@wordpress/element';
  * Internal dependencies
  */
 import { Intro } from './';
-import { ActivateGcb, BackupSite, GetGenesisPro, MigrateBlocks, UpdateHooks } from './steps';
+import { ActivateGcb, BackUpSite, GetGenesisPro, MigrateBlocks, UpdateHooks } from './steps';
 import { FIRST_STEP_NUMBER } from '../constants';
 
 /**
@@ -41,7 +41,7 @@ const App = () => {
 	};
 
 	const steps = [
-		BackupSite,
+		BackUpSite,
 		UpdateHooks,
 		MigrateBlocks,
 		ActivateGcb,

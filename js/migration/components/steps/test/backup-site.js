@@ -7,18 +7,18 @@ import user from '@testing-library/user-event';
 /**
  * Internal dependencies
  */
-import { BackupSite } from '../';
+import { BackUpSite } from '../';
 
-test( 'backup site migration step', async () => {
+test( 'back up site migration step', async () => {
 	const props = {
 		goToNext: jest.fn(),
 		isStepActive: true,
 		isStepComplete: false,
 		stepIndex: 1,
 	};
-	const { getByLabelText, getByText } = render( <BackupSite { ...props } /> );
+	const { getByLabelText, getByText } = render( <BackUpSite { ...props } /> );
 
-	getByText( /backup your site/ );
+	getByText( /back up your site/ );
 	getByText( props.stepIndex.toString() );
 
 	// Because the 'confirm' checkbox isn't checked, the 'next' button should be disabled.

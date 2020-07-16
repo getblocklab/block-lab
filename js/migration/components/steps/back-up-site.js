@@ -17,7 +17,7 @@ import { ButtonNext, ButtonPrevious, Step, StepContent, StepFooter, StepIcon } f
 import { FIRST_STEP_NUMBER } from '../../constants';
 
 /**
- * @typedef {Object} BackupSiteProps The component props.
+ * @typedef {Object} BackUpSiteProps The component props.
  * @property {boolean} isStepActive Whether this step is active.
  * @property {boolean} isStepComplete Whether this step is complete.
  * @property {number} stepIndex The step index of this step.
@@ -28,10 +28,10 @@ import { FIRST_STEP_NUMBER } from '../../constants';
 /**
  * The step that prompts to back up the site.
  *
- * @param {BackupSiteProps} Props The component props.
+ * @param {BackUpSiteProps} Props The component props.
  * @return {React.ReactElement} The component to prompt to back up the site.
  */
-const BackupSite = ( { isStepActive, isStepComplete, goToNext, goToPrevious, stepIndex } ) => {
+const BackUpSite = ( { isStepActive, isStepComplete, goToNext, goToPrevious, stepIndex } ) => {
 	const isFirstStep = FIRST_STEP_NUMBER === stepIndex;
 
 	return (
@@ -41,10 +41,10 @@ const BackupSite = ( { isStepActive, isStepComplete, goToNext, goToPrevious, ste
 				isComplete={ isStepComplete }
 			/>
 			<StepContent
-				heading={ __( 'Backup your site', 'block-lab' ) }
+				heading={ __( 'Back up your site', 'block-lab' ) }
 				isStepActive={ isStepActive }
 			>
-				<p>{ __( 'Migrating from Block Lab to Genesis Custom Blocks is a one-way action. It can’t be undone. Please backup your site before you begin, just in case you need to roll it back.', 'block-lab' ) }</p>
+				<p>{ __( 'Migrating from Block Lab to Genesis Custom Blocks is a one-way action. It can’t be undone. Please back up your site before you begin, just in case you need to roll it back.', 'block-lab' ) }</p>
 				<StepFooter>
 					{ ! isFirstStep && <ButtonPrevious onClick={ goToPrevious } /> }
 					<ButtonNext
@@ -58,4 +58,4 @@ const BackupSite = ( { isStepActive, isStepComplete, goToNext, goToPrevious, ste
 	);
 };
 
-export default BackupSite;
+export default BackUpSite;
