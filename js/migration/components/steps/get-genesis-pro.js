@@ -206,11 +206,11 @@ const GetGenesisPro = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 				<div className="genesis-pro-form">
 					<input
 						type="text"
-						placeholder={ __( 'Save your Genesis Pro subscription key', 'block-lab' ) }
+						placeholder={ __( 'Paste your Genesis Pro subscription key', 'block-lab' ) }
 						onChange={ onChangeSubscriptionKey }
 					/>
 					<button onClick={ submitSubscriptionKey } >
-						{ __( 'Submit', 'block-lab' ) }
+						{ __( 'Save', 'block-lab' ) }
 					</button>
 				</div>
 				<p className="pro-submission-message">{ submissionMessage }</p>
