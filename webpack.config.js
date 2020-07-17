@@ -9,6 +9,7 @@ module.exports = {
 	...defaultConfig,
 	entry: {
 		'./js/editor.blocks': './js/blocks/index.js',
+		'./js/admin.migration': './js/migration/index.js',
 	},
 	output: {
 		path: path.resolve( __dirname ),

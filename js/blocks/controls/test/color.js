@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import user from '@testing-library/user-event';
 
 /**
@@ -33,6 +33,6 @@ test( 'color control', async () => {
 	// On entering a new color, it should be sent to the onChange handler.
 	const enteredColor = '#fff';
 	user.clear( input );
-	user.type( input, enteredColor );
+	fireEvent.change( input, { target: { value: enteredColor } } );
 	expect( mockOnChange ).toHaveBeenCalledWith( enteredColor );
 } );

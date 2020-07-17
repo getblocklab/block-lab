@@ -33,7 +33,7 @@ test( 'radio control', async () => {
 	);
 
 	// The second radio option should be checked, as it's the default.
-	expect( await getAllByRole( 'radio' )[ 1 ] ).toBeChecked();
+	expect( getAllByRole( 'radio' )[ 1 ] ).toBeChecked();
 	getByText( field.help );
 	getByText( field.label );
 

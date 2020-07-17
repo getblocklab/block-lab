@@ -7,7 +7,7 @@
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace Block_Lab\Blocks\Migration;
+namespace Block_Lab\Admin\Migration;
 
 use WP_Post;
 use WP_Query;
@@ -25,18 +25,18 @@ class Post_Type {
 	private $previous_post_type_slug;
 
 	/**
-	 * The new slug of the custom post type (not in Block Lab).
-	 *
-	 * @var string
-	 */
-	private $new_post_type_slug;
-
-	/**
 	 * The previous namespace of the block.
 	 *
 	 * @var string
 	 */
 	private $previous_block_namespace;
+
+	/**
+	 * The previous default block icon.
+	 *
+	 * @var string
+	 */
+	private $previous_default_icon;
 
 	/**
 	 * The new namespace of the block.
@@ -46,16 +46,36 @@ class Post_Type {
 	private $new_block_namespace;
 
 	/**
+	 * The new slug of the custom post type (not in Block Lab).
+	 *
+	 * @var string
+	 */
+	private $new_post_type_slug;
+
+	/**
+	 * The new default block icon.
+	 *
+	 * @var string
+	 */
+	private $new_default_icon;
+
+	/**
 	 * Post_Type constructor.
 	 *
-	 * @param string $new_post_type_slug  The new slug of the custom post type.
-	 * @param string $new_block_namespace The new namespace of the block.
+	 * @param string $previous_post_type_slug  Previous slug of the custom post type.
+	 * @param string $previous_block_namespace Previous block namespace.
+	 * @param string $previous_default_icon    Previous default block icon.
+	 * @param string $new_post_type_slug       New slug of the custom post type.
+	 * @param string $new_block_namespace      New namespace of the block.
+	 * @param string $new_default_icon         New default block icon.
 	 */
-	public function __construct( $new_post_type_slug, $new_block_namespace ) {
-		$this->previous_post_type_slug  = block_lab()->get_post_type_slug();
+	public function __construct( $previous_post_type_slug, $previous_block_namespace, $previous_default_icon, $new_post_type_slug, $new_block_namespace, $new_default_icon ) {
+		$this->previous_post_type_slug  = $previous_post_type_slug;
+		$this->previous_block_namespace = $previous_block_namespace;
+		$this->previous_default_icon    = $previous_default_icon;
 		$this->new_post_type_slug       = $new_post_type_slug;
-		$this->previous_block_namespace = 'block-lab';
 		$this->new_block_namespace      = $new_block_namespace;
+		$this->new_default_icon         = $new_default_icon;
 	}
 
 	/**
@@ -63,17 +83,34 @@ class Post_Type {
 	 *
 	 * These each store a config for a custom block,
 	 * they aren't blocks that users entered into the block editor.
+	 *
+	 * @return array The migration result: counts of success and errors.
 	 */
 	public function migrate_all() {
-		$posts = $this->query_for_posts();
+		$posts         = $this->query_for_posts();
+		$success_count = 0;
+		$error_count   = 0;
 
 		while ( ! empty( $posts ) ) {
 			foreach ( $posts as $post ) {
-				$this->migrate_single( $post );
+				$was_migration_successful = $this->migrate_single( $post );
+				if ( $was_migration_successful ) {
+					$success_count++;
+				} else {
+					$error_count++;
+				}
 			}
 
 			$posts = $this->query_for_posts();
 		}
+
+		$is_success = ! empty( $success_count ) || ( empty( $success_count ) && empty( $error_count ) );
+
+		return [
+			'success'      => $is_success,
+			'successCount' => $success_count,
+			'errorCount'   => $error_count,
+		];
 	}
 
 	/**
@@ -101,11 +138,13 @@ class Post_Type {
 			return false;
 		}
 
-		$block_contents        = $block[ $old_block_name ];
-		$previous_default_icon = 'block_lab';
-		$new_default_icon      = 'genesis_custom_blocks';
-		if ( isset( $block_contents['icon'] ) && $previous_default_icon === $block_contents['icon'] ) {
-			$block_contents['icon'] = $new_default_icon;
+		$block_contents = $block[ $old_block_name ];
+		if ( isset( $block_contents['icon'] ) && $this->previous_default_icon === $block_contents['icon'] ) {
+			$block_contents['icon'] = $this->new_default_icon;
+		}
+
+		if ( empty( $block_contents['icon'] ) ) {
+			$block_contents['icon'] = $this->new_default_icon;
 		}
 
 		$new_block_name = preg_replace( '#^' . $this->previous_block_namespace . '(?=/)#', $this->new_block_namespace, $old_block_name );
@@ -129,8 +168,8 @@ class Post_Type {
 	/**
 	 * Gets the posts of the previous post_type.
 	 *
-	 * This doesn't have an 'offset' parameter, as the migration changes the post_type.
-	 * So this query won't find posts that were already migrated.
+	 * This query won't find posts that were already migrated, as the migration changes the 'post_type'.
+	 * So this doesn't need an 'offset' parameter.
 	 *
 	 * @return WP_Post[] The posts that were found.
 	 */
@@ -139,6 +178,7 @@ class Post_Type {
 			[
 				'post_type'      => $this->previous_post_type_slug,
 				'posts_per_page' => 10,
+				'post_status'    => 'any',
 			]
 		);
 

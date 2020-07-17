@@ -5,7 +5,7 @@
  * @package Block_Lab
  */
 
-use Block_Lab\Blocks\Migration\Post_Content;
+use Block_Lab\Admin\Migration\Post_Content;
 
 /**
  * Class Test_Post_Content
@@ -119,13 +119,9 @@ class Test_Post_Content extends WP_UnitTestCase {
 		return [
 			'no_block'                               => [
 				'This post content does not have a block <p>Here is a paragraph</p>',
-				null,
-				'object', // This should return a WP_Error.
 			],
 			'unrelated_blocks_are_not_affected'      => [
 				$this->unrelated_blocks,
-				null,
-				'object',
 			],
 			'simple_image_block'                     => [
 				$this->image_block_initial_content,
@@ -190,7 +186,7 @@ class Test_Post_Content extends WP_UnitTestCase {
 	 * Test migrate_single.
 	 *
 	 * @dataProvider get_data_migrate_single
-	 * @covers \Block_Lab\Blocks\Migration\Post_Content::migrate_single()
+	 * @covers \Block_Lab\Admin\Migration\Post_Content::migrate_single()
 	 *
 	 * @param string $initial_post_content  Initial post_content.
 	 * @param string $expected_post_content Expected post_content of the new post.
@@ -215,7 +211,7 @@ class Test_Post_Content extends WP_UnitTestCase {
 	/**
 	 * Test migrate_single with an invalid post ID.
 	 *
-	 * @covers \Block_Lab\Blocks\Migration\Post_Content::migrate_single()
+	 * @covers \Block_Lab\Admin\Migration\Post_Content::migrate_single()
 	 */
 	public function test_migrate_single_invalid_post_id() {
 		$invalid_post_id = 5000000000;
@@ -225,38 +221,52 @@ class Test_Post_Content extends WP_UnitTestCase {
 	/**
 	 * Test migrate_all.
 	 *
-	 * @covers \Block_Lab\Blocks\Migration\Post_Content::migrate_all()
-	 * @covers \Block_Lab\Blocks\Migration\Post_Content::query_for_posts()
+	 * @covers \Block_Lab\Admin\Migration\Post_Content::migrate_all()
+	 * @covers \Block_Lab\Admin\Migration\Post_Content::query_for_posts()
 	 */
 	public function test_migrate_all() {
 		$post_id       = $this->create_block_post( $this->image_block_initial_content );
-		$results       = $this->instance->migrate_all();
+		$result        = $this->instance->migrate_all();
 		$migrated_post = get_post( $post_id );
 
 		$this->assertEquals( $this->image_block_expected_content, $migrated_post->post_content );
-		$this->assertCount( 1, $results );
+		$this->assertEquals(
+			[
+				'success'      => true,
+				'successCount' => 1,
+				'errorCount'   => 0,
+			],
+			$result
+		);
 	}
 
 	/**
 	 * Test migrate_all with non-Block Lab blocks.
 	 *
-	 * @covers \Block_Lab\Blocks\Migration\Post_Content::migrate_all()
+	 * @covers \Block_Lab\Admin\Migration\Post_Content::migrate_all()
 	 */
 	public function test_migrate_all_non_block_lab_blocks_not_affected() {
 		remove_filter( 'content_save_pre', 'wp_filter_post_kses' );
 
 		$post_id       = $this->create_block_post( $this->unrelated_blocks );
-		$results       = $this->instance->migrate_all();
+		$result        = $this->instance->migrate_all();
 		$migrated_post = get_post( $post_id );
 
 		$this->assertEquals( $this->unrelated_blocks, $migrated_post->post_content );
-		$this->assertEmpty( $results );
+		$this->assertEquals(
+			[
+				'success'      => true,
+				'successCount' => 0,
+				'errorCount'   => 0,
+			],
+			$result
+		);
 	}
 
 	/**
 	 * Test migrate_all with many posts.
 	 *
-	 * @covers \Block_Lab\Blocks\Migration\Post_Type::migrate_all()
+	 * @covers \Block_Lab\Admin\Migration\Post_Type::migrate_all()
 	 */
 	public function test_migrate_all_many_posts() {
 		remove_filter( 'content_save_pre', 'wp_filter_post_kses' );
@@ -266,12 +276,19 @@ class Test_Post_Content extends WP_UnitTestCase {
 			$this->create_block_post( $this->two_blocks_initial_content );
 		}
 
-		$results       = $this->instance->migrate_all();
+		$result        = $this->instance->migrate_all();
 		$queried_posts = new WP_Query( [ 'posts_per_page' => -1 ] );
 
 		// There should still be the same number of posts.
 		$this->assertEquals( $number_of_posts, $queried_posts->post_count );
-		$this->assertCount( $number_of_posts, $results );
+		$this->assertEquals(
+			[
+				'success'      => true,
+				'successCount' => $number_of_posts,
+				'errorCount'   => 0,
+			],
+			$result
+		);
 
 		// All of the posts should have their 'block-lab' blocks migrated to 'genesis-custom-blocks' namespaces.
 		$actual_post_content = wp_list_pluck( $queried_posts->posts, 'post_content' );
@@ -281,7 +298,7 @@ class Test_Post_Content extends WP_UnitTestCase {
 	/**
 	 * Test migrate_all when there are only errors.
 	 *
-	 * @covers \Block_Lab\Blocks\Migration\Post_Type::migrate_all()
+	 * @covers \Block_Lab\Admin\Migration\Post_Type::migrate_all()
 	 */
 	public function test_migrate_all_errors() {
 		$number_of_posts = 22;
@@ -293,15 +310,18 @@ class Test_Post_Content extends WP_UnitTestCase {
 		// This causes every migration in migrate_all() to be a WP_Error, which should make it exit early.
 		add_filter( 'wp_insert_post_empty_content', '__return_true' );
 		$migration_results = $this->instance->migrate_all();
-		$wp_errors         = array_filter(
-			$migration_results,
-			static function( $result ) {
-				return is_wp_error( $result );
-			}
-		);
 
-		// This should have returned on reaching the limit of 20.
-		$this->assertCount( 20, $migration_results );
-		$this->assertCount( 20, $wp_errors );
+		// This should have returned on reaching the error limit of 20.
+		$this->assertEquals(
+			[
+				'success'       => false,
+				'successCount'  => 0,
+				'errorCount'    => 20,
+				'errorMessages' => [
+					'Content, title, and excerpt are empty.',
+				],
+			],
+			$migration_results
+		);
 	}
 }

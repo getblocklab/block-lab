@@ -1,20 +1,20 @@
 <?php
 /**
- * Handles migration to the new plugin.
+ * Displays a migration notice.
  *
  * @package   Block_Lab
  * @copyright Copyright(c) 2020, Block Lab
  * @license   http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
  */
 
-namespace Block_Lab\Admin;
+namespace Block_Lab\Admin\Migration;
 
 use Block_Lab\Component_Abstract;
 
 /**
- * Class Migration
+ * Class Notice
  */
-class Migration extends Component_Abstract {
+class Notice extends Component_Abstract {
 
 	/**
 	 * The AJAX action to dismiss the migration notice.

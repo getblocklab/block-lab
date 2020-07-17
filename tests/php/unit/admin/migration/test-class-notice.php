@@ -1,25 +1,25 @@
 <?php
 /**
- * Tests for class Migration.
+ * Tests for class Notice.
  *
  * @package Block_Lab
  */
 
-use Block_Lab\Admin\Migration;
+use Block_Lab\Admin\Migration\Notice;
 use Brain\Monkey;
 use function Brain\Monkey\Functions\expect;
 
 /**
- * Tests for class Migration.
+ * Tests for class Notice.
  */
-class Test_Migration extends \WP_UnitTestCase {
+class Test_Notice extends \WP_UnitTestCase {
 
 	use Testing_Helper;
 
 	/**
-	 * Instance of Migration.
+	 * Instance of Notice.
 	 *
-	 * @var Migration
+	 * @var Notice
 	 */
 	public $instance;
 
@@ -31,7 +31,7 @@ class Test_Migration extends \WP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 		Monkey\setUp();
-		$this->instance = new Migration();
+		$this->instance = new Notice();
 		$this->instance->set_plugin( block_lab() );
 	}
 
@@ -48,7 +48,7 @@ class Test_Migration extends \WP_UnitTestCase {
 	/**
 	 * Test register_hooks.
 	 *
-	 * @covers \Block_Lab\Admin\Migration::register_hooks()
+	 * @covers \Block_Lab\Admin\Migration\Notice::register_hooks()
 	 */
 	public function test_register_hooks() {
 		$this->instance->register_hooks();
@@ -60,7 +60,7 @@ class Test_Migration extends \WP_UnitTestCase {
 	/**
 	 * Test render_migration_notice.
 	 *
-	 * @covers \Block_Lab\Admin\Migration::render_migration_notice()
+	 * @covers \Block_Lab\Admin\Migration\Notice::render_migration_notice()
 	 */
 	public function test_render_migration_notice() {
 		$this->give_user_permissions();
@@ -83,7 +83,7 @@ class Test_Migration extends \WP_UnitTestCase {
 	/**
 	 * Test enqueue_assets.
 	 *
-	 * @covers \Block_Lab\Admin\Migration::enqueue_assets()
+	 * @covers \Block_Lab\Admin\Migration\Notice::enqueue_assets()
 	 */
 	public function test_enqueue_assets() {
 		$this->give_user_permissions();
@@ -102,7 +102,7 @@ class Test_Migration extends \WP_UnitTestCase {
 	/**
 	 * Test ajax_handler_migration_notice.
 	 *
-	 * @covers \Block_Lab\Admin\Migration::ajax_handler_migration_notice()
+	 * @covers \Block_Lab\Admin\Migration\Notice::ajax_handler_migration_notice()
 	 */
 	public function test_ajax_handler_migration_notice() {
 		$this->give_user_permissions();
@@ -130,7 +130,7 @@ class Test_Migration extends \WP_UnitTestCase {
 	/**
 	 * Test migration_notice when on a page where it shouldn't appear.
 	 *
-	 * @covers \Block_Lab\Admin\Migration::should_display_migration_notice()
+	 * @covers \Block_Lab\Admin\Migration\Notice::should_display_migration_notice()
 	 */
 	public function test_migration_notice_wrong_page() {
 		$this->assertFalse( $this->instance->should_display_migration_notice() );
@@ -139,7 +139,7 @@ class Test_Migration extends \WP_UnitTestCase {
 	/**
 	 * Test migration_notice when the user has dismissed it.
 	 *
-	 * @covers \Block_Lab\Admin\Migration::render_migration_notice()
+	 * @covers \Block_Lab\Admin\Migration\Notice::render_migration_notice()
 	 */
 	public function test_migration_notice_dismissed() {
 		$this->give_user_permissions();
@@ -149,7 +149,7 @@ class Test_Migration extends \WP_UnitTestCase {
 		expect( 'get_current_screen' )
 			->andReturn( $mock_current_screen );
 
-		update_user_meta( get_current_user_id(), Migration::NOTICE_USER_META_KEY, Migration::NOTICE_DISMISSED_META_VALUE );
+		update_user_meta( get_current_user_id(), Notice::NOTICE_USER_META_KEY, Notice::NOTICE_DISMISSED_META_VALUE );
 
 		$this->assertFalse( $this->instance->should_display_migration_notice() );
 	}
@@ -157,7 +157,7 @@ class Test_Migration extends \WP_UnitTestCase {
 	/**
 	 * Test migration_notice on the Block Lab settings page.
 	 *
-	 * @covers \Block_Lab\Admin\Migration::render_migration_notice()
+	 * @covers \Block_Lab\Admin\Migration\Notice::render_migration_notice()
 	 */
 	public function test_migration_notice_on_settings_page() {
 		$this->give_user_permissions();
@@ -174,7 +174,7 @@ class Test_Migration extends \WP_UnitTestCase {
 	/**
 	 * Test migration_notice on the Content Blocks page.
 	 *
-	 * @covers \Block_Lab\Admin\Migration::should_display_migration_notice()
+	 * @covers \Block_Lab\Admin\Migration\Notice::should_display_migration_notice()
 	 */
 	public function test_migration_notice_on_content_blocks_page() {
 		$this->give_user_permissions();
@@ -192,7 +192,7 @@ class Test_Migration extends \WP_UnitTestCase {
 	/**
 	 * Test migration_notice on the plugins page.
 	 *
-	 * @covers \Block_Lab\Admin\Migration::should_display_migration_notice()
+	 * @covers \Block_Lab\Admin\Migration\Notice::should_display_migration_notice()
 	 */
 	public function test_migration_notice_on_plugins_page() {
 		$this->give_user_permissions();
@@ -209,7 +209,7 @@ class Test_Migration extends \WP_UnitTestCase {
 	/**
 	 * Test migration_notice on the plugins page.
 	 *
-	 * @covers \Block_Lab\Admin\Migration::should_display_migration_notice()
+	 * @covers \Block_Lab\Admin\Migration\Notice::should_display_migration_notice()
 	 */
 	public function test_migration_notice_on_dashboard() {
 		$this->give_user_permissions();
