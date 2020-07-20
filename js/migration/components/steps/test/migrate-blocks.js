@@ -35,5 +35,5 @@ test( 'migrate blocks step', async () => {
 		user.click( getByText( 'Migrate Now' ) )
 	);
 
-	expect( getByText( 'Migrating your post content...' ) ).toBeInTheDocument();
+	expect( getByText( 'Installing Genesis Custom Blocks...' ) ).toBeInTheDocument();
 } );

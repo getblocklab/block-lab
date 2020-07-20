@@ -47,8 +47,6 @@ const MigrateBlocks = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 
 	/**
 	 * Migrates the blocks, going through each migration step.
-	 *
-	 * @todo Add the 'Install GCB' step.
 	 */
 	const migrateBlocks = async () => {
 		speak( __( 'The migration is now in progress', 'block-lab' ) );
@@ -77,12 +75,28 @@ const MigrateBlocks = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 
 		// @ts-ignore
 		if ( contentMigrationResult.success ) {
+			setCurrentBlockMigrationStep( 2 );
+		} else {
+			// @ts-ignore
+			setErrorMessages( contentMigrationResult.errorMessages );
+			setIsMigrationError( true );
+			setIsMigrationInProgress( false );
+			return;
+		}
+
+		const pluginInstallationResult = await apiFetch( {
+			path: '/block-lab/install-gcb',
+			method: 'POST',
+		} );
+
+		// @ts-ignore
+		if ( pluginInstallationResult.success ) {
 			speak( __( 'The migration was successful!', 'block-lab' ) );
 			goToNext();
 		} else {
 			speak( __( 'The migration failed', 'block-lab' ) );
 			// @ts-ignore
-			setErrorMessages( contentMigrationResult.errorMessages );
+			setErrorMessages( [ __( 'Installing Genesis Custom Blocks failed.', 'block-lab' ) ] );
 			setIsMigrationError( true );
 			setIsMigrationInProgress( false );
 		}
