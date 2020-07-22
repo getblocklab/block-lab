@@ -93,7 +93,7 @@ class Notice extends Component_Abstract {
 		$learn_more_link = 'https://getblocklab.com/docs/genesis-custom-blocks';
 		$migration_url   = add_query_arg(
 			[
-				'post_type' => block_lab()->get_slug(),
+				'post_type' => block_lab()->get_post_type_slug(),
 				'page'      => 'block-lab-migration',
 			],
 			admin_url( 'edit.php' )

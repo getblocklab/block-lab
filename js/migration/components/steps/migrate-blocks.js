@@ -1,4 +1,5 @@
 // @ts-check
+/* global blockLabMigration */
 
 /**
  * External dependencies
@@ -17,7 +18,7 @@ import { __, _n } from '@wordpress/i18n';
 /**
  * Internal dependencies
  */
-import { Step, StepContent, StepIcon } from '../';
+import { Step, StepContent, StepFooter, StepIcon } from '../';
 
 /**
  * @typedef {Object} MigrateBlocksProps The component props.
@@ -28,16 +29,17 @@ import { Step, StepContent, StepIcon } from '../';
  */
 
 /**
- * The step that prompts to back up the site.
+ * The step that migrates the blocks.
  *
  * @param {MigrateBlocksProps} Props The component props.
  * @return {React.ReactElement} The component to prompt to migrate the post content.
  */
-const MigrateBlocks = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) => {
+const MigrateBlocks = ( { isStepActive, isStepComplete, stepIndex } ) => {
 	const [ currentBlockMigrationStep, setCurrentBlockMigrationStep ] = useState( 0 );
 	const [ isMigrationInProgress, setIsMigrationInProgress ] = useState( false );
 	const [ isMigrationError, setIsMigrationError ] = useState( false );
 	const [ errorMessages, setErrorMessages ] = useState( [] );
+	const [ isMigrationSuccess, setIsMigrationSuccess ] = useState( false );
 
 	const migrationLabels = [
 		__( 'Migrating your blocks...', 'block-lab' ),
@@ -75,31 +77,16 @@ const MigrateBlocks = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 
 		// @ts-ignore
 		if ( contentMigrationResult.success ) {
-			setCurrentBlockMigrationStep( 2 );
+			speak( __( 'The migration was successful!', 'block-lab' ) );
+			setIsMigrationSuccess( true );
 		} else {
 			// @ts-ignore
 			setErrorMessages( contentMigrationResult.errorMessages );
-			setIsMigrationError( true );
-			setIsMigrationInProgress( false );
-			return;
-		}
-
-		const pluginInstallationResult = await apiFetch( {
-			path: '/block-lab/install-gcb',
-			method: 'POST',
-		} );
-
-		// @ts-ignore
-		if ( pluginInstallationResult.success ) {
-			speak( __( 'The migration was successful!', 'block-lab' ) );
-			goToNext();
-		} else {
 			speak( __( 'The migration failed', 'block-lab' ) );
-			// @ts-ignore
-			setErrorMessages( [ __( 'Installing Genesis Custom Blocks failed.', 'block-lab' ) ] );
 			setIsMigrationError( true );
-			setIsMigrationInProgress( false );
 		}
+
+		setIsMigrationInProgress( false );
 	};
 
 	return (
@@ -112,25 +99,45 @@ const MigrateBlocks = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 				heading={ __( 'Migrate your Blocks', 'block-lab' ) }
 				isStepActive={ isStepActive }
 			>
-				<p>{ __( "Ok! Everything is ready. Let's do this. While the migration is underway, don't leave this page.", 'block-lab' ) }</p>
+				{ ! isMigrationSuccess && <p>{ __( "Ok! Everything is ready. Let's do this. While the migration is underway, don't leave this page.", 'block-lab' ) }</p> }
 				{ !! errorMessages.length && (
 					<div className="bl-migration__error">
 						<p>{ _n( 'The following error ocurred:', 'The following errors ocurred:', errorMessages.length, 'block-lab' ) }</p>
 						{ errorMessages.map( ( message, index ) => <p key={ `bl-error-message-${ index }` }>{ message }</p> ) }
 					</div>
 				) }
-				{ isMigrationInProgress ? (
+				{ isMigrationInProgress && (
 					<>
 						<Spinner />
 						<p>{ migrationLabels[ currentBlockMigrationStep ] }</p>
 					</>
-				) : (
+				) }
+				{ ! isMigrationSuccess && (
 					<button
 						className="btn"
 						onClick={ migrateBlocks }
 					>
 						{ isMigrationError ? __( 'Try Again', 'block-lab' ) : __( 'Migrate Now', 'block-lab' ) }
 					</button>
+				) }
+				{ isMigrationSuccess && (
+					<>
+						<p>
+							<span role="img" aria-label={ __( 'party emoji', 'block-lab' ) }>🎉</span>
+							&nbsp;
+							{ __( 'The migration completed successfully! Time to say goodbye to Block Lab (it’s been fun!) and step into the FUTURE', 'block-lab' ) }
+							&nbsp;
+							<span className="message-future">{ __( 'FUTURE', 'block-lab' ) }</span>
+							&nbsp;
+							<sub>{ __( 'FUTURE', 'block-lab' ) }</sub>.
+						</p>
+						<StepFooter>
+							{ /* @ts-ignore */ }
+							<a href={ blockLabMigration.gcbUrl } className="btn">
+								{ __( 'Go To Genesis Custom Blocks', 'block-lab' ) }
+							</a>
+						</StepFooter>
+					</>
 				) }
 			</StepContent>
 		</Step>

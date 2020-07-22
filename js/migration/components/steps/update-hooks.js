@@ -25,7 +25,7 @@ import { ButtonNext, ButtonPrevious, Step, StepContent, StepFooter, StepIcon } f
  */
 
 /**
- * The step that prompts to back up the site.
+ * The step that prompts to update hooks.
  *
  * @param {UpdateHooksProps} Props The component props.
  * @return {React.ReactElement} The component to prompt to back up the site.

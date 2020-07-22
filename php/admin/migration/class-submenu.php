@@ -36,14 +36,14 @@ class Submenu extends Component_Abstract {
 	 *
 	 * @var string
 	 */
-	const QUERY_VAR_DEACTIVATE_AND_ACTIVATE = 'bl_deactivate_and_activate';
+	const QUERY_VAR_DEACTIVATE_AND_GCB_PAGE = 'bl_deactivate_and_activate';
 
 	/**
 	 * The query var to deactivate this plugin and activate the new one.
 	 *
 	 * @var string
 	 */
-	const NONCE_ACTION_DEACTIVATE_AND_ACTIVATE = 'deactivate_bl_and_activate_new';
+	const NONCE_ACTION_DEACTIVATE = 'deactivate_bl_and_activate_new';
 
 	/**
 	 * The query var to disable onboarding in Genesis Custom Blocks.
@@ -103,18 +103,18 @@ class Submenu extends Component_Abstract {
 				true
 			);
 
-			$activate_url = add_query_arg(
+			$gcb_url = add_query_arg(
 				[
-					self::QUERY_VAR_DEACTIVATE_AND_ACTIVATE => true,
-					'_wpnonce' => wp_create_nonce( self::NONCE_ACTION_DEACTIVATE_AND_ACTIVATE ),
+					self::QUERY_VAR_DEACTIVATE_AND_GCB_PAGE => true,
+					'_wpnonce' => wp_create_nonce( self::NONCE_ACTION_DEACTIVATE ),
 				],
 				admin_url()
 			);
 
 			$is_pro      = block_lab()->is_pro();
 			$script_data = [
-				'isPro'       => $is_pro,
-				'activateUrl' => $activate_url,
+				'isPro'  => $is_pro,
+				'gcbUrl' => $gcb_url,
 			];
 
 			if ( $is_pro ) {
@@ -146,16 +146,15 @@ class Submenu extends Component_Abstract {
 	}
 
 	/**
-	 * Conditionally deactivates this plugin and activates Genesis Custom Blocks.
+	 * Conditionally deactivates this plugin goes to the Genesis Custom Blocks page.
 	 *
 	 * The logic to deactivate the plugin was mainly copied from Core.
 	 * https://github.com/WordPress/wordpress-develop/blob/61803a37a41eca95efe964c7e02c768de6df75fa/src/wp-admin/plugins.php#L196-L221
 	 */
 	public function maybe_activate_plugin() {
 		$previous_plugin_file = 'block-lab/block-lab.php';
-		$new_plugin_file      = 'genesis-custom-blocks/genesis-custom-blocks.php';
 
-		if ( empty( $_GET[ self::QUERY_VAR_DEACTIVATE_AND_ACTIVATE ] ) ) {
+		if ( empty( $_GET[ self::QUERY_VAR_DEACTIVATE_AND_GCB_PAGE ] ) ) {
 			return;
 		}
 
@@ -163,7 +162,7 @@ class Submenu extends Component_Abstract {
 			wp_die( esc_html__( 'Sorry, you are not allowed to deactivate this plugin.', 'block-lab' ) );
 		}
 
-		check_admin_referer( self::NONCE_ACTION_DEACTIVATE_AND_ACTIVATE );
+		check_admin_referer( self::NONCE_ACTION_DEACTIVATE );
 
 		if ( ! is_network_admin() && is_plugin_active_for_network( $previous_plugin_file ) ) {
 			wp_die( esc_html__( 'Sorry, you are not allowed to deactivate this network-active plugin.', 'block-lab' ) );
@@ -177,18 +176,15 @@ class Submenu extends Component_Abstract {
 			update_site_option( 'recently_activated', [ $previous_plugin_file => time() ] + (array) get_site_option( 'recently_activated' ) );
 		}
 
-		// Activate the new plugin.
+		// Go to the Genesis Custom Blocks page.
 		wp_safe_redirect(
-			add_query_arg(
-				[
-					'action'                           => 'activate',
-					'plugin'                           => rawurlencode( $new_plugin_file ),
-					'plugin_status'                    => 'all',
-					'paged'                            => 1,
-					'_wpnonce'                         => wp_create_nonce( 'activate-plugin_' . $new_plugin_file ),
-					self::QUERY_VAR_DISABLE_ONBOARDING => true,
-				],
-				admin_url( 'plugins.php' )
+			esc_url(
+				admin_url(
+					add_query_arg(
+						[ 'post_type' => 'genesis_custom_block' ],
+						'edit.php'
+					)
+				)
 			)
 		);
 	}

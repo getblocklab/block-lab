@@ -15,6 +15,9 @@ import apiFetch from '@wordpress/api-fetch';
 import { MigrateBlocks } from '../';
 
 jest.mock( '@wordpress/api-fetch' );
+global.blockLabMigration = {
+	gcbUrl: 'https://example.com',
+};
 
 test( 'migrate blocks step', async () => {
 	apiFetch.mockImplementation( () => new Promise( ( resolve ) => resolve( { success: true } ) ) );
@@ -35,5 +38,5 @@ test( 'migrate blocks step', async () => {
 		user.click( getByText( 'Migrate Now' ) )
 	);
 
-	expect( getByText( 'Installing Genesis Custom Blocks...' ) ).toBeInTheDocument();
+	expect( getByText( 'The migration was successful!' ) ).toBeInTheDocument();
 } );
