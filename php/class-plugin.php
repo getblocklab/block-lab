@@ -143,6 +143,5 @@ class Plugin extends Plugin_Abstract {
 			</a>
 		</div>
 		<?php
-
 	}
 }
