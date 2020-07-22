@@ -75,27 +75,26 @@ const InstallActivateGcb = ( { goToNext, isStepActive, isStepComplete, stepIndex
 				heading={ __( 'Install And Activate Genesis Custom Blocks', 'block-lab' ) }
 				isStepActive={ isStepActive }
 			>
-				{ !! errorMessage && (
-					<div className="bl-migration__error">
-						<p>{ __( 'The following error ocurred:', 'block-lab' ) }</p>
-						<p>{ errorMessage }</p>
-					</div>
-				) }
 				{ isInProgress && (
 					<>
 						<Spinner />
 						<p>{ __( 'Installing and activating Genesis Custom Blocks...', 'block-lab' ) }</p>
 					</>
 				) }
-				{ ! isSuccess && (
+				{ !! errorMessage && (
+					<div className="bl-migration__error">
+						<p>{ __( 'The following error ocurred:', 'block-lab' ) }</p>
+						<p>{ errorMessage }</p>
+					</div>
+				) }
+				{ ! isSuccess ? (
 					<button
 						className="btn"
 						onClick={ installAndActivateGcb }
 					>
 						{ isError ? __( 'Try Again', 'block-lab' ) : __( 'Install and activate', 'block-lab' ) }
 					</button>
-				) }
-				{ isSuccess && (
+				) : (
 					<>
 						<p>{ __( 'Success! Genesis Custom Blocks is installed and activated.', 'block-lab' ) }</p>
 						<StepFooter>

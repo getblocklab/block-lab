@@ -60,7 +60,7 @@ const MigrateBlocks = ( { isStepActive, isStepComplete, stepIndex } ) => {
 		} );
 
 		// @ts-ignore
-		if ( postTypeMigrationResult.success ) {
+		if ( postTypeMigrationResult.hasOwnProperty( 'success' ) && postTypeMigrationResult.success ) {
 			setCurrentBlockMigrationStep( 1 );
 		} else {
 			setErrorMessages( [ __( 'Migrating the post type failed.', 'block-lab' ) ] );
@@ -75,12 +75,14 @@ const MigrateBlocks = ( { isStepActive, isStepComplete, stepIndex } ) => {
 		} );
 
 		// @ts-ignore
-		if ( contentMigrationResult.success ) {
+		if ( contentMigrationResult.hasOwnProperty( 'success' ) && contentMigrationResult.success ) {
 			speak( __( 'The migration was successful!', 'block-lab' ) );
 			setIsSuccess( true );
 		} else {
-			// @ts-ignore
-			setErrorMessages( contentMigrationResult.errorMessages );
+			if ( contentMigrationResult.hasOwnProperty( 'errorMessages' ) ) {
+				// @ts-ignore
+				setErrorMessages( contentMigrationResult.errorMessages );
+			}
 			speak( __( 'The migration failed', 'block-lab' ) );
 			setIsError( true );
 		}
@@ -111,15 +113,14 @@ const MigrateBlocks = ( { isStepActive, isStepComplete, stepIndex } ) => {
 						<p>{ migrationLabels[ currentBlockMigrationStep ] }</p>
 					</>
 				) }
-				{ ! isSuccess && (
+				{ ! isSuccess ? (
 					<button
 						className="btn"
 						onClick={ migrateBlocks }
 					>
 						{ isError ? __( 'Try Again', 'block-lab' ) : __( 'Migrate Now', 'block-lab' ) }
 					</button>
-				) }
-				{ isSuccess && (
+				) : (
 					<>
 						<p>
 							<span role="img" aria-label={ __( 'party emoji', 'block-lab' ) }>🎉</span>

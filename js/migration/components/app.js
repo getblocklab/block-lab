@@ -15,7 +15,7 @@ import { useState } from '@wordpress/element';
  * Internal dependencies
  */
 import { Intro } from './';
-import { InstallActivateGcb, BackUpSite, GetGenesisPro, MigrateBlocks, UpdateHooks } from './steps';
+import { BackUpSite, GetGenesisPro, InstallActivateGcb, MigrateBlocks, UpdateHooks } from './steps';
 import { FIRST_STEP_NUMBER } from '../constants';
 
 /**
