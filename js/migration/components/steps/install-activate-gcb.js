@@ -42,7 +42,7 @@ const InstallActivateGcb = ( { goToNext, isStepActive, isStepComplete, stepIndex
 	/**
 	 * Installs and activates Genesis Custom Blocks.
 	 */
-	const installAndActivateGcb = async () => {
+	const installAndActivateGcb = () => {
 		speak( __( 'The installation is now in progress', 'block-lab' ) );
 		setIsInProgress( true );
 		setIsError( false );
@@ -55,10 +55,11 @@ const InstallActivateGcb = ( { goToNext, isStepActive, isStepComplete, stepIndex
 			speak( __( 'Success! Genesis Custom Blocks is installed and activated.', 'block-lab' ) );
 			setIsSuccess( true );
 		} ).catch( ( result ) => {
-			speak( __( 'The installation failed', 'block-lab' ) );
+			speak( __( 'The installation and activation failed with the following error:', 'block-lab' ) );
+			speak( result.message );
+			setErrorMessage( result.message );
 			setIsSuccess( false );
 			setIsError( true );
-			setErrorMessage( result.message );
 		} );
 
 		setIsInProgress( false );

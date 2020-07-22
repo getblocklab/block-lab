@@ -44,7 +44,6 @@ const MigrateBlocks = ( { isStepActive, isStepComplete, stepIndex } ) => {
 	const migrationLabels = [
 		__( 'Migrating your blocks...', 'block-lab' ),
 		__( 'Migrating your post content...', 'block-lab' ),
-		__( 'Installing Genesis Custom Blocks...', 'block-lab' ),
 	];
 
 	/**

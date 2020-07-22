@@ -82,7 +82,7 @@ class Api extends Component_Abstract {
 	 * @return WP_REST_Response The response to the request.
 	 */
 	public function get_migrate_post_content_response() {
-		return rest_ensure_response( ( new Post_Content( block_lab()->get_slug(), $this->new_plugin_slug ) )->migrate_all() );
+		return rest_ensure_response( ( new Post_Content( 'block-lab', $this->new_plugin_slug ) )->migrate_all() );
 	}
 
 	/**
