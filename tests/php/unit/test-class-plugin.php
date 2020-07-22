@@ -5,6 +5,11 @@
  * @package Block_Lab
  */
 
+use Block_Lab\Plugin;
+use function Brain\Monkey\Functions\expect;
+use function Brain\Monkey\setUp;
+use function Brain\Monkey\tearDown;
+
 /**
  * Tests for class Plugin.
  */
@@ -26,9 +31,20 @@ class Test_Plugin extends \WP_UnitTestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
-		$this->instance = new Block_Lab\Plugin();
+		setUp();
+		$this->instance = new Plugin();
 		$this->instance->init();
 		$this->instance->plugin_loaded();
+	}
+
+	/**
+	 * Teardown.
+	 *
+	 * @inheritdoc
+	 */
+	public function tearDown() {
+		tearDown();
+		parent::tearDown();
 	}
 
 	/**
@@ -37,7 +53,7 @@ class Test_Plugin extends \WP_UnitTestCase {
 	 * @covers \Block_Lab\Plugin::init()
 	 */
 	public function test_init() {
-		$plugin_instance = new Block_Lab\Plugin();
+		$plugin_instance = new Plugin();
 		$plugin_instance->init();
 		$plugin_instance->plugin_loaded();
 
@@ -97,6 +113,73 @@ class Test_Plugin extends \WP_UnitTestCase {
 				'blocks/block.php',
 			],
 			$this->instance->get_template_locations( $name )
+		);
+	}
+
+	/**
+	 * Gets the test data for test_is_plugin_conflict.
+	 *
+	 * @return array The test data.
+	 */
+	public function get_data_is_conflict() {
+		return [
+			'no_conflict' => [ false, false ],
+			'conflict'    => [ true, true ],
+		];
+	}
+
+	/**
+	 * Test is_plugin_conflict.
+	 *
+	 * @dataProvider get_data_is_conflict
+	 * @covers \Genesis\CustomBlocks\Util::get_template_locations()
+	 *
+	 * @param bool $function_exists Whether the function exists.
+	 * @param bool $expected        The expected return value.
+	 */
+	public function test_is_plugin_conflict( $function_exists, $expected ) {
+		expect( 'function_exists' )
+			->andReturn( $function_exists );
+
+		// This should return the cached value, without needing to call function_exists() again.
+		$this->assertEquals( $expected, $this->instance->is_plugin_conflict() );
+	}
+
+	/**
+	 * Test plugin_conflict_notice does not display when on the wrong page or with the wrong user.
+	 *
+	 * @covers \Genesis\CustomBlocks\Util::plugin_conflict_notice()
+	 */
+	public function test_plugin_conflict_notice_does_not_display() {
+		ob_start();
+		$this->instance->plugin_conflict_notice();
+		$this->assertEmpty( ob_get_clean() );
+	}
+
+	/**
+	 * Test plugin_conflict_notice displays when it should.
+	 *
+	 * @covers \Genesis\CustomBlocks\Util::plugin_conflict_notice()
+	 */
+	public function test_plugin_conflict_notice_displays() {
+		$user_id = $this->factory()->user->create( [ 'role' => 'administrator' ] );
+		wp_set_current_user( $user_id );
+		if ( is_multisite() ) {
+			grant_super_admin( $user_id );
+		}
+
+		$mock_current_screen       = new stdClass();
+		$mock_current_screen->base = 'block_lab_page_block-lab-settings';
+
+		expect( 'get_current_screen' )
+			->once()
+			->andReturn( $mock_current_screen );
+
+		ob_start();
+		$this->instance->plugin_conflict_notice();
+		$this->assertContains(
+			'<div class="notice notice-error"><p>It looks like Block Lab is active. Please deactivate it or migrate, as it will not work while Genesis Custom Blocks is active.</p></div>',
+			ob_get_clean()
 		);
 	}
 }
