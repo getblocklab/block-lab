@@ -36,10 +36,10 @@ import { Step, StepContent, StepFooter, StepIcon } from '../';
  */
 const MigrateBlocks = ( { isStepActive, isStepComplete, stepIndex } ) => {
 	const [ currentBlockMigrationStep, setCurrentBlockMigrationStep ] = useState( 0 );
-	const [ isMigrationInProgress, setIsMigrationInProgress ] = useState( false );
-	const [ isMigrationError, setIsMigrationError ] = useState( false );
+	const [ isInProgress, setIsInProgress ] = useState( false );
+	const [ isError, setIsError ] = useState( false );
 	const [ errorMessages, setErrorMessages ] = useState( [] );
-	const [ isMigrationSuccess, setIsMigrationSuccess ] = useState( false );
+	const [ isSuccess, setIsSuccess ] = useState( false );
 
 	const migrationLabels = [
 		__( 'Migrating your blocks...', 'block-lab' ),
@@ -52,7 +52,7 @@ const MigrateBlocks = ( { isStepActive, isStepComplete, stepIndex } ) => {
 	 */
 	const migrateBlocks = async () => {
 		speak( __( 'The migration is now in progress', 'block-lab' ) );
-		setIsMigrationInProgress( true );
+		setIsInProgress( true );
 		setErrorMessages( [] );
 
 		const postTypeMigrationResult = await apiFetch( {
@@ -65,8 +65,8 @@ const MigrateBlocks = ( { isStepActive, isStepComplete, stepIndex } ) => {
 			setCurrentBlockMigrationStep( 1 );
 		} else {
 			setErrorMessages( [ __( 'Migrating the post type failed.', 'block-lab' ) ] );
-			setIsMigrationError( true );
-			setIsMigrationInProgress( false );
+			setIsError( true );
+			setIsInProgress( false );
 			return;
 		}
 
@@ -78,15 +78,15 @@ const MigrateBlocks = ( { isStepActive, isStepComplete, stepIndex } ) => {
 		// @ts-ignore
 		if ( contentMigrationResult.success ) {
 			speak( __( 'The migration was successful!', 'block-lab' ) );
-			setIsMigrationSuccess( true );
+			setIsSuccess( true );
 		} else {
 			// @ts-ignore
 			setErrorMessages( contentMigrationResult.errorMessages );
 			speak( __( 'The migration failed', 'block-lab' ) );
-			setIsMigrationError( true );
+			setIsError( true );
 		}
 
-		setIsMigrationInProgress( false );
+		setIsInProgress( false );
 	};
 
 	return (
@@ -99,28 +99,28 @@ const MigrateBlocks = ( { isStepActive, isStepComplete, stepIndex } ) => {
 				heading={ __( 'Migrate your Blocks', 'block-lab' ) }
 				isStepActive={ isStepActive }
 			>
-				{ ! isMigrationSuccess && <p>{ __( "Ok! Everything is ready. Let's do this. While the migration is underway, don't leave this page.", 'block-lab' ) }</p> }
+				{ ! isSuccess && <p>{ __( "Ok! Everything is ready. Let's do this. While the migration is underway, don't leave this page.", 'block-lab' ) }</p> }
 				{ !! errorMessages.length && (
 					<div className="bl-migration__error">
 						<p>{ _n( 'The following error ocurred:', 'The following errors ocurred:', errorMessages.length, 'block-lab' ) }</p>
 						{ errorMessages.map( ( message, index ) => <p key={ `bl-error-message-${ index }` }>{ message }</p> ) }
 					</div>
 				) }
-				{ isMigrationInProgress && (
+				{ isInProgress && (
 					<>
 						<Spinner />
 						<p>{ migrationLabels[ currentBlockMigrationStep ] }</p>
 					</>
 				) }
-				{ ! isMigrationSuccess && (
+				{ ! isSuccess && (
 					<button
 						className="btn"
 						onClick={ migrateBlocks }
 					>
-						{ isMigrationError ? __( 'Try Again', 'block-lab' ) : __( 'Migrate Now', 'block-lab' ) }
+						{ isError ? __( 'Try Again', 'block-lab' ) : __( 'Migrate Now', 'block-lab' ) }
 					</button>
 				) }
-				{ isMigrationSuccess && (
+				{ isSuccess && (
 					<>
 						<p>
 							<span role="img" aria-label={ __( 'party emoji', 'block-lab' ) }>🎉</span>
