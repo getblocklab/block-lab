@@ -36,7 +36,7 @@ class Submenu extends Component_Abstract {
 	 *
 	 * @var string
 	 */
-	const QUERY_VAR_DEACTIVATE_AND_GCB_PAGE = 'bl_deactivate_and_activate';
+	const QUERY_VAR_DEACTIVATE_AND_GCB_PAGE = 'bl_deactivate_and_gcb';
 
 	/**
 	 * The query var to deactivate this plugin and activate the new one.

@@ -136,7 +136,7 @@ class Test_Api extends WP_UnitTestCase {
 		$this->instance->register_route_install_gcb();
 		$routes = rest_get_server()->get_routes();
 
-		$this->assertArrayHasKey( '/block-lab/install-gcb', $routes );
+		$this->assertArrayHasKey( '/block-lab/install-activate-gcb', $routes );
 	}
 
 	/**

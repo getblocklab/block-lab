@@ -20,7 +20,7 @@ import { __ } from '@wordpress/i18n';
 import { ButtonNext, Step, StepContent, StepFooter, StepIcon } from '../';
 
 /**
- * @typedef {Object} ActivateGcbProps The component props.
+ * @typedef {Object} InstallActivateGcbProps The component props.
  * @property {React.EventHandler<React.MouseEvent<HTMLButtonElement, MouseEvent>>} goToNext Goes to the next step.
  * @property {boolean} isStepActive Whether this step is active.
  * @property {boolean} isStepComplete Whether this step is complete.
@@ -30,7 +30,7 @@ import { ButtonNext, Step, StepContent, StepFooter, StepIcon } from '../';
 /**
  * Installs and activates GCB.
  *
- * @param {ActivateGcbProps} Props The component props.
+ * @param {InstallActivateGcbProps} Props The component props.
  * @return {React.ReactElement} The component to activate Genesis Custom Blocks.
  */
 const InstallActivateGcb = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) => {
@@ -49,7 +49,7 @@ const InstallActivateGcb = ( { goToNext, isStepActive, isStepComplete, stepIndex
 		setErrorMessage( '' );
 
 		apiFetch( {
-			path: '/block-lab/install-gcb',
+			path: '/block-lab/install-activate-gcb',
 			method: 'POST',
 		} ).then( () => {
 			speak( __( 'Success! Genesis Custom Blocks is installed and activated.', 'block-lab' ) );

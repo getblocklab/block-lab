@@ -148,12 +148,12 @@ class Api extends Component_Abstract {
 	}
 
 	/**
-	 * Registers a route to install the plugin Genesis Custom Blocks.
+	 * Registers a route to install and activate the plugin Genesis Custom Blocks.
 	 */
 	public function register_route_install_gcb() {
 		register_rest_route(
 			block_lab()->get_slug(),
-			'install-gcb',
+			'install-activate-gcb',
 			[
 				'methods'             => 'POST',
 				'callback'            => [ $this, 'get_install_gcb_response' ],
@@ -165,7 +165,7 @@ class Api extends Component_Abstract {
 	}
 
 	/**
-	 * Gets the REST API response to install Genesis Custom Blocks.
+	 * Installs and activates Genesis Custom Blocks, and returns the result.
 	 *
 	 * @param array $data Data sent in the POST request.
 	 * @return WP_REST_Response|WP_Error Response to the request.
@@ -307,7 +307,7 @@ class Api extends Component_Abstract {
 	}
 
 	/**
-	 * Activates a plugin.
+	 * Activates the new plugin.
 	 *
 	 * Mainly copied from Gutenberg's WP_REST_Plugins_Controller::handle_plugin_status().
 	 *
@@ -316,10 +316,10 @@ class Api extends Component_Abstract {
 	 * @return true|WP_Error True on success, WP_Error on failure.
 	 */
 	private function activate_plugin() {
-		$activated = activate_plugin( $this->new_plugin_file, '', false, true );
-		if ( is_wp_error( $activated ) ) {
-			$activated->add_data( [ 'status' => 500 ] );
-			return $activated;
+		$activation_result = activate_plugin( $this->new_plugin_file, '', false, true );
+		if ( is_wp_error( $activation_result ) ) {
+			$activation_result->add_data( [ 'status' => 500 ] );
+			return $activation_result;
 		}
 
 		return true;
