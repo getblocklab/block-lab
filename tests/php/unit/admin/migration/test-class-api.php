@@ -151,11 +151,8 @@ class Test_Api extends WP_UnitTestCase {
 		$response = $this->instance->get_install_gcb_response( [] );
 
 		$this->assertEquals(
-			[
-				'success' => true,
-				'message' => 'Plugin already installed',
-			],
-			$response->get_data()
+			'Plugin file does not exist.',
+			$response->get_error_message()
 		);
 	}
 

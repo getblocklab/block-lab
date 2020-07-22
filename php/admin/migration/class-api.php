@@ -28,6 +28,28 @@ class Api extends Component_Abstract {
 	const OPTION_NAME_GENESIS_PRO_SUBSCRIPTION_KEY = 'genesis_pro_subscription_key';
 
 	/**
+	 * The slug of the new plugin.
+	 *
+	 * @var string
+	 */
+	private $new_plugin_slug;
+
+	/**
+	 * The file name of the new plugin, including its parent directory.
+	 *
+	 * @var string
+	 */
+	private $new_plugin_file;
+
+	/**
+	 * Api constructor.
+	 */
+	public function __construct() {
+		$this->new_plugin_slug = 'genesis-custom-blocks';
+		$this->new_plugin_file = "{$this->new_plugin_slug}/{$this->new_plugin_slug}.php";
+	}
+
+	/**
 	 * Adds the actions.
 	 */
 	public function register_hooks() {
@@ -60,7 +82,7 @@ class Api extends Component_Abstract {
 	 * @return WP_REST_Response The response to the request.
 	 */
 	public function get_migrate_post_content_response() {
-		return rest_ensure_response( ( new Post_Content( 'block-lab', 'genesis-custom-blocks' ) )->migrate_all() );
+		return rest_ensure_response( ( new Post_Content( block_lab()->get_slug(), $this->new_plugin_slug ) )->migrate_all() );
 	}
 
 	/**
@@ -136,7 +158,7 @@ class Api extends Component_Abstract {
 				'methods'             => 'POST',
 				'callback'            => [ $this, 'get_install_gcb_response' ],
 				'permission_callback' => function() {
-					return current_user_can( 'install_plugins' );
+					return current_user_can( 'install_plugins' ) && current_user_can( 'activate_plugins' );
 				},
 			]
 		);
@@ -145,36 +167,47 @@ class Api extends Component_Abstract {
 	/**
 	 * Gets the REST API response to install Genesis Custom Blocks.
 	 *
-	 * Mainly copied from Gutenberg, with slight changes.
-	 * The main change being that it returns a success response
-	 * if the plugin is already downloaded.
-	 *
-	 * @see https://github.com/WordPress/gutenberg/blob/fef0445bf47adc6c8d8b69e19616feb8b6de8c2e/lib/class-wp-rest-plugins-controller.php#L271-L369
-	 *
 	 * @param array $data Data sent in the POST request.
 	 * @return WP_REST_Response|WP_Error Response to the request.
 	 */
 	public function get_install_gcb_response( $data ) {
+		unset( $data );
+
+		$installation_result = $this->install_plugin();
+		if ( is_wp_error( $installation_result ) ) {
+			return $installation_result;
+		}
+
+		$activation_result = $this->activate_plugin();
+		if ( is_wp_error( $activation_result ) ) {
+			return $activation_result;
+		}
+
+		return rest_ensure_response( [ 'message' => __( 'Plugin installed and activated', 'block-lab' ) ] );
+	}
+
+	/**
+	 * Installs the new plugin.
+	 *
+	 * Mainly copied from Gutenberg, with slight changes.
+	 * The main change being that it returns true
+	 * if the plugin is already downloaded, not a WP_Error.
+	 *
+	 * @see https://github.com/WordPress/gutenberg/blob/fef0445bf47adc6c8d8b69e19616feb8b6de8c2e/lib/class-wp-rest-plugins-controller.php#L271-L369
+	 * @return true|WP_Error True on success, WP_Error on failure.
+	 */
+	private function install_plugin() {
 		global $wp_filesystem;
 
-		unset( $data );
 		require_once ABSPATH . 'wp-admin/includes/file.php';
 		require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 		require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
 		require_once ABSPATH . 'wp-admin/includes/class-wp-ajax-upgrader-skin.php';
 
-		$plugin_slug      = 'genesis-custom-blocks';
-		$full_plugin_file = "{$plugin_slug}/{$plugin_slug}.php";
-		$existing_plugins = get_plugins();
-
-		if ( array_key_exists( $full_plugin_file, $existing_plugins ) ) {
-			return rest_ensure_response(
-				[
-					'success' => true,
-					'message' => __( 'Plugin already installed', 'block-lab' ),
-				]
-			);
+		// Check if the plugin is already installed.
+		if ( array_key_exists( $this->new_plugin_file, get_plugins() ) ) {
+			return true;
 		}
 
 		// Verify filesystem is accessible first.
@@ -186,7 +219,7 @@ class Api extends Component_Abstract {
 		$api = plugins_api(
 			'plugin_information',
 			[
-				'slug'   => $plugin_slug,
+				'slug'   => $this->new_plugin_slug,
 				'fields' => [
 					'sections' => false,
 				],
@@ -242,11 +275,11 @@ class Api extends Component_Abstract {
 			return new WP_Error( 'unable_to_determine_installed_plugin', __( 'Unable to determine what plugin was installed.', 'block-lab' ), [ 'status' => 500 ] );
 		}
 
-		return rest_ensure_response( [ 'success' => true ] );
+		return true;
 	}
 
 	/**
-	 * Determine if the endpoints are available.
+	 * Determines if the filesystem is available.
 	 *
 	 * Only the 'Direct' filesystem transport, and SSH/FTP when credentials are stored are supported at present.
 	 * Copied from Gutenberg.
@@ -271,5 +304,24 @@ class Api extends Component_Abstract {
 		}
 
 		return new WP_Error( 'fs_unavailable', __( 'The filesystem is currently unavailable for managing plugins.', 'block-lab' ), [ 'status' => 500 ] );
+	}
+
+	/**
+	 * Activates a plugin.
+	 *
+	 * Mainly copied from Gutenberg's WP_REST_Plugins_Controller::handle_plugin_status().
+	 *
+	 * @see https://github.com/WordPress/gutenberg/blob/fef0445bf47adc6c8d8b69e19616feb8b6de8c2e/lib/class-wp-rest-plugins-controller.php#L679-L709
+	 *
+	 * @return true|WP_Error True on success, WP_Error on failure.
+	 */
+	private function activate_plugin() {
+		$activated = activate_plugin( $this->new_plugin_file, '', false, true );
+		if ( is_wp_error( $activated ) ) {
+			$activated->add_data( [ 'status' => 500 ] );
+			return $activated;
+		}
+
+		return true;
 	}
 }

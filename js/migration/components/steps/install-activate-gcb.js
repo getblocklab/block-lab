@@ -48,21 +48,18 @@ const InstallActivateGcb = ( { goToNext, isStepActive, isStepComplete, stepIndex
 		setIsError( false );
 		setErrorMessage( '' );
 
-		const pluginInstallationResult = await apiFetch( {
+		apiFetch( {
 			path: '/block-lab/install-gcb',
 			method: 'POST',
-		} );
-
-		// @ts-ignore
-		if ( pluginInstallationResult.success ) {
+		} ).then( () => {
 			speak( __( 'Success! Genesis Custom Blocks is installed and activated.', 'block-lab' ) );
 			setIsSuccess( true );
-		} else {
+		} ).catch( ( result ) => {
 			speak( __( 'The installation failed', 'block-lab' ) );
 			setIsSuccess( false );
 			setIsError( true );
-			setErrorMessage( __( 'Installing Genesis Custom Blocks failed.', 'block-lab' ) );
-		}
+			setErrorMessage( result.message );
+		} );
 
 		setIsInProgress( false );
 	};
