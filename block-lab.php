@@ -114,7 +114,8 @@ block_lab()
 	->set_version( __FILE__ )
 	->init();
 
-/**
- * Sometimes we need to do some things after the plugin is loaded, so call the Plugin_Interface::plugin_loaded().
- */
+// Sometimes we need to do some things after the plugin is loaded, so call the Plugin_Interface::plugin_loaded().
 add_action( 'plugins_loaded', [ block_lab(), 'plugin_loaded' ] );
+
+// Require helpers at 11, so if GCB is active, its helpers will be required first and prevent a PHP error.
+add_action( 'plugins_loaded', [ block_lab(), 'require_helpers' ], 11 );

@@ -18,6 +18,13 @@ class Test_Plugin extends \WP_UnitTestCase {
 	use Testing_Helper;
 
 	/**
+	 * The slug of the conflict notice stylesheet.
+	 *
+	 * @var string
+	 */
+	const CONFLICT_NOTICE_STYLE_SLUG = 'block-lab-plugin-conflict-notice-style';
+
+	/**
 	 * Instance of Plugin.
 	 *
 	 * @var Plugin
@@ -154,6 +161,7 @@ class Test_Plugin extends \WP_UnitTestCase {
 		ob_start();
 		$this->instance->plugin_conflict_notice();
 		$this->assertEmpty( ob_get_clean() );
+		$this->assertFalse( wp_style_is( self::CONFLICT_NOTICE_STYLE_SLUG ) );
 	}
 
 	/**
@@ -177,9 +185,13 @@ class Test_Plugin extends \WP_UnitTestCase {
 
 		ob_start();
 		$this->instance->plugin_conflict_notice();
+		$actual = ob_get_clean();
+
 		$this->assertContains(
-			'<div class="notice notice-error"><p>It looks like Block Lab is active. Please deactivate it or migrate, as it will not work while Genesis Custom Blocks is active.</p></div>',
-			ob_get_clean()
+			'It looks like Block Lab is active. Please deactivate it or migrate, as it will not work while Genesis Custom Blocks is active',
+			$actual
 		);
+		$this->assertContains( 'Deactivate', $actual );
+		$this->assertTrue( wp_style_is( self::CONFLICT_NOTICE_STYLE_SLUG ) );
 	}
 }

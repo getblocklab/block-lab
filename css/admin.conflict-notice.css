@@ -1,0 +1,13 @@
+.bl-notice-conflict {
+	display: flex;
+	padding-top: 0.2rem;
+	padding-bottom: 0.2rem;
+}
+
+.bl-notice-conflict .bl-conflict-copy {
+	margin-right: auto;
+}
+
+.bl-notice-conflict .bl-link-deactivate {
+	margin: auto 0.2rem;
+}

@@ -69,20 +69,18 @@ class Plugin extends Plugin_Abstract {
 	public function plugin_loaded() {
 		$this->admin = new Admin\Admin();
 		$this->register_component( $this->admin );
-
-		if ( $this->is_plugin_conflict() ) {
-			add_action( 'admin_notices', [ $this, 'plugin_conflict_notice' ] );
-		} else {
-			$this->require_helpers();
-		}
 	}
 
 	/**
-	 * Require the helper function files.
+	 * Requires helpers, or displays a notice if there's a conflict with another plugin.
 	 */
 	public function require_helpers() {
-		require_once __DIR__ . '/helpers.php';
-		require_once __DIR__ . '/deprecated.php';
+		if ( $this->is_plugin_conflict() ) {
+			add_action( 'admin_notices', [ $this, 'plugin_conflict_notice' ] );
+		} else {
+			require_once __DIR__ . '/helpers.php';
+			require_once __DIR__ . '/deprecated.php';
+		}
 	}
 
 	/**
@@ -112,11 +110,39 @@ class Plugin extends Plugin_Abstract {
 			( isset( $screen->base ) && in_array( $screen->base, [ 'plugins', 'block_lab_page_block-lab-settings' ], true ) )
 		);
 
-		if ( $should_display_notice ) {
-			printf(
-				'<div class="notice notice-error"><p>%1$s</p></div>',
-				esc_html__( 'It looks like Block Lab is active. Please deactivate it or migrate, as it will not work while Genesis Custom Blocks is active.', 'block-lab' )
-			);
+		if ( ! $should_display_notice ) {
+			return;
 		}
+
+		wp_enqueue_style(
+			'block-lab-plugin-conflict-notice-style',
+			$this->get_url( 'css/admin.conflict-notice.css' ),
+			[],
+			$this->get_version()
+		);
+
+		$plugin_file      = 'block-lab/block-lab.php';
+		$deactivation_url = add_query_arg(
+			[
+				'action'        => 'deactivate',
+				'plugin'        => rawurlencode( $plugin_file ),
+				'plugin_status' => 'all',
+				'paged'         => 1,
+				'_wpnonce'      => wp_create_nonce( 'deactivate-plugin_' . $plugin_file ),
+			],
+			admin_url( 'plugins.php' )
+		);
+
+		?>
+		<div id="bl-conflict-notice" class="notice notice-error bl-notice-conflict">
+			<div class="bl-conflict-copy">
+				<p><?php esc_html_e( 'It looks like Block Lab is active. Please deactivate it or migrate, as it will not work while Genesis Custom Blocks is active.', 'block-lab' ); ?></p>
+			</div>
+			<a href="<?php echo esc_url( $deactivation_url ); ?>" class="bl-link-deactivate button button-primary">
+				<?php echo esc_html_x( 'Deactivate', 'plugin', 'block-lab' ); ?>
+			</a>
+		</div>
+		<?php
+
 	}
 }
