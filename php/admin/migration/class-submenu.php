@@ -169,12 +169,10 @@ class Submenu extends Component_Abstract {
 
 		// Go to the Genesis Custom Blocks page.
 		wp_safe_redirect(
-			admin_url(
-				add_query_arg(
-					'post_type',
-					'genesis_custom_block',
-					'edit.php'
-				)
+			add_query_arg(
+				'post_type',
+				'genesis_custom_block',
+				admin_url( 'edit.php' )
 			)
 		);
 	}
