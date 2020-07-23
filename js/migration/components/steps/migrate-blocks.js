@@ -90,10 +90,10 @@ const MigrateBlocks = ( { isStepActive, isStepComplete, stepIndex } ) => {
 	 */
 	const migrate = async () => {
 		speak( __( 'The migration is now in progress', 'block-lab' ) );
-		setIsInProgress( true );
 		setErrorMessage( '' );
+		setIsInProgress( true );
 
-		// The post content migration is chained to the success callback.
+		// The post content migration is chained to the callback in then().
 		await migrateCpt();
 
 		setIsInProgress( false );

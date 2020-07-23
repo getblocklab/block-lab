@@ -46,15 +46,6 @@ class Submenu extends Component_Abstract {
 	const NONCE_ACTION_DEACTIVATE = 'deactivate_bl_and_activate_new';
 
 	/**
-	 * The query var to disable onboarding in Genesis Custom Blocks.
-	 *
-	 * The user will have already created blocks, so onboarding doesn't seem useful.
-	 *
-	 * @var string
-	 */
-	const QUERY_VAR_DISABLE_ONBOARDING = 'disable_onboarding';
-
-	/**
 	 * Adds the actions.
 	 */
 	public function register_hooks() {
@@ -178,15 +169,11 @@ class Submenu extends Component_Abstract {
 
 		// Go to the Genesis Custom Blocks page.
 		wp_safe_redirect(
-			esc_url(
-				admin_url(
-					add_query_arg(
-						[
-							'post_type' => 'genesis_custom_block',
-							self::QUERY_VAR_DISABLE_ONBOARDING => true,
-						],
-						'edit.php'
-					)
+			admin_url(
+				add_query_arg(
+					'post_type',
+					'genesis_custom_block',
+					'edit.php'
 				)
 			)
 		);

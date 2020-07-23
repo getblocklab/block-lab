@@ -280,7 +280,6 @@ class Api extends Component_Abstract {
 		return true;
 	}
 
-
 	/**
 	 * Registers a route to migrate the post content to the new namespace.
 	 */

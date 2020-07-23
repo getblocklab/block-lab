@@ -42,13 +42,13 @@ const InstallActivateGcb = ( { goToNext, isStepActive, isStepComplete, stepIndex
 	/**
 	 * Installs and activates Genesis Custom Blocks.
 	 */
-	const installAndActivateGcb = () => {
+	const installAndActivateGcb = async () => {
 		speak( __( 'The installation is now in progress', 'block-lab' ) );
 		setIsInProgress( true );
 		setIsError( false );
 		setErrorMessage( '' );
 
-		apiFetch( {
+		await apiFetch( {
 			path: '/block-lab/install-activate-gcb',
 			method: 'POST',
 		} ).then( () => {
