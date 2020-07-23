@@ -129,7 +129,7 @@ class Post_Type {
 	 * The beginning of this has the 'block-lab' namespace, which this changes to the new namespace.
 	 *
 	 * @param WP_Post $post The post to convert.
-	 * @return true|WP_Error An array on success, WP_Error on failure.
+	 * @return true|WP_Error True on success, WP_Error on failure.
 	 */
 	public function migrate_single( WP_Post $post ) {
 		global $wpdb;

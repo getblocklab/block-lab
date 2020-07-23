@@ -44,7 +44,7 @@ class Post_Content {
 	/**
 	 * Migrates all of the block namespaces in all of the posts that have Block Lab blocks.
 	 *
-	 * @return array|WP_Error The result of the migration, and a WP_Error if it failed.
+	 * @return array|WP_Error The result of the migration, or a WP_Error if it failed.
 	 */
 	public function migrate_all() {
 		$success_count      = 0;
