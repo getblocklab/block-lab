@@ -145,6 +145,11 @@ class Test_Api extends WP_UnitTestCase {
 	 * @covers Block_Lab\Admin\Migration\Api::get_install_gcb_response()
 	 */
 	public function test_get_install_gcb_response_plugin_already_installed() {
+		if ( is_multisite() ) {
+			expect( 'is_network_only_plugin' )
+				->andReturn( false );
+		}
+
 		$full_plugin_file = 'genesis-custom-blocks/genesis-custom-blocks.php';
 		expect( 'get_plugins' )
 			->andReturn( [ $full_plugin_file => [] ] );
