@@ -53,62 +53,10 @@ class Api extends Component_Abstract {
 	 * Adds the actions.
 	 */
 	public function register_hooks() {
-		add_action( 'rest_api_init', [ $this, 'register_route_migrate_post_content' ] );
-		add_action( 'rest_api_init', [ $this, 'register_route_migrate_post_type' ] );
 		add_action( 'rest_api_init', [ $this, 'register_route_update_subscription_key' ] );
 		add_action( 'rest_api_init', [ $this, 'register_route_install_gcb' ] );
-	}
-
-	/**
-	 * Registers a route to migrate the post content to the new namespace.
-	 */
-	public function register_route_migrate_post_content() {
-		register_rest_route(
-			block_lab()->get_slug(),
-			'migrate-post-content',
-			[
-				'methods'             => 'POST',
-				'callback'            => [ $this, 'get_migrate_post_content_response' ],
-				'permission_callback' => function() {
-					return current_user_can( Submenu::MIGRATION_CAPABILITY );
-				},
-			]
-		);
-	}
-
-	/**
-	 * Gets the REST API response for the post content migration.
-	 *
-	 * @return WP_REST_Response The response to the request.
-	 */
-	public function get_migrate_post_content_response() {
-		return rest_ensure_response( ( new Post_Content( 'block-lab', $this->new_plugin_slug ) )->migrate_all() );
-	}
-
-	/**
-	 * Registers a route to migrate the post type.
-	 */
-	public function register_route_migrate_post_type() {
-		register_rest_route(
-			block_lab()->get_slug(),
-			'migrate-post-type',
-			[
-				'methods'             => 'POST',
-				'callback'            => [ $this, 'get_migrate_post_type_response' ],
-				'permission_callback' => function() {
-					return current_user_can( Submenu::MIGRATION_CAPABILITY );
-				},
-			]
-		);
-	}
-
-	/**
-	 * Gets the REST API response for the post type migration.
-	 *
-	 * @return WP_REST_Response The response to the request.
-	 */
-	public function get_migrate_post_type_response() {
-		return rest_ensure_response( ( new Post_Type( 'block_lab', 'block-lab', 'block_lab', 'genesis_custom_block', 'genesis-custom-blocks', 'genesis_custom_blocks' ) )->migrate_all() );
+		add_action( 'rest_api_init', [ $this, 'register_route_migrate_post_content' ] );
+		add_action( 'rest_api_init', [ $this, 'register_route_migrate_post_type' ] );
 	}
 
 	/**
@@ -131,20 +79,28 @@ class Api extends Component_Abstract {
 	/**
 	 * Gets the REST API response to the request to update the subscription key.
 	 *
-	 * @param array $data       Data sent in the POST request.
-	 * @return WP_REST_Response Response to the request.
+	 * @param array $data Data sent in the POST request.
+	 * @return WP_REST_Response|WP_Error A WP_REST_Response on success, WP_Error on failure.
 	 */
 	public function get_update_subscription_key_response( $data ) {
 		$key = 'subscriptionKey';
 		if ( empty( $data[ $key ] ) ) {
-			return rest_ensure_response( [ 'success' => false ] );
+			return new WP_Error( 'no_subscription_key', __( 'No subscription key present', 'block-lab' ) );
 		}
 
-		return rest_ensure_response(
-			[
-				'success' => update_option( self::OPTION_NAME_GENESIS_PRO_SUBSCRIPTION_KEY, sanitize_key( $data[ $key ] ) ),
-			]
-		);
+		$new_value = sanitize_key( $data[ $key ] );
+		$old_value = get_option( self::OPTION_NAME_GENESIS_PRO_SUBSCRIPTION_KEY );
+		if ( $new_value === $old_value ) {
+			return rest_ensure_response( [ 'success' => true ] );
+		}
+
+		$updated_option_result = update_option( self::OPTION_NAME_GENESIS_PRO_SUBSCRIPTION_KEY, $new_value );
+
+		if ( ! $updated_option_result ) {
+			return new WP_Error( 'option_not_updated', __( 'The option was not updated', 'block-lab' ) );
+		}
+
+		return rest_ensure_response( [ 'success' => true ] );
 	}
 
 	/**
@@ -321,5 +277,58 @@ class Api extends Component_Abstract {
 		}
 
 		return true;
+	}
+
+
+	/**
+	 * Registers a route to migrate the post content to the new namespace.
+	 */
+	public function register_route_migrate_post_content() {
+		register_rest_route(
+			block_lab()->get_slug(),
+			'migrate-post-content',
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'get_migrate_post_content_response' ],
+				'permission_callback' => function() {
+					return current_user_can( Submenu::MIGRATION_CAPABILITY );
+				},
+			]
+		);
+	}
+
+	/**
+	 * Gets the REST API response for the post content migration.
+	 *
+	 * @return WP_REST_Response The response to the request.
+	 */
+	public function get_migrate_post_content_response() {
+		return rest_ensure_response( ( new Post_Content( 'block-lab', $this->new_plugin_slug ) )->migrate_all() );
+	}
+
+	/**
+	 * Registers a route to migrate the post type.
+	 */
+	public function register_route_migrate_post_type() {
+		register_rest_route(
+			block_lab()->get_slug(),
+			'migrate-post-type',
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'get_migrate_post_type_response' ],
+				'permission_callback' => function() {
+					return current_user_can( Submenu::MIGRATION_CAPABILITY );
+				},
+			]
+		);
+	}
+
+	/**
+	 * Gets the REST API response for the post type migration.
+	 *
+	 * @return WP_REST_Response The response to the request.
+	 */
+	public function get_migrate_post_type_response() {
+		return rest_ensure_response( ( new Post_Type( 'block_lab', 'block-lab', 'block_lab', 'genesis_custom_block', 'genesis-custom-blocks', 'genesis_custom_blocks' ) )->migrate_all() );
 	}
 }
