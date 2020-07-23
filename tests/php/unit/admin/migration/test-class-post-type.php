@@ -158,7 +158,6 @@ class Test_Post_Type extends WP_UnitTestCase {
 			[
 				'successCount' => count( $initial_block_content ),
 				'errorCount'   => 0,
-				'success'      => true,
 			],
 			$result
 		);
@@ -195,7 +194,6 @@ class Test_Post_Type extends WP_UnitTestCase {
 			[
 				'successCount' => $number_of_block_lab_posts,
 				'errorCount'   => 0,
-				'success'      => true,
 			],
 			$result
 		);
@@ -258,7 +256,6 @@ class Test_Post_Type extends WP_UnitTestCase {
 			[
 				'successCount' => 0,
 				'errorCount'   => 0,
-				'success'      => true,
 			],
 			$result
 		);
@@ -287,13 +284,19 @@ class Test_Post_Type extends WP_UnitTestCase {
 				'{"malformed_json":{',
 				null,
 				self::PREVIOUS_POST_TYPE_SLUG,
-				false,
+				( new WP_Error(
+					'invalid_json',
+					'The block looks to be invalid JSON'
+				) ),
 			],
 			'simple_string_in_content'        => [
 				'This is only a string and should not be converted',
 				null,
 				self::PREVIOUS_POST_TYPE_SLUG,
-				false,
+				( new WP_Error(
+					'invalid_json',
+					'The block looks to be invalid JSON'
+				) ),
 			],
 			'simple_block'                    => [
 				$this->simple_block_initial_content,

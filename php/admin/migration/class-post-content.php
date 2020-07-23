@@ -44,22 +44,22 @@ class Post_Content {
 	/**
 	 * Migrates all of the block namespaces in all of the posts that have Block Lab blocks.
 	 *
-	 * @return array The result of the migration, including counts of successes and errors.
+	 * @return array|WP_Error The result of the migration, and a WP_Error if it failed.
 	 */
 	public function migrate_all() {
 		$success_count      = 0;
 		$error_count        = 0;
-		$errors             = [];
+		$errors             = new WP_Error();
 		$max_allowed_errors = 20;
 		$posts              = $this->query_for_posts();
 
-		while ( $posts && $error_count < $max_allowed_errors ) {
+		while ( ! empty( $posts ) && $error_count < $max_allowed_errors ) {
 			foreach ( $posts as $post ) {
 				if ( isset( $post->ID ) ) {
 					$migrated_post = $this->migrate_single( $post->ID );
 					if ( is_wp_error( $migrated_post ) ) {
 						$error_count++;
-						$errors[] = $migrated_post->get_error_message();
+						$errors->add( $migrated_post->get_error_code(), $migrated_post->get_error_message() );
 					} else {
 						$success_count++;
 					}
@@ -70,14 +70,17 @@ class Post_Content {
 		}
 
 		$is_success = $error_count < $max_allowed_errors;
-		$results    = [
-			'success'      => $is_success,
+		if ( ! $is_success ) {
+			return $errors;
+		}
+
+		$results = [
 			'successCount' => $success_count,
 			'errorCount'   => $error_count,
 		];
 
-		if ( ! empty( $errors ) ) {
-			$results['errorMessages'] = array_unique( $errors );
+		if ( $errors->has_errors() ) {
+			$results['errorMessage'] = $errors->get_error_message();
 		}
 
 		return $results;

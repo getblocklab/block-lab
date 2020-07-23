@@ -13,7 +13,7 @@ import { speak } from '@wordpress/a11y';
 import apiFetch from '@wordpress/api-fetch';
 import { Spinner } from '@wordpress/components';
 import { useState } from '@wordpress/element';
-import { __, _n } from '@wordpress/i18n';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -38,7 +38,7 @@ const MigrateBlocks = ( { isStepActive, isStepComplete, stepIndex } ) => {
 	const [ currentBlockMigrationStep, setCurrentBlockMigrationStep ] = useState( 0 );
 	const [ isInProgress, setIsInProgress ] = useState( false );
 	const [ isError, setIsError ] = useState( false );
-	const [ errorMessages, setErrorMessages ] = useState( [] );
+	const [ errorMessage, setErrorMessage ] = useState( '' );
 	const [ isSuccess, setIsSuccess ] = useState( false );
 
 	const migrationLabels = [
@@ -47,46 +47,62 @@ const MigrateBlocks = ( { isStepActive, isStepComplete, stepIndex } ) => {
 	];
 
 	/**
-	 * Migrates the blocks, going through each migration step.
+	 * Migrates the custom post type.
 	 */
-	const migrateBlocks = async () => {
-		speak( __( 'The migration is now in progress', 'block-lab' ) );
-		setIsInProgress( true );
-		setErrorMessages( [] );
+	const migrateCpt = async () => {
+		let isCptSuccess = false;
 
-		const postTypeMigrationResult = await apiFetch( {
+		await apiFetch( {
 			path: '/block-lab/migrate-post-type',
 			method: 'POST',
-		} );
-
-		// @ts-ignore
-		if ( postTypeMigrationResult.hasOwnProperty( 'success' ) && postTypeMigrationResult.success ) {
+		} ).then( () => {
+			isCptSuccess = true;
 			setCurrentBlockMigrationStep( 1 );
-		} else {
-			setErrorMessages( [ __( 'Migrating the post type failed.', 'block-lab' ) ] );
+		} ).catch( ( result ) => {
+			if ( result.hasOwnProperty( 'message' ) ) {
+				setErrorMessage( result.message );
+			}
+			speak( __( 'The migration failed in the CPT migration', 'block-lab' ) );
 			setIsError( true );
 			setIsInProgress( false );
+		} );
+
+		return isCptSuccess;
+	};
+
+	/**
+	 * Migrates the post content.
+	 */
+	const migratePostContent = async () => {
+		await apiFetch( {
+			path: '/block-lab/migrate-post-content',
+			method: 'POST',
+		} ).then( () => {
+			speak( __( 'The migration was successful!', 'block-lab' ) );
+			setIsSuccess( true );
+		} ).catch( ( result ) => {
+			if ( result.hasOwnProperty( 'message' ) ) {
+				setErrorMessage( result.message );
+			}
+			speak( __( 'The migration failed in the post content migration', 'block-lab' ) );
+			setIsError( true );
+		} );
+	};
+
+	/**
+	 * Handles all of the migration for this step.
+	 */
+	const migrate = async () => {
+		speak( __( 'The migration is now in progress', 'block-lab' ) );
+		setIsInProgress( true );
+		setErrorMessage( '' );
+
+		const isCptMigrationSuccess = await migrateCpt();
+		if ( ! isCptMigrationSuccess ) {
 			return;
 		}
 
-		const contentMigrationResult = await apiFetch( {
-			path: '/block-lab/migrate-post-content',
-			method: 'POST',
-		} );
-
-		// @ts-ignore
-		if ( contentMigrationResult.hasOwnProperty( 'success' ) && contentMigrationResult.success ) {
-			speak( __( 'The migration was successful!', 'block-lab' ) );
-			setIsSuccess( true );
-		} else {
-			if ( contentMigrationResult.hasOwnProperty( 'errorMessages' ) ) {
-				// @ts-ignore
-				setErrorMessages( contentMigrationResult.errorMessages );
-			}
-			speak( __( 'The migration failed', 'block-lab' ) );
-			setIsError( true );
-		}
-
+		await migratePostContent();
 		setIsInProgress( false );
 	};
 
@@ -101,10 +117,10 @@ const MigrateBlocks = ( { isStepActive, isStepComplete, stepIndex } ) => {
 				isStepActive={ isStepActive }
 			>
 				{ ! isSuccess && <p>{ __( "Ok! Everything is ready. Let's do this. While the migration is underway, don't leave this page.", 'block-lab' ) }</p> }
-				{ !! errorMessages.length && (
+				{ !! errorMessage && (
 					<div className="bl-migration__error">
-						<p>{ _n( 'The following error ocurred:', 'The following errors ocurred:', errorMessages.length, 'block-lab' ) }</p>
-						{ errorMessages.map( ( message, index ) => <p key={ `bl-error-message-${ index }` }>{ message }</p> ) }
+						<p>{ __( 'The following error ocurred:', 'block-lab' ) }</p>
+						<p>{ errorMessage }</p>
 					</div>
 				) }
 				{ isInProgress && (
@@ -116,7 +132,7 @@ const MigrateBlocks = ( { isStepActive, isStepComplete, stepIndex } ) => {
 				{ ! isInProgress && ! isSuccess && (
 					<button
 						className="btn"
-						onClick={ migrateBlocks }
+						onClick={ migrate }
 					>
 						{ isError ? __( 'Try Again', 'block-lab' ) : __( 'Migrate Now', 'block-lab' ) }
 					</button>
