@@ -113,14 +113,15 @@ const MigrateBlocks = ( { isStepActive, isStepComplete, stepIndex } ) => {
 						<p>{ migrationLabels[ currentBlockMigrationStep ] }</p>
 					</>
 				) }
-				{ ! isSuccess ? (
+				{ ! isInProgress && ! isSuccess && (
 					<button
 						className="btn"
 						onClick={ migrateBlocks }
 					>
 						{ isError ? __( 'Try Again', 'block-lab' ) : __( 'Migrate Now', 'block-lab' ) }
 					</button>
-				) : (
+				) }
+				{ isSuccess && (
 					<>
 						<p>
 							<span role="img" aria-label={ __( 'party emoji', 'block-lab' ) }>🎉</span>

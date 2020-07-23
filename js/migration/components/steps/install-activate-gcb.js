@@ -87,14 +87,15 @@ const InstallActivateGcb = ( { goToNext, isStepActive, isStepComplete, stepIndex
 						<p>{ errorMessage }</p>
 					</div>
 				) }
-				{ ! isSuccess ? (
+				{ ! isInProgress && ! isSuccess && (
 					<button
 						className="btn"
 						onClick={ installAndActivateGcb }
 					>
 						{ isError ? __( 'Try Again', 'block-lab' ) : __( 'Install and activate', 'block-lab' ) }
 					</button>
-				) : (
+				) }
+				{ isSuccess && (
 					<>
 						<p>{ __( 'Success! Genesis Custom Blocks is installed and activated.', 'block-lab' ) }</p>
 						<StepFooter>
