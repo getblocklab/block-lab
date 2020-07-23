@@ -263,7 +263,7 @@ class Api extends Component_Abstract {
 
 		if ( is_null( $result ) ) {
 			// Pass through the error from WP_Filesystem if one was raised.
-			if ( $wp_filesystem instanceof WP_Filesystem_Base && is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->has_errors() ) {
+			if ( $wp_filesystem instanceof WP_Filesystem_Base && isset( $wp_filesystem->errors ) && is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->has_errors() ) {
 				return new WP_Error( 'unable_to_connect_to_filesystem', $wp_filesystem->errors->get_error_message(), [ 'status' => 500 ] );
 			}
 
@@ -289,9 +289,7 @@ class Api extends Component_Abstract {
 	 * @return true|WP_Error True if filesystem is available, WP_Error otherwise.
 	 */
 	private function is_filesystem_available() {
-		$filesystem_method = get_filesystem_method();
-
-		if ( 'direct' === $filesystem_method ) {
+		if ( 'direct' === get_filesystem_method() ) {
 			return true;
 		}
 

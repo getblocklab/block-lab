@@ -56,8 +56,10 @@ const InstallActivateGcb = ( { goToNext, isStepActive, isStepComplete, stepIndex
 			setIsSuccess( true );
 		} ).catch( ( result ) => {
 			speak( __( 'The installation and activation failed with the following error:', 'block-lab' ) );
-			speak( result.message );
-			setErrorMessage( result.message );
+			if ( result.hasOwnProperty( 'message' ) ) {
+				speak( result.message );
+				setErrorMessage( result.message );
+			}
 			setIsSuccess( false );
 			setIsError( true );
 		} );

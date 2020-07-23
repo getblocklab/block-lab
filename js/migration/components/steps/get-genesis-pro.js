@@ -37,6 +37,7 @@ const GetGenesisPro = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 	const urlMigrateWithoutGenPro = 'https://example.com';
 	const urlGetGenesisPro = 'https://my.wpengine.com/signup?plan=genesis-pro';
 
+	const [ isSubmittingKey, setIsSubmittingKey ] = useState( false );
 	const [ keySubmittedSuccessfully, setKeySubmittedSuccessfully ] = useState( false );
 	const [ subscriptionKey, updateSubscriptionKey ] = useState( '' );
 	const [ submissionMessage, setSubmissionMessage ] = useState( '' );
@@ -57,9 +58,12 @@ const GetGenesisPro = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 	 */
 	const submitSubscriptionKey = async ( event ) => {
 		event.preventDefault();
+		setIsSubmittingKey( true );
+
 		if ( ! subscriptionKey ) {
 			setSubmissionMessage( __( 'The subscription key is empty.', 'block-lab' ) );
 			setKeySubmittedSuccessfully( false );
+			setIsSubmittingKey( false );
 			return;
 		}
 
@@ -67,24 +71,24 @@ const GetGenesisPro = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 		if ( subscriptionKey === blockLabMigration.couponCode ) {
 			setSubmissionMessage( __( "That looks like your coupon code. Please click 'Get Genesis Pro' and enter your coupon code there.", 'block-lab' ) );
 			setKeySubmittedSuccessfully( false );
+			setIsSubmittingKey( false );
 			return;
 		}
 
-		const submitResult = await apiFetch( {
+		await apiFetch( {
 			path: '/block-lab/update-subscription-key',
 			method: 'POST',
 			data: { subscriptionKey },
+		} ).then( () => {
+			setSubmissionMessage( __( 'Thanks, the key was saved.', 'block-lab' ) );
+			setKeySubmittedSuccessfully( true );
+		} ).catch( () => {
+			setSubmissionMessage( __( 'There was an error saving the key.', 'block-lab' ) );
+			setKeySubmittedSuccessfully( false );
+			setIsSubmittingKey( false );
 		} );
 
-		// @ts-ignore
-		if ( submitResult.success ) {
-			setSubmissionMessage( __( 'Thanks, the key was saved.', 'block-lab' ) );
-		} else {
-			setSubmissionMessage( __( 'There was an error saving the key.', 'block-lab' ) );
-		}
-
-		// @ts-ignore
-		setKeySubmittedSuccessfully( !! submitResult.success );
+		setIsSubmittingKey( false );
 	};
 
 	return (
@@ -209,7 +213,10 @@ const GetGenesisPro = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 						placeholder={ __( 'Paste your Genesis Pro subscription key', 'block-lab' ) }
 						onChange={ onChangeSubscriptionKey }
 					/>
-					<button onClick={ submitSubscriptionKey } >
+					<button
+						onClick={ submitSubscriptionKey }
+						disabled={ isSubmittingKey }
+					>
 						{ __( 'Save', 'block-lab' ) }
 					</button>
 				</div>
