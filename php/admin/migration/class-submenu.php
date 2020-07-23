@@ -181,7 +181,10 @@ class Submenu extends Component_Abstract {
 			esc_url(
 				admin_url(
 					add_query_arg(
-						[ 'post_type' => 'genesis_custom_block' ],
+						[
+							'post_type' => 'genesis_custom_block',
+							self::QUERY_VAR_DISABLE_ONBOARDING => true,
+						],
 						'edit.php'
 					)
 				)

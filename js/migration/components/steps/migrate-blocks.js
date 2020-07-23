@@ -47,17 +47,15 @@ const MigrateBlocks = ( { isStepActive, isStepComplete, stepIndex } ) => {
 	];
 
 	/**
-	 * Migrates the custom post type.
+	 * Migrates the custom post type, then chains post content migration to the callback.
 	 */
 	const migrateCpt = async () => {
-		let isCptSuccess = false;
-
 		await apiFetch( {
 			path: '/block-lab/migrate-post-type',
 			method: 'POST',
-		} ).then( () => {
-			isCptSuccess = true;
+		} ).then( async () => {
 			setCurrentBlockMigrationStep( 1 );
+			await migratePostContent();
 		} ).catch( ( result ) => {
 			if ( result.hasOwnProperty( 'message' ) ) {
 				setErrorMessage( result.message );
@@ -66,8 +64,6 @@ const MigrateBlocks = ( { isStepActive, isStepComplete, stepIndex } ) => {
 			setIsError( true );
 			setIsInProgress( false );
 		} );
-
-		return isCptSuccess;
 	};
 
 	/**
@@ -97,12 +93,9 @@ const MigrateBlocks = ( { isStepActive, isStepComplete, stepIndex } ) => {
 		setIsInProgress( true );
 		setErrorMessage( '' );
 
-		const isCptMigrationSuccess = await migrateCpt();
-		if ( ! isCptMigrationSuccess ) {
-			return;
-		}
+		// The post content migration is chained to the success callback.
+		await migrateCpt();
 
-		await migratePostContent();
 		setIsInProgress( false );
 	};
 

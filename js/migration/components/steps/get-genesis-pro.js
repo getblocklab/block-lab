@@ -85,7 +85,6 @@ const GetGenesisPro = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 		} ).catch( () => {
 			setSubmissionMessage( __( 'There was an error saving the key.', 'block-lab' ) );
 			setKeySubmittedSuccessfully( false );
-			setIsSubmittingKey( false );
 		} );
 
 		setIsSubmittingKey( false );

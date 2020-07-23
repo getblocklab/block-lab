@@ -84,6 +84,7 @@ class Api extends Component_Abstract {
 	 */
 	public function get_update_subscription_key_response( $data ) {
 		$key = 'subscriptionKey';
+
 		if ( empty( $data[ $key ] ) ) {
 			return new WP_Error( 'no_subscription_key', __( 'No subscription key present', 'block-lab' ) );
 		}
