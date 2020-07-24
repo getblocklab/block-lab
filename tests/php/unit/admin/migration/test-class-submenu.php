@@ -184,7 +184,7 @@ class Test_Submenu extends WP_UnitTestCase {
 	 * @covers Block_Lab\Admin\Migration\Submenu::maybe_activate_plugin()
 	 */
 	public function test_maybe_activate_plugin_correct_query_var() {
-		$_GET['bl_deactivate_and_activate'] = true;
+		$_GET['bl_deactivate_and_gcb'] = true;
 
 		$error = $this->get_plugin_activation_error();
 		$this->assertEquals( 'Sorry, you are not allowed to deactivate this plugin.', $error->getMessage() );
@@ -196,8 +196,8 @@ class Test_Submenu extends WP_UnitTestCase {
 	 * @covers Block_Lab\Admin\Migration\Submenu::maybe_activate_plugin()
 	 */
 	public function test_maybe_activate_plugin_correct_user() {
-		$_GET['bl_deactivate_and_activate'] = true;
-		$user_id                            = $this->factory()->user->create( [ 'role' => 'administrator' ] );
+		$_GET['bl_deactivate_and_gcb'] = true;
+		$user_id                       = $this->factory()->user->create( [ 'role' => 'administrator' ] );
 		wp_set_current_user( $user_id );
 		if ( is_multisite() ) {
 			grant_super_admin( $user_id );
@@ -214,8 +214,8 @@ class Test_Submenu extends WP_UnitTestCase {
 	 * @covers Block_Lab\Admin\Migration\Submenu::maybe_activate_plugin()
 	 */
 	public function test_maybe_activate_plugin_nonce_present() {
-		$_GET['bl_deactivate_and_activate'] = true;
-		$user_id                            = $this->factory()->user->create( [ 'role' => 'administrator' ] );
+		$_GET['bl_deactivate_and_gcb'] = true;
+		$user_id                       = $this->factory()->user->create( [ 'role' => 'administrator' ] );
 		wp_set_current_user( $user_id );
 		$_REQUEST = [ '_wpnonce' => wp_create_nonce( 'deactivate_bl_and_activate_new' ) ];
 		if ( is_multisite() ) {

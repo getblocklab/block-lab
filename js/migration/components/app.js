@@ -15,7 +15,7 @@ import { useState } from '@wordpress/element';
  * Internal dependencies
  */
 import { Intro } from './';
-import { ActivateGcb, BackUpSite, GetGenesisPro, MigrateBlocks, UpdateHooks } from './steps';
+import { BackUpSite, GetGenesisPro, InstallActivateGcb, MigrateBlocks, UpdateHooks } from './steps';
 import { FIRST_STEP_NUMBER } from '../constants';
 
 /**
@@ -43,8 +43,8 @@ const App = () => {
 	const steps = [
 		BackUpSite,
 		UpdateHooks,
+		InstallActivateGcb,
 		MigrateBlocks,
-		ActivateGcb,
 	];
 
 	// Conditionally add the step to get Genesis Pro.

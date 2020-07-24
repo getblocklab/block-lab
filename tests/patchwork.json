@@ -2,6 +2,7 @@
     "redefinable-internals": [
         "chmod",
         "filter_input",
+        "function_exists",
         "is_uploaded_file",
         "move_uploaded_file"
     ]

@@ -232,7 +232,6 @@ class Test_Post_Content extends WP_UnitTestCase {
 		$this->assertEquals( $this->image_block_expected_content, $migrated_post->post_content );
 		$this->assertEquals(
 			[
-				'success'      => true,
 				'successCount' => 1,
 				'errorCount'   => 0,
 			],
@@ -255,7 +254,6 @@ class Test_Post_Content extends WP_UnitTestCase {
 		$this->assertEquals( $this->unrelated_blocks, $migrated_post->post_content );
 		$this->assertEquals(
 			[
-				'success'      => true,
 				'successCount' => 0,
 				'errorCount'   => 0,
 			],
@@ -283,7 +281,6 @@ class Test_Post_Content extends WP_UnitTestCase {
 		$this->assertEquals( $number_of_posts, $queried_posts->post_count );
 		$this->assertEquals(
 			[
-				'success'      => true,
 				'successCount' => $number_of_posts,
 				'errorCount'   => 0,
 			],
@@ -312,16 +309,10 @@ class Test_Post_Content extends WP_UnitTestCase {
 		$migration_results = $this->instance->migrate_all();
 
 		// This should have returned on reaching the error limit of 20.
+		$this->assertCount( 20, $migration_results->get_error_messages() );
 		$this->assertEquals(
-			[
-				'success'       => false,
-				'successCount'  => 0,
-				'errorCount'    => 20,
-				'errorMessages' => [
-					'Content, title, and excerpt are empty.',
-				],
-			],
-			$migration_results
+			'Content, title, and excerpt are empty.',
+			$migration_results->get_error_message()
 		);
 	}
 }

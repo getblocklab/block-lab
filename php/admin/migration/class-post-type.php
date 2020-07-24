@@ -9,6 +9,7 @@
 
 namespace Block_Lab\Admin\Migration;
 
+use WP_Error;
 use WP_Post;
 use WP_Query;
 
@@ -84,20 +85,23 @@ class Post_Type {
 	 * These each store a config for a custom block,
 	 * they aren't blocks that users entered into the block editor.
 	 *
-	 * @return array The migration result: counts of success and errors.
+	 * @return array|WP_Error An array on success, a WP_Error on failure.
 	 */
 	public function migrate_all() {
-		$posts         = $this->query_for_posts();
-		$success_count = 0;
-		$error_count   = 0;
+		$posts              = $this->query_for_posts();
+		$success_count      = 0;
+		$error_count        = 0;
+		$max_allowed_errors = 20;
+		$errors             = new WP_Error();
 
-		while ( ! empty( $posts ) ) {
+		while ( ! empty( $posts ) && $error_count < $max_allowed_errors ) {
 			foreach ( $posts as $post ) {
-				$was_migration_successful = $this->migrate_single( $post );
-				if ( $was_migration_successful ) {
-					$success_count++;
-				} else {
+				$migration_result = $this->migrate_single( $post );
+				if ( is_wp_error( $migration_result ) ) {
 					$error_count++;
+					$errors->add( $migration_result->get_error_code(), $migration_result->get_error_message() );
+				} else {
+					$success_count++;
 				}
 			}
 
@@ -106,8 +110,11 @@ class Post_Type {
 
 		$is_success = ! empty( $success_count ) || ( empty( $success_count ) && empty( $error_count ) );
 
+		if ( ! $is_success ) {
+			return $errors;
+		}
+
 		return [
-			'success'      => $is_success,
 			'successCount' => $success_count,
 			'errorCount'   => $error_count,
 		];
@@ -122,20 +129,26 @@ class Post_Type {
 	 * The beginning of this has the 'block-lab' namespace, which this changes to the new namespace.
 	 *
 	 * @param WP_Post $post The post to convert.
-	 * @return bool Whether migrating the post was successful.
+	 * @return true|WP_Error True on success, WP_Error on failure.
 	 */
 	public function migrate_single( WP_Post $post ) {
 		global $wpdb;
 
 		$block = json_decode( $post->post_content, true );
 		if ( JSON_ERROR_NONE !== json_last_error() || empty( $block ) ) {
-			return false;
+			return new WP_Error(
+				'invalid_json',
+				__( 'The block looks to be invalid JSON', 'block-lab' )
+			);
 		}
 
 		$block_keys     = array_keys( $block );
 		$old_block_name = reset( $block_keys );
 		if ( empty( $block[ $old_block_name ] ) ) {
-			return false;
+			return new WP_Error(
+				'invalid_block_name',
+				__( 'The block name looks to be invalid', 'block-lab' )
+			);
 		}
 
 		$block_contents = $block[ $old_block_name ];
@@ -162,7 +175,14 @@ class Post_Type {
 		);
 		clean_post_cache( $post->ID );
 
-		return ! empty( $rows_updated );
+		if ( empty( $rows_updated ) ) {
+			return new WP_Error(
+				'post_not_updated',
+				__( 'The post was not updated', 'block-lab' )
+			);
+		}
+
+		return true;
 	}
 
 	/**
