@@ -70,16 +70,23 @@ const MigrateBlocks = ( { isStepActive, isStepComplete, stepIndex } ) => {
 	 * Migrates the post content.
 	 */
 	const migratePostContent = async () => {
+		const timeoutErrorCode = 504;
+
 		await apiFetch( {
 			path: '/block-lab/migrate-post-content',
 			method: 'POST',
 		} ).then( () => {
 			speak( __( 'The migration was successful!', 'block-lab' ) );
 			setIsSuccess( true );
-		} ).catch( ( result ) => {
+		} ).catch( async ( result ) => {
+			if ( result.hasOwnProperty( 'code' ) && timeoutErrorCode === result.code ) {
+				await migratePostContent();
+			}
+
 			if ( result.hasOwnProperty( 'message' ) ) {
 				setErrorMessage( result.message );
 			}
+
 			speak( __( 'The migration failed in the post content migration', 'block-lab' ) );
 			setIsError( true );
 		} );
