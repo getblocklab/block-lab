@@ -70,7 +70,8 @@ const MigrateBlocks = ( { isStepActive, isStepComplete, stepIndex } ) => {
 	 * Migrates the post content.
 	 */
 	const migratePostContent = async () => {
-		const timeoutErrorCode = 504;
+		// Used for a 504 Gateway Timeout Error, but could also be for other errors.
+		const timeoutErrorCode = 'invalid_json';
 
 		await apiFetch( {
 			path: '/block-lab/migrate-post-content',
@@ -81,9 +82,7 @@ const MigrateBlocks = ( { isStepActive, isStepComplete, stepIndex } ) => {
 		} ).catch( async ( result ) => {
 			if ( result.hasOwnProperty( 'code' ) && timeoutErrorCode === result.code ) {
 				await migratePostContent();
-			}
-
-			if ( result.hasOwnProperty( 'message' ) ) {
+			} else if ( result.hasOwnProperty( 'message' ) ) {
 				setErrorMessage( result.message );
 			}
 
