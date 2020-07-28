@@ -82,6 +82,7 @@ const MigrateBlocks = ( { isStepActive, isStepComplete, stepIndex } ) => {
 		} ).catch( async ( result ) => {
 			if ( result.hasOwnProperty( 'code' ) && timeoutErrorCode === result.code ) {
 				await migratePostContent();
+				return;
 			} else if ( result.hasOwnProperty( 'message' ) ) {
 				setErrorMessage( result.message );
 			}
