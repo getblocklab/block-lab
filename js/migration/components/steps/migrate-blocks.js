@@ -113,10 +113,10 @@ const MigrateBlocks = ( { isStepActive, isStepComplete, stepIndex } ) => {
 				isComplete={ isStepComplete }
 			/>
 			<StepContent
-				heading={ __( 'Migrate your Blocks', 'block-lab' ) }
+				heading={ __( 'Migrate Your Blocks', 'block-lab' ) }
 				isStepActive={ isStepActive }
 			>
-				{ ! isSuccess && <p>{ __( "Ok! Everything is ready. Let's do this. While the migration is underway, don't leave this page.", 'block-lab' ) }</p> }
+				{ ! isSuccess && <p>{ __( "Okay! Everything is ready. Let's do this. While the migration is underway, don't leave this page.", 'block-lab' ) }</p> }
 				{ !! errorMessage && (
 					<div className="bl-migration__error">
 						<p>{ __( 'The following error ocurred:', 'block-lab' ) }</p>
