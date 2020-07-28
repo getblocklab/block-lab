@@ -33,8 +33,7 @@ import { ButtonNext, Step, StepContent, StepFooter, StepIcon } from '../';
  * @return {React.ReactElement} The component to get Genesis Pro.
  */
 const GetGenesisPro = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) => {
-	// @todo: replace this.
-	const urlMigrateWithoutGenPro = 'https://example.com';
+	const urlMigrateWithoutGenPro = 'https://getblocklab.com/migrating-to-genesis-custom-blocks/';
 	const urlGetGenesisPro = 'https://my.wpengine.com/signup?plan=genesis-pro';
 
 	const [ isSubmittingKey, setIsSubmittingKey ] = useState( false );

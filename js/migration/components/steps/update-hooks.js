@@ -31,9 +31,8 @@ import { ButtonNext, ButtonPrevious, Step, StepContent, StepFooter, StepIcon } f
  * @return {React.ReactElement} The component to prompt to back up the site.
  */
 const UpdateHooks = ( { isStepActive, isStepComplete, stepIndex, goToNext, goToPrevious } ) => {
-	// @todo: replace this.
-	const hooksDetailsUrl = 'https://example.com/';
-	const phpApiDetailsUrl = 'https://developer.wpengine.com/genesis-custom-blocks/functions/';
+	const hooksDetailsUrl = 'https://developer.wpengine.com/genesis-custom-blocks/block-lab-hook-compatibility/';
+	const phpApiDetailsUrl = 'https://developer.wpengine.com/genesis-custom-blocks/block-lab-php-api-compatibility/';
 
 	return (
 		<Step isActive={ isStepActive } isComplete={ isStepComplete }>

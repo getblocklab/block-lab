@@ -16,8 +16,7 @@ import { __ } from '@wordpress/i18n';
  * @return {React.ReactElement} The introduction to the migration.
  */
 const Intro = () => {
-	// @todo: replace this.
-	const developerNoticeUrl = 'https://example.com';
+	const developerNoticeUrl = 'https://getblocklab.com/migrating-to-genesis-custom-blocks/';
 	const announcementUrl = 'https://getblocklab.com/the-block-lab-team-are-joining-wp-engine/';
 
 	return (
