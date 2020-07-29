@@ -31,7 +31,7 @@ test( 'migrate blocks step', async () => {
 
 	const { getByText } = render( <MigrateBlocks { ...props } /> );
 
-	getByText( 'Migrate your Blocks' );
+	getByText( /migrate your blocks/i );
 	getByText( props.stepIndex.toString() );
 
 	await waitFor( () =>

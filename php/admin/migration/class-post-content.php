@@ -109,13 +109,10 @@ class Post_Content {
 			);
 		}
 
-		$replacement_count = 0;
-		$new_post_content  = preg_replace(
+		$new_post_content = preg_replace(
 			'#(<!--\s+wp:)(' . sanitize_key( $this->previous_block_namespace ) . ')(/[a-z][a-z0-9_-]*)#s',
 			'$1' . sanitize_key( $this->new_block_namespace ) . '$3',
-			$post->post_content,
-			-1,
-			$replacement_count
+			$post->post_content
 		);
 
 		return wp_update_post(

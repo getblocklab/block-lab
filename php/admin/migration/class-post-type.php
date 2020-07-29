@@ -137,7 +137,7 @@ class Post_Type {
 		$block = json_decode( $post->post_content, true );
 		if ( JSON_ERROR_NONE !== json_last_error() || empty( $block ) ) {
 			return new WP_Error(
-				'invalid_json',
+				'block_invalid_json',
 				__( 'The block looks to be invalid JSON', 'block-lab' )
 			);
 		}

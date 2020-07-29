@@ -70,16 +70,23 @@ const MigrateBlocks = ( { isStepActive, isStepComplete, stepIndex } ) => {
 	 * Migrates the post content.
 	 */
 	const migratePostContent = async () => {
+		// Used for a 504 Gateway Timeout Error, but could also be for other errors.
+		const timeoutErrorCode = 'invalid_json';
+
 		await apiFetch( {
 			path: '/block-lab/migrate-post-content',
 			method: 'POST',
 		} ).then( () => {
 			speak( __( 'The migration was successful!', 'block-lab' ) );
 			setIsSuccess( true );
-		} ).catch( ( result ) => {
-			if ( result.hasOwnProperty( 'message' ) ) {
+		} ).catch( async ( result ) => {
+			if ( result.hasOwnProperty( 'code' ) && timeoutErrorCode === result.code ) {
+				await migratePostContent();
+				return;
+			} else if ( result.hasOwnProperty( 'message' ) ) {
 				setErrorMessage( result.message );
 			}
+
 			speak( __( 'The migration failed in the post content migration', 'block-lab' ) );
 			setIsError( true );
 		} );
@@ -106,10 +113,10 @@ const MigrateBlocks = ( { isStepActive, isStepComplete, stepIndex } ) => {
 				isComplete={ isStepComplete }
 			/>
 			<StepContent
-				heading={ __( 'Migrate your Blocks', 'block-lab' ) }
+				heading={ __( 'Migrate Your Blocks', 'block-lab' ) }
 				isStepActive={ isStepActive }
 			>
-				{ ! isSuccess && <p>{ __( "Ok! Everything is ready. Let's do this. While the migration is underway, don't leave this page.", 'block-lab' ) }</p> }
+				{ ! isSuccess && <p>{ __( "Okay! Everything is ready. Let's do this. While the migration is underway, don't leave this page.", 'block-lab' ) }</p> }
 				{ !! errorMessage && (
 					<div className="bl-migration__error">
 						<p>{ __( 'The following error ocurred:', 'block-lab' ) }</p>

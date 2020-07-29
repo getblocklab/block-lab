@@ -59,7 +59,7 @@ const UpdateHooks = ( { isStepActive, isStepComplete, stepIndex, goToNext, goToP
 						</a>
 					</li>
 					<li>
-						<b>{ __( 'API', 'block-lab' ) }</b> - { __( 'If you use Block Lab’s PHP API or JSON API to register & configure your custom blocks, you’ll need to make some small changes.', 'block-lab' ) }
+						<b>{ __( 'API', 'block-lab' ) }</b> - { __( 'If you use Block Lab’s PHP API or JSON API to register and configure your custom blocks, you’ll need to make some small changes.', 'block-lab' ) }
 						&nbsp;
 						<a
 							href={ phpApiDetailsUrl }
@@ -74,7 +74,7 @@ const UpdateHooks = ( { isStepActive, isStepComplete, stepIndex, goToNext, goToP
 				<StepFooter>
 					<ButtonPrevious onClick={ goToPrevious } />
 					<ButtonNext
-						checkboxLabel={ __( "I'm all ok on the Hooks & API front.", 'block-lab' ) }
+						checkboxLabel={ __( "I'm all okay on the hooks and API front.", 'block-lab' ) }
 						onClick={ goToNext }
 						stepIndex={ stepIndex }
 					/>

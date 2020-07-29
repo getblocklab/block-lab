@@ -285,7 +285,7 @@ class Test_Post_Type extends WP_UnitTestCase {
 				null,
 				self::PREVIOUS_POST_TYPE_SLUG,
 				( new WP_Error(
-					'invalid_json',
+					'block_invalid_json',
 					'The block looks to be invalid JSON'
 				) ),
 			],
@@ -294,7 +294,7 @@ class Test_Post_Type extends WP_UnitTestCase {
 				null,
 				self::PREVIOUS_POST_TYPE_SLUG,
 				( new WP_Error(
-					'invalid_json',
+					'block_invalid_json',
 					'The block looks to be invalid JSON'
 				) ),
 			],

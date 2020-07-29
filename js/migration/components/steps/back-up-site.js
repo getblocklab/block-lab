@@ -41,7 +41,7 @@ const BackUpSite = ( { isStepActive, isStepComplete, goToNext, goToPrevious, ste
 				isComplete={ isStepComplete }
 			/>
 			<StepContent
-				heading={ __( 'Back up your site', 'block-lab' ) }
+				heading={ __( 'Back Up Your Site', 'block-lab' ) }
 				isStepActive={ isStepActive }
 			>
 				<p>{ __( 'Migrating from Block Lab to Genesis Custom Blocks is a one-way action. It can’t be undone. Please back up your site before you begin, just in case you need to roll it back.', 'block-lab' ) }</p>
