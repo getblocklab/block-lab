@@ -101,7 +101,6 @@ const Image = withSelect( ( select, ownProps ) => {
 						{ ! isUploading && (
 							<>
 								<FormFileUpload
-									isLarge
 									disabled={ !! isUploading }
 									onChange={ ( event ) => {
 										const files = event.target.files;
@@ -122,7 +121,6 @@ const Image = withSelect( ( select, ownProps ) => {
 									render={ ( { open } ) => (
 										<div className="components-media-library-button">
 											<Button
-												isLarge
 												disabled={ !! isUploading }
 												className="editor-media-placeholder__button"
 												onClick={ open }
@@ -139,7 +137,6 @@ const Image = withSelect( ( select, ownProps ) => {
 			) }
 			{ imageSrc && (
 				<Button
-					isLarge
 					disabled={ !! isUploading }
 					className="bl-image__remove"
 					onClick={ removeImage }
