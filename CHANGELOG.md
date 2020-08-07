@@ -1,6 +1,6 @@
 ## Changelog #
 
-### 1.5.5 – 2020-08-10 ###
+### 1.5.6 – 2020-08-10 ###
 
 Small bugfixes, improved testing
 
