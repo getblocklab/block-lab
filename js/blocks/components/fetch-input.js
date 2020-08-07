@@ -135,11 +135,11 @@ class FetchInput extends Component {
 				this.props.debouncedSpeak(
 					/* translators: %d: the number of results */
 					sprintf( _n(
-					'%d result found, use up and down arrow keys to navigate.',
-					'%d results found, use up and down arrow keys to navigate.',
-					results.length,
-					'block-lab'
-				), results.length ), 'assertive' );
+						'%d result found, use up and down arrow keys to navigate.',
+						'%d results found, use up and down arrow keys to navigate.',
+						results.length,
+						'block-lab'
+					), results.length ), 'assertive' );
 
 				if ( null === this.state.selectedSuggestion && '' !== this.getInputValue() ) {
 					this.setState( {
