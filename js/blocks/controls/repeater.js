@@ -9,11 +9,19 @@ import { BaseControl, IconButton } from '@wordpress/components';
 import { RepeaterRows } from '../components';
 
 const BlockLabRepeaterControl = ( props ) => {
-	const { field, instanceId, onChange, parentBlock, parentBlockProps } = props;
+	const {
+		field,
+		instanceId,
+		onChange,
+		parentBlock,
+		parentBlockProps,
+	} = props;
 	const { attributes, setAttributes } = parentBlockProps;
 	const attr = { ...attributes };
 	const value = attr[ field.name ];
-	const defaultRows = new Array( field.min ? field.min : 1 ).fill( { '': '' } );
+	const defaultRows = new Array( field.min ? field.min : 1 ).fill( {
+		'': '',
+	} );
 	const hasRows = value && value.hasOwnProperty( 'rows' );
 	const rows = hasRows ? value.rows : defaultRows;
 
@@ -36,7 +44,12 @@ const BlockLabRepeaterControl = ( props ) => {
 	}
 
 	return (
-		<BaseControl className="block-lab-repeater" label={ field.label } id={ `bl-repeater-${ instanceId }` } help={ field.help }>
+		<BaseControl
+			className="block-lab-repeater"
+			label={ field.label }
+			id={ `bl-repeater-${ instanceId }` }
+			help={ field.help }
+		>
 			<RepeaterRows
 				rows={ rows }
 				field={ field }

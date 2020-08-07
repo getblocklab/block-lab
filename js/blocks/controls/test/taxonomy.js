@@ -25,7 +25,9 @@ test( 'taxonomy control', async () => {
 		getValue: jest.fn(),
 		onChange: jest.fn(),
 	};
-	const { getByLabelText, getByRole, getByText } = render( <BlockLabTaxonomyControl { ...props } /> );
+	const { getByLabelText, getByRole, getByText } = render(
+		<BlockLabTaxonomyControl { ...props } />
+	);
 
 	getByLabelText( props.field.label );
 	getByText( props.field.help );
@@ -45,10 +47,11 @@ test( 'taxonomy control', async () => {
 	fireEvent.focus( input );
 
 	// Click to select a taxonomy.
-	await waitFor( () =>
-		fireEvent.click( getByText( taxonomy.name ) )
-	);
+	await waitFor( () => fireEvent.click( getByText( taxonomy.name ) ) );
 
 	// The onChange handler should be called with the selected taxonomy.
-	expect( props.onChange ).toHaveBeenCalledWith( { id: taxonomy.id, name: taxonomy.name } );
+	expect( props.onChange ).toHaveBeenCalledWith( {
+		id: taxonomy.id,
+		name: taxonomy.name,
+	} );
 } );

@@ -5,7 +5,5 @@ module.exports = {
 		'@wordpress/jest-console',
 		'expect-puppeteer',
 	],
-	testPathIgnorePatterns: [
-		'/node_modules/',
-	],
+	testPathIgnorePatterns: [ '/node_modules/' ],
 };

@@ -9,7 +9,11 @@ const BlockLabSelectControl = ( props ) => {
 
 	if ( '' === field.default ) {
 		field.options = [
-			{ label: __( '– Select –', 'block-lab' ), value: '', disabled: true },
+			{
+				label: __( '– Select –', 'block-lab' ),
+				value: '',
+				disabled: true,
+			},
 			...field.options,
 		];
 	}

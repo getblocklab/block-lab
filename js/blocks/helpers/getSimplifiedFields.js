@@ -34,12 +34,10 @@ const getSimplifiedFields = ( fields ) => {
 		}
 
 		const field = fields[ fieldName ];
-		fieldList.push(
-			{
-				...field,
-				name: fieldName,
-			}
-		);
+		fieldList.push( {
+			...field,
+			name: fieldName,
+		} );
 	}
 
 	fieldList.sort( compare ); // @todo: is this needed? Even then, it should only affect the Block Lab editor UI.

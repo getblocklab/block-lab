@@ -32,15 +32,17 @@ describe( 'number control', () => {
 
 	it( 'has the placeholder', async () => {
 		const props = getProps();
-		const { findByPlaceholderText } = setupControl( BlockLabNumberControl, props );
-		expect( await findByPlaceholderText( props.field.placeholder ) ).toBeInTheDocument();
+		const { findByPlaceholderText } = setupControl(
+			BlockLabNumberControl,
+			props
+		);
+		expect(
+			await findByPlaceholderText( props.field.placeholder )
+		).toBeInTheDocument();
 	} );
 
-	it.each( [
-		0,
-		352343,
-		9523342951313513414,
-	] )( 'sends a number to the onChange handler when it is entered',
+	it.each( [ 0, 352343, 9523342951313513414 ] )(
+		'sends a number to the onChange handler when it is entered',
 		( enteredText ) => {
 			const props = getProps();
 			const { control } = setupControl( BlockLabNumberControl, props );

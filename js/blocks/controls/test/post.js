@@ -34,7 +34,9 @@ const getProps = () => ( {
 
 test( 'post control', async () => {
 	const props = getProps();
-	const { findByRole, findByText, findByLabelText } = render( <BlockLabPostControl { ...props } /> );
+	const { findByRole, findByText, findByLabelText } = render(
+		<BlockLabPostControl { ...props } />
+	);
 	await findByLabelText( props.field.label );
 	await findByText( props.field.help );
 
@@ -60,5 +62,8 @@ test( 'post control', async () => {
 	);
 
 	// The onChange handler should be called with the selected post.
-	expect( props.onChange ).toHaveBeenCalledWith( { id: post.id, name: post.title.rendered } );
+	expect( props.onChange ).toHaveBeenCalledWith( {
+		id: post.id,
+		name: post.title.rendered,
+	} );
 } );

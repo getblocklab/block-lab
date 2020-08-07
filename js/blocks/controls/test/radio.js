@@ -12,10 +12,7 @@ import BlockLabRadioControl from '../radio';
 test( 'radio control', async () => {
 	const firstOption = 'first';
 	const secondOption = 'second';
-	const options = [
-		{ value: firstOption },
-		{ value: secondOption },
-	];
+	const options = [ { value: firstOption }, { value: secondOption } ];
 	const field = {
 		options,
 		label: 'This is a label for the radio field',

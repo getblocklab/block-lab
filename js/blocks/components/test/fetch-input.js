@@ -66,16 +66,21 @@ describe( 'FetchInput', () => {
 		const { input } = setup( baseProps );
 		fireEvent.focus( input );
 
-		await waitFor( () => expect( screen.getByText( exampleResult ) ).toBeInTheDocument() );
+		await waitFor( () =>
+			expect( screen.getByText( exampleResult ) ).toBeInTheDocument()
+		);
 	} );
 
 	it.each( [
 		[ [], true ],
 		[ [ 'a-result' ], false ],
 		[ [ 'first-result', 'another-result' ], false ],
-	] )( 'should only have the error class if there are no results after focusing',
+	] )(
+		'should only have the error class if there are no results after focusing',
 		async ( apiResults, expected ) => {
-			apiFetch.mockImplementationOnce( () => new Promise( ( resolve ) => resolve( apiResults ) ) );
+			apiFetch.mockImplementationOnce(
+				() => new Promise( ( resolve ) => resolve( apiResults ) )
+			);
 			const { input } = setup( baseProps );
 			fireEvent.focus( input );
 

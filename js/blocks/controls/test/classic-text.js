@@ -41,7 +41,9 @@ test( 'classic text control', async () => {
 		},
 	};
 
-	const { findByText } = render( <BlockLabClassicTextControl { ...props } /> );
+	const { findByText } = render(
+		<BlockLabClassicTextControl { ...props } />
+	);
 	const control = await findByText( props.field.help );
 
 	expect( control ).toBeInTheDocument();

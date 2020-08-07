@@ -31,11 +31,8 @@ describe( 'email control', () => {
 		expect( control ).toHaveAttribute( 'value', props.field.default );
 	} );
 
-	it.each( [
-		'you@example.com',
-		'not-a-valid-email',
-		')$@$%*)#$*@)#$',
-	] )( 'should send any entered text to the onChange handler, even if it is not a valid email',
+	it.each( [ 'you@example.com', 'not-a-valid-email', ')$@$%*)#$*@)#$' ] )(
+		'should send any entered text to the onChange handler, even if it is not a valid email',
 		( enteredText ) => {
 			const props = getProps();
 			const { control } = setupControl( BlockLabEmailControl, props );
@@ -44,18 +41,20 @@ describe( 'email control', () => {
 		}
 	);
 
-	it.each( [
-		true,
-		false,
-	] )( 'should have an invalid class if the event object finds it is invalid',
+	it.each( [ true, false ] )(
+		'should have an invalid class if the event object finds it is invalid',
 		( isInputValid ) => {
 			const props = getProps();
 			const { control } = setupControl( BlockLabEmailControl, props );
 			const mockCheckValidity = jest.fn();
 			mockCheckValidity.mockReturnValueOnce( isInputValid );
 
-			fireEvent.blur( control, { target: { checkValidity: mockCheckValidity } } );
-			expect( control.classList.contains( 'text-control__error' ) ).toStrictEqual( ! isInputValid );
+			fireEvent.blur( control, {
+				target: { checkValidity: mockCheckValidity },
+			} );
+			expect(
+				control.classList.contains( 'text-control__error' )
+			).toStrictEqual( ! isInputValid );
 		}
 	);
 } );

@@ -39,10 +39,8 @@ describe( 'url control', () => {
 		expect( props.onChange ).toHaveBeenCalledWith( enteredUrl );
 	} );
 
-	it.each( [
-		true,
-		false,
-	] )( 'should have an invalid class if the event object finds it is invalid',
+	it.each( [ true, false ] )(
+		'should have an invalid class if the event object finds it is invalid',
 		( isInputValid ) => {
 			const props = getProps();
 			const { control } = setupControl( BlockLabURLControl, props );
@@ -50,7 +48,9 @@ describe( 'url control', () => {
 			mockEvent.target.checkValidity.mockReturnValueOnce( isInputValid );
 			fireEvent.blur( control, mockEvent );
 
-			expect( control.classList.contains( 'text-control__error' ) ).toStrictEqual( ! isInputValid );
+			expect(
+				control.classList.contains( 'text-control__error' )
+			).toStrictEqual( ! isInputValid );
 		}
 	);
 } );

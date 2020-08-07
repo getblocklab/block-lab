@@ -6,10 +6,13 @@ import { FetchInput } from '../components';
 const BlockLabUserControl = ( props ) => {
 	const { field, getValue, onChange } = props;
 	const DEFAULT_ID = 0;
-	const getIdFromAPI = ( apiResponse ) => ( apiResponse && apiResponse.id ) ? apiResponse.id : DEFAULT_ID;
-	const getNameFromAPI = ( apiResponse ) => ( apiResponse && apiResponse.name ) ? apiResponse.name : '';
+	const getIdFromAPI = ( apiResponse ) =>
+		apiResponse && apiResponse.id ? apiResponse.id : DEFAULT_ID;
+	const getNameFromAPI = ( apiResponse ) =>
+		apiResponse && apiResponse.name ? apiResponse.name : '';
 
-	const initialValue = ( 'object' === typeof getValue( props ) ) ? getValue( props ) : {};
+	const initialValue =
+		'object' === typeof getValue( props ) ? getValue( props ) : {};
 	const userAttribute = { id: DEFAULT_ID, userName: '', ...initialValue };
 
 	return (

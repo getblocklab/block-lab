@@ -16,7 +16,12 @@ import { __, sprintf, _n } from '@wordpress/i18n';
 import { Component, createRef } from '@wordpress/element';
 import { decodeEntities } from '@wordpress/html-entities';
 import { UP, DOWN, ENTER } from '@wordpress/keycodes';
-import { BaseControl, Spinner, withSpokenMessages, Popover } from '@wordpress/components';
+import {
+	BaseControl,
+	Spinner,
+	withSpokenMessages,
+	Popover,
+} from '@wordpress/components';
 import { withInstanceId } from '@wordpress/compose';
 import { addQueryArgs } from '@wordpress/url';
 import apiFetch from '@wordpress/api-fetch';
@@ -29,6 +34,9 @@ const stopEventPropagation = ( event ) => event.stopPropagation();
 class FetchInput extends Component {
 	/**
 	 * Constructs the component class.
+	 *
+	 * @param {Object} props
+	 * @param {Object} props.autocompleteRef The ref for auto-complete.
 	 */
 	constructor( { autocompleteRef } ) {
 		super( ...arguments );
@@ -65,7 +73,10 @@ class FetchInput extends Component {
 		const { prevResults, prevShowSuggestions } = prevState;
 
 		// Exit if the relevant state values didn't update.
-		if ( results === prevResults && showSuggestions === prevShowSuggestions ) {
+		if (
+			results === prevResults &&
+			showSuggestions === prevShowSuggestions
+		) {
 			return;
 		}
 
@@ -114,43 +125,58 @@ class FetchInput extends Component {
 			} ),
 		} );
 
-		request.then( ( results ) => {
-			// A fetch Promise doesn't have an abort option. It's mimicked by
-			// comparing the request reference in on the instance, which is
-			// reset or deleted on subsequent requests or unmounting.
-			if ( this.suggestionsRequest !== request ) {
-				return;
-			}
-
-			this.setState( {
-				results,
-				showSuggestions: true,
-				loading: false,
-			} );
-
-			if ( !! results.length ) {
-				this.props.debouncedSpeak( sprintf( _n(
-					'%d result found, use up and down arrow keys to navigate.',
-					'%d results found, use up and down arrow keys to navigate.',
-					results.length,
-					'block-lab'
-				), results.length ), 'assertive' );
-
-				if ( null === this.state.selectedSuggestion && '' !== this.getInputValue() ) {
-					this.setState( {
-						selectedSuggestion: 0,
-					} );
+		request
+			.then( ( results ) => {
+				// A fetch Promise doesn't have an abort option. It's mimicked by
+				// comparing the request reference in on the instance, which is
+				// reset or deleted on subsequent requests or unmounting.
+				if ( this.suggestionsRequest !== request ) {
+					return;
 				}
-			} else {
-				this.props.debouncedSpeak( __( 'No results.', 'block-lab' ), 'assertive' );
-			}
-		} ).catch( () => {
-			if ( this.suggestionsRequest === request ) {
+
 				this.setState( {
+					results,
+					showSuggestions: true,
 					loading: false,
 				} );
-			}
-		} );
+
+				if ( !! results.length ) {
+					this.props.debouncedSpeak(
+						sprintf(
+							/* translators: %d: the number of results found */
+							_n(
+								'%d result found, use up and down arrow keys to navigate.',
+								'%d results found, use up and down arrow keys to navigate.',
+								results.length,
+								'block-lab'
+							),
+							results.length
+						),
+						'assertive'
+					);
+
+					if (
+						null === this.state.selectedSuggestion &&
+						'' !== this.getInputValue()
+					) {
+						this.setState( {
+							selectedSuggestion: 0,
+						} );
+					}
+				} else {
+					this.props.debouncedSpeak(
+						__( 'No results.', 'block-lab' ),
+						'assertive'
+					);
+				}
+			} )
+			.catch( () => {
+				if ( this.suggestionsRequest === request ) {
+					this.setState( {
+						loading: false,
+					} );
+				}
+			} );
 
 		this.suggestionsRequest = request;
 	}
@@ -164,12 +190,21 @@ class FetchInput extends Component {
 	 * @param {boolean} isValid Whether the value in the <input> is valid.
 	 */
 	setInputValidity( isValid ) {
-		if ( ! this.inputRef.current || ! this.inputRef.current.setCustomValidity ) {
+		if (
+			! this.inputRef.current ||
+			! this.inputRef.current.setCustomValidity
+		) {
 			return;
 		}
 
 		if ( ! isValid ) {
-			this.inputRef.current.setCustomValidity( sprintf( __( 'Invalid %s', 'block-lab' ), this.props.field.control ) );
+			this.inputRef.current.setCustomValidity(
+				sprintf(
+					/* translators: %s: the control type */
+					__( 'Invalid %s', 'block-lab' ),
+					this.props.field.control
+				)
+			);
 			this.inputRef.current.reportValidity();
 		} else {
 			this.inputRef.current.setCustomValidity( '' );
@@ -192,8 +227,12 @@ class FetchInput extends Component {
 	onBlur( event ) {
 		if (
 			event.relatedTarget &&
-			! event.relatedTarget.classList.contains( 'components-popover__content' ) &&
-			! event.relatedTarget.classList.contains( 'bl-fetch-input__suggestion' )
+			! event.relatedTarget.classList.contains(
+				'components-popover__content'
+			) &&
+			! event.relatedTarget.classList.contains(
+				'bl-fetch-input__suggestion'
+			)
 		) {
 			this.setState( {
 				showSuggestions: false,
@@ -206,7 +245,9 @@ class FetchInput extends Component {
 			if ( false === this.inputRef.current.checkValidity() ) {
 				this.handlePopoverButton( '' );
 			} else {
-				this.handlePopoverButton( this.state.results[ this.state.selectedSuggestion ] );
+				this.handlePopoverButton(
+					this.state.results[ this.state.selectedSuggestion ]
+				);
 			}
 		}
 	}
@@ -235,7 +276,12 @@ class FetchInput extends Component {
 	 * @param {Object} event The DOM keydown event.
 	 */
 	onKeyDown( event ) {
-		const { showSuggestions, selectedSuggestion, results, loading } = this.state;
+		const {
+			showSuggestions,
+			selectedSuggestion,
+			results,
+			loading,
+		} = this.state;
 		const inputValue = this.getInputValue();
 		// If the suggestions are not shown or loading, we shouldn't handle the arrow keys
 		// We shouldn't preventDefault to allow block arrow keys navigation.
@@ -266,7 +312,10 @@ class FetchInput extends Component {
 						event.preventDefault();
 
 						// Set the input caret to the last position.
-						event.target.setSelectionRange( inputValue.length, inputValue.length );
+						event.target.setSelectionRange(
+							inputValue.length,
+							inputValue.length
+						);
 					}
 					break;
 				}
@@ -281,7 +330,9 @@ class FetchInput extends Component {
 			case UP: {
 				event.stopPropagation();
 				event.preventDefault();
-				const previousIndex = ! selectedSuggestion ? results.length - 1 : selectedSuggestion - 1;
+				const previousIndex = ! selectedSuggestion
+					? results.length - 1
+					: selectedSuggestion - 1;
 				this.setState( {
 					selectedSuggestion: previousIndex,
 				} );
@@ -290,7 +341,11 @@ class FetchInput extends Component {
 			case DOWN: {
 				event.stopPropagation();
 				event.preventDefault();
-				const nextIndex = selectedSuggestion === null || ( selectedSuggestion === results.length - 1 ) ? 0 : selectedSuggestion + 1;
+				const nextIndex =
+					selectedSuggestion === null ||
+					selectedSuggestion === results.length - 1
+						? 0
+						: selectedSuggestion + 1;
 				this.setState( {
 					selectedSuggestion: nextIndex,
 				} );
@@ -332,19 +387,40 @@ class FetchInput extends Component {
 	 * @return {string} The value of the <input>
 	 */
 	getInputValue() {
-		return this.props.hasOwnProperty( 'displayValue' ) ? this.props.displayValue : this.props.value;
+		return this.props.hasOwnProperty( 'displayValue' )
+			? this.props.displayValue
+			: this.props.value;
 	}
 
 	render() {
-		const { autoFocus = false, className, getDisplayValueFromAPI, getValueFromAPI, field, instanceId } = this.props;
-		const { showSuggestions, results, selectedSuggestion, loading } = this.state;
+		const {
+			autoFocus = false,
+			className,
+			getDisplayValueFromAPI,
+			getValueFromAPI,
+			field,
+			instanceId,
+		} = this.props;
+		const {
+			showSuggestions,
+			results,
+			selectedSuggestion,
+			loading,
+		} = this.state;
 		const shouldDisplayPopover = showSuggestions && !! results.length;
 		const inputValue = this.getInputValue();
-		const getButtonValue = getDisplayValueFromAPI ? getDisplayValueFromAPI : getValueFromAPI;
+		const getButtonValue = getDisplayValueFromAPI
+			? getDisplayValueFromAPI
+			: getValueFromAPI;
 
 		/* eslint-disable jsx-a11y/no-autofocus */
 		return (
-			<BaseControl label={ field.label } id={ `fetch-input-${ instanceId }` } className={ classNames( 'bl-fetch-input', className ) } help={ field.help }>
+			<BaseControl
+				label={ field.label }
+				id={ `fetch-input-${ instanceId }` }
+				className={ classNames( 'bl-fetch-input', className ) }
+				help={ field.help }
+			>
 				<input
 					autoFocus={ autoFocus }
 					className="bl-fetch__input"
@@ -361,7 +437,11 @@ class FetchInput extends Component {
 					aria-autocomplete="list"
 					aria-controls={ `bl-fetch-input-suggestions-${ instanceId }` }
 					aria-owns={ `bl-fetch-input-suggestions-${ instanceId }` }
-					aria-activedescendant={ selectedSuggestion !== null ? `editor-url-input-suggestion-${ instanceId }-${ selectedSuggestion }` : undefined }
+					aria-activedescendant={
+						selectedSuggestion !== null
+							? `editor-url-input-suggestion-${ instanceId }-${ selectedSuggestion }`
+							: undefined
+					}
 					ref={ this.inputRef }
 					autoComplete="off"
 					autoCorrect="off"
@@ -371,12 +451,15 @@ class FetchInput extends Component {
 
 				{ !! loading && <Spinner /> }
 
-				{ shouldDisplayPopover &&
+				{ shouldDisplayPopover && (
 					<Popover
 						position="bottom center"
 						noArrow
 						focusOnMount={ false }
-						className={ classNames( 'bl-fetch__popover', field.location ) }
+						className={ classNames(
+							'bl-fetch__popover',
+							field.location
+						) }
 					>
 						<div
 							className="bl-fetch-input__suggestions"
@@ -387,26 +470,41 @@ class FetchInput extends Component {
 							{ results.map( ( result, index ) => {
 								const buttonValue = getButtonValue( result );
 
-								return !! buttonValue && (
-									<button
-										key={ `bl-fetch-suggestion-${ index }` }
-										role="option"
-										tabIndex="-1"
-										id={ `bl-fetch-input-suggestion-${ instanceId }-${ index }` }
-										ref={ this.bindSuggestionNode( index ) }
-										className={ classNames( 'bl-fetch-input__suggestion', {
-											'is-selected': index === selectedSuggestion,
-										} ) }
-										onClick={ () => this.handlePopoverButton( result ) }
-										aria-selected={ index === selectedSuggestion }
-									>
-										{ decodeEntities( buttonValue ) }
-									</button>
+								return (
+									!! buttonValue && (
+										<button
+											key={ `bl-fetch-suggestion-${ index }` }
+											role="option"
+											tabIndex="-1"
+											id={ `bl-fetch-input-suggestion-${ instanceId }-${ index }` }
+											ref={ this.bindSuggestionNode(
+												index
+											) }
+											className={ classNames(
+												'bl-fetch-input__suggestion',
+												{
+													'is-selected':
+														index ===
+														selectedSuggestion,
+												}
+											) }
+											onClick={ () =>
+												this.handlePopoverButton(
+													result
+												)
+											}
+											aria-selected={
+												index === selectedSuggestion
+											}
+										>
+											{ decodeEntities( buttonValue ) }
+										</button>
+									)
 								);
 							} ) }
 						</div>
 					</Popover>
-				}
+				) }
 			</BaseControl>
 		);
 		/* eslint-enable jsx-a11y/no-autofocus */

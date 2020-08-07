@@ -22,7 +22,7 @@ const insertBlockFromInserter = async ( blockName ) => {
 	await page.keyboard.type( blockName );
 	const insertButton = (
 		await page.$x( `//button//span[contains(text(), '${ blockName }')]` )
-	)[ 0 ];
+	 )[ 0 ];
 	await insertButton.click();
 };
 
@@ -58,7 +58,13 @@ describe( 'TextBlock', () => {
 		const fieldSelector = '.components-base-control__field';
 
 		// The block should have the Text field.
-		expect( await page.evaluate( () => document.querySelector( '.components-base-control__label' ).textContent ) ).toContain( fieldName );
+		expect(
+			await page.evaluate(
+				() =>
+					document.querySelector( '.components-base-control__label' )
+						.textContent
+			)
+		).toContain( fieldName );
 
 		// Type into the text field.
 		await page.click( `${ fieldSelector } input` );
@@ -69,8 +75,14 @@ describe( 'TextBlock', () => {
 		await page.waitForSelector( '.block-lab-editor__ssr p' );
 
 		// The <ServerSideRender> should display the content from the block template in the plugin, and should show the text field value.
-		const ssrText = await page.evaluate( () => document.querySelector( '.block-lab-editor__ssr p' ).innerText );
-		expect( ssrText ).toContain( `Here is the result of calling block_value with the field name: ${ fieldValue }` );
-		expect( ssrText ).toContain( `Here is the result of calling block_field with the field name: ${ fieldValue }` );
+		const ssrText = await page.evaluate(
+			() => document.querySelector( '.block-lab-editor__ssr p' ).innerText
+		);
+		expect( ssrText ).toContain(
+			`Here is the result of calling block_value with the field name: ${ fieldValue }`
+		);
+		expect( ssrText ).toContain(
+			`Here is the result of calling block_field with the field name: ${ fieldValue }`
+		);
 	} );
 } );

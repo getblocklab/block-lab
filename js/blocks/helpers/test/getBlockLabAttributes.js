@@ -18,24 +18,28 @@ describe( 'getBlockFromContent', () => {
 	} );
 
 	it( 'should not throw an error if certain attributes are not present', () => {
-		expect( getBlockLabAttributes( fieldsWithOnlyType ) ).toStrictEqual( fieldsWithOnlyType );
+		expect( getBlockLabAttributes( fieldsWithOnlyType ) ).toStrictEqual(
+			fieldsWithOnlyType
+		);
 	} );
 
 	it( 'should return only the attributes of the fields', () => {
-		expect( getBlockLabAttributes( {
-			example_text: {
-				type: 'text',
-				default: 'Here is some text',
-				help: 'This is the help text',
-				location: 'editor',
-			},
-			example_url: {
-				type: 'url',
-				default: 'https://example.com/go-here',
-				help: 'Here is the help text',
-				location: 'inspector',
-			},
-		} ) ).toStrictEqual( {
+		expect(
+			getBlockLabAttributes( {
+				example_text: {
+					type: 'text',
+					default: 'Here is some text',
+					help: 'This is the help text',
+					location: 'editor',
+				},
+				example_url: {
+					type: 'url',
+					default: 'https://example.com/go-here',
+					help: 'Here is the help text',
+					location: 'inspector',
+				},
+			} )
+		).toStrictEqual( {
 			example_text: {
 				type: 'text',
 				default: 'Here is some text',

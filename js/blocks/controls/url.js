@@ -11,7 +11,8 @@ import { TextControl } from '@wordpress/components';
 const BlockLabURLControl = ( props ) => {
 	const { field, getValue, onChange } = props;
 	const initialValue = getValue( props );
-	const value = 'undefined' !== typeof initialValue ? initialValue : field.default;
+	const value =
+		'undefined' !== typeof initialValue ? initialValue : field.default;
 
 	/**
 	 * Sets the Error Class for the Text Control.

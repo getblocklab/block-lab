@@ -20,10 +20,15 @@ const ContentControl = ( props ) => {
 	 * @param {Object} apiResponse The API response in which to look for the ID.
 	 * @return {number} The ID from the value, or 0.
 	 */
-	const getIdfromAPI = ( apiResponse ) => ( apiResponse && apiResponse.id ) ? parseInt( apiResponse.id ) : DEFAULT_ID;
+	const getIdfromAPI = ( apiResponse ) =>
+		apiResponse && apiResponse.id ? parseInt( apiResponse.id ) : DEFAULT_ID;
 
 	const initialValue = getValue( props );
-	const valueAttribute = { id: DEFAULT_ID, name: DEFAULT_NAME, ...initialValue };
+	const valueAttribute = {
+		id: DEFAULT_ID,
+		name: DEFAULT_NAME,
+		...initialValue,
+	};
 
 	return (
 		<FetchInput

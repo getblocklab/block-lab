@@ -31,7 +31,10 @@ test( 'multiselect control', () => {
 		field,
 		onChange: jest.fn(),
 	};
-	const { control, getByText } = setupControl( BlockLabMultiselectControl, props );
+	const { control, getByText } = setupControl(
+		BlockLabMultiselectControl,
+		props
+	);
 
 	getByText( field.help );
 	fireEvent.change( control, { target: { value: [ secondValue ] } } );

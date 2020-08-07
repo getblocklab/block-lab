@@ -14,12 +14,10 @@ const BlockLabRichTextControl = ( props ) => {
 			className="block-lab-rich-text-control"
 			help={ field.help }
 		>
-			{
-			/*
-			* @todo: Resolve known issue with toolbar not disappearing on blur
-			* @see: https://github.com/WordPress/gutenberg/issues/7463
-			*/
-			}
+			{ /*
+			 * @todo: Resolve known issue with toolbar not disappearing on blur
+			 * @see: https://github.com/WordPress/gutenberg/issues/7463
+			 */ }
 			<RichText
 				key={ `block-lab-${ field.name }` }
 				placeholder={ field.placeholder || '' }
