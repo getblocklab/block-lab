@@ -1,7 +1,7 @@
 {
   "name": "block-lab",
   "title": "Block Lab",
-  "version": "1.5.5",
+  "version": "1.5.6",
   "description": "WordPress plugin with a simple templating system for building custom blocks.",
   "author": "Block Lab",
   "license": "GPL-2.0-or-later",
