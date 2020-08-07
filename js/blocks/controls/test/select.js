@@ -34,17 +34,12 @@ test( 'select control', async () => {
 		onChange: jest.fn(),
 	};
 
-	const { findByRole, findByText } = setupControl(
-		BlockLabSelectControl,
-		props
-	);
+	const { findByRole, findByText } = setupControl( BlockLabSelectControl, props );
 	await findByText( field.help );
 	const control = await findByRole( 'combobox' );
 
 	// This should send the new value to the onChange handler.
 	user.selectOptions( control, secondValue );
 	//fireEvent.change( control, { target: { value: secondValue } } );
-	await waitFor( () =>
-		expect( props.onChange ).toHaveBeenCalledWith( secondValue )
-	);
+	await waitFor( () => expect( props.onChange ).toHaveBeenCalledWith( secondValue ) );
 } );

@@ -14,14 +14,12 @@ describe( 'Fields', () => {
 	it( 'does not display a control that is supposed to be in the Inspector Controls', () => {
 		render(
 			<Fields
-				fields={ [
-					{
-						name: 'example_email',
-						help: helpText,
-						location: 'inspector',
-						control: 'email',
-					},
-				] }
+				fields={ [ {
+					name: 'example_email',
+					help: helpText,
+					location: 'inspector',
+					control: 'email',
+				} ] }
 				parentBlockProps={ {} }
 			/>
 		);
@@ -32,14 +30,12 @@ describe( 'Fields', () => {
 	it( 'displays a control that is supposed to be in the editor', () => {
 		render(
 			<Fields
-				fields={ [
-					{
-						name: 'example_email',
-						help: helpText,
-						location: 'editor',
-						control: 'email',
-					},
-				] }
+				fields={ [ {
+					name: 'example_email',
+					help: helpText,
+					location: 'editor',
+					control: 'email',
+				} ] }
 				parentBlockProps={ {} }
 			/>
 		);
@@ -50,22 +46,18 @@ describe( 'Fields', () => {
 	it( 'has a class name based on the width', () => {
 		render(
 			<Fields
-				fields={ [
-					{
-						name: 'example_email',
-						width: '50',
-						help: helpText,
-						location: 'editor',
-						control: 'email',
-					},
-				] }
+				fields={ [ {
+					name: 'example_email',
+					width: '50',
+					help: helpText,
+					location: 'editor',
+					control: 'email',
+				} ] }
 				parentBlockProps={ {} }
 			/>
 		);
 
 		const classWithWidth = 'width-50';
-		expect(
-			document.body.getElementsByClassName( classWithWidth )[ 0 ]
-		).not.toBeNull();
+		expect( document.body.getElementsByClassName( classWithWidth )[ 0 ] ).not.toBeNull();
 	} );
 } );

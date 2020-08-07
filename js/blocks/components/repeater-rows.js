@@ -109,24 +109,17 @@ class RepeaterRows extends Component {
 	move( from, to ) {
 		const scrollView = () => {
 			// Scroll the view.
-			const scrollContainer = getScrollContainer(
-				this.repeaterRows.current
-			);
-			const rowRefs = this.repeaterRows.current.querySelectorAll(
-				'.block-lab-repeater--row'
-			);
+			const scrollContainer = getScrollContainer( this.repeaterRows.current );
+			const rowRefs = this.repeaterRows.current.querySelectorAll( '.block-lab-repeater--row' );
 			const rowRefFrom = rowRefs[ from ];
 			const rowRefTo = rowRefs[ to ];
-			const scrollTop =
-				scrollContainer.scrollTop +
-				( rowRefTo.offsetTop - rowRefFrom.offsetTop );
+			const scrollTop = scrollContainer.scrollTop + ( rowRefTo.offsetTop - rowRefFrom.offsetTop );
 
 			rowRefTo.classList.add( 'row-to' );
 			rowRefFrom.classList.add( 'row-from' );
 
 			this.timeouts.push(
-				/* eslint-disable-next-line @wordpress/react-no-unsafe-timeout */
-				setTimeout( () => {
+				setTimeout( () => { /* eslint-disable-line @wordpress/react-no-unsafe-timeout */
 					rowRefTo.classList.remove( 'row-to' );
 					rowRefFrom.classList.remove( 'row-from' );
 				}, 1000 )
@@ -163,85 +156,63 @@ class RepeaterRows extends Component {
 	 * @return {Object} The rows.
 	 */
 	getRows( attribute ) {
-		return attribute && attribute.rows ? attribute.rows : [ {} ];
+		return ( attribute && attribute.rows ) ? attribute.rows : [ {} ];
 	}
 
 	/**
 	 * Renders the repeater rows.
 	 */
 	render() {
-		const {
-			rows,
-			field,
-			subFields,
-			parentBlockProps,
-			parentBlock,
-		} = this.props;
+		const { rows, field, subFields, parentBlockProps, parentBlock } = this.props;
 
 		return (
 			<>
-				<div
-					className="block-lab-repeater__rows"
-					ref={ this.repeaterRows }
-				>
-					{ rows.map( ( row, rowIndex ) => {
-						const activeClass =
-							this.state.activeRow === parseInt( rowIndex )
-								? 'active'
-								: ''; // @todo: Make this dynamic.
+				<div className="block-lab-repeater__rows" ref={ this.repeaterRows }>
+					{
+						rows.map( ( row, rowIndex ) => {
+							const activeClass = this.state.activeRow === parseInt( rowIndex ) ? 'active' : ''; // @todo: Make this dynamic.
 
-						return (
-							<BaseControl
-								className={ `block-lab-repeater--row ${ activeClass }` }
-								key={ `bl-row-${ rowIndex }` }
-							>
-								<div className="block-lab-repeater--row-delete">
-									<IconButton
-										icon="no"
-										key={ `${ rowIndex }-menu` }
-										className="button-delete"
-										label={ __( 'Delete', 'block-lab' ) }
-										onClick={ this.removeRow( rowIndex ) }
-										disabled={
-											!! field.min &&
-											rows.length <= field.min
-										}
-										isSmall
+							return (
+								<BaseControl className={ `block-lab-repeater--row ${ activeClass }` } key={ `bl-row-${ rowIndex }` }>
+									<div className="block-lab-repeater--row-delete">
+										<IconButton
+											icon="no"
+											key={ `${ rowIndex }-menu` }
+											className="button-delete"
+											label={ __( 'Delete', 'block-lab' ) }
+											onClick={ this.removeRow( rowIndex ) }
+											disabled={ !! field.min && rows.length <= field.min }
+											isSmall
+										/>
+									</div>
+									<Fields
+										fields={ subFields }
+										parentBlockProps={ parentBlockProps }
+										parentBlock={ parentBlock }
+										rowIndex={ rowIndex }
 									/>
-								</div>
-								<Fields
-									fields={ subFields }
-									parentBlockProps={ parentBlockProps }
-									parentBlock={ parentBlock }
-									rowIndex={ rowIndex }
-								/>
-								<div className="block-lab-repeater--row-actions">
-									<IconButton
-										icon="arrow-up-alt2"
-										key={ `${ rowIndex }-move-up` }
-										className="button-move-up"
-										label={ __( 'Move up', 'block-lab' ) }
-										onClick={ this.move(
-											rowIndex,
-											rowIndex - 1
-										) }
-										isSmall
-									/>
-									<IconButton
-										icon="arrow-down-alt2"
-										key={ `${ rowIndex }-move-down` }
-										className="button-move-down"
-										label={ __( 'Move down', 'block-lab' ) }
-										onClick={ this.move(
-											rowIndex,
-											rowIndex + 1
-										) }
-										isSmall
-									/>
-								</div>
-							</BaseControl>
-						);
-					} ) }
+									<div className="block-lab-repeater--row-actions">
+										<IconButton
+											icon="arrow-up-alt2"
+											key={ `${ rowIndex }-move-up` }
+											className="button-move-up"
+											label={ __( 'Move up', 'block-lab' ) }
+											onClick={ this.move( rowIndex, rowIndex - 1 ) }
+											isSmall
+										/>
+										<IconButton
+											icon="arrow-down-alt2"
+											key={ `${ rowIndex }-move-down` }
+											className="button-move-down"
+											label={ __( 'Move down', 'block-lab' ) }
+											onClick={ this.move( rowIndex, rowIndex + 1 ) }
+											isSmall
+										/>
+									</div>
+								</BaseControl>
+							);
+						} )
+					}
 				</div>
 			</>
 		);

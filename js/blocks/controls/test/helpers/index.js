@@ -12,7 +12,12 @@ import { render } from '@testing-library/react';
  */
 export const setupControl = ( Control, props ) => {
 	const { field } = props;
-	const utils = render( <Control { ...props } getValue={ jest.fn() } /> );
+	const utils = render(
+		<Control
+			{ ...props }
+			getValue={ jest.fn() }
+		/>
+	);
 	const control = utils.getByLabelText( field.label );
 	return {
 		control,

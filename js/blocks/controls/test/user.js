@@ -25,9 +25,7 @@ test( 'user control', async () => {
 		onChange: jest.fn(),
 	};
 
-	const { getByLabelText, getByRole } = render(
-		<BlockLabUserControl { ...props } />
-	);
+	const { getByLabelText, getByRole } = render( <BlockLabUserControl { ...props } /> );
 	getByLabelText( props.field.label );
 	getByText( document, props.field.help );
 
@@ -46,11 +44,10 @@ test( 'user control', async () => {
 	fireEvent.focus( input );
 
 	// Click to select a user.
-	await waitFor( () => fireEvent.click( getByText( document, user.name ) ) );
+	await waitFor( () =>
+		fireEvent.click( getByText( document, user.name ) )
+	);
 
 	// The onChange handler should be called with the selected user.
-	expect( props.onChange ).toHaveBeenCalledWith( {
-		id: user.id,
-		userName: user.name,
-	} );
+	expect( props.onChange ).toHaveBeenCalledWith( { id: user.id, userName: user.name } );
 } );

@@ -27,21 +27,11 @@ const Edit = ( { blockProps, block } ) => {
 	return (
 		<>
 			<BlockLabInspector blockProps={ blockProps } block={ block } />
-			<div
-				className={ className }
-				key={ `form-controls-${ block.name }` }
-			>
+			<div className={ className } key={ `form-controls-${ block.name }` } >
 				{ isSelected ? (
 					<div className="block-form">
-						<h3
-							dangerouslySetInnerHTML={ {
-								__html: icons[ block.icon ] + ' ' + block.title,
-							} }
-						/>
-						<FormControls
-							blockProps={ blockProps }
-							block={ block }
-						/>
+						<h3 dangerouslySetInnerHTML={ { __html: icons[ block.icon ] + ' ' + block.title } } />
+						<FormControls blockProps={ blockProps } block={ block } />
 					</div>
 				) : (
 					<ServerSideRender

@@ -6,8 +6,7 @@ import { ToggleControl } from '@wordpress/components';
 const BlockLabToggleControl = ( props ) => {
 	const { field, onChange, getValue } = props;
 	const initialValue = getValue( props );
-	const value =
-		'undefined' !== typeof initialValue ? initialValue : field.default;
+	const value = 'undefined' !== typeof initialValue ? initialValue : field.default;
 
 	return (
 		<ToggleControl

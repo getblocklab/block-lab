@@ -67,9 +67,7 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 		 */
 		const onChange = ( newValue ) => {
 			const { clientId, setAttributes } = parentBlockProps;
-			const parentAttributes = select(
-				'core/block-editor'
-			).getBlockAttributes( clientId );
+			const parentAttributes = select( 'core/block-editor' ).getBlockAttributes( clientId );
 			const attr = { ...parentAttributes };
 
 			if ( undefined === rowIndex ) {
@@ -80,8 +78,7 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 				// This is in a repeater row.
 				const attribute = attr[ field.parent ];
 				const defaultRows = [ {} ];
-				const rows =
-					attribute && attribute.rows ? attribute.rows : defaultRows;
+				const rows = ( attribute && attribute.rows ) ? attribute.rows : defaultRows;
 
 				if ( ! rows[ rowIndex ] ) {
 					rows[ rowIndex ] = {};
@@ -109,15 +106,9 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 		} ) => {
 			const attr = { ...ownParentBlockProps.attributes };
 
-			if (
-				ownField.parent &&
-				attr[ ownField.parent ] &&
-				attr[ ownField.parent ].rows
-			) {
+			if ( ownField.parent && attr[ ownField.parent ] && attr[ ownField.parent ].rows ) {
 				// The ownField is probably in a repeater row, as it has a parent.
-				return attr[ ownField.parent ].rows[ ownRowIndex ][
-					ownField.name
-				];
+				return attr[ ownField.parent ].rows[ ownRowIndex ][ ownField.name ];
 			}
 			// The ownField is not in a repeater row.
 			return attr[ ownField.name ];
@@ -125,22 +116,17 @@ const Fields = ( { fields, parentBlockProps, parentBlock, rowIndex } ) => {
 
 		const Control = getControl( field );
 
-		return (
-			!! Control && (
-				<div
-					className={ getClassName( field ) }
-					key={ `${ field.name }-control-${ rowIndex }` }
-				>
-					<Control
-						field={ field }
-						getValue={ getValue }
-						onChange={ onChange }
-						parentBlock={ parentBlock }
-						rowIndex={ rowIndex }
-						parentBlockProps={ parentBlockProps }
-					/>
-				</div>
-			)
+		return !! Control && (
+			<div className={ getClassName( field ) } key={ `${ field.name }-control-${ rowIndex }` }>
+				<Control
+					field={ field }
+					getValue={ getValue }
+					onChange={ onChange }
+					parentBlock={ parentBlock }
+					rowIndex={ rowIndex }
+					parentBlockProps={ parentBlockProps }
+				/>
+			</div>
 		);
 	} );
 };

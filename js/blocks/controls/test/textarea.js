@@ -33,14 +33,9 @@ describe( 'textarea control', () => {
 
 	it( 'has the placeholder', () => {
 		const props = getProps();
-		const { getByPlaceholderText } = setupControl(
-			BlockLabTextareaControl,
-			props
-		);
+		const { getByPlaceholderText } = setupControl( BlockLabTextareaControl, props );
 
-		expect(
-			getByPlaceholderText( props.field.placeholder )
-		).toBeInTheDocument();
+		expect( getByPlaceholderText( props.field.placeholder ) ).toBeInTheDocument();
 	} );
 
 	it.each( [
@@ -48,8 +43,7 @@ describe( 'textarea control', () => {
 		'っていった',
 		'987654321',
 		'This is long text that is entered into a textarea, it keeps going longer than one might normally type',
-	] )(
-		'Any text entered is sent to the onChange handler',
+	] )( 'Any text entered is sent to the onChange handler',
 		( enteredText ) => {
 			const props = getProps();
 			const { control } = setupControl( BlockLabTextareaControl, props );

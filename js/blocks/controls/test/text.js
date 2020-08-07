@@ -35,8 +35,7 @@ describe( 'text control', () => {
 		'942',
 		'#$ Special %()@$ characters @${}[]',
 		'Very long text that keeps going on and on and on and it continues longer than you would normally expect',
-	] )(
-		'Any text entered is sent to the onChange handler',
+	] )( 'Any text entered is sent to the onChange handler',
 		( enteredText ) => {
 			const props = getProps();
 			const { control } = setupControl( BlockLabTextControl, props );

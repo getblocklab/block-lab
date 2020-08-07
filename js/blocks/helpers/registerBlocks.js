@@ -28,10 +28,7 @@ const registerBlocks = ( blockLab, blockLabBlocks, EditComponent ) => {
 		block.block_slug = blockName;
 
 		// Don't register the block if it's excluded for this post type.
-		if (
-			blockLab.hasOwnProperty( 'postType' ) &&
-			block.hasOwnProperty( 'excluded' )
-		) {
+		if ( blockLab.hasOwnProperty( 'postType' ) && block.hasOwnProperty( 'excluded' ) ) {
 			if ( -1 !== block.excluded.indexOf( blockLab.postType ) ) {
 				continue;
 			}
@@ -40,19 +37,14 @@ const registerBlocks = ( blockLab, blockLabBlocks, EditComponent ) => {
 		let icon = '';
 		if ( 'undefined' !== typeof icons[ block.icon ] ) {
 			icon = (
-				<span
-					dangerouslySetInnerHTML={ { __html: icons[ block.icon ] } }
-				/>
+				<span dangerouslySetInnerHTML={ { __html: icons[ block.icon ] } } />
 			);
 		}
 
 		// Register the block.
 		registerBlockType( blockName, {
 			title: block.title,
-			category:
-				'object' === typeof block.category
-					? block.category.slug
-					: block.category,
+			category: 'object' === typeof block.category ? block.category.slug : block.category,
 			icon,
 			keywords: block.keywords,
 			attributes: getBlockLabAttributes( block.fields ),

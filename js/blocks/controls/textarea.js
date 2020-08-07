@@ -6,8 +6,7 @@ import { TextareaControl } from '@wordpress/components';
 const BlockLabTextareaControl = ( props ) => {
 	const { getValue, field, onChange } = props;
 	const initialValue = getValue( props );
-	const value =
-		'undefined' !== typeof initialValue ? initialValue : field.default;
+	const value = 'undefined' !== typeof initialValue ? initialValue : field.default;
 
 	return (
 		<TextareaControl

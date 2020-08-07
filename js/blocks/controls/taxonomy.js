@@ -10,8 +10,7 @@ const BlockLabTaxonomyControl = ( props ) => {
 	 * @param {Object} apiResponse The API response in which to look for the post title.
 	 * @return {string} The post title from the response, or the default.
 	 */
-	const getNameFromAPI = ( apiResponse ) =>
-		apiResponse && apiResponse.name ? apiResponse.name : '';
+	const getNameFromAPI = ( apiResponse ) => ( apiResponse && apiResponse.name ) ? apiResponse.name : '';
 	const contentProps = { ...props, getNameFromAPI };
 
 	return <ContentControl { ...contentProps } />;
