@@ -21,7 +21,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "5.11.2",
     "@testing-library/react": "10.4.8",
-    "@testing-library/user-event": "12.1.0",
+    "@testing-library/user-event": "12.1.1",
     "@wordpress/api-fetch": "3.18.0",
     "@wordpress/babel-preset-default": "4.17.0",
     "@wordpress/block-editor": "4.3.5",
