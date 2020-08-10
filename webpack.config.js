@@ -1,7 +1,9 @@
 const path = require( 'path' );
 const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
+const IgnoreEmitPlugin = require( 'ignore-emit-webpack-plugin' );
+
 const DependencyExtractionWebpackPlugin = require( '@wordpress/dependency-extraction-webpack-plugin' );
-const { defaultRequestToExternal, defaultRequestToHandle } = require( '@wordpress/dependency-extraction-webpack-plugin/util' );
+const { defaultRequestToExternal, defaultRequestToHandle } = require( '@wordpress/dependency-extraction-webpack-plugin/lib/util' );
 const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -56,6 +58,11 @@ module.exports = {
 		new MiniCssExtractPlugin( {
 			filename: './css/blocks.editor.css',
 		} ),
+		// Copied from Gutenberg.
+		// MiniCSSExtractPlugin creates JavaScript assets for CSS that are
+		// obsolete and should be removed. Related webpack issue:
+		// https://github.com/webpack-contrib/mini-css-extract-plugin/issues/85
+		new IgnoreEmitPlugin( [ 'blocks.editor.js' ] ),
 		new DependencyExtractionWebpackPlugin( {
 			useDefaults: false,
 			requestToHandle: ( request ) => {
