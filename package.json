@@ -55,7 +55,7 @@
     "eslint": "7.6.0",
     "eslint-plugin-eslint-comments": "3.2.0",
     "eslint-plugin-import": "2.22.0",
-    "eslint-plugin-jest-dom": "3.1.6",
+    "eslint-plugin-jest-dom": "3.1.7",
     "eslint-plugin-jsx-a11y": "6.3.1",
     "eslint-plugin-testing-library": "3.4.1",
     "gulp": "4.0.2",
