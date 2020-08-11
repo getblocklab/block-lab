@@ -33,7 +33,7 @@
     "@wordpress/dom": "2.13.1",
     "@wordpress/e2e-test-utils": "4.11.1",
     "@wordpress/e2e-tests": "1.20.3",
-    "@wordpress/editor": "9.20.5",
+    "@wordpress/editor": "9.20.6",
     "@wordpress/element": "2.16.0",
     "@wordpress/env": "1.6.0",
     "@wordpress/eslint-plugin": "7.1.0",
