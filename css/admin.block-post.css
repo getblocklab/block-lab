@@ -32,7 +32,7 @@
 }
 .handle-order-higher,
 .handle-order-lower {
-	display: none
+	display: none;
 }
 #block_fields a,
 #block_fields a:focus {
