@@ -20,7 +20,7 @@ use Block_Lab\Component_Abstract;
 class Subscription_Api extends Component_Abstract {
 
 	/**
-	 * Option name where the subscription key is stored for this and other Genesis Pro plugins.
+	 * Option name where the subscription key is stored for Genesis Pro plugins.
 	 *
 	 * @var string
 	 */
@@ -34,14 +34,14 @@ class Subscription_Api extends Component_Abstract {
 	const TRANSIENT_NAME_GCB_PRO_DOWNLOAD_LINK = 'genesis_custom_blocks_pro_download_link';
 
 	/**
-	 * Adds the component filter.
+	 * Adds the component action.
 	 */
 	public function register_hooks() {
 		add_action( 'rest_api_init', [ $this, 'register_route_update_subscription_key' ] );
 	}
 
 	/**
-	 * Registers a route to migrate the post type.
+	 * Registers a route to update the subscription key.
 	 */
 	public function register_route_update_subscription_key() {
 		register_rest_route(

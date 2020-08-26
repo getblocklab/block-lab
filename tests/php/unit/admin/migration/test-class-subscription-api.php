@@ -18,6 +18,8 @@ class Test_Subscription_Api extends WP_UnitTestCase {
 
 	/**
 	 * A mock expected download link returned from the endpoint.
+	 *
+	 * @var string
 	 */
 	const EXPECTED_DOWNLOAD_LINK = 'https://example.com/baz';
 
@@ -51,7 +53,7 @@ class Test_Subscription_Api extends WP_UnitTestCase {
 	/**
 	 * Test register_route_update_subscription_key.
 	 *
-	 * @covers Block_Lab\Admin\Migration\Api::register_route_update_subscription_key()
+	 * @covers Block_Lab\Admin\Migration\Subscription_Api::register_route_update_subscription_key()
 	 */
 	public function test_register_route_update_subscription_key() {
 		do_action( 'rest_api_init' );
@@ -64,7 +66,7 @@ class Test_Subscription_Api extends WP_UnitTestCase {
 	/**
 	 * Test get_update_subscription_key_response when no key is passed.
 	 *
-	 * @covers Block_Lab\Admin\Migration\Api::get_update_subscription_key_response()
+	 * @covers Block_Lab\Admin\Migration\Subscription_Api::get_update_subscription_key_response()
 	 */
 	public function test_get_update_subscription_key_response_no_key() {
 		$request = new WP_REST_Request( 'POST' );
