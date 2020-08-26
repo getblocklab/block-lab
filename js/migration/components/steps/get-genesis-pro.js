@@ -36,9 +36,11 @@ const GetGenesisPro = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 	const urlMigrateWithoutGenPro = 'https://getblocklab.com/migrating-to-genesis-custom-blocks/';
 	const urlGetGenesisPro = 'https://my.wpengine.com/signup?plan=genesis-pro';
 
+	// @ts-ignore
+	const genesisProKey = blockLabMigration.genesisProKey;
 	const [ isSubmittingKey, setIsSubmittingKey ] = useState( false );
-	const [ keySubmittedSuccessfully, setKeySubmittedSuccessfully ] = useState( false );
-	const [ subscriptionKey, updateSubscriptionKey ] = useState( '' );
+	const [ keySubmittedSuccessfully, setKeySubmittedSuccessfully ] = useState( !! genesisProKey );
+	const [ subscriptionKey, updateSubscriptionKey ] = useState( !! genesisProKey ? genesisProKey : '' );
 	const [ submissionMessage, setSubmissionMessage ] = useState( '' );
 
 	/**
@@ -79,10 +81,11 @@ const GetGenesisPro = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 			method: 'POST',
 			data: { subscriptionKey },
 		} ).then( () => {
-			setSubmissionMessage( __( 'Thanks, the key was saved.', 'block-lab' ) );
+			setSubmissionMessage( __( 'Thanks, the key is valid.', 'block-lab' ) );
 			setKeySubmittedSuccessfully( true );
-		} ).catch( () => {
-			setSubmissionMessage( __( 'There was an error saving the key.', 'block-lab' ) );
+		} ).catch( ( error ) => {
+			const errorMessage = error.message ? error.message : __( 'There was an error in validating the key.', 'block-lab' );
+			setSubmissionMessage( errorMessage );
 			setKeySubmittedSuccessfully( false );
 		} );
 
@@ -209,6 +212,7 @@ const GetGenesisPro = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 					<input
 						type="text"
 						placeholder={ __( 'Paste your Genesis Pro subscription key', 'block-lab' ) }
+						value={ subscriptionKey }
 						onChange={ onChangeSubscriptionKey }
 					/>
 					<button

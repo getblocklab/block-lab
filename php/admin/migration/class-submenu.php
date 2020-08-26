@@ -102,14 +102,19 @@ class Submenu extends Component_Abstract {
 				admin_url()
 			);
 
-			$is_pro      = block_lab()->is_pro();
-			$script_data = [
+			$is_pro                       = block_lab()->is_pro();
+			$genesis_pro_subscription_key = get_option( Subscription_Api::OPTION_NAME_GENESIS_PRO_SUBSCRIPTION_KEY );
+			$script_data                  = [
 				'isPro'  => $is_pro,
 				'gcbUrl' => $gcb_url,
 			];
 
 			if ( $is_pro ) {
 				$script_data['couponCode'] = $this->get_coupon_code();
+			}
+
+			if ( $genesis_pro_subscription_key ) {
+				$script_data['genesisProKey'] = $genesis_pro_subscription_key;
 			}
 
 			wp_add_inline_script(

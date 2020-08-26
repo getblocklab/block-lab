@@ -11,6 +11,7 @@ namespace Block_Lab\Admin;
 
 use Block_Lab\Component_Abstract;
 use Block_Lab\Admin\Migration\Api;
+use Block_Lab\Admin\Migration\Subscription_Api;
 use Block_Lab\Admin\Migration\Notice;
 use Block_Lab\Admin\Migration\Submenu;
 
@@ -55,11 +56,18 @@ class Admin extends Component_Abstract {
 	public $upgrade;
 
 	/**
-	 * The migration notice.
+	 * The migration API.
 	 *
 	 * @var Api
 	 */
 	private $api;
+
+	/**
+	 * THe subscription API for the migration.
+	 *
+	 * @var Subscription_Api
+	 */
+	private $subscription_api;
 
 	/**
 	 * The migration notice.
@@ -90,6 +98,9 @@ class Admin extends Component_Abstract {
 
 		$this->api = new Api();
 		block_lab()->register_component( $this->api );
+
+		$this->subscription_api = new Subscription_Api();
+		block_lab()->register_component( $this->subscription_api );
 
 		$this->notice = new Notice();
 		block_lab()->register_component( $this->notice );

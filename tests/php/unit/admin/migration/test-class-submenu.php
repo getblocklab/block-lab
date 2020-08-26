@@ -130,8 +130,14 @@ class Test_Submenu extends WP_UnitTestCase {
 			->andReturn( 'block-lab-migration' );
 
 		$this->instance->enqueue_scripts();
+
 		$this->assertTrue( wp_style_is( 'block-lab-migration' ) );
 		$this->assertTrue( wp_script_is( 'block-lab-migration' ) );
+
+		$inline_script = wp_scripts()->get_data( 'block-lab-migration', 'before' )[1];
+		$this->assertContains( 'isPro', $inline_script );
+		$this->assertContains( 'gcbUrl', $inline_script );
+		$this->assertFalse( strpos( $inline_script, 'genesisProKey' ) );
 	}
 
 	/**

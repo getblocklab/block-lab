@@ -48,7 +48,7 @@ test( 'get Genesis Pro migration step', async () => {
 	await waitFor( () =>
 		user.click( getByText( 'Save' ) )
 	);
-	getByText( 'Thanks, the key was saved.' );
+	getByText( 'Thanks, the key is valid.' );
 
 	user.click( getByText( 'Next Step' ) );
 	expect( props.goToNext ).toHaveBeenCalled();

@@ -21,87 +21,12 @@ use Block_Lab\Component_Abstract;
 class Api extends Component_Abstract {
 
 	/**
-	 * The option name where the Genesis Pro subscription key is stored.
-	 *
-	 * @var string
-	 */
-	const OPTION_NAME_GENESIS_PRO_SUBSCRIPTION_KEY = 'genesis_pro_subscription_key';
-
-	/**
-	 * The slug of the new plugin.
-	 *
-	 * @var string
-	 */
-	private $new_plugin_slug;
-
-	/**
-	 * The file name of the new plugin, including its parent directory.
-	 *
-	 * @var string
-	 */
-	private $new_plugin_file;
-
-	/**
-	 * Api constructor.
-	 */
-	public function __construct() {
-		$this->new_plugin_slug = 'genesis-custom-blocks';
-		$this->new_plugin_file = "{$this->new_plugin_slug}/{$this->new_plugin_slug}.php";
-	}
-
-	/**
 	 * Adds the actions.
 	 */
 	public function register_hooks() {
-		add_action( 'rest_api_init', [ $this, 'register_route_update_subscription_key' ] );
 		add_action( 'rest_api_init', [ $this, 'register_route_install_gcb' ] );
 		add_action( 'rest_api_init', [ $this, 'register_route_migrate_post_content' ] );
 		add_action( 'rest_api_init', [ $this, 'register_route_migrate_post_type' ] );
-	}
-
-	/**
-	 * Registers a route to migrate the post type.
-	 */
-	public function register_route_update_subscription_key() {
-		register_rest_route(
-			block_lab()->get_slug(),
-			'update-subscription-key',
-			[
-				'methods'             => 'POST',
-				'callback'            => [ $this, 'get_update_subscription_key_response' ],
-				'permission_callback' => function() {
-					return current_user_can( 'manage_options' );
-				},
-			]
-		);
-	}
-
-	/**
-	 * Gets the REST API response to the request to update the subscription key.
-	 *
-	 * @param array $data Data sent in the POST request.
-	 * @return WP_REST_Response|WP_Error A WP_REST_Response on success, WP_Error on failure.
-	 */
-	public function get_update_subscription_key_response( $data ) {
-		$key = 'subscriptionKey';
-
-		if ( empty( $data[ $key ] ) ) {
-			return new WP_Error( 'no_subscription_key', __( 'No subscription key present', 'block-lab' ) );
-		}
-
-		$new_value = sanitize_key( $data[ $key ] );
-		$old_value = get_option( self::OPTION_NAME_GENESIS_PRO_SUBSCRIPTION_KEY );
-		if ( $new_value === $old_value ) {
-			return rest_ensure_response( [ 'success' => true ] );
-		}
-
-		$updated_option_result = update_option( self::OPTION_NAME_GENESIS_PRO_SUBSCRIPTION_KEY, $new_value );
-
-		if ( ! $updated_option_result ) {
-			return new WP_Error( 'option_not_updated', __( 'The option was not updated', 'block-lab' ) );
-		}
-
-		return rest_ensure_response( [ 'success' => true ] );
 	}
 
 	/**
@@ -163,7 +88,7 @@ class Api extends Component_Abstract {
 		require_once ABSPATH . 'wp-admin/includes/class-wp-ajax-upgrader-skin.php';
 
 		// Check if the plugin is already installed.
-		if ( array_key_exists( $this->new_plugin_file, get_plugins() ) ) {
+		if ( array_key_exists( $this->get_new_plugin_file(), get_plugins() ) ) {
 			return true;
 		}
 
@@ -173,30 +98,15 @@ class Api extends Component_Abstract {
 			return $filesystem_available;
 		}
 
-		$api = plugins_api(
-			'plugin_information',
-			[
-				'slug'   => $this->new_plugin_slug,
-				'fields' => [
-					'sections' => false,
-				],
-			]
-		);
-
-		if ( is_wp_error( $api ) ) {
-			if ( false !== strpos( $api->get_error_message(), 'Plugin not found.' ) ) {
-				$api->add_data( [ 'status' => 404 ] );
-			} else {
-				$api->add_data( [ 'status' => 500 ] );
-			}
-
-			return $api;
+		$download_link = $this->get_download_link();
+		if ( is_wp_error( $download_link ) ) {
+			return $download_link;
 		}
 
 		$skin     = new WP_Ajax_Upgrader_Skin();
 		$upgrader = new Plugin_Upgrader( $skin );
 
-		$result = $upgrader->install( $api->download_link );
+		$result = $upgrader->install( $download_link );
 
 		if ( is_wp_error( $result ) ) {
 			$result->add_data( [ 'status' => 500 ] );
@@ -262,6 +172,39 @@ class Api extends Component_Abstract {
 	}
 
 	/**
+	 * Gets the GCB Pro download link.
+	 *
+	 * @return string|WP_Error The download link, or a WP_Error.
+	 */
+	public function get_download_link() {
+		if ( ! empty( get_transient( Subscription_Api::TRANSIENT_NAME_GCB_PRO_DOWNLOAD_LINK ) ) ) {
+			return get_transient( Subscription_Api::TRANSIENT_NAME_GCB_PRO_DOWNLOAD_LINK );
+		} else {
+			$api = plugins_api(
+				'plugin_information',
+				[
+					'slug'   => 'genesis-custom-blocks',
+					'fields' => [
+						'sections' => false,
+					],
+				]
+			);
+
+			if ( is_wp_error( $api ) ) {
+				if ( false !== strpos( $api->get_error_message(), 'Plugin not found.' ) ) {
+					$api->add_data( [ 'status' => 404 ] );
+				} else {
+					$api->add_data( [ 'status' => 500 ] );
+				}
+
+				return $api;
+			}
+
+			return $api->download_link;
+		}
+	}
+
+	/**
 	 * Activates the new plugin.
 	 *
 	 * Mainly copied from Gutenberg's WP_REST_Plugins_Controller::handle_plugin_status().
@@ -271,7 +214,7 @@ class Api extends Component_Abstract {
 	 * @return true|WP_Error True on success, WP_Error on failure.
 	 */
 	private function activate_plugin() {
-		$activation_result = activate_plugin( $this->new_plugin_file, '', false, true );
+		$activation_result = activate_plugin( $this->get_new_plugin_file(), '', false, true );
 		if ( is_wp_error( $activation_result ) ) {
 			$activation_result->add_data( [ 'status' => 500 ] );
 			return $activation_result;
@@ -303,7 +246,7 @@ class Api extends Component_Abstract {
 	 * @return WP_REST_Response The response to the request.
 	 */
 	public function get_migrate_post_content_response() {
-		return rest_ensure_response( ( new Post_Content( 'block-lab', $this->new_plugin_slug ) )->migrate_all() );
+		return rest_ensure_response( ( new Post_Content( 'block-lab', 'genesis-custom-blocks' ) )->migrate_all() );
 	}
 
 	/**
@@ -330,5 +273,18 @@ class Api extends Component_Abstract {
 	 */
 	public function get_migrate_post_type_response() {
 		return rest_ensure_response( ( new Post_Type( 'block_lab', 'block-lab', 'block_lab', 'genesis_custom_block', 'genesis-custom-blocks', 'genesis_custom_blocks' ) )->migrate_all() );
+	}
+
+	/**
+	 * Gets the directory and file of the new plugin to install.
+	 *
+	 * @return string The plugin file.
+	 */
+	public function get_new_plugin_file() {
+		if ( ! empty( get_transient( Subscription_Api::TRANSIENT_NAME_GCB_PRO_DOWNLOAD_LINK ) ) ) {
+			return 'genesis-custom-blocks-pro/genesis-custom-blocks-pro.php';
+		}
+
+		return 'genesis-custom-blocks/genesis-custom-blocks.php';
 	}
 }
