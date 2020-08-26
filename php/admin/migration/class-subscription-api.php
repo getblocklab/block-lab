@@ -68,14 +68,11 @@ class Subscription_Api extends Component_Abstract {
 		$key = $data->get_param( 'subscriptionKey' );
 
 		if ( empty( $key ) ) {
-			return new WP_Error( 'no_subscription_key', __( 'No subscription key present', 'block-lab' ) );
+			$this->delete_subscription_data();
+			return new WP_Error( 'empty_subscription_key', __( 'Empty subscription key', 'block-lab' ) );
 		}
 
-		$sanitized_key = $this->sanitize_subscription_key( $key );
-		if ( empty( $sanitized_key ) ) {
-			return new WP_Error( 'no_subscription_key', __( 'No subscription key present', 'block-lab' ) );
-		}
-
+		$sanitized_key         = $this->sanitize_subscription_key( $key );
 		$subscription_response = $this->get_subscription_response( $sanitized_key );
 		if ( $subscription_response->is_valid() && ! empty( $subscription_response->get_product_info()->download_link ) ) {
 			$was_option_update_successful = update_option( self::OPTION_NAME_GENESIS_PRO_SUBSCRIPTION_KEY, $sanitized_key );
@@ -86,6 +83,7 @@ class Subscription_Api extends Component_Abstract {
 				// update_option() will return false when trying to save the same option that's already saved.
 				// In that case, there's no need for an error, but any other failure should be an error.
 				if ( $sanitized_key !== $existing_option ) {
+					$this->delete_subscription_data();
 					return new WP_Error( 'option_not_updated', __( 'The option was not updated', 'block-lab' ) );
 				}
 			}
@@ -97,11 +95,20 @@ class Subscription_Api extends Component_Abstract {
 
 			return rest_ensure_response( [ 'success' => true ] );
 		} else {
+			$this->delete_subscription_data();
 			return new WP_Error(
 				$subscription_response->get_error_code(),
 				$this->get_subscription_invalid_message( $subscription_response->get_error_code() )
 			);
 		}
+	}
+
+	/**
+	 * Deletes the stored Genesis Pro key and the GCB Pro download link.
+	 */
+	public function delete_subscription_data() {
+		delete_option( self::OPTION_NAME_GENESIS_PRO_SUBSCRIPTION_KEY );
+		delete_transient( self::TRANSIENT_NAME_GCB_PRO_DOWNLOAD_LINK );
 	}
 
 	/**

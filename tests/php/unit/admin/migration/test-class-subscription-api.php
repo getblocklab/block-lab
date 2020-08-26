@@ -69,13 +69,15 @@ class Test_Subscription_Api extends WP_UnitTestCase {
 	 * @covers Block_Lab\Admin\Migration\Subscription_Api::get_update_subscription_key_response()
 	 */
 	public function test_get_update_subscription_key_response_no_key() {
+		update_option( Subscription_Api::OPTION_NAME_GENESIS_PRO_SUBSCRIPTION_KEY, '98765' );
 		$request = new WP_REST_Request( 'POST' );
 		$request->set_param( 'subscriptionKey', '' );
 		$response = $this->instance->get_update_subscription_key_response( $request );
 
-		$this->assertEquals( 'no_subscription_key', $response->get_error_code() );
-		$this->assertEquals( 'No subscription key present', $response->get_error_message() );
+		$this->assertEquals( 'empty_subscription_key', $response->get_error_code() );
+		$this->assertEquals( 'Empty subscription key', $response->get_error_message() );
 		$this->assertEmpty( get_transient( Subscription_Api::TRANSIENT_NAME_GCB_PRO_DOWNLOAD_LINK ) );
+		$this->assertEmpty( get_option( Subscription_Api::OPTION_NAME_GENESIS_PRO_SUBSCRIPTION_KEY ) );
 	}
 
 	/**

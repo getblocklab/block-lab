@@ -37,6 +37,8 @@ const GetGenesisPro = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 	const urlGetGenesisPro = 'https://my.wpengine.com/signup?plan=genesis-pro';
 
 	// @ts-ignore
+	const couponCode = blockLabMigration.couponCode;
+	// @ts-ignore
 	const genesisProKey = blockLabMigration.genesisProKey;
 	const [ isSubmittingKey, setIsSubmittingKey ] = useState( false );
 	const [ keySubmittedSuccessfully, setKeySubmittedSuccessfully ] = useState( !! genesisProKey );
@@ -61,15 +63,7 @@ const GetGenesisPro = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 		event.preventDefault();
 		setIsSubmittingKey( true );
 
-		if ( ! subscriptionKey ) {
-			setSubmissionMessage( __( 'The subscription key is empty.', 'block-lab' ) );
-			setKeySubmittedSuccessfully( false );
-			setIsSubmittingKey( false );
-			return;
-		}
-
-		// @ts-ignore global
-		if ( subscriptionKey === blockLabMigration.couponCode ) {
+		if ( subscriptionKey === couponCode ) {
 			setSubmissionMessage( __( "That looks like your coupon code. Please click 'Get Genesis Pro' and enter your coupon code there.", 'block-lab' ) );
 			setKeySubmittedSuccessfully( false );
 			setIsSubmittingKey( false );
@@ -87,6 +81,7 @@ const GetGenesisPro = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 			const errorMessage = error.message ? error.message : __( 'There was an error in validating the key.', 'block-lab' );
 			setSubmissionMessage( errorMessage );
 			setKeySubmittedSuccessfully( false );
+			updateSubscriptionKey( '' );
 		} );
 
 		setIsSubmittingKey( false );
@@ -202,8 +197,7 @@ const GetGenesisPro = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 					&nbsp;
 					{ __( 'Use the coupon code', 'genesis-custom-blocks' ) }
 					&nbsp;
-					{ /* @ts-ignore global */ }
-					<code className="bg-gray-200 rounded-sm cursor-pointer hover:bg-gray-300">{ blockLabMigration.couponCode }</code>
+					<code className="bg-gray-200 rounded-sm cursor-pointer hover:bg-gray-300">{ couponCode }</code>
 					&nbsp;
 					{ __( 'for 12 months free on unlimited sites.', 'genesis-custom-blocks' ) }
 				</div>

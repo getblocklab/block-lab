@@ -37,9 +37,6 @@ test( 'get Genesis Pro migration step', async () => {
 	user.click( getByText( 'Next Step' ) );
 	expect( props.goToNext ).not.toHaveBeenCalled();
 
-	user.click( getByText( 'Save' ) );
-	getByText( 'The subscription key is empty.' );
-
 	fireEvent.change(
 		getByRole( 'textbox' ),
 		{ target: { value: '1234567' } }
