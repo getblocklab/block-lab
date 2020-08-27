@@ -78,7 +78,7 @@ const GetGenesisPro = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 			setSubmissionMessage( __( 'Thanks, the key is valid.', 'block-lab' ) );
 			setKeySubmittedSuccessfully( true );
 		} ).catch( ( error ) => {
-			const errorMessage = error.message ? error.message : __( 'There was an error in validating the key.', 'block-lab' );
+			const errorMessage = error.message ? error.message : __( 'There was an error validating the key.', 'block-lab' );
 			setSubmissionMessage( errorMessage );
 			setKeySubmittedSuccessfully( false );
 			updateSubscriptionKey( '' );
