@@ -34,10 +34,8 @@ import { ButtonNext, Step, StepContent, StepFooter, StepIcon } from '../';
  */
 const GetGenesisPro = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) => {
 	const urlMigrateWithoutGenPro = 'https://getblocklab.com/migrating-to-genesis-custom-blocks/';
-	const urlGetGenesisPro = 'https://my.wpengine.com/signup?plan=genesis-pro';
+	const urlOptInGenesisPro = 'https://forms.gle/26u7NDRUp2A9i2aF8';
 
-	// @ts-ignore
-	const couponCode = blockLabMigration.couponCode;
 	// @ts-ignore
 	const genesisProKey = blockLabMigration.genesisProKey;
 	const [ isSubmittingKey, setIsSubmittingKey ] = useState( false );
@@ -63,19 +61,12 @@ const GetGenesisPro = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 		event.preventDefault();
 		setIsSubmittingKey( true );
 
-		if ( subscriptionKey === couponCode ) {
-			setSubmissionMessage( __( "That looks like your coupon code. Please click 'Get Genesis Pro' and enter your coupon code there.", 'block-lab' ) );
-			setKeySubmittedSuccessfully( false );
-			setIsSubmittingKey( false );
-			return;
-		}
-
 		await apiFetch( {
 			path: '/block-lab/update-subscription-key',
 			method: 'POST',
 			data: { subscriptionKey },
 		} ).then( () => {
-			setSubmissionMessage( __( 'Thanks, the key is valid.', 'block-lab' ) );
+			setSubmissionMessage( __( 'Thanks! Your key is valid, and has been saved.', 'block-lab' ) );
 			setKeySubmittedSuccessfully( true );
 		} ).catch( ( error ) => {
 			const errorMessage = error.message ? error.message : __( 'There was an error validating the key.', 'block-lab' );
@@ -180,26 +171,21 @@ const GetGenesisPro = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 					</div>
 					<p>{ __( '* Block Lab Pro licenses will not be renewing and Pro updates / support will end when your current license expires.', 'block-lab' ) }</p>
 				</div>
-				<p>{ __( 'To migrate and maintain your Block Lab Pro feature set with Genesis Custom Blocks, you will need a Genesis Pro subscription key.', 'block-lab' ) }</p>
+				<p>{ __( "Since you're a Block Lab Pro customer, we've already emailed you regarding setting up a WP Engine account with a free Pro subscription.", 'block-lab' ) }</p>
+				<p>{ __( 'To migrate and maintain your Block Lab Pro feature set with Genesis Custom Blocks, you will need your Genesis Pro subscription key.', 'block-lab' ) }</p>
 				<ul>
-					<li>{ __( 'Already have one? Enter the subscription key below to continue migrating.', 'block-lab' ) }</li>
-					<li>{ __( 'Don’t have one yet? Set up your Genesis Pro account, then return here to enter your subscription key and continue migrating.', 'block-lab' ) }</li>
+					<li>{ __( 'Already have got it? Enter the subscription key below to continue migrating.', 'block-lab' ) }</li>
+					<li>{ __( 'Don’t have one yet? Please opt-in using the link below.', 'block-lab' ) }</li>
 				</ul>
 				<div className="get-genesis-pro">
 					<a
-						href={ urlGetGenesisPro }
+						href={ urlOptInGenesisPro }
 						className="btn"
 						target="_blank"
 						rel="noopener noreferrer"
 					>
-						{ __( 'Get Genesis Pro', 'block-lab' ) }
+						{ __( 'Opt-in for Genesis Pro', 'block-lab' ) }
 					</a>
-					&nbsp;
-					{ __( 'Use the coupon code', 'genesis-custom-blocks' ) }
-					&nbsp;
-					<code className="bg-gray-200 rounded-sm cursor-pointer hover:bg-gray-300">{ couponCode }</code>
-					&nbsp;
-					{ __( 'for 12 months free on unlimited sites.', 'genesis-custom-blocks' ) }
 				</div>
 				<p>{ __( 'then', 'block-lab' ) }</p>
 				<div className="genesis-pro-form">

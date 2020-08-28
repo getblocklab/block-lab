@@ -15,9 +15,7 @@ import apiFetch from '@wordpress/api-fetch';
 import { GetGenesisPro } from '../';
 
 jest.mock( '@wordpress/api-fetch' );
-
-const couponCode = '13543234';
-window.blockLabMigration = { couponCode };
+window.blockLabMigration = {};
 
 test( 'get Genesis Pro migration step', async () => {
 	apiFetch.mockImplementation( () => new Promise( ( resolve ) => resolve( { success: true } ) ) );
@@ -30,8 +28,6 @@ test( 'get Genesis Pro migration step', async () => {
 		stepIndex: 1,
 	};
 	const { getByText, getByRole } = render( <GetGenesisPro { ...props } /> );
-
-	getByText( couponCode );
 
 	// Because the checkbox isn't checked, the 'next' button should be disabled.
 	user.click( getByText( 'Next Step' ) );

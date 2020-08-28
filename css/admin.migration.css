@@ -364,6 +364,7 @@ label {
 	border-top-right-radius: .25rem;
 	border-color: var(--color-purple-300);
 	background-color: var(--color-purple-200);
+	cursor: pointer;
 }
 
 .genesis-pro-form p {
