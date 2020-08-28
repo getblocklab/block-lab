@@ -138,7 +138,7 @@ class Submenu extends Component_Abstract {
 	}
 
 	/**
-	 * Conditionally deactivates this plugin goes to the Genesis Custom Blocks page.
+	 * Conditionally deactivates this plugin and goes to the Genesis Custom Blocks page.
 	 *
 	 * The logic to deactivate the plugin was mainly copied from Core.
 	 * https://github.com/WordPress/wordpress-develop/blob/61803a37a41eca95efe964c7e02c768de6df75fa/src/wp-admin/plugins.php#L196-L221

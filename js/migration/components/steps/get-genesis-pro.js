@@ -10,6 +10,7 @@ import * as React from 'react';
  * WordPress dependencies
  */
 import apiFetch from '@wordpress/api-fetch';
+import { Spinner } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
@@ -33,15 +34,16 @@ import { ButtonNext, Step, StepContent, StepFooter, StepIcon } from '../';
  * @return {React.ReactElement} The component to get Genesis Pro.
  */
 const GetGenesisPro = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) => {
-	const urlMigrateWithoutGenPro = 'https://getblocklab.com/migrating-to-genesis-custom-blocks/';
-	const urlOptInGenesisPro = 'https://forms.gle/26u7NDRUp2A9i2aF8';
-
 	// @ts-ignore
 	const genesisProKey = blockLabMigration.genesisProKey;
 	const [ isSubmittingKey, setIsSubmittingKey ] = useState( false );
-	const [ keySubmittedSuccessfully, setKeySubmittedSuccessfully ] = useState( !! genesisProKey );
+	const [ keySubmittedSuccessfully, setKeySubmittedSuccessfully ] = useState( false );
 	const [ subscriptionKey, updateSubscriptionKey ] = useState( !! genesisProKey ? genesisProKey : '' );
 	const [ submissionMessage, setSubmissionMessage ] = useState( '' );
+
+	const urlMigrateWithoutGenPro = 'https://getblocklab.com/migrating-to-genesis-custom-blocks/';
+	const urlOptInGenesisPro = 'https://forms.gle/26u7NDRUp2A9i2aF8';
+	const shouldAllowNextStep = !! genesisProKey || keySubmittedSuccessfully;
 
 	/**
 	 * The handler for changing the subscription key.
@@ -54,11 +56,8 @@ const GetGenesisPro = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 
 	/**
 	 * Submits the subscription key to the endpoint.
-	 *
-	 * @param {React.MouseEvent<HTMLButtonElement, MouseEvent>} event The click event.
 	 */
-	const submitSubscriptionKey = async ( event ) => {
-		event.preventDefault();
+	const submitSubscriptionKey = async () => {
 		setIsSubmittingKey( true );
 
 		await apiFetch( {
@@ -177,47 +176,54 @@ const GetGenesisPro = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 					<li>{ __( 'Already have got it? Enter the subscription key below to continue migrating.', 'block-lab' ) }</li>
 					<li>{ __( 'Don’t have one yet? Please opt-in using the link below.', 'block-lab' ) }</li>
 				</ul>
-				<div className="get-genesis-pro">
-					<a
-						href={ urlOptInGenesisPro }
-						className="btn"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						{ __( 'Opt-in for Genesis Pro', 'block-lab' ) }
-					</a>
-				</div>
-				<p>{ __( 'then', 'block-lab' ) }</p>
-				<div className="genesis-pro-form">
-					<input
-						type="text"
-						placeholder={ __( 'Paste your Genesis Pro subscription key', 'block-lab' ) }
-						value={ subscriptionKey }
-						onChange={ onChangeSubscriptionKey }
-					/>
-					<button
-						onClick={ submitSubscriptionKey }
-						disabled={ isSubmittingKey }
-					>
-						{ __( 'Save', 'block-lab' ) }
-					</button>
-				</div>
+				{ ! keySubmittedSuccessfully && (
+					<>
+						<div className="get-genesis-pro">
+							<a
+								href={ urlOptInGenesisPro }
+								className="btn"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								{ __( 'Opt-in for Genesis Pro', 'block-lab' ) }
+							</a>
+						</div>
+						<p>{ __( 'then', 'block-lab' ) }</p>
+						<div className="genesis-pro-form">
+							<input
+								type="text"
+								placeholder={ __( 'Paste your Genesis Pro subscription key', 'block-lab' ) }
+								value={ subscriptionKey }
+								onChange={ onChangeSubscriptionKey }
+							/>
+							<button
+								onClick={ submitSubscriptionKey }
+								disabled={ isSubmittingKey }
+							>
+								{ __( 'Save', 'block-lab' ) }
+							</button>
+							{ isSubmittingKey && <Spinner /> }
+						</div>
+					</>
+				) }
 				<p className="pro-submission-message">{ submissionMessage }</p>
-				<p className="help-text">
-					{ __( 'Want to migrate but not set up Genesis Pro just now?', 'block-lab' ) }
-					&nbsp;
-					<a
-						href={ urlMigrateWithoutGenPro }
-						target="_blank"
-						rel="noopener noreferrer"
-						aria-label={ __( 'More information about migrating but not setting up Genesis Pro', 'genesis-custom-blocks' ) }
-					>
-						{ __( 'Read here for what that means.', 'block-lab' ) }
-					</a>
-				</p>
+				{ ! keySubmittedSuccessfully && (
+					<p className="help-text">
+						{ __( 'Want to migrate but not set up Genesis Pro just now?', 'block-lab' ) }
+						&nbsp;
+						<a
+							href={ urlMigrateWithoutGenPro }
+							target="_blank"
+							rel="noopener noreferrer"
+							aria-label={ __( 'More information about migrating but not setting up Genesis Pro', 'genesis-custom-blocks' ) }
+						>
+							{ __( 'Read here for what that means.', 'block-lab' ) }
+						</a>
+					</p>
+				) }
 				<StepFooter>
 					<ButtonNext
-						checkboxLabel={ keySubmittedSuccessfully ? null : __( 'Migrate without Genesis Pro.', 'block-lab' ) }
+						checkboxLabel={ shouldAllowNextStep ? null : __( 'Migrate without Genesis Pro.', 'block-lab' ) }
 						onClick={ goToNext }
 						stepIndex={ stepIndex }
 					/>
