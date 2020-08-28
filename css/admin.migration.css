@@ -204,7 +204,8 @@
 	margin-left: auto;
 }
 
-.dev-notice .btn:hover {
+.dev-notice .btn:hover,
+.genesis-pro-form button:hover {
 	color: var(--color-purple-800);
 	background-color: var(--color-purple-300);
 }
