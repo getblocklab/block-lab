@@ -29,6 +29,9 @@ const stopEventPropagation = ( event ) => event.stopPropagation();
 class FetchInput extends Component {
 	/**
 	 * Constructs the component class.
+	 *
+	 * @param {Object} props The component props.
+	 * @param {Object} props.autocompleteRef The ref of the auto-complete.
 	 */
 	constructor( { autocompleteRef } ) {
 		super( ...arguments );
@@ -129,12 +132,14 @@ class FetchInput extends Component {
 			} );
 
 			if ( !! results.length ) {
-				this.props.debouncedSpeak( sprintf( _n(
-					'%d result found, use up and down arrow keys to navigate.',
-					'%d results found, use up and down arrow keys to navigate.',
-					results.length,
-					'block-lab'
-				), results.length ), 'assertive' );
+				this.props.debouncedSpeak(
+					/* translators: %d: the number of results */
+					sprintf( _n(
+						'%d result found, use up and down arrow keys to navigate.',
+						'%d results found, use up and down arrow keys to navigate.',
+						results.length,
+						'block-lab'
+					), results.length ), 'assertive' );
 
 				if ( null === this.state.selectedSuggestion && '' !== this.getInputValue() ) {
 					this.setState( {
@@ -169,6 +174,7 @@ class FetchInput extends Component {
 		}
 
 		if ( ! isValid ) {
+			/* translators: %s: the control name */
 			this.inputRef.current.setCustomValidity( sprintf( __( 'Invalid %s', 'block-lab' ), this.props.field.control ) );
 			this.inputRef.current.reportValidity();
 		} else {

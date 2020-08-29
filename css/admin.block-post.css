@@ -30,6 +30,10 @@
 	padding: 6px 10px;
 	margin-bottom: 6px;
 }
+.handle-order-higher,
+.handle-order-lower {
+	display: none;
+}
 #block_fields a,
 #block_fields a:focus {
 	outline: none;
