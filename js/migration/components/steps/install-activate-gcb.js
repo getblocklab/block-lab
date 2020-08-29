@@ -80,7 +80,7 @@ const InstallActivateGcb = ( { goToNext, isStepActive, isStepComplete, stepIndex
 				{ isInProgress && (
 					<>
 						<Spinner />
-						<p>{ __( 'Installing and activating Genesis Custom Blocks...', 'block-lab' ) }</p>
+						<p>{ __( 'Installing and activating Genesis Custom Blocks…', 'block-lab' ) }</p>
 					</>
 				) }
 				{ !! errorMessage && (
