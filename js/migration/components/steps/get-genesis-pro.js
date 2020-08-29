@@ -187,6 +187,7 @@ const GetGenesisPro = ( { goToNext, isStepActive, isStepComplete, stepIndex } ) 
 							>
 								{ __( 'Opt-in for Genesis Pro', 'block-lab' ) }
 							</a>
+							<span>{ __( '(This may take up to 3 working days)', 'block-lab' ) }</span>
 						</div>
 						<p>{ __( 'then', 'block-lab' ) }</p>
 						<div className="genesis-pro-form">
