@@ -143,6 +143,30 @@ class Test_Api extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Test get_download_link when there is no download_link.
+	 *
+	 * @covers Block_Lab\Admin\Migration\Api::get_download_link()
+	 */
+	public function test_get_download_link_no_download_link() {
+		add_filter(
+			'plugins_api_result',
+			static function() {
+				return new stdClass();
+			}
+		);
+
+		$actual = $this->instance->get_download_link();
+		$this->assertEquals(
+			'no_download_link',
+			$actual->get_error_code()
+		);
+		$this->assertEquals(
+			'There was no download_link in the API',
+			$actual->get_error_message()
+		);
+	}
+
+	/**
 	 * Test get_download_link when it returns an error.
 	 *
 	 * @covers Block_Lab\Admin\Migration\Api::get_download_link()

@@ -200,6 +200,13 @@ class Api extends Component_Abstract {
 				return $api;
 			}
 
+			if ( empty( $api->download_link ) ) {
+				return new WP_Error(
+					'no_download_link',
+					__( 'There was no download_link in the API', 'block-lab' )
+				);
+			}
+
 			return $api->download_link;
 		}
 	}
