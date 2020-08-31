@@ -134,7 +134,8 @@
 	background-color: var(--color-purple-800);
 }
 
-.bl-migration__content .btn[disabled] {
+.bl-migration__content .btn[disabled],
+.genesis-pro-form button[disabled] {
 	color: var(--color-gray-500);
 	background-color: var(--color-gray-200);
 	box-shadow: none;
@@ -204,7 +205,8 @@
 	margin-left: auto;
 }
 
-.dev-notice .btn:hover {
+.dev-notice .btn:hover,
+.genesis-pro-form button:hover {
 	color: var(--color-purple-800);
 	background-color: var(--color-purple-300);
 }
@@ -363,6 +365,7 @@ label {
 	border-top-right-radius: .25rem;
 	border-color: var(--color-purple-300);
 	background-color: var(--color-purple-200);
+	cursor: pointer;
 }
 
 .genesis-pro-form p {

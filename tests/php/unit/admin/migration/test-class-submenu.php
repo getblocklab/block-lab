@@ -130,8 +130,14 @@ class Test_Submenu extends WP_UnitTestCase {
 			->andReturn( 'block-lab-migration' );
 
 		$this->instance->enqueue_scripts();
+
 		$this->assertTrue( wp_style_is( 'block-lab-migration' ) );
 		$this->assertTrue( wp_script_is( 'block-lab-migration' ) );
+
+		$inline_script = wp_scripts()->get_data( 'block-lab-migration', 'before' )[1];
+		$this->assertContains( 'isPro', $inline_script );
+		$this->assertContains( 'gcbUrl', $inline_script );
+		$this->assertFalse( strpos( $inline_script, 'genesisProKey' ) );
 	}
 
 	/**
@@ -227,33 +233,6 @@ class Test_Submenu extends WP_UnitTestCase {
 			->once();
 
 		$this->get_plugin_activation_error();
-	}
-
-	/**
-	 * Gets the test data for test_get_coupon_code.
-	 *
-	 * @return array The test data.
-	 */
-	public function get_data_discount_code() {
-		return [
-			'empty_string'   => [ '', false ],
-			'false_license'  => [ false, false ],
-			'string_license' => [ '98765432123456789', '1fe2038a' ],
-		];
-	}
-
-	/**
-	 * Test get_coupon_code.
-	 *
-	 * @dataProvider get_data_discount_code
-	 * @covers Block_Lab\Admin\Migration\Submenu::get_coupon_code()
-	 *
-	 * @param string      $license_key The Block Lab license key.
-	 * @param string|bool $expected    The expected return value.
-	 */
-	public function test_get_coupon_code( $license_key, $expected ) {
-		add_option( License::LICENSE_KEY_OPTION_NAME, $license_key );
-		$this->assertEquals( $expected, $this->instance->get_coupon_code() );
 	}
 
 	/**

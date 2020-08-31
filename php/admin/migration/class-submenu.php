@@ -102,14 +102,15 @@ class Submenu extends Component_Abstract {
 				admin_url()
 			);
 
-			$is_pro      = block_lab()->is_pro();
-			$script_data = [
+			$is_pro                       = block_lab()->is_pro();
+			$genesis_pro_subscription_key = get_option( Subscription_Api::OPTION_NAME_GENESIS_PRO_SUBSCRIPTION_KEY );
+			$script_data                  = [
 				'isPro'  => $is_pro,
 				'gcbUrl' => $gcb_url,
 			];
 
-			if ( $is_pro ) {
-				$script_data['couponCode'] = $this->get_coupon_code();
+			if ( $genesis_pro_subscription_key ) {
+				$script_data['genesisProKey'] = $genesis_pro_subscription_key;
 			}
 
 			wp_add_inline_script(
@@ -137,7 +138,7 @@ class Submenu extends Component_Abstract {
 	}
 
 	/**
-	 * Conditionally deactivates this plugin goes to the Genesis Custom Blocks page.
+	 * Conditionally deactivates this plugin and goes to the Genesis Custom Blocks page.
 	 *
 	 * The logic to deactivate the plugin was mainly copied from Core.
 	 * https://github.com/WordPress/wordpress-develop/blob/61803a37a41eca95efe964c7e02c768de6df75fa/src/wp-admin/plugins.php#L196-L221
@@ -175,19 +176,5 @@ class Submenu extends Component_Abstract {
 				admin_url( 'edit.php' )
 			)
 		);
-	}
-
-	/**
-	 * Gets the coupon code for a Pro user.
-	 *
-	 * @return string|false The coupon code, if it's possible to get one.
-	 */
-	public function get_coupon_code() {
-		$license_key = get_option( License::LICENSE_KEY_OPTION_NAME );
-		if ( empty( $license_key ) ) {
-			return false;
-		}
-
-		return hash( 'adler32', $license_key );
 	}
 }
