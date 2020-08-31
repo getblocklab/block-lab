@@ -42,8 +42,8 @@ const MigrateBlocks = ( { isStepActive, isStepComplete, stepIndex } ) => {
 	const [ isSuccess, setIsSuccess ] = useState( false );
 
 	const migrationLabels = [
-		__( 'Migrating your blocks...', 'block-lab' ),
-		__( 'Migrating your post content...', 'block-lab' ),
+		__( 'Migrating your blocks…', 'block-lab' ),
+		__( 'Migrating your post content…', 'block-lab' ),
 	];
 
 	/**

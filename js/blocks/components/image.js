@@ -29,6 +29,7 @@ const Image = withSelect( ( select, ownProps ) => {
 	if ( media && media.alt ) {
 		imageAlt = media.alt;
 	} else if ( media && media.source_url ) {
+		/* translators: %s: the image src */
 		imageAlt = sprintf( __( 'This image has no alt attribute, but its src is %s', 'block-lab' ), media.source_url );
 	} else {
 		imageAlt = __( 'This image has no alt attribute', 'block-lab' );
@@ -101,7 +102,6 @@ const Image = withSelect( ( select, ownProps ) => {
 						{ ! isUploading && (
 							<>
 								<FormFileUpload
-									isLarge
 									disabled={ !! isUploading }
 									onChange={ ( event ) => {
 										const files = event.target.files;
@@ -122,7 +122,6 @@ const Image = withSelect( ( select, ownProps ) => {
 									render={ ( { open } ) => (
 										<div className="components-media-library-button">
 											<Button
-												isLarge
 												disabled={ !! isUploading }
 												className="editor-media-placeholder__button"
 												onClick={ open }
@@ -139,7 +138,6 @@ const Image = withSelect( ( select, ownProps ) => {
 			) }
 			{ imageSrc && (
 				<Button
-					isLarge
 					disabled={ !! isUploading }
 					className="bl-image__remove"
 					onClick={ removeImage }
