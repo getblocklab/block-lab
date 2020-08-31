@@ -15,6 +15,10 @@ The easy way to build custom blocks for Gutenberg.
 
 Gutenberg, the new WordPress editor, opens up a whole new world for the way we build pages, posts, and websites with WordPress. Block Lab makes it easy to harness Gutenberg and build custom blocks the way you want them to be built. Whether you want to implement a custom design, deliver unique functionality, or even remove your dependence on other plugins, Block Lab equips you with the tools you need to hit “Publish” sooner.
 
+Notice: If you haven't used Block Lab yet, please install [Genesis Custom Blocks](https://wordpress.org/plugins/genesis-custom-blocks) instead. If you have used it, Block Lab now has a migration UI that will ensure your blocks and content work the same in [Genesis Custom Blocks](https://wordpress.org/plugins/genesis-custom-blocks), and you'll have the same features.
+
+Block Lab will still be maintained in the mid-term, but won't get new features.
+
 ## Features ##
 
 ### A Familiar Experience ###
