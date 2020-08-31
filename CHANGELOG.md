@@ -1,5 +1,12 @@
 ## Changelog #
 
+### 1.6.0 – 2020-09-02 ###
+
+Migration to Genesis Custom Blocks
+
+* New: Full migration UI to Genesis Custom Blocks, the new home of our custom block efforts
+* The new plugin has the same features, and your existing blocks and content should work the same after migration
+
 ### 1.5.6 – 2020-08-10 ###
 
 Small bugfixes, improved testing
