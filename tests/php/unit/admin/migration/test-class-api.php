@@ -105,10 +105,7 @@ class Test_Api extends WP_UnitTestCase {
 			->andReturn( [] );
 		$response = $this->instance->get_install_gcb_response( [] );
 
-		$this->assertEquals(
-			'Plugin not found.',
-			$response->get_error_message()
-		);
+		$this->assertTrue( ! empty( $response->get_error_message() ) );
 	}
 
 	/**
