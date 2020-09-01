@@ -15,6 +15,14 @@ use Block_Lab\Component_Abstract;
  * Class License
  */
 class License extends Component_Abstract {
+
+	/**
+	 * Option name of the license key.
+	 *
+	 * @var string
+	 */
+	const LICENSE_KEY_OPTION_NAME = 'block_lab_license_key';
+
 	/**
 	 * URL of the Block Lab store.
 	 *
@@ -112,7 +120,7 @@ class License extends Component_Abstract {
 		$license = get_transient( self::TRANSIENT_NAME );
 
 		if ( ! $license ) {
-			$key = get_option( 'block_lab_license_key' );
+			$key = get_option( self::LICENSE_KEY_OPTION_NAME );
 			if ( ! empty( $key ) ) {
 				$this->activate_license( $key );
 				$license = get_transient( self::TRANSIENT_NAME );

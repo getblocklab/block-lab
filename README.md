@@ -13,6 +13,13 @@ The easy way to build custom blocks for Gutenberg.
 
 ## Description ##
 
+### IMPORTANT! ###
+The Block Lab team has moved its custom block efforts over to [Genesis Custom Blocks](https://wordpress.org/plugins/genesis-custom-blocks/). To take advantage of all the great things about Block Lab as well as gain access to all new features as they are released, we recommend that you install Genesis Custom Blocks.
+
+If you’re an existing Block Lab user and would like to learn more about what this means for you, including how to easily and automatically migrate to the new plugin, you can find more details [here](https://getblocklab.com/welcome-to-genesis-custom-blocks).
+
+----
+
 Gutenberg, the new WordPress editor, opens up a whole new world for the way we build pages, posts, and websites with WordPress. Block Lab makes it easy to harness Gutenberg and build custom blocks the way you want them to be built. Whether you want to implement a custom design, deliver unique functionality, or even remove your dependence on other plugins, Block Lab equips you with the tools you need to hit “Publish” sooner.
 
 ## Features ##
@@ -28,9 +35,6 @@ Let the plugin do the heavy lifting so you can use familiar WordPress developmen
 
 ### Developer Friendly Functions ###
 Simple to use functions, ready to render and work with the values stored through your custom block fields.
-
-### Connect with Community ###
-Join The Lab, our free Block Lab Community on Slack. The Lab is our real-time home for sharing resources, learning, and making connections. [Learn more.](https://getblocklab.com/welcome-to-the-lab/)
 
 ## Links ##
 * [WordPress.org](https://wordpress.org/plugins/block-lab)
@@ -64,4 +68,4 @@ A: [Here](https://getblocklab.com/docs/)
 
 ## Contributing ##
 
-See [Contributing to Block Lab](https://github.com/getblocklab/block-lab/blob/develop/CONTRIBUTING.md).
+See [Contributing to Genesis Custom Blocks](https://github.com/studiopress/genesis-custom-blocks/blob/develop/CONTRIBUTING.md).

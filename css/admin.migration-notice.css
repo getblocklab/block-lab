@@ -1,0 +1,23 @@
+.bl-notice-migration {
+	display: flex;
+}
+
+.bl-notice-migration .bl-migration-copy {
+	margin-right: auto;
+}
+
+.bl-notice-migration__learn-more {
+	display: block;
+}
+
+.bl-notice-migration .bl-notice-option {
+	margin: auto 0.2rem;
+}
+
+.bl-notice-migration.bl-hidden {
+	display: none;
+}
+
+#bl-notice-not-now {
+	margin-left: 16px;
+}

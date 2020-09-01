@@ -11,6 +11,7 @@ module.exports = {
 	...defaultConfig,
 	entry: {
 		'./js/editor.blocks': './js/blocks/index.js',
+		'./js/admin.migration': './js/migration/index.js',
 		'./css/blocks.editor': './css/src/editor.scss',
 	},
 	output: {

@@ -60,6 +60,10 @@ class Test_Admin extends \WP_UnitTestCase {
 		$this->instance->init();
 		$settings_class = 'Block_Lab\Admin\Settings';
 		$license_class  = 'Block_Lab\Admin\License';
+		$api_class      = 'Block_Lab\Admin\Migration\Api';
+		$notice_class   = 'Block_Lab\Admin\Migration\Notice';
+		$submenu_class  = 'Block_Lab\Admin\Migration\Submenu';
+
 		$this->assertEquals( $settings_class, get_class( $this->instance->settings ) );
 		$this->assertEquals( $license_class, get_class( $this->instance->license ) );
 
@@ -72,6 +76,9 @@ class Test_Admin extends \WP_UnitTestCase {
 		$this->assertEquals( $this->instance->settings->slug, $components_value[ $settings_class ]->slug );
 		$this->assertArrayHasKey( $settings_class, $components_value );
 		$this->assertArrayHasKey( $license_class, $components_value );
+		$this->assertArrayHasKey( $api_class, $components_value );
+		$this->assertArrayHasKey( $notice_class, $components_value );
+		$this->assertArrayHasKey( $submenu_class, $components_value );
 
 		// With an active Pro license, this should redirect from the Pro page to the settings page.
 		$this->set_license_validity( true );

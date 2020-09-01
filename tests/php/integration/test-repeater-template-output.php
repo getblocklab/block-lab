@@ -182,9 +182,9 @@ class Test_Repeater_Template_Output extends Abstract_Attribute {
 	 *
 	 * @covers \block_rows()
 	 * @covers \block_row()
-	 * @covers \reset_block_row()
-	 * @covers \block_row_field()
-	 * @covers \block_row_value()
+	 * @covers \reset_block_rows()
+	 * @covers \block_sub_field()
+	 * @covers \block_sub_value()
 	 * @covers \block_row_index()
 	 * @covers \block_row_count()
 	 */

@@ -5,7 +5,8 @@
     "homepage": "https://github.com/getblocklab/block-lab",
     "license": "GPL-2.0",
     "require": {
-        "php": "^5.6 || ^7"
+        "php": "^5.6 || ^7",
+        "ext-json": "*"
     },
     "require-dev": {
         "brain/monkey": "^2",
