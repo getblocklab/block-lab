@@ -96,19 +96,6 @@ class Test_Api extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Test get_install_gcb_response when the plugin is not found.
-	 *
-	 * @covers Block_Lab\Admin\Migration\Api::get_install_gcb_response()
-	 */
-	public function test_get_install_gcb_response_plugin_not_found() {
-		expect( 'get_plugins' )
-			->andReturn( [] );
-		$response = $this->instance->get_install_gcb_response( [] );
-
-		$this->assertTrue( ! empty( $response->get_error_message() ) );
-	}
-
-	/**
 	 * Test get_download_link when it should be for GCB Pro.
 	 *
 	 * @covers Block_Lab\Admin\Migration\Api::get_download_link()
