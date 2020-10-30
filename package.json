@@ -59,7 +59,7 @@
     "eslint-plugin-import": "2.22.0",
     "eslint-plugin-jest-dom": "3.1.6",
     "eslint-plugin-jsx-a11y": "6.3.1",
-    "eslint-plugin-testing-library": "3.4.1",
+    "eslint-plugin-testing-library": "3.10.0",
     "gulp": "4.0.2",
     "gulp-run": "1.7.1",
     "gulp-string-replace": "1.1.2",
