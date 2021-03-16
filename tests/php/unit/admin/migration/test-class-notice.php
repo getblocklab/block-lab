@@ -75,7 +75,7 @@ class Test_Notice extends \WP_UnitTestCase {
 		$this->instance->render_migration_notice();
 
 		$this->assertContains(
-			'The Block Lab team have moved. For future updates and improvements, migrate now to the new home of custom blocks: <strong>Genesis Custom Blocks</strong>.',
+			'For a much easier, completely compatible editor, migrate now to the new home of custom blocks: <strong>Genesis Custom Blocks</strong>.',
 			ob_get_clean()
 		);
 	}
@@ -124,7 +124,7 @@ class Test_Notice extends \WP_UnitTestCase {
 		}
 
 		unset( $exception );
-		$this->assertEquals( 'dismissed', get_user_meta( get_current_user_id(), 'block_lab_show_migration_notice', true ) );
+		$this->assertEquals( 'dismissed', get_user_meta( get_current_user_id(), 'block_lab_show_migration_notice_with_new_features', true ) );
 	}
 
 	/**

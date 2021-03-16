@@ -56,7 +56,7 @@ class Notice extends Component_Abstract {
 	 *
 	 * @var string
 	 */
-	const NOTICE_USER_META_KEY = 'block_lab_show_migration_notice';
+	const NOTICE_USER_META_KEY = 'block_lab_show_migration_notice_with_new_features';
 
 	/**
 	 * The user meta value stored if a user has dismissed the migration notice.
@@ -107,7 +107,7 @@ class Notice extends Component_Abstract {
 					<?php
 					printf(
 						/* translators: %1$s: the plugin name */
-						esc_html__( 'The Block Lab team have moved. For future updates and improvements, migrate now to the new home of custom blocks: %1$s.', 'block-lab' ),
+						esc_html__( 'For a much easier, completely compatible editor, migrate now to the new home of custom blocks: %1$s.', 'block-lab' ),
 						sprintf(
 							'<strong>%1$s</strong>',
 							esc_html__( 'Genesis Custom Blocks', 'block-lab' )
