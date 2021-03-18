@@ -207,7 +207,7 @@ class Test_Notice extends \WP_UnitTestCase {
 	}
 
 	/**
-	 * Test migration_notice on the plugins page.
+	 * Test no migration_notice on the dashboard.
 	 *
 	 * @covers \Block_Lab\Admin\Migration\Notice::should_display_migration_notice()
 	 */
