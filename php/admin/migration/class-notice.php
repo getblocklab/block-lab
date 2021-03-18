@@ -183,7 +183,7 @@ class Notice extends Component_Abstract {
 		return (
 			( isset( $screen->base, $screen->post_type ) && 'edit' === $screen->base && 'block_lab' === $screen->post_type )
 			||
-			( isset( $screen->base ) && in_array( $screen->base, [ 'plugins', 'dashboard', 'block_lab_page_block-lab-settings' ], true ) )
+			( isset( $screen->base ) && in_array( $screen->base, [ 'plugins', 'block_lab_page_block-lab-settings' ], true ) )
 		);
 	}
 

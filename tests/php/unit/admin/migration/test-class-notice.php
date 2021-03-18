@@ -211,7 +211,7 @@ class Test_Notice extends \WP_UnitTestCase {
 	 *
 	 * @covers \Block_Lab\Admin\Migration\Notice::should_display_migration_notice()
 	 */
-	public function test_migration_notice_on_dashboard() {
+	public function test_no_migration_notice_on_dashboard() {
 		$this->give_user_permissions();
 		$mock_current_screen       = new stdClass();
 		$mock_current_screen->base = 'dashboard';
@@ -220,7 +220,7 @@ class Test_Notice extends \WP_UnitTestCase {
 			->once()
 			->andReturn( $mock_current_screen );
 
-		$this->assertTrue( $this->instance->should_display_migration_notice() );
+		$this->assertFalse( $this->instance->should_display_migration_notice() );
 	}
 
 	/**
