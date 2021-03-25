@@ -104,16 +104,7 @@ class Notice extends Component_Abstract {
 			<?php wp_nonce_field( self::NOTICE_NONCE_ACTION, self::NOTICE_NONCE_NAME, false ); ?>
 			<div class="bl-migration-copy">
 				<p>
-					<?php
-					printf(
-						/* translators: %1$s: the plugin name */
-						esc_html__( 'For a much easier, completely compatible editor, migrate now to the new home of custom blocks: %1$s.', 'block-lab' ),
-						sprintf(
-							'<strong>%1$s</strong>',
-							esc_html__( 'Genesis Custom Blocks', 'block-lab' )
-						)
-					);
-					?>
+					<?php esc_html_e( 'Genesis Custom Blocks is the new home for Block Lab users. Automatically migrate now and experience the just released new Block Builder interface.', 'block-lab' ); ?>
 					<a target="_blank" rel="noopener noreferrer" class="bl-notice-migration__learn-more" href="<?php echo esc_url( $learn_more_link ); ?>">
 						<?php esc_html_e( 'Learn more', 'block-lab' ); ?>
 					</a>

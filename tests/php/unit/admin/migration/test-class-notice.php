@@ -75,7 +75,7 @@ class Test_Notice extends \WP_UnitTestCase {
 		$this->instance->render_migration_notice();
 
 		$this->assertContains(
-			'For a much easier, completely compatible editor, migrate now to the new home of custom blocks: <strong>Genesis Custom Blocks</strong>.',
+			'Genesis Custom Blocks is the new home for Block Lab users. Automatically migrate now and experience the just released new Block Builder interface.',
 			ob_get_clean()
 		);
 	}
