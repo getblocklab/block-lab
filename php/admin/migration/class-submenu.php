@@ -105,8 +105,9 @@ class Submenu extends Component_Abstract {
 			$is_pro                       = block_lab()->is_pro();
 			$genesis_pro_subscription_key = get_option( Subscription_Api::OPTION_NAME_GENESIS_PRO_SUBSCRIPTION_KEY );
 			$script_data                  = [
-				'isPro'  => $is_pro,
-				'gcbUrl' => $gcb_url,
+				'isPro'        => $is_pro,
+				'gcbUrl'       => $gcb_url,
+				'editorGifUrl' => block_lab()->get_url( 'assets/images/migration-new-editor.gif' ),
 			];
 
 			if ( $genesis_pro_subscription_key ) {

@@ -1,4 +1,5 @@
 // @ts-check
+/* global blockLabMigration */
 
 /**
  * External dependencies
@@ -16,6 +17,8 @@ import { __ } from '@wordpress/i18n';
  * @return {React.ReactElement} The introduction to the migration.
  */
 const Intro = () => {
+	// @ts-ignore
+	const editorGifUrl = blockLabMigration.editorGifUrl;
 	const developerNoticeUrl = 'https://getblocklab.com/migrating-to-genesis-custom-blocks/';
 
 	return (
@@ -24,6 +27,12 @@ const Intro = () => {
 				<h1>{ __( 'Migrating to Genesis Custom Blocks', 'block-lab' ) }</h1>
 				<p>{ __( 'We’ve been busy! Since the Block Lab team joined WP Engine in 2020, the new plugin (Genesis Custom Blocks) has got a whole lot better. Plenty of things under the hood, but the biggest change is the new Block Builder interface.', 'block-lab' ) }</p>
 				<p>{ __( 'Check it out below!', 'block-lab' ) }</p>
+				<img
+					width={ 800 }
+					height={ 534 }
+					src={ editorGifUrl }
+					alt={ __( 'New editor screencast', 'block-lab' ) }
+				/>
 				<p>{ __( 'Migrating from Block Lab to Genesis Custom Blocks is super easy, seamless, and (for 95% of users) completely automated.', 'block-lab' ) }</p>
 				<p>{ __( 'To continue receiving the best of what our team is building, we encourage you to migrate over.', 'block-lab' ) }</p>
 				<div className="dev-notice">
