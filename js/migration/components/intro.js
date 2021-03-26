@@ -33,7 +33,7 @@ const Intro = () => {
 					src={ editorGifUrl }
 					alt={ __( 'New editor screencast', 'block-lab' ) }
 				/>
-				<p>{ __( 'Migrating from Block Lab to Genesis Custom Blocks is super easy, seamless, and (for 95% of users) completely automated.', 'block-lab' ) }</p>
+				<p>{ __( 'Migrating from Block Lab to Genesis Custom Blocks is super easy, seamless, and (for the vast majority of users) completely automated.', 'block-lab' ) }</p>
 				<p>{ __( 'To continue receiving the best of what our team is building, we encourage you to migrate over.', 'block-lab' ) }</p>
 				<div className="dev-notice">
 					<svg fill="currentColor" viewBox="0 0 20 20">
