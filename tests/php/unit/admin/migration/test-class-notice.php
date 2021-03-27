@@ -75,7 +75,7 @@ class Test_Notice extends \WP_UnitTestCase {
 		$this->instance->render_migration_notice();
 
 		$this->assertContains(
-			'The Block Lab team have moved. For future updates and improvements, migrate now to the new home of custom blocks: <strong>Genesis Custom Blocks</strong>.',
+			'Genesis Custom Blocks is the new home for Block Lab users. Automatically migrate now and experience the just released new Block Builder interface.',
 			ob_get_clean()
 		);
 	}
@@ -124,7 +124,7 @@ class Test_Notice extends \WP_UnitTestCase {
 		}
 
 		unset( $exception );
-		$this->assertEquals( 'dismissed', get_user_meta( get_current_user_id(), 'block_lab_show_migration_notice', true ) );
+		$this->assertEquals( 'dismissed', get_user_meta( get_current_user_id(), 'block_lab_show_migration_notice_with_new_features', true ) );
 	}
 
 	/**
@@ -207,11 +207,11 @@ class Test_Notice extends \WP_UnitTestCase {
 	}
 
 	/**
-	 * Test migration_notice on the plugins page.
+	 * Test no migration_notice on the dashboard.
 	 *
 	 * @covers \Block_Lab\Admin\Migration\Notice::should_display_migration_notice()
 	 */
-	public function test_migration_notice_on_dashboard() {
+	public function test_no_migration_notice_on_dashboard() {
 		$this->give_user_permissions();
 		$mock_current_screen       = new stdClass();
 		$mock_current_screen->base = 'dashboard';
@@ -220,7 +220,7 @@ class Test_Notice extends \WP_UnitTestCase {
 			->once()
 			->andReturn( $mock_current_screen );
 
-		$this->assertTrue( $this->instance->should_display_migration_notice() );
+		$this->assertFalse( $this->instance->should_display_migration_notice() );
 	}
 
 	/**

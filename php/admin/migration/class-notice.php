@@ -56,7 +56,7 @@ class Notice extends Component_Abstract {
 	 *
 	 * @var string
 	 */
-	const NOTICE_USER_META_KEY = 'block_lab_show_migration_notice';
+	const NOTICE_USER_META_KEY = 'block_lab_show_migration_notice_with_new_features';
 
 	/**
 	 * The user meta value stored if a user has dismissed the migration notice.
@@ -104,16 +104,7 @@ class Notice extends Component_Abstract {
 			<?php wp_nonce_field( self::NOTICE_NONCE_ACTION, self::NOTICE_NONCE_NAME, false ); ?>
 			<div class="bl-migration-copy">
 				<p>
-					<?php
-					printf(
-						/* translators: %1$s: the plugin name */
-						esc_html__( 'The Block Lab team have moved. For future updates and improvements, migrate now to the new home of custom blocks: %1$s.', 'block-lab' ),
-						sprintf(
-							'<strong>%1$s</strong>',
-							esc_html__( 'Genesis Custom Blocks', 'block-lab' )
-						)
-					);
-					?>
+					<?php esc_html_e( 'Genesis Custom Blocks is the new home for Block Lab users. Automatically migrate now and experience the just released new Block Builder interface.', 'block-lab' ); ?>
 					<a target="_blank" rel="noopener noreferrer" class="bl-notice-migration__learn-more" href="<?php echo esc_url( $learn_more_link ); ?>">
 						<?php esc_html_e( 'Learn more', 'block-lab' ); ?>
 					</a>
@@ -183,7 +174,7 @@ class Notice extends Component_Abstract {
 		return (
 			( isset( $screen->base, $screen->post_type ) && 'edit' === $screen->base && 'block_lab' === $screen->post_type )
 			||
-			( isset( $screen->base ) && in_array( $screen->base, [ 'plugins', 'dashboard', 'block_lab_page_block-lab-settings' ], true ) )
+			( isset( $screen->base ) && in_array( $screen->base, [ 'plugins', 'block_lab_page_block-lab-settings' ], true ) )
 		);
 	}
 
