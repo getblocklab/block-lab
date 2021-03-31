@@ -1,5 +1,11 @@
 ## Changelog ##
 
+### 1.7.0 – 2021-03-31 ###
+
+Show the new Genesis Custom Blocks editor
+
+* New: A notice that mentions the new editor and a .gif of it in the migration UI
+
 ### 1.6.0 – 2020-09-02 ###
 
 Migration to Genesis Custom Blocks
